@@ -18,6 +18,9 @@ Diagram& Diagram::operator=(const Diagram& source) {
 Class& Diagram::operator[](Long index) {
 	return this->classes[index];
 }
+Class* Diagram::operator + (Long index) {
+	return this->classes + index;
+}
 
 Diagram::~Diagram() {
 }
@@ -32,22 +35,38 @@ Long Diagram::Add(Long x, Long y, Long width, Long height) {
 		index = this->classes.AppendFromRear(object);
 		this->capacity++;
 	}
+	/*
+	this->classes[index].Add(x, y + 30, x + width, y + 30);
+	this->classes[index].Add(x, (y + 30 + y + height) / 2, x + width, (y + 30 + y + height) / 2);
+	// */
 	this->length++;
 	return index;
 }
-Class Diagram::GetAt(Long index) {
+Class& Diagram::GetAt(Long index) {
 	return this->classes.GetAt(index);
 }
-/*
+
+
 #include <iostream>
 using namespace std;
 
 int main(int argc, char *argv[]) {
-
+	
 	Diagram diagram(10);
-	Long index = diagram.Add(1, 2, 5, 8);
+	Long index = diagram.Add(100, 100, 300, 600);
 	cout << index << endl << endl;
 
+	cout << diagram[0].GetX() << " " << diagram[0].GetY() << " " << endl;
+
+	cout << diagram[0].GetAt(0).GetStartX() << " " << diagram[0][0].GetStartY() << " " << diagram[0][0].GetEndX() << " " << diagram[0][0].GetEndY() << endl;
+	cout << diagram[0].GetAt(1).GetStartX() << " " << diagram[0][1].GetStartY() << " " << diagram[0][1].GetEndX() << " " << diagram[0][1].GetEndY() << endl;
+
+	Class classTest = diagram[0];
+	cout << endl << classTest.GetX() << endl << endl;
+	Line lineTest = classTest[0];
+	cout << endl << lineTest.GetStartX() << endl << endl;
+
+	cout << diagram.GetLength() << " " << diagram.GetCapacity() << endl;
 	cout << diagram[0].GetX() << " " << diagram[0].GetY() << " " << diagram[0].GetWidth() << " " << diagram[0].GetHeight() << endl;
 
 	return 0;

@@ -10,10 +10,11 @@ public:
 	Diagram(Long capacity = 256);
 	Diagram(const Diagram& source);
 	Long Add(Long x, Long y, Long width, Long height);
-	Class GetAt(Long index);
+	Class& GetAt(Long index);
 
 	Diagram& operator = (const Diagram& source);
 	Class& operator [](Long index);
+	Class* operator + (Long index);
 
 	Long GetCapacity()const;
 	Long GetLength()const;

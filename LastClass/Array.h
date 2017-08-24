@@ -468,7 +468,7 @@ Array<T>& Array<T>::operator = (const Array& source) {
 
 template <typename T>
 T* Array<T>::operator + (Long index) { //포인터산술연산자 +
-	return this->front + i;
+	return this->front + index;
 }
 
 template <typename T>

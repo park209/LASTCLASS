@@ -22,15 +22,11 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 
 
 int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
-	
+
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
-	
+
 	this->diagram = new Diagram;
-	/*
-	this->diagram->Add(100, 100, 30, 30);
-	this->diagram->Add(200, 200, 50, 50);
-	this->diagram->Add(500, 500, 140, 140);
-	// */
+	
 	return 0;
 }
 
@@ -51,6 +47,11 @@ void ClassDiagramForm::OnPaint() {
 	dc.Rectangle(startX, startY, this->currentX, this->currentY);
 	dc.SelectObject(oldPen);
 	pen.DeleteObject();
+	
+	Long objectLength;
+	Long j;
+	Line line;
+
 	while (i < length) {
 		object = this->diagram->GetAt(i);
 		x = object.GetX();
@@ -58,19 +59,17 @@ void ClassDiagramForm::OnPaint() {
 		width = object.GetWidth();
 		height = object.GetHeight();
 		dc.Rectangle(x, y, x + width, y + height); ////////////// 사각형을 만든다
+		objectLength = object.GetLength();
+		j = 0;
+		while (j < objectLength) {
+			line = object.GetAt(j);
+			dc.MoveTo(line.GetStartX(), line.GetStartY());
+			dc.LineTo(line.GetEndX(), line.GetEndY());
+			j++;
+		}
 		i++;
 	}
 }
-/*void ClassDiagramForm::OnDrawDot() {
-	CClientDC dc(this);
-	CPen pen;
-	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = dc.SelectObject(&pen);
-	dc.Rectangle(startX, startY, this->currentX, this->currentY);
-	dc.SelectObject(oldPen);
-	pen.DeleteObject();
-}
-*/
 
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->startX = point.x;
@@ -85,10 +84,16 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	if (this->currentX - this->startX < 120) {
 		this->currentX = this->startX + 120;
 	}
-	if (this->currentY - this->startY< 150){
-		this->currentY = this->startY + 150;	
+	if (this->currentY - this->startY< 150) {
+		this->currentY = this->startY + 150;
 	}
-	this->diagram->Add(this->startX, this->startY, this->currentX- this->startX, this->currentY- this->startY);
+	Long index = this->diagram->Add(this->startX, this->startY, this->currentX - this->startX, this->currentY - this->startY);
+	//첨자연산자 왜 안돼는지
+	this->diagram->GetAt(index).Add(this->diagram->GetAt(index).GetX(), this->diagram->GetAt(index).GetY() + 30,
+		this->diagram->GetAt(index).GetX() + this->diagram->GetAt(index).GetWidth(), this->diagram->GetAt(index).GetY() + 30);
+	this->diagram->GetAt(index).Add(this->diagram->GetAt(index).GetX(), (this->diagram->GetAt(index).GetY()*2 + 30 + this->diagram->GetAt(index).GetHeight())/2,
+		this->diagram->GetAt(index).GetX() + this->diagram->GetAt(index).GetWidth(), (this->diagram->GetAt(index).GetY() * 2 + 30 + this->diagram->GetAt(index).GetHeight()) / 2);
+	
 	Invalidate();
 }
 

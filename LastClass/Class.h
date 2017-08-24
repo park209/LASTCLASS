@@ -2,24 +2,46 @@
 #ifndef _CLASS_H
 #define _CLASS_H
 
+#include "Array.h"
+#include "Line.h"
+
 typedef signed long int Long;
 class Class {
 public:
-	Class();
-	Class(Long x, Long y, Long width, Long height);
+	Class(Long capacity = 3);
+	Class(Long x, Long y, Long width, Long height, Long capacity = 3);
 	Class(const Class& source);
+
+	Long Add(Long startX, Long startY, Long endX, Long endY);
+	Line& GetAt(Long index);
+
+	Line& operator [] (Long index);
+	Line* operator + (Long index);
 	Class& operator = (const Class& source);
+
 	~Class();
+
+	Long GetCapacity() const;
+	Long GetLength() const;
 	Long GetX() const;
 	Long GetY() const;
 	Long GetWidth() const;
 	Long GetHeight() const;
 private:
+	Array<Line> lines;
+	Long capacity;
+	Long length;
 	Long x;
 	Long y;
 	Long width;
 	Long height;
 };
+inline Long Class::GetCapacity() const {
+	return this->capacity;
+}
+inline Long Class::GetLength() const {
+	return this->length;
+}
 inline Long Class::GetX()const {
 	return this->x;
 }
