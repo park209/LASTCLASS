@@ -12,6 +12,9 @@ public:
 	Diagram *diagram;
 public:
 	ClassDiagramForm(); // 이건 생성자????
+public:
+	Long Save();
+	Long Load();
 private:
 	Long startX;
 	Long startY;

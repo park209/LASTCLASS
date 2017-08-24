@@ -46,7 +46,7 @@ Class& Diagram::GetAt(Long index) {
 	return this->classes.GetAt(index);
 }
 
-
+/*
 #include <iostream>
 using namespace std;
 
