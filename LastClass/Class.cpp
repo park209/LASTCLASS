@@ -27,12 +27,10 @@ Class::Class(Long x, Long y, Long width, Long height) {
 }
 Class::~Class() {
 }
-
-
 /*
 #include <iostream>
 using namespace std;
-/*
+
 int main(int argc, char* argv[]) {
 	Class object;
 	cout << object.GetX() << endl;

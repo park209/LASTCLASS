@@ -15,7 +15,6 @@ Diagram& Diagram::operator=(const Diagram& source) {
 	this->length = source.length;
 	return *this;
 }
-
 Class& Diagram::operator[](Long index) {
 	return this->classes[index];
 }
@@ -39,8 +38,6 @@ Long Diagram::Add(Long x, Long y, Long width, Long height) {
 Class Diagram::GetAt(Long index) {
 	return this->classes.GetAt(index);
 }
-
-
 /*
 #include <iostream>
 using namespace std;

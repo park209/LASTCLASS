@@ -3,7 +3,6 @@
 #define _CLASS_H
 
 typedef signed long int Long;
-
 class Class {
 public:
 	Class();
@@ -21,7 +20,6 @@ private:
 	Long width;
 	Long height;
 };
-
 inline Long Class::GetX()const {
 	return this->x;
 }
@@ -35,5 +33,5 @@ inline Long Class::GetHeight()const {
 	return this->height;
 }
 
-#endif // _CLASS_H
+#endif // !_CLASS_H
 
