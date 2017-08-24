@@ -7,6 +7,7 @@ Class::Class(Long capacity):lines(capacity) {
 	this->y = 0;
 	this->width = 0;
 	this->height = 0;
+	this->name = "";
 }
 
 Class::Class(Long x, Long y, Long width, Long height, Long capacity):lines(capacity) {
@@ -16,10 +17,18 @@ Class::Class(Long x, Long y, Long width, Long height, Long capacity):lines(capac
 	this->y = y;
 	this->width = width;
 	this->height = height;
-	/*
-	this->Add(x, y+30, x+width, y+30);
-	this->Add(x, (y + 30 + y + height) / 2, x + width, (y + 30 + y + height) / 2);
-	// */
+	//클래스 이름 확인용
+	this->name = "예비군";
+}
+
+Class::Class(Long x, Long y, Long width, Long height, string name, Long capacity) :lines(capacity) {
+	this->capacity = capacity;
+	this->length = 0;
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
+	this->name = name;
 }
 
 Class::Class(const Class& source):lines(source.lines) {
@@ -29,6 +38,7 @@ Class::Class(const Class& source):lines(source.lines) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
+	this->name = source.name;
 }
 Class& Class::operator=(const Class& source) {
 	this->lines = source.lines;
@@ -38,6 +48,7 @@ Class& Class::operator=(const Class& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
+	this->name = source.name;
 	return *this;
 }
 
@@ -74,7 +85,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 
-	Class object(100,150,20,30);
+	Class object(100,150,20,30,"Class");
 	object.Add(101, 102, 103, 104);
 	Class objectCopy(object);
 	Class objectCopy2 = objectCopy;
@@ -88,6 +99,9 @@ int main(int argc, char* argv[]) {
 	cout << object.GetX() << endl;
 	cout << object.GetWidth() << endl;
 	cout << object.GetY() << endl;
+	cout << object.GetName() << endl;
+	
+	
 	return 0;
 }
 

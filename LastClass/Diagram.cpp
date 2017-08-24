@@ -35,10 +35,6 @@ Long Diagram::Add(Long x, Long y, Long width, Long height) {
 		index = this->classes.AppendFromRear(object);
 		this->capacity++;
 	}
-	/*
-	this->classes[index].Add(x, y + 30, x + width, y + 30);
-	this->classes[index].Add(x, (y + 30 + y + height) / 2, x + width, (y + 30 + y + height) / 2);
-	// */
 	this->length++;
 	return index;
 }

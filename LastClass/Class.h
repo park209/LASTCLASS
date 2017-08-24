@@ -4,12 +4,15 @@
 
 #include "Array.h"
 #include "Line.h"
+#include <string>
+using namespace std;
 
 typedef signed long int Long;
 class Class {
 public:
 	Class(Long capacity = 3);
 	Class(Long x, Long y, Long width, Long height, Long capacity = 3);
+	Class(Long x, Long y, Long width, Long height, string name, Long capacity = 3);
 	Class(const Class& source);
 
 	Long Add(Long startX, Long startY, Long endX, Long endY);
@@ -27,6 +30,7 @@ public:
 	Long GetY() const;
 	Long GetWidth() const;
 	Long GetHeight() const;
+	string& GetName() const;
 private:
 	Array<Line> lines;
 	Long capacity;
@@ -35,6 +39,7 @@ private:
 	Long y;
 	Long width;
 	Long height;
+	string name;
 };
 inline Long Class::GetCapacity() const {
 	return this->capacity;
@@ -53,6 +58,9 @@ inline Long Class::GetWidth()const {
 }
 inline Long Class::GetHeight()const {
 	return this->height;
+}
+inline string& Class::GetName() const {
+	return const_cast<string&>(this->name);
 }
 
 #endif // !_CLASS_H

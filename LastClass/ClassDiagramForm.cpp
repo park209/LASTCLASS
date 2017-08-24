@@ -25,43 +25,6 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->currentY = 0;
 }
 
-Long ClassDiagramForm::Load() {
-	Long position;
-	Long i;
-	Long x;
-	Long y;
-	Long width;
-	Long height;
-	Long length;
-	Long index;
-	Long startX;
-	Long startY;
-	Long endX;
-	Long endY;
-	ifstream fClass;
-	ifstream fLine;
-
-	fClass.open("ClassSave.txt", ios::in);
-	fLine.open("LineSave.txt", ios::in);
-
-	if (fClass.is_open() && fLine.is_open()) {
-		fClass >> length >> x >> y >> width >> height;
-		while (!fClass.eof()) {
-			position = this->diagram->Add(x, y, width, height);
-			i = 0;
-			while (i < length) {
-				fLine >> startX >> startY >> endX >> endY;
-				this->diagram->GetAt(position).Add(startX, startY, endX, endY);
-				i++;
-			}
-			fClass >> length >> x >> y >> width >> height;
-		}
-		fClass.close();
-		fLine.close();
-	}
-	return this->diagram->GetLength();
-}
-
 Long ClassDiagramForm::Save() {
 	Long i = 0;
 	Long j;
@@ -94,15 +57,53 @@ Long ClassDiagramForm::Save() {
 	return this->diagram->GetLength();
 }
 
+Long ClassDiagramForm::Load() {
+	Long position;
+	Long i;
+	Long x;
+	Long y;
+	Long width;
+	Long height;
+	Long length;
+	Long index;
+	Long startX;
+	Long startY;
+	Long endX;
+	Long endY;
+	ifstream fClass;
+	ifstream fLine;
 
+	fClass.open("ClassSave.txt" );
+	fLine.open("LineSave.txt" );
+
+	if (fClass.is_open() && fLine.is_open()) {
+		fClass >> length >> x >> y >> width >> height;
+		while (!fClass.eof()) {
+			position = this->diagram->Add(x, y, width, height);
+			i = 0;
+			while (i < length) {
+				fLine >> startX >> startY >> endX >> endY;
+				this->diagram->GetAt(position).Add(startX, startY, endX, endY);
+				i++;
+			}
+			fClass >> length >> x >> y >> width >> height;
+		}
+		fClass.close();
+		fLine.close();
+	}
+	return this->diagram->GetLength();
+}
 
 
 int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
-
+	//1.1. 다이어그램을 준비한다
 	this->diagram = new Diagram;
+	//1.2. 적재한다
 	this->Load();
+	//1.3. 윈도우를 갱신한다
+	Invalidate();
 
 	return 0;
 }
@@ -136,6 +137,8 @@ void ClassDiagramForm::OnPaint() {
 		width = object.GetWidth();
 		height = object.GetHeight();
 		dc.Rectangle(x, y, x + width, y + height); ////////////// 사각형을 만든다
+		// 클래스 이름 출력 확인
+		dc.TextOutA(x+8, y+5, (CString)object.GetName().c_str());
 		objectLength = object.GetLength();
 		j = 0;
 		while (j < objectLength) {
@@ -169,11 +172,16 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	//Class 생성자에서 Line 만드는거 추가에서 -> Class Add에서 Line 만드는거 추가에서 -> Form 마우스 드래그 끝날떄
 	//끝나면서 Class 만든거에 Line 추가하는걸로 바꿈 2017.08.24
 
-	//첨자연산자 왜 안돼는지
+	//첨자연산자 왜 안돼는지 //선 만듦
 	this->diagram->GetAt(index).Add(this->diagram->GetAt(index).GetX(), this->diagram->GetAt(index).GetY() + 30,
 		this->diagram->GetAt(index).GetX() + this->diagram->GetAt(index).GetWidth(), this->diagram->GetAt(index).GetY() + 30);
 	this->diagram->GetAt(index).Add(this->diagram->GetAt(index).GetX(), (this->diagram->GetAt(index).GetY()*2 + 30 + this->diagram->GetAt(index).GetHeight())/2,
 		this->diagram->GetAt(index).GetX() + this->diagram->GetAt(index).GetWidth(), (this->diagram->GetAt(index).GetY() * 2 + 30 + this->diagram->GetAt(index).GetHeight()) / 2);
+
+	//클래스 이름 출력
+	CreateSolidCaret(5, 20);
+	SetCaretPos(CPoint(this->startX + 5, this->startY + 5));
+	ShowCaret();
 
 	Invalidate();
 }
@@ -188,13 +196,16 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 
 
 void ClassDiagramForm::OnClose() {
+	//6.1. 저장한다.
+	this->Save();
+	//6.2. 다이어그램을 지운다.
 	if (this->diagram != NULL) {
-		this->Save();
 		delete this->diagram;
-		//this->diagram = NULL;
 	}
+	//6.3. 윈도우를 닫는다.
 	CFrameWnd::OnClose(); // 오버라이딩 코드재사용
 }
+
 /*
 #include <iostream>
 using namespace std;
@@ -206,11 +217,8 @@ int main(int argc, char* argv[]) {
 	
 	classDiagramForm.diagram = new Diagram;
 	
-	classDiagramForm.diagram->Add(100, 100, 100, 200);
-	classDiagramForm.diagram->GetAt(0).Add(150, 150, 200, 200);
-	//
 	//classDiagramForm.Save();
-	classDiagramForm.Load();
+	//classDiagramForm.Load();
 
 	//클래스 세이브로드 확인
 	cout << classDiagramForm.diagram->GetAt(0).GetX() << " " << classDiagramForm.diagram->GetAt(0).GetY() << " " <<
@@ -225,4 +233,4 @@ int main(int argc, char* argv[]) {
 
 	return 0;
 }
-*/
+// */
