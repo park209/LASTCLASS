@@ -25,6 +25,43 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->currentY = 0;
 }
 
+Long ClassDiagramForm::Load() {
+	Long position;
+	Long i;
+	Long x;
+	Long y;
+	Long width;
+	Long height;
+	Long length;
+	Long index;
+	Long startX;
+	Long startY;
+	Long endX;
+	Long endY;
+	ifstream fClass;
+	ifstream fLine;
+
+	fClass.open("ClassSave.txt", ios::in);
+	fLine.open("LineSave.txt", ios::in);
+
+	if (fClass.is_open() && fLine.is_open()) {
+		fClass >> length >> x >> y >> width >> height;
+		while (!fClass.eof()) {
+			position = this->diagram->Add(x, y, width, height);
+			i = 0;
+			while (i < length) {
+				fLine >> startX >> startY >> endX >> endY;
+				this->diagram->GetAt(position).Add(startX, startY, endX, endY);
+				i++;
+			}
+			fClass >> length >> x >> y >> width >> height;
+		}
+		fClass.close();
+		fLine.close();
+	}
+	return this->diagram->GetLength();
+}
+
 Long ClassDiagramForm::Save() {
 	Long i = 0;
 	Long j;
@@ -57,47 +94,7 @@ Long ClassDiagramForm::Save() {
 	return this->diagram->GetLength();
 }
 
-Long ClassDiagramForm::Load() {
-	Long position;
-	Long i;
-	Long x;
-	Long y;
-	Long width;
-	Long height;
-	Long length;
-	Long index;
-	Long startX;
-	Long startY;
-	Long endX;
-	Long endY;
-	ifstream fClass;
-	ifstream fLine;
 
-	fClass.open("ClassSave.txt", ios::in);
-	fLine.open("LineSave.txt", ios::in);
-
-	if (fClass.is_open() && fLine.is_open()) {
-		fClass >> length >> x >> y >> width >> height;
-		while (!fClass.eof()) {
-			position = this->diagram->Add(x, y, width, height);
-			if (length > 0) {
-				fLine >> startX >> startY >> endX >> endY;
-				i = 0;
-			}
-			while (i < length) {
-				this->diagram->GetAt(position).Add(startX, startY, endX, endY);
-				fLine >> startX >> startY >> endX >> endY;
-				i++;
-			}
-
-			fClass >> length >> x >> y >> width >> height;
-
-		}
-		fClass.close();
-		fLine.close();
-	}
-	return this->diagram->GetLength();
-}
 
 
 int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -105,7 +102,8 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
 
 	this->diagram = new Diagram;
-	
+	this->Load();
+
 	return 0;
 }
 
@@ -175,7 +173,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->diagram->GetAt(index).Add(this->diagram->GetAt(index).GetX(), this->diagram->GetAt(index).GetY() + 30,
 		this->diagram->GetAt(index).GetX() + this->diagram->GetAt(index).GetWidth(), this->diagram->GetAt(index).GetY() + 30);
 	this->diagram->GetAt(index).Add(this->diagram->GetAt(index).GetX(), (this->diagram->GetAt(index).GetY()*2 + 30 + this->diagram->GetAt(index).GetHeight())/2,
-		this->diagram->GetAt(index).GetX() + this->diagram->GetAt(index).GetWidth(), this->diagram->GetAt(index).GetY() * 2 + 30 + this->diagram->GetAt(index).GetHeight() / 2);
+		this->diagram->GetAt(index).GetX() + this->diagram->GetAt(index).GetWidth(), (this->diagram->GetAt(index).GetY() * 2 + 30 + this->diagram->GetAt(index).GetHeight()) / 2);
 
 	Invalidate();
 }
@@ -191,12 +189,13 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 
 void ClassDiagramForm::OnClose() {
 	if (this->diagram != NULL) {
+		this->Save();
 		delete this->diagram;
 		//this->diagram = NULL;
 	}
 	CFrameWnd::OnClose(); // 오버라이딩 코드재사용
 }
-
+/*
 #include <iostream>
 using namespace std;
 
@@ -206,10 +205,10 @@ int main(int argc, char* argv[]) {
 	cout << " dd " << endl;
 	
 	classDiagramForm.diagram = new Diagram;
-	/*
+	
 	classDiagramForm.diagram->Add(100, 100, 100, 200);
 	classDiagramForm.diagram->GetAt(0).Add(150, 150, 200, 200);
-	// */
+	//
 	//classDiagramForm.Save();
 	classDiagramForm.Load();
 
@@ -226,3 +225,4 @@ int main(int argc, char* argv[]) {
 
 	return 0;
 }
+*/

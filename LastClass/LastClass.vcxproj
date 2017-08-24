@@ -153,12 +153,14 @@
     <ClInclude Include="ClassDiagramApp.h" />
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="Diagram.h" />
+    <ClInclude Include="Line.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="ClassDiagramApp.cpp" />
     <ClCompile Include="ClassDiagramForm.cpp" />
     <ClCompile Include="Diagram.cpp" />
+    <ClCompile Include="Line.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
