@@ -18,6 +18,25 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Class.cpp" />
+    <ClCompile Include="ClassDiagramApp.cpp" />
+    <ClCompile Include="ClassDiagramForm.cpp" />
+    <ClCompile Include="Diagram.cpp" />
+    <ClCompile Include="Figure.cpp" />
+    <ClCompile Include="FigureComposite.cpp" />
+    <ClCompile Include="Line.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Array.h" />
+    <ClInclude Include="Class.h" />
+    <ClInclude Include="ClassDiagramApp.h" />
+    <ClInclude Include="ClassDiagramForm.h" />
+    <ClInclude Include="Diagram.h" />
+    <ClInclude Include="Figure.h" />
+    <ClInclude Include="FigureComposite.h" />
+    <ClInclude Include="Line.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{EE54C3EA-961D-4217-8B0F-44C954776CB5}</ProjectGuid>
@@ -91,6 +110,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -147,21 +167,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="Array.h" />
-    <ClInclude Include="Class.h" />
-    <ClInclude Include="ClassDiagramApp.h" />
-    <ClInclude Include="ClassDiagramForm.h" />
-    <ClInclude Include="Diagram.h" />
-    <ClInclude Include="Line.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Class.cpp" />
-    <ClCompile Include="ClassDiagramApp.cpp" />
-    <ClCompile Include="ClassDiagramForm.cpp" />
-    <ClCompile Include="Diagram.cpp" />
-    <ClCompile Include="Line.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

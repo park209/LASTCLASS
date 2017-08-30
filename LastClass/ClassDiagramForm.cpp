@@ -38,15 +38,15 @@ Long ClassDiagramForm::Save() {
 
 		while (i < this->diagram->GetLength()) {
 			Class object;
-			object = this->diagram->GetAt(i);
+			object = (*static_cast<Class*>(this->diagram->GetAt(i)));
 			fClass << object.GetLength() << " " << object.GetX() << " " << object.GetY()
 				<< " " << object.GetWidth() << " " << object.GetHeight() << endl;
 			j = 0;
 			while (j < object.GetLength()) {
 				Line lineObject;
-				lineObject = object.GetAt(j);
-				fLine << lineObject.GetStartX() << " " << lineObject.GetStartY() << " " <<
-					lineObject.GetEndX() << " " << lineObject.GetEndY() << endl;
+				lineObject = (*static_cast<Line*>(object.GetAt(j)));
+				fLine << lineObject.GetX() << " " << lineObject.GetY() << " " <<
+					lineObject.GetWidth() << " " << lineObject.GetHeight() << endl;
 				j++;
 			}
 			i++;
@@ -66,10 +66,10 @@ Long ClassDiagramForm::Load() {
 	Long height;
 	Long length;
 	Long index;
-	Long startX;
-	Long startY;
-	Long endX;
-	Long endY;
+	Long lineX;
+	Long lineY;
+	Long lineWidth;
+	Long lineHeigth;
 	ifstream fClass;
 	ifstream fLine;
 
@@ -82,8 +82,8 @@ Long ClassDiagramForm::Load() {
 			position = this->diagram->Add(x, y, width, height);
 			i = 0;
 			while (i < length) {
-				fLine >> startX >> startY >> endX >> endY;
-				this->diagram->GetAt(position).Add(startX, startY, endX, endY);
+				fLine >> lineX >> lineY >> lineWidth >> lineHeigth;
+				static_cast<Class*>(this->diagram->GetAt(position))->Add(lineX, lineY, lineWidth, lineHeigth);
 				i++;
 			}
 			fClass >> length >> x >> y >> width >> height;
@@ -99,7 +99,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
 	//1.1. 다이어그램을 준비한다
-	this->diagram = new Diagram;
+	this->diagram = new Diagram();
 	//1.2. 적재한다
 	this->Load();
 	//1.3. 윈도우를 갱신한다
@@ -109,15 +109,13 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 }
 
 void ClassDiagramForm::OnPaint() {
-	CPaintDC dc(this); // 이건 뭔가?
+	CPaintDC dc(this);
 
-	Long length = this->diagram->GetLength();
 	Long i = 0;
 	Long x;
 	Long y;
 	Long width;
 	Long height;
-	Class object;
 
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
@@ -126,25 +124,31 @@ void ClassDiagramForm::OnPaint() {
 	dc.SelectObject(oldPen);
 	pen.DeleteObject();
 	
-	Long objectLength;
-	Long j;
-	Line line;
 
-	while (i < length) {
-		object = this->diagram->GetAt(i);
-		x = object.GetX();
-		y = object.GetY();
-		width = object.GetWidth();
-		height = object.GetHeight();
+	Long j;
+	Long lX;
+	Long lY;
+	Long lWidth;
+	Long lHeight;
+
+	while (i < this->diagram->GetLength()) {
+		x = this->diagram->GetAt(i)->GetX();
+		y = this->diagram->GetAt(i)->GetY();
+		width = this->diagram->GetAt(i)->GetWidth();
+		height = this->diagram->GetAt(i)->GetHeight();
 		dc.Rectangle(x, y, x + width, y + height); ////////////// 사각형을 만든다
 		// 클래스 이름 출력 확인
-		dc.TextOutA(x+8, y+5, (CString)object.GetName().c_str());
-		objectLength = object.GetLength();
+		//dc.TextOutA(x+8, y+5, (CString)object.GetName().c_str());
+		//objectLength = static_cast<Class*>(this->diagram->GetAt(index))->GetLength();
 		j = 0;
-		while (j < objectLength) {
-			line = object.GetAt(j);
-			dc.MoveTo(line.GetStartX(), line.GetStartY());
-			dc.LineTo(line.GetEndX(), line.GetEndY());
+		while (j < static_cast<Class*>(this->diagram->GetAt(i))->GetLength()) {
+			lX = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetX();
+			lY = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetY();
+			lWidth = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetWidth();
+			lHeight = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetHeight();
+
+			dc.MoveTo(lX,lY);
+			dc.LineTo(lX+lWidth, lY);
 			j++;
 		}
 		i++;
@@ -173,15 +177,15 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	//끝나면서 Class 만든거에 Line 추가하는걸로 바꿈 2017.08.24
 
 	//첨자연산자 왜 안돼는지 //선 만듦
-	this->diagram->GetAt(index).Add(this->diagram->GetAt(index).GetX(), this->diagram->GetAt(index).GetY() + 30,
-		this->diagram->GetAt(index).GetX() + this->diagram->GetAt(index).GetWidth(), this->diagram->GetAt(index).GetY() + 30);
-	this->diagram->GetAt(index).Add(this->diagram->GetAt(index).GetX(), (this->diagram->GetAt(index).GetY()*2 + 30 + this->diagram->GetAt(index).GetHeight())/2,
-		this->diagram->GetAt(index).GetX() + this->diagram->GetAt(index).GetWidth(), (this->diagram->GetAt(index).GetY() * 2 + 30 + this->diagram->GetAt(index).GetHeight()) / 2);
+	static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, this->startY + 30,
+		this->currentX - this->startX, this->startY + 30);
+	static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, (this->startY + 30 + this->currentY) / 2,
+		this->currentX - this->startX, (this->startY + 30 + this->currentY) / 2);
 
 	//클래스 이름 출력
-	CreateSolidCaret(5, 20);
-	SetCaretPos(CPoint(this->startX + 5, this->startY + 5));
-	ShowCaret();
+	//CreateSolidCaret(5, 20);
+	//SetCaretPos(CPoint(this->startX + 5, this->startY + 5));
+	//ShowCaret();
 
 	Invalidate();
 }

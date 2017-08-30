@@ -165,7 +165,7 @@ Long Array<T>::AppendFromRear(T object) {
 
 template <typename T>
 Long Array<T>::Delete(Long index) {
-	T(*temp);
+	T(*temp) =0;
 	Long i = 0;
 	Long j = 0;
 	if (this->capacity > 1) {
@@ -199,7 +199,7 @@ Long Array<T>::Delete(Long index) {
 template <typename T>
 Long Array<T>::DeleteFromFront() {
 	Long index;
-	T(*temp);
+	T(*temp) = 0;
 	Long i = 1;
 	Long j = 0;
 	if (this->capacity > 1) {
@@ -227,7 +227,7 @@ Long Array<T>::DeleteFromFront() {
 template <typename T>
 Long Array<T>::DeleteFromRear() {
 	Long index;
-	T(*temp);
+	T(*temp) = 0;
 	Long i = 0;
 	if (this->capacity > 1) {
 		temp = new T[this->capacity - 1];
@@ -468,7 +468,7 @@ Array<T>& Array<T>::operator = (const Array& source) {
 
 template <typename T>
 T* Array<T>::operator + (Long index) { //포인터산술연산자 +
-	return this->front + index;
+	return this->front + i;
 }
 
 template <typename T>

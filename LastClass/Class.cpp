@@ -1,108 +1,100 @@
+//Class.cpp
+
 #include "Class.h"
 
-Class::Class(Long capacity):lines(capacity) {
-	this->capacity = capacity;
-	this->length = 0;
+Class::Class(Long capacity) {
 	this->x = 0;
 	this->y = 0;
 	this->width = 0;
 	this->height = 0;
-	this->name = "";
-}
-
-Class::Class(Long x, Long y, Long width, Long height, Long capacity):lines(capacity) {
+	this->figures = 0;
 	this->capacity = capacity;
 	this->length = 0;
+}
+
+Class::Class(Long x, Long y, Long width, Long height) {
 	this->x = x;
 	this->y = y;
 	this->width = width;
 	this->height = height;
-	//클래스 이름 확인용
-	this->name = "예비군";
 }
 
-Class::Class(Long x, Long y, Long width, Long height, string name, Long capacity) :lines(capacity) {
-	this->capacity = capacity;
-	this->length = 0;
-	this->x = x;
-	this->y = y;
-	this->width = width;
-	this->height = height;
-	this->name = name;
-}
-
-Class::Class(const Class& source):lines(source.lines) {
-	this->capacity = source.capacity;
-	this->length = source.length;
-	this->x = source.x;
-	this->y = source.y;
-	this->width = source.width;
-	this->height = source.height;
-	this->name = source.name;
-}
-Class& Class::operator=(const Class& source) {
-	this->lines = source.lines;
-	this->capacity = source.capacity;
-	this->length = source.length;
-	this->x = source.x;
-	this->y = source.y;
-	this->width = source.width;
-	this->height = source.height;
-	this->name = source.name;
-	return *this;
-}
-
-Long Class::Add(Long startX, Long startY, Long endX, Long endY) {
-	
-	Line line(startX, startY, endX, endY);
-	Long index = -1;
-
-	if (this->length < 3) {
-		index = this->lines.Store(this->length, line);
-		this->length++;
+Class::Class(const Class& source) {
+	this->figures = source.figures;
+	Long i = 0;
+	while (i < source.length) {
+		this->figures.Modify(i, (const_cast<Class&>(source)).figures[i]->Clone());
+		i++;
 	}
-	return index;
-}
-
-Line& Class::GetAt(Long index) {
-	return this->lines.GetAt(index);
-}
-
-Line& Class::operator [] (Long index) {
-	return this->lines[index];
-}
-
-Line* Class::operator + (Long index) {
-	return this->lines + index;
+	this->capacity = source.capacity;
+	this->length = source.length;
+	this->x = source.x;
+	this->y = source.y;
+	this->width = source.width;
+	this->height = source.height;
 }
 
 Class::~Class() {
 }
 
-/*
-#include <iostream>
-using namespace std;
+Class& Class::operator = (const Class& source) {
+	this->figures = source.figures;
+	Long i = 0;
+	while (i < source.length) {
+		this->figures.Modify(i, (const_cast<Class&>(source)).figures[i]->Clone());
+		i++;
+	}
+	this->capacity = source.capacity;
+	this->length = source.length;
+	this->x = source.x;
+	this->y = source.y;
+	this->width = source.width;
+	this->height = source.height;
 
-int main(int argc, char* argv[]) {
-
-	Class object(100,150,20,30,"Class");
-	object.Add(101, 102, 103, 104);
-	Class objectCopy(object);
-	Class objectCopy2 = objectCopy;
-
-	cout << endl << object[0].GetStartX() << endl << endl;
-
-	cout << objectCopy.GetLength() << " " << objectCopy.GetCapacity() << endl;
-	cout << objectCopy2[0].GetStartX() << " " << objectCopy2[0].GetStartY() << " " << objectCopy2.GetAt(0).GetEndX() << endl;
-	cout << objectCopy2 + 0 << endl;
-
-	cout << object.GetX() << endl;
-	cout << object.GetWidth() << endl;
-	cout << object.GetY() << endl;
-	cout << object.GetName() << endl;
-	
-	
-	return 0;
+	return *this;
 }
 
-// */
+Long Class::Add(Figure *figure) {
+	Long index = -1;
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, figure);
+	}
+	else {
+		index = this->figures.AppendFromRear(figure);
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::Add(Long x, Long y, Long width, Long height) {
+	Long index;
+	Line object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::Remove(Long index) {
+
+	return this->figures.Delete(index);
+}
+
+
+Figure* Class::GetAt(Long index) { 
+	return this->figures.GetAt(index);
+}
+
+Figure* Class::Clone() {
+	return new Class(*this);
+}
+
