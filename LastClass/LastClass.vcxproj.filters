@@ -62,5 +62,14 @@
     <ClInclude Include="ClassDiagramForm.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="ArrayIterator.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Iterator.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SmartPointer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

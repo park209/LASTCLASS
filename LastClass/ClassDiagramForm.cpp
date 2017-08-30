@@ -37,16 +37,16 @@ Long ClassDiagramForm::Save() {
 		//if (!fClass && !fLine) {
 
 		while (i < this->diagram->GetLength()) {
-			Class object;
-			object = (*static_cast<Class*>(this->diagram->GetAt(i)));
-			fClass << object.GetLength() << " " << object.GetX() << " " << object.GetY()
-				<< " " << object.GetWidth() << " " << object.GetHeight() << endl;
+			Class *object;
+			object = static_cast<Class*>(this->diagram->GetAt(i));
+			fClass << object->GetLength() << " " << object->GetX() << " " << object->GetY()
+				<< " " << object->GetWidth() << " " << object->GetHeight() << endl;
 			j = 0;
-			while (j < object.GetLength()) {
-				Line lineObject;
-				lineObject = (*static_cast<Line*>(object.GetAt(j)));
-				fLine << lineObject.GetX() << " " << lineObject.GetY() << " " <<
-					lineObject.GetWidth() << " " << lineObject.GetHeight() << endl;
+			while (j < object->GetLength()) {
+				Line *lineObject;
+				lineObject = static_cast<Line*>(object->GetAt(j));
+				fLine << lineObject->GetX() << " " << lineObject->GetY() << " " <<
+					lineObject->GetWidth() << " " << lineObject->GetHeight() << endl;
 				j++;
 			}
 			i++;
@@ -65,7 +65,6 @@ Long ClassDiagramForm::Load() {
 	Long width;
 	Long height;
 	Long length;
-	Long index;
 	Long lineX;
 	Long lineY;
 	Long lineWidth;
@@ -126,10 +125,10 @@ void ClassDiagramForm::OnPaint() {
 	
 
 	Long j;
-	Long lX;
-	Long lY;
-	Long lWidth;
-	Long lHeight;
+	Long lineX;
+	Long linelY;
+	Long lineWidth;
+	Long lineHeight;
 
 	while (i < this->diagram->GetLength()) {
 		x = this->diagram->GetAt(i)->GetX();
@@ -142,13 +141,13 @@ void ClassDiagramForm::OnPaint() {
 		//objectLength = static_cast<Class*>(this->diagram->GetAt(index))->GetLength();
 		j = 0;
 		while (j < static_cast<Class*>(this->diagram->GetAt(i))->GetLength()) {
-			lX = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetX();
-			lY = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetY();
-			lWidth = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetWidth();
-			lHeight = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetHeight();
+			lineX = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetX();
+			linelY = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetY();
+			lineWidth = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetWidth();
+			lineHeight = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetHeight();
 
-			dc.MoveTo(lX,lY);
-			dc.LineTo(lX+lWidth, lY);
+			dc.MoveTo(lineX, linelY);
+			dc.LineTo(lineX + lineWidth, linelY);
 			j++;
 		}
 		i++;

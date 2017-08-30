@@ -7,7 +7,7 @@
 
 class Class : public FigureComposite {
 public:
-	Class(Long capacity = 256);
+	Class(Long capacity = 8);
 	Class(Long x, Long y, Long width, Long height);
 	Class(const Class& source);
 	virtual ~Class();
@@ -18,15 +18,6 @@ public:
 	Long Remove(Long index);
 	Figure* GetAt(Long index);
 	Figure* Clone();
-
-	Long GetCapacity() const;
-	Long GetLength() const;
 };
-inline Long Class::GetCapacity() const {
-	return this->capacity;
-}
-inline Long Class::GetLength() const {
-	return this->length;
-}
 
 #endif //_CLASS_H

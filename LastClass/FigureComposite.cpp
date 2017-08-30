@@ -9,7 +9,6 @@ FigureComposite::FigureComposite(Long capacity) : figures(capacity) {
 
 FigureComposite::FigureComposite(const FigureComposite& source) : figures(source.figures) {
 	Long i = 0;
-	Figure *figure = 0;
 
 	while (i < source.length) {
 		this->figures.Modify(i, (const_cast<FigureComposite&>(source)).figures[i]->Clone());
@@ -22,6 +21,11 @@ FigureComposite::FigureComposite(const FigureComposite& source) : figures(source
 
 
 FigureComposite::~FigureComposite() {
+	Long i = 0;
+	while (i < this->length) {
+		delete this->figures[i];
+		i++;
+	}
 }
 
 //Long FigureComposite::Add(Figure *figure) {
@@ -49,6 +53,10 @@ FigureComposite& FigureComposite::operator = (const FigureComposite& source) {
 		i++;
 	}
 	return *this;
+}
+
+ArrayIterator<Figure*>* FigureComposite::CreateIterator() const {
+	return new ArrayIterator<Figure*>(&this->figures);
 }
 //
 //#include <iostream>

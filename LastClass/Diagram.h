@@ -7,10 +7,9 @@
 
 class Diagram : public FigureComposite {
 public:
-	Diagram(Long capacity = 256);
+	Diagram(Long capacity = 1024);
 	virtual ~Diagram();
 	Diagram(const Diagram& source);
-
 	Diagram& operator = (const Diagram& source);
 
 	Long Add(Figure *figure);
@@ -18,15 +17,6 @@ public:
 	Long Remove(Long index);
 	Figure* GetAt(Long index);
 	Figure* Clone();
-
-	Long GetCapacity() const;
-	Long GetLength() const;
 };
-inline Long Diagram::GetCapacity() const {
-	return this->capacity;
-}
-inline Long Diagram::GetLength() const {
-	return this->length;
-}
 
 #endif //_DIAGRAM_H

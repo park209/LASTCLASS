@@ -1,26 +1,35 @@
 //SmartPointer.h
 #ifndef _SMARTPOINTER_H
 #define _SMARTPOINTER_H
-
-class Figure;
-template<typename Figure*>
+#include "Iterator.h"
+template<typename T>
 class SmartPointer {
 public:
-	SmartPointer(Iterator<Figure*>* index);
-	~SmartPointer() {
-		delete index;
-	}
-	Iterater<T>*  operater->() {
-		return index;
-	}
-	Iterater<T>& operater*() {
-		return *index;
-	}
+	SmartPointer(Iterator<T>* index);
+	~SmartPointer();
+	Iterator<T>* operator->();
+	Iterator<T>& operator*();
 private:
-	SmartPointer(const SmartPointer& source);
-	SmartPointer& operator=(const SmartPointer& source);
+	SmartPointer(const SmartPointer&);
+	SmartPointer& operator = (const SmartPointer&);
 private:
 	Iterator<T>* index;
 };
+template<typename T>
+SmartPointer<T>::SmartPointer(Iterator<T>* index) :index(index) {
+}
+template<typename T>
+SmartPointer<T>::~SmartPointer() {
+	delete index;
+}
+template<typename T>
+Iterator<T>* SmartPointer<T>::operator ->(){
+	return index;
+}
+template<typename T>
+Iterator<T>& SmartPointer<T>::operator* () {
+	return *index;
+}
+
 
 #endif // !_SMARTPOINTER_H

@@ -7,7 +7,6 @@ Class::Class(Long capacity) {
 	this->y = 0;
 	this->width = 0;
 	this->height = 0;
-	this->figures = 0;
 	this->capacity = capacity;
 	this->length = 0;
 }
@@ -17,6 +16,8 @@ Class::Class(Long x, Long y, Long width, Long height) {
 	this->y = y;
 	this->width = width;
 	this->height = height;
+	this->capacity = 8;
+	this->length = 0;
 }
 
 Class::Class(const Class& source) {

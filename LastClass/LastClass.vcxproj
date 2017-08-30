@@ -29,13 +29,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h" />
+    <ClInclude Include="ArrayIterator.h" />
     <ClInclude Include="Class.h" />
     <ClInclude Include="ClassDiagramApp.h" />
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="Diagram.h" />
     <ClInclude Include="Figure.h" />
     <ClInclude Include="FigureComposite.h" />
+    <ClInclude Include="Iterator.h" />
     <ClInclude Include="Line.h" />
+    <ClInclude Include="SmartPointer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

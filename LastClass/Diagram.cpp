@@ -2,16 +2,14 @@
 
 #include "Diagram.h"
 
-Diagram::Diagram(Long capacity){
+Diagram::Diagram(Long capacity) {
 	this->x = 0;
 	this->y = 0;
 	this->width = 0;
 	this->height = 0;
-	this->figures = 0;
-	this->capacity = capacity;
 	this->length = 0;
+	this->capacity = capacity;
 }
-
 Diagram::~Diagram() {
 }
 
