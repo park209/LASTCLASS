@@ -18,6 +18,16 @@ public:
 	Long Remove(Long index);
 	Figure* GetAt(Long index);
 	Figure* Clone();
+	void Accept(Visitor& visitor, CDC *cPaintDc);
+
+	Long GetCapacity() const;
+	Long GetLength() const;
 };
+inline Long Class::GetCapacity() const {
+	return this->capacity;
+}
+inline Long Class::GetLength() const {
+	return this->length;
+}
 
 #endif //_CLASS_H

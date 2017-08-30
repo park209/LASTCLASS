@@ -1,7 +1,9 @@
 //ClassDiagramForm.cpp
 
 #include "ClassDiagramForm.h"
+#include "Figure.h"
 #include "Diagram.h"
+#include "DrawingVisitor.h"
 
 #include <iostream>
 #include <fstream>
@@ -26,35 +28,35 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 }
 
 Long ClassDiagramForm::Save() {
-	Long i = 0;
-	Long j;
-	ofstream fClass;
-	ofstream fLine; // 읽을때는 of
+   Long i = 0;
+   Long j;
+   ofstream fClass;
+   ofstream fLine; // 읽을때는 of
 
-	fClass.open("ClassSave.txt");
-	fLine.open("LineSave.txt");
-	if (fClass.is_open() && fLine.is_open()) {
-		//if (!fClass && !fLine) {
+   fClass.open("ClassSave.txt");
+   fLine.open("LineSave.txt");
+   if (fClass.is_open() && fLine.is_open()) {
+      //if (!fClass && !fLine) {
 
-		while (i < this->diagram->GetLength()) {
-			Class *object;
-			object = static_cast<Class*>(this->diagram->GetAt(i));
-			fClass << object->GetLength() << " " << object->GetX() << " " << object->GetY()
-				<< " " << object->GetWidth() << " " << object->GetHeight() << endl;
-			j = 0;
-			while (j < object->GetLength()) {
-				Line *lineObject;
-				lineObject = static_cast<Line*>(object->GetAt(j));
-				fLine << lineObject->GetX() << " " << lineObject->GetY() << " " <<
-					lineObject->GetWidth() << " " << lineObject->GetHeight() << endl;
-				j++;
-			}
-			i++;
-		}
-		fClass.close();
-		fLine.close();
-	}
-	return this->diagram->GetLength();
+      while (i < this->diagram->GetLength()) {
+         Class object;
+         object = (*static_cast<Class*>(this->diagram->GetAt(i)));
+         fClass << object.GetLength() << " " << object.GetX() << " " << object.GetY()
+            << " " << object.GetWidth() << " " << object.GetHeight() << endl;
+         j = 0;
+         while (j < object.GetLength()) {
+            Line lineObject;
+			lineObject = (*static_cast<Line*>(object.GetAt(j)));
+            fLine << lineObject.GetX() << " " << lineObject.GetY() << " " <<
+               lineObject.GetWidth() << " " << lineObject.GetHeight() << endl;
+            j++;
+         }
+         i++;
+      }
+      fClass.close();
+      fLine.close();
+   }
+   return this->diagram->GetLength();
 }
 
 Long ClassDiagramForm::Load() {
@@ -72,8 +74,8 @@ Long ClassDiagramForm::Load() {
 	ifstream fClass;
 	ifstream fLine;
 
-	fClass.open("ClassSave.txt" );
-	fLine.open("LineSave.txt" );
+	fClass.open("ClassSave.txt");
+	fLine.open("LineSave.txt");
 
 	if (fClass.is_open() && fLine.is_open()) {
 		fClass >> length >> x >> y >> width >> height;
@@ -97,7 +99,7 @@ Long ClassDiagramForm::Load() {
 int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
-	//1.1. 다이어그램을 준비한다
+										 //1.1. 다이어그램을 준비한다
 	this->diagram = new Diagram();
 	//1.2. 적재한다
 	this->Load();
@@ -109,49 +111,53 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 void ClassDiagramForm::OnPaint() {
 	CPaintDC dc(this);
+	DrawingVisitor drawingVisitor;
 
-	Long i = 0;
-	Long x;
-	Long y;
-	Long width;
-	Long height;
+
+	this->diagram->Accept(drawingVisitor, &dc);
 
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = dc.SelectObject(&pen);
+	dc.SetBkMode(TRANSPARENT);
 	dc.Rectangle(startX, startY, this->currentX, this->currentY);
 	dc.SelectObject(oldPen);
 	pen.DeleteObject();
-	
+	//Long i = 0;
+	//Long x;
+	//Long y;
+	//Long width;
+	//Long height;
 
-	Long j;
-	Long lineX;
-	Long linelY;
-	Long lineWidth;
-	Long lineHeight;
+	//Long objectLength;
+	//Long j;
+	//Long lineX;
+	//Long lineY;
+	//Long lineWidth;
+	//Long lineHeight;
 
-	while (i < this->diagram->GetLength()) {
-		x = this->diagram->GetAt(i)->GetX();
-		y = this->diagram->GetAt(i)->GetY();
-		width = this->diagram->GetAt(i)->GetWidth();
-		height = this->diagram->GetAt(i)->GetHeight();
-		dc.Rectangle(x, y, x + width, y + height); ////////////// 사각형을 만든다
-		// 클래스 이름 출력 확인
-		//dc.TextOutA(x+8, y+5, (CString)object.GetName().c_str());
-		//objectLength = static_cast<Class*>(this->diagram->GetAt(index))->GetLength();
-		j = 0;
-		while (j < static_cast<Class*>(this->diagram->GetAt(i))->GetLength()) {
-			lineX = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetX();
-			linelY = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetY();
-			lineWidth = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetWidth();
-			lineHeight = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetHeight();
+	//while (i < this->diagram->GetLength()) {
+	//	x = this->diagram->GetAt(i)->GetX();
+	//	y = this->diagram->GetAt(i)->GetY();
+	//	width = this->diagram->GetAt(i)->GetWidth();
+	//	height = this->diagram->GetAt(i)->GetHeight();
+	//	dc.Rectangle(x, y, x + width, y + height); ////////////// 사각형을 만든다
+	//											   // 클래스 이름 출력 확인
+	//											   //dc.TextOutA(x+8, y+5, (CString)object.GetName().c_str());
+	//											   //objectLength = static_cast<Class*>(this->diagram->GetAt(index))->GetLength();
+	//	j = 0;
+	//	while (j < static_cast<Class*>(this->diagram->GetAt(i))->GetLength()) {
+	//		lineX = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetX();
+	//		lineY = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetY();
+	//		lineWidth = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetWidth();
+	//		lineHeight = static_cast<Class*>(this->diagram->GetAt(i))->GetAt(j)->GetHeight();
 
-			dc.MoveTo(lineX, linelY);
-			dc.LineTo(lineX + lineWidth, linelY);
-			j++;
-		}
-		i++;
-	}
+	//		dc.MoveTo(lineX, lineY);
+	//		dc.LineTo(lineX + lineWidth, lineY);
+	//		j++;
+	//	}
+	//	i++;
+	//}
 }
 
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
@@ -171,7 +177,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		this->currentY = this->startY + 150;
 	}
 	Long index = this->diagram->Add(this->startX, this->startY, this->currentX - this->startX, this->currentY - this->startY);
-	
+
 	//Class 생성자에서 Line 만드는거 추가에서 -> Class Add에서 Line 만드는거 추가에서 -> Form 마우스 드래그 끝날떄
 	//끝나면서 Class 만든거에 Line 추가하는걸로 바꿈 2017.08.24
 
@@ -214,26 +220,26 @@ void ClassDiagramForm::OnClose() {
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	ClassDiagramForm classDiagramForm;
+ClassDiagramForm classDiagramForm;
 
-	cout << " dd " << endl;
-	
-	classDiagramForm.diagram = new Diagram;
-	
-	//classDiagramForm.Save();
-	//classDiagramForm.Load();
+cout << " dd " << endl;
 
-	//클래스 세이브로드 확인
-	cout << classDiagramForm.diagram->GetAt(0).GetX() << " " << classDiagramForm.diagram->GetAt(0).GetY() << " " <<
-		classDiagramForm.diagram->GetAt(0).GetWidth() << " " << classDiagramForm.diagram->GetAt(0).GetHeight()
-		<< " " << classDiagramForm.diagram->GetAt(0).GetLength() << " " << classDiagramForm.diagram->GetAt(0).GetCapacity()
-		<< endl;
-	//라인 세이브로드 확인
-	cout << classDiagramForm.diagram->GetAt(0).GetAt(0).GetStartX() << " " <<
-		classDiagramForm.diagram->GetAt(0).GetAt(0).GetStartY() << " " <<
-		classDiagramForm.diagram->GetAt(0).GetAt(0).GetEndX() << " " <<
-		classDiagramForm.diagram->GetAt(0).GetAt(0).GetEndY() << " " << endl;
+classDiagramForm.diagram = new Diagram;
 
-	return 0;
+//classDiagramForm.Save();
+//classDiagramForm.Load();
+
+//클래스 세이브로드 확인
+cout << classDiagramForm.diagram->GetAt(0).GetX() << " " << classDiagramForm.diagram->GetAt(0).GetY() << " " <<
+classDiagramForm.diagram->GetAt(0).GetWidth() << " " << classDiagramForm.diagram->GetAt(0).GetHeight()
+<< " " << classDiagramForm.diagram->GetAt(0).GetLength() << " " << classDiagramForm.diagram->GetAt(0).GetCapacity()
+<< endl;
+//라인 세이브로드 확인
+cout << classDiagramForm.diagram->GetAt(0).GetAt(0).GetStartX() << " " <<
+classDiagramForm.diagram->GetAt(0).GetAt(0).GetStartY() << " " <<
+classDiagramForm.diagram->GetAt(0).GetAt(0).GetEndX() << " " <<
+classDiagramForm.diagram->GetAt(0).GetAt(0).GetEndY() << " " << endl;
+
+return 0;
 }
 // */

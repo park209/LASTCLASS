@@ -21,26 +21,21 @@ FigureComposite::FigureComposite(const FigureComposite& source) : figures(source
 
 
 FigureComposite::~FigureComposite() {
-	Long i = 0;
-	while (i < this->length) {
-		delete this->figures[i];
-		i++;
-	}
 }
 
 //Long FigureComposite::Add(Figure *figure) {
 //}
-
-Long FigureComposite::Remove(Long index) {
-	index = this->figures.Delete(index);
-	this->length--;
-
-	return index;
-}
-
-Figure* FigureComposite::GetAt(Long index) {
-	return this->figures.GetAt(index);
-}
+//
+//Long FigureComposite::Remove(Long index) {
+//	index = this->figures.Delete(index);
+//	this->length--;
+//
+//	return index;
+//}
+//
+//Figure* FigureComposite::GetAt(Long index) {
+//	return this->figures.GetAt(index);
+//}
 
 FigureComposite& FigureComposite::operator = (const FigureComposite& source) {
 	this->figures = source.figures;
@@ -54,7 +49,6 @@ FigureComposite& FigureComposite::operator = (const FigureComposite& source) {
 	}
 	return *this;
 }
-
 ArrayIterator<Figure*>* FigureComposite::CreateIterator() const {
 	return new ArrayIterator<Figure*>(&this->figures);
 }

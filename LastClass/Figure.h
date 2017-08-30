@@ -2,6 +2,7 @@
 
 #ifndef _FIGURE_H
 #define _FIGURE_H
+#include "Visitor.h"
 
 typedef signed long int Long;
 
@@ -13,9 +14,7 @@ public:
 	Figure& operator = (const Figure& source);
 	virtual ~Figure() = 0;
 
-	/*virtual Long Add(Figure *figure)= 0;
-	virtual Long Remove(Long index) = 0;
-	virtual Figure* GetChild(Long index) = 0;*/
+	virtual void Accept(Visitor& visitor, CDC *cPaintDc) = 0;
 	virtual Figure* Clone() = 0;
 
 	Long GetX() const;

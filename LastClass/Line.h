@@ -12,6 +12,7 @@ public:
 	Line(const Line& source);
 	virtual ~Line();
 
+	void Accept(Visitor& visitor, CDC *cPaintDc);
 	Line& operator = (const Line& source);
 	Figure* Clone();
 };

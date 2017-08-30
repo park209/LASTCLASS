@@ -3,21 +3,21 @@
 #include "Class.h"
 
 Class::Class(Long capacity) {
+	this->capacity = capacity;
+	this->length = 0;
 	this->x = 0;
 	this->y = 0;
 	this->width = 0;
 	this->height = 0;
-	this->capacity = capacity;
-	this->length = 0;
 }
 
 Class::Class(Long x, Long y, Long width, Long height) {
+	this->capacity = 8;
+	this->length = 0;
 	this->x = x;
 	this->y = y;
 	this->width = width;
 	this->height = height;
-	this->capacity = 8;
-	this->length = 0;
 }
 
 Class::Class(const Class& source) {
@@ -56,7 +56,7 @@ Class& Class::operator = (const Class& source) {
 }
 
 Long Class::Add(Figure *figure) {
-	Long index = -1;
+	Long index;
 	if (this->length < this->capacity) {
 		index = this->figures.Store(this->length, figure);
 	}
@@ -99,3 +99,11 @@ Figure* Class::Clone() {
 	return new Class(*this);
 }
 
+void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
+	visitor.VisitClass(this, cPaintDc);
+	SmartPointer<Figure*> smartPointer(this->CreateIterator());
+	while (!smartPointer->IsDone()) {
+		smartPointer->Current()->Accept(visitor, cPaintDc);
+		smartPointer->Next();
+	}
+}

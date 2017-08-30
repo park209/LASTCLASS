@@ -39,7 +39,14 @@ Figure* Line::Clone() {
 	return new Line(*this);
 }
 
+void Line::Accept(Visitor& visitor, CDC *cPaintDc) {
+	visitor.VisitLine(this, cPaintDc);
+}
 
-#include <iostream>
-using namespace std;
-
+//
+//#include <iostream>
+//using namespace std;
+//
+//int main(int argc, char* argv[]) {
+//
+//}
