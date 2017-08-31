@@ -4,20 +4,20 @@
 #ifndef _DOUBLEBYTECHARACTER_H
 #define _DOUBLEBYTECHARACTER_H
 #include "Character.h"
+#include <string>
+using namespace std;
 class DoubleByteCharacter : public Character {
 public:
 	DoubleByteCharacter();
-	DoubleByteCharacter(char(*characters));
+	DoubleByteCharacter(string characters);
 	DoubleByteCharacter(const DoubleByteCharacter& source);
 	virtual ~DoubleByteCharacter();
-	virtual TextComponent* Clone();
+	virtual TextComponent* Clone() const;
 	DoubleByteCharacter& operator = (const DoubleByteCharacter& source);
-	char* GetCharacters() const;
+    string GetCharacter();
 private:
-	char characters[3];
+	string characters;
 };
-inline char* DoubleByteCharacter::GetCharacters()const {
-	return const_cast<char*>(this->characters);
-}
+
 #endif // !_DOUBLEBYTECHARACTER_H
 

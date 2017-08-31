@@ -3,22 +3,31 @@
 #include "SingleByteCharacter.h"
 
 SingleByteCharacter::SingleByteCharacter() {
-	this->character = ' ';
+	this->characters = "";
+
 }
-SingleByteCharacter::SingleByteCharacter(char character) {
-	this->character = character;
+SingleByteCharacter::SingleByteCharacter(string characters) {
+	 
+	this->characters = characters;
+	
 }
 SingleByteCharacter::SingleByteCharacter(const SingleByteCharacter& source) {
-	this->character = source.character;
+	this->characters= source.characters;
+
+;
 }
 SingleByteCharacter::~SingleByteCharacter() {
 }
-TextComponent* SingleByteCharacter::Clone() {
+Character* SingleByteCharacter::Clone() const {
 	return new SingleByteCharacter(*this);
 }
 SingleByteCharacter& SingleByteCharacter::operator=(const SingleByteCharacter& source) {
-	this->character = source.character;
+	this->characters = source.characters;
+
+	
 	return *this;
 }
  
-//메인확인완료
+ string SingleByteCharacter::GetCharacter() {
+	return this->characters;
+}

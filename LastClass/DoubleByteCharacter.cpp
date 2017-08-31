@@ -1,35 +1,32 @@
 //DoubleByteCharacter.cpp
 #include "DoubleByteCharacter.h"
 DoubleByteCharacter::DoubleByteCharacter() {
-	this->characters[0] = ' ';
-	this->characters[1] = ' ';
-	this->characters[2] = ' ';
+	this->characters = "";
 }
-DoubleByteCharacter::DoubleByteCharacter(char(*characters)) {
-	this->characters[0] = characters[0];
-	this->characters[1] = characters[1];
-	this->characters[2] = '\0';
+DoubleByteCharacter::DoubleByteCharacter(string characters) {
+	this->characters = characters;
+
 }
 DoubleByteCharacter::DoubleByteCharacter(const DoubleByteCharacter& source) {
-	this->characters[0] = source.characters[0];
-	this->characters[1] = source.characters[1];
-	this->characters[2] = '\0';
+	this->characters = source.characters;
 }
 DoubleByteCharacter::~DoubleByteCharacter() {
 }
-TextComponent* DoubleByteCharacter::Clone() {
+TextComponent* DoubleByteCharacter::Clone() const {
 	return new DoubleByteCharacter(*this);
 }
 DoubleByteCharacter& DoubleByteCharacter::operator=(const DoubleByteCharacter& source) {
-	this->characters[0] = source.characters[0];
-	this->characters[1] = source.characters[1];
-	this->characters[2] = '\0';
+	this->characters = source.characters;
+	
 	return *this;
 }
-
-#include <iostream>
-using namespace std; 
-int main(int argc, char *argv[]) {
-	Character* a = new DoubleByteCharacter("±è");
-	cout << static_cast<DoubleByteCharacter*>(a)->GetCharacters() << endl;
+string DoubleByteCharacter::GetCharacter() {
+	return this->characters;
 }
+//
+//#include <iostream>
+//using namespace std; 
+//int main(int argc, char *argv[]) {
+//	Character* a = new DoubleByteCharacter("±è");
+//	cout << static_cast<DoubleByteCharacter*>(a)->GetCharacters() << endl;
+//}

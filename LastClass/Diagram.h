@@ -8,8 +8,8 @@
 class Diagram : public FigureComposite {
 public:
 	Diagram(Long capacity = 256);
-	virtual ~Diagram();
 	Diagram(const Diagram& source);
+	virtual ~Diagram();
 
 	Diagram& operator = (const Diagram& source);
 
@@ -17,7 +17,7 @@ public:
 	Long Add(Long x, Long y, Long width, Long height);
 	Long Remove(Long index);
 	Class* GetAt(Long index);
-	Figure* Clone();
+	Figure* Clone() const;
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 
 	Long GetCapacity() const;

@@ -2,7 +2,7 @@
 
 #include "Diagram.h"
 
-Diagram::Diagram(Long capacity){
+Diagram::Diagram(Long capacity) {
 	this->capacity = capacity;
 	this->length = 0;
 	this->x = 0;
@@ -85,7 +85,7 @@ Class* Diagram::GetAt(Long index) {
 	return static_cast<Class*>(this->figures.GetAt(index));
 }
 
-Figure* Diagram::Clone() {
+Figure* Diagram::Clone() const {
 	return new Diagram(*this);
 }
 

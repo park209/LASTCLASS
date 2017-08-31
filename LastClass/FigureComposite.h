@@ -13,7 +13,7 @@ public:
 	FigureComposite(Long capcity = 1024);
 	FigureComposite(const FigureComposite& source);
 	virtual ~FigureComposite() = 0;
-	virtual Figure* Clone() = 0;
+	virtual Figure* Clone() const = 0;
 	virtual void Accept(Visitor& visitor, CDC *cPaintDc) = 0;
 
     virtual	Long Add(Figure *figure) = 0;

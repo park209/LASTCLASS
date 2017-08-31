@@ -14,7 +14,7 @@ public:
 
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 	Line& operator = (const Line& source);
-	Figure* Clone();
+	Figure* Clone() const;
 };
 
 #endif // _LINE_H

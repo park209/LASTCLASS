@@ -15,7 +15,7 @@ public:
 	virtual ~Figure() = 0;
 
 	virtual void Accept(Visitor& visitor, CDC *cPaintDc) = 0;
-	virtual Figure* Clone() = 0;
+	virtual Figure* Clone() const = 0;
 
 	Long GetX() const;
 	Long GetY() const;

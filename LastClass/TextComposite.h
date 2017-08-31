@@ -13,7 +13,7 @@ class TextComposite : public TextComponent {
 public:
 	TextComposite(Long capacity = 128);
 	TextComposite(const TextComposite& source);
-	virtual Long Add(Character *character) = 0;
+	virtual Long Add(TextComponent *textComponent) = 0;
 	//virtual Long Remove(Long index) = 0;
 	virtual TextComponent* GetAt(Long index) = 0;
 	virtual TextComponent* Clone() const = 0;

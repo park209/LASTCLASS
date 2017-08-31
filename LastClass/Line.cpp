@@ -35,7 +35,7 @@ Line& Line::operator = (const Line& source) {
 	return *this;
 }
 
-Figure* Line::Clone() {
+Figure* Line::Clone() const {
 	return new Line(*this);
 }
 

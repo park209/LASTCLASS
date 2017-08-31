@@ -48,9 +48,6 @@
     <ClCompile Include="DrawingVisitor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Row.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="SingleByteCharacter.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -61,6 +58,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Visitor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Row.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -120,6 +123,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Visitor.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

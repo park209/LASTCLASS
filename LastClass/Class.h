@@ -17,7 +17,7 @@ public:
 	Long Add(Figure *figure);
 	Long Remove(Long index);
 	Figure* GetAt(Long index);
-	Figure* Clone();
+	Figure* Clone() const;
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 
 	Long GetCapacity() const;

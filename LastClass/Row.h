@@ -15,6 +15,7 @@ public:
 	virtual ~Row();
 
 	Long Add(Character *character);
+	Long Add(TextComponent *textComponent);
 	Character* GetAt(Long index);
 
 	TextComponent* Clone() const;

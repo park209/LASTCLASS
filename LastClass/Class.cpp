@@ -95,7 +95,7 @@ Figure* Class::GetAt(Long index) {
 	return this->figures.GetAt(index);
 }
 
-Figure* Class::Clone() {
+Figure* Class::Clone() const{
 	return new Class(*this);
 }
 
