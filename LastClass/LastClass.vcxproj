@@ -36,6 +36,7 @@
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextComposite.cpp" />
     <ClCompile Include="Visitor.cpp" />
+    <ClCompile Include="WritingVisitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h" />
@@ -58,6 +59,7 @@
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TextComposite.h" />
     <ClInclude Include="Visitor.h" />
+    <ClInclude Include="WritingVisitor.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
