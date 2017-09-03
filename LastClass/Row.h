@@ -19,6 +19,8 @@ public:
 	Character* GetAt(Long index);
 
 	TextComponent* Clone() const;
+	void PrintCharacter(SmartPointer<TextComponent*>& index);
+	void Accept(Visitor& visitor, CDC* cPaintDc);
 
 	Row& operator = (const Row& source);
 	Character* operator [] (Long index);

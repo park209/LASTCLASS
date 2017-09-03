@@ -4,6 +4,7 @@
 #define _TEXT_H
 
 #include "Row.h"
+
 typedef signed long int Long;
 
 class Text : public TextComposite {
@@ -17,6 +18,8 @@ public:
 	Row* GetAt(Long index);
 
 	TextComponent* Clone() const;
+	void PrintRow(SmartPointer<TextComponent*>& index);
+	void Accept(Visitor& visitor, CDC* cPaintDc);
 
 	Long GetCapacity() const;
 	Long GetLength() const;

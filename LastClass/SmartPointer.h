@@ -1,7 +1,9 @@
 //SmartPointer.h
 #ifndef _SMARTPOINTER_H
 #define _SMARTPOINTER_H
+
 #include "Iterator.h"
+
 template<typename T>
 class SmartPointer {
 public:
@@ -15,6 +17,7 @@ private:
 private:
 	Iterator<T>* index;
 };
+
 template<typename T>
 SmartPointer<T>::SmartPointer(Iterator<T>* index) :index(index) {
 }

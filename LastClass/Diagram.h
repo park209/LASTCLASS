@@ -12,12 +12,15 @@ public:
 	virtual ~Diagram();
 
 	Diagram& operator = (const Diagram& source);
+	Figure* operator [] (Long index);
 
 	Long Add(Figure *figure);
 	Long Add(Long x, Long y, Long width, Long height);
 	Long Remove(Long index);
 	Class* GetAt(Long index);
+
 	Figure* Clone() const;
+	void PrintClass(SmartPointer<Figure*>& index);
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 
 	Long GetCapacity() const;
@@ -31,4 +34,4 @@ inline Long Diagram::GetLength() const {
 	return this->length;
 }
 
-#endif //_DIAGRAM_H
+#endif // _DIAGRAM_H

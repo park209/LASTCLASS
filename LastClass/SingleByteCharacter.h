@@ -1,25 +1,46 @@
 #pragma once
 #ifndef _SINGLEBYTECHARACTER_H
 #define _SINGLEBYTECHARACTER_H
+
 #include "Character.h"
-#include <string>
-using namespace std;
+
+typedef signed long int Long;
 
 class SingleByteCharacter :public Character {
 public:
 	SingleByteCharacter();
-	SingleByteCharacter(string characters);
+	SingleByteCharacter(char character, Long characterIndex, Long x, Long y);
 	SingleByteCharacter(const SingleByteCharacter& source);
 	 ~SingleByteCharacter();
+
 	virtual Character* Clone() const ;
+	virtual void Accept(Visitor& visitor, CDC* cPaintDc);
+
 	SingleByteCharacter& operator=(const SingleByteCharacter& sourcce);
-	//string GetCharacter()const;
-	string GetCharacter();
+
+	char GetCharacter() const;
+	Long GetCharacterIndex() const;
+	Long GetX() const;
+	Long GetY() const;
 private:
-	string characters;
+	char character;
+	Long characterIndex;
+	Long x;
+	Long y;
 };
 
-//	return const_cast<string>(this->character);
-//}
-#endif // !_SINGLEBYTECHARACTER_H
+inline char SingleByteCharacter::GetCharacter() const {
+	return this->character;
+}
+inline Long SingleByteCharacter::GetCharacterIndex() const {
+	return this->characterIndex;
+}
+inline Long SingleByteCharacter::GetX() const {
+	return this->x;
+}
+inline Long SingleByteCharacter::GetY() const {
+	return this->y;
+}
+
+#endif // _SINGLEBYTECHARACTER_H
 

@@ -38,6 +38,10 @@ TextComposite& TextComposite::operator = (const TextComposite& source) {
 	return *this;
 }
 
+ArrayIterator<TextComponent*>* TextComposite::CreateIterator() const {
+	return new ArrayIterator<TextComponent*>(&this->textComponents);
+}
+
 //
 //int main(int argc, char* argv[]) {
 //

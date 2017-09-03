@@ -1,4 +1,5 @@
 //Itrator.h
+
 #ifndef _ITERATOR_H
 #define _ITERATOR_H
 
@@ -12,8 +13,9 @@ public:
 protected:
 	Iterator();
 };
+
 template<typename T>
 Iterator<T>::Iterator() {
-
 }
+
 #endif // _ITERATOR_H

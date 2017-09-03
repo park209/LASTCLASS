@@ -1,7 +1,10 @@
 //Line.h
+
 #ifndef _LINE_H
 #define _LINE_H
+
 #include "Figure.h"
+#include "DrawingVisitor.h"
 
 typedef signed long int Long;
 
@@ -12,8 +15,9 @@ public:
 	Line(const Line& source);
 	virtual ~Line();
 
-	void Accept(Visitor& visitor, CDC *cPaintDc);
 	Line& operator = (const Line& source);
+
+	void Accept(Visitor& visitor, CDC *cPaintDc);
 	Figure* Clone() const;
 };
 

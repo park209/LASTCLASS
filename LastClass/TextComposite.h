@@ -5,6 +5,8 @@
 
 #include "TextComponent.h"
 #include "Array.h"
+#include "ArrayIterator.h"
+#include "SmartPointer.h"
 
 typedef signed long int Long;
 
@@ -13,11 +15,14 @@ class TextComposite : public TextComponent {
 public:
 	TextComposite(Long capacity = 128);
 	TextComposite(const TextComposite& source);
+	virtual ~TextComposite() = 0;
+
 	virtual Long Add(TextComponent *textComponent) = 0;
 	//virtual Long Remove(Long index) = 0;
 	virtual TextComponent* GetAt(Long index) = 0;
+
 	virtual TextComponent* Clone() const = 0;
-	virtual ~TextComposite() = 0;
+	ArrayIterator<TextComponent*>* CreateIterator() const;
 
 	TextComposite& operator = (const TextComposite& source);
 	Long GetCapacity() const;

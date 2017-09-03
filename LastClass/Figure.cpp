@@ -8,12 +8,12 @@ Figure::Figure() {
 	this->height = 0;
 }
 
-Figure::Figure(Long x, Long y, Long width, Long height) {
-	this->x = x;
-	this->y = y;
-	this->width = width;
-	this->height = height;
-}
+//Figure::Figure(Long x, Long y, Long width, Long height) {
+//	this->x = x;
+//	this->y = y;
+//	this->width = width;
+//	this->height = height;
+//}
 
 Figure::Figure(const Figure& source) {
 	this->x = source.x;
@@ -34,4 +34,7 @@ Figure& Figure::operator = (const Figure& source) {
 Figure::~Figure() {
 }
 
-
+//int main(int argc, char* argv[]) {
+//
+//	return 0;
+//}
