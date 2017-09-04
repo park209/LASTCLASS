@@ -8,12 +8,10 @@ typedef signed long int Long;
 class Figure {
 public:
 	Figure();
-	//Figure(Long x, Long y, Long width, Long height);
 	Figure(const Figure& source);
-	Figure& operator = (const Figure& source);
+	//virtual Figure& operator = (const Figure& source) = 0;
 	virtual ~Figure() = 0;
 
-	//virtual void Accept(Visitor& visitor) = 0;// , CDC *cPaintDc) = 0;
 	virtual Figure* Clone() const = 0;
 
 	Long GetX() const;

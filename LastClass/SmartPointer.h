@@ -26,11 +26,11 @@ SmartPointer<T>::~SmartPointer() {
 	delete index;
 }
 template<typename T>
-Iterator<T>* SmartPointer<T>::operator ->(){
+Iterator<T>* SmartPointer<T>::operator -> (){
 	return index;
 }
 template<typename T>
-Iterator<T>& SmartPointer<T>::operator* () {
+Iterator<T>& SmartPointer<T>::operator * () {
 	return *index;
 }
 

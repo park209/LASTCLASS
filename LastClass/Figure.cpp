@@ -16,20 +16,20 @@ Figure::Figure() {
 //}
 
 Figure::Figure(const Figure& source) {
-	this->x = source.x;
+	/*this->x = source.x;
 	this->y = source.y;
 	this->width = source.width;
-	this->height = source.height;
+	this->height = source.height;*/
 }
 
-Figure& Figure::operator = (const Figure& source) {
-	this->x = source.x;
-	this->y = source.y;
-	this->width = source.width;
-	this->height = source.height;
-	
-	return *this;
-}
+//Figure& Figure::operator = (const Figure& source) {
+//	this->x = source.x;
+//	this->y = source.y;
+//	this->width = source.width;
+//	this->height = source.height;
+//	
+//	return *this;
+//}
 
 Figure::~Figure() {
 }

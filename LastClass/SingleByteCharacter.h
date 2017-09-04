@@ -13,8 +13,9 @@ public:
 	SingleByteCharacter(const SingleByteCharacter& source);
 	 ~SingleByteCharacter();
 
-	virtual Character* Clone() const ;
+	virtual Character* Clone() const;
 	virtual void Accept(Visitor& visitor, CDC* cPaintDc);
+	virtual CString MakeCString() const;
 
 	SingleByteCharacter& operator=(const SingleByteCharacter& sourcce);
 

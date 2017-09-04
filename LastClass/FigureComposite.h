@@ -19,12 +19,12 @@ public:
 	virtual Figure* Clone() const = 0;
 	ArrayIterator<Figure*>* CreateIterator() const;
 
-    virtual	Long Add(Figure *figure) = 0; //2개가 좋을듯
+    virtual	Long Add(Figure *figure) = 0;
 	virtual Long Add(Long x, Long y, Long width, Long height) = 0;
 	virtual Long Remove(Long index) = 0;
 	virtual Figure* GetAt(Long index) = 0;
 
-	FigureComposite& operator = (const FigureComposite& source);
+	//virtual FigureComposite& operator = (const FigureComposite& source) = 0;
 
 protected:
 	Array<Figure*> figures;

@@ -35,7 +35,7 @@
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextComposite.cpp" />
-    <ClCompile Include="Visitor.cpp" />
+    <ClCompile Include="TextEdit.cpp" />
     <ClCompile Include="WritingVisitor.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -52,12 +52,14 @@
     <ClInclude Include="FigureComposite.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="Line.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="SingleByteCharacter.h" />
     <ClInclude Include="SmartPointer.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TextComposite.h" />
+    <ClInclude Include="TextEdit.h" />
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="WritingVisitor.h" />
   </ItemGroup>

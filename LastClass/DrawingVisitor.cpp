@@ -19,6 +19,7 @@ void DrawingVisitor::Visit(Class *object, CDC* cPaintDc) {
 	
 	cPaintDc->Rectangle(x, y, x + width, y + height);
 }
+
 void DrawingVisitor::Visit(Line *line, CDC* cPaintDc) {
 	Long x = line->GetX();
 	Long  y = line->GetY();;

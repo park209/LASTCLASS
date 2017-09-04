@@ -1,15 +1,16 @@
 //ClassDiagramForm.cpp
 
 #include "ClassDiagramForm.h"
-//#include "Figure.h"
 #include "Diagram.h"
 #include "DrawingVisitor.h"
 #include "Text.h"
 #include "SingleByteCharacter.h"
 #include "WritingVisitor.h"
+#include "TextEdit.h"
 
 #include <iostream>
 #include <fstream>
+#include <imm.h>
 
 using namespace std;
 
@@ -133,16 +134,10 @@ void ClassDiagramForm::OnPaint() {
 	this->diagram->Accept(drawingVisitor,&dc);
 
 	this->text->Accept(writingVisitor, &dc);
-
-	/*char testChar ='a'; //text 출력확인용 코드들
-	CString cs(testChar);
-	char testChar1 = 'b';
-	cs.AppendChar(testChar1); // string 뒤에 char 추가 함수
-	dc.TextOut(100, 100, cs);*/
 }
 
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
-	char nCharacter = nChar;
+	/*char nCharacter = nChar;
 
 	if (this->text->GetLength() == 0) {
 		Row newRow;
@@ -151,9 +146,8 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	SingleByteCharacter singleByteCharacter(nCharacter, this->text->GetAt(this->rowIndex)->GetLength(), this->startX+10, this->startY+5);
 	this->startX += 10;
 	this->text->GetAt(this->rowIndex)->Add(singleByteCharacter.Clone());
-	//엔터누르거나(rowIndex+1) 다른 text로 이동하면 rowIndex 바뀌게 해야할듯
 
-	Invalidate();
+	Invalidate();*/
 }
 
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
@@ -183,10 +177,10 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, (this->startY + 30 + this->currentY) / 2,
 		this->currentX - this->startX, (this->startY + 30 + this->currentY) / 2);
 
-	//클래스 이름, 캐럿 출력
-	//CreateSolidCaret(5, 20);
-	//SetCaretPos(CPoint(this->startX + 5, this->startY + 5));
-	//ShowCaret();
+	TextEdit *textEdit = new TextEdit(this, this->startX, this->startY, this->currentX-this->startX, 30);
+	textEdit->Create(NULL, "textEdit", WS_EX_TRANSPARENT, CRect(this->startX, this->startY+15, this->currentX, this->startY+20), NULL, NULL, WS_EX_TOPMOST);
+	textEdit->ShowWindow(SW_SHOW);
+	textEdit->UpdateWindow();
 
 	Invalidate();
 }
@@ -207,6 +201,7 @@ void ClassDiagramForm::OnClose() {
 	if (this->diagram != NULL) {
 		delete this->diagram;
 	}
+	
 	//6.3. 윈도우를 닫는다.
 	CFrameWnd::OnClose(); // 오버라이딩 코드재사용
 }
