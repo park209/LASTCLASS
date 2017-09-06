@@ -183,7 +183,6 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 			if (this->characterIndex <0){
 				this->characterIndex = 0;
 			}
-
 			break;
 		case VK_RIGHT:
 			this->characterIndex++;
