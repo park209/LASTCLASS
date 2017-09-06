@@ -165,7 +165,7 @@ Long Array<T>::AppendFromRear(T object) {
 
 template <typename T>
 Long Array<T>::Delete(Long index) {
-	T(*temp);
+	T(*temp) =0;
 	Long i = 0;
 	Long j = 0;
 	if (this->capacity > 1) {
@@ -199,7 +199,7 @@ Long Array<T>::Delete(Long index) {
 template <typename T>
 Long Array<T>::DeleteFromFront() {
 	Long index;
-	T(*temp);
+	T(*temp) = 0;
 	Long i = 1;
 	Long j = 0;
 	if (this->capacity > 1) {
@@ -227,7 +227,7 @@ Long Array<T>::DeleteFromFront() {
 template <typename T>
 Long Array<T>::DeleteFromRear() {
 	Long index;
-	T(*temp);
+	T(*temp) = 0;
 	Long i = 0;
 	if (this->capacity > 1) {
 		temp = new T[this->capacity - 1];
