@@ -1,37 +1,41 @@
 //Class.h
+
 #ifndef _CLASS_H
 #define _CLASS_H
 
-typedef signed long int Long;
-class Class {
+#include "FigureComposite.h"
+#include "Line.h"
+#include "Iterator.h"
+#include "SmartPointer.h"
+
+class Class : public FigureComposite {
 public:
-	Class();
-	Class(Long x, Long y, Long width, Long height);
+	Class(Long capacity = 4);  // 관리는 Line을 하고
+	Class(Long x, Long y, Long width, Long height); // 본인 그림(클래스다이어그램 기호)
 	Class(const Class& source);
+	virtual ~Class();
+
 	Class& operator = (const Class& source);
-	~Class();
-	Long GetX() const;
-	Long GetY() const;
-	Long GetWidth() const;
-	Long GetHeight() const;
-private:
-	Long x;
-	Long y;
-	Long width;
-	Long height;
+	Figure* operator [] (Long index);
+
+	Long Add(Long x, Long y, Long width, Long height);
+	Long Add(Figure *figure);
+	Long Remove(Long index);
+	Line* GetAt(Long index);
+
+	Figure* Clone() const;
+	void PrintLine(SmartPointer<Figure*>& index);
+	void Accept(Visitor& visitor, CDC *cPaintDc);
+
+	Long GetCapacity() const;
+	Long GetLength() const;
 };
-inline Long Class::GetX()const {
-	return this->x;
+
+inline Long Class::GetCapacity() const {
+	return this->capacity;
 }
-inline Long Class::GetY()const {
-	return this->y;
-}
-inline Long Class::GetWidth()const {
-	return this->width;
-}
-inline Long Class::GetHeight()const {
-	return this->height;
+inline Long Class::GetLength() const {
+	return this->length;
 }
 
-#endif // !_CLASS_H
-
+#endif //_CLASS_H

@@ -1,33 +1,37 @@
 //Diagram.h
-#ifndef DIAGRAM_H
-#define DIAGRAM_H
+
+#ifndef _DIAGRAM_H
+#define _DIAGRAM_H
 
 #include "Class.h"
-#include "Array.h"
 
-class Diagram {
+class Diagram : public FigureComposite {
 public:
 	Diagram(Long capacity = 256);
 	Diagram(const Diagram& source);
-	Long Add(Long x, Long y, Long width, Long height);
-	Class GetAt(Long index);
+	virtual ~Diagram();
 
 	Diagram& operator = (const Diagram& source);
-	Class& operator [](Long index);
+	Figure* operator [] (Long index);
 
-	Long GetCapacity()const;
-	Long GetLength()const;
+	Long Add(Figure *figure);
+	Long Add(Long x, Long y, Long width, Long height);
+	Long Remove(Long index);
+	Class* GetAt(Long index);
 
-	~Diagram();
-private:
-	Array<Class> classes;
-	Long capacity;
-	Long length;
+	Figure* Clone() const;
+	void PrintClass(SmartPointer<Figure*>& index);
+	void Accept(Visitor& visitor, CDC *cPaintDc);
+
+	Long GetCapacity() const;
+	Long GetLength() const;
 };
+
 inline Long Diagram::GetCapacity() const {
 	return this->capacity;
 }
 inline Long Diagram::GetLength() const {
 	return this->length;
 }
+
 #endif // _DIAGRAM_H

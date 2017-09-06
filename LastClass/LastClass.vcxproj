@@ -18,6 +18,53 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Array.cpp" />
+    <ClCompile Include="ArrayIterator.cpp" />
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Class.cpp" />
+    <ClCompile Include="ClassDiagramApp.cpp" />
+    <ClCompile Include="ClassDiagramForm.cpp" />
+    <ClCompile Include="Diagram.cpp" />
+    <ClCompile Include="DoubleByteCharacter.cpp" />
+    <ClCompile Include="DrawingVisitor.cpp" />
+    <ClCompile Include="Figure.cpp" />
+    <ClCompile Include="FigureComposite.cpp" />
+    <ClCompile Include="Line.cpp" />
+    <ClCompile Include="Row.cpp" />
+    <ClCompile Include="SingleByteCharacter.cpp" />
+    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="TextComponent.cpp" />
+    <ClCompile Include="TextComposite.cpp" />
+    <ClCompile Include="TextEdit.cpp" />
+    <ClCompile Include="Visitor.cpp" />
+    <ClCompile Include="WritingVisitor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Array.h" />
+    <ClInclude Include="ArrayIterator.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="Class.h" />
+    <ClInclude Include="ClassDiagramApp.h" />
+    <ClInclude Include="ClassDiagramForm.h" />
+    <ClInclude Include="Diagram.h" />
+    <ClInclude Include="DoubleByteCharacter.h" />
+    <ClInclude Include="DrawingVisitor.h" />
+    <ClInclude Include="Figure.h" />
+    <ClInclude Include="FigureComposite.h" />
+    <ClInclude Include="Iterator.h" />
+    <ClInclude Include="Line.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Row.h" />
+    <ClInclude Include="SingleByteCharacter.h" />
+    <ClInclude Include="SmartPointer.h" />
+    <ClInclude Include="Text.h" />
+    <ClInclude Include="TextComponent.h" />
+    <ClInclude Include="TextComposite.h" />
+    <ClInclude Include="TextEdit.h" />
+    <ClInclude Include="Visitor.h" />
+    <ClInclude Include="WritingVisitor.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{EE54C3EA-961D-4217-8B0F-44C954776CB5}</ProjectGuid>
@@ -91,10 +138,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -147,19 +196,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="Array.h" />
-    <ClInclude Include="Class.h" />
-    <ClInclude Include="ClassDiagramApp.h" />
-    <ClInclude Include="ClassDiagramForm.h" />
-    <ClInclude Include="Diagram.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Class.cpp" />
-    <ClCompile Include="ClassDiagramApp.cpp" />
-    <ClCompile Include="ClassDiagramForm.cpp" />
-    <ClCompile Include="Diagram.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
