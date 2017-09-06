@@ -47,6 +47,13 @@ Long Text::Add(TextComponent *textComponent) {
 	this->length++;
 	return index;
 }
+Long Text::Remove(Long index) {
+	index=this->textComponents.Delete(index);
+	this->length--;
+	this->capacity--;
+	return index;
+}
+
 
 Row* Text::GetAt(Long index) {
 	return dynamic_cast<Row*>(this->textComponents[index]);
@@ -75,6 +82,15 @@ void Text::Accept(Visitor& visitor, CDC* cPaintDc) {
 	}
 }
 
+Long Text::InsertRow(Long index) {
+	Row *row = new Row();
+	index = this->textComponents.Insert(index+1, row->Clone());
+	this->capacity++;
+	this->length++;
+
+	return index;
+}
+
 Row* Text::operator [] (Long index) {
 	return dynamic_cast<Row*>(this->textComponents[index]);
 }
@@ -92,7 +108,7 @@ Text& Text::operator = (const Text& source) {
 	return *this;
 }
 
-//
+
 //#include <iostream>
 //using namespace std;
 //

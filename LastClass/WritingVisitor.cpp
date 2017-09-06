@@ -2,6 +2,7 @@
 
 #include "WritingVisitor.h"
 #include "SingleByteCharacter.h"
+#include "DoubleByteCharacter.h"
 
 WritingVisitor::WritingVisitor() {
 }
@@ -21,13 +22,11 @@ using namespace std;
 void WritingVisitor::Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc) {
 	cout << "	Single Visit singleCharacter 적는다" << endl;
 	
-	/*char character;
-	character = singleByteCharacter->GetCharacter();
-	CString cs(character);*/
 	cPaintDc->TextOut(singleByteCharacter->GetX(), singleByteCharacter->GetY(), singleByteCharacter->MakeCString());
 }
 
 void WritingVisitor::Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc) {
 	cout << "	Double Visit doubleCharacter 적는다" << endl;
 
+	cPaintDc->TextOut(doubleByteCharacter->GetX(), doubleByteCharacter->GetY(), doubleByteCharacter->MakeCString());
 }

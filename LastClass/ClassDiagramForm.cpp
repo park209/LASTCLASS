@@ -3,14 +3,14 @@
 #include "ClassDiagramForm.h"
 #include "Diagram.h"
 #include "DrawingVisitor.h"
+
 #include "Text.h"
 #include "SingleByteCharacter.h"
 #include "WritingVisitor.h"
 #include "TextEdit.h"
 
 #include <iostream>
-#include <fstream>
-#include <imm.h>
+#include <fstream> //로드세이브
 
 using namespace std;
 
@@ -39,7 +39,7 @@ Long ClassDiagramForm::Save() {
    Long i = 0;
    Long j;
    ofstream fClass;
-   ofstream fLine; // 읽을때는 of
+   ofstream fLine; // 읽을때는 ofstream
 
    fClass.open("ClassSave.txt");
    fLine.open("LineSave.txt");
@@ -101,6 +101,40 @@ Long ClassDiagramForm::Load() {
 	return this->diagram->GetLength();
 }
 
+Long ClassDiagramForm::TextSave() {
+	Long i = 0;
+	string s;
+	ofstream fText;
+	fText.open("Text.txt");
+	if (fText.is_open()) {
+		while (i < this->text->GetLength()) {
+			s = this->text->GetAt(i)->PrintRowString();
+			fText << s;
+			i++;
+		}
+		fText.close();
+	}
+	return i;
+}
+
+Long ClassDiagramForm::TextLoad() {
+	Long i = 0;
+	ifstream fText;
+	char c;
+	Row row;
+	this->text->Add(row.Clone());
+	fText.open("Text.txt");
+	if (fText.is_open()) {
+
+		while (!fText.eof()) {
+			fText.get(c);
+			SingleByteCharacter single(c, i, 100 + i * 10, 100);
+			this->text->GetAt(0)->Add(single.Clone());
+			i++;
+		}
+	}
+	return i;
+}
 
 int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
@@ -111,6 +145,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 	//1.2. 적재한다
 	this->Load();
+	this->TextLoad();
 	//1.3. 윈도우를 갱신한다
 	Invalidate();
 
@@ -137,7 +172,7 @@ void ClassDiagramForm::OnPaint() {
 }
 
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
-	/*char nCharacter = nChar;
+	char nCharacter = nChar;
 
 	if (this->text->GetLength() == 0) {
 		Row newRow;
@@ -147,7 +182,7 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->startX += 10;
 	this->text->GetAt(this->rowIndex)->Add(singleByteCharacter.Clone());
 
-	Invalidate();*/
+	//Invalidate();
 }
 
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
@@ -160,11 +195,11 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
-	if (this->currentX - this->startX < 120) {
-		this->currentX = this->startX + 120;
+	if (this->currentX - this->startX < 150) {
+		this->currentX = this->startX + 150;
 	}
-	if (this->currentY - this->startY< 150) {
-		this->currentY = this->startY + 150;
+	if (this->currentY - this->startY< 200) {
+		this->currentY = this->startY + 200;
 	}
 	Long index = this->diagram->Add(this->startX, this->startY, this->currentX - this->startX, this->currentY - this->startY);
 
@@ -172,13 +207,13 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	//끝나면서 Class 만든거에 Line 추가하는걸로 바꿈 2017.08.24
 
 	//첨자연산자 왜 안돼는지 //선 만듦
-	static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, this->startY + 30,
-		this->currentX - this->startX, this->startY + 30);
-	static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, (this->startY + 30 + this->currentY) / 2,
-		this->currentX - this->startX, (this->startY + 30 + this->currentY) / 2);
+	this->diagram->GetAt(index)->Add(this->startX, this->startY + 50,
+		this->currentX - this->startX, this->startY + 50);
+	static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, (this->startY + 50 + this->currentY) / 2,
+		this->currentX - this->startX, (this->startY + 50 + this->currentY) / 2);
 
-	TextEdit *textEdit = new TextEdit(this, this->startX, this->startY, this->currentX-this->startX, 30);
-	textEdit->Create(NULL, "textEdit", WS_EX_TRANSPARENT, CRect(this->startX, this->startY+15, this->currentX, this->startY+20), NULL, NULL, WS_EX_TOPMOST);
+	TextEdit *textEdit = new TextEdit(this, this->startX, this->startY, this->currentX-this->startX, 15);
+	textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(textEdit->GetX()+5, textEdit->GetY()+35, this->currentX, 15), NULL, NULL, WS_EX_TOPMOST);
 	textEdit->ShowWindow(SW_SHOW);
 	textEdit->UpdateWindow();
 
@@ -193,17 +228,18 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	}
 }
 
-
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
 	this->Save();
+	//this->TextSave();
 	//6.2. 다이어그램을 지운다.
 	if (this->diagram != NULL) {
 		delete this->diagram;
 	}
-	
-	//6.3. 윈도우를 닫는다.
-	CFrameWnd::OnClose(); // 오버라이딩 코드재사용
+	if (this->text != NULL) {
+		delete this->text;
+	}
+	CFrameWnd::OnClose();
 }
 
 

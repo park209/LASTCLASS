@@ -18,6 +18,11 @@ public:
 public:
 	Long Save();
 	Long Load();
+	Long TextSave();
+	Long TextLoad();
+public:
+	Long GetRowIndex() const;
+	Long GetCharacterIndex() const;
 private:
 	Long startX;
 	Long startY;
@@ -35,5 +40,12 @@ protected:
 	afx_msg void OnClose();
 	DECLARE_MESSAGE_MAP()
 };
+
+inline Long ClassDiagramForm::GetRowIndex() const {
+	return this->rowIndex;
+}
+inline Long ClassDiagramForm::GetCharacterIndex() const {
+	return this->characterIndex;
+}
 
 #endif // _CLASSDIAGRAM_H

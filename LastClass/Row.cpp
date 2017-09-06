@@ -49,6 +49,23 @@ Long Row::Add(Character *character) {
 	return index;
 }
 
+Long Row::Modify(Long index, TextComponent *textComponent) {
+	return this->textComponents.Modify(index, textComponent);
+}
+Long Row::Remove(Long index) {
+	index = this->textComponents.Delete(index);
+	this->length--;
+	this->capacity--;
+
+	return index;
+}
+
+Long Row::Insert(Long index, TextComponent *textComponent) {
+	this->length++;
+	this->capacity++;
+	return this->textComponents.Insert(index, textComponent);
+}
+
 Character* Row::GetAt(Long index) {
 	return static_cast<Character*>(this->textComponents[index]);
 }
@@ -69,6 +86,28 @@ void Row::PrintCharacter(SmartPointer<TextComponent*>& index) {
 			cout << "PrintCharacter Double È®ÀÎ" << endl;
 		}
 	}
+}
+
+string Row::PrintRowString() {
+	char tempChar[128];
+	Long i = 0;
+	Long j = 0;
+	while (i < this->GetLength()) { //row
+		if (dynamic_cast<SingleByteCharacter*>(this->GetAt(i))) { //character
+			tempChar[j] = dynamic_cast<SingleByteCharacter*>(this->GetAt(i))->GetCharacter();
+			j++;
+		}
+		else if (dynamic_cast<DoubleByteCharacter*>(this->GetAt(i))) {
+			tempChar[j] = dynamic_cast<DoubleByteCharacter*>(this->GetAt(i))->GetCharacters()[0];
+			j++;
+			tempChar[j] = dynamic_cast<DoubleByteCharacter*>(this->GetAt(i))->GetCharacters()[1];
+			j++;
+		}
+		i++;
+	}
+	tempChar[j] = '\0';
+	string tempString(tempChar);
+	return tempString;
 }
 
 void Row::Accept(Visitor& visitor, CDC* cPaintDc) {

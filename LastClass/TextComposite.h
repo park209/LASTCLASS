@@ -18,9 +18,8 @@ public:
 	virtual ~TextComposite() = 0;
 
 	virtual Long Add(TextComponent *textComponent) = 0;
-	//virtual Long Remove(Long index) = 0;
+	virtual Long Remove(Long index) = 0;
 	virtual TextComponent* GetAt(Long index) = 0;
-
 	virtual TextComponent* Clone() const = 0;
 	ArrayIterator<TextComponent*>* CreateIterator() const;
 

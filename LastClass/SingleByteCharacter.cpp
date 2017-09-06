@@ -55,5 +55,3 @@ SingleByteCharacter& SingleByteCharacter::operator = (const SingleByteCharacter&
 	
 	return *this;
 }
- 
-//메인확인완료

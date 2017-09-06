@@ -5,9 +5,6 @@
 
 #include "Visitor.h"
 
-class SingleByteCharacter;
-class DoubleByteCharacter;
-
 class WritingVisitor : public Visitor {
 public:
 	WritingVisitor();
