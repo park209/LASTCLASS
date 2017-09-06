@@ -17,7 +17,8 @@ public:
 	void Visit(Class *object, CDC* cPaintDc);
 	void Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc);
 	void Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc);
-	void Visit(Relation *relation);
+	void Visit(Generalization *generalization);
+	//void Visit(Relation *relation, CDC* cPaintDc);
 };
 
 #endif // _WRITINGVISITOR_H

@@ -11,7 +11,8 @@ class Diagram;
 class Class;
 class Line;
 class Relation;
-class Visitor {
+class Generalization;
+class Visitor{
 public:
 	virtual ~Visitor();
 
@@ -19,7 +20,7 @@ public:
 	virtual void Visit(Line *line, CDC* cPaintDc) = 0;
 	virtual void Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc) = 0;
 	virtual void Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc) = 0;
-	virtual void Visit(Relation *relation)=0; //0904추가	CDC* cPaintDc) 
+	virtual void Visit(Generalization *generalization) = 0;//, CDC* cPaintDc) = 0; //0904추가	CDC* cPaintDc) 
 protected:
 	Visitor();
 };

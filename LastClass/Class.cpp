@@ -87,7 +87,7 @@ Long Class::Add(Long x, Long y, Long width, Long height) {
 	this->length++;
 
 	return index;
-}
+}/*
 Long Class::Add(Long x, Long y, Long width, Long height, Type type) {
 	Long index;
 	Relation object(x, y, width, height, type);
@@ -103,7 +103,7 @@ Long Class::Add(Long x, Long y, Long width, Long height, Type type) {
 	this->length++;
 	return index;
 
-}
+}*/
 Long Class::Remove(Long index) {
 	return this->figures.Delete(index);
 }

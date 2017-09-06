@@ -9,6 +9,7 @@
 typedef signed long int Long;
 
 class Line : public Figure {
+
 public:
 	Line();
 	Line(Long x, Long y, Long width, Long height);

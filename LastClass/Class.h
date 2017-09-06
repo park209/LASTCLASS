@@ -20,7 +20,7 @@ public:
 	Figure* operator [] (Long index);
 
 	Long Add(Long x, Long y, Long width, Long height);
-	Long Add(Long x, Long y, Long width, Long height, Type type);	//0904추가
+	//Long Add(Long x, Long y, Long width, Long height, Type type);	//0904추가
 	Long Add(Figure *figure);
 	Long Remove(Long index);
 

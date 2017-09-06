@@ -18,6 +18,7 @@ public:
 public:
 	Long Save();
 	Long Load();
+	
 private:
 	Long startX;
 	Long startY;
@@ -28,6 +29,16 @@ private:
 	Long selected;
 	bool classButton;	//임시버튼
 	bool relationButton;	//임시버튼
+	bool generalizationButton; //일반화
+	bool realizationButton; //실체화
+	bool dependencyButton; //의존
+	bool associationButton; //연관화
+	bool directedAssociationButton; //직접연관
+	bool aggregationButton; // 집합
+	bool aggregationSButton; // 집합연관
+	bool compositionButton; // 합성
+	bool compositionSBtton; // 복합연관
+
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();

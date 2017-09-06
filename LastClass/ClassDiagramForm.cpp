@@ -36,6 +36,15 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->selected = -1;
 	this->classButton = false;
 	this->relationButton = true;
+	this->generalizationButton = false; //일반화
+	this->realizationButton = false; //실체화
+	this->dependencyButton = false; //의존
+	this->associationButton = false; //연관화
+	this->directedAssociationButton = false; //직접연관
+	this->aggregationButton = false; // 집합
+	this->aggregationSButton = true; // 집합연관
+	this->compositionButton = false; // 합성
+	this->compositionSBtton = false; // 복합연관
 }
 
 Long ClassDiagramForm::Save() {
@@ -132,124 +141,527 @@ void ClassDiagramForm::OnPaint() {
 	CPaintDC dc(this);
 
 	DrawingVisitor drawingVisitor;
-
 	WritingVisitor writingVisitor;
 
-	if (this->relationButton == false) {//&& this->relationButton == true //드래그 사각형
+	if (this->classButton == true) {//&& this->relationButton == true //드래그 사각형
 		CPen pen;
 		pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 		CPen *oldPen = dc.SelectObject(&pen);
 		dc.SetBkMode(TRANSPARENT);
-		dc.Rectangle(startX, startY, this->currentX, this->currentY);
+		dc.Rectangle(this->startX, this->startY, this->currentX, this->currentY);
 		dc.SelectObject(oldPen);
 		pen.DeleteObject();
 	}
-
-	if (this->relationButton == true) {
-		CPen pen;
-		pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-		CPen *oldPen = dc.SelectObject(&pen);
-		dc.SetBkMode(TRANSPARENT);
-		dc.MoveTo(startX, startY);
-		dc.LineTo(this->currentX, this->currentY);
-
-		//if (this->currentX > this->startX && this->currentY > this->startY) {
-		//float degree = atan2(static_cast<float>(this->currentY - this->startY), static_cast<float>(this->currentX - this->startX)) * 180 / 3.1415f;
-		////Long newX = this->currentX + (static_cast<Long>(cos(degree) * 50));
-		////Long newY = this->currentY + (static_cast<Long>(sin(degree) * 50));
-		//Long newX = this->currentX - 10 * cos(degree);
-		//Long newY = this->currentY - 20;
-		Long newX = this->currentX - 40;
-		Long newY = this->currentY;
-		//dc.Rectangle(newX, newY, newX + 50, newY + 50);
-		Long newX1 = this->currentX;
-		Long newY1 = this->currentY + 40;
-		CPoint pts[3];
-
 	
-	//	float degree = atan2(static_cast<float>(this->currentX - this->startX), static_cast<float>(this->currentY - this->startY)) * 180 / 3.1415f;
-	//
-/*		CPoint pts[4];
-		pts[0].x = this->currentX;
-		pts[0].y = this->currentY;
-		
-		pts[1].x = newX;
-		pts[1].y = newY;
-
-		//pts[2].x = newX1;
-		//pts[2].y = newY1;
-
-		
-		/*while (newY != newX1) {
-			newY--;;
-			newX1++;
-		}
-		Long newX2 = newY;
-		Long newY2 =newX1;
-
-
-		pts[2].x = newX2;
-		pts[2].y = newY2;
-		pts[3].x = newX2;
-		pts[3].y = newY2;
-		
-		dc.Polygon(pts, 3);
-		*/
-		
-		dc.SelectObject(oldPen);
-		pen.DeleteObject();
-	}
-	this->diagram->Accept(drawingVisitor,&dc);
+	this->diagram->Accept(drawingVisitor, &dc);
 
 	this->text->Accept(writingVisitor, &dc);
 
-	if (this->relationButton == true) {
-		CPen pen;
-		pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-		CPen *oldPen = dc.SelectObject(&pen);
-		dc.SetBkMode(TRANSPARENT);
-		dc.MoveTo(startX, startY);
-		dc.LineTo(this->currentX, this->currentY);
-		
-		dc.SelectObject(oldPen);
-		pen.DeleteObject();
+	if (this->relationButton == true && this->startX != this->currentX && this->startY != this->currentY) {
+
+		//일반화
+		if (this->generalizationButton == true) {
+
+			CPen pen;
+			//pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
+			CPen *oldPen = dc.SelectObject(&pen);
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(this->startX, this->startY);
+			dc.LineTo(this->currentX, this->currentY);
+
+			CBrush white(RGB(255, 255, 255));
+			CBrush black(RGB(000, 000, 000));
+			CBrush myBrush;
+			myBrush.CreateSolidBrush(RGB(255, 255, 255));
+			CBrush *oldBrush = dc.SelectObject(&myBrush);
+			CPoint pts[3];
+
+			double degree = atan2(this->currentX - this->startX, this->startY - this->currentY); // 기울기
+
+			double distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
+			// 루트안에 = 루트(제곱(
+			double dX = (this->currentX) - (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
+			double dY = (this->currentY) + (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
+
+			 // 수직 기울기
+
+			pts[0].x = (this->currentX); //마우스 현재위치 점
+			pts[0].y = (this->currentY);
+
+			pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
+			pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+			pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
+			pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+
+			dc.SelectObject(&white);
+			dc.Polygon(pts, 3);
+			dc.SelectObject(oldBrush);
+			myBrush.DeleteObject();
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+		}
+
+		//실체화
+		else if (this->realizationButton == true) {
+
+			CPen pen;
+			pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
+			CPen *oldPen = dc.SelectObject(&pen);
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(this->startX, this->startY);
+			dc.LineTo(this->currentX, this->currentY);
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+
+			CBrush white(RGB(255, 255, 255));
+			CBrush black(RGB(000, 000, 000));
+			CBrush myBrush;
+			myBrush.CreateSolidBrush(RGB(255, 255, 255));
+			CBrush *oldBrush = dc.SelectObject(&myBrush);
+			CPoint pts[3];
+
+			double degree = atan2(this->currentX - this->startX, this->startY - this->currentY); // 기울기
+
+			double distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
+			// 루트안에 = 루트(제곱(
+			double dX = (this->currentX) - (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
+			double dY = (this->currentY) + (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
+
+			 // 수직 기울기
+
+			pts[0].x = (this->currentX); //마우스 현재위치 점
+			pts[0].y = (this->currentY);
+
+			pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
+			pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+			pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
+			pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+
+			dc.SelectObject(&white);
+			dc.Polygon(pts, 3);
+			dc.SelectObject(oldBrush);
+			myBrush.DeleteObject();
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+		}
+
+		//연관화
+		else if (this->associationButton == true) {
+
+
+			CPen pen;
+
+			CPen *oldPen = dc.SelectObject(&pen);
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(this->startX, this->startY);
+			dc.LineTo(this->currentX, this->currentY);
+		}
+
+		//의존
+		else if (this->dependencyButton == true) {
+
+			CPen pen;
+			pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
+			CPen *oldPen = dc.SelectObject(&pen);
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(this->startX, this->startY);
+			dc.LineTo(this->currentX, this->currentY);
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+
+			CBrush white(RGB(255, 255, 255));
+			CBrush black(RGB(000, 000, 000));
+			CBrush myBrush;
+			myBrush.CreateSolidBrush(RGB(255, 255, 255));
+			CBrush *oldBrush = dc.SelectObject(&myBrush);
+			CPoint pts[3];
+
+			double degree = atan2(this->currentX - this->startX, this->startY - this->currentY); // 기울기
+
+			double distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
+			// 루트안에 = 루트(제곱(
+			double dX = (this->currentX) - (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
+			double dY = (this->currentY) + (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
+
+			 // 수직 기울기
+
+			pts[0].x = (this->currentX); //마우스 현재위치 점
+			pts[0].y = (this->currentY);
+
+			pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
+			pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+			pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
+			pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(pts[0].x, pts[0].y);
+			dc.LineTo(pts[1].x, pts[1].y);
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(pts[0].x, pts[0].y);
+			dc.LineTo(pts[2].x, pts[2].y);
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+		}
+
+		//직접 연관
+		else if (this->directedAssociationButton == true) {
+
+			CPen pen;
+
+			CPen *oldPen = dc.SelectObject(&pen);
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(this->startX, this->startY);
+			dc.LineTo(this->currentX, this->currentY);
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+
+			CBrush white(RGB(255, 255, 255));
+			CBrush black(RGB(000, 000, 000));
+			CBrush myBrush;
+			myBrush.CreateSolidBrush(RGB(255, 255, 255));
+			CBrush *oldBrush = dc.SelectObject(&myBrush);
+			CPoint pts[3];
+
+			double degree = atan2(this->currentX - this->startX, this->startY - this->currentY); // 기울기
+
+			double distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
+			// 루트안에 = 루트(제곱(
+			double dX = (this->currentX) - (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
+			double dY = (this->currentY) + (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
+
+			 // 수직 기울기
+
+			pts[0].x = (this->currentX); //마우스 현재위치 점
+			pts[0].y = (this->currentY);
+
+			pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
+			pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+			pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
+			pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(pts[0].x, pts[0].y);
+			dc.LineTo(pts[1].x, pts[1].y);
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(pts[0].x, pts[0].y);
+			dc.LineTo(pts[2].x, pts[2].y);
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+		}
+
+		//집합 연관
+		else if (this->aggregationSButton == true) {
+
+			CPen pen;
+
+			CPen *oldPen = dc.SelectObject(&pen);
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(this->startX, this->startY);
+			dc.LineTo(this->currentX, this->currentY);
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+
+			CBrush white(RGB(255, 255, 255));
+			CBrush black(RGB(000, 000, 000));
+			CBrush myBrush;
+			myBrush.CreateSolidBrush(RGB(255, 255, 255));
+			CBrush *oldBrush = dc.SelectObject(&myBrush);
+			CPoint pts[3];
+
+			double degree = atan2(this->currentX - this->startX, this->startY - this->currentY); // 기울기
+
+			double distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
+			// 루트안에 = 루트(제곱(
+			double dX = (this->currentX) - (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
+			double dY = (this->currentY) + (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
+
+			 // 수직 기울기
+
+			pts[0].x = (this->currentX); //마우스 현재위치 점
+			pts[0].y = (this->currentY);
+
+			pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
+			pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+			pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
+			pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(pts[0].x, pts[0].y);
+			dc.LineTo(pts[1].x, pts[1].y);
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(pts[0].x, pts[0].y);
+			dc.LineTo(pts[2].x, pts[2].y);
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+			//여기까지 화살표 다음부터 마름모
+			distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
+
+			dX = (this->startX) + (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
+
+
+
+			dY = (this->startY) - (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
+
+			double dX2 = (this->startX) - ((this->currentX - this->startX) / distance);
+
+			double dY2 = (this->startY) + ((this->startY - this->currentY) / distance);
+
+			CPoint pts2[4];
+			pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+			pts2[1].y = static_cast<LONG>(dY2);
+
+			pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
+			pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+			pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
+			pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+
+			pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(15 * (this->currentX - this->startX) / distance); // 윗점
+			pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(15 * (this->startY - this->currentY) / distance);
+
+			dc.SelectObject(&white);
+			dc.Polygon(pts2, 4);
+			dc.SelectObject(oldBrush);
+			myBrush.DeleteObject();
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+		}
+
+		//집합
+		else if (this->aggregationButton == true) {
+
+			CPen pen;
+
+			CPen *oldPen = dc.SelectObject(&pen);
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(this->startX, this->startY);
+			dc.LineTo(this->currentX, this->currentY);
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+
+			CBrush white(RGB(255, 255, 255));
+			CBrush black(RGB(000, 000, 000));
+			CBrush myBrush;
+			myBrush.CreateSolidBrush(RGB(255, 255, 255));
+			CBrush *oldBrush = dc.SelectObject(&myBrush);
+			CPoint pts[3];
+
+			double degree = atan2(this->currentX - this->startX, this->startY - this->currentY); // 기울기
+
+			double distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
+			// 루트안에 = 루트(제곱(
+			double dX = (this->currentX) - (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
+			double dY = (this->currentY) + (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
+
+			 // 수직 기울기
+
+			//여기까지 화살표 다음부터 마름모
+			distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
+
+			dX = (this->startX) + (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
+			dY = (this->startY) - (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
+
+			double dX2 = (this->startX) - ((this->currentX - this->startX) / distance);
+
+			double dY2 = (this->startY) + ((this->startY - this->currentY) / distance);
+
+			CPoint pts2[4];
+			pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+			pts2[1].y = static_cast<LONG>(dY2);
+
+			pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
+			pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+			pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
+			pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+
+			pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(15 * (this->currentX - this->startX) / distance); // 윗점
+			pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(15 * (this->startY - this->currentY) / distance);
+
+			dc.SelectObject(&white);
+			dc.Polygon(pts2, 4);
+			dc.SelectObject(oldBrush);
+			myBrush.DeleteObject();
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+		}
+
+		//합성
+		else if (this->compositionButton == true) {
+
+			CPen pen;
+
+			CPen *oldPen = dc.SelectObject(&pen);
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(this->startX, this->startY);
+			dc.LineTo(this->currentX, this->currentY);
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+
+			CBrush white(RGB(255, 255, 255));
+			CBrush black(RGB(000, 000, 000));
+			CBrush myBrush;
+			myBrush.CreateSolidBrush(RGB(255, 255, 255));
+			CBrush *oldBrush = dc.SelectObject(&myBrush);
+			CPoint pts[3];
+
+			double degree = atan2(this->currentX - this->startX, this->startY - this->currentY); // 기울기
+
+			double distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
+			// 루트안에 = 루트(제곱(
+			double dX = (this->currentX) - (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
+			double dY = (this->currentY) + (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
+
+																							  // 수직 기울기
+
+
+																							  //여기까지 화살표 다음부터 마름모
+			distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
+
+			dX = (this->startX) + (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
+			dY = (this->startY) - (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
+
+			double dX2 = (this->startX) - ((this->currentX - this->startX) / distance);
+
+			double dY2 = (this->startY) + ((this->startY - this->currentY) / distance);
+
+			CPoint pts2[4];
+			pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+			pts2[1].y = static_cast<LONG>(dY2);
+
+			pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
+			pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+			pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
+			pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+
+			pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(15 * (this->currentX - this->startX) / distance); // 윗점
+			pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(15 * (this->startY - this->currentY) / distance);
+
+			dc.SelectObject(&black);
+			dc.Polygon(pts2, 4);
+			dc.SelectObject(oldBrush);
+			myBrush.DeleteObject();
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+		}
+		//복합연관
+		else if (this->compositionSBtton == true) {
+
+			CPen pen;
+
+			CPen *oldPen = dc.SelectObject(&pen);
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(this->startX, this->startY);
+			dc.LineTo(this->currentX, this->currentY);
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+
+			CBrush white(RGB(255, 255, 255));
+			CBrush black(RGB(000, 000, 000));
+			CBrush myBrush;
+			myBrush.CreateSolidBrush(RGB(255, 255, 255));
+			CBrush *oldBrush = dc.SelectObject(&myBrush);
+			CPoint pts[3];
+
+			double degree = atan2(this->currentX - this->startX, this->startY - this->currentY); // 기울기
+
+			double distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
+			// 루트안에 = 루트(제곱(
+			double dX = (this->currentX) - (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
+			double dY = (this->currentY) + (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
+
+			 // 수직 기울기
+
+			pts[0].x = (this->currentX); //마우스 현재위치 점
+			pts[0].y = (this->currentY);
+
+			pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
+			pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+			pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
+			pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(pts[0].x, pts[0].y);
+			dc.LineTo(pts[1].x, pts[1].y);
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+
+			dc.SetBkMode(TRANSPARENT);
+			dc.MoveTo(pts[0].x, pts[0].y);
+			dc.LineTo(pts[2].x, pts[2].y);
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+			//여기까지 화살표 다음부터 마름모
+			distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
+
+			dX = (this->startX) + (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
+
+
+
+			dY = (this->startY) - (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
+
+			double dX2 = (this->startX) - ((this->currentX - this->startX) / distance);
+
+			double dY2 = (this->startY) + ((this->startY - this->currentY) / distance);
+
+			CPoint pts2[4];
+			pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+			pts2[1].y = static_cast<LONG>(dY2);
+
+			pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
+			pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+			pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
+			pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+
+			pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(15 * (this->currentX - this->startX) / distance); // 윗점
+			pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(15 * (this->startY - this->currentY) / distance);
+
+			dc.SelectObject(&black);
+			dc.Polygon(pts2, 4);
+			dc.SelectObject(oldBrush);
+			myBrush.DeleteObject();
+			dc.SelectObject(oldPen);
+			pen.DeleteObject();
+		}
 	}
-	
+
 	if (this->selected != -1) {
-		dc.Rectangle(this->diagram->GetAt(this->selected)->GetX() - 5, 
+		dc.Rectangle(this->diagram->GetAt(this->selected)->GetX() - 5,
 			this->diagram->GetAt(this->selected)->GetY() - 5,
-			this->diagram->GetAt(this->selected)->GetX() + 5, 
+			this->diagram->GetAt(this->selected)->GetX() + 5,
 			this->diagram->GetAt(this->selected)->GetY() + 5);
 		dc.Rectangle(this->diagram->GetAt(this->selected)->GetX() + this->diagram->GetAt(this->selected)->GetWidth() - 5,
-			this->diagram->GetAt(this->selected)->GetY() - 5, 
+			this->diagram->GetAt(this->selected)->GetY() - 5,
 			this->diagram->GetAt(this->selected)->GetX() + this->diagram->GetAt(this->selected)->GetWidth() + 5,
 			this->diagram->GetAt(this->selected)->GetY() + 5);
-		dc.Rectangle(this->diagram->GetAt(this->selected)->GetX() - 5, 
+		dc.Rectangle(this->diagram->GetAt(this->selected)->GetX() - 5,
 			this->diagram->GetAt(this->selected)->GetY() + this->diagram->GetAt(this->selected)->GetHeight() - 5,
-			this->diagram->GetAt(this->selected)->GetX() + 5, 
+			this->diagram->GetAt(this->selected)->GetX() + 5,
 			this->diagram->GetAt(this->selected)->GetY() + this->diagram->GetAt(this->selected)->GetHeight() + 5);
 		dc.Rectangle(this->diagram->GetAt(this->selected)->GetX() + this->diagram->GetAt(this->selected)->GetWidth() - 5,
 			this->diagram->GetAt(this->selected)->GetY() + this->diagram->GetAt(this->selected)->GetHeight() - 5,
 			this->diagram->GetAt(this->selected)->GetX() + this->diagram->GetAt(this->selected)->GetWidth() + 5,
 			this->diagram->GetAt(this->selected)->GetY() + this->diagram->GetAt(this->selected)->GetHeight() + 5);
 	}
-
-	//CPoint pts[3];
-	//CPoint point1(10, 10);
-	//CPoint point2(500, 500);
-	//CPoint point3(250, 400);
-	//pts[0] = point1;
-	//pts[1] = point2;
-	//[2] = point3;
-
-	//dc.Polygon(pts, 3);
 
 }
-	/*char testChar ='a'; //text 출력확인용 코드들
-	CString cs(testChar);
-	char testChar1 = 'b';
-	cs.AppendChar(testChar1); // string 뒤에 char 추가 함수
-	dc.TextOut(100, 100, cs);*/
 
 
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -273,9 +685,9 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 	this->selected=this->diagram->Find(this->currentX, this->currentY);
-	
-	Invalidate();
-	
+	//if (this->selected != -1 ) {
+		Invalidate();
+	//}
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
@@ -310,6 +722,8 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	if (this->relationButton == true) {
 
 	}
+	//this->relationButton = false;
+	//Invalidate();
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
@@ -364,3 +778,4 @@ void ClassDiagramForm::OnClose() {
 //	return 0;
 //}
 // 
+

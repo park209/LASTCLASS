@@ -32,5 +32,5 @@ void WritingVisitor::Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaint
 
 }
 
-void WritingVisitor::Visit(Relation *relation) {
+void WritingVisitor::Visit(Generalization *generalization){
 }

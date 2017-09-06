@@ -15,7 +15,7 @@ public:
 	void Visit(Line *line, CDC* cPaintDc);
 	void Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc);
 	void Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc);
-	void Visit(Relation *relation); //0904추가	CDC* cPaintDc
+	void Visit(Generalization *generalization);//, CDC* cPaintDc); //0904추가	CDC* cPaintDc
 };
 
 #endif // _DRAWINGVISITOR_H
