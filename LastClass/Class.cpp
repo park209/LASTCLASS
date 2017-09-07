@@ -1,6 +1,16 @@
 //Class.cpp
 
 #include "Class.h"
+#include "Generalization.h"
+#include "Realization.h"
+#include "Dependency.h"
+#include "Association.h"
+#include "DirectedAssociation.h"
+#include "Aggregation.h"
+#include "Aggregations.h"
+#include "Composition.h"
+#include "Compositions.h"
+//#include "Template.h"
 
 Class::Class(Long capacity) {
 	this->capacity = capacity;
@@ -12,7 +22,7 @@ Class::Class(Long capacity) {
 }
 
 Class::Class(Long x, Long y, Long width, Long height) {
-	this->capacity = 8;
+	this->capacity = 256;
 	this->length = 0;
 	this->x = x;
 	this->y = y;
@@ -87,10 +97,12 @@ Long Class::Add(Long x, Long y, Long width, Long height) {
 	this->length++;
 
 	return index;
-}/*
-Long Class::Add(Long x, Long y, Long width, Long height, Type type) {
+}
+
+
+Long Class::AddGeneralization(Long x, Long y, Long width, Long height) {
 	Long index;
-	Relation object(x, y, width, height, type);
+	Generalization object(x, y, width, height);
 
 	if (this->length < this->capacity) {
 		index = this->figures.Store(this->length, object.Clone());
@@ -99,11 +111,138 @@ Long Class::Add(Long x, Long y, Long width, Long height, Type type) {
 		index = this->figures.AppendFromRear(object.Clone());
 		this->capacity++;
 	}
-
 	this->length++;
-	return index;
 
-}*/
+	return index;
+}
+
+Long Class::AddRealization(Long x, Long y, Long width, Long height) {
+	Long index;
+	Realization object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddDependency(Long x, Long y, Long width, Long height) {
+	Long index;
+	Dependency object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddAssociation(Long x, Long y, Long width, Long height) {
+	Long index;
+	Association object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddDirectedAssociation(Long x, Long y, Long width, Long height) {
+	Long index;
+	DirectedAssociation object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddAggregation(Long x, Long y, Long width, Long height) {
+	Long index;
+	Aggregation object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddAggregations(Long x, Long y, Long width, Long height) {
+	Long index;
+	Aggregations object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddComposition(Long x, Long y, Long width, Long height) {
+	Long index;
+	Composition object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+Long Class::AddCompositions(Long x, Long y, Long width, Long height) {
+	Long index;
+	Compositions object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
 Long Class::Remove(Long index) {
 	return this->figures.Delete(index);
 }
@@ -129,9 +268,62 @@ void Class::PrintLine(SmartPointer<Figure*>& index) {
 void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 	cout << "Class Accept" << endl;
 	visitor.Visit(this, cPaintDc);
+
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
+
 	while (!smartPointer->IsDone()) {
-		static_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		if (dynamic_cast<Line*>(smartPointer->Current())){
+			dynamic_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		/*
+		else if (dynamic_cast<Template*>(smartPointer->Current())) {
+			dynamic_cast<Template*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+*/
+		else if (dynamic_cast<Generalization*>(smartPointer->Current())) {
+			dynamic_cast<Generalization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<Realization*>(smartPointer->Current())) {
+			dynamic_cast<Realization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+	
+
+		else if (dynamic_cast<Dependency*>(smartPointer->Current())) {
+			dynamic_cast<Dependency*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		
+
+		else if (dynamic_cast<Association*>(smartPointer->Current())) {
+			dynamic_cast<Association*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		
+
+		else if (dynamic_cast<DirectedAssociation*>(smartPointer->Current())) {
+			dynamic_cast<DirectedAssociation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		
+
+		else if (dynamic_cast<Aggregation*>(smartPointer->Current())) {
+			dynamic_cast<Aggregation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		
+
+		else if (dynamic_cast<Aggregations*>(smartPointer->Current())) {
+			dynamic_cast<Aggregations*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		
+
+		else if (dynamic_cast<Composition*>(smartPointer->Current())) {
+			dynamic_cast<Composition*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		
+		}
+
+		else if (dynamic_cast<Compositions*>(smartPointer->Current())) {
+			dynamic_cast<Compositions*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		
+		//static_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		smartPointer->Next();
 	}
 }

@@ -7,6 +7,16 @@
 #include "Text.h"
 #include "SingleByteCharacter.h"
 #include "WritingVisitor.h"
+#include "Template.h"
+#include "Generalization.h"
+#include "Realization.h"
+#include "Dependency.h"
+#include "Association.h"
+#include "DirectedAssociation.h"
+#include "Aggregation.h"
+#include "Aggregations.h"
+#include "Composition.h"
+#include "Compositions.h"
 #include <math.h>
 
 #include <iostream>
@@ -35,14 +45,14 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->characterIndex = 0;
 	this->selected = -1;
 	this->classButton = false;
-	this->relationButton = true;
+	this->relationButton = false;
 	this->generalizationButton = false; //일반화
 	this->realizationButton = false; //실체화
 	this->dependencyButton = false; //의존
-	this->associationButton = false; //연관화
+	this->associationButton = false; //연관화  
 	this->directedAssociationButton = false; //직접연관
 	this->aggregationButton = false; // 집합
-	this->aggregationSButton = true; // 집합연관
+	this->aggregationSButton = false; // 집합연관
 	this->compositionButton = false; // 합성
 	this->compositionSBtton = false; // 복합연관
 }
@@ -63,17 +73,88 @@ Long ClassDiagramForm::Save() {
             << " " << object.GetWidth() << " " << object.GetHeight() << endl;
          j = 0;
          while (j < object.GetLength()) {
-            Line *lineObject;
-			Relation *relationObject;
-			if(dynamic_cast<Line*>(object.GetAt(j))) {
-				lineObject = (dynamic_cast<Line*>(object.GetAt(j)));
-				fLine << lineObject->GetX() << " " << lineObject->GetY() << " " <<
-					lineObject->GetWidth() << " " << lineObject->GetHeight() << endl;
-			}
-			else if (dynamic_cast<Relation*>(object.GetAt(j))) {
-				relationObject = (dynamic_cast<Relation*>(object.GetAt(j)));
+			 Figure *figure;
+			 //종류 구별을 위한 마지막 칸 
+			 // 0 = Line, 1 = Template, 2 = Generalization(일반화), 3 = Realization(실체화), 4 = Dependency(의존), 5 = Association(연관화),
+			 // 6 = DirectedAssociation(직접연관),  7 = Aggregation(집합), 8 = Aggregations(집합연관), 9 =  Composition(합성), 10 = Compositions(복합연관)
+			 
+			 if (dynamic_cast<Line*>(object.GetAt(j))) {
+				 figure = object.GetAt(j);
+				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
+					 figure->GetWidth() << " " << figure->GetHeight() << " " << 0 << endl;
+			 }
 
-			}
+			 else if (dynamic_cast<Template*>(object.GetAt(j))) {
+				 figure = object.GetAt(j);
+				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
+					 figure->GetWidth() << " " << figure->GetHeight() << " " << 1 << endl;
+			 }
+
+			 else if (dynamic_cast<Generalization*>(object.GetAt(j))) {
+				 figure = object.GetAt(j);
+				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
+					 figure->GetWidth() << " " << figure->GetHeight() << " " << 2 << endl;
+			 }
+
+			 else if (dynamic_cast<Realization*>(object.GetAt(j))) {
+				 figure = object.GetAt(j);
+				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
+					 figure->GetWidth() << " " << figure->GetHeight() << " " << 3 << endl;
+			 }
+
+			 else if (dynamic_cast<Dependency*>(object.GetAt(j))) {
+				 figure = object.GetAt(j);
+				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
+					 figure->GetWidth() << " " << figure->GetHeight() << " " << 4 << endl;
+			 }
+
+			 else if (dynamic_cast<Association*>(object.GetAt(j))) {
+				 figure = object.GetAt(j);
+				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
+					 figure->GetWidth() << " " << figure->GetHeight() << " " << 5 << endl;
+			 }
+
+			 else if (dynamic_cast<DirectedAssociation*>(object.GetAt(j))) {
+				 figure = object.GetAt(j);
+				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
+					 figure->GetWidth() << " " << figure->GetHeight() << " " << 6 << endl;
+			 }
+
+			 else if (dynamic_cast<Aggregation*>(object.GetAt(j))) {
+				 figure = object.GetAt(j);
+				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
+					 figure->GetWidth() << " " << figure->GetHeight() << " " << 7 << endl;
+			 }
+
+			 else if (dynamic_cast<Aggregations*>(object.GetAt(j))) {
+				 figure = object.GetAt(j);
+				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
+					 figure->GetWidth() << " " << figure->GetHeight() << " " << 8 << endl;
+			 }
+
+			 else if (dynamic_cast<Composition*>(object.GetAt(j))) {
+				 figure = object.GetAt(j);
+				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
+					 figure->GetWidth() << " " << figure->GetHeight() << " " << 9 << endl;
+			 }
+
+			 else if (dynamic_cast<Compositions*>(object.GetAt(j))) {
+				 figure = object.GetAt(j);
+				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
+					 figure->GetWidth() << " " << figure->GetHeight() << " " << 10 << endl;
+			 }
+
+            //Line *lineObject;
+			//Relation *relationObject;
+			//if(dynamic_cast<Line*>(object.GetAt(j))) {
+			//	lineObject = (dynamic_cast<Line*>(object.GetAt(j)));
+			//	fLine << lineObject->GetX() << " " << lineObject->GetY() << " " <<
+			//		lineObject->GetWidth() << " " << lineObject->GetHeight() << endl;
+			//}
+			//else if (dynamic_cast<Relation*>(object.GetAt(j))) {
+			//	relationObject = (dynamic_cast<Relation*>(object.GetAt(j)));
+
+			//}
             j++;
          }
          i++;
@@ -95,9 +176,10 @@ Long ClassDiagramForm::Load() {
 	Long lineX;
 	Long lineY;
 	Long lineWidth;
-	Long lineHeigth;
+	Long lineHeight;
 	ifstream fClass;
 	ifstream fLine;
+	Long type;
 
 	fClass.open("ClassSave.txt");
 	fLine.open("LineSave.txt");
@@ -108,8 +190,41 @@ Long ClassDiagramForm::Load() {
 			position = this->diagram->Add(x, y, width, height);
 			i = 0;
 			while (i < length) {
-				fLine >> lineX >> lineY >> lineWidth >> lineHeigth;
-				static_cast<Class*>(this->diagram->GetAt(position))->Add(lineX, lineY, lineWidth, lineHeigth);
+				fLine >> lineX >> lineY >> lineWidth >> lineHeight >> type;
+				if (type == 0) {
+					this->diagram->GetAt(position)->Add(lineX, lineY, lineWidth, lineHeight);
+				}
+				else if (type == 1) {
+					//Template Add가 아직 없네
+				}
+				else if (type == 2) {
+					this->diagram->GetAt(position)->AddGeneralization(lineX, lineY, lineWidth, lineHeight);
+				}
+				else if (type == 3) {
+					this->diagram->GetAt(position)->AddRealization(lineX, lineY, lineWidth, lineHeight);
+				}
+				else if (type == 4) {
+					this->diagram->GetAt(position)->AddDependency(lineX, lineY, lineWidth, lineHeight);
+				}
+				else if (type == 5) {
+					this->diagram->GetAt(position)->AddAssociation(lineX, lineY, lineWidth, lineHeight);
+				}
+				else if (type == 6) {
+					this->diagram->GetAt(position)->AddDirectedAssociation(lineX, lineY, lineWidth, lineHeight);
+				}
+				else if (type == 7) {
+					this->diagram->GetAt(position)->AddAggregation(lineX, lineY, lineWidth, lineHeight);
+				}
+				else if (type == 8) {
+					this->diagram->GetAt(position)->AddAggregations(lineX, lineY, lineWidth, lineHeight);
+				}
+				else if (type == 9) {
+					this->diagram->GetAt(position)->AddComposition(lineX, lineY, lineWidth, lineHeight);
+				}
+				else if (type == 10) {
+					this->diagram->GetAt(position)->AddCompositions(lineX, lineY, lineWidth, lineHeight);
+				}
+				//static_cast<Class*>(this->diagram->GetAt(position))->Add(lineX, lineY, lineWidth, lineHeigth);
 				i++;
 			}
 			fClass >> length >> x >> y >> width >> height;
@@ -139,7 +254,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 void ClassDiagramForm::OnPaint() {
 	CPaintDC dc(this);
-
+	
 	DrawingVisitor drawingVisitor;
 	WritingVisitor writingVisitor;
 
@@ -162,19 +277,13 @@ void ClassDiagramForm::OnPaint() {
 		//일반화
 		if (this->generalizationButton == true) {
 
-			CPen pen;
-			//pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-			CPen *oldPen = dc.SelectObject(&pen);
-			dc.SetBkMode(TRANSPARENT);
 			dc.MoveTo(this->startX, this->startY);
 			dc.LineTo(this->currentX, this->currentY);
 
 			CBrush white(RGB(255, 255, 255));
-			CBrush black(RGB(000, 000, 000));
 			CBrush myBrush;
 			myBrush.CreateSolidBrush(RGB(255, 255, 255));
 			CBrush *oldBrush = dc.SelectObject(&myBrush);
-			CPoint pts[3];
 
 			double degree = atan2(this->currentX - this->startX, this->startY - this->currentY); // 기울기
 
@@ -184,6 +293,8 @@ void ClassDiagramForm::OnPaint() {
 			double dY = (this->currentY) + (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
 
 			 // 수직 기울기
+
+			CPoint pts[3];
 
 			pts[0].x = (this->currentX); //마우스 현재위치 점
 			pts[0].y = (this->currentY);
@@ -198,8 +309,6 @@ void ClassDiagramForm::OnPaint() {
 			dc.Polygon(pts, 3);
 			dc.SelectObject(oldBrush);
 			myBrush.DeleteObject();
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
 		}
 
 		//실체화
@@ -215,11 +324,9 @@ void ClassDiagramForm::OnPaint() {
 			pen.DeleteObject();
 
 			CBrush white(RGB(255, 255, 255));
-			CBrush black(RGB(000, 000, 000));
 			CBrush myBrush;
 			myBrush.CreateSolidBrush(RGB(255, 255, 255));
 			CBrush *oldBrush = dc.SelectObject(&myBrush);
-			CPoint pts[3];
 
 			double degree = atan2(this->currentX - this->startX, this->startY - this->currentY); // 기울기
 
@@ -229,6 +336,8 @@ void ClassDiagramForm::OnPaint() {
 			double dY = (this->currentY) + (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
 
 			 // 수직 기울기
+
+			CPoint pts[3];
 
 			pts[0].x = (this->currentX); //마우스 현재위치 점
 			pts[0].y = (this->currentY);
@@ -243,18 +352,11 @@ void ClassDiagramForm::OnPaint() {
 			dc.Polygon(pts, 3);
 			dc.SelectObject(oldBrush);
 			myBrush.DeleteObject();
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
 		}
 
 		//연관화
 		else if (this->associationButton == true) {
 
-
-			CPen pen;
-
-			CPen *oldPen = dc.SelectObject(&pen);
-			dc.SetBkMode(TRANSPARENT);
 			dc.MoveTo(this->startX, this->startY);
 			dc.LineTo(this->currentX, this->currentY);
 		}
@@ -271,13 +373,6 @@ void ClassDiagramForm::OnPaint() {
 			dc.SelectObject(oldPen);
 			pen.DeleteObject();
 
-			CBrush white(RGB(255, 255, 255));
-			CBrush black(RGB(000, 000, 000));
-			CBrush myBrush;
-			myBrush.CreateSolidBrush(RGB(255, 255, 255));
-			CBrush *oldBrush = dc.SelectObject(&myBrush);
-			CPoint pts[3];
-
 			double degree = atan2(this->currentX - this->startX, this->startY - this->currentY); // 기울기
 
 			double distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
@@ -286,6 +381,8 @@ void ClassDiagramForm::OnPaint() {
 			double dY = (this->currentY) + (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
 
 			 // 수직 기울기
+
+			CPoint pts[3];
 
 			pts[0].x = (this->currentX); //마우스 현재위치 점
 			pts[0].y = (this->currentY);
@@ -296,37 +393,18 @@ void ClassDiagramForm::OnPaint() {
 			pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
 			pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
 
-			dc.SetBkMode(TRANSPARENT);
 			dc.MoveTo(pts[0].x, pts[0].y);
 			dc.LineTo(pts[1].x, pts[1].y);
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
 
-			dc.SetBkMode(TRANSPARENT);
 			dc.MoveTo(pts[0].x, pts[0].y);
 			dc.LineTo(pts[2].x, pts[2].y);
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
 		}
 
 		//직접 연관
 		else if (this->directedAssociationButton == true) {
 
-			CPen pen;
-
-			CPen *oldPen = dc.SelectObject(&pen);
-			dc.SetBkMode(TRANSPARENT);
 			dc.MoveTo(this->startX, this->startY);
 			dc.LineTo(this->currentX, this->currentY);
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
-
-			CBrush white(RGB(255, 255, 255));
-			CBrush black(RGB(000, 000, 000));
-			CBrush myBrush;
-			myBrush.CreateSolidBrush(RGB(255, 255, 255));
-			CBrush *oldBrush = dc.SelectObject(&myBrush);
-			CPoint pts[3];
 
 			double degree = atan2(this->currentX - this->startX, this->startY - this->currentY); // 기울기
 
@@ -337,6 +415,8 @@ void ClassDiagramForm::OnPaint() {
 
 			 // 수직 기울기
 
+			CPoint pts[3];
+
 			pts[0].x = (this->currentX); //마우스 현재위치 점
 			pts[0].y = (this->currentY);
 
@@ -346,37 +426,23 @@ void ClassDiagramForm::OnPaint() {
 			pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
 			pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
 
-			dc.SetBkMode(TRANSPARENT);
 			dc.MoveTo(pts[0].x, pts[0].y);
 			dc.LineTo(pts[1].x, pts[1].y);
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
 
-			dc.SetBkMode(TRANSPARENT);
 			dc.MoveTo(pts[0].x, pts[0].y);
 			dc.LineTo(pts[2].x, pts[2].y);
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
 		}
 
 		//집합 연관
 		else if (this->aggregationSButton == true) {
 
-			CPen pen;
-
-			CPen *oldPen = dc.SelectObject(&pen);
-			dc.SetBkMode(TRANSPARENT);
 			dc.MoveTo(this->startX, this->startY);
 			dc.LineTo(this->currentX, this->currentY);
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
 
 			CBrush white(RGB(255, 255, 255));
-			CBrush black(RGB(000, 000, 000));
 			CBrush myBrush;
 			myBrush.CreateSolidBrush(RGB(255, 255, 255));
 			CBrush *oldBrush = dc.SelectObject(&myBrush);
-			CPoint pts[3];
 
 			double degree = atan2(this->currentX - this->startX, this->startY - this->currentY); // 기울기
 
@@ -387,6 +453,8 @@ void ClassDiagramForm::OnPaint() {
 
 			 // 수직 기울기
 
+			CPoint pts[3];
+
 			pts[0].x = (this->currentX); //마우스 현재위치 점
 			pts[0].y = (this->currentY);
 
@@ -396,36 +464,28 @@ void ClassDiagramForm::OnPaint() {
 			pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
 			pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
 
-			dc.SetBkMode(TRANSPARENT);
 			dc.MoveTo(pts[0].x, pts[0].y);
 			dc.LineTo(pts[1].x, pts[1].y);
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
 
-			dc.SetBkMode(TRANSPARENT);
 			dc.MoveTo(pts[0].x, pts[0].y);
 			dc.LineTo(pts[2].x, pts[2].y);
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
+
+
 			//여기까지 화살표 다음부터 마름모
-			distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
 
 			dX = (this->startX) + (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
-
-
-
 			dY = (this->startY) - (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
 
 			double dX2 = (this->startX) - ((this->currentX - this->startX) / distance);
-
 			double dY2 = (this->startY) + ((this->startY - this->currentY) / distance);
 
 			CPoint pts2[4];
-			pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
-			pts2[1].y = static_cast<LONG>(dY2);
 
 			pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
 			pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+			pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+			pts2[1].y = static_cast<LONG>(dY2);
 
 			pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
 			pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
@@ -437,54 +497,36 @@ void ClassDiagramForm::OnPaint() {
 			dc.Polygon(pts2, 4);
 			dc.SelectObject(oldBrush);
 			myBrush.DeleteObject();
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
 		}
 
 		//집합
 		else if (this->aggregationButton == true) {
 
-			CPen pen;
-
-			CPen *oldPen = dc.SelectObject(&pen);
-			dc.SetBkMode(TRANSPARENT);
 			dc.MoveTo(this->startX, this->startY);
 			dc.LineTo(this->currentX, this->currentY);
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
 
 			CBrush white(RGB(255, 255, 255));
-			CBrush black(RGB(000, 000, 000));
 			CBrush myBrush;
 			myBrush.CreateSolidBrush(RGB(255, 255, 255));
 			CBrush *oldBrush = dc.SelectObject(&myBrush);
-			CPoint pts[3];
 
 			double degree = atan2(this->currentX - this->startX, this->startY - this->currentY); // 기울기
 
 			double distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
-			// 루트안에 = 루트(제곱(
-			double dX = (this->currentX) - (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
-			double dY = (this->currentY) + (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
 
-			 // 수직 기울기
-
-			//여기까지 화살표 다음부터 마름모
-			distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
-
-			dX = (this->startX) + (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
-			dY = (this->startY) - (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
+			double dX = (this->startX) + (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
+			double dY = (this->startY) - (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
 
 			double dX2 = (this->startX) - ((this->currentX - this->startX) / distance);
-
 			double dY2 = (this->startY) + ((this->startY - this->currentY) / distance);
 
 			CPoint pts2[4];
-			pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
-			pts2[1].y = static_cast<LONG>(dY2);
 
 			pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
 			pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+			pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+			pts2[1].y = static_cast<LONG>(dY2);
 
 			pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
 			pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
@@ -496,55 +538,37 @@ void ClassDiagramForm::OnPaint() {
 			dc.Polygon(pts2, 4);
 			dc.SelectObject(oldBrush);
 			myBrush.DeleteObject();
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
 		}
 
 		//합성
 		else if (this->compositionButton == true) {
 
-			CPen pen;
-
-			CPen *oldPen = dc.SelectObject(&pen);
-			dc.SetBkMode(TRANSPARENT);
 			dc.MoveTo(this->startX, this->startY);
 			dc.LineTo(this->currentX, this->currentY);
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
 
-			CBrush white(RGB(255, 255, 255));
 			CBrush black(RGB(000, 000, 000));
 			CBrush myBrush;
 			myBrush.CreateSolidBrush(RGB(255, 255, 255));
 			CBrush *oldBrush = dc.SelectObject(&myBrush);
-			CPoint pts[3];
+
 
 			double degree = atan2(this->currentX - this->startX, this->startY - this->currentY); // 기울기
 
 			double distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
-			// 루트안에 = 루트(제곱(
-			double dX = (this->currentX) - (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
-			double dY = (this->currentY) + (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
 
-																							  // 수직 기울기
-
-
-																							  //여기까지 화살표 다음부터 마름모
-			distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
-
-			dX = (this->startX) + (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
-			dY = (this->startY) - (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
+			double dX = (this->startX) + (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
+			double dY = (this->startY) - (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
 
 			double dX2 = (this->startX) - ((this->currentX - this->startX) / distance);
-
 			double dY2 = (this->startY) + ((this->startY - this->currentY) / distance);
 
 			CPoint pts2[4];
-			pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
-			pts2[1].y = static_cast<LONG>(dY2);
 
 			pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
 			pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+			pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+			pts2[1].y = static_cast<LONG>(dY2);
 
 			pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
 			pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
@@ -556,27 +580,18 @@ void ClassDiagramForm::OnPaint() {
 			dc.Polygon(pts2, 4);
 			dc.SelectObject(oldBrush);
 			myBrush.DeleteObject();
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
 		}
+
 		//복합연관
 		else if (this->compositionSBtton == true) {
 
-			CPen pen;
-
-			CPen *oldPen = dc.SelectObject(&pen);
-			dc.SetBkMode(TRANSPARENT);
 			dc.MoveTo(this->startX, this->startY);
 			dc.LineTo(this->currentX, this->currentY);
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
 
-			CBrush white(RGB(255, 255, 255));
 			CBrush black(RGB(000, 000, 000));
 			CBrush myBrush;
 			myBrush.CreateSolidBrush(RGB(255, 255, 255));
 			CBrush *oldBrush = dc.SelectObject(&myBrush);
-			CPoint pts[3];
 
 			double degree = atan2(this->currentX - this->startX, this->startY - this->currentY); // 기울기
 
@@ -586,6 +601,7 @@ void ClassDiagramForm::OnPaint() {
 			double dY = (this->currentY) + (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
 
 			 // 수직 기울기
+			CPoint pts[3];
 
 			pts[0].x = (this->currentX); //마우스 현재위치 점
 			pts[0].y = (this->currentY);
@@ -596,36 +612,28 @@ void ClassDiagramForm::OnPaint() {
 			pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
 			pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
 
-			dc.SetBkMode(TRANSPARENT);
 			dc.MoveTo(pts[0].x, pts[0].y);
 			dc.LineTo(pts[1].x, pts[1].y);
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
 
-			dc.SetBkMode(TRANSPARENT);
 			dc.MoveTo(pts[0].x, pts[0].y);
 			dc.LineTo(pts[2].x, pts[2].y);
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
+
 			//여기까지 화살표 다음부터 마름모
 			distance = sqrt(pow(this->currentX - this->startX, 2) + pow(this->startY - this->currentY, 2));
 
 			dX = (this->startX) + (15 * (this->currentX - this->startX) / distance); //뒤로 온 기준점 x
-
-
-
 			dY = (this->startY) - (15 * (this->startY - this->currentY) / distance); //뒤로 온 기준점 y
 
 			double dX2 = (this->startX) - ((this->currentX - this->startX) / distance);
-
 			double dY2 = (this->startY) + ((this->startY - this->currentY) / distance);
 
 			CPoint pts2[4];
-			pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
-			pts2[1].y = static_cast<LONG>(dY2);
 
 			pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
 			pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+			pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+			pts2[1].y = static_cast<LONG>(dY2);
 
 			pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
 			pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
@@ -637,8 +645,6 @@ void ClassDiagramForm::OnPaint() {
 			dc.Polygon(pts2, 4);
 			dc.SelectObject(oldBrush);
 			myBrush.DeleteObject();
-			dc.SelectObject(oldPen);
-			pen.DeleteObject();
 		}
 	}
 
@@ -694,6 +700,42 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 	
+	if (this->generalizationButton == true) {
+		this->diagram->GetAt(0)->AddGeneralization(this->startX, this->startY, this->currentX, this->currentY);
+		Invalidate();
+	}
+	if (this->realizationButton == true) {
+		this->diagram->GetAt(0)->AddRealization(this->startX, this->startY, this->currentX, this->currentY);
+		Invalidate();
+	}
+	if (this->associationButton == true) {
+		this->diagram->GetAt(0)->AddAssociation(this->startX, this->startY, this->currentX, this->currentY);
+		Invalidate();
+	}
+	if (this->dependencyButton == true) {
+		this->diagram->GetAt(0)->AddDependency(this->startX, this->startY, this->currentX, this->currentY);
+		Invalidate();
+	}
+	if (this->directedAssociationButton == true) {
+		this->diagram->GetAt(0)->AddDirectedAssociation(this->startX, this->startY, this->currentX, this->currentY);
+		Invalidate();
+	}
+	if (this->aggregationButton == true) {
+		this->diagram->GetAt(0)->AddAggregation(this->startX, this->startY, this->currentX, this->currentY);
+		Invalidate();
+	}
+	if (this->aggregationSButton == true) {
+		this->diagram->GetAt(0)->AddAggregations(this->startX, this->startY, this->currentX, this->currentY);
+		Invalidate();
+	}
+	if (this->compositionButton == true) {
+		this->diagram->GetAt(0)->AddComposition(this->startX, this->startY, this->currentX, this->currentY);
+		Invalidate();
+	}
+	if (this->compositionSBtton == true) {
+		this->diagram->GetAt(0)->AddCompositions(this->startX, this->startY, this->currentX, this->currentY);
+		Invalidate();
+	}
 	if (this->classButton == true) {
 		if (this->currentX - this->startX < 120) {
 			this->currentX = this->startX + 120;
@@ -719,9 +761,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 
 		Invalidate();
 	}
-	if (this->relationButton == true) {
 
-	}
 	//this->relationButton = false;
 	//Invalidate();
 }

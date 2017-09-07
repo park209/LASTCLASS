@@ -34,39 +34,11 @@ Generalization& Generalization::operator=(const Generalization& source) {
 	return *this;
 }
 
-void Generalization::Accept(Visitor& visitor ){//, CDC *cPaintDc) {
-	visitor.Visit(this);//, cPaintDc);
+void Generalization::Accept(Visitor& visitor, CDC *cPaintDc) {
+	visitor.Visit(this, cPaintDc);//, cPaintDc);
 }
 
 Figure* Generalization::Clone() const {
 	return new Generalization(*this);
 }
 
-#include <iostream>
-using namespace std;
-
-int main(int argc, char *argv[]) {
-	Generalization generalization(20,30,40,50);
-
-	Generalization generalization1(100, 100, 200, 300);
-
-	DrawingVisitor drawingVisitor;
-
-	Generalization generalization2(generalization1);
-
-	generalization.Accept(drawingVisitor);
-
-	generalization1.Accept(drawingVisitor);
-
-	generalization2.Accept(drawingVisitor);
-
-	generalization1 = generalization;
-
-	generalization1.Accept(drawingVisitor);
-
-	Figure *figure = generalization2.Clone();
-
-	static_cast<Generalization*>(figure)->Accept(drawingVisitor);
-
-	return 0;
-}

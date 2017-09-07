@@ -32,5 +32,31 @@ void WritingVisitor::Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaint
 
 }
 
-void WritingVisitor::Visit(Generalization *generalization){
+void WritingVisitor::Visit(Generalization *generalization, CDC* cPaintDc){
+}
+
+void WritingVisitor::Visit(Realization *realization, CDC* cPaintDc) {
+}
+
+void WritingVisitor::Visit(Dependency *dependency, CDC* cPaintDc) {
+}
+
+void WritingVisitor::Visit(Association *association, CDC* cPaintDc) {
+}
+
+void WritingVisitor::Visit(DirectedAssociation *directedAssociation, CDC* cPaintDc) {
+}
+
+void WritingVisitor::Visit(Aggregation *aggregation, CDC* cPaintDc) {
+}
+
+void WritingVisitor::Visit(Aggregations *aggregations, CDC* cPaintDc) {
+}
+
+void WritingVisitor::Visit(Composition *composition, CDC* cPaintDc) {
+}
+
+void WritingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
+}
+void WritingVisitor::Visit(Template *object) {
 }
