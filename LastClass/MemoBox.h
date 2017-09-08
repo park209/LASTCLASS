@@ -7,13 +7,14 @@
 #include "Iterator.h"
 #include "SmartPointer.h"
 #include "FigureComposite.h"
-#include "Visitor.h"
+//#include "Visitor.h"
 #include <fstream>
 
 typedef signed long int Long;
 class MemoBox : public FigureComposite {
 public:
 	MemoBox(Long capacity = 256);
+	MemoBox(Long x, Long y, Long width, Long height);
 	MemoBox(const MemoBox& source);
 	virtual ~MemoBox();	// 
 
@@ -27,7 +28,7 @@ public:
 
 	Long GetCapacity() const;
 	Long GetLength() const;
-	void Accept(Visitor& visitor, CDC *cPaintDc);//CDC* CPointDc
+	//void Accept(Visitor& visitor, CDC *cPaintDc);//CDC* CPointDc
 		
 		 
 };

@@ -12,7 +12,14 @@ MemoBox::MemoBox(Long capacity) {
 	this->width = 0;
 	this->height = 0;
 }
-
+MemoBox::MemoBox(Long x, Long y, Long width, Long height) {
+	this->capacity = 256;
+	this->length = 0;
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
+}
 MemoBox::MemoBox(const MemoBox& source) {
 	this->figures = source.figures;
 	Long i = 0;
@@ -89,28 +96,57 @@ Long MemoBox::Add(Figure *figure) {
 	this->length++;
 	return  index;
 }
-
-void MemoBox::Accept (Visitor& visitor, CDC *cPaintDc) { //CDC* CPointDc
-	
-	visitor.Visit(this, cPaintDc);
-	SmartPointer<Figure*> smartPointer(this->CreateIterator());
-	while (!smartPointer->IsDone()) {
-		if (dynamic_cast<Association*>(smartPointer->Current())) {
-			dynamic_cast<Association*>(smartPointer->Current())->Accept(visitor);  //, CPointDc
-		}
-		smartPointer->Next();
-	}
-}
-
-
-//#include <iostream>
-//using namespace std;
 //
-//int main(int argc, char *argv[]) {
-//	MemoBox memoBox;
-//	DrawingVisitor visitor;
+//void MemoBox::Accept (Visitor& visitor, CDC *cPaintDc) { //CDC* CPointDc
 //	
-//	memoBox.Accept(visitor);
-//	return 0;
-//
+//	visitor.Visit(this, cPaintDc);
+//	SmartPointer<Figure*> smartPointer(this->CreateIterator());
+//	while (!smartPointer->IsDone()) {
+//		if (dynamic_cast<Association*>(smartPointer->Current())) {
+//			dynamic_cast<Association*>(smartPointer->Current())->Accept(visitor);  //, CPointDc
+//		}
+//		smartPointer->Next();
+//	}
 //}
+
+
+#include <iostream>
+using namespace std;
+
+int main(int argc, char *argv[]) {
+	MemoBox memoBox;
+	memoBox.Add(10, 20, 30, 40);
+	memoBox.Add(25, 20, 30, 40);
+	memoBox.Add(65, 76, 30, 543);
+	memoBox.Add(45, 76, 30, 40);
+	memoBox.Add(10, 20, 456, 40);
+	MemoBox memoBox1;
+	memoBox1 = memoBox;
+
+	Long i = 0;
+	Long x;
+	Long y;
+	Long width;
+	Long height;
+	Long capacity;
+	Long length;
+	while (i < memoBox1.GetLength()) {
+		x = memoBox1.GetAt(i)->GetX();
+		y = memoBox1.GetAt(i)->GetY();
+		width = memoBox1.GetAt(i)->GetWidth();
+		height = memoBox1.GetAt(i)->GetHeight();
+		capacity = memoBox1.GetCapacity();
+		length = memoBox1.GetLength();
+		cout << x <<" " << y << " " << width << " " << height << " " << " " << capacity << " " << length <<endl;
+		i++;
+	}
+	Figure *figure = memoBox1[3];
+
+	x = figure->GetX();
+	y = figure->GetY();
+	width = figure->GetWidth();
+	height = figure->GetHeight();
+	cout << x << " " << y << " " << width << " " << height << " " << " " << capacity << " " << length << endl;
+	return 0;
+
+}
