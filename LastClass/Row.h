@@ -13,6 +13,7 @@ typedef signed long int Long;
 class Row : public TextComposite {
 public:
 	Row(Long capacity = 128);
+	Row(Long x, Long y, Long capacity = 128);
 	Row(const Row& source);
 	virtual ~Row();
 

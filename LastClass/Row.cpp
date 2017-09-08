@@ -9,10 +9,18 @@ Row::Row(Long capacity) : TextComposite(capacity) {
 	this->length = 0;
 }
 
+Row::Row(Long x, Long y, Long capacity) : TextComposite(capacity) {
+	this->x = x;
+	this->y = y;
+	this->capacity = capacity;
+	this->length = 0;
+}
 Row::Row(const Row& source) {
 	this->textComponents = source.textComponents;
 	this->capacity = source.capacity;
 	this->length = source.length;
+	this->x = source.x;
+	this->y = source.y;
 	Long i = 0;
 	while (i < source.length) {
 		this->textComponents.Modify(i, (const_cast<Row&>(source)).textComponents[i]->Clone());
@@ -112,8 +120,11 @@ string Row::PrintRowString() {
 
 void Row::Accept(Visitor& visitor, CDC* cPaintDc) {
 	cout << "Row Accept" << endl;
-	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
-	while (!smartPointer->IsDone()) {
+	//SmartPointer<TextComponent*> iterator(this->CreateIterator());
+
+
+	visitor.Visit(this, cPaintDc);
+	/*while (!smartPointer->IsDone()) {
 		if (dynamic_cast<SingleByteCharacter*>(smartPointer->Current())) {
 			(static_cast<SingleByteCharacter*>(smartPointer->Current()))->Accept(visitor, cPaintDc);
 		}
@@ -121,13 +132,15 @@ void Row::Accept(Visitor& visitor, CDC* cPaintDc) {
 			(static_cast<DoubleByteCharacter*>(smartPointer->Current()))->Accept(visitor, cPaintDc);
 		}
 		smartPointer->Next();
-	}
+	}*/
 }
 
 Row& Row::operator = (const Row& source) {
 	this->capacity = source.capacity;
 	this->length = source.length;
 	this->textComponents = source.textComponents;
+	this->x = source.x;
+	this->y = source.y;
 	Long i = 0;
 	while (i < source.length) {
 		this->textComponents.Modify(i, (const_cast<Row&>(source)).textComponents.GetAt(i)->Clone());

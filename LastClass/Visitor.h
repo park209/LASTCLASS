@@ -9,6 +9,7 @@ class SingleByteCharacter;
 class DoubleByteCharacter;
 class Class;
 class Line;
+class Row;
 class Visitor {
 public:
 	virtual ~Visitor() {};
@@ -17,6 +18,8 @@ public:
 	virtual void Visit(Line *line, CDC* cPaintDc) = 0;
 	virtual void Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc) = 0;
 	virtual void Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc) = 0;
+	virtual void Visit(Row* row, CDC* cPaintDc) = 0;
+
 protected:
 	Visitor() {};
 };

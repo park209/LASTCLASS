@@ -17,6 +17,7 @@ public:
 	Long Add(TextComponent *textComponent);
 	Long Remove(Long index);
 	Row* GetAt(Long index);
+	void Find(Long x, Long y, Long height, Row* (*indexes), Long *count);
 
 	TextComponent* Clone() const;
 	void PrintRow(SmartPointer<TextComponent*>& index);

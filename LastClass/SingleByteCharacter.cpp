@@ -42,7 +42,6 @@ CString SingleByteCharacter::MakeCString() const {
 	char tempChar[2];
 	tempChar[0] = this->character;
 	tempChar[1] = '\0';
-
 	CString cs(tempChar);
 	return cs;
 }

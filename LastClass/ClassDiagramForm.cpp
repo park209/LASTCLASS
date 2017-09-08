@@ -18,6 +18,7 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
 	ON_WM_CHAR()
+	ON_WM_SETFOCUS()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
@@ -145,7 +146,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 	//1.2. 적재한다
 	//this->Load();
-	this->TextLoad();
+	//this->TextLoad();
 	//1.3. 윈도우를 갱신한다
 	Invalidate();
 
@@ -185,6 +186,11 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	//Invalidate();
 }
 
+void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
+	
+	this->Invalidate();
+}
+
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->startX = point.x;
 	this->startY = point.y;
@@ -216,7 +222,6 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(textEdit->GetX()+5, textEdit->GetY()+35, this->currentX, 15), NULL, NULL, WS_EX_TOPMOST);
 	textEdit->ShowWindow(SW_SHOW);
 	textEdit->UpdateWindow();
-
 	Invalidate();
 }
 
@@ -224,6 +229,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	if (nFlags == MK_LBUTTON) {
 		this->currentX = point.x;
 		this->currentY = point.y;
+
 		Invalidate();
 	}
 }
