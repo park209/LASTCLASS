@@ -488,4 +488,7 @@ void DrawingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { // CDC  *cPaintDc
 	Long height = memoBox->GetHeight();
 
 	cout << "메모박스출력" << " " << x << " " << y << " " << width << " " << height << endl;
+
+
+	cPaintDc->Rectangle(x, y, x + width, y + height);
 }

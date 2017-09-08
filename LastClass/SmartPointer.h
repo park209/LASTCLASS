@@ -1,4 +1,3 @@
-#pragma once
 
 //SmartPointer.h
 #ifndef _SMARTPOINTER_H

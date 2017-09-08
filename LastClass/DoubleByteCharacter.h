@@ -1,4 +1,4 @@
-#pragma once
+
 //DoubleByteCharacter.h
 
 #ifndef _DOUBLEBYTECHARACTER_H

@@ -1,4 +1,3 @@
-#pragma once
 
 //Aggregation.h
 //С§Че

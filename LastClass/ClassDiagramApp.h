@@ -1,4 +1,3 @@
-#pragma once
 
 #ifndef _CLASSDIAGRAMAPP_H
 #define _CLASSDIAGRAMAPP_H

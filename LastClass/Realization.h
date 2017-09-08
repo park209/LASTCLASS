@@ -1,4 +1,4 @@
-#pragma once
+
 //Realization.h
 #pragma once
 #ifndef _REALIZATION_H

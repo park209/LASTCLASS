@@ -1,4 +1,4 @@
-#pragma once
+
 //Relation.h
 #ifndef _RELATION_H
 #define _RELATION_H

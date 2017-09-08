@@ -1,4 +1,4 @@
-#pragma once
+
 #ifndef _AGGREGATIONS_H
 #define _AGGREGATIONS_H
 

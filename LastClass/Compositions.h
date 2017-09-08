@@ -1,5 +1,4 @@
 
-#pragma once
 #ifndef _COMPOSITIONS_H
 #define _COMPOSITIONS_H
 

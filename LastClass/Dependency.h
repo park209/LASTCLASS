@@ -1,4 +1,4 @@
-#pragma once
+
 //Dependency.h
 #pragma once
 #ifndef _DEPENDENCY_H

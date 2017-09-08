@@ -1,9 +1,8 @@
-#pragma once
 
 //FigureComposite.h
 
 #ifndef _FIGURECOMPOSITE_H
-#define _FIGURECOMPOSTIE_H
+#define _FIGURECOMPOSITE_H
 
 #include "Array.h"
 #include "Figure.h"
@@ -44,4 +43,4 @@ inline Long FigureComposite::GetLength() {
 	return this->length;
 }
 
-#endif //_FIGURECOMOSITE_H
+#endif //_FIGURECOMPOSITE_H

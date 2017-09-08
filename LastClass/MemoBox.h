@@ -1,4 +1,3 @@
-#pragma once
 
 //MemoBox.h
 #ifndef _MEMOBOX_H

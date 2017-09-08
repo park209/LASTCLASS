@@ -1,4 +1,4 @@
-#pragma once
+
 #ifndef _COMPOSITION_H
 #define _COMPOSITION_H
 

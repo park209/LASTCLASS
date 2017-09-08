@@ -1,4 +1,5 @@
-#pragma once
+
+
 #ifndef _SINGLEBYTECHARACTER_H
 #define _SINGLEBYTECHARACTER_H
 

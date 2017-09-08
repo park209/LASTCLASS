@@ -1,4 +1,4 @@
-#pragma once
+
 
 //Array.h
 

@@ -1,4 +1,4 @@
-#pragma once
+
 #ifndef _GENERALIZATION_H
 #define _GENERALIZATION_H
 
