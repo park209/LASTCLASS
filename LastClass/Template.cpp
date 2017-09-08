@@ -29,8 +29,8 @@ Template& Template::operator= (const Template& source) {
 	this->height = source.height;
 	return *this;
 }
-void Template::Accept(Visitor& visitor) {
-	visitor.Visit(this);
+void Template::Accept(Visitor& visitor, CDC *cPaintDc) {
+	visitor.Visit(this, cPaintDc);
 }
 
 Figure* Template::Clone() const {

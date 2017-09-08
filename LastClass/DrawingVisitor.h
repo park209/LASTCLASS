@@ -26,7 +26,7 @@ public:
 
 	void Visit(Dependency *dependency, CDC* cPaintDc);		//의존
 
-	void Visit(Association *association, CDC* cPaintDc);		//연관화
+	void Visit(Association *association, CDC* cPaintDc);		//연관화	CDC* cPaintDc
 
 	void Visit(DirectedAssociation *directedAssociation, CDC* cPaintDc);		//직접연관
 
@@ -38,7 +38,9 @@ public:
 
 	void Visit(Compositions *compositions, CDC* cPaintDc);		//복합연관
 
-	void Visit(Template *object);
+	void Visit(Template *object, CDC *cPaintDc);
+
+	//void Visit(MemoBox *memoBox, CDC *cPaintDc);   //CDC  *cPaintDc
 };
 
 #endif // _DRAWINGVISITOR_H

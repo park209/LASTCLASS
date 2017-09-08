@@ -4,6 +4,7 @@
 #define _DIAGRAM_H
 
 #include "Class.h"
+//#include"MemoBox.h"
 
 class Diagram : public FigureComposite {
 public:
@@ -19,6 +20,7 @@ public:
 	Long Add(Long x, Long y, Long width, Long height);
 	Long Remove(Long index);
 	Class* GetAt(Long index);
+	
 
 	Figure* Clone() const;
 	void PrintClass(SmartPointer<Figure*>& index);

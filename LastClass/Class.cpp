@@ -10,6 +10,7 @@
 #include "Aggregations.h"
 #include "Composition.h"
 #include "Compositions.h"
+#include "Template.h"
 //#include "Template.h"
 
 Class::Class(Long capacity) {
@@ -19,6 +20,7 @@ Class::Class(Long capacity) {
 	this->y = 0;
 	this->width = 0;
 	this->height = 0;
+	this->templetePosition = -1;
 }
 
 Class::Class(Long x, Long y, Long width, Long height) {
@@ -28,6 +30,7 @@ Class::Class(Long x, Long y, Long width, Long height) {
 	this->y = y;
 	this->width = width;
 	this->height = height;
+	this->templetePosition = -1;
 }
 
 Class::Class(const Class& source) {
@@ -43,6 +46,7 @@ Class::Class(const Class& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
+	this->templetePosition = source.templetePosition;
 }
 
 Class::~Class() {
@@ -61,6 +65,7 @@ Class& Class::operator = (const Class& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
+	this->templetePosition = source.templetePosition;
 
 	return *this;
 }
@@ -242,6 +247,21 @@ Long Class::AddCompositions(Long x, Long y, Long width, Long height) {
 
 	return index;
 }
+Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
+	
+	Template object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		this->templetePosition = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		this->templetePosition = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return this->templetePosition;
+}
 
 Long Class::Remove(Long index) {
 	return this->figures.Delete(index);
@@ -275,11 +295,11 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		if (dynamic_cast<Line*>(smartPointer->Current())){
 			dynamic_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-		/*
+		
 		else if (dynamic_cast<Template*>(smartPointer->Current())) {
 			dynamic_cast<Template*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-*/
+
 		else if (dynamic_cast<Generalization*>(smartPointer->Current())) {
 			dynamic_cast<Generalization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
@@ -295,7 +315,7 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		
 
 		else if (dynamic_cast<Association*>(smartPointer->Current())) {
-			dynamic_cast<Association*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			dynamic_cast<Association*>(smartPointer->Current())->Accept(visitor, cPaintDc); //, cPaintDc
 		}
 		
 

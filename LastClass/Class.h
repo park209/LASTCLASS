@@ -29,7 +29,7 @@ public:
 	Long AddAggregations(Long x, Long y, Long width, Long height);
 	Long AddComposition(Long x, Long y, Long width, Long height);
 	Long AddCompositions(Long x, Long y, Long width, Long height);
-
+	Long AddTemplate(Long x, Long y, Long width, Long height);
 
 
 
@@ -46,8 +46,13 @@ public:
 
 	Long GetCapacity() const;
 	Long GetLength() const;
+	Long GetTempletePosition() const;
+private:
+	Long templetePosition;
 };
-
+inline Long Class::GetTempletePosition() const {
+	return this->templetePosition;
+}
 inline Long Class::GetCapacity() const {
 	return this->capacity;
 }

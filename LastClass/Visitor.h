@@ -21,6 +21,7 @@ class Aggregations;
 class Composition;
 class Compositions;
 class Template;
+class MemoBox;
 class Visitor{
 public:
 	virtual ~Visitor();
@@ -38,7 +39,7 @@ public:
 
 	virtual void Visit(Dependency *dependency, CDC* cPaintDc) = 0;		//의존
 
-	virtual void Visit(Association *association, CDC* cPaintDc) = 0;		//연관화
+	virtual void Visit(Association *association, CDC* cPaintDc) = 0;		//연관화 , CDC* cPaintDc
 
 	virtual void Visit(DirectedAssociation *directedAssociation, CDC* cPaintDc) = 0;		//직접연관
 
@@ -50,7 +51,9 @@ public:
 
 	virtual void Visit(Compositions *compositions, CDC* cPaintDc) = 0;		//복합연관
 
-	virtual void Visit(Template *object) = 0;
+	virtual void Visit(Template *object, CDC *cPaintDc) = 0;
+
+	//virtual void Visit(MemoBox* memobox, CDC *cPaintDc) = 0;// CDC  *cPaintDc
 protected:
 	Visitor();
 };

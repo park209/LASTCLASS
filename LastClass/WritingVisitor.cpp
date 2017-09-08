@@ -41,7 +41,7 @@ void WritingVisitor::Visit(Realization *realization, CDC* cPaintDc) {
 void WritingVisitor::Visit(Dependency *dependency, CDC* cPaintDc) {
 }
 
-void WritingVisitor::Visit(Association *association, CDC* cPaintDc) {
+void WritingVisitor::Visit(Association *association, CDC* cPaintDc) { //, CDC* cPaintDc
 }
 
 void WritingVisitor::Visit(DirectedAssociation *directedAssociation, CDC* cPaintDc) {
@@ -58,5 +58,7 @@ void WritingVisitor::Visit(Composition *composition, CDC* cPaintDc) {
 
 void WritingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 }
-void WritingVisitor::Visit(Template *object) {
+void WritingVisitor::Visit(Template *object, CDC *cPaintDc) {
 }
+//void WritingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { // CDC  *cPaintDc
+//}

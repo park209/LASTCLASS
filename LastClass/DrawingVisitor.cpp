@@ -13,6 +13,7 @@
 #include "Composition.h"
 #include "Compositions.h"
 #include "Template.h"
+//#include "MemoBox.h"
 #include <iostream>
 using namespace std;
 
@@ -22,11 +23,11 @@ DrawingVisitor::DrawingVisitor() {
 void DrawingVisitor::Visit(Class *object, CDC* cPaintDc) {
 
 	Long x = object->GetX();
-	Long  y = object->GetY();;
+	Long y = object->GetY();
 	Long width = object->GetWidth();
 	Long height = object->GetHeight();
 
-	cout << "   Class 를 그린다" << endl;
+
 	
 	cPaintDc->Rectangle(x, y, x + width, y + height);
 }
@@ -35,7 +36,6 @@ void DrawingVisitor::Visit(Line *line, CDC* cPaintDc) {
 	Long  y = line->GetY();;
 	Long width = line->GetWidth();
 
-	cout << "   Line 을 그린다" << endl;
 	
 	cPaintDc->MoveTo(x, y);
 	cPaintDc->LineTo(x + width, y);
@@ -66,7 +66,7 @@ void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
 
 	double degree = atan2(endX - startX, startY - endY); // 기울기
 
-	double distance = sqrt(pow(endX - startX, 2) + pow(startX - endY, 2));
+	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
 	double dX = (endX) - (15 * (endX - startX) / distance); //뒤로 온 기준점 x
 	double dY = (endY) + (15 * (startY - endY) / distance); //뒤로 온 기준점 y
@@ -182,16 +182,16 @@ void DrawingVisitor::Visit(Dependency *dependency, CDC* cPaintDc) {
 	cPaintDc->LineTo(pts[2].x, pts[2].y);
 }
 
-void DrawingVisitor::Visit(Association *association, CDC* cPaintDc) {
+void DrawingVisitor::Visit(Association *association, CDC* cPaintDc) { //, CDC* cPaintDc
 
 	Long startX = association->GetX();
 	Long startY = association->GetY();;
 	Long endX = association->GetWidth();
 	Long endY = association->GetHeight();
-	//cout << "연관화출력" << " " << x << " " << y << " " << width << " " << height << endl;
+	cout << "연관화출력" << " " << startX << " " << startY << " " << endX << " " << endY << endl;
 
-	cPaintDc->MoveTo(startX, startY);
-	cPaintDc->LineTo(endX, endY);
+	//cPaintDc->MoveTo(startX, startY);
+	//cPaintDc->LineTo(endX, endY);
 }
 
 void DrawingVisitor::Visit(DirectedAssociation *directedAssociation, CDC* cPaintDc) {
@@ -469,12 +469,23 @@ void DrawingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 DrawingVisitor::~DrawingVisitor() {
 }
 
-void DrawingVisitor::Visit(Template *object) {
+void DrawingVisitor::Visit(Template *object, CDC *cPaintDc) {
 
 	Long x = object->GetX();
 	Long  y = object->GetY();;
 	Long width = object->GetWidth();
 	Long height = object->GetHeight();
-	cout << "템플릿출력" << " " << x << " " << y << " " << width << " " << height << endl;
+
+	cPaintDc->Rectangle(x, y, x + width, y + height);
+	//cout << "템플릿출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 }
+
+//void DrawingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { // CDC  *cPaintDc
+//	Long x = memoBox->GetX();
+//	Long y = memoBox->GetY();;
+//	Long width = memoBox->GetWidth();
+//	Long height = memoBox->GetHeight();
+//
+//	cout << "메모박스출력" << " " << x << " " << y << " " << width << " " << height << endl;
+//}

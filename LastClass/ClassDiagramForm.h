@@ -18,7 +18,10 @@ public:
 public:
 	Long Save();
 	Long Load();
-	
+	//void FindLinePoints(Long firstClass, Long secondClass ,Long startX, Long startY, Long currentX, Long currentY, Long  *lineStartX, Long *lineStartY, Long *lineEndX, Long *lineEndY);
+
+	bool FindCrossPoint(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End, CPoint *crossPoint);
+
 private:
 	Long startX;
 	Long startY;
@@ -38,6 +41,7 @@ private:
 	bool aggregationSButton; // 집합연관
 	bool compositionButton; // 합성
 	bool compositionSBtton; // 복합연관
+	bool templateButton; //템플릿기호
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

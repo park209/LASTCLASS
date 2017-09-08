@@ -14,7 +14,7 @@ public:
 	virtual ~Template();
 
 	Template& operator=(const Template& source);
-	void Accept(Visitor& visitor);
+	void Accept(Visitor& visitor, CDC *cPaintDc);
 	Figure* Clone() const;
 };
 
