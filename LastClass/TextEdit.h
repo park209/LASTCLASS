@@ -44,6 +44,8 @@ public:
 public:
 	ClassDiagramForm *classDiagramForm;
 	Caret *caret;
+	Row*(*indexes);
+	Long count;
 private:
 	Long width;
 	Long height;
@@ -53,8 +55,6 @@ private:
 	Long startY;
 	Long currentX;
 	Long currentY;
-	Row*(*indexes);
-	Long count;
 	Long koreanEnglish;
 	Long rowHeight;
 	Long flagBuffer;

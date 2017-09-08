@@ -54,16 +54,18 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CreateSolidCaret(3, 20); //rowHeight 가 오른쪽에 들어갈꺼임
 	Long i = 0;
 	CPaintDC dc(this);
+	//this->classDiagramForm->text->Find(this->startX, this->startY, this->height, &(this->indexes), &(this->count));
 	this->classDiagramForm->text->Find(this->currentX, this->currentY, this->startX, this->startY, this->height, this->rowHeight, &(this->indexes), &(this->count));
-	if (this->count == 0) {
-		Row row;
-		i = this->classDiagramForm->text->Add(row.Clone());
 
+	if (this->count == 0) {
+		Row row(this->currentX + 5, this->currentY + 5);
+		i = this->classDiagramForm->text->Add(row.Clone());
 	}
-	while (i < count) {
+
+	/*while (i < count) {
 		dc.TextOut(this->indexes[i]->GetX() + 5, this->indexes[i]->GetY() + 5, (CString)this->indexes[i]->PrintRowString().c_str());
 		i++;
-	}
+	}*/
 
 	if (currentX > 5 && currentY > 5) {
 		while (height < this->currentY && this->rowIndex < this->classDiagramForm->text->GetLength()) {
@@ -101,7 +103,7 @@ void TextEdit::OnPaint() {
 		this->classDiagramForm->text->Add(newRow.Clone());
 	}
 
-	while (i < this->classDiagramForm->text->GetLength() && this->classDiagramForm->text->GetLength() > 0) {
+	/*while (i < this->classDiagramForm->text->GetLength() && this->classDiagramForm->text->GetLength() > 0) {
 		j = 0;
 		while (j < this->classDiagramForm->text->GetAt(i)->GetLength()) {
 			dc.TextOut(5, 5 + i * dc.GetTabbedTextExtent((CString)this->classDiagramForm->text->GetAt(i)->PrintRowString().c_str(), 0, 0).cy,
@@ -109,10 +111,14 @@ void TextEdit::OnPaint() {
 			j++;
 		}
 		i++;
-	}
-	this->caret->MoveToIndex(this->characterIndex, this->rowIndex);
+	}*/
 
-	SingleByteCharacter singleByte('	', 0, 0, 0);
+	while (i < count) {
+	dc.TextOut(5, 5, (CString)this->indexes[i]->PrintRowString().c_str());
+	i++;
+	}
+
+	this->caret->MoveToIndex(this->characterIndex, this->rowIndex);
 }
 
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {

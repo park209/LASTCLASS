@@ -171,7 +171,7 @@ void ClassDiagramForm::OnPaint() {
 
 	this->diagram->Accept(drawingVisitor,&dc);
 
-	//this->text->Accept(writingVisitor, &dc);
+	this->text->Accept(writingVisitor, &dc);
 }
 
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -229,6 +229,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnLButtonDoubleClicked(UINT nFlags, CPoint point) {
+	//1.2. 해당 좌표로 클래스를 찾는다.
 	Long index = this->diagram->Find(point.x, point.y);
 	Long classWidth = this->diagram->GetAt(index)->GetWidth();
 	Long classHeight = this->diagram->GetAt(index)->GetHeight();

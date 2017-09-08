@@ -66,8 +66,21 @@ void Text::Find(Long pointX, Long pointY, Long x, Long y, Long height, Long rowH
 			}
 			i++;
 		}
-
+		*count = j;
 	}
+}
+
+void Text::Find(Long x, Long y, Long height, Row**(*indexes), Long *count) {
+	SmartPointer<TextComponent*> iterator(this->CreateIterator());
+	*indexes = new Row*[10];
+	Long i = 0;
+	for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
+		if (((Row*)iterator->Current())->GetX() + 5 == x && ((Row*)iterator->Current())->GetY() > y && ((Row*)iterator->Current())->GetY() < y + height) {
+			(*indexes)[i] = (Row*)iterator->Current();
+			i++;
+		}
+	}
+	*count = i;
 }
 
 Long Text::Remove(Long index) {
@@ -98,10 +111,9 @@ void Text::PrintRow(SmartPointer<TextComponent*>& index) {
 
 void Text::Accept(Visitor& visitor, CDC* cPaintDc) {
 	cout << "Text Accept" << endl;
-	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
-	while (!smartPointer->IsDone()) {
-		static_cast<Row*>(smartPointer->Current())->Accept(visitor, cPaintDc);
-		smartPointer->Next();
+	SmartPointer<TextComponent*> iterator(this->CreateIterator());
+	for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
+		static_cast<Row*>(iterator->Current())->Accept(visitor, cPaintDc);
 	}
 }
 

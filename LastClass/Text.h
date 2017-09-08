@@ -16,6 +16,7 @@ public:
 	Long Add(Row *row);
 	Long Add(TextComponent *textComponent);
 	void Find(Long pointX, Long pointY, Long x, Long y, Long height, Long rowHeight, Row**(*indexes), Long *count);
+	void Find(Long x, Long y, Long height, Row**(*indexes), Long *count);
 	Long Remove(Long index);
 	Row* GetAt(Long index);
 
