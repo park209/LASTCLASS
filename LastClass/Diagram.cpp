@@ -79,6 +79,24 @@ Long Diagram::Add(Long x, Long y, Long width, Long height) {
 	return index;
 }
 
+Long Diagram::Find(Long x, Long y) {
+	Long i = 0;
+	Long j = 0;
+	Long endX;
+	Long endY;
+	Long index = -1;
+	while (i < this->GetLength() && index == -1) {
+		endX = this->figures[i]->GetX() + this->figures[i]->GetWidth();
+		endY = this->figures[i]->GetY() + this->figures[i]->GetHeight();
+		if (this->figures[i]->GetX() <= x&&endX >= x&&this->figures[i]->GetY() <= y&&endY >= y) {
+			index = i;
+		}
+		i++;
+	}
+	return index;
+
+}
+
 Long Diagram::Remove(Long index) {
 	return this->figures.Delete(index);
 }

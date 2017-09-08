@@ -16,6 +16,7 @@ public:
 
 	Long Add(Figure *figure);
 	Long Add(Long x, Long y, Long width, Long height);
+	Long Find(Long pointX, Long pointY);
 	Long Remove(Long index);
 	Class* GetAt(Long index);
 

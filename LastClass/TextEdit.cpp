@@ -2,12 +2,12 @@
 #pragma comment(lib,"imm32")
 
 #include "TextEdit.h"
-
+#include "Text.h"
 #include "SingleByteCharacter.h"
 #include "DoubleByteCharacter.h"
 #include "WritingVisitor.h"
 #include "Caret.h"
-#include "Text.h"
+
 #include <iostream>
 #include <fstream> //로드세이브할때
 
@@ -21,22 +21,23 @@ BEGIN_MESSAGE_MAP(TextEdit, CFrameWnd)
 	ON_MESSAGE(WM_IME_COMPOSITION, OnComposition)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
+	ON_WM_LBUTTONDBLCLK()
 	ON_WM_KEYDOWN()
 	ON_MESSAGE(WM_IME_NOTIFY, OnIMENotify)
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
-TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Long x, Long y, Long width, Long height) {
+TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Long currentX, Long currentY, Long width, Long height) {
 	this->classDiagramForm = classDiagramForm;
-	this->indexes = 0;
-	this->count = 0;
 	this->caret = 0;
-	this->x = x;
-	this->y = y;
 	this->width = width;
 	this->height = height;
 	this->rowIndex = 0;
 	this->characterIndex = 0;
+	this->currentX = currentX;
+	this->currentY = currentY;
+	this->indexes = NULL;
+	this->count = 0;
 	this->rowHeight = 20;
 	this->koreanEnglish = 0;
 	this->flagBuffer = 0;
@@ -48,19 +49,19 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->caret = new Caret(5, 5, this);
 
 	ModifyStyle(WS_CAPTION, 0);
-	ModifyStyle(0, 0, SetWindowPos(&CWnd::wndTop, this->x+3, this->y+33, this->width-5, this->height*33, 0));
+	ModifyStyle(0, 0, SetWindowPos(&CWnd::wndTop, this->currentX + 3, this->currentY + 33, this->width - 5, this->height * 33, 0));
 
 	CreateSolidCaret(3, 20); //rowHeight 가 오른쪽에 들어갈꺼임
 	Long i = 0;
 	CPaintDC dc(this);
-	this->classDiagramForm->text->Find(this->x, this->y,this->height,&(this->indexes),&(this->count));
+	this->classDiagramForm->text->Find(this->currentX, this->currentY, this->startX, this->startY, this->height, this->rowHeight, &(this->indexes), &(this->count));
 	if (this->count == 0) {
-		Row row(this->x + 5, this->y + 5);
-		i=this->classDiagramForm->text->Add(row.Clone());
+		Row row;
+		i = this->classDiagramForm->text->Add(row.Clone());
 
 	}
 	while (i < count) {
-		dc.TextOut(this->indexes[i].GetX() + 5, this->indexes[i].GetY() + 5, (CString)this->indexes[i].PrintRowString().c_str());
+		dc.TextOut(this->indexes[i]->GetX() + 5, this->indexes[i]->GetY() + 5, (CString)this->indexes[i]->PrintRowString().c_str());
 		i++;
 	}
 
@@ -92,7 +93,7 @@ void TextEdit::OnPaint() {
 	CPaintDC dc(this);
 	Long i = 0;
 	Long j;
-	//Long caretX;
+	Long caretX;
 
 	//클래스 이름, 캐럿 출력
 	if (this->classDiagramForm->text->GetLength() == 0) {
@@ -104,13 +105,14 @@ void TextEdit::OnPaint() {
 		j = 0;
 		while (j < this->classDiagramForm->text->GetAt(i)->GetLength()) {
 			dc.TextOut(5, 5 + i * dc.GetTabbedTextExtent((CString)this->classDiagramForm->text->GetAt(i)->PrintRowString().c_str(), 0, 0).cy,
-				(CString)this->classDiagramForm->text->GetAt(i)->PrintRowString().c_str()
-			);
+				(CString)this->classDiagramForm->text->GetAt(i)->PrintRowString().c_str());
 			j++;
 		}
 		i++;
 	}
 	this->caret->MoveToIndex(this->characterIndex, this->rowIndex);
+
+	SingleByteCharacter singleByte('	', 0, 0, 0);
 }
 
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -219,7 +221,6 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->startX = point.x;
 	this->startY = point.y;
-	//CFrameWnd::OnClose();
 }
 
 void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
@@ -252,12 +253,16 @@ void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->caret->MoveToIndex(this->characterIndex, this->rowIndex);
 }
 
+void OnLButtonDoubleClicked(UINT nFlags, CPoint point) {
+
+}
+
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	Row *row = NULL;
 
 	this->koreanEnglish = 1;
 	SingleByteCharacter spaceText(' ', 0, 0, 0);
-	SingleByteCharacter tapText('    ', 0, 0, 0);
+	SingleByteCharacter tapText('\t', 0, 0, 0);
 
 	if (this->classDiagramForm->text->GetLength() > 0) {
 		row = this->classDiagramForm->text->GetAt(this->rowIndex);
@@ -355,6 +360,8 @@ LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {
 
 void TextEdit::OnClose() {
 	//Save();
-
+	if (this->classDiagramForm->textEdit != NULL) {
+		delete this->classDiagramForm->textEdit;
+	}
 	CFrameWnd::OnClose();
 }

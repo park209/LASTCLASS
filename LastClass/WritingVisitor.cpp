@@ -3,7 +3,6 @@
 #include "WritingVisitor.h"
 #include "SingleByteCharacter.h"
 #include "DoubleByteCharacter.h"
-#include "Row.h"
 
 WritingVisitor::WritingVisitor() {
 }
@@ -30,10 +29,4 @@ void WritingVisitor::Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaint
 	cout << "	Double Visit doubleCharacter 적는다" << endl;
 
 	cPaintDc->TextOut(doubleByteCharacter->GetX(), doubleByteCharacter->GetY(), doubleByteCharacter->MakeCString());
-}
-
-void WritingVisitor::Visit(Row* row, CDC* cPaintDc) {
-	cout << "	Double Visit doubleCharacter 적는다" << endl;
-
-	cPaintDc->TextOut(row->GetX(), row->GetY(), (CString)row->PrintRowString().c_str());
 }

@@ -20,6 +20,7 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
 	ON_WM_CHAR()
 	ON_WM_SETFOCUS()
 	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONDBLCLK()
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 	ON_WM_CLOSE()
@@ -28,6 +29,7 @@ END_MESSAGE_MAP()
 ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->diagram = NULL;
 	this->text = NULL;
+	this->textEdit = NULL;
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
@@ -169,7 +171,7 @@ void ClassDiagramForm::OnPaint() {
 
 	this->diagram->Accept(drawingVisitor,&dc);
 
-	this->text->Accept(writingVisitor, &dc);
+	//this->text->Accept(writingVisitor, &dc);
 }
 
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -218,11 +220,27 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, (this->startY + 50 + this->currentY) / 2,
 		this->currentX - this->startX, (this->startY + 50 + this->currentY) / 2);
 
-	TextEdit *textEdit = new TextEdit(this, this->startX, this->startY, this->currentX-this->startX, 15);
-	textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(textEdit->GetX()+5, textEdit->GetY()+35, this->currentX, 15), NULL, NULL, WS_EX_TOPMOST);
-	textEdit->ShowWindow(SW_SHOW);
-	textEdit->UpdateWindow();
+	this->textEdit = new TextEdit(this, this->startX, this->startY, this->currentX-this->startX, 15);
+
+	this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(this->textEdit->GetCurrentX()+5, this->textEdit->GetCurrentY()+35, this->currentX, 15), NULL, NULL, WS_EX_TOPMOST);
+	this->textEdit->ShowWindow(SW_SHOW);
+
 	Invalidate();
+}
+
+void ClassDiagramForm::OnLButtonDoubleClicked(UINT nFlags, CPoint point) {
+	Long index = this->diagram->Find(point.x, point.y);
+	Long classWidth = this->diagram->GetAt(index)->GetWidth();
+	Long classHeight = this->diagram->GetAt(index)->GetHeight();
+
+	if (this->textEdit != NULL) {
+		delete this->textEdit;
+	}
+	this->textEdit = new TextEdit(this, point.x, point.y, classWidth, classHeight);
+
+	this->textEdit->Create(NULL, "TextEdit", WS_DLGFRAME, CRect(textEdit->GetCurrentX() + 5, textEdit->GetCurrentY() + 35, this->currentX, 15), NULL, NULL, WS_EX_TOPMOST);
+	this->textEdit->ShowWindow(SW_SHOW);
+	this->textEdit->UpdateWindow();
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
