@@ -60,5 +60,5 @@ void WritingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 }
 void WritingVisitor::Visit(Template *object, CDC *cPaintDc) {
 }
-//void WritingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { // CDC  *cPaintDc
-//}
+void WritingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { // CDC  *cPaintDc
+}

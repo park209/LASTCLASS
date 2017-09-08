@@ -1,3 +1,5 @@
+#pragma once
+
 //DirectedAssociation.h
 // 직접연관
 

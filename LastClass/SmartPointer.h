@@ -1,3 +1,5 @@
+#pragma once
+
 //SmartPointer.h
 #ifndef _SMARTPOINTER_H
 #define _SMARTPOINTER_H

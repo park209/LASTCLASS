@@ -1,3 +1,5 @@
+#pragma once
+
 //Figure.h
 
 #ifndef _FIGURE_H //가드선언
@@ -16,10 +18,10 @@ public:
 	//virtual void Accept(Visitor& visitor) = 0;// , CDC *cPaintDc) = 0;
 	virtual Figure* Clone() const = 0;
 
-	Long GetX() const;
-	Long GetY() const;
-	Long GetWidth() const;
-	Long GetHeight() const;
+	Long GetX() ;
+	Long GetY() ;
+	Long GetWidth() ;
+	Long GetHeight() ;
 protected:
 	Long x;
 	Long y;
@@ -27,16 +29,16 @@ protected:
 	Long height;
 };
 
-inline Long Figure::GetX() const {
+inline Long Figure::GetX()  {
 	return this->x;
 }
-inline Long Figure::GetY() const {
+inline Long Figure::GetY()  {
 	return this->y;
 }
-inline Long Figure::GetWidth() const {
+inline Long Figure::GetWidth()  {
 	return this->width;
 }
-inline Long Figure::GetHeight() const {
+inline Long Figure::GetHeight()  {
 	return this->height;
 }
 

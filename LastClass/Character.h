@@ -1,3 +1,4 @@
+#pragma once
 //Character.h
 
 #ifndef _CHARACTER_H

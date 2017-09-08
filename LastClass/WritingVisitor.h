@@ -1,3 +1,5 @@
+#pragma once
+
 //WritingVisitor.h
 
 #ifndef _WRITINGVISITOR_H
@@ -18,7 +20,7 @@ public:
 	void Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc);
 	void Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc);
 
-	// void Visit(MemoBox *memoBox, CDC *cPaintDc);
+
 	 void Visit(Generalization *generalization, CDC* cPaintDc) ;		//일반화
 
      void Visit(Realization * realization, CDC* cPaintDc);		//실체화
@@ -38,6 +40,8 @@ public:
 	 void Visit(Compositions *compositions, CDC* cPaintDc) ;		//복합연관
 
 	 void Visit(Template *object, CDC *cPaintDc);
+
+	 void Visit(MemoBox *memoBox, CDC *cPaintDc);
 
 	   // CDC  *cPaintDc
 };

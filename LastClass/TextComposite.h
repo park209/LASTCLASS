@@ -1,3 +1,5 @@
+#pragma once
+
 //TextComposite.h
 
 #ifndef _TEXTCOMPOSITE_H

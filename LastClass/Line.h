@@ -1,3 +1,5 @@
+#pragma once
+
 //Line.h
 
 #ifndef _LINE_H

@@ -1,7 +1,8 @@
 //FigureComposite.cpp
 
 #include "FigureComposite.h"
-
+//#include "ArrayIterator.h"
+#include "SmartPointer.h"
 FigureComposite::FigureComposite(Long capacity) : figures(capacity) {
 	this->capacity = capacity;
 	this->length = 0;

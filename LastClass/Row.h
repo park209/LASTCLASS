@@ -1,3 +1,5 @@
+#pragma once
+
 //Row.h
 
 #ifndef _ROW_H

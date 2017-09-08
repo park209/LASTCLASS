@@ -1,13 +1,12 @@
+#pragma once
+
 //Class.h
 
 #ifndef _CLASS_H
 #define _CLASS_H
 
 #include "FigureComposite.h"
-#include "Line.h"
-#include "Iterator.h"
-#include "SmartPointer.h"
-#include "Relation.h"
+#include "DrawingVisitor.h"
 
 class Class : public FigureComposite {
 public:
@@ -20,6 +19,7 @@ public:
 	Figure* operator [] (Long index);
 
 	Long Add(Long x, Long y, Long width, Long height);
+
 	Long AddGeneralization(Long x, Long y, Long width, Long height);
 	Long AddRealization(Long x, Long y, Long width, Long height);
 	Long AddDependency(Long x, Long y, Long width, Long height);
@@ -34,30 +34,22 @@ public:
 
 
 
-	Long Add(Figure *figure);
-	Long Remove(Long index);
+	virtual Long Add(Figure *figure);
+	virtual Long Remove(Long index);
 
-	Figure* GetAt(Long index);  
+	virtual Figure* GetAt(Long index);
 
 
-	Figure* Clone() const;
-	void PrintLine(SmartPointer<Figure*>& index);
+	virtual Figure* Clone() const;
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 
-	Long GetCapacity() const;
-	Long GetLength() const;
 	Long GetTempletePosition() const;
+
 private:
 	Long templetePosition;
 };
 inline Long Class::GetTempletePosition() const {
 	return this->templetePosition;
-}
-inline Long Class::GetCapacity() const {
-	return this->capacity;
-}
-inline Long Class::GetLength() const {
-	return this->length;
 }
 
 #endif //_CLASS_H

@@ -1,10 +1,12 @@
+#pragma once
+
 //Diagram.h
 
 #ifndef _DIAGRAM_H
 #define _DIAGRAM_H
 
-#include "Class.h"
-//#include"MemoBox.h"
+#include"FigureComposite.h"
+#include"DrawingVisitor.h"
 
 class Diagram : public FigureComposite {
 public:
@@ -16,25 +18,22 @@ public:
 	Figure* operator [] (Long index);
 
 	Long Find(Long x, Long y);
-	Long Add(Figure *figure);
-	Long Add(Long x, Long y, Long width, Long height);
-	Long Remove(Long index);
-	Class* GetAt(Long index);
+	virtual Long Add(Figure *figure);
+	Long AddClass(Long x, Long y, Long width, Long height);
+	Long AddMemoBox(Long x, Long y, Long width, Long height);
+	virtual Long Remove(Long index);
+	virtual Figure* GetAt(Long index);
 	
-
-	Figure* Clone() const;
-	void PrintClass(SmartPointer<Figure*>& index);
+	virtual Figure* Clone() const;
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 
-	Long GetCapacity() const;
-	Long GetLength() const;
+	Long GetCapacity() ;
+	Long GetLength();
 };
-
-inline Long Diagram::GetCapacity() const {
-	return this->capacity;
+inline Long Diagram::GetCapacity()  {
+	return FigureComposite::GetCapacity();
 }
-inline Long Diagram::GetLength() const {
-	return this->length;
+inline Long Diagram::GetLength() {
+	return FigureComposite::GetLength();
 }
-
-#endif // _DIAGRAM_H
+#endif // !_DIAGRAM_H

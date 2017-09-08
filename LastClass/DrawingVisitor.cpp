@@ -2,7 +2,7 @@
 
 #include"DrawingVisitor.h"
 #include "Class.h"
-
+#include "Line.h"
 #include "Generalization.h"
 #include "Realization.h"
 #include "Dependency.h"
@@ -13,7 +13,7 @@
 #include "Composition.h"
 #include "Compositions.h"
 #include "Template.h"
-//#include "MemoBox.h"
+#include "MemoBox.h"
 #include <iostream>
 using namespace std;
 
@@ -481,11 +481,11 @@ void DrawingVisitor::Visit(Template *object, CDC *cPaintDc) {
 
 }
 
-//void DrawingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { // CDC  *cPaintDc
-//	Long x = memoBox->GetX();
-//	Long y = memoBox->GetY();;
-//	Long width = memoBox->GetWidth();
-//	Long height = memoBox->GetHeight();
-//
-//	cout << "메모박스출력" << " " << x << " " << y << " " << width << " " << height << endl;
-//}
+void DrawingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { // CDC  *cPaintDc
+	Long x = memoBox->GetX();
+	Long y = memoBox->GetY();;
+	Long width = memoBox->GetWidth();
+	Long height = memoBox->GetHeight();
+
+	cout << "메모박스출력" << " " << x << " " << y << " " << width << " " << height << endl;
+}

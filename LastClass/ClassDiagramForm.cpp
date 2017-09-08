@@ -1,6 +1,8 @@
 //ClassDiagramForm.cpp
 
 #include "ClassDiagramForm.h"
+#include "Class.h"
+#include  "Line.h"
 //#include "Figure.h"
 #include "Diagram.h"
 #include "DrawingVisitor.h"
@@ -67,80 +69,80 @@ Long ClassDiagramForm::Save() {
    fClass.open("ClassSave.txt");
    fLine.open("LineSave.txt");
    if (fClass.is_open() && fLine.is_open()) {
-      while (i < this->diagram->GetLength()) {
-         Class object;
-         object = *(this->diagram->GetAt(i));
-         fClass << object.GetLength() << " " << object.GetX() << " " << object.GetY()
-            << " " << object.GetWidth() << " " << object.GetHeight() << endl;
+      while (i < this->diagram->GetLength() ) {
+         Class *object;
+         object = dynamic_cast<Class*>(this->diagram->GetAt(i));
+         fClass << object->GetLength() << " " << object->GetX() << " " << object->GetY()
+            << " " << object->GetWidth() << " " << object->GetHeight() << endl;
          j = 0;
-         while (j < object.GetLength()) {
+         while (j < object->GetLength()) {
 			 Figure *figure;
 			 //종류 구별을 위한 마지막 칸 
 			 // 0 = Line, 1 = Template, 2 = Generalization(일반화), 3 = Realization(실체화), 4 = Dependency(의존), 5 = Association(연관화),
 			 // 6 = DirectedAssociation(직접연관),  7 = Aggregation(집합), 8 = Aggregations(집합연관), 9 =  Composition(합성), 10 = Compositions(복합연관)
 			 
-			 if (dynamic_cast<Line*>(object.GetAt(j))) {
-				 figure = object.GetAt(j);
+			 if (dynamic_cast<Line*>(object->GetAt(j))) {
+				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 0 << endl;
 			 }
 
-			 else if (dynamic_cast<Template*>(object.GetAt(j))) {
-				 figure = object.GetAt(j);
+			 else if (dynamic_cast<Template*>(object->GetAt(j))) {
+				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 1 << endl;
 			 }
 
-			 else if (dynamic_cast<Generalization*>(object.GetAt(j))) {
-				 figure = object.GetAt(j);
+			 else if (dynamic_cast<Generalization*>(object->GetAt(j))) {
+				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 2 << endl;
 			 }
 
-			 else if (dynamic_cast<Realization*>(object.GetAt(j))) {
-				 figure = object.GetAt(j);
+			 else if (dynamic_cast<Realization*>(object->GetAt(j))) {
+				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 3 << endl;
 			 }
 
-			 else if (dynamic_cast<Dependency*>(object.GetAt(j))) {
-				 figure = object.GetAt(j);
+			 else if (dynamic_cast<Dependency*>(object->GetAt(j))) {
+				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 4 << endl;
 			 }
 
-			 else if (dynamic_cast<Association*>(object.GetAt(j))) {
-				 figure = object.GetAt(j);
+			 else if (dynamic_cast<Association*>(object->GetAt(j))) {
+				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 5 << endl;
 			 }
 
-			 else if (dynamic_cast<DirectedAssociation*>(object.GetAt(j))) {
-				 figure = object.GetAt(j);
+			 else if (dynamic_cast<DirectedAssociation*>(object->GetAt(j))) {
+				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 6 << endl;
 			 }
 
-			 else if (dynamic_cast<Aggregation*>(object.GetAt(j))) {
-				 figure = object.GetAt(j);
+			 else if (dynamic_cast<Aggregation*>(object->GetAt(j))) {
+				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 7 << endl;
 			 }
 
-			 else if (dynamic_cast<Aggregations*>(object.GetAt(j))) {
-				 figure = object.GetAt(j);
+			 else if (dynamic_cast<Aggregations*>(object->GetAt(j))) {
+				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 8 << endl;
 			 }
 
-			 else if (dynamic_cast<Composition*>(object.GetAt(j))) {
-				 figure = object.GetAt(j);
+			 else if (dynamic_cast<Composition*>(object->GetAt(j))) {
+				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 9 << endl;
 			 }
 
-			 else if (dynamic_cast<Compositions*>(object.GetAt(j))) {
-				 figure = object.GetAt(j);
+			 else if (dynamic_cast<Compositions*>(object->GetAt(j))) {
+				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 10 << endl;
 			 }
@@ -188,42 +190,43 @@ Long ClassDiagramForm::Load() {
 	if (fClass.is_open() && fLine.is_open()) {
 		fClass >> length >> x >> y >> width >> height;
 		while (!fClass.eof()) {
-			position = this->diagram->Add(x, y, width, height);
+
+			position = this->diagram->AddClass(x, y, width, height);
 			i = 0;
 			while (i < length) {
 				fLine >> lineX >> lineY >> lineWidth >> lineHeight >> type;
 				if (type == 0) {
-					this->diagram->GetAt(position)->Add(lineX, lineY, lineWidth, lineHeight);
+					dynamic_cast<Class*>(this->diagram->GetAt(position))->Add(lineX, lineY, lineWidth, lineHeight);
 				}
 				else if (type == 1) {
-					this->diagram->GetAt(position)->AddTemplate(lineX, lineY, lineWidth, lineHeight);
+					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddTemplate(lineX, lineY, lineWidth, lineHeight);
 				}
 				else if (type == 2) {
-					this->diagram->GetAt(position)->AddGeneralization(lineX, lineY, lineWidth, lineHeight);
+					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddGeneralization(lineX, lineY, lineWidth, lineHeight);
 				}
 				else if (type == 3) {
-					this->diagram->GetAt(position)->AddRealization(lineX, lineY, lineWidth, lineHeight);
+					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddRealization(lineX, lineY, lineWidth, lineHeight);
 				}
 				else if (type == 4) {
-					this->diagram->GetAt(position)->AddDependency(lineX, lineY, lineWidth, lineHeight);
+					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddDependency(lineX, lineY, lineWidth, lineHeight);
 				}
 				else if (type == 5) {
-					this->diagram->GetAt(position)->AddAssociation(lineX, lineY, lineWidth, lineHeight);
+					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddAssociation(lineX, lineY, lineWidth, lineHeight);
 				}
 				else if (type == 6) {
-					this->diagram->GetAt(position)->AddDirectedAssociation(lineX, lineY, lineWidth, lineHeight);
+					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddDirectedAssociation(lineX, lineY, lineWidth, lineHeight);
 				}
 				else if (type == 7) {
-					this->diagram->GetAt(position)->AddAggregation(lineX, lineY, lineWidth, lineHeight);
+					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddAggregation(lineX, lineY, lineWidth, lineHeight);
 				}
 				else if (type == 8) {
-					this->diagram->GetAt(position)->AddAggregations(lineX, lineY, lineWidth, lineHeight);
+					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddAggregations(lineX, lineY, lineWidth, lineHeight);
 				}
 				else if (type == 9) {
-					this->diagram->GetAt(position)->AddComposition(lineX, lineY, lineWidth, lineHeight);
+					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddComposition(lineX, lineY, lineWidth, lineHeight);
 				}
 				else if (type == 10) {
-					this->diagram->GetAt(position)->AddCompositions(lineX, lineY, lineWidth, lineHeight);
+					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddCompositions(lineX, lineY, lineWidth, lineHeight);
 				}
 				//static_cast<Class*>(this->diagram->GetAt(position))->Add(lineX, lineY, lineWidth, lineHeigth);
 				i++;
@@ -794,39 +797,39 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		}
 
 		if (this->generalizationButton == true) {
-			this->diagram->GetAt(this->selected)->AddGeneralization( cross1.x, cross1.y, cross2.x, cross2.y);
+			dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddGeneralization( cross1.x, cross1.y, cross2.x, cross2.y);
 			//Invalidate();
 		}
 		else if (this->realizationButton == true) {
-			this->diagram->GetAt(this->selected)->AddRealization(cross1.x, cross1.y, cross2.x, cross2.y);
+			dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddRealization(cross1.x, cross1.y, cross2.x, cross2.y);
 			//Invalidate();
 		}
 		else if (this->associationButton == true) {
-			this->diagram->GetAt(this->selected)->AddAssociation(cross1.x, cross1.y, cross2.x, cross2.y);
+			dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddAssociation(cross1.x, cross1.y, cross2.x, cross2.y);
 			//Invalidate();
 		}
 		else if (this->dependencyButton == true) {
-			this->diagram->GetAt(this->selected)->AddDependency(cross1.x, cross1.y, cross2.x, cross2.y);
+			dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddDependency(cross1.x, cross1.y, cross2.x, cross2.y);
 			//Invalidate();
 		}
 		else if (this->directedAssociationButton == true) {
-			this->diagram->GetAt(this->selected)->AddDirectedAssociation(cross1.x, cross1.y, cross2.x, cross2.y);
+			dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddDirectedAssociation(cross1.x, cross1.y, cross2.x, cross2.y);
 			//Invalidate();
 		}
 		else if (this->aggregationButton == true) {
-			this->diagram->GetAt(this->selected)->AddAggregation(cross1.x, cross1.y, cross2.x, cross2.y);
+			dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddAggregation(cross1.x, cross1.y, cross2.x, cross2.y);
 			//Invalidate();
 		}
 		else if (this->aggregationSButton == true) {
-			this->diagram->GetAt(this->selected)->AddAggregations(cross1.x, cross1.y, cross2.x, cross2.y);
+			dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddAggregations(cross1.x, cross1.y, cross2.x, cross2.y);
 			//Invalidate();
 		}
 		else if (this->compositionButton == true) {
-			this->diagram->GetAt(this->selected)->AddComposition(cross1.x, cross1.y, cross2.x, cross2.y);
+			dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddComposition(cross1.x, cross1.y, cross2.x, cross2.y);
 			//Invalidate();
 		}
 		else if (this->compositionSBtton == true) {
-			this->diagram->GetAt(this->selected)->AddCompositions(cross1.x, cross1.y, cross2.x, cross2.y);
+			dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddCompositions(cross1.x, cross1.y, cross2.x, cross2.y);
 			//Invalidate();
 		}
 	}
@@ -837,15 +840,15 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		if (this->currentY - this->startY < 150) {
 			this->currentY = this->startY + 150;
 		}
-		Long index = this->diagram->Add(this->startX, this->startY, this->currentX - this->startX, this->currentY - this->startY);
+		Long index = this->diagram->AddClass(this->startX, this->startY, this->currentX - this->startX, this->currentY - this->startY);
 
 		//Class 생성자에서 Line 만드는거 추가에서 -> Class Add에서 Line 만드는거 추가에서 -> Form 마우스 드래그 끝날떄
 		//끝나면서 Class 만든거에 Line 추가하는걸로 바꿈 2017.08.24
 
 		//첨자연산자 왜 안돼는지 //선 만듦
-		static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, this->startY + 30,
+		dynamic_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, this->startY + 30,
 			this->currentX - this->startX, this->startY + 30);
-		static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, (this->startY + 30 + this->currentY) / 2,
+		dynamic_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, (this->startY + 30 + this->currentY) / 2,
 			this->currentX - this->startX, (this->startY + 30 + this->currentY) / 2);
 
 		//클래스 이름, 캐럿 출력
@@ -865,8 +868,8 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	}
 	if (templateButton == true && this->selected != -1) {
 		Class *object;
-		object = this->diagram->GetAt(this->selected);
-		object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25);
+		object = dynamic_cast<Class*>(this->diagram->GetAt(this->selected));
+		object->AddTemplate(  object->GetX() + object->GetWidth() - 70,  object->GetY() - 15,   80,   25);
 		//Invalidate();
 	}
 	this->startX = 0;

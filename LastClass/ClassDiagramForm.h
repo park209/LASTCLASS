@@ -1,3 +1,5 @@
+#pragma once
+
 //ClassDiagramForm.h
 
 #ifndef _CLASSDIAGRAM_H

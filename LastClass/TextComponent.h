@@ -1,3 +1,5 @@
+#pragma once
+
 //TextComponent.h
 
 #ifndef _TEXTCOMPONENT_H

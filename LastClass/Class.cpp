@@ -1,6 +1,7 @@
 //Class.cpp
 
 #include "Class.h"
+#include "Line.h"
 #include "Generalization.h"
 #include "Realization.h"
 #include "Dependency.h"
@@ -11,7 +12,7 @@
 #include "Composition.h"
 #include "Compositions.h"
 #include "Template.h"
-//#include "Template.h"
+#include "SmartPointer.h"
 
 Class::Class(Long capacity) {
 	this->capacity = capacity;
@@ -103,6 +104,7 @@ Long Class::Add(Long x, Long y, Long width, Long height) {
 
 	return index;
 }
+
 
 
 Long Class::AddGeneralization(Long x, Long y, Long width, Long height) {
@@ -275,18 +277,10 @@ Figure* Class::Clone() const{
 	return new Class(*this);
 }
 
-#include <iostream>
-using namespace std;
-
-void Class::PrintLine(SmartPointer<Figure*>& index) {
-	for (index->First(); !index->IsDone(); index->Next()) {
-		cout << index->Current()->GetX() << " " << index->Current()->GetY() << endl;
-	}
-}
 
 
 void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
-	cout << "Class Accept" << endl;
+	//cout << "Class Accept" << endl;
 	visitor.Visit(this, cPaintDc);
 
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
@@ -342,7 +336,7 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		else if (dynamic_cast<Compositions*>(smartPointer->Current())) {
 			dynamic_cast<Compositions*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-		
+
 		//static_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		smartPointer->Next();
 	}

@@ -1,3 +1,5 @@
+#pragma once
+
 //DrawingVisitor.h
 
 #ifndef _DRAWINGVISITOR_H
@@ -40,7 +42,7 @@ public:
 
 	void Visit(Template *object, CDC *cPaintDc);
 
-	//void Visit(MemoBox *memoBox, CDC *cPaintDc);   //CDC  *cPaintDc
+	void Visit(MemoBox *memoBox, CDC *cPaintDc);   //CDC  *cPaintDc
 };
 
 #endif // _DRAWINGVISITOR_H

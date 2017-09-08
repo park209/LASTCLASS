@@ -1,3 +1,5 @@
+#pragma once
+
 //Array.h
 
 #ifndef _ARRAY_H

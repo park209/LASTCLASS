@@ -1,3 +1,5 @@
+#pragma once
+
 //Text.h
 
 #ifndef _TEXT_H

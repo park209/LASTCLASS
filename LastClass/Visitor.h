@@ -1,3 +1,5 @@
+#pragma once
+
 //Visitor.h
 
 #ifndef _VISITOR_H
@@ -22,6 +24,11 @@ class Composition;
 class Compositions;
 class Template;
 class MemoBox;
+
+
+
+
+
 class Visitor{
 public:
 	virtual ~Visitor();
@@ -53,7 +60,7 @@ public:
 
 	virtual void Visit(Template *object, CDC *cPaintDc) = 0;
 
-	//virtual void Visit(MemoBox* memobox, CDC *cPaintDc) = 0;// CDC  *cPaintDc
+	virtual void Visit(MemoBox* memobox, CDC *cPaintDc) = 0;// CDC  *cPaintDc
 protected:
 	Visitor();
 };

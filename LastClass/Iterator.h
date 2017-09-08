@@ -1,3 +1,5 @@
+#pragma once
+
 //Itrator.h
 
 #ifndef _ITERATOR_H

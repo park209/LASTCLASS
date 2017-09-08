@@ -1,6 +1,7 @@
 #pragma once
 #ifndef _TEMPLATE_H
 #define _TEMPLATE_H
+
 #include "Figure.h"
 #include "DrawingVisitor.h"
 
