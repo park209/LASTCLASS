@@ -188,10 +188,10 @@ void DrawingVisitor::Visit(Association *association, CDC* cPaintDc) { //, CDC* c
 	Long startY = association->GetY();;
 	Long endX = association->GetWidth();
 	Long endY = association->GetHeight();
-	cout << "연관화출력" << " " << startX << " " << startY << " " << endX << " " << endY << endl;
+	//cout << "연관화출력" << " " << startX << " " << startY << " " << endX << " " << endY << endl;
 
-	//cPaintDc->MoveTo(startX, startY);
-	//cPaintDc->LineTo(endX, endY);
+	cPaintDc->MoveTo(startX, startY);
+	cPaintDc->LineTo(endX, endY);
 }
 
 void DrawingVisitor::Visit(DirectedAssociation *directedAssociation, CDC* cPaintDc) {

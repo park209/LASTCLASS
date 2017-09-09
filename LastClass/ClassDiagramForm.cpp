@@ -20,6 +20,9 @@
 #include "Composition.h"
 #include "Compositions.h"
 #include "MemoBox.h"
+
+#include "FigureFactory.h"
+
 #include <math.h>
 
 #include <iostream>
@@ -49,10 +52,10 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->selected = -1;
 	this->classButton = false;
 	this->relationButton = true;
-	this->generalizationButton = true; //일반화
+	this->generalizationButton = false; //일반화
 	this->realizationButton = false; //실체화
 	this->dependencyButton = false; //의존
-	this->associationButton = false; //연관화  
+	this->associationButton = true; //연관화  
 	this->directedAssociationButton = false; //직접연관
 	this->aggregationButton = false; // 집합
 	this->aggregationSButton = false; // 집합연관
@@ -198,6 +201,9 @@ Long ClassDiagramForm::Load() {
 	ifstream fLine;
 	Long type;
 
+	FigureFactory factory;
+	Figure *figure;
+
 	fClass.open("ClassSave.txt");
 	fLine.open("LineSave.txt");
 
@@ -208,50 +214,53 @@ Long ClassDiagramForm::Load() {
 	if (fClass.is_open() && fLine.is_open()) {
 		fClass >> length >> x >> y >> width >> height >> type;
 		while (!fClass.eof()) {
-			if (type == 0) {
-				position = this->diagram->AddClass(x, y, width, height);
-			}
+			//if (type == 0) {
+			//	position = this->diagram->AddClass(x, y, width, height);
+			//}
 
-			else if (type == 1) {
-				position = this->diagram->AddMemoBox(x, y, width, height);
-			}
-
+			//else if (type == 1) {
+			//	position = this->diagram->AddMemoBox(x, y, width, height);
+			//}
+			figure  = factory.Create(x, y, width, height, type);
+			position = this->diagram->Add(figure);
 			i = 0;
 			while (position !=-1 && i < length) {
 				fLine >> lineX >> lineY >> lineWidth >> lineHeight >> type;
-				if (type == 2) {
-					dynamic_cast<Class*>(this->diagram->GetAt(position))->Add(lineX, lineY, lineWidth, lineHeight);
-				}
-				else if (type == 3) {
-					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddTemplate(lineX, lineY, lineWidth, lineHeight);
-				}
-				else if (type == 4) {
-					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddGeneralization(lineX, lineY, lineWidth, lineHeight);
-				}
-				else if (type == 5) {
-					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddRealization(lineX, lineY, lineWidth, lineHeight);
-				}
-				else if (type == 6) {
-					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddDependency(lineX, lineY, lineWidth, lineHeight);
-				}
-				else if (type == 7) {
-					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddAssociation(lineX, lineY, lineWidth, lineHeight);
-				}
-				else if (type == 8) {
-					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddDirectedAssociation(lineX, lineY, lineWidth, lineHeight);
-				}
-				else if (type == 9) {
-					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddAggregation(lineX, lineY, lineWidth, lineHeight);
-				}
-				else if (type == 10) {
-					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddAggregations(lineX, lineY, lineWidth, lineHeight);
-				}
-				else if (type == 11) {
-					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddComposition(lineX, lineY, lineWidth, lineHeight);
-				}
-				else if (type == 12) {
-					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddCompositions(lineX, lineY, lineWidth, lineHeight);
-				}
+				figure = factory.Create(lineX, lineY, lineWidth, lineHeight, type);
+				dynamic_cast<FigureComposite*>(this->diagram->GetAt(position))->Add(figure);
+				//if (type == 2) {
+				//	dynamic_cast<Class*>(this->diagram->GetAt(position))->Add(lineX, lineY, lineWidth, lineHeight);
+				//}
+				//else if (type == 3) {
+				//	dynamic_cast<Class*>(this->diagram->GetAt(position))->AddTemplate(lineX, lineY, lineWidth, lineHeight);
+				//}
+				//else if (type == 4) {
+				//	dynamic_cast<Class*>(this->diagram->GetAt(position))->AddGeneralization(lineX, lineY, lineWidth, lineHeight);
+				//}
+				//else if (type == 5) {
+				//	dynamic_cast<Class*>(this->diagram->GetAt(position))->AddRealization(lineX, lineY, lineWidth, lineHeight);
+				//}
+				//else if (type == 6) {
+				//	dynamic_cast<Class*>(this->diagram->GetAt(position))->AddDependency(lineX, lineY, lineWidth, lineHeight);
+				//}
+				//else if (type == 7) {
+				//	dynamic_cast<Class*>(this->diagram->GetAt(position))->AddAssociation(lineX, lineY, lineWidth, lineHeight);
+				//}
+				//else if (type == 8) {
+				//	dynamic_cast<Class*>(this->diagram->GetAt(position))->AddDirectedAssociation(lineX, lineY, lineWidth, lineHeight);
+				//}
+				//else if (type == 9) {
+				//	dynamic_cast<Class*>(this->diagram->GetAt(position))->AddAggregation(lineX, lineY, lineWidth, lineHeight);
+				//}
+				//else if (type == 10) {
+				//	dynamic_cast<Class*>(this->diagram->GetAt(position))->AddAggregations(lineX, lineY, lineWidth, lineHeight);
+				//}
+				//else if (type == 11) {
+				//	dynamic_cast<Class*>(this->diagram->GetAt(position))->AddComposition(lineX, lineY, lineWidth, lineHeight);
+				//}
+				//else if (type == 12) {
+				//	dynamic_cast<Class*>(this->diagram->GetAt(position))->AddCompositions(lineX, lineY, lineWidth, lineHeight);
+				//}
 				//static_cast<Class*>(this->diagram->GetAt(position))->Add(lineX, lineY, lineWidth, lineHeigth);
 				i++;
 			}
