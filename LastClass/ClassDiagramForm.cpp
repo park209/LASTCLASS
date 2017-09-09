@@ -48,13 +48,13 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->characterIndex = 0;
 	this->selected = -1;
 	this->classButton = false;
-	this->relationButton = false;
-	this->generalizationButton = false; //일반화
+	this->relationButton = true;
+	this->generalizationButton = true; //일반화
 	this->realizationButton = false; //실체화
 	this->dependencyButton = false; //의존
 	this->associationButton = false; //연관화  
 	this->directedAssociationButton = false; //직접연관
-	this->aggregationButton = true; // 집합
+	this->aggregationButton = false; // 집합
 	this->aggregationSButton = false; // 집합연관
 	this->compositionButton = false; // 합성
 	this->compositionSBtton = false; // 복합연관
@@ -72,7 +72,10 @@ Long ClassDiagramForm::Save() {
    fLine.open("LineSave.txt");
    if (fClass.is_open() && fLine.is_open()) {
       while (i < this->diagram->GetLength() ) {
-		 //다이어그램 하위 종류구별 0 = Class, 1 = MemoBox
+		  //종류 구별을 위한 마지막 칸 
+		  // 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 6 = Dependency(의존), 7 = Association(연관화),
+		  // 8 = DirectedAssociation(직접연관),  9 = Aggregation(집합), 10 = Aggregations(집합연관), 11 =  Composition(합성), 12 = Compositions(복합연관)
+
 		  FigureComposite *object = 0;
 		 if (dynamic_cast<Class*>(this->diagram->GetAt(i))) {
 			 object = dynamic_cast<FigureComposite*>(this->diagram->GetAt(i));
@@ -91,74 +94,71 @@ Long ClassDiagramForm::Save() {
          j = 0;
          while (j < object->GetLength()) {
 			 Figure *figure;
-			 //종류 구별을 위한 마지막 칸 
-			 // 0 = Line, 1 = Template, 2 = Generalization(일반화), 3 = Realization(실체화), 4 = Dependency(의존), 5 = Association(연관화),
-			 // 6 = DirectedAssociation(직접연관),  7 = Aggregation(집합), 8 = Aggregations(집합연관), 9 =  Composition(합성), 10 = Compositions(복합연관)
 			 
 			 if (dynamic_cast<Line*>(object->GetAt(j))) {
-				 figure = object->GetAt(j);
-				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
-					 figure->GetWidth() << " " << figure->GetHeight() << " " << 0 << endl;
-			 }
-
-			 else if (dynamic_cast<Template*>(object->GetAt(j))) {
-				 figure = object->GetAt(j);
-				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
-					 figure->GetWidth() << " " << figure->GetHeight() << " " << 1 << endl;
-			 }
-
-			 else if (dynamic_cast<Generalization*>(object->GetAt(j))) {
 				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 2 << endl;
 			 }
 
-			 else if (dynamic_cast<Realization*>(object->GetAt(j))) {
+			 else if (dynamic_cast<Template*>(object->GetAt(j))) {
 				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 3 << endl;
 			 }
 
-			 else if (dynamic_cast<Dependency*>(object->GetAt(j))) {
+			 else if (dynamic_cast<Generalization*>(object->GetAt(j))) {
 				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 4 << endl;
 			 }
 
-			 else if (dynamic_cast<Association*>(object->GetAt(j))) {
+			 else if (dynamic_cast<Realization*>(object->GetAt(j))) {
 				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 5 << endl;
 			 }
 
-			 else if (dynamic_cast<DirectedAssociation*>(object->GetAt(j))) {
+			 else if (dynamic_cast<Dependency*>(object->GetAt(j))) {
 				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 6 << endl;
 			 }
 
-			 else if (dynamic_cast<Aggregation*>(object->GetAt(j))) {
+			 else if (dynamic_cast<Association*>(object->GetAt(j))) {
 				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 7 << endl;
 			 }
 
-			 else if (dynamic_cast<Aggregations*>(object->GetAt(j))) {
+			 else if (dynamic_cast<DirectedAssociation*>(object->GetAt(j))) {
 				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 8 << endl;
 			 }
 
-			 else if (dynamic_cast<Composition*>(object->GetAt(j))) {
+			 else if (dynamic_cast<Aggregation*>(object->GetAt(j))) {
 				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 9 << endl;
 			 }
 
-			 else if (dynamic_cast<Compositions*>(object->GetAt(j))) {
+			 else if (dynamic_cast<Aggregations*>(object->GetAt(j))) {
 				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
 					 figure->GetWidth() << " " << figure->GetHeight() << " " << 10 << endl;
+			 }
+
+			 else if (dynamic_cast<Composition*>(object->GetAt(j))) {
+				 figure = object->GetAt(j);
+				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
+					 figure->GetWidth() << " " << figure->GetHeight() << " " << 11 << endl;
+			 }
+
+			 else if (dynamic_cast<Compositions*>(object->GetAt(j))) {
+				 figure = object->GetAt(j);
+				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
+					 figure->GetWidth() << " " << figure->GetHeight() << " " << 12 << endl;
 			 }
 
             //Line *lineObject;
@@ -183,7 +183,7 @@ Long ClassDiagramForm::Save() {
 }
 
 Long ClassDiagramForm::Load() {
-	Long position = 0;
+	Long position = -1;
 	Long i;
 	Long x;
 	Long y;
@@ -197,62 +197,65 @@ Long ClassDiagramForm::Load() {
 	ifstream fClass;
 	ifstream fLine;
 	Long type;
-	Long classMemoType;
 
 	fClass.open("ClassSave.txt");
 	fLine.open("LineSave.txt");
 
+	//종류 구별을 위한 마지막 칸 
+	// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 6 = Dependency(의존), 7 = Association(연관화),
+	// 8 = DirectedAssociation(직접연관),  9 = Aggregation(집합), 10 = Aggregations(집합연관), 11 =  Composition(합성), 12 = Compositions(복합연관)
+
 	if (fClass.is_open() && fLine.is_open()) {
-		fClass >> length >> x >> y >> width >> height >> classMemoType;
+		fClass >> length >> x >> y >> width >> height >> type;
 		while (!fClass.eof()) {
-			if (classMemoType == 0) {
+			if (type == 0) {
 				position = this->diagram->AddClass(x, y, width, height);
 			}
 
-			else if (classMemoType == 1) {
+			else if (type == 1) {
 				position = this->diagram->AddMemoBox(x, y, width, height);
 			}
 
 			i = 0;
-			while (position !=0 && i < length) {
+			while (position !=-1 && i < length) {
 				fLine >> lineX >> lineY >> lineWidth >> lineHeight >> type;
-				if (type == 0) {
+				if (type == 2) {
 					dynamic_cast<Class*>(this->diagram->GetAt(position))->Add(lineX, lineY, lineWidth, lineHeight);
 				}
-				else if (type == 1) {
+				else if (type == 3) {
 					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddTemplate(lineX, lineY, lineWidth, lineHeight);
 				}
-				else if (type == 2) {
+				else if (type == 4) {
 					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddGeneralization(lineX, lineY, lineWidth, lineHeight);
 				}
-				else if (type == 3) {
+				else if (type == 5) {
 					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddRealization(lineX, lineY, lineWidth, lineHeight);
 				}
-				else if (type == 4) {
+				else if (type == 6) {
 					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddDependency(lineX, lineY, lineWidth, lineHeight);
 				}
-				else if (type == 5) {
+				else if (type == 7) {
 					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddAssociation(lineX, lineY, lineWidth, lineHeight);
 				}
-				else if (type == 6) {
+				else if (type == 8) {
 					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddDirectedAssociation(lineX, lineY, lineWidth, lineHeight);
 				}
-				else if (type == 7) {
+				else if (type == 9) {
 					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddAggregation(lineX, lineY, lineWidth, lineHeight);
 				}
-				else if (type == 8) {
+				else if (type == 10) {
 					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddAggregations(lineX, lineY, lineWidth, lineHeight);
 				}
-				else if (type == 9) {
+				else if (type == 11) {
 					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddComposition(lineX, lineY, lineWidth, lineHeight);
 				}
-				else if (type == 10) {
+				else if (type == 12) {
 					dynamic_cast<Class*>(this->diagram->GetAt(position))->AddCompositions(lineX, lineY, lineWidth, lineHeight);
 				}
 				//static_cast<Class*>(this->diagram->GetAt(position))->Add(lineX, lineY, lineWidth, lineHeigth);
 				i++;
 			}
-			fClass >> length >> x >> y >> width >> height >> classMemoType;
+			fClass >> length >> x >> y >> width >> height >> type;
 		}
 		fClass.close();
 		fLine.close();
@@ -734,7 +737,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentY = point.y;
 	
 	if (this->relationButton == true && this->selected != -1) {
-		Long endClass = this->diagram->Find(this->currentX, this->currentY);
+		Long endClass = this->diagram->Find(this->currentX, this->currentY);//자기자신 연결시 0 0 0 0 값 저장됨.. 수정요 2017_09_09
 		if (endClass != -1) {
 			CPoint line1Start;
 			CPoint line1End;
