@@ -43,6 +43,7 @@ private:
 	bool compositionButton; // 합성
 	bool compositionSBtton; // 복합연관
 	bool templateButton; //템플릿기호
+	bool memoBoxButton; //메모박스
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

@@ -487,8 +487,29 @@ void DrawingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { // CDC  *cPaintDc
 	Long width = memoBox->GetWidth();
 	Long height = memoBox->GetHeight();
 
-	cout << "¸Þ¸ð¹Ú½ºÃâ·Â" << " " << x << " " << y << " " << width << " " << height << endl;
+	//cout << "¸Þ¸ð¹Ú½ºÃâ·Â" << " " << x << " " << y << " " << width << " " << height << endl;
 
+	CPoint pts2[5];
+	pts2[0].x = static_cast<LONG>(x+15); // À­Á¡
+	pts2[0].y = static_cast<LONG>(y);
 
-	cPaintDc->Rectangle(x, y, x + width, y + height);
+	pts2[1].x = static_cast<LONG>(x); //¸¶¿ì½º Ã³À½ Á¡
+	pts2[1].y = static_cast<LONG>(y+15);
+
+	pts2[2].x = static_cast<LONG>(x); // ¾Æ·§Á¡
+	pts2[2].y = static_cast<LONG>(y + height);
+
+	pts2[3].x = static_cast<LONG>(x + width); // À­Á¡
+	pts2[3].y = static_cast<LONG>(y + height);
+
+	pts2[4].x = static_cast<LONG>(x + width); // À­Á¡
+	pts2[4].y = static_cast<LONG>(y);
+
+	cPaintDc->Polygon(pts2, 5);
+
+	cPaintDc->MoveTo(pts2[0].x, pts2[0].y);
+	cPaintDc->LineTo(pts2[0].x, pts2[0].y+15);
+
+	cPaintDc->MoveTo(pts2[1].x, pts2[1].y);
+	cPaintDc->LineTo(pts2[0].x, pts2[0].y+15);
 }
