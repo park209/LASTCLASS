@@ -34,6 +34,7 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->startY = 0;
 	this->currentX = 0;
 	this->currentY = 0;
+	this->currentClassIndex = -1;
 	this->rowIndex = 0;
 	this->characterIndex = 0;
 }
@@ -171,7 +172,7 @@ void ClassDiagramForm::OnPaint() {
 
 	this->diagram->Accept(drawingVisitor,&dc);
 
-	this->text->Accept(writingVisitor, &dc);
+	//this->text->Accept(writingVisitor, &dc);
 }
 
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -198,50 +199,60 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->startY = point.y;
 	this->currentX = point.x;
 	this->currentY = point.y;
+
+	this->currentClassIndex = -1;
+	this->currentClassIndex = this->diagram->Find(this->startX, this->startY);
+	if (this->currentClassIndex >= 0) {
+		//클릭한 위치가 클래스 위였다는말임
+		this->textEdit = new TextEdit(this, this->startX, this->startY, this->currentX - this->startX, 15);
+		this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(this->textEdit->GetStartX() + 5, this->textEdit->GetStartY() + 35, this->currentX, 15), NULL, NULL, WS_EX_TOPMOST);
+		this->textEdit->ShowWindow(SW_SHOW);
+	}
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
-	if (this->currentX - this->startX < 150) {
-		this->currentX = this->startX + 150;
+
+	if (this->currentClassIndex >= 0) {
+		//start 위치에서 클래스를 찾았었다면
+		// 마우스 마지막에 뗀 위치만큼 선택되어있던 클래스를 이동한다
 	}
-	if (this->currentY - this->startY< 200) {
-		this->currentY = this->startY + 200;
+	else {
+		if (this->currentX != this->startX && this->currentY != this->startY) {
+			if (this->currentX - this->startX < 150) {
+				this->currentX = this->startX + 150;
+			}
+			if (this->currentY - this->startY < 200) {
+				this->currentY = this->startY + 200;
+			}
+			Long index = this->diagram->Add(this->startX, this->startY, this->currentX - this->startX, this->currentY - this->startY);
+
+			//첨자연산자 왜 안돼는지
+			this->diagram->GetAt(index)->Add(this->startX, this->startY + 50,
+				this->currentX - this->startX, this->startY + 50);
+			static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, (this->startY + 50 + this->currentY) / 2,
+				this->currentX - this->startX, (this->startY + 50 + this->currentY) / 2);
+
+			this->textEdit = new TextEdit(this, this->startX, this->startY, this->currentX - this->startX, 15);
+			this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(this->textEdit->GetStartX() + 5, this->textEdit->GetStartY() + 35, this->currentX, 15), NULL, NULL, WS_EX_TOPMOST);
+			this->textEdit->ShowWindow(SW_SHOW);
+
+			Invalidate();
+		}
 	}
-	Long index = this->diagram->Add(this->startX, this->startY, this->currentX - this->startX, this->currentY - this->startY);
-
-	//Class 생성자에서 Line 만드는거 추가에서 -> Class Add에서 Line 만드는거 추가에서 -> Form 마우스 드래그 끝날떄
-	//끝나면서 Class 만든거에 Line 추가하는걸로 바꿈 2017.08.24
-
-	//첨자연산자 왜 안돼는지 //선 만듦
-	this->diagram->GetAt(index)->Add(this->startX, this->startY + 50,
-		this->currentX - this->startX, this->startY + 50);
-	static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, (this->startY + 50 + this->currentY) / 2,
-		this->currentX - this->startX, (this->startY + 50 + this->currentY) / 2);
-
-	this->textEdit = new TextEdit(this, this->startX, this->startY, this->currentX-this->startX, 15);
-
-	this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(this->textEdit->GetCurrentX()+5, this->textEdit->GetCurrentY()+35, this->currentX, 15), NULL, NULL, WS_EX_TOPMOST);
-	this->textEdit->ShowWindow(SW_SHOW);
-
-	Invalidate();
 }
 
 void ClassDiagramForm::OnLButtonDoubleClicked(UINT nFlags, CPoint point) {
-	//1.2. 해당 좌표로 클래스를 찾는다.
-	Long index = this->diagram->Find(point.x, point.y);
-	Long classWidth = this->diagram->GetAt(index)->GetWidth();
-	Long classHeight = this->diagram->GetAt(index)->GetHeight();
+	//Long index = this->diagram->Find(point.x, point.y);
+	//Long classWidth = this->diagram->GetAt(index)->GetWidth();
+	//Long classHeight = this->diagram->GetAt(index)->GetHeight();
 
-	if (this->textEdit != NULL) {
-		delete this->textEdit;
-	}
-	this->textEdit = new TextEdit(this, point.x, point.y, classWidth, classHeight);
+	//this->textEdit = new TextEdit(this, point.x, point.y, classWidth, classHeight); ///////////////////////
 
-	this->textEdit->Create(NULL, "TextEdit", WS_DLGFRAME, CRect(textEdit->GetCurrentX() + 5, textEdit->GetCurrentY() + 35, this->currentX, 15), NULL, NULL, WS_EX_TOPMOST);
-	this->textEdit->ShowWindow(SW_SHOW);
-	this->textEdit->UpdateWindow();
+	//this->textEdit->Create(NULL, "TextEdit", WS_DLGFRAME, CRect(textEdit->GetStartX() + 5, textEdit->GetStartY() + 35, this->currentX, 15), NULL, NULL, WS_EX_TOPMOST);
+	//this->textEdit->ShowWindow(SW_SHOW);
+	//this->textEdit->UpdateWindow();
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {

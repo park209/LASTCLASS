@@ -48,39 +48,21 @@ Long Text::Add(TextComponent *textComponent) {
 	return index;
 }
 
-void Text::Find(Long pointX, Long pointY, Long x, Long y, Long height, Long rowHeight, Row**(*indexes), Long *count) {
-	if (*indexes == 0) {
-		delete *indexes;
-		*indexes = 0;
-	}
-	if (this->length > 0) {
-		*indexes = new Row*[218];
-		Long i = 0;
-		Long j = 0;
-		while (i < this->length) {
-			if (this->GetAt(i)->GetY() < height&&this->GetAt(i)->GetY() > y + 5) {
-				if (x + 5 == this->GetAt(i)->GetX()) {
-					(*indexes)[j] = dynamic_cast<Row*>(this->GetAt(i)->Clone());
-					j++;
-				}
-			}
-			i++;
-		}
-		*count = j;
-	}
-}
-
 void Text::Find(Long x, Long y, Long height, Row**(*indexes), Long *count) {
-	SmartPointer<TextComponent*> iterator(this->CreateIterator());
-	*indexes = new Row*[10];
-	Long i = 0;
-	for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
-		if (((Row*)iterator->Current())->GetX() + 5 == x && ((Row*)iterator->Current())->GetY() > y && ((Row*)iterator->Current())->GetY() < y + height) {
-			(*indexes)[i] = (Row*)iterator->Current();
-			i++;
-		}
-	}
-	*count = i;
+   SmartPointer<TextComponent*> iterator(this->CreateIterator());
+   if (*indexes == 0) {
+      delete *indexes;
+      *indexes = 0;
+   }
+   *indexes = new Row*[10];
+   Long i = 0;
+   for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
+      if (((Row*)iterator->Current())->GetX() == x + 5 && ((Row*)iterator->Current())->GetY() > y + 5 && ((Row*)iterator->Current())->GetY() < y + height) {
+         (*indexes)[i] = (Row*)iterator->Current();
+         i++;
+      }
+   }
+   *count = i;
 }
 
 Long Text::Remove(Long index) {
@@ -111,9 +93,10 @@ void Text::PrintRow(SmartPointer<TextComponent*>& index) {
 
 void Text::Accept(Visitor& visitor, CDC* cPaintDc) {
 	cout << "Text Accept" << endl;
-	SmartPointer<TextComponent*> iterator(this->CreateIterator());
-	for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
-		static_cast<Row*>(iterator->Current())->Accept(visitor, cPaintDc);
+	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
+	while (!smartPointer->IsDone()) {
+		static_cast<Row*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		smartPointer->Next();
 	}
 }
 

@@ -27,15 +27,15 @@ BEGIN_MESSAGE_MAP(TextEdit, CFrameWnd)
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
-TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Long currentX, Long currentY, Long width, Long height) {
+TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Long startX, Long startY, Long width, Long height) {
 	this->classDiagramForm = classDiagramForm;
 	this->caret = 0;
 	this->width = width;
 	this->height = height;
 	this->rowIndex = 0;
 	this->characterIndex = 0;
-	this->currentX = currentX;
-	this->currentY = currentY;
+	this->startX = startX;
+	this->startY = startY;
 	this->indexes = NULL;
 	this->count = 0;
 	this->rowHeight = 20;
@@ -49,26 +49,24 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->caret = new Caret(5, 5, this);
 
 	ModifyStyle(WS_CAPTION, 0);
-	ModifyStyle(0, 0, SetWindowPos(&CWnd::wndTop, this->currentX + 3, this->currentY + 33, this->width - 5, this->height * 33, 0));
+	//ModifyStyle(0, 0, SetWindowPos(&CWnd::wndTop, this->startY + 3, this->startY + 33, this->width - 5, this->height * 33, 0));
 
 	CreateSolidCaret(3, 20); //rowHeight 가 오른쪽에 들어갈꺼임
 	Long i = 0;
 	CPaintDC dc(this);
-	//this->classDiagramForm->text->Find(this->startX, this->startY, this->height, &(this->indexes), &(this->count));
-	this->classDiagramForm->text->Find(this->currentX, this->currentY, this->startX, this->startY, this->height, this->rowHeight, &(this->indexes), &(this->count));
-
+	this->classDiagramForm->text->Find(this->startX, this->startY, this->height, &(this->indexes), &(this->count));
 	if (this->count == 0) {
-		Row row(this->currentX + 5, this->currentY + 5);
+		Row row;
 		i = this->classDiagramForm->text->Add(row.Clone());
-	}
 
-	/*while (i < count) {
+	}
+	while (i < count) {
 		dc.TextOut(this->indexes[i]->GetX() + 5, this->indexes[i]->GetY() + 5, (CString)this->indexes[i]->PrintRowString().c_str());
 		i++;
-	}*/
+	}
 
-	if (currentX > 5 && currentY > 5) {
-		while (height < this->currentY && this->rowIndex < this->classDiagramForm->text->GetLength()) {
+	if (startX > 5 && startY > 5) {
+		while (height < this->startY && this->rowIndex < this->classDiagramForm->text->GetLength()) {
 			this->rowIndex++;
 			height += rowHeight;
 		}
@@ -76,12 +74,12 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 			this->rowIndex--;
 		}
 
-		while (width < this->currentX && this->characterIndex < this->classDiagramForm->text->GetAt(rowIndex)->GetLength()) {
+		while (width < this->startX && this->characterIndex < this->classDiagramForm->text->GetAt(rowIndex)->GetLength()) {
 			width += dc.GetTabbedTextExtent(this->classDiagramForm->text->GetAt(this->rowIndex)->GetAt(this->characterIndex)->MakeCString(), 0, 0).cx;
 			this->characterIndex++;
 		}
 		if (this->characterIndex <= this->classDiagramForm->text->GetAt(rowIndex)->GetLength() && this->classDiagramForm->text->GetAt(rowIndex)->GetLength() > 0 &&
-			width - dc.GetTabbedTextExtent(this->classDiagramForm->text->GetAt(this->rowIndex)->GetAt(this->characterIndex - 1)->MakeCString(), 0, 0).cx / 2 > this->currentX) {
+			width - dc.GetTabbedTextExtent(this->classDiagramForm->text->GetAt(this->rowIndex)->GetAt(this->characterIndex - 1)->MakeCString(), 0, 0).cx / 2 > this->startX) {
 			this->characterIndex--;
 		}
 	}
@@ -103,7 +101,7 @@ void TextEdit::OnPaint() {
 		this->classDiagramForm->text->Add(newRow.Clone());
 	}
 
-	/*while (i < this->classDiagramForm->text->GetLength() && this->classDiagramForm->text->GetLength() > 0) {
+	while (i < this->classDiagramForm->text->GetLength() && this->classDiagramForm->text->GetLength() > 0) {
 		j = 0;
 		while (j < this->classDiagramForm->text->GetAt(i)->GetLength()) {
 			dc.TextOut(5, 5 + i * dc.GetTabbedTextExtent((CString)this->classDiagramForm->text->GetAt(i)->PrintRowString().c_str(), 0, 0).cy,
@@ -111,14 +109,10 @@ void TextEdit::OnPaint() {
 			j++;
 		}
 		i++;
-	}*/
-
-	while (i < count) {
-	dc.TextOut(5, 5, (CString)this->indexes[i]->PrintRowString().c_str());
-	i++;
 	}
-
 	this->caret->MoveToIndex(this->characterIndex, this->rowIndex);
+
+	SingleByteCharacter singleByte('	', 0, 0, 0);
 }
 
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -231,15 +225,15 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 
 void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
-	this->currentX = point.x;
-	this->currentY = point.y;
+	this->startX = point.x;
+	this->startY = point.y;
 	Long height = 5;
 	Long width = 5;
 	this->rowIndex = 0;
 	this->characterIndex = 0;
 
-	if (currentX > 5 && currentY > 5) {
-		while (height < this->currentY && this->rowIndex < this->classDiagramForm->text->GetLength()) {
+	if (startX > 5 && startY > 5) {
+		while (height < this->startY && this->rowIndex < this->classDiagramForm->text->GetLength()) {
 			this->rowIndex++;
 			height += rowHeight;
 		}
@@ -247,19 +241,19 @@ void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 			this->rowIndex--;
 		}
 
-		while (width < this->currentX && this->characterIndex < this->classDiagramForm->text->GetAt(rowIndex)->GetLength()) {
+		while (width < this->startX && this->characterIndex < this->classDiagramForm->text->GetAt(rowIndex)->GetLength()) {
 			width += dc.GetTabbedTextExtent(this->classDiagramForm->text->GetAt(this->rowIndex)->GetAt(this->characterIndex)->MakeCString(), 0, 0).cx;
 			this->characterIndex++;
 		}
 		if (this->characterIndex <= this->classDiagramForm->text->GetAt(rowIndex)->GetLength() && this->classDiagramForm->text->GetAt(rowIndex)->GetLength() > 0 &&
-			width - dc.GetTabbedTextExtent(this->classDiagramForm->text->GetAt(this->rowIndex)->GetAt(this->characterIndex - 1)->MakeCString(), 0, 0).cx / 2 > this->currentX) {
+			width - dc.GetTabbedTextExtent(this->classDiagramForm->text->GetAt(this->rowIndex)->GetAt(this->characterIndex - 1)->MakeCString(), 0, 0).cx / 2 > this->startX) {
 			this->characterIndex--;
 		}
 	}
 	this->caret->MoveToIndex(this->characterIndex, this->rowIndex);
 }
 
-void OnLButtonDoubleClicked(UINT nFlags, CPoint point) {
+void TextEdit::OnLButtonDoubleClicked(UINT nFlags, CPoint point) {
 
 }
 
@@ -369,5 +363,6 @@ void TextEdit::OnClose() {
 	if (this->classDiagramForm->textEdit != NULL) {
 		delete this->classDiagramForm->textEdit;
 	}
+
 	CFrameWnd::OnClose();
 }

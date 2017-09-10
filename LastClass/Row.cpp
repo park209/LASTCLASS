@@ -9,17 +9,8 @@ Row::Row(Long capacity) : TextComposite(capacity) {
 	this->length = 0;
 }
 
-Row::Row(Long x, Long y, Long capacity) : TextComposite(capacity) {
-	this->x = x;
-	this->y = y;
-	this->capacity = capacity;
-	this->length = 0;
-}
-
 Row::Row(const Row& source) {
 	this->textComponents = source.textComponents;
-	this->x = source.x;
-	this->y = source.y;
 	this->capacity = source.capacity;
 	this->length = source.length;
 	Long i = 0;
@@ -121,23 +112,19 @@ string Row::PrintRowString() {
 
 void Row::Accept(Visitor& visitor, CDC* cPaintDc) {
 	cout << "Row Accept" << endl;
-	//SmartPointer<TextComponent*> iterator(this->CreateIterator());
-
-	visitor.Visit(this, cPaintDc);
-	/*while (!smartPointer->IsDone()) {
-	if (dynamic_cast<SingleByteCharacter*>(smartPointer->Current())) {
-	(static_cast<SingleByteCharacter*>(smartPointer->Current()))->Accept(visitor, cPaintDc);
+	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
+	while (!smartPointer->IsDone()) {
+		if (dynamic_cast<SingleByteCharacter*>(smartPointer->Current())) {
+			(static_cast<SingleByteCharacter*>(smartPointer->Current()))->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<DoubleByteCharacter*>(smartPointer->Current())) {
+			(static_cast<DoubleByteCharacter*>(smartPointer->Current()))->Accept(visitor, cPaintDc);
+		}
+		smartPointer->Next();
 	}
-	else if (dynamic_cast<DoubleByteCharacter*>(smartPointer->Current())) {
-	(static_cast<DoubleByteCharacter*>(smartPointer->Current()))->Accept(visitor, cPaintDc);
-	}
-	smartPointer->Next();
-	}*/
 }
 
 Row& Row::operator = (const Row& source) {
-	this->x = source.x;
-	this->y = source.y;
 	this->capacity = source.capacity;
 	this->length = source.length;
 	this->textComponents = source.textComponents;

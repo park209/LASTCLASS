@@ -38,8 +38,5 @@ void DrawingVisitor::Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaint
 void DrawingVisitor::Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc) {
 }
 
-void DrawingVisitor::Visit(Row* row, CDC* cPaintDc) {
-}
-
 DrawingVisitor::~DrawingVisitor() {
 }

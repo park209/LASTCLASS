@@ -30,6 +30,7 @@ private:
 	Long startY;
 	Long currentX;
 	Long currentY;
+	Long currentClassIndex;
 	Long rowIndex;
 	Long characterIndex;
 protected:

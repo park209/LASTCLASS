@@ -13,7 +13,7 @@ class Caret;
 class Row;
 class TextEdit : public CFrameWnd {
 public:
-	TextEdit(ClassDiagramForm *classDiagramForm, Long currentX, Long currentY, Long width, Long height);
+	TextEdit(ClassDiagramForm *classDiagramForm, Long startX, Long startY, Long width, Long height);
 public:
 	//Long Save();
 	//Long Load();
@@ -37,15 +37,11 @@ public:
 	Long GetCharacterIndex() const;
 	Long GetStartX() const;
 	Long GetStartY() const;
-	Long GetCurrentX() const;
-	Long GetCurrentY() const;
 	Long GetRowHeight() const;
 	Long GetKoreanEnglish() const;
 public:
 	ClassDiagramForm *classDiagramForm;
 	Caret *caret;
-	Row*(*indexes);
-	Long count;
 private:
 	Long width;
 	Long height;
@@ -53,8 +49,8 @@ private:
 	Long characterIndex;
 	Long startX;
 	Long startY;
-	Long currentX;
-	Long currentY;
+	Row*(*indexes);
+	Long count;
 	Long koreanEnglish;
 	Long rowHeight;
 	Long flagBuffer;
@@ -78,12 +74,6 @@ inline Long TextEdit::GetStartX() const {
 }
 inline Long TextEdit::GetStartY() const {
 	return this->startY;
-}
-inline Long TextEdit::GetCurrentX() const {
-	return this->currentX;
-}
-inline Long TextEdit::GetCurrentY() const {
-	return this->currentY;
 }
 inline Long TextEdit::GetRowHeight() const {
 	return this->rowHeight;
