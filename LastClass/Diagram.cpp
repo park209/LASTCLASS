@@ -153,5 +153,7 @@ void Diagram::Accept(Visitor& visitor, CDC *cPaintDc) {
 //		cout << dynamic_cast<MemoBox*>(object0.GetAt(1))->GetX() << dynamic_cast<MemoBox*>(object0.GetAt(1))->GetY() <<
 //			dynamic_cast<MemoBox*>(object0.GetAt(1))->GetWidth() << dynamic_cast<MemoBox*>(object0.GetAt(1))->GetHeight() << endl;
 //	}
+//	cout << object0.GetLength() << endl;
+//	
 //	return 0;
 //}

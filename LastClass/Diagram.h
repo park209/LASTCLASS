@@ -27,13 +27,7 @@ public:
 	virtual Figure* Clone() const;
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 
-	Long GetCapacity() ;
-	Long GetLength();
+
 };
-inline Long Diagram::GetCapacity()  {
-	return FigureComposite::GetCapacity();
-}
-inline Long Diagram::GetLength() {
-	return FigureComposite::GetLength();
-}
+
 #endif // !_DIAGRAM_H

@@ -20,11 +20,11 @@
 #include "Composition.h"
 #include "Compositions.h"
 #include "MemoBox.h"
+#include "Selection.h"
 
 #include "FigureFactory.h"
 
 #include <math.h>
-
 #include <iostream>
 #include <fstream>
 
@@ -43,6 +43,7 @@ END_MESSAGE_MAP()
 ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->diagram = NULL;
 	this->text = NULL;
+	this->selection = NULL;
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
@@ -52,10 +53,10 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->selected = -1;
 	this->classButton = false;
 	this->relationButton = true;
-	this->generalizationButton = false; //일반화
+	this->generalizationButton = true; //일반화
 	this->realizationButton = false; //실체화
 	this->dependencyButton = false; //의존
-	this->associationButton = true; //연관화  
+	this->associationButton = false; //연관화  
 	this->directedAssociationButton = false; //직접연관
 	this->aggregationButton = false; // 집합
 	this->aggregationSButton = false; // 집합연관
@@ -279,6 +280,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 										 //1.1. 다이어그램을 준비한다
 	this->diagram = new Diagram();
 	this->text = new Text;
+	this->selection = new Selection;
 
 	//1.2. 적재한다
 	this->Load();
@@ -685,23 +687,28 @@ void ClassDiagramForm::OnPaint() {
 
 	//선택 표시 막아둠
 	//if (this->selected != -1) {
-	//	dc.Rectangle(this->diagram->GetAt(this->selected)->GetX() - 5,
-	//		this->diagram->GetAt(this->selected)->GetY() - 5,
-	//		this->diagram->GetAt(this->selected)->GetX() + 5,
-	//		this->diagram->GetAt(this->selected)->GetY() + 5);
-	//	dc.Rectangle(this->diagram->GetAt(this->selected)->GetX() + this->diagram->GetAt(this->selected)->GetWidth() - 5,
-	//		this->diagram->GetAt(this->selected)->GetY() - 5,
-	//		this->diagram->GetAt(this->selected)->GetX() + this->diagram->GetAt(this->selected)->GetWidth() + 5,
-	//		this->diagram->GetAt(this->selected)->GetY() + 5);
-	//	dc.Rectangle(this->diagram->GetAt(this->selected)->GetX() - 5,
-	//		this->diagram->GetAt(this->selected)->GetY() + this->diagram->GetAt(this->selected)->GetHeight() - 5,
-	//		this->diagram->GetAt(this->selected)->GetX() + 5,
-	//		this->diagram->GetAt(this->selected)->GetY() + this->diagram->GetAt(this->selected)->GetHeight() + 5);
-	//	dc.Rectangle(this->diagram->GetAt(this->selected)->GetX() + this->diagram->GetAt(this->selected)->GetWidth() - 5,
-	//		this->diagram->GetAt(this->selected)->GetY() + this->diagram->GetAt(this->selected)->GetHeight() - 5,
-	//		this->diagram->GetAt(this->selected)->GetX() + this->diagram->GetAt(this->selected)->GetWidth() + 5,
-	//		this->diagram->GetAt(this->selected)->GetY() + this->diagram->GetAt(this->selected)->GetHeight() + 5);
-	//}
+
+	Long i = 0;
+
+	while (i < this->selection->GetLength()) {
+		dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
+			this->selection->GetAt(i)->GetY() - 5,
+			this->selection->GetAt(i)->GetX() + 5,
+			this->selection->GetAt(i)->GetY() + 5);
+		dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
+			this->selection->GetAt(i)->GetY() - 5,
+			this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
+			this->selection->GetAt(i)->GetY() + 5);
+		dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
+			this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
+			this->selection->GetAt(i)->GetX() + 5,
+			this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+		dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
+			this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
+			this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
+			this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+		i++;
+	}
 
 }
 
@@ -727,7 +734,7 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 	this->selected = this->diagram->Find(this->currentX, this->currentY);
-	
+	this->selection->DeleteAllItems();
 	//RECT area;
 	//area.left = this->startX;
 	//area.top = this->startY;
@@ -829,39 +836,39 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 			}
 
 			if (this->generalizationButton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddGeneralization(cross1.x, cross1.y, cross2.x, cross2.y);
+				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddGeneralization(cross1.x, cross1.y, cross2.x- cross1.x, cross2.y- cross1.y);
 				//Invalidate();
 			}
 			else if (this->realizationButton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddRealization(cross1.x, cross1.y, cross2.x, cross2.y);
+				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddRealization(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 				//Invalidate();
 			}
 			else if (this->associationButton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddAssociation(cross1.x, cross1.y, cross2.x, cross2.y);
+				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddAssociation(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 				//Invalidate();
 			}
 			else if (this->dependencyButton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddDependency(cross1.x, cross1.y, cross2.x, cross2.y);
+				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddDependency(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 				//Invalidate();
 			}
 			else if (this->directedAssociationButton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddDirectedAssociation(cross1.x, cross1.y, cross2.x, cross2.y);
+				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddDirectedAssociation(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 				//Invalidate();
 			}
 			else if (this->aggregationButton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddAggregation(cross1.x, cross1.y, cross2.x, cross2.y);
+				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddAggregation(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 				//Invalidate();
 			}
 			else if (this->aggregationSButton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddAggregations(cross1.x, cross1.y, cross2.x, cross2.y);
+				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddAggregations(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 				//Invalidate();
 			}
 			else if (this->compositionButton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddComposition(cross1.x, cross1.y, cross2.x, cross2.y);
+				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddComposition(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 				//Invalidate();
 			}
 			else if (this->compositionSBtton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddCompositions(cross1.x, cross1.y, cross2.x, cross2.y);
+				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddCompositions(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 				//Invalidate();
 			}
 		}
@@ -903,6 +910,15 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	if (memoBoxButton == true) {
 
 	}
+
+	CRect rect;
+	rect.left = this->startX;
+	rect.top = this->startY;
+	rect.right = this->currentX;
+    rect.bottom = this->currentY;
+
+	this->selection->Find(this->diagram, rect);
+
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;

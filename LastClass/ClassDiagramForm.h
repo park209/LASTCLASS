@@ -10,10 +10,13 @@ typedef signed long int Long;
 
 class Diagram; //전방선언
 class Text;
+class Selection;
 class ClassDiagramForm : public CFrameWnd { //CFrameWnd 에 상속관계 표기
 public:
 	Diagram *diagram;
 	Text *text;
+	Selection *selection;
+
 public:
 	ClassDiagramForm(); // 이건 생성자????
 public:

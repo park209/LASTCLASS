@@ -14,7 +14,7 @@
 #include "Template.h"
 #include "SmartPointer.h"
 
-Class::Class(Long capacity) {
+Class::Class(Long capacity):FigureComposite(capacity) {
 	this->capacity = capacity;
 	this->length = 0;
 	this->x = 0;

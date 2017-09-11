@@ -35,7 +35,7 @@ void DrawingVisitor::Visit(Line *line, CDC* cPaintDc) {
 	Long x = line->GetX();
 	Long  y = line->GetY();;
 	Long width = line->GetWidth();
-
+	
 	
 	cPaintDc->MoveTo(x, y);
 	cPaintDc->LineTo(x + width, y);
@@ -51,9 +51,9 @@ void DrawingVisitor::Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaint
 void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
 
 	Long startX = generalization->GetX();
-	Long  startY = generalization->GetY();;
-	Long endX = generalization->GetWidth();
-	Long endY = generalization->GetHeight();
+	Long startY = generalization->GetY();
+	Long endX = generalization->GetWidth()+ generalization->GetX();
+	Long endY = generalization->GetHeight()+ generalization->GetY();
 	//cout << "일반화출력" << " " << x << " " << y << " " << width << " " << height <<  endl;
 
 	cPaintDc->MoveTo(startX, startY);
@@ -93,9 +93,9 @@ void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
 void DrawingVisitor::Visit(Realization *realization, CDC* cPaintDc) {
 
 	Long startX = realization->GetX();
-	Long  startY= realization->GetY();;
-	Long endX = realization->GetWidth();
-	Long endY = realization->GetHeight();
+	Long  startY= realization->GetY();
+	Long endX = realization->GetWidth()+ realization->GetX();
+	Long endY = realization->GetHeight()+ realization->GetY();
 	//cout << "실체화출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	CPen pen;
@@ -141,9 +141,9 @@ void DrawingVisitor::Visit(Realization *realization, CDC* cPaintDc) {
 void DrawingVisitor::Visit(Dependency *dependency, CDC* cPaintDc) {
 
 	Long startX = dependency->GetX();
-	Long  startY = dependency->GetY();;
-	Long endX = dependency->GetWidth();
-	Long endY = dependency->GetHeight();
+	Long  startY = dependency->GetY();
+	Long endX = dependency->GetWidth()+ dependency->GetX();
+	Long endY = dependency->GetHeight() +dependency->GetY();
 	//cout << "의존 출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	CPen pen;
@@ -185,9 +185,9 @@ void DrawingVisitor::Visit(Dependency *dependency, CDC* cPaintDc) {
 void DrawingVisitor::Visit(Association *association, CDC* cPaintDc) { //, CDC* cPaintDc
 
 	Long startX = association->GetX();
-	Long startY = association->GetY();;
-	Long endX = association->GetWidth();
-	Long endY = association->GetHeight();
+	Long startY = association->GetY();
+	Long endX = association->GetWidth()+ association->GetX();
+	Long endY = association->GetHeight()+ association->GetY();
 	//cout << "연관화출력" << " " << startX << " " << startY << " " << endX << " " << endY << endl;
 
 	cPaintDc->MoveTo(startX, startY);
@@ -197,9 +197,9 @@ void DrawingVisitor::Visit(Association *association, CDC* cPaintDc) { //, CDC* c
 void DrawingVisitor::Visit(DirectedAssociation *directedAssociation, CDC* cPaintDc) {
 
 	Long startX = directedAssociation->GetX();
-	Long  startY = directedAssociation->GetY();;
-	Long endX = directedAssociation->GetWidth();
-	Long endY = directedAssociation->GetHeight();
+	Long  startY = directedAssociation->GetY();
+	Long endX = directedAssociation->GetWidth()+ directedAssociation->GetX();
+	Long endY = directedAssociation->GetHeight()+ directedAssociation->GetY();
 	//cout << "직접연관출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	cPaintDc->MoveTo(startX, startY);
@@ -235,9 +235,9 @@ void DrawingVisitor::Visit(DirectedAssociation *directedAssociation, CDC* cPaint
 void DrawingVisitor::Visit(Aggregation *aggregation, CDC* cPaintDc) {
 
 	Long  startX = aggregation->GetX();
-	Long  startY = aggregation->GetY();;
-	Long endX = aggregation->GetWidth();
-	Long endY = aggregation->GetHeight();
+	Long  startY = aggregation->GetY();
+	Long endX = aggregation->GetWidth()+ aggregation->GetX();
+	Long endY = aggregation->GetHeight()+ aggregation->GetY();
 	//cout << "집합출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	cPaintDc->MoveTo(startX, startY);
@@ -281,9 +281,9 @@ void DrawingVisitor::Visit(Aggregation *aggregation, CDC* cPaintDc) {
 void DrawingVisitor::Visit(Aggregations *aggregations, CDC* cPaintDc) {
 
 	Long startX = aggregations->GetX();
-	Long  startY = aggregations->GetY();;
-	Long endX = aggregations->GetWidth();
-	Long endY = aggregations->GetHeight();
+	Long  startY = aggregations->GetY();
+	Long endX = aggregations->GetWidth()+ aggregations->GetX();
+	Long endY = aggregations->GetHeight()+ aggregations->GetY();
 	//cout << "집합연관출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	cPaintDc->MoveTo(startX, startY);
@@ -352,9 +352,9 @@ void DrawingVisitor::Visit(Aggregations *aggregations, CDC* cPaintDc) {
 void DrawingVisitor::Visit(Composition *composition, CDC* cPaintDc) {
 
 	Long startX = composition->GetX();
-	Long  startY = composition->GetY();;
-	Long endX = composition->GetWidth();
-	Long endY = composition->GetHeight();
+	Long  startY = composition->GetY();
+	Long endX = composition->GetWidth()+ composition->GetX();
+	Long endY = composition->GetHeight()+ composition->GetY();
 	//cout << "합성출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	cPaintDc->MoveTo(startX, startY);
@@ -399,9 +399,9 @@ void DrawingVisitor::Visit(Composition *composition, CDC* cPaintDc) {
 void DrawingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 
 	Long startX = compositions->GetX();
-	Long  startY = compositions->GetY();;
-	Long endX = compositions->GetWidth();
-	Long endY = compositions->GetHeight();
+	Long  startY = compositions->GetY();
+	Long endX = compositions->GetWidth()+ compositions->GetX();
+	Long endY = compositions->GetHeight()+ compositions->GetY();
 	//cout << "복합연관출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	cPaintDc->MoveTo(startX, startY);
