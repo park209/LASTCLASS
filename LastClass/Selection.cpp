@@ -69,7 +69,7 @@ void Selection::DeleteAllItems() {
 
 }
 
-void Selection::Find(Diagram *diagram, CRect area) {
+void Selection::FindByArea(Diagram *diagram, CRect area) {
 	
 	Long i = 0;
 	Long j;
@@ -86,17 +86,66 @@ void Selection::Find(Diagram *diagram, CRect area) {
 		rect.bottom = composite->GetY() + composite->GetHeight();
 		ret = rect.IntersectRect(area, rect);
 		if (ret == true) {
-			this->Add(composite);
+			if (this->length < this->capacity) {
+				this->figures.Store(this->length, composite);
+			}
+			else {
+				this->figures.AppendFromRear(composite);
+				this->capacity++;
+			}
+			this->length++;
+		}
+
+		j = 0;
+		while (j < composite->GetLength()) {
+			figure = composite->GetAt(j);
+			rect.left = figure->GetX();
+			rect.top = figure->GetY();
+			rect.right = figure->GetX() + composite->GetWidth();
+			rect.bottom = figure->GetY() + composite->GetHeight();
+			ret = rect.IntersectRect(area, rect);
+			if (ret == true) {
+				if (this->length < this->capacity) {
+					this->figures.Store(this->length, composite);
+				}
+				else {
+					this->figures.AppendFromRear(composite);
+					this->capacity++;
+				}
+				this->length++;
+			}
+			j++;
 		}
 		i++;
-		//j = 0;
-		//if (j < composite->GetLength()) {
-		//	figure = composite->GetAt(j);
-
-		//}
 	}
-	
 }
+void Selection::FindByPoint(Diagram *diagram, Long x, Long y) {
+	
+		Long i = 0;
+		Long j = 0;
+		Long endX;
+		Long endY;
+		Long index = -1;
+		while (i < diagram->GetLength() && index == -1) {
+			endX = diagram->GetAt(i)->GetX() + diagram->GetAt(i)->GetWidth();
+			endY = diagram->GetAt(i)->GetY() + diagram->GetAt(i)->GetHeight();
+			if (diagram->GetAt(i)->GetX() <= x && endX >= x && diagram->GetAt(i)->GetY() <= y && endY >= y) {
+				index = i;
+			}
+			i++;
+		}
+		if (index != -1) {
+			if (this->length < this->capacity) {
+				this->figures.Store(this->length, diagram->GetAt(index));
+			}
+			else {
+				this->figures.AppendFromRear(diagram->GetAt(index));
+				this->capacity++;
+			}
+			this->length++;
+		}
+}
+
 
 //#include "Diagram.h"
 //#include "Class.h"

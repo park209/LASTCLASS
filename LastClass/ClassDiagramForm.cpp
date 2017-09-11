@@ -50,10 +50,10 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->currentY = 0;
 	this->rowIndex = 0;
 	this->characterIndex = 0;
-	this->selected = -1;
+	//this->selected = -1;
 	this->classButton = false;
-	this->relationButton = true;
-	this->generalizationButton = true; //일반화
+	this->relationButton = false;
+	this->generalizationButton = false; //일반화
 	this->realizationButton = false; //실체화
 	this->dependencyButton = false; //의존
 	this->associationButton = false; //연관화  
@@ -687,27 +687,27 @@ void ClassDiagramForm::OnPaint() {
 
 	//선택 표시 막아둠
 	//if (this->selected != -1) {
-
-	Long i = 0;
-
-	while (i < this->selection->GetLength()) {
-		dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
-			this->selection->GetAt(i)->GetY() - 5,
-			this->selection->GetAt(i)->GetX() + 5,
-			this->selection->GetAt(i)->GetY() + 5);
-		dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
-			this->selection->GetAt(i)->GetY() - 5,
-			this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
-			this->selection->GetAt(i)->GetY() + 5);
-		dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
-			this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
-			this->selection->GetAt(i)->GetX() + 5,
-			this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
-		dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
-			this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
-			this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
-			this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
-		i++;
+	if (this->relationButton == false) {
+		Long i = 0;
+		while (i < this->selection->GetLength()) {
+			dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
+				this->selection->GetAt(i)->GetY() - 5,
+				this->selection->GetAt(i)->GetX() + 5,
+				this->selection->GetAt(i)->GetY() + 5);
+			dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
+				this->selection->GetAt(i)->GetY() - 5,
+				this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
+				this->selection->GetAt(i)->GetY() + 5);
+			dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
+				this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
+				this->selection->GetAt(i)->GetX() + 5,
+				this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+			dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
+				this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
+				this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
+				this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+			i++;
+		}
 	}
 
 }
@@ -733,8 +733,14 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->startY = point.y;
 	this->currentX = point.x;
 	this->currentY = point.y;
-	this->selected = this->diagram->Find(this->currentX, this->currentY);
+	//this->selected = this->diagram->Find(this->currentX, this->currentY);
 	this->selection->DeleteAllItems();
+	if (this->relationButton == true) {
+		
+		Long x = this->startX;
+		Long y = this->startY;
+		this->selection->FindByPoint(this->diagram, x, y);
+	}
 	//RECT area;
 	//area.left = this->startX;
 	//area.top = this->startY;
@@ -752,9 +758,13 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 	
-	if (this->relationButton == true && this->selected != -1) {
-		Long endClass = this->diagram->Find(this->currentX, this->currentY);//자기자신 연결시 0 0 0 0 값 저장됨.. 수정요 2017_09_09
-		if (endClass != -1) {
+	if (this->relationButton == true && this->selection->GetLength() == 1) {
+		//Long endClass = this->diagram->Find(this->currentX, this->currentY);//자기자신 연결시 0 0 0 0 값 저장됨.. 수정요 2017_09_09
+		Long x = this->currentX;
+		Long y = this->currentY;
+		this->selection->FindByPoint(this->diagram, x, y);
+		if (this->selection->GetLength() == 2 && this->selection->GetAt(0) != this->selection->GetAt(1)) {
+			
 			CPoint line1Start;
 			CPoint line1End;
 			CPoint line2Start;
@@ -770,105 +780,105 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 			bool startClassCheck = false;
 			if (startClassCheck == false) {//시작 클래스에서 선과 교차하는 면 찾기
 				//상단
-				line2Start.x = this->diagram->GetAt(this->selected)->GetX();
-				line2Start.y = this->diagram->GetAt(this->selected)->GetY();
-				line2End.x = this->diagram->GetAt(this->selected)->GetX() + this->diagram->GetAt(this->selected)->GetWidth();
-				line2End.y = this->diagram->GetAt(this->selected)->GetY();
+				line2Start.x = this->selection->GetAt(0)->GetX();
+				line2Start.y = this->selection->GetAt(0)->GetY();
+				line2End.x = this->selection->GetAt(0)->GetX() + this->selection->GetAt(0)->GetWidth();
+				line2End.y = this->selection->GetAt(0)->GetY();
 				startClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross1);
 			}
 			if (startClassCheck == false) {
 				//좌측
-				line2Start.x = this->diagram->GetAt(this->selected)->GetX();
-				line2Start.y = this->diagram->GetAt(this->selected)->GetY();
-				line2End.x = this->diagram->GetAt(this->selected)->GetX();
-				line2End.y = this->diagram->GetAt(this->selected)->GetY() + this->diagram->GetAt(this->selected)->GetHeight();
+				line2Start.x = this->selection->GetAt(0)->GetX();
+				line2Start.y = this->selection->GetAt(0)->GetY();
+				line2End.x = this->selection->GetAt(0)->GetX();
+				line2End.y = this->selection->GetAt(0)->GetY() + this->selection->GetAt(0)->GetHeight();
 				startClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross1);
 			}
 			if (startClassCheck == false) {
 				//우측
-				line2Start.x = this->diagram->GetAt(this->selected)->GetX() + this->diagram->GetAt(this->selected)->GetWidth();
-				line2Start.y = this->diagram->GetAt(this->selected)->GetY();
-				line2End.x = this->diagram->GetAt(this->selected)->GetX() + this->diagram->GetAt(this->selected)->GetWidth();
-				line2End.y = this->diagram->GetAt(this->selected)->GetY() + this->diagram->GetAt(this->selected)->GetHeight();
+				line2Start.x = this->selection->GetAt(0)->GetX() + this->selection->GetAt(0)->GetWidth();
+				line2Start.y = this->selection->GetAt(0)->GetY();
+				line2End.x = this->selection->GetAt(0)->GetX() + this->selection->GetAt(0)->GetWidth();
+				line2End.y = this->selection->GetAt(0)->GetY() + this->selection->GetAt(0)->GetHeight();
 				startClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross1);
 			}
 			if (startClassCheck == false) {
 				//하단
-				line2Start.x = this->diagram->GetAt(this->selected)->GetX();
-				line2Start.y = this->diagram->GetAt(this->selected)->GetY() + this->diagram->GetAt(this->selected)->GetHeight();
-				line2End.x = this->diagram->GetAt(this->selected)->GetX() + this->diagram->GetAt(this->selected)->GetWidth();
-				line2End.y = this->diagram->GetAt(this->selected)->GetY() + this->diagram->GetAt(this->selected)->GetHeight();
+				line2Start.x = this->selection->GetAt(0)->GetX();
+				line2Start.y = this->selection->GetAt(0)->GetY() + this->selection->GetAt(0)->GetHeight();
+				line2End.x = this->selection->GetAt(0)->GetX() + this->selection->GetAt(0)->GetWidth();
+				line2End.y = this->selection->GetAt(0)->GetY() + this->selection->GetAt(0)->GetHeight();
 				startClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross1);
 			}
 
 			bool endClassCheck = false;
 			if (endClassCheck == false) {//끝 클래스에서 선과 교차하는 면 찾기
 				//상단
-				line2Start.x = this->diagram->GetAt(endClass)->GetX();
-				line2Start.y = this->diagram->GetAt(endClass)->GetY();
-				line2End.x = this->diagram->GetAt(endClass)->GetX() + this->diagram->GetAt(endClass)->GetWidth();
-				line2End.y = this->diagram->GetAt(endClass)->GetY();
+				line2Start.x = this->selection->GetAt(1)->GetX();
+				line2Start.y = this->selection->GetAt(1)->GetY();
+				line2End.x = this->selection->GetAt(1)->GetX() + this->selection->GetAt(1)->GetWidth();
+				line2End.y = this->selection->GetAt(1)->GetY();
 				endClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross2);
 			}
 			if (endClassCheck == false) {
 				//좌측
-				line2Start.x = this->diagram->GetAt(endClass)->GetX();
-				line2Start.y = this->diagram->GetAt(endClass)->GetY();
-				line2End.x = this->diagram->GetAt(endClass)->GetX();
-				line2End.y = this->diagram->GetAt(endClass)->GetY() + this->diagram->GetAt(endClass)->GetHeight();
+				line2Start.x = this->selection->GetAt(1)->GetX();
+				line2Start.y = this->selection->GetAt(1)->GetY();
+				line2End.x = this->selection->GetAt(1)->GetX();
+				line2End.y = this->selection->GetAt(1)->GetY() + this->selection->GetAt(1)->GetHeight();
 				endClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross2);
 			}
 			if (endClassCheck == false) {
 				//우측
-				line2Start.x = this->diagram->GetAt(endClass)->GetX() + this->diagram->GetAt(endClass)->GetWidth();
-				line2Start.y = this->diagram->GetAt(endClass)->GetY();
-				line2End.x = this->diagram->GetAt(endClass)->GetX() + this->diagram->GetAt(endClass)->GetWidth();
-				line2End.y = this->diagram->GetAt(endClass)->GetY() + this->diagram->GetAt(endClass)->GetHeight();
+				line2Start.x = this->selection->GetAt(1)->GetX() + this->selection->GetAt(1)->GetWidth();
+				line2Start.y = this->selection->GetAt(1)->GetY();
+				line2End.x = this->selection->GetAt(1)->GetX() + this->selection->GetAt(1)->GetWidth();
+				line2End.y = this->selection->GetAt(1)->GetY() + this->selection->GetAt(1)->GetHeight();
 				endClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross2);
 			}
 			if (endClassCheck == false) {
 				//하단
-				line2Start.x = this->diagram->GetAt(endClass)->GetX();
-				line2Start.y = this->diagram->GetAt(endClass)->GetY() + this->diagram->GetAt(endClass)->GetHeight();
-				line2End.x = this->diagram->GetAt(endClass)->GetX() + this->diagram->GetAt(endClass)->GetWidth();
-				line2End.y = this->diagram->GetAt(endClass)->GetY() + this->diagram->GetAt(endClass)->GetHeight();
+				line2Start.x = this->selection->GetAt(1)->GetX();
+				line2Start.y = this->selection->GetAt(1)->GetY() + this->selection->GetAt(1)->GetHeight();
+				line2End.x = this->selection->GetAt(1)->GetX() + this->selection->GetAt(1)->GetWidth();
+				line2End.y = this->selection->GetAt(1)->GetY() + this->selection->GetAt(1)->GetHeight();
 				endClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross2);
 			}
 
 			if (this->generalizationButton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddGeneralization(cross1.x, cross1.y, cross2.x- cross1.x, cross2.y- cross1.y);
+				dynamic_cast<Class*>(this->selection->GetAt(0))->AddGeneralization(cross1.x, cross1.y, cross2.x- cross1.x, cross2.y- cross1.y);
 				//Invalidate();
 			}
 			else if (this->realizationButton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddRealization(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+				dynamic_cast<Class*>(this->selection->GetAt(0))->AddRealization(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 				//Invalidate();
 			}
 			else if (this->associationButton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddAssociation(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+				dynamic_cast<Class*>(this->selection->GetAt(0))->AddAssociation(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 				//Invalidate();
 			}
 			else if (this->dependencyButton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddDependency(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+				dynamic_cast<Class*>(this->selection->GetAt(0))->AddDependency(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 				//Invalidate();
 			}
 			else if (this->directedAssociationButton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddDirectedAssociation(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+				dynamic_cast<Class*>(this->selection->GetAt(0))->AddDirectedAssociation(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 				//Invalidate();
 			}
 			else if (this->aggregationButton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddAggregation(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+				dynamic_cast<Class*>(this->selection->GetAt(0))->AddAggregation(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 				//Invalidate();
 			}
 			else if (this->aggregationSButton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddAggregations(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+				dynamic_cast<Class*>(this->selection->GetAt(0))->AddAggregations(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 				//Invalidate();
 			}
 			else if (this->compositionButton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddComposition(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+				dynamic_cast<Class*>(this->selection->GetAt(0))->AddComposition(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 				//Invalidate();
 			}
 			else if (this->compositionSBtton == true) {
-				dynamic_cast<Class*>(this->diagram->GetAt(this->selected))->AddCompositions(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+				dynamic_cast<Class*>(this->selection->GetAt(0))->AddCompositions(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 				//Invalidate();
 			}
 		}
@@ -902,23 +912,29 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		
 		this->diagram->AddMemoBox(this->startX, this->startY, this->currentX - this->startX, this->currentY - this->startY);
 	}
-	if (templateButton == true && this->selected != -1) {
+	if (templateButton == true && this->selection->GetLength() ==1) {
 		Class *object;
-		object = dynamic_cast<Class*>(this->diagram->GetAt(this->selected));
+		object = dynamic_cast<Class*>(this->selection->GetAt(0));
 		object->AddTemplate(  object->GetX() + object->GetWidth() - 70,  object->GetY() - 15,   80,   25);
 	}
 	if (memoBoxButton == true) {
 
 	}
 
-	CRect rect;
-	rect.left = this->startX;
-	rect.top = this->startY;
-	rect.right = this->currentX;
-    rect.bottom = this->currentY;
-
-	this->selection->Find(this->diagram, rect);
-
+	if (this->relationButton == false) {
+		CRect rect;
+		rect.left = this->startX;
+		rect.top = this->startY;
+		rect.right = this->currentX;
+		rect.bottom = this->currentY;
+		if (this->startX == this->currentX && this->startY == this->startY) {
+			this->selection->FindByPoint(this->diagram, this->currentX, this->currentY);
+		}
+		else {
+			this->selection->FindByArea(this->diagram, rect);
+		}
+	}
+	Long length = this->selection->GetLength();
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;

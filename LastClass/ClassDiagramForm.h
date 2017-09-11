@@ -33,7 +33,7 @@ private:
 	Long currentY;
 	Long rowIndex;
 	Long characterIndex;
-	Long selected;
+	//Long selected;
 	bool classButton;	//임시버튼
 	bool relationButton;	//임시버튼
 	bool generalizationButton; //일반화

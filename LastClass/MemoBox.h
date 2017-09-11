@@ -19,6 +19,7 @@ public:
 	virtual Figure* GetAt(Long index);	//
 	virtual  Figure* Clone() const;	//
 	virtual Long Remove(Long index);	//
+
 	MemoBox& operator=(const MemoBox& source);
 	Figure* operator[](Long index);
 

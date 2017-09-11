@@ -181,6 +181,7 @@
     <ClInclude Include="Realization.h" />
     <ClInclude Include="Relation.h" />
     <ClInclude Include="Row.h" />
+    <ClInclude Include="Selection.h" />
     <ClInclude Include="SingleByteCharacter.h" />
     <ClInclude Include="SmartPointer.h" />
     <ClInclude Include="Template.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="Realization.cpp" />
     <ClCompile Include="Relation.cpp" />
     <ClCompile Include="Row.cpp" />
+    <ClCompile Include="Selection.cpp" />
     <ClCompile Include="SingleByteCharacter.cpp" />
     <ClCompile Include="Template.cpp" />
     <ClCompile Include="Text.cpp" />

@@ -414,6 +414,7 @@ void DrawingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 
 	double degree = atan2(endX - startX, startY - endY); // 기울기
 
+
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
 	double dX = (endX) - (15 * (endX - startX) / distance); //뒤로 온 기준점 x
@@ -457,8 +458,8 @@ void DrawingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 	pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
 	pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
 
-	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(15 * (endX - startX) / distance); // 윗점
-	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(15 * (startY - endY) / distance);
+	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(16 * (endX - startX) / distance); // 윗점
+	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(16 * (startY - endY) / distance);
 
 	cPaintDc->SelectObject(&black);
 	cPaintDc->Polygon(pts2, 4);

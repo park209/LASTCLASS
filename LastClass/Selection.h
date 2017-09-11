@@ -17,7 +17,9 @@ public:
 	virtual Figure* Clone() const;
 	void DeleteAllItems();
 
-	void Find(Diagram *diagram, CRect area);
+	void FindByArea(Diagram *diagram, CRect area);
+	void FindByPoint(Diagram *diagram, Long x, Long y);
+
 
 };
 

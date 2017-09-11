@@ -17,7 +17,7 @@ public:
 	Diagram& operator = (const Diagram& source);
 	Figure* operator [] (Long index);
 
-	Long Find(Long x, Long y);
+	//Long Find(Long x, Long y);
 	virtual Long Add(Figure *figure);
 	Long AddClass(Long x, Long y, Long width, Long height);
 	Long AddMemoBox(Long x, Long y, Long width, Long height);
