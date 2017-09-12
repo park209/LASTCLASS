@@ -2,11 +2,11 @@
 
 #include"RealizationButton.h"
 #include"DrawingController.h"
-#include"Unclicked.h"
-#include"ClassButton.h"
+
+
 #include"Diagram.h"
 #include"Selection.h"
-#include"GeneralizationButton.h"
+
 #include"Realization.h"
 
 RealizationButton::RealizationButton() {
@@ -22,30 +22,7 @@ RealizationButton::~RealizationButton() {
 }
 
 void RealizationButton::ChangeState(DrawingController *drawingController, Long key) {
-	if (key == 0) {
-		if (drawingController->buttonState != 0) {
-			delete drawingController->buttonState;
-		}
-		drawingController->buttonState = new Unclicked;
-	}
-	if (key == 1) {
-		if (drawingController->buttonState != 0) {
-			delete drawingController->buttonState;
-		}
-		drawingController->buttonState = new ClassButton;
-	}
-	if (key == 2) {
-		if (drawingController->buttonState != 0) {
-			delete drawingController->buttonState;
-		}
-		drawingController->buttonState = new GeneralizationButton;
-	}
-	if (key == 3) {
-		if (drawingController->buttonState != 0) {
-			delete drawingController->buttonState;
-		}
-		drawingController->buttonState = new RealizationButton;
-	}
+	ButtonState::ChangeState(drawingController, key);
 }
 
 void RealizationButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {

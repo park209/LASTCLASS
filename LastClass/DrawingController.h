@@ -17,6 +17,7 @@ public:
 
 	void ChangeState(Long key);
 	void AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY);
+	//void Draw()
 
 	DrawingController& operator=(const DrawingController& source);
 

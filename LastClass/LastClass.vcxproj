@@ -20,9 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aggregation.cpp" />
+    <ClCompile Include="AggregationButton.cpp" />
     <ClCompile Include="Aggregations.cpp" />
+    <ClCompile Include="AggregationsButton.cpp" />
     <ClCompile Include="ArrayIterator.cpp" />
     <ClCompile Include="Association.cpp" />
+    <ClCompile Include="AssociationButton.cpp" />
     <ClCompile Include="BackSpaceKey.cpp" />
     <ClCompile Include="ButtonState.cpp" />
     <ClCompile Include="Caret.cpp" />
@@ -32,11 +35,15 @@
     <ClCompile Include="ClassDiagramApp.cpp" />
     <ClCompile Include="ClassDiagramForm.cpp" />
     <ClCompile Include="Composition.cpp" />
+    <ClCompile Include="CompositionButton.cpp" />
     <ClCompile Include="Compositions.cpp" />
+    <ClCompile Include="CompositionsButton.cpp" />
     <ClCompile Include="CtrlEnterKey.cpp" />
     <ClCompile Include="DeleteKey.cpp" />
     <ClCompile Include="Dependency.cpp" />
+    <ClCompile Include="DependencyButton.cpp" />
     <ClCompile Include="Diagram.cpp" />
+    <ClCompile Include="DirectAssociationButton.cpp" />
     <ClCompile Include="DirectedAssociation.cpp" />
     <ClCompile Include="DoubleByteCharacter.cpp" />
     <ClCompile Include="DrawingController.cpp" />
@@ -56,6 +63,7 @@
     <ClCompile Include="LeftArrowKey.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="MemoBox.cpp" />
+    <ClCompile Include="MemoBoxButton.cpp" />
     <ClCompile Include="Realization.cpp" />
     <ClCompile Include="RealizationButton.cpp" />
     <ClCompile Include="Relation.cpp" />
@@ -66,6 +74,7 @@
     <ClCompile Include="SpaceKey.cpp" />
     <ClCompile Include="TabKey.cpp" />
     <ClCompile Include="Template.cpp" />
+    <ClCompile Include="TemplateButton.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextComposite.cpp" />
@@ -76,10 +85,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aggregation.h" />
+    <ClInclude Include="AggregationButton.h" />
     <ClInclude Include="Aggregations.h" />
+    <ClInclude Include="AggregationsButton.h" />
     <ClInclude Include="Array.h" />
     <ClInclude Include="ArrayIterator.h" />
     <ClInclude Include="Association.h" />
+    <ClInclude Include="AssociationButton.h" />
     <ClInclude Include="BackSpaceKey.h" />
     <ClInclude Include="ButtonState.h" />
     <ClInclude Include="Caret.h" />
@@ -89,10 +101,13 @@
     <ClInclude Include="ClassDiagramApp.h" />
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="Composition.h" />
+    <ClInclude Include="CompositionButton.h" />
     <ClInclude Include="Compositions.h" />
+    <ClInclude Include="CompositionsButton.h" />
     <ClInclude Include="CtrlEnterKey.h" />
     <ClInclude Include="DeleteKey.h" />
     <ClInclude Include="Dependency.h" />
+    <ClInclude Include="DependencyButton.h" />
     <ClInclude Include="Diagram.h" />
     <ClInclude Include="DirectedAssociation.h" />
     <ClInclude Include="DoubleByteCharacter.h" />
@@ -114,6 +129,7 @@
     <ClInclude Include="LeftArrowKey.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="MemoBox.h" />
+    <ClInclude Include="MemoBoxButton.h" />
     <ClInclude Include="Realization.h" />
     <ClInclude Include="RealizationButton.h" />
     <ClInclude Include="Relation.h" />
@@ -126,6 +142,7 @@
     <ClInclude Include="SpaceKey.h" />
     <ClInclude Include="TabKey.h" />
     <ClInclude Include="Template.h" />
+    <ClInclude Include="TemplateButton.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TextComposite.h" />
@@ -133,6 +150,7 @@
     <ClInclude Include="Unclicked.h" />
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="WritingVisitor.h" />
+    <ClInclude Include="DirectAssociationButton.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

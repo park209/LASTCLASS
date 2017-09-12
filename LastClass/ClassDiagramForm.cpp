@@ -781,6 +781,34 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (nChar == 51) {
 		key = 3;
 	}
+	if (nChar == 52) {
+		key = 4;
+	}
+	if (nChar == 53) {
+		key = 5;
+	}
+	if (nChar == 54) {
+		key = 6;
+	}
+	if (nChar == 55) {
+		key = 7;
+	}
+	if (nChar == 56) {
+		key = 8;
+	}
+	if (nChar == 57) {
+		key = 9;
+	}
+	if (nChar == 113) {
+		key = 10;
+	}
+	if (nChar == 119) {
+		key = 11;
+	}
+	if (nChar == 101) {
+		key = 12;
+	}
+
 	this->drawingController->ChangeState(key);
 
 	if (this->text->GetLength() == 0) {
@@ -865,147 +893,147 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 			this->textEdit->ShowWindow(SW_SHOW);
 		}
 	}
-	if (this->memoBoxButton == true) {
-		if (this->currentX - this->startX < 100) {
-			this->currentX = this->startX + 100;
-		}
-		if (this->currentY - this->startY < 80) {
-			this->currentY = this->startY + 80;
-		}
-		this->diagram->AddMemoBox(this->startX, this->startY, this->currentX - this->startX, this->currentY - this->startY);
-	}
+	//if (this->memoBoxButton == true) {
+	//	if (this->currentX - this->startX < 100) {
+	//		this->currentX = this->startX + 100;
+	//	}
+	//	if (this->currentY - this->startY < 80) {
+	//		this->currentY = this->startY + 80;
+	//	}
+	//	this->diagram->AddMemoBox(this->startX, this->startY, this->currentX - this->startX, this->currentY - this->startY);
+	//}
 
-	if (templateButton == true && this->selection->GetLength() == 1) {
-		Class *object;
-		object = dynamic_cast<Class*>(this->selection->GetAt(0));
-		object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25);
-	}
+	//if (templateButton == true && this->selection->GetLength() == 1) {
+	//	Class *object;
+	//	object = dynamic_cast<Class*>(this->selection->GetAt(0));
+	//	object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25);
+	//}
 
-	if (this->relationButton == true && this->selection->GetLength() == 1) {
-		//Long endClass = this->diagram->Find(this->currentX, this->currentY);//자기자신 연결시 0 0 0 0 값 저장됨.. 수정요 2017_09_09
-		Long x = this->currentX;
-		Long y = this->currentY;
-		this->selection->FindByPoint(this->diagram, x, y);
-		if (this->selection->GetLength() == 2 && this->selection->GetAt(0) != this->selection->GetAt(1)) {
-			
-			CPoint line1Start;
-			CPoint line1End;
-			CPoint line2Start;
-			CPoint line2End;
-			CPoint cross1;
-			CPoint cross2;
+	//if (this->relationButton == true && this->selection->GetLength() == 1) {
+	//	//Long endClass = this->diagram->Find(this->currentX, this->currentY);//자기자신 연결시 0 0 0 0 값 저장됨.. 수정요 2017_09_09
+	//	Long x = this->currentX;
+	//	Long y = this->currentY;
+	//	this->selection->FindByPoint(this->diagram, x, y);
+	//	if (this->selection->GetLength() == 2 && this->selection->GetAt(0) != this->selection->GetAt(1)) {
+	//		
+	//		CPoint line1Start;
+	//		CPoint line1End;
+	//		CPoint line2Start;
+	//		CPoint line2End;
+	//		CPoint cross1;
+	//		CPoint cross2;
 
-			line1Start.x = this->startX;
-			line1Start.y = this->startY;
-			line1End.x = this->currentX;
-			line1End.y = this->currentY;
+	//		line1Start.x = this->startX;
+	//		line1Start.y = this->startY;
+	//		line1End.x = this->currentX;
+	//		line1End.y = this->currentY;
 
-			bool startClassCheck = false;
-			if (startClassCheck == false) {//시작 클래스에서 선과 교차하는 면 찾기
-				//상단
-				line2Start.x = this->selection->GetAt(0)->GetX();
-				line2Start.y = this->selection->GetAt(0)->GetY();
-				line2End.x = this->selection->GetAt(0)->GetX() + this->selection->GetAt(0)->GetWidth();
-				line2End.y = this->selection->GetAt(0)->GetY();
-				startClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross1);
-			}
-			if (startClassCheck == false) {
-				//좌측
-				line2Start.x = this->selection->GetAt(0)->GetX();
-				line2Start.y = this->selection->GetAt(0)->GetY();
-				line2End.x = this->selection->GetAt(0)->GetX();
-				line2End.y = this->selection->GetAt(0)->GetY() + this->selection->GetAt(0)->GetHeight();
-				startClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross1);
-			}
-			if (startClassCheck == false) {
-				//우측
-				line2Start.x = this->selection->GetAt(0)->GetX() + this->selection->GetAt(0)->GetWidth();
-				line2Start.y = this->selection->GetAt(0)->GetY();
-				line2End.x = this->selection->GetAt(0)->GetX() + this->selection->GetAt(0)->GetWidth();
-				line2End.y = this->selection->GetAt(0)->GetY() + this->selection->GetAt(0)->GetHeight();
-				startClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross1);
-			}
-			if (startClassCheck == false) {
-				//하단
-				line2Start.x = this->selection->GetAt(0)->GetX();
-				line2Start.y = this->selection->GetAt(0)->GetY() + this->selection->GetAt(0)->GetHeight();
-				line2End.x = this->selection->GetAt(0)->GetX() + this->selection->GetAt(0)->GetWidth();
-				line2End.y = this->selection->GetAt(0)->GetY() + this->selection->GetAt(0)->GetHeight();
-				startClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross1);
-			}
+	//		bool startClassCheck = false;
+	//		if (startClassCheck == false) {//시작 클래스에서 선과 교차하는 면 찾기
+	//			//상단
+	//			line2Start.x = this->selection->GetAt(0)->GetX();
+	//			line2Start.y = this->selection->GetAt(0)->GetY();
+	//			line2End.x = this->selection->GetAt(0)->GetX() + this->selection->GetAt(0)->GetWidth();
+	//			line2End.y = this->selection->GetAt(0)->GetY();
+	//			startClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross1);
+	//		}
+	//		if (startClassCheck == false) {
+	//			//좌측
+	//			line2Start.x = this->selection->GetAt(0)->GetX();
+	//			line2Start.y = this->selection->GetAt(0)->GetY();
+	//			line2End.x = this->selection->GetAt(0)->GetX();
+	//			line2End.y = this->selection->GetAt(0)->GetY() + this->selection->GetAt(0)->GetHeight();
+	//			startClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross1);
+	//		}
+	//		if (startClassCheck == false) {
+	//			//우측
+	//			line2Start.x = this->selection->GetAt(0)->GetX() + this->selection->GetAt(0)->GetWidth();
+	//			line2Start.y = this->selection->GetAt(0)->GetY();
+	//			line2End.x = this->selection->GetAt(0)->GetX() + this->selection->GetAt(0)->GetWidth();
+	//			line2End.y = this->selection->GetAt(0)->GetY() + this->selection->GetAt(0)->GetHeight();
+	//			startClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross1);
+	//		}
+	//		if (startClassCheck == false) {
+	//			//하단
+	//			line2Start.x = this->selection->GetAt(0)->GetX();
+	//			line2Start.y = this->selection->GetAt(0)->GetY() + this->selection->GetAt(0)->GetHeight();
+	//			line2End.x = this->selection->GetAt(0)->GetX() + this->selection->GetAt(0)->GetWidth();
+	//			line2End.y = this->selection->GetAt(0)->GetY() + this->selection->GetAt(0)->GetHeight();
+	//			startClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross1);
+	//		}
 
-			bool endClassCheck = false;
-			if (endClassCheck == false) {//끝 클래스에서 선과 교차하는 면 찾기
-				//상단
-				line2Start.x = this->selection->GetAt(1)->GetX();
-				line2Start.y = this->selection->GetAt(1)->GetY();
-				line2End.x = this->selection->GetAt(1)->GetX() + this->selection->GetAt(1)->GetWidth();
-				line2End.y = this->selection->GetAt(1)->GetY();
-				endClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross2);
-			}
-			if (endClassCheck == false) {
-				//좌측
-				line2Start.x = this->selection->GetAt(1)->GetX();
-				line2Start.y = this->selection->GetAt(1)->GetY();
-				line2End.x = this->selection->GetAt(1)->GetX();
-				line2End.y = this->selection->GetAt(1)->GetY() + this->selection->GetAt(1)->GetHeight();
-				endClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross2);
-			}
-			if (endClassCheck == false) {
-				//우측
-				line2Start.x = this->selection->GetAt(1)->GetX() + this->selection->GetAt(1)->GetWidth();
-				line2Start.y = this->selection->GetAt(1)->GetY();
-				line2End.x = this->selection->GetAt(1)->GetX() + this->selection->GetAt(1)->GetWidth();
-				line2End.y = this->selection->GetAt(1)->GetY() + this->selection->GetAt(1)->GetHeight();
-				endClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross2);
-			}
-			if (endClassCheck == false) {
-				//하단
-				line2Start.x = this->selection->GetAt(1)->GetX();
-				line2Start.y = this->selection->GetAt(1)->GetY() + this->selection->GetAt(1)->GetHeight();
-				line2End.x = this->selection->GetAt(1)->GetX() + this->selection->GetAt(1)->GetWidth();
-				line2End.y = this->selection->GetAt(1)->GetY() + this->selection->GetAt(1)->GetHeight();
-				endClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross2);
-			}
+	//		bool endClassCheck = false;
+	//		if (endClassCheck == false) {//끝 클래스에서 선과 교차하는 면 찾기
+	//			//상단
+	//			line2Start.x = this->selection->GetAt(1)->GetX();
+	//			line2Start.y = this->selection->GetAt(1)->GetY();
+	//			line2End.x = this->selection->GetAt(1)->GetX() + this->selection->GetAt(1)->GetWidth();
+	//			line2End.y = this->selection->GetAt(1)->GetY();
+	//			endClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross2);
+	//		}
+	//		if (endClassCheck == false) {
+	//			//좌측
+	//			line2Start.x = this->selection->GetAt(1)->GetX();
+	//			line2Start.y = this->selection->GetAt(1)->GetY();
+	//			line2End.x = this->selection->GetAt(1)->GetX();
+	//			line2End.y = this->selection->GetAt(1)->GetY() + this->selection->GetAt(1)->GetHeight();
+	//			endClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross2);
+	//		}
+	//		if (endClassCheck == false) {
+	//			//우측
+	//			line2Start.x = this->selection->GetAt(1)->GetX() + this->selection->GetAt(1)->GetWidth();
+	//			line2Start.y = this->selection->GetAt(1)->GetY();
+	//			line2End.x = this->selection->GetAt(1)->GetX() + this->selection->GetAt(1)->GetWidth();
+	//			line2End.y = this->selection->GetAt(1)->GetY() + this->selection->GetAt(1)->GetHeight();
+	//			endClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross2);
+	//		}
+	//		if (endClassCheck == false) {
+	//			//하단
+	//			line2Start.x = this->selection->GetAt(1)->GetX();
+	//			line2Start.y = this->selection->GetAt(1)->GetY() + this->selection->GetAt(1)->GetHeight();
+	//			line2End.x = this->selection->GetAt(1)->GetX() + this->selection->GetAt(1)->GetWidth();
+	//			line2End.y = this->selection->GetAt(1)->GetY() + this->selection->GetAt(1)->GetHeight();
+	//			endClassCheck = this->FindCrossPoint(line1Start, line1End, line2Start, line2End, &cross2);
+	//		}
 
-			if (this->generalizationButton == true) {
-				dynamic_cast<Class*>(this->selection->GetAt(0))->AddGeneralization(cross1.x, cross1.y, cross2.x- cross1.x, cross2.y- cross1.y);
-				//Invalidate();
-			}
-			else if (this->realizationButton == true) {
-				dynamic_cast<Class*>(this->selection->GetAt(0))->AddRealization(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
-				//Invalidate();
-			}
-			else if (this->associationButton == true) {
-				dynamic_cast<Class*>(this->selection->GetAt(0))->AddAssociation(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
-				//Invalidate();
-			}
-			else if (this->dependencyButton == true) {
-				dynamic_cast<Class*>(this->selection->GetAt(0))->AddDependency(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
-				//Invalidate();
-			}
-			else if (this->directedAssociationButton == true) {
-				dynamic_cast<Class*>(this->selection->GetAt(0))->AddDirectedAssociation(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
-				//Invalidate();
-			}
-			else if (this->aggregationButton == true) {
-				dynamic_cast<Class*>(this->selection->GetAt(0))->AddAggregation(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
-				//Invalidate();
-			}
-			else if (this->aggregationSButton == true) {
-				dynamic_cast<Class*>(this->selection->GetAt(0))->AddAggregations(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
-				//Invalidate();
-			}
-			else if (this->compositionButton == true) {
-				dynamic_cast<Class*>(this->selection->GetAt(0))->AddComposition(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
-				//Invalidate();
-			}
-			else if (this->compositionSBtton == true) {
-				dynamic_cast<Class*>(this->selection->GetAt(0))->AddCompositions(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
-				//Invalidate();
-			}
-		}
-	}
+	//		if (this->generalizationButton == true) {
+	//			dynamic_cast<Class*>(this->selection->GetAt(0))->AddGeneralization(cross1.x, cross1.y, cross2.x- cross1.x, cross2.y- cross1.y);
+	//			//Invalidate();
+	//		}
+	//		else if (this->realizationButton == true) {
+	//			dynamic_cast<Class*>(this->selection->GetAt(0))->AddRealization(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+	//			//Invalidate();
+	//		}
+	//		else if (this->associationButton == true) {
+	//			dynamic_cast<Class*>(this->selection->GetAt(0))->AddAssociation(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+	//			//Invalidate();
+	//		}
+	//		else if (this->dependencyButton == true) {
+	//			dynamic_cast<Class*>(this->selection->GetAt(0))->AddDependency(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+	//			//Invalidate();
+	//		}
+	//		else if (this->directedAssociationButton == true) {
+	//			dynamic_cast<Class*>(this->selection->GetAt(0))->AddDirectedAssociation(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+	//			//Invalidate();
+	//		}
+	//		else if (this->aggregationButton == true) {
+	//			dynamic_cast<Class*>(this->selection->GetAt(0))->AddAggregation(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+	//			//Invalidate();
+	//		}
+	//		else if (this->aggregationSButton == true) {
+	//			dynamic_cast<Class*>(this->selection->GetAt(0))->AddAggregations(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+	//			//Invalidate();
+	//		}
+	//		else if (this->compositionButton == true) {
+	//			dynamic_cast<Class*>(this->selection->GetAt(0))->AddComposition(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+	//			//Invalidate();
+	//		}
+	//		else if (this->compositionSBtton == true) {
+	//			dynamic_cast<Class*>(this->selection->GetAt(0))->AddCompositions(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+	//			//Invalidate();
+	//		}
+	//	}
+	//}
 	
 	/*if (this->relationButton == false) {
 		CRect rect;
