@@ -34,6 +34,9 @@ void Caret::MoveToIndex(Long characterIndex, Long rowIndex) {
 		i++;
 	}
 	this->textEdit->CreateSolidCaret(5, 20);
+	if (this->textEdit->GetFlagBuffer() == 1) {
+		this->textEdit->CreateSolidCaret(-20, 20);
+	}
 	this->textEdit->SetCaretPos(CPoint(pointX, pointY));
 	this->textEdit->ShowCaret();
 }

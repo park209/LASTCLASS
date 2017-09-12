@@ -25,6 +25,7 @@ public:
 public:
 	Long GetRowIndex() const;
 	Long GetCharacterIndex() const;
+	Long GetCurrentClassIndex()const;
 private:
 	Long startX;
 	Long startY;
@@ -51,6 +52,9 @@ inline Long ClassDiagramForm::GetRowIndex() const {
 }
 inline Long ClassDiagramForm::GetCharacterIndex() const {
 	return this->characterIndex;
+}
+inline Long ClassDiagramForm::GetCurrentClassIndex()const {
+	return this->currentClassIndex;
 }
 
 #endif // _CLASSDIAGRAM_H

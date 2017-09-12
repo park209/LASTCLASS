@@ -3,15 +3,11 @@
 #include "DoubleByteCharacter.h"
 
 DoubleByteCharacter::DoubleByteCharacter() {
-	this->x = 0;
-	this->y = 0;
 	this->characters[0] = ' ';
 	this->characters[1] = ' ';
 }
 
-DoubleByteCharacter::DoubleByteCharacter(char(*characters), Long x, Long y) {
-	this->x = x;
-	this->y = y;
+DoubleByteCharacter::DoubleByteCharacter(char(*characters)) {
 	this->characters[0] = characters[0];
 	this->characters[1] = characters[1];
 }

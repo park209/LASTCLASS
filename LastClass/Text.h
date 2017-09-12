@@ -15,6 +15,7 @@ public:
 
 	Long Add(Row *row);
 	Long Add(TextComponent *textComponent);
+	Long Modify(Long index, Long x, Long y, TextComponent *textComponent);
 	void Find(Long x, Long y, Long height, Row**(*indexes), Long *count);
 	Long Remove(Long index);
 	Row* GetAt(Long index);
@@ -22,7 +23,7 @@ public:
 	TextComponent* Clone() const;
 	void PrintRow(SmartPointer<TextComponent*>& index);
 	void Accept(Visitor& visitor, CDC* cPaintDc);
-	Long InsertRow(Long index);
+	Long InsertRow(Long formX, Long formY, Long rowHeight, Long index);
 
 	Long GetCapacity() const;
 	Long GetLength() const;
