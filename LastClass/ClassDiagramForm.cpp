@@ -3,6 +3,7 @@
 #include "ClassDiagramForm.h"
 #include "Diagram.h"
 #include "DrawingVisitor.h"
+#include "FigureFactory.h"
 
 #include "Text.h"
 #include "SingleByteCharacter.h"
@@ -18,7 +19,9 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
 	ON_WM_CHAR()
+	ON_WM_SETFOCUS()
 	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONDBLCLK()
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 	ON_WM_CLOSE()
@@ -27,10 +30,12 @@ END_MESSAGE_MAP()
 ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->diagram = NULL;
 	this->text = NULL;
+	this->textEdit = NULL;
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
 	this->currentY = 0;
+	this->currentClassIndex = -1;
 	this->rowIndex = 0;
 	this->characterIndex = 0;
 }
@@ -109,7 +114,7 @@ Long ClassDiagramForm::TextSave() {
 	if (fText.is_open()) {
 		while (i < this->text->GetLength()) {
 			s = this->text->GetAt(i)->PrintRowString();
-			fText << s;
+			fText << this->text->GetAt(i)->GetX() << ' ' << this->text->GetAt(i)->GetY() << ' ' << this->text->GetAt(i)->GetRowHeight() << ' ' << s << endl;
 			i++;
 		}
 		fText.close();
@@ -118,18 +123,21 @@ Long ClassDiagramForm::TextSave() {
 }
 
 Long ClassDiagramForm::TextLoad() {
+	FigureFactory textCreator;
+	string str;
 	Long i = 0;
+	Long x = 0;
+	Long y = 0;
+	Long rowHeight = 0;
+	TextComponent* Component = NULL;
 	ifstream fText;
-	char c;
-	Row row;
-	this->text->Add(row.Clone());
+
 	fText.open("Text.txt");
 	if (fText.is_open()) {
-
 		while (!fText.eof()) {
-			fText.get(c);
-			SingleByteCharacter single(c, i, 100 + i * 10, 100);
-			this->text->GetAt(0)->Add(single.Clone());
+			fText >> x >> y >> rowHeight >> str;
+			Component = textCreator.CreateRow(x, y, rowHeight, str);
+			this->text->Add(Component);
 			i++;
 		}
 	}
@@ -178,11 +186,16 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		Row newRow;
 		this->text->Add(newRow.Clone());
 	}
-	SingleByteCharacter singleByteCharacter(nCharacter, this->text->GetAt(this->rowIndex)->GetLength(), this->startX+10, this->startY+5);
+	SingleByteCharacter singleByteCharacter(nCharacter);
 	this->startX += 10;
 	this->text->GetAt(this->rowIndex)->Add(singleByteCharacter.Clone());
 
 	//Invalidate();
+}
+
+void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
+	
+	this->Invalidate();
 }
 
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
@@ -190,40 +203,83 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->startY = point.y;
 	this->currentX = point.x;
 	this->currentY = point.y;
+
+	this->currentClassIndex = -1;
+	this->currentClassIndex = this->diagram->Find(this->startX, this->startY);
+	if (this->currentClassIndex >= 0) { //클릭한 위치에 클래스가 있었다면
+		this->textEdit = new TextEdit(this, // 텍스트에딧 크기는 클래스 크기, 일단은
+			this->diagram->GetAt(currentClassIndex)->GetX() + 5,
+			this->diagram->GetAt(currentClassIndex)->GetY() + 33,
+			this->diagram->GetAt(currentClassIndex)->GetWidth() - 5,
+			this->diagram->GetAt(currentClassIndex)->GetHeight() - 5);
+
+		this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
+			this->textEdit->GetFormX(),
+			this->textEdit->GetFormY(),
+			this->textEdit->GetFormX() + this->textEdit->GetWidth(),
+			this->textEdit->GetFormY() + this->textEdit->GetHeight()), NULL, NULL, WS_EX_TOPMOST);
+		this->textEdit->ShowWindow(SW_SHOW);
+	}
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
-	if (this->currentX - this->startX < 150) {
-		this->currentX = this->startX + 150;
+
+	if (this->currentClassIndex >= 0) { //start 위치에서 클래스를 찾았었다면
+										// 마우스 마지막에 뗀 위치만큼 선택되어있던 클래스를 이동한다
 	}
-	if (this->currentY - this->startY< 200) {
-		this->currentY = this->startY + 200;
+	else { // 클릭 위치에 클래스 없었으면 원래대로 클래스 기호를 만든다
+		if (this->currentX != this->startX && this->currentY != this->startY) {
+			if (this->currentX - this->startX < 150) {
+				this->currentX = this->startX + 150;
+			}
+			if (this->currentY - this->startY < 200) {
+				this->currentY = this->startY + 200;
+			}
+			Long index = this->diagram->Add(this->startX, this->startY, this->currentX - this->startX, this->currentY - this->startY);
+
+			//첨자연산자 왜 안돼는지 확인해야함
+			this->diagram->GetAt(index)->Add(this->startX, this->startY + 50,
+				this->currentX - this->startX, this->startY + 50);
+			static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, (this->startY + 50 + this->currentY) / 2,
+				this->currentX - this->startX, (this->startY + 50 + this->currentY) / 2);
+
+			this->textEdit = new TextEdit(this, // 텍스트에딧 크기는 클래스 크기, 일단은
+				this->diagram->GetAt(index)->GetX() + 5,
+				this->diagram->GetAt(index)->GetY() + 33,
+				this->diagram->GetAt(index)->GetWidth() - 5,
+				this->diagram->GetAt(index)->GetHeight() - 5);
+
+			this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
+				this->textEdit->GetFormX(),
+				this->textEdit->GetFormY(),
+				this->textEdit->GetFormX() + this->textEdit->GetWidth(),
+				this->textEdit->GetFormY() + this->textEdit->GetHeight()), NULL, NULL, WS_EX_TOPMOST);
+			this->textEdit->ShowWindow(SW_SHOW);
+
+			Invalidate();
+		}
 	}
-	Long index = this->diagram->Add(this->startX, this->startY, this->currentX - this->startX, this->currentY - this->startY);
+}	
 
-	//Class 생성자에서 Line 만드는거 추가에서 -> Class Add에서 Line 만드는거 추가에서 -> Form 마우스 드래그 끝날떄
-	//끝나면서 Class 만든거에 Line 추가하는걸로 바꿈 2017.08.24
+void ClassDiagramForm::OnLButtonDoubleClicked(UINT nFlags, CPoint point) {
+	//Long index = this->diagram->Find(point.x, point.y);
+	//Long classWidth = this->diagram->GetAt(index)->GetWidth();
+	//Long classHeight = this->diagram->GetAt(index)->GetHeight();
 
-	//첨자연산자 왜 안돼는지 //선 만듦
-	this->diagram->GetAt(index)->Add(this->startX, this->startY + 50,
-		this->currentX - this->startX, this->startY + 50);
-	static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, (this->startY + 50 + this->currentY) / 2,
-		this->currentX - this->startX, (this->startY + 50 + this->currentY) / 2);
+	//this->textEdit = new TextEdit(this, point.x, point.y, classWidth, classHeight); ///////////////////////
 
-	TextEdit *textEdit = new TextEdit(this, this->startX, this->startY, this->currentX-this->startX, 15);
-	textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(textEdit->GetX()+5, textEdit->GetY()+35, this->currentX, 15), NULL, NULL, WS_EX_TOPMOST);
-	textEdit->ShowWindow(SW_SHOW);
-	textEdit->UpdateWindow();
-
-	Invalidate();
+	//this->textEdit->Create(NULL, "TextEdit", WS_DLGFRAME, CRect(textEdit->GetStartX() + 5, textEdit->GetStartY() + 35, this->currentX, 15), NULL, NULL, WS_EX_TOPMOST);
+	//this->textEdit->ShowWindow(SW_SHOW);
+	//this->textEdit->UpdateWindow();
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	if (nFlags == MK_LBUTTON) {
 		this->currentX = point.x;
 		this->currentY = point.y;
+
 		Invalidate();
 	}
 }
@@ -231,7 +287,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
 	//this->Save();
-	//this->TextSave();
+	this->TextSave();
 	//6.2. 다이어그램을 지운다.
 	if (this->diagram != NULL) {
 		delete this->diagram;

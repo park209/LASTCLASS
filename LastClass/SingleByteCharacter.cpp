@@ -4,16 +4,10 @@
 
 SingleByteCharacter::SingleByteCharacter() {
 	this->character = ' ';
-	this->characterIndex = 0;
-	this->x = 0;
-	this->y = 0;
 }
 
-SingleByteCharacter::SingleByteCharacter(char character, Long characterIndex, Long x, Long y) {
+SingleByteCharacter::SingleByteCharacter(char character) {
 	this->character = character;
-	this->characterIndex = characterIndex;
-	this->x = x;
-	this->y = y;
 }
 
 SingleByteCharacter::SingleByteCharacter(const SingleByteCharacter& source) {

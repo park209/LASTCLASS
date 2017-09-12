@@ -10,7 +10,7 @@ typedef signed long int Long;
 class DoubleByteCharacter : public Character {
 public:
 	DoubleByteCharacter();
-	DoubleByteCharacter(char(*characters), Long x, Long y);
+	DoubleByteCharacter(char(*characters));
 	DoubleByteCharacter(const DoubleByteCharacter& source);
 	virtual ~DoubleByteCharacter();
 

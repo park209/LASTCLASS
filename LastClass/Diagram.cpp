@@ -9,6 +9,8 @@ Diagram::Diagram(Long capacity) {
 	this->y = 0;
 	this->width = 0;
 	this->height = 0;
+	this->classes = 0;//추가
+	this->count = 0;
 }
 
 Diagram::~Diagram() {
@@ -27,6 +29,8 @@ Diagram::Diagram(const Diagram& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->length = source.length;
+	this->classes = source.classes;
+	this->count = source.count;
 }
 
 Diagram& Diagram::operator = (const Diagram& source) {
@@ -42,6 +46,8 @@ Diagram& Diagram::operator = (const Diagram& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->length = source.length;
+	this->classes = source.classes;
+	this->count = source.count;
 
 	return *this;
 }
@@ -78,6 +84,64 @@ Long Diagram::Add(Long x, Long y, Long width, Long height) {
 	this->length++;
 	return index;
 }
+
+Long Diagram::Find(Long x, Long y) {
+	Long i = 0;
+	Long j = 0;
+	Long endX;
+	Long endY;
+	Long index = -1;
+	while (i < this->GetLength() && index == -1) {
+		endX = this->figures[i]->GetX() + this->figures[i]->GetWidth();
+		endY = this->figures[i]->GetY() + this->figures[i]->GetHeight();
+		if (this->figures[i]->GetX() <= x&&endX >= x&&this->figures[i]->GetY() <= y&&endY >= y) {
+			index = i;
+		}
+		i++;
+	}
+	return index;
+
+}
+//////////////범위에 해당하는 클래스 찾기 함수추가
+//void Diagram::Find(Long startX, Long startY, Long currentX, Long currentY, Class* (*classes), Long count) {
+//	SmartPointer<Figure*> iterator(this->CreateIterator());
+//	Long i = 0;
+//	Long endX = 0;
+//	Long endY = 0;
+//
+//	if (classes != 0) {
+//		delete classes;
+//		classes = 0;
+//	}
+//	classes = new Class*[128];
+//
+//	for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
+//		endX = ((Class*)iterator->Current())->GetX() + ((Class*)iterator->Current())->GetWidth();
+//		endY = ((Class*)iterator->Current())->GetY() + ((Class*)iterator->Current())->GetHeight();
+//
+//		if ((endX > startX && endX < currentX && ((Class*)iterator->Current())->GetY() > startY && ((Class*)iterator->Current())->GetY() < currentY) == true
+//			|| (((Class*)iterator->Current())->GetX() < currentX && ((Class*)iterator->Current())->GetY() < currentY) == true
+//			|| ((Class*)iterator->Current())->GetX()<startX && endX) {//2시 꼭지점이 선택된경우
+//
+//			}
+//
+//			//if (endX > startX && endY < startY){}//4시 꼭지점(역방향 드래그 되는경우만)
+//
+//			if (((Class*)iterator->Current())->GetX() < currentX && endY < startY) {//8시 꼭지점
+//
+//			}
+//
+//			if (((Class*)iterator->Current())->GetX() < currentX && ((Class*)iterator->Current())->GetY() < currentY) {//10시 꼭지점
+//
+//			}
+//
+//		i++;
+//	}
+//	count = i;
+//}
+
+//////////////
+
 
 Long Diagram::Remove(Long index) {
 	return this->figures.Delete(index);

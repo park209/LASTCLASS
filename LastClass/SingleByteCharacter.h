@@ -8,7 +8,7 @@ typedef signed long int Long;
 class SingleByteCharacter : public Character {
 public:
 	SingleByteCharacter();
-	SingleByteCharacter(char character, Long characterIndex, Long x, Long y);
+	SingleByteCharacter(char character);
 	SingleByteCharacter(const SingleByteCharacter& source);
 	~SingleByteCharacter();
 

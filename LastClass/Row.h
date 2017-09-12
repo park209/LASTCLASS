@@ -6,6 +6,7 @@
 #include "TextComposite.h"
 #include "Character.h"
 #include <string>
+
 using namespace std;
 
 typedef signed long int Long;
@@ -13,6 +14,7 @@ typedef signed long int Long;
 class Row : public TextComposite {
 public:
 	Row(Long capacity = 128);
+	Row(Long x, Long y, Long rowHeight, Long capacity = 128);
 	Row(const Row& source);
 	virtual ~Row();
 
@@ -35,9 +37,11 @@ public:
 	Long GetLength() const;
 	Long GetX() const;
 	Long GetY() const;
+	Long GetRowHeight() const;
 public:
 	Long x;
 	Long y;
+	Long rowHeight;
 };
 
 inline Long Row::GetX() const {
@@ -51,6 +55,9 @@ inline Long Row::GetCapacity() const {
 }
 inline Long Row::GetLength() const {
 	return this->length;
+}
+inline Long Row::GetRowHeight() const {
+	return this->rowHeight;
 }
 
 #endif // _ROW_H

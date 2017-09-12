@@ -15,6 +15,7 @@ public:
 	void Visit(Line *line, CDC* cPaintDc);
 	void Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc);
 	void Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc);
+	void Visit(Row* row, CDC* cPaintDc);
 };
 
 #endif // _DRAWINGVISITOR_H
