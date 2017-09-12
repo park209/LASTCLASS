@@ -13,6 +13,8 @@ DoubleByteCharacter::DoubleByteCharacter(char(*characters)) {
 }
 
 DoubleByteCharacter::DoubleByteCharacter(const DoubleByteCharacter& source) {
+	this->x = source.x;
+	this->y = source.y;
 	this->characters[0] = source.characters[0];
 	this->characters[1] = source.characters[1];
 }
@@ -37,6 +39,17 @@ DoubleByteCharacter& DoubleByteCharacter::operator=(const DoubleByteCharacter& s
 	this->characters[1] = source.characters[1];
 
 	return *this;
+}
+
+CString DoubleByteCharacter::MakeCString() const {
+	char newChar[3];
+	newChar[0] = this->characters[0];
+	newChar[1] = this->characters[1];
+	newChar[2] = '\0';
+
+	CString cs(newChar);
+
+	return cs;
 }
 
 //

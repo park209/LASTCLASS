@@ -12,6 +12,7 @@ class DoubleByteCharacter;
 class Diagram;
 class Class;
 class Line;
+class Row;
 class Relation;
 class Generalization;
 class Realization;
@@ -37,6 +38,7 @@ public:
 	virtual void Visit(Line *line, CDC* cPaintDc) = 0;
 	virtual void Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc) = 0;
 	virtual void Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc) = 0;
+	virtual void Visit(Row* row, CDC* cPaintDc) = 0;
 
 	//, CDC* cPaintDc) = 0; //0904추가	CDC* cPaintDc)   0907관계선일반화관계로수정
 

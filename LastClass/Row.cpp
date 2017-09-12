@@ -5,12 +5,29 @@
 #include "DoubleByteCharacter.h"
 
 Row::Row(Long capacity) : TextComposite(capacity) {
+	this->x = 5;
+	this->y = 5;
+	this->rowHeight = 20;
+	this->classID = -1;
+	this->capacity = capacity;
+	this->length = 0;
+}
+
+Row::Row(Long x, Long y, Long rowHeight, Long classID, Long capacity) : TextComposite(capacity) {
+	this->x = x;
+	this->y = y;
+	this->rowHeight = rowHeight;
+	this->classID = classID;
 	this->capacity = capacity;
 	this->length = 0;
 }
 
 Row::Row(const Row& source) {
 	this->textComponents = source.textComponents;
+	this->x = source.x;
+	this->y = source.y;
+	this->rowHeight = source.rowHeight;
+	this->classID = source.classID;
 	this->capacity = source.capacity;
 	this->length = source.length;
 	Long i = 0;
@@ -49,6 +66,23 @@ Long Row::Add(Character *character) {
 	return index;
 }
 
+Long Row::Modify(Long index, TextComponent *textComponent) {
+	return this->textComponents.Modify(index, textComponent);
+}
+Long Row::Remove(Long index) {
+	index = this->textComponents.Delete(index);
+	this->length--;
+	this->capacity--;
+
+	return index;
+}
+
+Long Row::Insert(Long index, TextComponent *textComponent) {
+	this->length++;
+	this->capacity++;
+	return this->textComponents.Insert(index, textComponent);
+}
+
 Character* Row::GetAt(Long index) {
 	return static_cast<Character*>(this->textComponents[index]);
 }
@@ -71,21 +105,49 @@ void Row::PrintCharacter(SmartPointer<TextComponent*>& index) {
 	}
 }
 
+string Row::PrintRowString() {
+	char tempChar[128];
+	Long i = 0;
+	Long j = 0;
+	while (i < this->GetLength()) { //row
+		if (dynamic_cast<SingleByteCharacter*>(this->GetAt(i))) { //character
+			tempChar[j] = dynamic_cast<SingleByteCharacter*>(this->GetAt(i))->GetCharacter();
+			j++;
+		}
+		else if (dynamic_cast<DoubleByteCharacter*>(this->GetAt(i))) {
+			tempChar[j] = dynamic_cast<DoubleByteCharacter*>(this->GetAt(i))->GetCharacters()[0];
+			j++;
+			tempChar[j] = dynamic_cast<DoubleByteCharacter*>(this->GetAt(i))->GetCharacters()[1];
+			j++;
+		}
+		i++;
+	}
+	tempChar[j] = '\0';
+	string tempString(tempChar);
+	return tempString;
+}
+
 void Row::Accept(Visitor& visitor, CDC* cPaintDc) {
 	cout << "Row Accept" << endl;
-	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
-	while (!smartPointer->IsDone()) {
-		if (dynamic_cast<SingleByteCharacter*>(smartPointer->Current())) {
-			(static_cast<SingleByteCharacter*>(smartPointer->Current()))->Accept(visitor, cPaintDc);
-		}
-		else if (dynamic_cast<DoubleByteCharacter*>(smartPointer->Current())) {
-			(static_cast<DoubleByteCharacter*>(smartPointer->Current()))->Accept(visitor, cPaintDc);
-		}
-		smartPointer->Next();
+	//SmartPointer<TextComponent*> iterator(this->CreateIterator());
+
+	visitor.Visit(this, cPaintDc);
+	/*while (!smartPointer->IsDone()) {
+	if (dynamic_cast<SingleByteCharacter*>(smartPointer->Current())) {
+	(static_cast<SingleByteCharacter*>(smartPointer->Current()))->Accept(visitor, cPaintDc);
 	}
+	else if (dynamic_cast<DoubleByteCharacter*>(smartPointer->Current())) {
+	(static_cast<DoubleByteCharacter*>(smartPointer->Current()))->Accept(visitor, cPaintDc);
+	}
+	smartPointer->Next();
+	}*/
 }
 
 Row& Row::operator = (const Row& source) {
+	this->x = source.x;
+	this->y = source.y;
+	this->rowHeight = source.rowHeight;
+	this->classID = source.classID;
 	this->capacity = source.capacity;
 	this->length = source.length;
 	this->textComponents = source.textComponents;

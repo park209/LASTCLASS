@@ -28,15 +28,15 @@ void DrawingVisitor::Visit(Class *object, CDC* cPaintDc) {
 	Long height = object->GetHeight();
 
 
-	
+
 	cPaintDc->Rectangle(x, y, x + width, y + height);
 }
 void DrawingVisitor::Visit(Line *line, CDC* cPaintDc) {
 	Long x = line->GetX();
 	Long  y = line->GetY();;
 	Long width = line->GetWidth();
-	
-	
+
+
 	cPaintDc->MoveTo(x, y);
 	cPaintDc->LineTo(x + width, y);
 }
@@ -46,14 +46,15 @@ void DrawingVisitor::Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaint
 
 void DrawingVisitor::Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc) {
 }
-
+void DrawingVisitor::Visit(Row* row, CDC* cPaintDc) {
+}
 
 void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
 
 	Long startX = generalization->GetX();
 	Long startY = generalization->GetY();
-	Long endX = generalization->GetWidth()+ generalization->GetX();
-	Long endY = generalization->GetHeight()+ generalization->GetY();
+	Long endX = generalization->GetWidth() + generalization->GetX();
+	Long endY = generalization->GetHeight() + generalization->GetY();
 	//cout << "일반화출력" << " " << x << " " << y << " " << width << " " << height <<  endl;
 
 	cPaintDc->MoveTo(startX, startY);
@@ -68,10 +69,10 @@ void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX) - (15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY) + (15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-																					  // 수직 기울기
+														  // 수직 기울기
 
 	CPoint pts[3];
 
@@ -93,9 +94,9 @@ void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
 void DrawingVisitor::Visit(Realization *realization, CDC* cPaintDc) {
 
 	Long startX = realization->GetX();
-	Long  startY= realization->GetY();
-	Long endX = realization->GetWidth()+ realization->GetX();
-	Long endY = realization->GetHeight()+ realization->GetY();
+	Long  startY = realization->GetY();
+	Long endX = realization->GetWidth() + realization->GetX();
+	Long endY = realization->GetHeight() + realization->GetY();
 	//cout << "실체화출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	CPen pen;
@@ -116,10 +117,10 @@ void DrawingVisitor::Visit(Realization *realization, CDC* cPaintDc) {
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX) - (15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY) + (15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-																					  // 수직 기울기
+														  // 수직 기울기
 
 	CPoint pts[3];
 
@@ -142,8 +143,8 @@ void DrawingVisitor::Visit(Dependency *dependency, CDC* cPaintDc) {
 
 	Long startX = dependency->GetX();
 	Long  startY = dependency->GetY();
-	Long endX = dependency->GetWidth()+ dependency->GetX();
-	Long endY = dependency->GetHeight() +dependency->GetY();
+	Long endX = dependency->GetWidth() + dependency->GetX();
+	Long endY = dependency->GetHeight() + dependency->GetY();
 	//cout << "의존 출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	CPen pen;
@@ -159,10 +160,10 @@ void DrawingVisitor::Visit(Dependency *dependency, CDC* cPaintDc) {
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX) - (15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY) + (15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-																					  // 수직 기울기
+														  // 수직 기울기
 
 	CPoint pts[3];
 
@@ -186,8 +187,8 @@ void DrawingVisitor::Visit(Association *association, CDC* cPaintDc) { //, CDC* c
 
 	Long startX = association->GetX();
 	Long startY = association->GetY();
-	Long endX = association->GetWidth()+ association->GetX();
-	Long endY = association->GetHeight()+ association->GetY();
+	Long endX = association->GetWidth() + association->GetX();
+	Long endY = association->GetHeight() + association->GetY();
 	//cout << "연관화출력" << " " << startX << " " << startY << " " << endX << " " << endY << endl;
 
 	cPaintDc->MoveTo(startX, startY);
@@ -198,8 +199,8 @@ void DrawingVisitor::Visit(DirectedAssociation *directedAssociation, CDC* cPaint
 
 	Long startX = directedAssociation->GetX();
 	Long  startY = directedAssociation->GetY();
-	Long endX = directedAssociation->GetWidth()+ directedAssociation->GetX();
-	Long endY = directedAssociation->GetHeight()+ directedAssociation->GetY();
+	Long endX = directedAssociation->GetWidth() + directedAssociation->GetX();
+	Long endY = directedAssociation->GetHeight() + directedAssociation->GetY();
 	//cout << "직접연관출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	cPaintDc->MoveTo(startX, startY);
@@ -209,10 +210,10 @@ void DrawingVisitor::Visit(DirectedAssociation *directedAssociation, CDC* cPaint
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX) - (15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY) + (15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-																					  // 수직 기울기
+														  // 수직 기울기
 
 	CPoint pts[3];
 
@@ -236,8 +237,8 @@ void DrawingVisitor::Visit(Aggregation *aggregation, CDC* cPaintDc) {
 
 	Long  startX = aggregation->GetX();
 	Long  startY = aggregation->GetY();
-	Long endX = aggregation->GetWidth()+ aggregation->GetX();
-	Long endY = aggregation->GetHeight()+ aggregation->GetY();
+	Long endX = aggregation->GetWidth() + aggregation->GetX();
+	Long endY = aggregation->GetHeight() + aggregation->GetY();
 	//cout << "집합출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	cPaintDc->MoveTo(startX, startY);
@@ -252,11 +253,11 @@ void DrawingVisitor::Visit(Aggregation *aggregation, CDC* cPaintDc) {
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 
-	double dX = (startX) + (15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (startY) - (15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (startX)+(15 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (startY)-(15 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-	double dX2 = (startX) - ((endX - startX) / distance);
-	double dY2 = (startY) + ((startY - endY) / distance);
+	double dX2 = (startX)-((endX - startX) / distance);
+	double dY2 = (startY)+((startY - endY) / distance);
 
 	CPoint pts2[4];
 
@@ -282,8 +283,8 @@ void DrawingVisitor::Visit(Aggregations *aggregations, CDC* cPaintDc) {
 
 	Long startX = aggregations->GetX();
 	Long  startY = aggregations->GetY();
-	Long endX = aggregations->GetWidth()+ aggregations->GetX();
-	Long endY = aggregations->GetHeight()+ aggregations->GetY();
+	Long endX = aggregations->GetWidth() + aggregations->GetX();
+	Long endY = aggregations->GetHeight() + aggregations->GetY();
 	//cout << "집합연관출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	cPaintDc->MoveTo(startX, startY);
@@ -298,10 +299,10 @@ void DrawingVisitor::Visit(Aggregations *aggregations, CDC* cPaintDc) {
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX) - (15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY) + (15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-																					  // 수직 기울기
+														  // 수직 기울기
 
 	CPoint pts[3];
 
@@ -323,11 +324,11 @@ void DrawingVisitor::Visit(Aggregations *aggregations, CDC* cPaintDc) {
 
 	//여기까지 화살표 다음부터 마름모
 
-	dX = (startX) + (15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	dY = (startY) - (15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	dX = (startX)+(15 * (endX - startX) / distance); //뒤로 온 기준점 x
+	dY = (startY)-(15 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-	double dX2 = (startX) - ((endX - startX) / distance);
-	double dY2 = (startY) + ((startY - endY) / distance);
+	double dX2 = (startX)-((endX - startX) / distance);
+	double dY2 = (startY)+((startY - endY) / distance);
 
 	CPoint pts2[4];
 
@@ -353,8 +354,8 @@ void DrawingVisitor::Visit(Composition *composition, CDC* cPaintDc) {
 
 	Long startX = composition->GetX();
 	Long  startY = composition->GetY();
-	Long endX = composition->GetWidth()+ composition->GetX();
-	Long endY = composition->GetHeight()+ composition->GetY();
+	Long endX = composition->GetWidth() + composition->GetX();
+	Long endY = composition->GetHeight() + composition->GetY();
 	//cout << "합성출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	cPaintDc->MoveTo(startX, startY);
@@ -370,11 +371,11 @@ void DrawingVisitor::Visit(Composition *composition, CDC* cPaintDc) {
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 
-	double dX = (startX) + (15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (startY) - (15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (startX)+(15 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (startY)-(15 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-	double dX2 = (startX) - ((endX - startX) / distance);
-	double dY2 = (startY) + ((startY - endY) / distance);
+	double dX2 = (startX)-((endX - startX) / distance);
+	double dY2 = (startY)+((startY - endY) / distance);
 
 	CPoint pts2[4];
 
@@ -400,8 +401,8 @@ void DrawingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 
 	Long startX = compositions->GetX();
 	Long  startY = compositions->GetY();
-	Long endX = compositions->GetWidth()+ compositions->GetX();
-	Long endY = compositions->GetHeight()+ compositions->GetY();
+	Long endX = compositions->GetWidth() + compositions->GetX();
+	Long endY = compositions->GetHeight() + compositions->GetY();
 	//cout << "복합연관출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	cPaintDc->MoveTo(startX, startY);
@@ -417,10 +418,10 @@ void DrawingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX) - (15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY) + (15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-																					  // 수직 기울기
+														  // 수직 기울기
 	CPoint pts[3];
 
 	pts[0].x = endX; //마우스 현재위치 점
@@ -441,11 +442,11 @@ void DrawingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 	//여기까지 화살표 다음부터 마름모
 	distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 
-	dX = (startX) + (15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	dY = (startY) - (15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	dX = (startX)+(15 * (endX - startX) / distance); //뒤로 온 기준점 x
+	dY = (startY)-(15 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-	double dX2 = (startX) - ((endX - startX) / distance);
-	double dY2 = (startY) + ((startY - endY) / distance);
+	double dX2 = (startX)-((endX - startX) / distance);
+	double dY2 = (startY)+((startY - endY) / distance);
 
 	CPoint pts2[4];
 
@@ -491,11 +492,11 @@ void DrawingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { // CDC  *cPaintDc
 	//cout << "메모박스출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	CPoint pts2[5];
-	pts2[0].x = static_cast<LONG>(x+15); // 윗점
+	pts2[0].x = static_cast<LONG>(x + 15); // 윗점
 	pts2[0].y = static_cast<LONG>(y);
 
 	pts2[1].x = static_cast<LONG>(x); //마우스 처음 점
-	pts2[1].y = static_cast<LONG>(y+15);
+	pts2[1].y = static_cast<LONG>(y + 15);
 
 	pts2[2].x = static_cast<LONG>(x); // 아랫점
 	pts2[2].y = static_cast<LONG>(y + height);
@@ -509,8 +510,8 @@ void DrawingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { // CDC  *cPaintDc
 	cPaintDc->Polygon(pts2, 5);
 
 	cPaintDc->MoveTo(pts2[0].x, pts2[0].y);
-	cPaintDc->LineTo(pts2[0].x, pts2[0].y+15);
+	cPaintDc->LineTo(pts2[0].x, pts2[0].y + 15);
 
 	cPaintDc->MoveTo(pts2[1].x, pts2[1].y);
-	cPaintDc->LineTo(pts2[0].x, pts2[0].y+15);
+	cPaintDc->LineTo(pts2[0].x, pts2[0].y + 15);
 }

@@ -6,7 +6,7 @@ Selection::Selection(Long capacity):FigureComposite(capacity) {
 	this->y = 0;
 	this->width = 0;
 	this->height = 0;
-}
+}	
 Selection::Selection(const Selection& source) : FigureComposite(source) {
 	this->x = source.x;
 	this->y = source.y;
@@ -79,7 +79,8 @@ void Selection::FindByArea(Diagram *diagram, CRect area) {
 	Figure *figure;
 
 	while (i < diagram->GetLength()) {
-		composite = dynamic_cast<FigureComposite*>(diagram->GetAt(i));
+		//¼öÁ¤
+		composite = static_cast<FigureComposite*>(diagram->GetAt(i));
 		rect.left = composite->GetX();
 		rect.top = composite->GetY();
 		rect.right = composite->GetX() + composite->GetWidth();
@@ -178,3 +179,22 @@ void Selection::FindByPoint(Diagram *diagram, Long x, Long y) {
 //		return 0;
 //
 //}
+
+bool Selection::FindCrossPoints(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End, CPoint *crossPoint){
+	double t;
+	double s;
+	bool ret = false;
+	double under = (line2End.y - line2Start.y)*(line1End.x - line1Start.x) - (line2End.x - line2Start.x)*(line1End.y - line1Start.y);
+	if (under != 0) {
+		double _t = (line2End.x - line2Start.x)*(line1Start.y - line2Start.y) - (line2End.y - line2Start.y)*(line1Start.x - line2Start.x);
+		double _s = (line1End.x - line1Start.x)*(line1Start.y - line2Start.y) - (line1End.y - line1Start.y)*(line1Start.x - line2Start.x);
+		t = _t / under;
+		s = _s / under;
+		if (t >= 0.0 && t <= 1.0 && s >= 0.0 && s <= 1.0 && _t != 0 && _s != 0) {
+			crossPoint->x = static_cast<LONG>(line1Start.x + t*(double)(line1End.x - line1Start.x));
+			crossPoint->y = static_cast<LONG>(line1Start.y + t*(double)(line1End.y - line1Start.y));
+			ret = true;
+		}
+	}
+	return ret;
+}

@@ -5,10 +5,7 @@
 #ifndef _WRITINGVISITOR_H
 #define _WRITINGVISITOR_H
 
-#include "Visitor.h"
-
-class SingleByteCharacter;
-class DoubleByteCharacter;
+#include "Visitor.h" 
 
 class WritingVisitor : public Visitor {
 public:
@@ -19,6 +16,7 @@ public:
 	void Visit(Class *object, CDC* cPaintDc);
 	void Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc);
 	void Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc);
+	void Visit(Row* row, CDC* cPaintDc);
 
 
 	 void Visit(Generalization *generalization, CDC* cPaintDc) ;		//¿œπ›»≠

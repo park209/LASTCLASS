@@ -1,8 +1,8 @@
 #ifndef _SELECTION_H
 #define _SELECTION_H
 #include "FigureComposite.h"
-
-class CRect;
+#include <afxwin.h>
+using namespace std;
 class Diagram;
 class Selection : public  FigureComposite{
 public: 
@@ -20,7 +20,7 @@ public:
 	void FindByArea(Diagram *diagram, CRect area);
 	void FindByPoint(Diagram *diagram, Long x, Long y);
 
-
+	bool FindCrossPoints(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End, CPoint *crossPoint);
 };
 
 #endif // !_SELECTION_H

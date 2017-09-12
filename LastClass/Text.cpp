@@ -1,8 +1,8 @@
 //Text.cpp 
 #include "Text.h"
 
-Text::Text(Long cpacity) : TextComposite(cpacity) {
-	this->capacity = cpacity;
+Text::Text(Long capacity) : TextComposite(capacity) {
+	this->capacity = capacity;
 	this->length = 0;
 }
 Text::~Text() {
@@ -47,6 +47,63 @@ Long Text::Add(TextComponent *textComponent) {
 	this->length++;
 	return index;
 }
+///////////////////////////////////////////////////////////////////////////////
+Long Text::Modify(Long index, Long x, Long y, Long rowHeight, Long classID, TextComponent *textComponent) {
+	Row *row = new Row(x, y, rowHeight, classID);
+
+	if (this->length < this->capacity) {
+		index = this->textComponents.Store(this->length, textComponent);
+	}
+	else {
+		index = this->textComponents.AppendFromRear(textComponent);
+		this->capacity++;
+	}
+	this->length++;
+	return index;
+}
+
+void Text::Find(Long x, Long y, Long height, Row**(*indexes), Long *count) {
+	if (*indexes != 0) {
+		delete *indexes;
+		*indexes = 0;
+	}
+	*indexes = new Row*[128];
+	Long i = 0;
+	Long j = 0;
+	while (i < this->GetLength()) {
+		if (this->GetAt(i)->GetX() == x && this->GetAt(i)->GetY() >= y && this->GetAt(i)->GetY() <= y + height) {
+			(*indexes)[j] = (Row*)(this->GetAt(i)->Clone());
+			j++;
+			*count += 1;
+		}
+		i++;
+	}
+
+
+
+	/*SmartPointer<TextComponent*> iterator(this->CreateIterator());
+	if (*indexes != 0) {
+	delete *indexes;
+	*indexes = 0;
+	}
+	*indexes = new Row*[128];
+	Long i = 0;
+	for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
+	if (((Row*)iterator->Current())->GetX() == x && ((Row*)iterator->Current())->GetY() >= y && ((Row*)iterator->Current())->GetY() <= y + height) {
+	(*indexes)[i] = (Row*)iterator->Current();
+	i++;
+	}
+	}
+	*count = i;*/
+}
+
+Long Text::Remove(Long index) {
+	index = this->textComponents.Delete(index);
+	this->length--;
+	this->capacity--;
+	return index;
+}
+
 
 Row* Text::GetAt(Long index) {
 	return dynamic_cast<Row*>(this->textComponents[index]);
@@ -60,7 +117,7 @@ TextComponent* Text::Clone() const {
 using namespace std;
 
 void Text::PrintRow(SmartPointer<TextComponent*>& index) {
-	
+	Long i;
 	for (index->First(); !index->IsDone(); index->Next()) {
 		cout << "PrintRow È®ÀÎ" << endl;
 	}
@@ -69,10 +126,18 @@ void Text::PrintRow(SmartPointer<TextComponent*>& index) {
 void Text::Accept(Visitor& visitor, CDC* cPaintDc) {
 	cout << "Text Accept" << endl;
 	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
-	while (!smartPointer->IsDone()) {
+	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
 		static_cast<Row*>(smartPointer->Current())->Accept(visitor, cPaintDc);
-		smartPointer->Next();
 	}
+}
+
+Long Text::InsertRow(Long formX, Long formY, Long rowHeight, Long classID, Long index) {
+	Row *row = new Row(formX, formY - 28 + (index + 1) * rowHeight, rowHeight, classID);
+	index = this->textComponents.Insert(index + 1, row->Clone());
+	this->capacity++;
+	this->length++;
+
+	return index;
 }
 
 Row* Text::operator [] (Long index) {
@@ -92,7 +157,7 @@ Text& Text::operator = (const Text& source) {
 	return *this;
 }
 
-//
+
 //#include <iostream>
 //using namespace std;
 //

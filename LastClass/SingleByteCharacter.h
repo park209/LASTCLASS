@@ -1,5 +1,3 @@
-
-
 #ifndef _SINGLEBYTECHARACTER_H
 #define _SINGLEBYTECHARACTER_H
 
@@ -7,15 +5,16 @@
 
 typedef signed long int Long;
 
-class SingleByteCharacter :public Character {
+class SingleByteCharacter : public Character {
 public:
 	SingleByteCharacter();
-	SingleByteCharacter(char character, Long characterIndex, Long x, Long y);
+	SingleByteCharacter(char character);
 	SingleByteCharacter(const SingleByteCharacter& source);
-	 ~SingleByteCharacter();
+	~SingleByteCharacter();
 
-	virtual Character* Clone() const ;
+	virtual Character* Clone() const;
 	virtual void Accept(Visitor& visitor, CDC* cPaintDc);
+	CString MakeCString() const;
 
 	SingleByteCharacter& operator=(const SingleByteCharacter& sourcce);
 

@@ -1,5 +1,3 @@
-
-
 //TextComponent.h
 
 #ifndef _TEXTCOMPONENT_H
@@ -7,13 +5,13 @@
 
 class TextComponent {
 public:
-	TextComponent();
-	TextComponent(const TextComponent& source);
-	virtual ~TextComponent() = 0;
+	TextComponent() {};
+	TextComponent(const TextComponent& source) {};
+	virtual ~TextComponent() {};
 
-	void operator = (const TextComponent& source);
+	void operator = (const TextComponent& source) {};
 	virtual TextComponent* Clone() const = 0;
 };
 
 
-#endif // !_TEXTCOMPONENT_H
+#endif // _TEXTCOMPONENT_H
