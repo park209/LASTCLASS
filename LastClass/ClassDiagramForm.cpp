@@ -767,25 +767,26 @@ void ClassDiagramForm::OnPaint() {
 
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	char nCharacter = nChar;
-	Long key;
+	Long key = -1;
 
 	if (nChar == 48) {
 		key = 0;
-		this->drawingController->ChangeState(key);
 	}
 	if (nChar == 49) {
 		key = 1;
-		this->drawingController->ChangeState(key);
 	}
 	if (nChar == 50) {
 		key = 2;
-		this->drawingController->ChangeState(key);
 	}
+	if (nChar == 51) {
+		key = 3;
+	}
+	this->drawingController->ChangeState(key);
 
 	if (this->text->GetLength() == 0) {
 		Row newRow;
 		this->text->Add(newRow.Clone());
-	}
+	} 
 	SingleByteCharacter singleByteCharacter(nCharacter);
 	this->startX += 10;
 	this->text->GetAt(this->rowIndex)->Add(singleByteCharacter.Clone());

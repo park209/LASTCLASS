@@ -4,6 +4,7 @@
 #include"DrawingController.h"
 #include"ClassButton.h"
 #include"GeneralizationButton.h"
+#include"RealizationButton.h"
 
 Unclicked::Unclicked() {
 
@@ -35,6 +36,12 @@ void Unclicked::ChangeState(DrawingController *drawingController, Long key) {
 			delete drawingController->buttonState;
 		}
 		drawingController->buttonState = new GeneralizationButton;
+	}
+	if (key == 3) {
+		if (drawingController->buttonState != 0) {
+			delete drawingController->buttonState;
+		}
+		drawingController->buttonState = new RealizationButton;
 	}
 }
 

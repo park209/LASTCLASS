@@ -1,27 +1,27 @@
-//GeneralizationButton.cpp
+//RealizationButton.cpp
 
-#include"GeneralizationButton.h"
+#include"RealizationButton.h"
 #include"DrawingController.h"
 #include"Unclicked.h"
 #include"ClassButton.h"
 #include"Diagram.h"
 #include"Selection.h"
-#include"Generalization.h"
-#include"RealizationButton.h"
+#include"GeneralizationButton.h"
+#include"Realization.h"
 
-GeneralizationButton::GeneralizationButton() {
-
-}
-
-GeneralizationButton::GeneralizationButton(const GeneralizationButton& source) {
+RealizationButton::RealizationButton() {
 
 }
 
-GeneralizationButton::~GeneralizationButton() {
+RealizationButton::RealizationButton(const RealizationButton& source) {
 
 }
 
-void GeneralizationButton::ChangeState(DrawingController *drawingController, Long key) {
+RealizationButton::~RealizationButton() {
+
+}
+
+void RealizationButton::ChangeState(DrawingController *drawingController, Long key) {
 	if (key == 0) {
 		if (drawingController->buttonState != 0) {
 			delete drawingController->buttonState;
@@ -48,7 +48,7 @@ void GeneralizationButton::ChangeState(DrawingController *drawingController, Lon
 	}
 }
 
-void GeneralizationButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+void RealizationButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
 	if (selection->GetLength() == 1) {
 		//Long endClass = this->diagram->Find(this->currentX, this->currentY);//자기자신 연결시 0 0 0 0 값 저장됨.. 수정요 2017_09_09
 		//Long x = this->currentX;
@@ -136,12 +136,12 @@ void GeneralizationButton::AddToArray(Diagram *diagram, Selection *selection, Lo
 				endClassCheck = selection->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross2);
 			}
 
-			Generalization object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+			Realization object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 			static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		}
 	}
 }
 
-GeneralizationButton& GeneralizationButton::operator=(const GeneralizationButton& source) {
-	return const_cast<GeneralizationButton&>(source);
+RealizationButton& RealizationButton::operator=(const RealizationButton& source) {
+	return const_cast<RealizationButton&>(source);
 }

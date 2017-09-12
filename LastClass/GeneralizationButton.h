@@ -3,7 +3,7 @@
 #define _GENERALIZATIONBUTTON_H
 
 #include"ButtonState.h"
-#include "Selection.h"
+class Selection;
 typedef signed long int Long;
 
 

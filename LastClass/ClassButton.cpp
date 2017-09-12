@@ -6,6 +6,7 @@
 #include"DrawingController.h"
 #include"Unclicked.h"
 #include"GeneralizationButton.h"
+#include"RealizationButton.h"
 
 ClassButton::ClassButton() {
 
@@ -37,6 +38,12 @@ void ClassButton::ChangeState(DrawingController *drawingController, Long key) {
 			delete drawingController->buttonState;
 		}
 		drawingController->buttonState = new GeneralizationButton;
+	}
+	if (key == 3) {
+		if (drawingController->buttonState != 0) {
+			delete drawingController->buttonState;
+		}
+		drawingController->buttonState = new RealizationButton;
 	}
 }
 

@@ -57,6 +57,7 @@
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="MemoBox.cpp" />
     <ClCompile Include="Realization.cpp" />
+    <ClCompile Include="RealizationButton.cpp" />
     <ClCompile Include="Relation.cpp" />
     <ClCompile Include="RightArrowKey.cpp" />
     <ClCompile Include="Row.cpp" />
@@ -114,6 +115,7 @@
     <ClInclude Include="Line.h" />
     <ClInclude Include="MemoBox.h" />
     <ClInclude Include="Realization.h" />
+    <ClInclude Include="RealizationButton.h" />
     <ClInclude Include="Relation.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RightArrowKey.h" />
