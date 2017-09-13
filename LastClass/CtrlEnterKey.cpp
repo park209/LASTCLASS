@@ -19,7 +19,7 @@ CtrlEnterKey::~CtrlEnterKey() {
 
 void CtrlEnterKey::KeyPress(TextEdit *textEdit) {
 	if (GetKeyState(VK_CONTROL) < 0) {
-		textEdit->rowIndex = textEdit->classDiagramForm->text->InsertRow(textEdit->GetFormX(), textEdit->GetFormY(), textEdit->GetRowHeight(), textEdit->GetRowIndex());
+		textEdit->rowIndex = textEdit->classDiagramForm->text->InsertRow(textEdit->GetFormX(), textEdit->GetFormY(), textEdit->GetRowHeight(), textEdit->classDiagramForm->GetCurrentClassIndex(), textEdit->GetRowIndex());
 		while (textEdit->characterIndex < textEdit->classDiagramForm->text->GetAt(textEdit->GetRowIndex() - 1)->GetLength()) {
 			Character *character = textEdit->classDiagramForm->text->GetAt(textEdit->GetRowIndex() - 1)->GetAt(textEdit->characterIndex);
 
@@ -29,7 +29,7 @@ void CtrlEnterKey::KeyPress(TextEdit *textEdit) {
 		Long i = textEdit->GetRowIndex() + 1;
 		while (i < textEdit->classDiagramForm->text->GetLength()) {
 			/*textEdit->classDiagramForm->text->Modify(textEdit->classDiagramForm->text->GetAt(i)->GetX(), textEdit->classDiagramForm->text->GetAt(i)->GetY() + textEdit->GetRowHeight(),
-				textEdit->classDiagramForm->text->GetAt(i)->Clone());
+			textEdit->classDiagramForm->text->GetAt(i)->Clone());
 			i++;*/
 		}
 		textEdit->characterIndex = 0;

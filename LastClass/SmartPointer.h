@@ -1,3 +1,4 @@
+
 //SmartPointer.h
 #ifndef _SMARTPOINTER_H
 #define _SMARTPOINTER_H
@@ -9,11 +10,11 @@ class SmartPointer {
 public:
 	SmartPointer(Iterator<T>* index);
 	~SmartPointer();
-	Iterator<T>* operator -> ();
-	Iterator<T>& operator * ();
+	Iterator<T>* operator->();
+	Iterator<T>& operator*();
 private:
-	SmartPointer(const SmartPointer& source);
-	SmartPointer& operator = (const SmartPointer& source);
+	SmartPointer(const SmartPointer&);
+	SmartPointer& operator = (const SmartPointer&);
 private:
 	Iterator<T>* index;
 };
@@ -22,15 +23,15 @@ template<typename T>
 SmartPointer<T>::SmartPointer(Iterator<T>* index) :index(index) {
 }
 template<typename T>
-SmartPointer<T>::~SmartPointer() { ////////////////////////////////////
+SmartPointer<T>::~SmartPointer() {
 	delete index;
 }
 template<typename T>
-Iterator<T>* SmartPointer<T>::operator -> (){
+Iterator<T>* SmartPointer<T>::operator ->(){
 	return index;
 }
 template<typename T>
-Iterator<T>& SmartPointer<T>::operator * () {
+Iterator<T>& SmartPointer<T>::operator* () {
 	return *index;
 }
 

@@ -8,14 +8,16 @@ Row::Row(Long capacity) : TextComposite(capacity) {
 	this->x = 5;
 	this->y = 5;
 	this->rowHeight = 20;
+	this->classID = -1;
 	this->capacity = capacity;
 	this->length = 0;
 }
 
-Row::Row(Long x, Long y, Long rowHeight, Long capacity) : TextComposite(capacity) {
+Row::Row(Long x, Long y, Long rowHeight, Long classID, Long capacity) : TextComposite(capacity) {
 	this->x = x;
 	this->y = y;
 	this->rowHeight = rowHeight;
+	this->classID = classID;
 	this->capacity = capacity;
 	this->length = 0;
 }
@@ -25,6 +27,7 @@ Row::Row(const Row& source) {
 	this->x = source.x;
 	this->y = source.y;
 	this->rowHeight = source.rowHeight;
+	this->classID = source.classID;
 	this->capacity = source.capacity;
 	this->length = source.length;
 	Long i = 0;
@@ -143,6 +146,8 @@ void Row::Accept(Visitor& visitor, CDC* cPaintDc) {
 Row& Row::operator = (const Row& source) {
 	this->x = source.x;
 	this->y = source.y;
+	this->rowHeight = source.rowHeight;
+	this->classID = source.classID;
 	this->capacity = source.capacity;
 	this->length = source.length;
 	this->textComponents = source.textComponents;
