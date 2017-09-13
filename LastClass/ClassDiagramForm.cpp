@@ -26,7 +26,7 @@
 #include "DrawingController.h"
 #include "FigureFactory.h"
 #include "MemoLine.h"
-
+#include "Unclicked.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
@@ -289,7 +289,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->drawingController = new DrawingController;
 
 	//1.2. 적재한다
-	this->Load();
+	//this->Load();
 	//this->TextLoad();
 	//1.3. 윈도우를 갱신한다
 	Invalidate();
@@ -313,24 +313,40 @@ void ClassDiagramForm::OnPaint() {
 	if (this->relationButton == false) {
 		Long i = 0;
 		while (i < this->selection->GetLength()) {
-			dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
-				this->selection->GetAt(i)->GetY() - 5,
-				this->selection->GetAt(i)->GetX() + 5,
-				this->selection->GetAt(i)->GetY() + 5);
-			dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
-				this->selection->GetAt(i)->GetY() - 5,
-				this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
-				this->selection->GetAt(i)->GetY() + 5);
-			dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
-				this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
-				this->selection->GetAt(i)->GetX() + 5,
-				this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
-			dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
-				this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
-				this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
-				this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+			if (dynamic_cast<Class*>(this->selection->GetAt(i)) || dynamic_cast<MemoBox*>(this->selection->GetAt(i))) {
+				dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
+					this->selection->GetAt(i)->GetY() - 5,
+					this->selection->GetAt(i)->GetX() + 5,
+					this->selection->GetAt(i)->GetY() + 5);
+				dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
+					this->selection->GetAt(i)->GetY() - 5,
+					this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
+					this->selection->GetAt(i)->GetY() + 5);
+				dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
+					this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
+					this->selection->GetAt(i)->GetX() + 5,
+					this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+				dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
+					this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
+					this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
+					this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+
+			}
+			if (dynamic_cast<Realization*>(this->selection->GetAt(i))) {
+				dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
+					this->selection->GetAt(i)->GetY() - 5,
+					this->selection->GetAt(i)->GetX() + 5,
+					this->selection->GetAt(i)->GetY() + 5);
+
+				dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
+					this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
+					this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
+					this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+
+			}
 			i++;
 		}
+
 	}
 
 }
@@ -442,8 +458,14 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
-
-
+	if (dynamic_cast<Unclicked*>(this->drawingController->buttonState)) {
+		CRect area;
+		area.left = this->startX;
+		area.top = this->startY;
+		area.right = this->currentX;
+		area.bottom = this->currentY;
+		this->selection->FindByArea(this->diagram, area);
+	}
 	if (this->classButton == true) {
 		if (this->currentX != this->startX && this->currentY != this->startY) {
 			if (this->currentX - this->startX < 150) {
@@ -518,7 +540,7 @@ bool ClassDiagramForm::FindCrossPoint(const CPoint& line1Start, const CPoint& li
 
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
-	this->Save();
+	//this->Save();
 	//this->TextSave();
 	//6.2. 다이어그램을 지운다.
 	if (this->diagram != NULL) {

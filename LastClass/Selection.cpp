@@ -70,7 +70,7 @@ void Selection::DeleteAllItems() {
 }
 
 void Selection::FindByArea(Diagram *diagram, CRect area) {
-	
+
 	Long i = 0;
 	Long j;
 	FigureComposite *composite;
@@ -98,19 +98,69 @@ void Selection::FindByArea(Diagram *diagram, CRect area) {
 		}
 
 		j = 0;
+		ret = false;
 		while (j < composite->GetLength()) {
 			figure = composite->GetAt(j);
-			rect.left = figure->GetX();
-			rect.top = figure->GetY();
-			rect.right = figure->GetX() + composite->GetWidth();
-			rect.bottom = figure->GetY() + composite->GetHeight();
-			ret = rect.IntersectRect(area, rect);
+			CPoint line1Start;
+			CPoint line1End;
+			CPoint line2Start;
+			CPoint line2End;
+			CPoint cross1;
+			CPoint cross2;
+
+			line1Start.x = area.left;
+			line1Start.y = area.top;
+			line1End.x = area.right;
+			line1End.y = area.bottom;
+
+
+			//범위안 라인찾기
+			if (figure->GetX() >= area.left&&figure->GetY() >= area.top&&figure->GetX() + figure->GetWidth() <= area.right&& figure->GetY() + figure->GetHeight() <= area.bottom) {
+				ret = true;
+			}
+			//교차점 찾기
+
+			else if (ret == false) {//시작 클래스에서 선과 교차하는 면 찾기
+									//상단
+				line2Start.x = figure->GetX();
+				line2Start.y = figure->GetY();
+				line2End.x = figure->GetX() + figure->GetWidth();
+				line2End.y = figure->GetY();
+				ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
+			}
+			else if (ret == false) {
+				//좌측
+				line2Start.x = figure->GetX();
+				line2Start.y = figure->GetY();
+				line2End.x = figure->GetX();
+				line2End.y = figure->GetY() + figure->GetHeight();
+				ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
+			}
+			else if (ret == false) {
+				//우측
+				line2Start.x = figure->GetX() + figure->GetWidth();
+				line2Start.y = figure->GetY();
+				line2End.x = figure->GetX() + figure->GetWidth();
+				line2End.y = figure->GetY() + figure->GetHeight();
+				ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
+			}
+			else if (ret == false) {
+				//하단
+				line2Start.x = figure->GetX();
+				line2Start.y = figure->GetY() + figure->GetHeight();
+				line2End.x = figure->GetX() + figure->GetWidth();
+				line2End.y = figure->GetY() + figure->GetHeight();
+				ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
+			}
+
+
+
 			if (ret == true) {
 				if (this->length < this->capacity) {
-					this->figures.Store(this->length, composite);
+					this->figures.Store(this->length, figure);
 				}
 				else {
-					this->figures.AppendFromRear(composite);
+					this->figures.AppendFromRear(figure);
 					this->capacity++;
 				}
 				this->length++;
