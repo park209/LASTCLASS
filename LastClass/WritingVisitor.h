@@ -43,6 +43,11 @@ public:
 
 	 void Visit(MemoLine* memobox, CDC *cPaintDc);
 
+	 void Visit(ClassName *className, CDC *cPaintDc);
+
+	 void Visit(Method *method, CDC *cPaintDc);
+
+	 void Visit(Attribute *attribute, CDC *cPaintDc);
 	   // CDC  *cPaintDc
 };
 

@@ -1,28 +1,18 @@
 #include "Aggregations.h"
 
-Aggregations::Aggregations() {
-	this->x = 0;
-	this->y = 0;
-	this->width = 0;
-	this->height = 0;
+Aggregations::Aggregations():Relation(){
+
 }
 
-Aggregations::Aggregations(Long x, Long y, Long width, Long height) {
-	this->x = x;
-	this->y = y;
-	this->width = width;
-	this->height = height;
+Aggregations::Aggregations(Long x, Long y, Long width, Long height): Relation(x,y,width,height){
+
 }
 
 Aggregations::~Aggregations() {
 
 }
 
-Aggregations::Aggregations(const Aggregations& source) {
-	this->x = source.x;
-	this->y = source.y;
-	this->width = source.width;
-	this->height = source.height;
+Aggregations::Aggregations(const Aggregations& source): Relation(source){
 }
 
 Aggregations& Aggregations::operator=(const Aggregations& source) {

@@ -27,6 +27,7 @@
     <ClInclude Include="ArrayIterator.h" />
     <ClInclude Include="Association.h" />
     <ClInclude Include="AssociationButton.h" />
+    <ClInclude Include="Attribute.h" />
     <ClInclude Include="BackSpaceKey.h" />
     <ClInclude Include="ButtonState.h" />
     <ClInclude Include="Caret.h" />
@@ -35,6 +36,7 @@
     <ClInclude Include="ClassButton.h" />
     <ClInclude Include="ClassDiagramApp.h" />
     <ClInclude Include="ClassDiagramForm.h" />
+    <ClInclude Include="ClassName.h" />
     <ClInclude Include="Composition.h" />
     <ClInclude Include="CompositionButton.h" />
     <ClInclude Include="Compositions.h" />
@@ -68,8 +70,10 @@
     <ClInclude Include="MemoBoxButton.h" />
     <ClInclude Include="MemoLine.h" />
     <ClInclude Include="MemoLineButton.h" />
+    <ClInclude Include="Method.h" />
     <ClInclude Include="Realization.h" />
     <ClInclude Include="RealizationButton.h" />
+    <ClInclude Include="Reception.h" />
     <ClInclude Include="Relation.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RightArrowKey.h" />
@@ -97,6 +101,7 @@
     <ClCompile Include="ArrayIterator.cpp" />
     <ClCompile Include="Association.cpp" />
     <ClCompile Include="AssociationButton.cpp" />
+    <ClCompile Include="Attribute.cpp" />
     <ClCompile Include="BackSpaceKey.cpp" />
     <ClCompile Include="ButtonState.cpp" />
     <ClCompile Include="Caret.cpp" />
@@ -105,6 +110,7 @@
     <ClCompile Include="ClassButton.cpp" />
     <ClCompile Include="ClassDiagramApp.cpp" />
     <ClCompile Include="ClassDiagramForm.cpp" />
+    <ClCompile Include="ClassName.cpp" />
     <ClCompile Include="Composition.cpp" />
     <ClCompile Include="CompositionButton.cpp" />
     <ClCompile Include="Compositions.cpp" />
@@ -137,8 +143,10 @@
     <ClCompile Include="MemoBoxButton.cpp" />
     <ClCompile Include="MemoLine.cpp" />
     <ClCompile Include="MemoLineButton.cpp" />
+    <ClCompile Include="Method.cpp" />
     <ClCompile Include="Realization.cpp" />
     <ClCompile Include="RealizationButton.cpp" />
+    <ClCompile Include="Reception.cpp" />
     <ClCompile Include="Relation.cpp" />
     <ClCompile Include="RightArrowKey.cpp" />
     <ClCompile Include="Row.cpp" />

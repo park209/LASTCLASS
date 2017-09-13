@@ -1,29 +1,20 @@
 #include "Generalization.h"
 
-Generalization::Generalization() {
-	this->x = 0;
-	this->y = 0;
-	this->width = 0;
-	this->height = 0;
+Generalization::Generalization():Relation(){
+
 }
 
 
-Generalization::Generalization(Long x, Long y, Long width, Long height) {
-	this->x = x;
-	this->y = y;
-	this->width = width;
-	this->height = height;
+Generalization::Generalization(Long x, Long y, Long width, Long height) : Relation(x,y,width,height){
+
 }
 
 Generalization::~Generalization() {
 
 }
 
-Generalization::Generalization(const Generalization& source) {
-	this->x = source.x;
-	this->y = source.y;
-	this->width = source.width;
-	this->height = source.height;
+Generalization::Generalization(const Generalization& source):Relation(source){
+	
 }
 
 Generalization& Generalization::operator=(const Generalization& source) {

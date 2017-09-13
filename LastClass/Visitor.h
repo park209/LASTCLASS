@@ -26,9 +26,9 @@ class Compositions;
 class Template;
 class MemoBox;
 class MemoLine;
-
-
-
+class ClassName;
+class Method;
+class Attribute;
 
 class Visitor{
 public:
@@ -65,6 +65,12 @@ public:
 	virtual void Visit(MemoBox* memobox, CDC *cPaintDc) = 0;// CDC  *cPaintDc
 
 	virtual void Visit(MemoLine* memobox, CDC *cPaintDc) = 0;// CDC  *cPaintDc
+
+	virtual void Visit(ClassName *className, CDC *cPaintDc) = 0;
+
+	virtual void Visit(Method *method, CDC *cPaintDc) = 0;
+
+	virtual void Visit(Attribute *attribute, CDC *cPaintDc) = 0;
 protected:
 	Visitor();
 };

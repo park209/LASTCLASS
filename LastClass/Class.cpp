@@ -15,6 +15,10 @@
 #include "SmartPointer.h"
 #include "MemoLine.h"
 
+#include "SmartPointer.h"
+#include "ArrayIterator.h"
+#include "Iterator.h"
+
 Class::Class(Long capacity):FigureComposite(capacity) {
 	this->capacity = capacity;
 	this->length = 0;
@@ -354,10 +358,12 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 //int main(int argc, char* argv[]) {
 //	
 //	Class testClass1(10, 20, 30, 40);
-//	
+//	SmartPointer<Figure*> smartPointer(testClass1.CreateIterator());
+//	//ArrayIterator<Template*> smartPointer = dynamic_cast<Template*>(testClass1.CreateIterator());
 //	testClass1.Add(10, 10, 10, 10);
+//	testC
 //	testClass1.Add(20, 20, 20, 20);
-//	testClass1.Add(10, 10, 20, 40, GENERALIZATION);
+//	testClass1.Add(10, 10, 20, 40 );
 //
 //	Long i = 0;
 //	while (i < testClass1.GetLength()) {
@@ -365,12 +371,10 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 //		if (dynamic_cast<Line*>(figure)) {
 //			cout << "라인"<< endl;
 //		}
-//		else if (dynamic_cast<Relation*>(figure)) {
-//			cout << "관계" << endl;
-//		}
+//		
 //		i++;
 //	}
 //
 //	return 0;
 //}
-
+//

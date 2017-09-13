@@ -46,6 +46,12 @@ public:
 	void Visit(MemoBox *memoBox, CDC *cPaintDc);   //CDC  *cPaintDc
 
 	void Visit(MemoLine *memoLine, CDC *cPaintDc);
+
+	void Visit(ClassName *className, CDC *cPaintDc);
+
+	void Visit(Method *method, CDC *cPatinDc);
+
+	void Visit(Attribute *attribute, CDC *cPaintDc);
 };
 
 #endif // _DRAWINGVISITOR_H

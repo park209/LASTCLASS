@@ -532,3 +532,15 @@ void DrawingVisitor::Visit(MemoLine *memoLine, CDC *cPaintDc) {
 	cPaintDc->SelectObject(oldPen);
 	pen.DeleteObject();
 }
+
+void DrawingVisitor::Visit(ClassName *className, CDC *cPaintDc) {
+
+}
+
+void DrawingVisitor::Visit(Method *method, CDC *cPatinDc) {
+
+}
+
+void DrawingVisitor::Visit(Attribute *attribute, CDC *cPaintDc) {
+
+}
