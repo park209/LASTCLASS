@@ -28,10 +28,9 @@ void TemplateButton::ChangeState(DrawingController *drawingController, Long key)
 void TemplateButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
 	Class *object;
 	
-	
+	// 이거 템플릿 중복으로 계속 들어감
 
-
-		if (selection->GetLength() == 1) {
+	if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 			object = dynamic_cast<Class*>(selection->GetAt(0));
 			object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25);
 		}

@@ -73,6 +73,7 @@ void Selection::FindByArea(Diagram *diagram, CRect area) {
 
 	Long i = 0;
 	Long j;
+
 	FigureComposite *composite;
 	CRect rect;
 	bool ret;
@@ -98,58 +99,65 @@ void Selection::FindByArea(Diagram *diagram, CRect area) {
 		}
 
 		j = 0;
-		ret = false;
+
+
 		while (j < composite->GetLength()) {
+			ret = false;
+
 			figure = composite->GetAt(j);
 			CPoint line1Start;
 			CPoint line1End;
 			CPoint line2Start;
 			CPoint line2End;
 			CPoint cross1;
-			CPoint cross2;
 
-			line1Start.x = area.left;
-			line1Start.y = area.top;
-			line1End.x = area.right;
-			line1End.y = area.bottom;
+
+			line1Start.x = figure->GetX();
+			line1Start.y = figure->GetY();
+			line1End.x = figure->GetX() + figure->GetWidth();
+			line1End.y = figure->GetY() + figure->GetHeight();
 
 
 			//범위안 라인찾기
-			if (figure->GetX() >= area.left&&figure->GetY() >= area.top&&figure->GetX() + figure->GetWidth() <= area.right&& figure->GetY() + figure->GetHeight() <= area.bottom) {
+
+
+			if (figure->GetX() >= area.left  &&  figure->GetY() >= area.top  &&  figure->GetX() <= area.right  &&   figure->GetY() <= area.bottom
+				&& figure->GetX() + figure->GetWidth() >= area.left  &&  figure->GetY() + figure->GetHeight() >= area.top  &&
+				figure->GetX() + figure->GetWidth() <= area.right  &&   figure->GetY() + figure->GetHeight() <= area.bottom) {
 				ret = true;
 			}
 			//교차점 찾기
 
-			else if (ret == false) {//시작 클래스에서 선과 교차하는 면 찾기
-									//상단
-				line2Start.x = figure->GetX();
-				line2Start.y = figure->GetY();
-				line2End.x = figure->GetX() + figure->GetWidth();
-				line2End.y = figure->GetY();
+			if (ret == false) {//시작 클래스에서 선과 교차하는 면 찾기
+							   //상단
+				line2Start.x = area.left;
+				line2Start.y = area.top;
+				line2End.x = area.right;
+				line2End.y = area.top;
 				ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
 			}
-			else if (ret == false) {
+			if (ret == false) {
 				//좌측
-				line2Start.x = figure->GetX();
-				line2Start.y = figure->GetY();
-				line2End.x = figure->GetX();
-				line2End.y = figure->GetY() + figure->GetHeight();
+				line2Start.x = area.left;
+				line2Start.y = area.top;
+				line2End.x = area.left;
+				line2End.y = area.bottom;
 				ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
 			}
-			else if (ret == false) {
+			if (ret == false) {
 				//우측
-				line2Start.x = figure->GetX() + figure->GetWidth();
-				line2Start.y = figure->GetY();
-				line2End.x = figure->GetX() + figure->GetWidth();
-				line2End.y = figure->GetY() + figure->GetHeight();
+				line2Start.x = area.right;
+				line2Start.y = area.top;
+				line2End.x = area.right;
+				line2End.y = area.bottom;
 				ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
 			}
-			else if (ret == false) {
+			if (ret == false) {
 				//하단
-				line2Start.x = figure->GetX();
-				line2Start.y = figure->GetY() + figure->GetHeight();
-				line2End.x = figure->GetX() + figure->GetWidth();
-				line2End.y = figure->GetY() + figure->GetHeight();
+				line2Start.x = area.left;
+				line2Start.y = area.bottom;
+				line2End.x = area.right;
+				line2End.y = area.bottom;
 				ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
 			}
 
@@ -165,6 +173,7 @@ void Selection::FindByArea(Diagram *diagram, CRect area) {
 				}
 				this->length++;
 			}
+
 			j++;
 		}
 		i++;

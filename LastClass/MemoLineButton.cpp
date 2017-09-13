@@ -6,8 +6,9 @@
 
 #include"Diagram.h"
 #include"Selection.h"
-
+#include "Class.h"
 #include"MemoLine.h"
+#include"MemoBox.h"
 
 MemoLineButton::MemoLineButton() {
 
@@ -32,7 +33,8 @@ void MemoLineButton::AddToArray(Diagram *diagram, Selection *selection, Long sta
 		//Long y = this->currentY;
 
 		selection->FindByPoint(diagram, currentX, currentY);
-		if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1)) {
+		if(selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && (dynamic_cast<MemoBox*>(selection->GetAt(0)) || dynamic_cast<MemoBox*>(selection->GetAt(1)))) {
+		//if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1)) {
 
 			CPoint line1Start;
 			CPoint line1End;

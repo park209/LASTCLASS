@@ -13,6 +13,7 @@
 #include "Compositions.h"
 #include "Template.h"
 #include "SmartPointer.h"
+#include "MemoLine.h"
 
 Class::Class(Long capacity):FigureComposite(capacity) {
 	this->capacity = capacity;
@@ -335,6 +336,10 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 
 		else if (dynamic_cast<Compositions*>(smartPointer->Current())) {
 			dynamic_cast<Compositions*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<MemoLine*>(smartPointer->Current())) {
+			dynamic_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 
 		//static_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
