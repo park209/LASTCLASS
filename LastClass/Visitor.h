@@ -1,3 +1,5 @@
+
+
 //Visitor.h
 
 #ifndef _VISITOR_H
@@ -7,10 +9,28 @@
 
 class SingleByteCharacter;
 class DoubleByteCharacter;
+class Diagram;
 class Class;
 class Line;
 class Row;
-class Visitor {
+class Relation;
+class Generalization;
+class Realization;
+class Dependency;
+class Association;
+class DirectedAssociation;
+class Aggregation;
+class Aggregations;
+class Composition;
+class Compositions;
+class Template;
+class MemoBox;
+class MemoLine;
+
+
+
+
+class Visitor{
 public:
 	virtual ~Visitor();
 
@@ -19,6 +39,32 @@ public:
 	virtual void Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc) = 0;
 	virtual void Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc) = 0;
 	virtual void Visit(Row* row, CDC* cPaintDc) = 0;
+
+	//, CDC* cPaintDc) = 0; //0904추가	CDC* cPaintDc)   0907관계선일반화관계로수정
+
+	virtual void Visit(Generalization *generalization, CDC* cPaintDc) = 0;		//일반화
+
+	virtual void Visit(Realization * realization, CDC* cPaintDc) = 0;		//실체화
+
+	virtual void Visit(Dependency *dependency, CDC* cPaintDc) = 0;		//의존
+
+	virtual void Visit(Association *association, CDC* cPaintDc) = 0;		//연관화 , CDC* cPaintDc
+
+	virtual void Visit(DirectedAssociation *directedAssociation, CDC* cPaintDc) = 0;		//직접연관
+
+	virtual void Visit(Aggregation *aggregation, CDC* cPaintDc) = 0;		//집합
+
+	virtual void Visit(Aggregations *aggregations, CDC* cPaintDc) = 0;		//집합연관
+
+	virtual void Visit(Composition *composition, CDC* cPaintDc) = 0;		//합성
+
+	virtual void Visit(Compositions *compositions, CDC* cPaintDc) = 0;		//복합연관
+
+	virtual void Visit(Template *object, CDC *cPaintDc) = 0;
+
+	virtual void Visit(MemoBox* memobox, CDC *cPaintDc) = 0;// CDC  *cPaintDc
+
+	virtual void Visit(MemoLine* memobox, CDC *cPaintDc) = 0;// CDC  *cPaintDc
 protected:
 	Visitor();
 };

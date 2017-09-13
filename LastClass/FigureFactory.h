@@ -1,5 +1,4 @@
 //FigureFactory.h
-
 #ifndef _FIGUREFACTORY_H
 #define _FIGUREFACTORY_H
 
@@ -11,15 +10,16 @@ typedef unsigned long int ULong;
 typedef signed long int Long;
 
 using namespace std;
+
 class TextComponent;
 class Figure;
 class FigureFactory {
 public:
 	FigureFactory();
 	~FigureFactory();
+	Figure* Create(Long x, Long y, Long width, Long height, Long type);
+	TextComponent* CreateRow(Long x, Long y, Long rowHieght, Long classID, string stringCharacter);
 
-	TextComponent* CreateRow(Long x, Long y, Long rowHieght, string stringCharacter);
-	
 	virtual TextComponent* CreateSingleCharacter(char singleByteCharacter) const {
 		return new SingleByteCharacter(singleByteCharacter);
 	}
@@ -29,3 +29,4 @@ public:
 };
 
 #endif // !_FIGUREFACTORY_H
+

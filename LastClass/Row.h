@@ -14,7 +14,7 @@ typedef signed long int Long;
 class Row : public TextComposite {
 public:
 	Row(Long capacity = 128);
-	Row(Long x, Long y, Long rowHeight, Long capacity = 128);
+	Row(Long x, Long y, Long rowHeight, Long classID, Long capacity = 128);
 	Row(const Row& source);
 	virtual ~Row();
 
@@ -38,10 +38,12 @@ public:
 	Long GetX() const;
 	Long GetY() const;
 	Long GetRowHeight() const;
+	Long GetClassID() const;
 public:
 	Long x;
 	Long y;
 	Long rowHeight;
+	Long classID;
 };
 
 inline Long Row::GetX() const {
@@ -58,6 +60,9 @@ inline Long Row::GetLength() const {
 }
 inline Long Row::GetRowHeight() const {
 	return this->rowHeight;
+}
+inline Long Row::GetClassID() const {
+	return this->classID;
 }
 
 #endif // _ROW_H
