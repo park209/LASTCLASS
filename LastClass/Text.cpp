@@ -48,8 +48,8 @@ Long Text::Add(TextComponent *textComponent) {
 	return index;
 }
 ///////////////////////////////////////////////////////////////////////////////
-Long Text::Modify(Long index, Long x, Long y, TextComponent *textComponent) {
-	Row *row = new Row(x, y, 128);
+Long Text::Modify(Long index, Long x, Long y, Long rowHeight, Long classID, TextComponent *textComponent) {
+	Row *row = new Row(x, y, rowHeight, classID);
 
 	if (this->length < this->capacity) {
 		index = this->textComponents.Store(this->length, textComponent);
@@ -98,7 +98,7 @@ void Text::Find(Long x, Long y, Long height, Row**(*indexes), Long *count) {
 }
 
 Long Text::Remove(Long index) {
-	index=this->textComponents.Delete(index);
+	index = this->textComponents.Delete(index);
 	this->length--;
 	this->capacity--;
 	return index;
@@ -117,7 +117,7 @@ TextComponent* Text::Clone() const {
 using namespace std;
 
 void Text::PrintRow(SmartPointer<TextComponent*>& index) {
-	Long i;
+	
 	for (index->First(); !index->IsDone(); index->Next()) {
 		cout << "PrintRow È®ÀÎ" << endl;
 	}
@@ -131,8 +131,8 @@ void Text::Accept(Visitor& visitor, CDC* cPaintDc) {
 	}
 }
 
-Long Text::InsertRow(Long formX, Long formY, Long rowHeight, Long index) {
-	Row *row = new Row(formX, formY - 28 + (index + 1) * rowHeight, rowHeight);
+Long Text::InsertRow(Long formX, Long formY, Long rowHeight, Long classID, Long index) {
+	Row *row = new Row(formX, formY - 28 + (index + 1) * rowHeight, rowHeight, classID);
 	index = this->textComponents.Insert(index + 1, row->Clone());
 	this->capacity++;
 	this->length++;
