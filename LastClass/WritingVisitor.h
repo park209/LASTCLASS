@@ -48,7 +48,8 @@ public:
 	 void Visit(Method *method, CDC *cPaintDc);
 
 	 void Visit(Attribute *attribute, CDC *cPaintDc);
-	   // CDC  *cPaintDc
+	 
+	 void Visit(Selection *selection, CDC *cPaintDc);
 };
 
 #endif // _WRITINGVISITOR_H

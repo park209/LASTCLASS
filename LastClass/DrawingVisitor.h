@@ -52,6 +52,8 @@ public:
 	void Visit(Method *method, CDC *cPatinDc);
 
 	void Visit(Attribute *attribute, CDC *cPaintDc);
+
+	void Visit(Selection *selection, CDC *cPaintDc);
 };
 
 #endif // _DRAWINGVISITOR_H

@@ -82,3 +82,7 @@ void WritingVisitor::Visit(Method *method, CDC *cPaintDc) {
 void WritingVisitor::Visit(Attribute *attribute, CDC *cPaintDc) {
 
 }
+
+void WritingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
+
+}

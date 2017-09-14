@@ -4,7 +4,6 @@ Composition::Composition():Relation(){
 
 }
 
-
 Composition::Composition(Long x, Long y, Long width, Long height): Relation(x,y,width,height){
 
 }
