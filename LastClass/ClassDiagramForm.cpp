@@ -471,50 +471,51 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 	//this->currentClassIndex = -1;
 	//Figure* tempFigure = this->selection->FindItem(this->startX, this->startY);
-	this->selection->FindByPoint(this->diagram, this->startX, this->startY);
-	if (selection->GetLength() != 0) { //클릭한 위치에 클래스가 있었다면
-		Long i = 0;
-		Long temp1 = 100;
-		Long temp2 = 100;
-		Long temp3 = 100;
-		Long temp4 = 100;
-		string temp5 = "asdf";
-		/*while (i < static_cast<Class*>(tempFigure)->GetLength()) {
-			if (dynamic_cast<ClassName*>(dynamic_cast<Class*>(tempFigure)->GetAt(i))) {
-				temp1 = static_cast<ClassName*>(static_cast<Class*>(tempFigure)->GetAt(i))->GetX();
-				temp2 = static_cast<ClassName*>(static_cast<Class*>(tempFigure)->GetAt(i))->GetY();
-				temp3 = static_cast<ClassName*>(static_cast<Class*>(tempFigure)->GetAt(i))->GetWidth();
-				temp4 = static_cast<ClassName*>(static_cast<Class*>(tempFigure)->GetAt(i))->GetHeight();
-				temp5 = static_cast<ClassName*>(static_cast<Class*>(tempFigure)->GetAt(i))->GetContent();
-			}
-			i++;
-		}*/
-		while (i < static_cast<Class*>(selection->GetAt(0))->GetLength()) {
-		if (dynamic_cast<ClassName*>(dynamic_cast<Class*>(selection->GetAt(0))->GetAt(i))) {
-		temp1 = static_cast<ClassName*>(static_cast<Class*>(selection->GetAt(0))->GetAt(i))->GetX();
-		temp2 = static_cast<ClassName*>(static_cast<Class*>(selection->GetAt(0))->GetAt(i))->GetY();
-		temp3 = static_cast<ClassName*>(static_cast<Class*>(selection->GetAt(0))->GetAt(i))->GetWidth();
-		temp4 = static_cast<ClassName*>(static_cast<Class*>(selection->GetAt(0))->GetAt(i))->GetHeight();
-		}
-		i++;
-		}
-		this->textEdit = new TextEdit(this, // 텍스트에딧 크기는 클래스 크기, 일단은
-			temp1, temp2, temp3, temp4, temp5);
+	//this->selection->FindByPoint(this->diagram, this->startX, this->startY);
+	//if (selection->GetLength() != 0) { //클릭한 위치에 클래스가 있었다면
+	//	Long i = 0;
+	//	Long temp1 = 100;
+	//	Long temp2 = 100;
+	//	Long temp3 = 100;
+	//	Long temp4 = 100;
+	//	string temp5 = "asdf";
+	//	/*while (i < static_cast<Class*>(tempFigure)->GetLength()) {
+	//		if (dynamic_cast<ClassName*>(dynamic_cast<Class*>(tempFigure)->GetAt(i))) {
+	//			temp1 = static_cast<ClassName*>(static_cast<Class*>(tempFigure)->GetAt(i))->GetX();
+	//			temp2 = static_cast<ClassName*>(static_cast<Class*>(tempFigure)->GetAt(i))->GetY();
+	//			temp3 = static_cast<ClassName*>(static_cast<Class*>(tempFigure)->GetAt(i))->GetWidth();
+	//			temp4 = static_cast<ClassName*>(static_cast<Class*>(tempFigure)->GetAt(i))->GetHeight();
+	//			temp5 = static_cast<ClassName*>(static_cast<Class*>(tempFigure)->GetAt(i))->GetContent();
+	//		}
+	//		i++;
+	//	}*/
+	//	while (i < static_cast<Class*>(selection->GetAt(0))->GetLength()) {
+	//	if (dynamic_cast<ClassName*>(dynamic_cast<Class*>(selection->GetAt(0))->GetAt(i))) {
+	//	temp1 = static_cast<ClassName*>(static_cast<Class*>(selection->GetAt(0))->GetAt(i))->GetX();
+	//	temp2 = static_cast<ClassName*>(static_cast<Class*>(selection->GetAt(0))->GetAt(i))->GetY();
+	//	temp3 = static_cast<ClassName*>(static_cast<Class*>(selection->GetAt(0))->GetAt(i))->GetWidth();
+	//	temp4 = static_cast<ClassName*>(static_cast<Class*>(selection->GetAt(0))->GetAt(i))->GetHeight();
+	//	}
+	//	i++;
+	//	}
+	//	this->textEdit = new TextEdit(this, // 텍스트에딧 크기는 클래스 크기, 일단은
+	//		temp1, temp2, temp3, temp4, temp5);
 
-		/*selection->GetAt(0)->GetX() + 5,
-		selection->GetAt(0)->GetY() + 33,
-		selection->GetAt(0)->GetWidth() - 5,
-		selection->GetAt(0)->GetHeight() - 5);*/
+	//	/*selection->GetAt(0)->GetX() + 5,
+	//	selection->GetAt(0)->GetY() + 33,
+	//	selection->GetAt(0)->GetWidth() - 5,
+	//	selection->GetAt(0)->GetHeight() - 5);*/
 
-		this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
-			this->textEdit->GetFormX(),
-			this->textEdit->GetFormY(),
-			this->textEdit->GetFormX() + this->textEdit->GetWidth(),
-			this->textEdit->GetFormY() + this->textEdit->GetHeight()), NULL, NULL, WS_EX_TOPMOST);
-		this->textEdit->ShowWindow(SW_SHOW);
+	//	this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
+	//		this->textEdit->GetFormX(),
+	//		this->textEdit->GetFormY(),
+	//		this->textEdit->GetFormX() + this->textEdit->GetWidth(),
+	//		this->textEdit->GetFormY() + this->textEdit->GetHeight()), NULL, NULL, WS_EX_TOPMOST);
+	//	this->textEdit->ShowWindow(SW_SHOW);
 		//dc.TextOutA(100, 100, static_cast<Class*>(tempFigure)->GetAt(i)->GetContent().c_str());
-	}
+	//}
 }
+
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
@@ -546,23 +547,23 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		Method method(this->startX, (this->startY + 50 + this->currentY) / 2, this->currentX, this->currentY, "3333");
 		static_cast<Class*>(figure)->Add(attribute.Clone());
 		static_cast<Class*>(figure)->Add(method.Clone());
-	}
-			//SmartPointer<Figure*> iterator = static_cast<Class*>(this->diagram->GetAt(index))->CreateIterator();
 
-			this->textEdit = new TextEdit(this, // 텍스트에딧 크기는 클래스 크기, 일단은
-				figure->GetX() + 5,
-				figure->GetY() + 33,
-				figure->GetWidth() - 5,
-				figure->GetHeight() - 100,
-				figure->GetContent());
+		//SmartPointer<Figure*> iterator = static_cast<Class*>(this->diagram->GetAt(index))->CreateIterator();
 
-			this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
-				this->textEdit->GetFormX(),
-				this->textEdit->GetFormY(),
-				this->textEdit->GetFormX() + this->textEdit->GetWidth(),
-				this->textEdit->GetFormY() + this->textEdit->GetHeight() - 100), NULL, NULL, WS_EX_TOPMOST);
-			this->textEdit->ShowWindow(SW_SHOW);
-		
+		this->textEdit = new TextEdit(this, // 텍스트에딧 크기는 클래스 크기, 일단은
+			figure->GetX() + 5,
+			figure->GetY() + 33,
+			figure->GetWidth() - 5,
+			figure->GetHeight() - 100,
+			figure->GetContent());
+
+		this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
+			this->textEdit->GetFormX(),
+			this->textEdit->GetFormY(),
+			this->textEdit->GetFormX() + this->textEdit->GetWidth(),
+			this->textEdit->GetFormY() + this->textEdit->GetHeight() - 100), NULL, NULL, WS_EX_TOPMOST);
+		this->textEdit->ShowWindow(SW_SHOW);
+	} 
 	
 	
 

@@ -28,6 +28,7 @@ void MemoLineButton::ChangeState(DrawingController *drawingController, UINT nCha
 
 Figure* MemoLineButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
 	Long index;
+	Figure *figure = 0;
 	if (selection->GetLength() == 1 && dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
 		//Long endClass = this->diagram->Find(this->currentX, this->currentY);//자기자신 연결시 0 0 0 0 값 저장됨.. 수정요 2017_09_09
 		//Long x = this->currentX;

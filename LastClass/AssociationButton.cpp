@@ -28,6 +28,7 @@ void AssociationButton::ChangeState(DrawingController *drawingController, UINT n
 
 Figure* AssociationButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
 	Long index;
+	Figure *figure = 0;
 	if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
 		selection->FindByPoint(diagram, currentX, currentY);
@@ -116,9 +117,10 @@ Figure* AssociationButton::AddToArray(Diagram *diagram, Selection *selection, Lo
 
 			Association object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 			index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+			figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
 		}
 	}
-	return static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
+	return figure;
 }
 void AssociationButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	cPaintDc->MoveTo(startX, startY);
