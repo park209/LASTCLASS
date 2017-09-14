@@ -22,11 +22,12 @@ GeneralizationButton::~GeneralizationButton() {
 
 }
 
-void GeneralizationButton::ChangeState(DrawingController *drawingController, Long key) {
-	ButtonState::ChangeState(drawingController, key);
+void GeneralizationButton::ChangeState(DrawingController *drawingController, UINT nChar) {
+	ButtonState::ChangeState(drawingController, nChar);
 }
 
-void GeneralizationButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+Figure* GeneralizationButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+	Long index;
 	if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
 		selection->FindByPoint(diagram, currentX, currentY);
@@ -114,9 +115,10 @@ void GeneralizationButton::AddToArray(Diagram *diagram, Selection *selection, Lo
 			}
 
 			Generalization object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
-			static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+			index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		}
 	}
+	return static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
 }
 void GeneralizationButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	cPaintDc->MoveTo(startX, startY);

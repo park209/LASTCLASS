@@ -27,86 +27,100 @@ ButtonState::~ButtonState() {
 
 }
 
-void ButtonState::ChangeState(DrawingController *drawingController, Long key) {
-	if (key == 0) {
+void ButtonState::ChangeState(DrawingController *drawingController, UINT nChar) {
+
+	if (nChar == 48) {
 		if (drawingController->buttonState != 0) {
 			delete drawingController->buttonState;
 		}
 		drawingController->buttonState = new Unclicked;
 	}
-	if (key == 1) {
+
+	if (nChar == 49) {
 		if (drawingController->buttonState != 0) {
 			delete drawingController->buttonState;
 		}
 		drawingController->buttonState = new ClassButton;
 	}
-	if (key == 2) {
+
+	if (nChar == 50) {
 		if (drawingController->buttonState != 0) {
 			delete drawingController->buttonState;
 		}
 		drawingController->buttonState = new GeneralizationButton;
 	}
-	if (key == 3) {
+
+	if (nChar == 51) {
 		if (drawingController->buttonState != 0) {
 			delete drawingController->buttonState;
 		}
 		drawingController->buttonState = new RealizationButton;
 	}
-	if (key == 4) {
+
+	if (nChar == 52) {
 		if (drawingController->buttonState != 0) {
 			delete drawingController->buttonState;
 		}
 		drawingController->buttonState = new DependencyButton;
 	}
-	if (key == 5) {
+
+	if (nChar == 53) {
 		if (drawingController->buttonState != 0) {
 			delete drawingController->buttonState;
 		}
 		drawingController->buttonState = new AssociationButton;
 	}
-	if (key == 6) {
+
+	if (nChar == 54) {
 		if (drawingController->buttonState != 0) {
 			delete drawingController->buttonState;
 		}
 		drawingController->buttonState = new DirectAssociationButton;
 	}
-	if (key == 7) {
+
+	if (nChar == 55) {
 		if (drawingController->buttonState != 0) {
 			delete drawingController->buttonState;
 		}
 		drawingController->buttonState = new AggregationButton;
 	}
-	if (key == 8) {
+
+	if (nChar == 56) {
 		if (drawingController->buttonState != 0) {
 			delete drawingController->buttonState;
 		}
 		drawingController->buttonState = new AggregationsButton;
 	}
-	if (key == 9) {
+
+	if (nChar == 57) {
 		if (drawingController->buttonState != 0) {
 			delete drawingController->buttonState;
 		}
 		drawingController->buttonState = new CompositionButton;
 	}
-	if (key == 10) {
+
+	if (nChar == 113) {
 		if (drawingController->buttonState != 0) {
 			delete drawingController->buttonState;
 		}
 		drawingController->buttonState = new CompositionsButton;
 	}
-	if (key == 11) {
+
+	if (nChar == 119) {
 		if (drawingController->buttonState != 0) {
 			delete drawingController->buttonState;
 		}
 		drawingController->buttonState = new TemplateButton;
 	}
-	if (key == 12) {
+
+	if (nChar == 101) {
 		if (drawingController->buttonState != 0) {
 			delete drawingController->buttonState;
 		}
 		drawingController->buttonState = new MemoBoxButton;
 	}
-	if (key == 13) {
+
+	if (nChar == 114) {
 		if (drawingController->buttonState != 0) {
 			delete drawingController->buttonState;
 		}
@@ -115,7 +129,8 @@ void ButtonState::ChangeState(DrawingController *drawingController, Long key) {
 
 }
 
-void ButtonState::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+Figure* ButtonState::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+	return 0;
 }
 void ButtonState::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 

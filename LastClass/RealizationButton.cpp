@@ -22,12 +22,12 @@ RealizationButton::~RealizationButton() {
 
 }
 
-void RealizationButton::ChangeState(DrawingController *drawingController, Long key) {
-	ButtonState::ChangeState(drawingController, key);
+void RealizationButton::ChangeState(DrawingController *drawingController, UINT nChar) {
+	ButtonState::ChangeState(drawingController, nChar);
 }
 
-void RealizationButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
-	
+Figure* RealizationButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+	Long index;
 	if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 		
 		selection->FindByPoint(diagram, currentX, currentY);
@@ -115,9 +115,10 @@ void RealizationButton::AddToArray(Diagram *diagram, Selection *selection, Long 
 			}
 
 			Realization object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
-			static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+			index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		}
 	}
+	return static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
 }
 void RealizationButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	CPen pen;

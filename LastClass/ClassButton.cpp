@@ -18,11 +18,11 @@ ClassButton::~ClassButton() {
 
 }
 
-void ClassButton::ChangeState(DrawingController *drawingController, Long key) {
-	ButtonState::ChangeState(drawingController, key);
+void ClassButton::ChangeState(DrawingController *drawingController, UINT nChar) {
+	ButtonState::ChangeState(drawingController, nChar);
 }
 
-void ClassButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+Figure* ClassButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
 	if (currentX - startX < 120) {
 		currentX = startX + 120;
 	}
@@ -39,6 +39,7 @@ void ClassButton::AddToArray(Diagram *diagram, Selection *selection, Long startX
 		currentX - startX, startY + 30);
 	static_cast<Class*>(diagram->GetAt(index))->Add(startX, (startY + 30 + currentY) / 2,
 		currentX - startX, (startY + 30 + currentY) / 2);
+	return diagram->GetAt(index);
 }
 void ClassButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	CPen pen;

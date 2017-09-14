@@ -18,12 +18,12 @@ Unclicked::~Unclicked() {
 
 }
 
-void Unclicked::ChangeState(DrawingController *drawingController, Long key) {
-	ButtonState::ChangeState(drawingController, key);
+void Unclicked::ChangeState(DrawingController *drawingController, UINT nChar) {
+	ButtonState::ChangeState(drawingController, nChar);
 }
 
-void Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
-
+Figure* Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+	return 0;
 }
 
 void Unclicked::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {

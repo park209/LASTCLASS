@@ -58,6 +58,7 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->startY = 0;
 	this->currentX = 0;
 	this->currentY = 0;
+	this->currentClassIndex = -1;
 	this->rowIndex = 0;
 	this->characterIndex = 0;
 
@@ -298,88 +299,88 @@ void ClassDiagramForm::OnPaint() {
 	this->drawingController->Draw(this->startX, this->startY, this->currentX, this->currentY, &dc);
 
 
-		Long i = 0;
-		while (i < this->selection->GetLength()) {
-			if (dynamic_cast<Class*>(this->selection->GetAt(i))) {
-				Class *object = static_cast<Class*>(this->selection->GetAt(i));
-				if (object->GetTempletePosition() == -1) {
-					dc.Rectangle(
-						object->GetX() - 5,
-						object->GetY() - 5,
-						object->GetX() + 5,
-						object->GetY() + 5);
-					dc.Rectangle(
-						object->GetX() + object->GetWidth() - 5,
-						object->GetY() - 5,
-						object->GetX() + object->GetWidth() + 5,
-						object->GetY() + 5);
-					dc.Rectangle(
-						object->GetX() - 5,
-						object->GetY() + object->GetHeight() - 5,
-						object->GetX() + 5,
-						object->GetY() + object->GetHeight() + 5);
-					dc.Rectangle(
-						object->GetX() + object->GetWidth() - 5,
-						object->GetY() + object->GetHeight() - 5,
-						object->GetX() + object->GetWidth() + 5,
-						object->GetY() + object->GetHeight() + 5);
-				}
-				else {
-					Long j = 0;
-					while (j < object->GetLength()) {
-						if (dynamic_cast<Template*>(object->GetAt(j))) {
-							Template *templete = static_cast<Template*>(object->GetAt(j));
-							dc.Rectangle(
-								object->GetX() - 5,
-								templete->GetY() - 5,
-								object->GetX() + 5,
-								templete->GetY() + 5);
-							dc.Rectangle(
-								templete->GetX() + templete->GetWidth() - 5,
-								templete->GetY() - 5,
-								templete->GetX() +	templete->GetWidth() + 5,
-								templete->GetY() + 5);
-							dc.Rectangle(
-								object->GetX() - 5,
-								object->GetY() + object->GetHeight() - 5,
-								object->GetX() + 5,
-								object->GetY() + object->GetHeight() + 5);
-							dc.Rectangle(
-								templete->GetX() + templete->GetWidth() - 5,
-								object->GetY() + object->GetHeight() - 5,
-								templete->GetX() + templete->GetWidth() + 5,
-								object->GetY() + object->GetHeight() + 5);
-						}
-						j++;
+	Long i = 0;
+	while (i < this->selection->GetLength()) {
+		if (dynamic_cast<Class*>(this->selection->GetAt(i))) {
+			Class *object = static_cast<Class*>(this->selection->GetAt(i));
+			if (object->GetTempletePosition() == -1) {
+				dc.Rectangle(
+					object->GetX() - 5,
+					object->GetY() - 5,
+					object->GetX() + 5,
+					object->GetY() + 5);
+				dc.Rectangle(
+					object->GetX() + object->GetWidth() - 5,
+					object->GetY() - 5,
+					object->GetX() + object->GetWidth() + 5,
+					object->GetY() + 5);
+				dc.Rectangle(
+					object->GetX() - 5,
+					object->GetY() + object->GetHeight() - 5,
+					object->GetX() + 5,
+					object->GetY() + object->GetHeight() + 5);
+				dc.Rectangle(
+					object->GetX() + object->GetWidth() - 5,
+					object->GetY() + object->GetHeight() - 5,
+					object->GetX() + object->GetWidth() + 5,
+					object->GetY() + object->GetHeight() + 5);
+			}
+			else {
+				Long j = 0;
+				while (j < object->GetLength()) {
+					if (dynamic_cast<Template*>(object->GetAt(j))) {
+						Template *templete = static_cast<Template*>(object->GetAt(j));
+						dc.Rectangle(
+							object->GetX() - 5,
+							templete->GetY() - 5,
+							object->GetX() + 5,
+							templete->GetY() + 5);
+						dc.Rectangle(
+							templete->GetX() + templete->GetWidth() - 5,
+							templete->GetY() - 5,
+							templete->GetX() + templete->GetWidth() + 5,
+							templete->GetY() + 5);
+						dc.Rectangle(
+							object->GetX() - 5,
+							object->GetY() + object->GetHeight() - 5,
+							object->GetX() + 5,
+							object->GetY() + object->GetHeight() + 5);
+						dc.Rectangle(
+							templete->GetX() + templete->GetWidth() - 5,
+							object->GetY() + object->GetHeight() - 5,
+							templete->GetX() + templete->GetWidth() + 5,
+							object->GetY() + object->GetHeight() + 5);
 					}
+					j++;
 				}
 			}
+		}
 
-			if (dynamic_cast<MemoBox*>(this->selection->GetAt(i))) {
-				MemoBox *memoBox = static_cast<MemoBox*>(this->selection->GetAt(i));
-				dc.Rectangle(
-					memoBox->GetX() - 5,
-					memoBox->GetY() - 5,
-					memoBox->GetX() + 5,
-					memoBox->GetY() + 5);
-				dc.Rectangle(
-					memoBox->GetX() + memoBox->GetWidth() - 5,
-					memoBox->GetY() - 5,
-					memoBox->GetX() + memoBox->GetWidth() + 5,
-					memoBox->GetY() + 5);
-				dc.Rectangle(
-					memoBox->GetX() - 5,
-					memoBox->GetY() + memoBox->GetHeight() - 5,
-					memoBox->GetX() + 5,
-					memoBox->GetY() + memoBox->GetHeight() + 5);
-				dc.Rectangle(
-					memoBox->GetX() + memoBox->GetWidth() - 5,
-					memoBox->GetY() + memoBox->GetHeight() - 5,
-					memoBox->GetX() + memoBox->GetWidth() + 5,
-					memoBox->GetY() + memoBox->GetHeight() + 5);
+		if (dynamic_cast<MemoBox*>(this->selection->GetAt(i))) {
+			MemoBox *memoBox = static_cast<MemoBox*>(this->selection->GetAt(i));
+			dc.Rectangle(
+				memoBox->GetX() - 5,
+				memoBox->GetY() - 5,
+				memoBox->GetX() + 5,
+				memoBox->GetY() + 5);
+			dc.Rectangle(
+				memoBox->GetX() + memoBox->GetWidth() - 5,
+				memoBox->GetY() - 5,
+				memoBox->GetX() + memoBox->GetWidth() + 5,
+				memoBox->GetY() + 5);
+			dc.Rectangle(
+				memoBox->GetX() - 5,
+				memoBox->GetY() + memoBox->GetHeight() - 5,
+				memoBox->GetX() + 5,
+				memoBox->GetY() + memoBox->GetHeight() + 5);
+			dc.Rectangle(
+				memoBox->GetX() + memoBox->GetWidth() - 5,
+				memoBox->GetY() + memoBox->GetHeight() - 5,
+				memoBox->GetX() + memoBox->GetWidth() + 5,
+				memoBox->GetY() + memoBox->GetHeight() + 5);
 
-			}
-			//상태패턴이던 뭐든 적용해야함
+		}
+		//상태패턴이던 뭐든 적용해야함
 		if (dynamic_cast<Realization*>(this->selection->GetAt(i)) || dynamic_cast<Generalization*>(this->selection->GetAt(i)) || dynamic_cast<Dependency*>(this->selection->GetAt(i)) ||
 			dynamic_cast<Association*>(this->selection->GetAt(i)) || dynamic_cast<Aggregation*>(this->selection->GetAt(i)) || dynamic_cast<Aggregations*>(this->selection->GetAt(i)) ||
 			dynamic_cast<Composition*>(this->selection->GetAt(i)) || dynamic_cast<Compositions*>(this->selection->GetAt(i)) || dynamic_cast<DirectedAssociation*>(this->selection->GetAt(i)) ||
@@ -403,51 +404,8 @@ void ClassDiagramForm::OnPaint() {
 }
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	char nCharacter = nChar;
-	Long key = -1;
 
-	if (nChar == 48) {
-		key = 0;
-	}
-	if (nChar == 49) {
-		key = 1;
-	}
-	if (nChar == 50) {
-		key = 2;
-	}
-	if (nChar == 51) {
-		key = 3;
-	}
-	if (nChar == 52) {
-		key = 4;
-	}
-	if (nChar == 53) {
-		key = 5;
-	}
-	if (nChar == 54) {
-		key = 6;
-	}
-	if (nChar == 55) {
-		key = 7;
-	}
-	if (nChar == 56) {
-		key = 8;
-	}
-	if (nChar == 57) {
-		key = 9;
-	}
-	if (nChar == 113) {
-		key = 10;
-	}
-	if (nChar == 119) {
-		key = 11;
-	}
-	if (nChar == 101) {
-		key = 12;
-	}
-	if (nChar == 114) {
-		key = 13;
-	}
-	this->drawingController->ChangeState(key);
+	this->drawingController->ChangeState(nChar);
 
 	if (this->text->GetLength() == 0) {
 		Row newRow;
@@ -482,12 +440,15 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->startY = point.y;
 	this->currentX = point.x;
 	this->currentY = point.y;
-	
+	//this->selected = this->diagram->Find(this->currentX, this->currentY);
 	this->selection->DeleteAllItems();
-
+	//if (this->relationButton == true) {
 	Long x = this->startX;
 	Long y = this->startY;
 	this->selection->FindByPoint(this->diagram, x, y);
+	//}
+
+	this->currentClassIndex = -1;
 
 	KillTimer(1);
 }
@@ -566,38 +527,34 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		area.bottom = this->currentY;
 		this->selection->FindByArea(this->diagram, area);
 	}
-	if (this->classButton == true) {
-		if (this->currentX != this->startX && this->currentY != this->startY) {
-			if (this->currentX - this->startX < 150) {
-				this->currentX = this->startX + 150;
-			}
-			if (this->currentY - this->startY < 200) {
-				this->currentY = this->startY + 200;
-			}
-			Long index = this->diagram->AddClass(this->startX, this->startY, this->currentX - this->startX, this->currentY - this->startY);
-			Class* tempClass = static_cast<Class*>(this->diagram->GetAt(index));
+	Figure *figure = 0;
+	if (this->startX != this->currentX && this->startY != this->currentY) {
+		 figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
+	}
+	if (dynamic_cast<Class*>(figure)) {
+		//Class* tempClass = static_cast<Class*>(this->diagram->GetAt(index));
 
-			//첨자연산자 왜 안돼는지 확인해야함
-			tempClass->Add(this->startX, this->startY + 50,
-				this->currentX - this->startX, this->startY + 50); // x, y, width, height 순서
-			ClassName className(this->startX + 5, this->startY + 33, this->currentX - this->startX - 10, 20, "11111");
-			tempClass->Add(className.Clone());
+		//첨자연산자 왜 안돼는지 확인해야함
+		static_cast<Class*>(figure)->Add(this->startX, this->startY + 50,
+			this->currentX - this->startX, this->startY + 50); // x, y, width, height 순서
+		ClassName className(this->startX + 5, this->startY + 33, this->currentX - this->startX - 10, 20, "11111");
+		static_cast<Class*>(figure)->Add(className.Clone());
 
-			tempClass->Add(this->startX, (this->startY + 50 + this->currentY) / 2,
-				this->currentX - this->startX, (this->startY + 50 + this->currentY) / 2);
-			Attribute attribute(this->startX, this->startY + 50, this->currentX, (this->startY + 50 + this->currentY) / 2, "2222"); // 내용값은 수정해야함
-			Method method(this->startX, (this->startY + 50 + this->currentY) / 2, this->currentX, this->currentY, "3333");
-			tempClass->Add(attribute.Clone());
-			tempClass->Add(method.Clone());
-
+		static_cast<Class*>(figure)->Add(this->startX, (this->startY + 50 + this->currentY) / 2,
+			this->currentX - this->startX, (this->startY + 50 + this->currentY) / 2);
+		Attribute attribute(this->startX, this->startY + 50, this->currentX, (this->startY + 50 + this->currentY) / 2, "2222"); // 내용값은 수정해야함
+		Method method(this->startX, (this->startY + 50 + this->currentY) / 2, this->currentX, this->currentY, "3333");
+		static_cast<Class*>(figure)->Add(attribute.Clone());
+		static_cast<Class*>(figure)->Add(method.Clone());
+	}
 			//SmartPointer<Figure*> iterator = static_cast<Class*>(this->diagram->GetAt(index))->CreateIterator();
 
 			this->textEdit = new TextEdit(this, // 텍스트에딧 크기는 클래스 크기, 일단은
-				this->diagram->GetAt(index)->GetX() + 5,
-				this->diagram->GetAt(index)->GetY() + 33,
-				this->diagram->GetAt(index)->GetWidth() - 5,
-				this->diagram->GetAt(index)->GetHeight() - 100,
-				this->diagram->GetAt(index)->GetContent());
+				figure->GetX() + 5,
+				figure->GetY() + 33,
+				figure->GetWidth() - 5,
+				figure->GetHeight() - 100,
+				figure->GetContent());
 
 			this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
 				this->textEdit->GetFormX(),
@@ -605,11 +562,10 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 				this->textEdit->GetFormX() + this->textEdit->GetWidth(),
 				this->textEdit->GetFormY() + this->textEdit->GetHeight() - 100), NULL, NULL, WS_EX_TOPMOST);
 			this->textEdit->ShowWindow(SW_SHOW);
-		}
-	}
-	if (this->startX != this->currentX && this->startY != this->currentY) {
-		this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-	}
+		
+	
+	
+
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;

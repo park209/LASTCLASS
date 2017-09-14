@@ -23,15 +23,16 @@ CompositionsButton::~CompositionsButton() {
 
 }
 
-void CompositionsButton::ChangeState(DrawingController *drawingController, Long key) {
-	ButtonState::ChangeState(drawingController, key);
+void CompositionsButton::ChangeState(DrawingController *drawingController, UINT nChar) {
+	ButtonState::ChangeState(drawingController, nChar);
 }
 
-void CompositionsButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+Figure* CompositionsButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+	Long index;
 	if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
-		Long index=selection->FindByPoint(diagram, currentX, currentY);
-		
+		selection->FindByPoint(diagram, currentX, currentY);
+
 		if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {
 
 			CPoint line1Start;
@@ -115,9 +116,10 @@ void CompositionsButton::AddToArray(Diagram *diagram, Selection *selection, Long
 			}
 
 			Compositions object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
-			static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+			index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		}
 	}
+	return static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
 }
 void CompositionsButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	cPaintDc->MoveTo(startX, startY);
