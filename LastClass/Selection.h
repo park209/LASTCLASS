@@ -1,6 +1,9 @@
 #ifndef _SELECTION_H
 #define _SELECTION_H
 #include "FigureComposite.h"
+#include"DrawingVisitor.h"
+
+
 #include <afxwin.h>
 using namespace std;
 class Diagram;
@@ -17,6 +20,8 @@ public:
 	virtual Figure* Clone() const;
 	void DeleteAllItems();
 
+
+	void Accept(Visitor& visitor, CDC *cPaintDc);
 	void FindByArea(Diagram *diagram, CRect area);
 	Long FindByPoint(Diagram *diagram, Long x, Long y);
 

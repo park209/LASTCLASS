@@ -48,6 +48,10 @@ public:
 	 void Visit(Method *method, CDC *cPaintDc);
 
 	 void Visit(Attribute *attribute, CDC *cPaintDc);
+
+	 void Visit(Selection *selection, CDC *cPaintDc);
+
+
 	   // CDC  *cPaintDc
 };
 

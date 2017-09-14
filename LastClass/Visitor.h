@@ -29,6 +29,10 @@ class MemoLine;
 class ClassName;
 class Method;
 class Attribute;
+class Selection;
+
+
+
 
 class Visitor{
 public:
@@ -71,6 +75,10 @@ public:
 	virtual void Visit(Method *method, CDC *cPaintDc) = 0;
 
 	virtual void Visit(Attribute *attribute, CDC *cPaintDc) = 0;
+
+	virtual void Visit(Selection *selection, CDC *cPaintDc) = 0;
+
+
 protected:
 	Visitor();
 };
