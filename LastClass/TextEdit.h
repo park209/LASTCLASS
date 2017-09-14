@@ -6,6 +6,8 @@
 #include <afxwin.h>
 #include <imm.h>
 #include "ClassDiagramForm.h"
+#include <string>
+using namespace std;
 
 typedef signed long int Long;
 
@@ -14,7 +16,7 @@ class Caret;
 class Row;
 class TextEdit : public CFrameWnd {
 public:
-	TextEdit(ClassDiagramForm *classDiagramForm, Long startX, Long startY, Long width, Long height);
+	TextEdit(ClassDiagramForm *classDiagramForm, Long startX, Long startY, Long width, Long height, string content);
 public:
 	//Long Save();
 	//Long Load();
@@ -29,7 +31,7 @@ protected:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDoubleClicked(UINT nFlags, CPoint point);
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
-	afx_msg LRESULT OnIMENotify(WPARAM wParam,LPARAM lParam);
+	afx_msg LRESULT OnIMENotify(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnClose();
 	DECLARE_MESSAGE_MAP()
 public:
@@ -47,10 +49,10 @@ public:
 	Long GetKoreanEnglish() const;
 	Long GetFlagBuffer() const;
 	Long GetFlagInsert() const;
+	string& GetContent() const;
 public:
 	ClassDiagramForm *classDiagramForm;
 	Caret *caret;
-	Row*(*indexes);
 	Long count;
 	Long rowIndex;
 	Long characterIndex;
@@ -68,6 +70,7 @@ private:
 	Long koreanEnglish;
 	Long rowHeight;
 	Long flagBuffer;
+	string content;
 };
 
 inline Long TextEdit::GetWidth() const {
@@ -111,6 +114,9 @@ inline Long TextEdit::GetFlagBuffer() const {
 }
 inline Long TextEdit::GetFlagInsert() const {
 	return this->flagInsert;
+}
+inline string& TextEdit::GetContent() const {
+	return const_cast<string&>(this->content);
 }
 
 #endif // _TEXTEDIT_H

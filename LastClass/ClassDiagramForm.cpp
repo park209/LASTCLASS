@@ -10,7 +10,6 @@
 #include "SingleByteCharacter.h"
 #include "WritingVisitor.h"
 #include "TextEdit.h"
-
 #include "Template.h"
 #include "Generalization.h"
 #include "Realization.h"
@@ -27,6 +26,10 @@
 #include "FigureFactory.h"
 #include "MemoLine.h"
 #include "Unclicked.h"
+#include "ClassName.h"
+#include "Method.h"
+#include "Attribute.h"
+#include "Reception.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
@@ -58,7 +61,6 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->currentClassIndex = -1;
 	this->rowIndex = 0;
 	this->characterIndex = 0;
-	//this->selected = -1;
 	this->classButton = false;
 	this->relationButton = false;
 	this->generalizationButton = false; //일반화
@@ -476,26 +478,87 @@ void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 }
 
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
+	MSG msg;
+	UINT dblclkTime = GetDoubleClickTime();
+	UINT elapseTime = 0;
+
+	SetTimer(1, 1, NULL);
+	while (elapseTime < dblclkTime) {
+		PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+		if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
+			KillTimer(1);
+		}
+		elapseTime++;
+	}
 	this->startX = point.x;
 	this->startY = point.y;
 	this->currentX = point.x;
 	this->currentY = point.y;
+	
+	this->selection->DeleteAllItems();
+
+	Long x = this->startX;
+	Long y = this->startY;
+	this->selection->FindByPoint(this->diagram, x, y);
+
+
+
+
+	KillTimer(1);
+}
+
+
+void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
+	CPaintDC dc(this);
+	this->startX = point.x;
+	this->startY = point.y;
+	this->currentX = point.x;
+	this->currentY = point.y;
+
 	//this->selected = this->diagram->Find(this->currentX, this->currentY);
 	this->selection->DeleteAllItems();
 	//if (this->relationButton == true) {
-		Long x = this->startX;
-		Long y = this->startY;
-		Long index=this->selection->FindByPoint(this->diagram, x, y);
+	Long x = this->startX;
+	Long y = this->startY;
+	this->selection->FindByPoint(this->diagram, x, y);
 	//}
 
 	//this->currentClassIndex = -1;
-	//this->currentClassIndex = this->selection->FindByPoint(this->diagram, this->startX, this->startY);
-	if (this->currentClassIndex >= 0) { //클릭한 위치에 클래스가 있었다면
+	//Figure* tempFigure = this->selection->FindItem(this->startX, this->startY);
+	this->selection->FindByPoint(this->diagram, this->startX, this->startY);
+	if (selection->GetLength() != 0) { //클릭한 위치에 클래스가 있었다면
+		Long i = 0;
+		Long temp1 = 100;
+		Long temp2 = 100;
+		Long temp3 = 100;
+		Long temp4 = 100;
+		string temp5 = "asdf";
+		/*while (i < static_cast<Class*>(tempFigure)->GetLength()) {
+			if (dynamic_cast<ClassName*>(dynamic_cast<Class*>(tempFigure)->GetAt(i))) {
+				temp1 = static_cast<ClassName*>(static_cast<Class*>(tempFigure)->GetAt(i))->GetX();
+				temp2 = static_cast<ClassName*>(static_cast<Class*>(tempFigure)->GetAt(i))->GetY();
+				temp3 = static_cast<ClassName*>(static_cast<Class*>(tempFigure)->GetAt(i))->GetWidth();
+				temp4 = static_cast<ClassName*>(static_cast<Class*>(tempFigure)->GetAt(i))->GetHeight();
+				temp5 = static_cast<ClassName*>(static_cast<Class*>(tempFigure)->GetAt(i))->GetContent();
+			}
+			i++;
+		}*/
+		while (i < static_cast<Class*>(selection->GetAt(0))->GetLength()) {
+		if (dynamic_cast<ClassName*>(dynamic_cast<Class*>(selection->GetAt(0))->GetAt(i))) {
+		temp1 = static_cast<ClassName*>(static_cast<Class*>(selection->GetAt(0))->GetAt(i))->GetX();
+		temp2 = static_cast<ClassName*>(static_cast<Class*>(selection->GetAt(0))->GetAt(i))->GetY();
+		temp3 = static_cast<ClassName*>(static_cast<Class*>(selection->GetAt(0))->GetAt(i))->GetWidth();
+		temp4 = static_cast<ClassName*>(static_cast<Class*>(selection->GetAt(0))->GetAt(i))->GetHeight();
+		}
+		i++;
+		}
 		this->textEdit = new TextEdit(this, // 텍스트에딧 크기는 클래스 크기, 일단은
-			this->diagram->GetAt(currentClassIndex)->GetX() + 5,
-			this->diagram->GetAt(currentClassIndex)->GetY() + 33,
-			this->diagram->GetAt(currentClassIndex)->GetWidth() - 5,
-			this->diagram->GetAt(currentClassIndex)->GetHeight() - 5);
+			temp1, temp2, temp3, temp4, temp5);
+
+		/*selection->GetAt(0)->GetX() + 5,
+		selection->GetAt(0)->GetY() + 33,
+		selection->GetAt(0)->GetWidth() - 5,
+		selection->GetAt(0)->GetHeight() - 5);*/
 
 		this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
 			this->textEdit->GetFormX(),
@@ -503,15 +566,8 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 			this->textEdit->GetFormX() + this->textEdit->GetWidth(),
 			this->textEdit->GetFormY() + this->textEdit->GetHeight()), NULL, NULL, WS_EX_TOPMOST);
 		this->textEdit->ShowWindow(SW_SHOW);
+		//dc.TextOutA(100, 100, static_cast<Class*>(tempFigure)->GetAt(i)->GetContent().c_str());
 	}
-}
-
-void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
-	this->startX = point.x;
-	this->startY = point.y;
-	this->currentX = point.x;
-	this->currentY = point.y;
-
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
@@ -534,18 +590,29 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 				this->currentY = this->startY + 200;
 			}
 			Long index = this->diagram->AddClass(this->startX, this->startY, this->currentX - this->startX, this->currentY - this->startY);
+			Class* tempClass = static_cast<Class*>(this->diagram->GetAt(index));
 
 			//첨자연산자 왜 안돼는지 확인해야함
-			static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, this->startY + 50,
-				this->currentX - this->startX, this->startY + 50);
-			static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, (this->startY + 50 + this->currentY) / 2,
+			tempClass->Add(this->startX, this->startY + 50,
+				this->currentX - this->startX, this->startY + 50); // x, y, width, height 순서
+			ClassName className(this->startX + 5, this->startY + 33, this->currentX - this->startX - 10, 20, "11111");
+			tempClass->Add(className.Clone());
+
+			tempClass->Add(this->startX, (this->startY + 50 + this->currentY) / 2,
 				this->currentX - this->startX, (this->startY + 50 + this->currentY) / 2);
+			Attribute attribute(this->startX, this->startY + 50, this->currentX, (this->startY + 50 + this->currentY) / 2, "2222"); // 내용값은 수정해야함
+			Method method(this->startX, (this->startY + 50 + this->currentY) / 2, this->currentX, this->currentY, "3333");
+			tempClass->Add(attribute.Clone());
+			tempClass->Add(method.Clone());
+
+			//SmartPointer<Figure*> iterator = static_cast<Class*>(this->diagram->GetAt(index))->CreateIterator();
 
 			this->textEdit = new TextEdit(this, // 텍스트에딧 크기는 클래스 크기, 일단은
 				this->diagram->GetAt(index)->GetX() + 5,
 				this->diagram->GetAt(index)->GetY() + 33,
 				this->diagram->GetAt(index)->GetWidth() - 5,
-				this->diagram->GetAt(index)->GetHeight() - 100);
+				this->diagram->GetAt(index)->GetHeight() - 100,
+				this->diagram->GetAt(index)->GetContent());
 
 			this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
 				this->textEdit->GetFormX(),
@@ -558,17 +625,13 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	if (this->startX != this->currentX && this->startY != this->currentY) {
 		this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 	}
-	
-	//Long length = this->selection->GetLength();
-	
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
-	this->currentY = 0;	
+	this->currentY = 0;
 
 	Invalidate();
 }
-
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	if (nFlags == MK_LBUTTON) {
 		this->currentX = point.x;

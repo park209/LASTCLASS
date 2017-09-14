@@ -30,8 +30,8 @@ void CompositionsButton::ChangeState(DrawingController *drawingController, Long 
 void CompositionsButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
 	if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
-		selection->FindByPoint(diagram, currentX, currentY);
-
+		Long index=selection->FindByPoint(diagram, currentX, currentY);
+		
 		if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {
 
 			CPoint line1Start;
