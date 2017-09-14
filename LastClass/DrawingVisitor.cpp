@@ -15,6 +15,7 @@
 #include "Template.h"
 #include "MemoBox.h"
 #include "MemoLine.h"
+#include "Text.h"
 #include <iostream>
 using namespace std;
 
@@ -48,6 +49,9 @@ void DrawingVisitor::Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaint
 void DrawingVisitor::Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc) {
 }
 void DrawingVisitor::Visit(Row* row, CDC* cPaintDc) {
+}
+
+void DrawingVisitor::Visit(Text* text, CDC *cPaintDc) {
 }
 
 void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {

@@ -1,5 +1,9 @@
 //Text.cpp 
 #include "Text.h"
+#include "SingleByteCharacter.h"
+#include "DoubleByteCharacter.h"
+#include "WritingVisitor.h"
+#include "Row.h"
 
 Text::Text(Long capacity) : TextComposite(capacity) {
 	this->capacity = capacity;
@@ -123,8 +127,39 @@ void Text::PrintRow(SmartPointer<TextComponent*>& index) {
 	}
 }
 
+void Text::SprayString(string str) {
+	//Text *text = new Text(1024);
+	Long index = 0;
+	char character[2] = { 0, };
+	Long temp = 0;
+	char n = '\n';
+
+	while (index < str.length()) {
+		Row *row = new Row;
+		temp = str.find(n, index);
+		while (index < temp) {
+			if (str[index] & 0 * 80) {
+				character[0] = str[index];
+				character[1] = str[index + 1];
+				index++;
+				DoubleByteCharacter doubleTemp(character);
+				row->Add(doubleTemp.Clone());
+			}
+			else {
+				SingleByteCharacter singleTemp(str[index]);
+				row->Add(singleTemp.Clone());
+			}
+			index++;
+			this->Add(row->Clone());
+		}
+		index++;
+	}
+}
+
 void Text::Accept(Visitor& visitor, CDC* cPaintDc) {
 	cout << "Text Accept" << endl;
+	WritingVisitor writingVisitor;
+	//visitor.Visit(this, cPaintDc);
 	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
 	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
 		static_cast<Row*>(smartPointer->Current())->Accept(visitor, cPaintDc);

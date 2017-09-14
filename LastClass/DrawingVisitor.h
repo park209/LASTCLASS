@@ -18,6 +18,7 @@ public:
 	void Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc);
 	void Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc);
 	void Visit(Row* row, CDC* cPaintDc);
+	void Visit(Text* text, CDC *cPaintDc);
 
 
 

@@ -4,6 +4,7 @@
 #include "SingleByteCharacter.h"
 #include "DoubleByteCharacter.h"
 #include "Row.h"
+#include "Text.h"
 
 WritingVisitor::WritingVisitor() {
 }
@@ -26,7 +27,7 @@ void WritingVisitor::Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaint
 	char character;
 	character = singleByteCharacter->GetCharacter();
 	CString cs(character);
-	cPaintDc->TextOut(singleByteCharacter->GetX(), singleByteCharacter->GetY(), cs);
+	//cPaintDc->TextOut(singleByteCharacter->GetX(), singleByteCharacter->GetY(), cs);
 }
 
 void WritingVisitor::Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc) {
@@ -37,7 +38,12 @@ void WritingVisitor::Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaint
 void WritingVisitor::Visit(Row* row, CDC* cPaintDc) {
 	//cout << "   Double Visit doubleCharacter Àû´Â´Ù" << endl;
 
-	cPaintDc->TextOut(row->GetX(), row->GetY(), (CString)row->PrintRowString().c_str());
+	cPaintDc->TextOut(5, 5, (CString)row->PrintRowString().c_str());
+}
+
+void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
+
+	//cPaintDc->TextOutA(text->
 }
 
 void WritingVisitor::Visit(Generalization *generalization, CDC* cPaintDc){

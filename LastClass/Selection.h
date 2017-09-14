@@ -18,7 +18,7 @@ public:
 	void DeleteAllItems();
 
 	void FindByArea(Diagram *diagram, CRect area);
-	void FindByPoint(Diagram *diagram, Long x, Long y);
+	Long FindByPoint(Diagram *diagram, Long x, Long y);
 
 	bool FindCrossPoints(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End, CPoint *crossPoint);
 };
