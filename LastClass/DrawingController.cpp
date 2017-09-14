@@ -22,8 +22,8 @@ void DrawingController::ChangeState(UINT nChar){
 	this->buttonState->ChangeState(this, nChar);
 }
 
-void DrawingController::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
-	this->buttonState->AddToArray(diagram, selection, startX, startY, currentX, currentY);
+Figure* DrawingController::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+	return  this->buttonState->AddToArray(diagram, selection, startX, startY, currentX, currentY);
 }
 
 

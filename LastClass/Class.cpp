@@ -57,7 +57,10 @@ Class::Class(const Class& source) {
 
 Class::~Class() {
 }
-
+Figure* Class::Move(Long distanceX, Long distanceY){
+	Figure::Move(distanceX, distanceY);
+	return this;
+}
 Class& Class::operator = (const Class& source) {
 	this->figures = source.figures;
 	Long i = 0;
@@ -351,30 +354,3 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 	}
 }
 
-
-//#include <iostream>
-//using namespace std;
-//
-//int main(int argc, char* argv[]) {
-//	
-//	Class testClass1(10, 20, 30, 40);
-//	SmartPointer<Figure*> smartPointer(testClass1.CreateIterator());
-//	//ArrayIterator<Template*> smartPointer = dynamic_cast<Template*>(testClass1.CreateIterator());
-//	testClass1.Add(10, 10, 10, 10);
-//	testC
-//	testClass1.Add(20, 20, 20, 20);
-//	testClass1.Add(10, 10, 20, 40 );
-//
-//	Long i = 0;
-//	while (i < testClass1.GetLength()) {
-//		Figure *figure = testClass1.GetAt(i);
-//		if (dynamic_cast<Line*>(figure)) {
-//			cout << "¶óÀÎ"<< endl;
-//		}
-//		
-//		i++;
-//	}
-//
-//	return 0;
-//}
-//

@@ -26,7 +26,9 @@ void DirectAssociationButton::ChangeState(DrawingController *drawingController, 
 	ButtonState::ChangeState(drawingController, nChar);
 }
 
-void DirectAssociationButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+Figure* DirectAssociationButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+	Long index;
+	Figure *figure = 0;
 	if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
 		selection->FindByPoint(diagram, currentX, currentY);
@@ -114,9 +116,11 @@ void DirectAssociationButton::AddToArray(Diagram *diagram, Selection *selection,
 			}
 
 			DirectedAssociation object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
-			static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+			index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+			figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
 		}
 	}
+	return figure;
 }
 void DirectAssociationButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	cPaintDc->MoveTo(startX, startY);

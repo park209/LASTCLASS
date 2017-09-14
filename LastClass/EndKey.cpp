@@ -18,7 +18,7 @@ EndKey::~EndKey() {
 }
 
 void EndKey::KeyPress(TextEdit *textEdit) {
-	textEdit->characterIndex = textEdit->classDiagramForm->text->GetAt(textEdit->GetRowIndex())->GetLength();
+	textEdit->characterIndex = textEdit->text->GetAt(textEdit->GetRowIndex())->GetLength();
 
 	if (textEdit->keyBoard->keyAction != 0) {
 		delete textEdit->keyBoard->keyAction;

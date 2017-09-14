@@ -129,8 +129,8 @@ void ButtonState::ChangeState(DrawingController *drawingController, UINT nChar) 
 
 }
 
-void ButtonState::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
-
+Figure* ButtonState::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+	return 0;
 }
 void ButtonState::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 

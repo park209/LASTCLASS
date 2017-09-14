@@ -14,8 +14,8 @@
 #include "Compositions.h"
 #include "Template.h"
 #include "MemoBox.h"
-#include "MemoLine.h"
 #include "Selection.h"
+#include "MemoLine.h"
 #include <iostream>
 using namespace std;
 
@@ -49,6 +49,8 @@ void DrawingVisitor::Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaint
 void DrawingVisitor::Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc) {
 }
 void DrawingVisitor::Visit(Row* row, CDC* cPaintDc) {
+}
+void DrawingVisitor::Visit(Text* text, CDC* cPaintDc) {
 }
 
 void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
@@ -533,19 +535,6 @@ void DrawingVisitor::Visit(MemoLine *memoLine, CDC *cPaintDc) {
 	cPaintDc->SelectObject(oldPen);
 	pen.DeleteObject();
 }
-
-void DrawingVisitor::Visit(ClassName *className, CDC *cPaintDc) {
-
-}
-
-void DrawingVisitor::Visit(Method *method, CDC *cPatinDc) {
-
-}
-
-void DrawingVisitor::Visit(Attribute *attribute, CDC *cPaintDc) {
-
-}
-
 void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 	Long i = 0;
 	while (i < selection->GetLength()) {
@@ -563,8 +552,8 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 					object->GetX() + object->GetWidth() + 5,
 					object->GetY() + 5);
 				cPaintDc->Rectangle(
-					object->GetX() - 5,
-					object->GetY() + object->GetHeight() - 5,
+				 object->GetX() - 5,
+				object->GetY() + object->GetHeight() - 5,
 					object->GetX() + 5,
 					object->GetY() + object->GetHeight() + 5);
 				cPaintDc->Rectangle(
@@ -572,6 +561,7 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 					object->GetY() + object->GetHeight() - 5,
 					object->GetX() + object->GetWidth() + 5,
 					object->GetY() + object->GetHeight() + 5);
+				
 			}
 			else {
 				Long j = 0;
@@ -598,13 +588,16 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 							object->GetY() + object->GetHeight() - 5,
 							templete->GetX() + templete->GetWidth() + 5,
 							object->GetY() + object->GetHeight() + 5);
+						
 					}
 					j++;
+					
 				}
-			}
+				
+			}			
 		}
-
-		if (dynamic_cast<MemoBox*>(selection->GetAt(i))) {
+		
+			if (dynamic_cast<MemoBox*>(selection->GetAt(i))) {
 			MemoBox *memoBox = static_cast<MemoBox*>(selection->GetAt(i));
 			cPaintDc->Rectangle(
 				memoBox->GetX() - 5,
@@ -626,13 +619,14 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 				memoBox->GetY() + memoBox->GetHeight() - 5,
 				memoBox->GetX() + memoBox->GetWidth() + 5,
 				memoBox->GetY() + memoBox->GetHeight() + 5);
-
+			
+				
 		}
-		//상태패턴이던 뭐든 적용해야함
-		if (dynamic_cast<Realization*>(selection->GetAt(i)) || dynamic_cast<Generalization*>(selection->GetAt(i)) || dynamic_cast<Dependency*>(selection->GetAt(i)) ||
-			dynamic_cast<Association*>(selection->GetAt(i)) || dynamic_cast<Aggregation*>(selection->GetAt(i)) || dynamic_cast<Aggregations*>(selection->GetAt(i)) ||
-			dynamic_cast<Composition*>(selection->GetAt(i)) || dynamic_cast<Compositions*>(selection->GetAt(i)) || dynamic_cast<DirectedAssociation*>(selection->GetAt(i)) ||
-			dynamic_cast<MemoLine*>(selection->GetAt(i))) {
+				//상태패턴이던 뭐든 적용해야함
+			if (dynamic_cast<Realization*>(selection->GetAt(i)) || dynamic_cast<Generalization*>(selection->GetAt(i)) || dynamic_cast<Dependency*>(selection->GetAt(i)) ||
+				dynamic_cast<Association*>(selection->GetAt(i)) || dynamic_cast<Aggregation*>(selection->GetAt(i)) || dynamic_cast<Aggregations*>(selection->GetAt(i)) ||
+				dynamic_cast<Composition*>(selection->GetAt(i)) || dynamic_cast<Compositions*>(selection->GetAt(i)) || dynamic_cast<DirectedAssociation*>(selection->GetAt(i)) ||
+				dynamic_cast<MemoLine*>(selection->GetAt(i))) {
 			cPaintDc->Rectangle(selection->GetAt(i)->GetX() - 5,
 				selection->GetAt(i)->GetY() - 5,
 				selection->GetAt(i)->GetX() + 5,
@@ -645,8 +639,22 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 				selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() - 5,
 				selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() + 5,
 				selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() + 5);
-
+			
+				
 		}
 		i++;
-	}
+		
+	}	
+	
+}
+void DrawingVisitor::Visit(ClassName *className, CDC *cPaintDc) {
+
+}
+
+void DrawingVisitor::Visit(Method *method, CDC *cPatinDc) {
+
+}
+
+void DrawingVisitor::Visit(Attribute *attribute, CDC *cPaintDc) {
+
 }

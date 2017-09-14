@@ -3,7 +3,7 @@
 #define _UNCLICKED_H
 
 #include"ButtonState.h"
-
+class Figure;
 typedef signed long int Long;
 
 class Unclicked : public ButtonState {
@@ -14,7 +14,7 @@ public:
 	virtual ~Unclicked();
 
 	virtual void ChangeState(DrawingController *drawingController, UINT nChar);
-	virtual void AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY);
+	virtual Figure* AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY);
 	virtual void Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc);
 
 	Unclicked& operator=(const Unclicked& source);

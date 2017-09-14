@@ -9,7 +9,7 @@
 using namespace std;
 class Selection;
 typedef signed long int Long;
-
+class Figure;
 
 
 class AggregationsButton : public ButtonState {
@@ -20,7 +20,7 @@ public:
 	virtual ~AggregationsButton();
 
 	virtual void ChangeState(DrawingController *drawingController, UINT nChar);
-	virtual void AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY);
+	virtual Figure* AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY);
 	virtual void Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc);
 
 

@@ -4,6 +4,7 @@
 #include "SingleByteCharacter.h"
 #include "DoubleByteCharacter.h"
 #include "Row.h"
+#include "Text.h"
 
 WritingVisitor::WritingVisitor() {
 }
@@ -23,10 +24,10 @@ using namespace std;
 void WritingVisitor::Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc) {
 	cout << "	Single Visit singleCharacter 적는다" << endl;
 	
-	char character;
+	/*char character;
 	character = singleByteCharacter->GetCharacter();
-	CString cs(character);
-	cPaintDc->TextOut(singleByteCharacter->GetX(), singleByteCharacter->GetY(), cs);
+	CString cs(character);*/
+	//cPaintDc->TextOut(singleByteCharacter->GetX(), singleByteCharacter->GetY(), cs);
 }
 
 void WritingVisitor::Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc) {
@@ -37,7 +38,12 @@ void WritingVisitor::Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaint
 void WritingVisitor::Visit(Row* row, CDC* cPaintDc) {
 	//cout << "   Double Visit doubleCharacter 적는다" << endl;
 
-	cPaintDc->TextOut(row->GetX(), row->GetY(), (CString)row->PrintRowString().c_str());
+	//cPaintDc->TextOut(5, 5, (CString)row->PrintRowString().c_str());
+}
+
+void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
+	RECT rt = { 1, 1, 500, 500 };
+	cPaintDc->DrawText((CString)text->MakeText().c_str(), &rt, DT_EDITCONTROL);
 }
 
 void WritingVisitor::Visit(Generalization *generalization, CDC* cPaintDc){
@@ -80,9 +86,7 @@ void WritingVisitor::Visit(Method *method, CDC *cPaintDc) {
 
 }
 void WritingVisitor::Visit(Attribute *attribute, CDC *cPaintDc) {
-
 }
 
 void WritingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
-
 }

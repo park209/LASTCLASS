@@ -13,6 +13,7 @@ class Diagram;
 class Class;
 class Line;
 class Row;
+class Text;
 class Relation;
 class Generalization;
 class Realization;
@@ -67,14 +68,13 @@ public:
 
 	virtual void Visit(MemoLine* memobox, CDC *cPaintDc) = 0;// CDC  *cPaintDc
 
+	virtual void Visit(Text* text, CDC *cPaintDc) = 0;
+
 	virtual void Visit(ClassName *className, CDC *cPaintDc) = 0;
 
 	virtual void Visit(Method *method, CDC *cPaintDc) = 0;
 
 	virtual void Visit(Attribute *attribute, CDC *cPaintDc) = 0;
-
-	virtual void Visit(Selection *selection, CDC *cPaintDc) = 0;
-
 protected:
 	Visitor();
 };

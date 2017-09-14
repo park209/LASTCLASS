@@ -1,7 +1,6 @@
 #ifndef _SELECTION_H
 #define _SELECTION_H
 #include "FigureComposite.h"
-#include"DrawingVisitor.h"
 #include <afxwin.h>
 using namespace std;
 class Diagram;
@@ -22,8 +21,6 @@ public:
 	Long FindByPoint(Diagram *diagram, Long x, Long y);
 
 	bool FindCrossPoints(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End, CPoint *crossPoint);
-
-	void Accept(Visitor& visitor, CDC *cPaintDc);
 };
 
 #endif // !_SELECTION_H

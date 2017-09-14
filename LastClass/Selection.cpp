@@ -325,7 +325,3 @@ bool Selection::FindCrossPoints(const CPoint& line1Start, const CPoint& line1End
 	}
 	return ret;
 }
-
-void Selection::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);
-}

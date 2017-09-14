@@ -9,7 +9,7 @@ typedef signed long int Long;
 class Diagram;
 class Selection;
 class ButtonState;
-
+class Figure;
 class DrawingController {
 public:
 	DrawingController();
@@ -17,7 +17,7 @@ public:
 	~DrawingController();
 
 	void ChangeState(UINT nChar);
-	void AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY);
+	Figure* AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY);
 	void Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc);
 
 	DrawingController& operator=(const DrawingController& source);

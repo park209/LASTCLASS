@@ -18,7 +18,10 @@ public:
 	Class& operator = (const Class& source);
 	Figure* operator [] (Long index);
 
+
 	Long Add(Long x, Long y, Long width, Long height);
+	Figure* Move(Long distanceX, Long distanceY);
+
 
 	Long AddGeneralization(Long x, Long y, Long width, Long height);
 	Long AddRealization(Long x, Long y, Long width, Long height);

@@ -17,7 +17,7 @@ public:
 	void Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc);
 	void Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc);
 	void Visit(Row* row, CDC* cPaintDc);
-
+	void Visit(Text* text, CDC* cPaintDc);
 
 	 void Visit(Generalization *generalization, CDC* cPaintDc) ;		//¿œπ›»≠
 
@@ -48,8 +48,9 @@ public:
 	 void Visit(Method *method, CDC *cPaintDc);
 
 	 void Visit(Attribute *attribute, CDC *cPaintDc);
-	 
+
 	 void Visit(Selection *selection, CDC *cPaintDc);
+	   // CDC  *cPaintDc
 };
 
 #endif // _WRITINGVISITOR_H

@@ -9,6 +9,7 @@
 #include "Caret.h"
 #include "KeyBoard.h"
 #include "Diagram.h"
+#include "Figure.h"
 
 #include <iostream>
 #include <fstream> //로드세이브할때
@@ -30,15 +31,10 @@ BEGIN_MESSAGE_MAP(TextEdit, CFrameWnd)
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
-TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Long formX, Long formY, Long width, Long height, string content) {
-	this->classDiagramForm = classDiagramForm;
+TextEdit::TextEdit(Figure *content) {
 	this->caret = 0;
-	this->width = width;
-	this->height = height;
 	this->rowIndex = 0;
 	this->characterIndex = 0;
-	this->formX = formX;
-	this->formY = formY;
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
@@ -49,6 +45,7 @@ TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Long formX, Long formY, L
 	this->flagBuffer = 0;
 	this->flagInsert = 0;
 	this->keyBoard = NULL;
+	this->text = NULL;
 	this->content = content;
 }
 
@@ -56,24 +53,15 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct); //override
 	this->keyBoard = new KeyBoard;
 	this->caret = new Caret(5, 5, this);
+	this->text = new Text;
 	CPaintDC dc(this);
 	Long i = 0;
 
 	ModifyStyle(WS_CAPTION, 0);
 	//ModifyStyle(0, 0, SetWindowPos(&CWnd::wndTop, this->startY + 5, this->startY + 33, this->width - 5, this->height * 33, 0));
 
-	if (this->classDiagramForm->GetCurrentClassIndex() >= 0) { // 처음 클릭위치에 클래스가 있었다면, 선택된 클래스가 있다면
-															   /*this->classDiagramForm->text->Find(this->formX, this->formY - 28, this->height, &(this->indexes), &(this->count));
-															   if (this->count == 0) {
-															   Row row(this->formX, this->formY - 28, this->rowHeight, this->classDiagramForm->GetCurrentClassIndex());
-															   this->classDiagramForm->text->Add(row.Clone());
-															   }*/
-	}
-	else { // 선택된 클래스가 없다면
-		this->classDiagramForm->currentClassIndex = this->classDiagramForm->diagram->GetLength() - 1;
-		Row row(this->formX, this->formY - 28, this->rowHeight, this->classDiagramForm->GetCurrentClassIndex());
-		this->classDiagramForm->text->Add(row.Clone());
-	}
+	this->text->SprayString(this->content->GetContent());
+
 	Invalidate();
 
 	return 0;
@@ -83,20 +71,10 @@ void TextEdit::OnPaint() {
 	CPaintDC dc(this);
 	Long i = 0;
 
-
 	this->count = 0;
 
-	while (i < this->classDiagramForm->text->GetLength()) {
-		//currentClassIndex 맞는 로우들 찾아서
-		if (this->classDiagramForm->text->GetAt(i)->GetClassID() == this->classDiagramForm->GetCurrentClassIndex()) {
-			// 찾을때마다 출력
-			dc.TextOut(5, 5 + this->count * dc.GetTabbedTextExtent((CString)this->classDiagramForm->text->GetAt(i)->PrintRowString().c_str(), 0, 0).cy,
-				(CString)this->classDiagramForm->text->GetAt(i)->PrintRowString().c_str());
-			this->count++;
-		}
-		i++;
-	}
-
+	WritingVisitor writingVisitor;
+	this->text->Accept(writingVisitor, &dc);
 
 	this->caret->MoveToIndex(this->characterIndex, this->rowIndex);
 }
@@ -104,17 +82,18 @@ void TextEdit::OnPaint() {
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN && nChar != VK_SPACE && nChar != VK_TAB) {
 		char nCharacter = nChar;
-
+		
 		SingleByteCharacter singleByteCharacter(nCharacter);
 
-		if (this->characterIndex == this->classDiagramForm->text->GetAt(rowIndex)->GetLength()) {
-			this->classDiagramForm->text->GetAt(rowIndex)->Add(singleByteCharacter.Clone());
+		//ClassDiagramForm classDiagramForm = FindWindow(NULL, "classDiagram");
+		if (this->characterIndex == this->text->GetAt(rowIndex)->GetLength()) {
+			this->text->GetAt(rowIndex)->Add(singleByteCharacter.Clone());
 		}
-		else if (this->characterIndex < this->classDiagramForm->text->GetAt(rowIndex)->GetLength() && this->flagInsert == 0) {
-			this->classDiagramForm->text->GetAt(rowIndex)->Insert(this->characterIndex, singleByteCharacter.Clone());
+		else if (this->characterIndex < this->text->GetAt(rowIndex)->GetLength() && this->flagInsert == 0) {
+			this->text->GetAt(rowIndex)->Insert(this->characterIndex, singleByteCharacter.Clone());
 		}
-		else if (this->characterIndex < this->classDiagramForm->text->GetAt(rowIndex)->GetLength() && this->flagInsert == 1) {
-			this->classDiagramForm->text->GetAt(rowIndex)->Modify(this->characterIndex, singleByteCharacter.Clone());
+		else if (this->characterIndex < this->text->GetAt(rowIndex)->GetLength() && this->flagInsert == 1) {
+			this->text->GetAt(rowIndex)->Modify(this->characterIndex, singleByteCharacter.Clone());
 		}
 		this->characterIndex++;
 	}
@@ -143,7 +122,7 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 		DoubleByteCharacter doubleByteCharacter(tempChar);
 		delete[] tempChar;
 
-		this->classDiagramForm->text->GetAt(rowIndex)->Modify(this->characterIndex - 1, doubleByteCharacter.Clone());
+		this->text->GetAt(rowIndex)->Modify(this->characterIndex - 1, doubleByteCharacter.Clone());
 		this->flagBuffer = 0;
 	}
 	else if (lParam & GCS_COMPSTR) {
@@ -158,14 +137,14 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 			DoubleByteCharacter doubleByteCharacter(tempChar);
 			delete[] tempChar;
 
-			if (this->characterIndex == this->classDiagramForm->text->GetAt(rowIndex)->GetLength()) {
-				this->classDiagramForm->text->GetAt(rowIndex)->Add(doubleByteCharacter.Clone());
+			if (this->characterIndex == this->text->GetAt(rowIndex)->GetLength()) {
+				this->text->GetAt(rowIndex)->Add(doubleByteCharacter.Clone());
 			}
-			else if (this->characterIndex < this->classDiagramForm->text->GetAt(rowIndex)->GetLength() && this->flagInsert == 0) {
-				this->classDiagramForm->text->GetAt(rowIndex)->Insert(this->characterIndex, doubleByteCharacter.Clone());
+			else if (this->characterIndex < this->text->GetAt(rowIndex)->GetLength() && this->flagInsert == 0) {
+				this->text->GetAt(rowIndex)->Insert(this->characterIndex, doubleByteCharacter.Clone());
 			}
-			else if (this->characterIndex < this->classDiagramForm->text->GetAt(rowIndex)->GetLength() && this->flagInsert == 1) {
-				this->classDiagramForm->text->GetAt(rowIndex)->Modify(this->characterIndex, doubleByteCharacter.Clone());
+			else if (this->characterIndex < this->text->GetAt(rowIndex)->GetLength() && this->flagInsert == 1) {
+				this->text->GetAt(rowIndex)->Modify(this->characterIndex, doubleByteCharacter.Clone());
 			}
 			this->characterIndex++;
 			this->flagBuffer = 1;
@@ -178,11 +157,11 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 					i++;
 				}
 				DoubleByteCharacter doubleByteCharacter(tempChar);
-				this->classDiagramForm->text->GetAt(rowIndex)->Modify(this->characterIndex - 1, doubleByteCharacter.Clone());
+				this->text->GetAt(rowIndex)->Modify(this->characterIndex - 1, doubleByteCharacter.Clone());
 				delete[] tempChar;
 			}
 			else if (bufferLength == 0) {
-				this->classDiagramForm->text->GetAt(rowIndex)->Remove(this->characterIndex - 1);
+				this->text->GetAt(rowIndex)->Remove(this->characterIndex - 1);
 				this->characterIndex--;
 				this->flagBuffer = 0;
 			}
@@ -208,18 +187,18 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 			this->rowIndex++;
 			height += rowHeight;
 		}
-		if (this->classDiagramForm->text->GetLength() > 0) {
+		if (this->text->GetLength() > 0) {
 			this->rowIndex--;
 		}
 
-		while (width < this->startX && this->characterIndex < this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetLength()) {
-			width += dc.GetTabbedTextExtent(this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetAt(this->characterIndex)->MakeCString(), 0, 0).cx;
+		/*while (width < this->startX && this->characterIndex < this->text->GetAt(this->GetCurrentClassIndex())->GetLength()) {
+			width += dc.GetTabbedTextExtent(this->text->GetAt(this->GetCurrentClassIndex())->GetAt(this->characterIndex)->MakeCString(), 0, 0).cx;
 			this->characterIndex++;
 		}
-		if (this->characterIndex <= this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetLength() && this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetLength() > 0 &&
-			width - dc.GetTabbedTextExtent(this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetAt(this->characterIndex - 1)->MakeCString(), 0, 0).cx / 2 > this->startX) {
+		if (this->characterIndex <= this->text->GetAt(this->GetCurrentClassIndex())->GetLength() && this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetLength() > 0 &&
+			width - dc.GetTabbedTextExtent(this->text->GetAt(this->GetCurrentClassIndex())->GetAt(this->characterIndex - 1)->MakeCString(), 0, 0).cx / 2 > this->startX) {
 			this->characterIndex--;
-		}
+		}*/
 	}
 	//this->caret->MoveToIndex(this->characterIndex, this->rowIndex);
 	Invalidate();
@@ -318,9 +297,9 @@ LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {
 }
 
 void TextEdit::OnClose() {
-	if (this->classDiagramForm->textEdit != NULL) {
-		delete this->classDiagramForm->textEdit;
-	}
+	string content = this->text->MakeText();
+	this->content->ReplaceString(content);
+
 	if (this->caret != NULL) {
 		delete this->caret;
 	}
