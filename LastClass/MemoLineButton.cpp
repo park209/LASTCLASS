@@ -120,9 +120,10 @@ Figure* MemoLineButton::AddToArray(Diagram *diagram, Selection *selection, Long 
 
 			MemoLine object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 			index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+			figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
 		}
 	}
-	return static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
+	return figure;
 }
 void MemoLineButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 
