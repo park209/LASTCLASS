@@ -58,22 +58,9 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->startY = 0;
 	this->currentX = 0;
 	this->currentY = 0;
-	this->currentClassIndex = -1;
 	this->rowIndex = 0;
 	this->characterIndex = 0;
-	this->classButton = false;
-	this->relationButton = false;
-	this->generalizationButton = false; //일반화
-	this->realizationButton = false; //실체화
-	this->dependencyButton = false; //의존
-	this->associationButton = false; //연관화  
-	this->directedAssociationButton = false; //직접연관
-	this->aggregationButton = false; // 집합
-	this->aggregationSButton = false; // 집합연관
-	this->compositionButton = false; // 합성
-	this->compositionSBtton = false; // 복합연관
-	this->templateButton = false;
-	this->memoBoxButton = false;
+
 }
 
 Long ClassDiagramForm::Save() {
@@ -310,88 +297,89 @@ void ClassDiagramForm::OnPaint() {
 
 	this->drawingController->Draw(this->startX, this->startY, this->currentX, this->currentY, &dc);
 
-	//선택 표시 막아둠
-	//if (this->selected != -1) {
 
-	
 		Long i = 0;
 		while (i < this->selection->GetLength()) {
 			if (dynamic_cast<Class*>(this->selection->GetAt(i))) {
-				if (dynamic_cast<Class*>(this->selection->GetAt(i))->GetTempletePosition() == -1) {
-					dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
-						this->selection->GetAt(i)->GetY() - 5,
-						this->selection->GetAt(i)->GetX() + 5,
-						this->selection->GetAt(i)->GetY() + 5);
-					dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
-						this->selection->GetAt(i)->GetY() - 5,
-						this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
-						this->selection->GetAt(i)->GetY() + 5);
-					dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
-						this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
-						this->selection->GetAt(i)->GetX() + 5,
-						this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
-					dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
-						this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
-						this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
-						this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+				Class *object = static_cast<Class*>(this->selection->GetAt(i));
+				if (object->GetTempletePosition() == -1) {
+					dc.Rectangle(
+						object->GetX() - 5,
+						object->GetY() - 5,
+						object->GetX() + 5,
+						object->GetY() + 5);
+					dc.Rectangle(
+						object->GetX() + object->GetWidth() - 5,
+						object->GetY() - 5,
+						object->GetX() + object->GetWidth() + 5,
+						object->GetY() + 5);
+					dc.Rectangle(
+						object->GetX() - 5,
+						object->GetY() + object->GetHeight() - 5,
+						object->GetX() + 5,
+						object->GetY() + object->GetHeight() + 5);
+					dc.Rectangle(
+						object->GetX() + object->GetWidth() - 5,
+						object->GetY() + object->GetHeight() - 5,
+						object->GetX() + object->GetWidth() + 5,
+						object->GetY() + object->GetHeight() + 5);
 				}
 				else {
 					Long j = 0;
-					while (j < dynamic_cast<Class*>(this->selection->GetAt(i))->GetLength()) {
-						if (dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))) {
+					while (j < object->GetLength()) {
+						if (dynamic_cast<Template*>(object->GetAt(j))) {
+							Template *templete = static_cast<Template*>(object->GetAt(j));
 							dc.Rectangle(
-								this->selection->GetAt(i)->GetX() - 5,
-								dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetY() - 5,
-								this->selection->GetAt(i)->GetX() + 5,
-								dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetY() + 5);
+								object->GetX() - 5,
+								templete->GetY() - 5,
+								object->GetX() + 5,
+								templete->GetY() + 5);
 							dc.Rectangle(
-								dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetX() +
-								dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetWidth() - 5,
-								dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetY() - 5,
-								dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetX() +
-								dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetWidth() + 5,
-								dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetY() + 5);
+								templete->GetX() + templete->GetWidth() - 5,
+								templete->GetY() - 5,
+								templete->GetX() +	templete->GetWidth() + 5,
+								templete->GetY() + 5);
 							dc.Rectangle(
-								this->selection->GetAt(i)->GetX() - 5,
-								this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
-								this->selection->GetAt(i)->GetX() + 5,
-								this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+								object->GetX() - 5,
+								object->GetY() + object->GetHeight() - 5,
+								object->GetX() + 5,
+								object->GetY() + object->GetHeight() + 5);
 							dc.Rectangle(
-								dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetX() +
-								dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetWidth() - 5,
-								this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
-								dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetX() +
-								dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetWidth() + 5,
-								this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
-
+								templete->GetX() + templete->GetWidth() - 5,
+								object->GetY() + object->GetHeight() - 5,
+								templete->GetX() + templete->GetWidth() + 5,
+								object->GetY() + object->GetHeight() + 5);
 						}
 						j++;
 					}
-
-
 				}
 			}
 
 			if (dynamic_cast<MemoBox*>(this->selection->GetAt(i))) {
-
-				dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
-					this->selection->GetAt(i)->GetY() - 5,
-					this->selection->GetAt(i)->GetX() + 5,
-					this->selection->GetAt(i)->GetY() + 5);
-				dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
-					this->selection->GetAt(i)->GetY() - 5,
-					this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
-					this->selection->GetAt(i)->GetY() + 5);
-				dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
-					this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
-					this->selection->GetAt(i)->GetX() + 5,
-					this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
-				dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
-					this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
-					this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
-					this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+				MemoBox *memoBox = static_cast<MemoBox*>(this->selection->GetAt(i));
+				dc.Rectangle(
+					memoBox->GetX() - 5,
+					memoBox->GetY() - 5,
+					memoBox->GetX() + 5,
+					memoBox->GetY() + 5);
+				dc.Rectangle(
+					memoBox->GetX() + memoBox->GetWidth() - 5,
+					memoBox->GetY() - 5,
+					memoBox->GetX() + memoBox->GetWidth() + 5,
+					memoBox->GetY() + 5);
+				dc.Rectangle(
+					memoBox->GetX() - 5,
+					memoBox->GetY() + memoBox->GetHeight() - 5,
+					memoBox->GetX() + 5,
+					memoBox->GetY() + memoBox->GetHeight() + 5);
+				dc.Rectangle(
+					memoBox->GetX() + memoBox->GetWidth() - 5,
+					memoBox->GetY() + memoBox->GetHeight() - 5,
+					memoBox->GetX() + memoBox->GetWidth() + 5,
+					memoBox->GetY() + memoBox->GetHeight() + 5);
 
 			}
+			//상태패턴이던 뭐든 적용해야함
 		if (dynamic_cast<Realization*>(this->selection->GetAt(i)) || dynamic_cast<Generalization*>(this->selection->GetAt(i)) || dynamic_cast<Dependency*>(this->selection->GetAt(i)) ||
 			dynamic_cast<Association*>(this->selection->GetAt(i)) || dynamic_cast<Aggregation*>(this->selection->GetAt(i)) || dynamic_cast<Aggregations*>(this->selection->GetAt(i)) ||
 			dynamic_cast<Composition*>(this->selection->GetAt(i)) || dynamic_cast<Compositions*>(this->selection->GetAt(i)) || dynamic_cast<DirectedAssociation*>(this->selection->GetAt(i)) ||
@@ -500,9 +488,6 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	Long x = this->startX;
 	Long y = this->startY;
 	this->selection->FindByPoint(this->diagram, x, y);
-
-
-
 
 	KillTimer(1);
 }
