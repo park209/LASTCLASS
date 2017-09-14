@@ -45,7 +45,7 @@ Figure& Figure::operator = (const Figure& source) {
 Figure::~Figure() {
 }
 
-//int main(int argc, char* argv[]) {
-//
-//	return 0;
-//}
+
+void Figure::ReplaceString(string content) {
+	this->content = content;
+}

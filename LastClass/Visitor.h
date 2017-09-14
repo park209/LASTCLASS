@@ -30,6 +30,7 @@ class MemoLine;
 class ClassName;
 class Method;
 class Attribute;
+class Selection;
 
 class Visitor{
 public:

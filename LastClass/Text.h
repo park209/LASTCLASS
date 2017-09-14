@@ -22,6 +22,7 @@ public:
 
 	TextComponent* Clone() const;
 	void PrintRow(SmartPointer<TextComponent*>& index);
+	string MakeText();
 	void SprayString(string str);
 	void Accept(Visitor& visitor, CDC* cPaintDc);
 	Long InsertRow(Long formX, Long formY, Long rowHeight, Long classID, Long index);

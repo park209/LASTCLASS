@@ -82,23 +82,6 @@ void Text::Find(Long x, Long y, Long height, Row**(*indexes), Long *count) {
 		}
 		i++;
 	}
-
-
-
-	/*SmartPointer<TextComponent*> iterator(this->CreateIterator());
-	if (*indexes != 0) {
-	delete *indexes;
-	*indexes = 0;
-	}
-	*indexes = new Row*[128];
-	Long i = 0;
-	for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
-	if (((Row*)iterator->Current())->GetX() == x && ((Row*)iterator->Current())->GetY() >= y && ((Row*)iterator->Current())->GetY() <= y + height) {
-	(*indexes)[i] = (Row*)iterator->Current();
-	i++;
-	}
-	}
-	*count = i;*/
 }
 
 Long Text::Remove(Long index) {
@@ -127,18 +110,32 @@ void Text::PrintRow(SmartPointer<TextComponent*>& index) {
 	}
 }
 
+string Text::MakeText() {
+	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
+	string text_;
+	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
+		text_.append(((Row*)smartPointer->Current())->PrintRowString());
+		text_.append("\n");
+	}
+	//text_.append("\0");
+	return text_;
+}
+
 void Text::SprayString(string str) {
-	//Text *text = new Text(1024);
 	Long index = 0;
 	char character[2] = { 0, };
 	Long temp = 0;
+	Long temp2 = 0;
 	char n = '\n';
 
-	while (index < str.length()) {
+	while (index < (Long)str.length()) {
 		Row *row = new Row;
 		temp = str.find(n, index);
+		if (temp == -1) {
+			temp = str.length();
+		}
 		while (index < temp) {
-			if (str[index] & 0 * 80) {
+			if (str[index] & 0x80) {
 				character[0] = str[index];
 				character[1] = str[index + 1];
 				index++;
@@ -150,20 +147,16 @@ void Text::SprayString(string str) {
 				row->Add(singleTemp.Clone());
 			}
 			index++;
-			this->Add(row->Clone());
 		}
+		this->Add(row->Clone());
 		index++;
 	}
 }
 
 void Text::Accept(Visitor& visitor, CDC* cPaintDc) {
-	cout << "Text Accept" << endl;
+	//cout << "Text Accept" << endl;
 	WritingVisitor writingVisitor;
-	//visitor.Visit(this, cPaintDc);
-	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
-	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
-		static_cast<Row*>(smartPointer->Current())->Accept(visitor, cPaintDc);
-	}
+	visitor.Visit(this, cPaintDc);
 }
 
 Long Text::InsertRow(Long formX, Long formY, Long rowHeight, Long classID, Long index) {

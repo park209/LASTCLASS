@@ -30,7 +30,7 @@ void Caret::MoveToIndex(Long characterIndex, Long rowIndex) {
 	Long i = 0;
 
 	while (i < characterIndex) {
-		pointX += dc.GetTabbedTextExtent(this->textEdit->classDiagramForm->text->GetAt(rowIndex)->GetAt(i)->MakeCString(), 0, 0).cx;
+		pointX += dc.GetTabbedTextExtent(this->textEdit->text->GetAt(rowIndex)->GetAt(i)->MakeCString(), 0, 0).cx;
 		i++;
 	}
 	this->textEdit->CreateSolidCaret(5, 20);

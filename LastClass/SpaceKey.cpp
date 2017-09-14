@@ -20,7 +20,7 @@ SpaceKey::~SpaceKey() {
 
 void SpaceKey::KeyPress(TextEdit *textEdit) {
 	SingleByteCharacter spaceText(' ');
-	textEdit->classDiagramForm->text->GetAt(textEdit->GetRowIndex())->Insert(textEdit->GetCharacterIndex(), spaceText.Clone());
+	textEdit->text->GetAt(textEdit->GetRowIndex())->Insert(textEdit->GetCharacterIndex(), spaceText.Clone());
 	textEdit->characterIndex++;
 
 	if (textEdit->keyBoard->keyAction != 0) {

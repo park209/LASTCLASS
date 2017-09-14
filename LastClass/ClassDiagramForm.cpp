@@ -3,7 +3,7 @@
 #include "ClassDiagramForm.h"
 #include "Class.h"
 #include "Line.h"
-//#include "Figure.h"
+#include "Figure.h"
 #include "Diagram.h"
 #include "DrawingVisitor.h"
 #include "Text.h"
@@ -62,7 +62,7 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->rowIndex = 0;
 	this->characterIndex = 0;
 	//this->selected = -1;
-	this->classButton = true;
+	this->classButton = false;
 	this->relationButton = false;
 	this->generalizationButton = false; //일반화
 	this->realizationButton = false; //실체화
@@ -313,7 +313,6 @@ void ClassDiagramForm::OnPaint() {
 
 	//선택 표시 막아둠
 	//if (this->selected != -1) {
-
 	
 		Long i = 0;
 		while (i < this->selection->GetLength()) {
@@ -415,61 +414,9 @@ void ClassDiagramForm::OnPaint() {
 	}
 }
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
-	char nCharacter = nChar;
-	Long key = -1;
 
-	if (nChar == 48) {
-		key = 0;
-	}
-	if (nChar == 49) {
-		key = 1;
-	}
-	if (nChar == 50) {
-		key = 2;
-	}
-	if (nChar == 51) {
-		key = 3;
-	}
-	if (nChar == 52) {
-		key = 4;
-	}
-	if (nChar == 53) {
-		key = 5;
-	}
-	if (nChar == 54) {
-		key = 6;
-	}
-	if (nChar == 55) {
-		key = 7;
-	}
-	if (nChar == 56) {
-		key = 8;
-	}
-	if (nChar == 57) {
-		key = 9;
-	}
-	if (nChar == 113) {
-		key = 10;
-	}
-	if (nChar == 119) {
-		key = 11;
-	}
-	if (nChar == 101) {
-		key = 12;
-	}
-	if (nChar == 114) {
-		key = 13;
-	}
-	this->drawingController->ChangeState(key);
-
-	if (this->text->GetLength() == 0) {
-		Row newRow;
-		this->text->Add(newRow.Clone());
-	} 
-	SingleByteCharacter singleByteCharacter(nCharacter);
-	this->startX += 10;
-	this->text->GetAt(this->rowIndex)->Add(singleByteCharacter.Clone());
-
+	this->drawingController->ChangeState(nChar);
+	
 	Invalidate();
 }
 
@@ -491,6 +438,7 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 		}
 		elapseTime++;
 	}
+
 	this->startX = point.x;
 	this->startY = point.y;
 	this->currentX = point.x;
@@ -503,11 +451,9 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->selection->FindByPoint(this->diagram, x, y);
 	//}
 
-	this->currentClassIndex = -1;
-	this->selection->FindByPoint(this->diagram, this->startX, this->startY);
-
-
 	KillTimer(1);
+
+	Invalidate();
 }
 
 
@@ -517,40 +463,32 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->startY = point.y;
 	this->currentX = point.x;
 	this->currentY = point.y;
-	string temp5 = "Test 테스트";
 
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {
-		Long i = 0;
-		Long temp1;
-		Long temp2;
-		Long temp3;
-		Long temp4;
-		//string temp5 = "Test 테스트";
 
-		temp1 = figure->GetX();
-		temp2 = figure->GetY();
-		temp3 = figure->GetWidth();
-		temp4 = figure->GetHeight();
-		//temp5 = figure->GetContent();
-
-		this->textEdit = new TextEdit(this, // 텍스트에딧 크기는 클래스 크기, 일단은
-			temp1, temp2, temp3, temp4, temp5);
+		this->textEdit = new TextEdit(figure); // 
 
 		this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
-			this->textEdit->GetFormX(),
-			this->textEdit->GetFormY(),
-			this->textEdit->GetFormX() + this->textEdit->GetWidth(),
-			this->textEdit->GetFormY() + this->textEdit->GetHeight()), NULL, NULL, WS_EX_TOPMOST);
+			figure->GetX(),
+			figure->GetY(),
+			figure->GetX() + figure->GetWidth(),
+			figure->GetY() + figure->GetHeight()), NULL, NULL, WS_EX_TOPMOST);
 		this->textEdit->ShowWindow(SW_SHOW);
-		//dc.TextOut(0, 0, (CString)temp5.c_str());
 	}
-	dc.TextOut(101, 101, temp5.c_str());
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
+	MSG msg;
+	UINT dblclkTime = GetDoubleClickTime();
+	UINT elapseTime = 0;
+	PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+	if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
+		return;
+	}
 	this->currentX = point.x;
 	this->currentY = point.y;
+
 	if (dynamic_cast<Unclicked*>(this->drawingController->buttonState)) {
 		CRect area;
 		area.left = this->startX;
@@ -559,51 +497,35 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		area.bottom = this->currentY;
 		this->selection->FindByArea(this->diagram, area);
 	}
-	if (this->classButton == true) {
-		if (this->currentX != this->startX && this->currentY != this->startY) {
-			if (this->currentX - this->startX < 150) {
-				this->currentX = this->startX + 150;
-			}
-			if (this->currentY - this->startY < 200) {
-				this->currentY = this->startY + 200;
-			}
-			Long index = this->diagram->AddClass(this->startX, this->startY, this->currentX - this->startX, this->currentY - this->startY);
-			Class* tempClass = static_cast<Class*>(this->diagram->GetAt(index));
 
-			//첨자연산자 왜 안돼는지 확인해야함
-			tempClass->Add(this->startX, this->startY + 50,
-				this->currentX - this->startX, this->startY + 50); // x, y, width, height 순서
-			ClassName className(this->startX + 5, this->startY + 33, this->currentX - this->startX - 10, 20, "11111");
-			tempClass->Add(className.Clone());
-
-			tempClass->Add(this->startX, (this->startY + 50 + this->currentY) / 2,
-				this->currentX - this->startX, (this->startY + 50 + this->currentY) / 2);
-			Attribute attribute(this->startX, this->startY + 50, this->currentX, (this->startY + 50 + this->currentY) / 2, "2222"); // 내용값은 수정해야함
-			Method method(this->startX, (this->startY + 50 + this->currentY) / 2, this->currentX, this->currentY, "3333");
-			tempClass->Add(attribute.Clone());
-			tempClass->Add(method.Clone());
-
-			//SmartPointer<Figure*> iterator = static_cast<Class*>(this->diagram->GetAt(index))->CreateIterator();
-
-			this->textEdit = new TextEdit(this, // 텍스트에딧 크기는 클래스 크기, 일단은
-				this->diagram->GetAt(index)->GetX() + 5,
-				this->diagram->GetAt(index)->GetY() + 33,
-				this->diagram->GetAt(index)->GetWidth() - 5,
-				this->diagram->GetAt(index)->GetHeight() - 100,
-				"ParkCom\n\n한글한글\nEnglish\n다시한글");// this->diagram->GetAt(index)->GetContent());
-
-			this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
-				this->textEdit->GetFormX(),
-				this->textEdit->GetFormY(),
-				this->textEdit->GetFormX() + this->textEdit->GetWidth(),
-				this->textEdit->GetFormY() + this->textEdit->GetHeight() - 100), NULL, NULL, WS_EX_TOPMOST);
-			this->textEdit->ShowWindow(SW_SHOW);
-		}
+	Figure *figure = 0;
+	if (this->startX != this->currentX && this->startY != this->currentY) {
+		figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 	}
+
+	if (dynamic_cast<Class*>(figure)) {
+		Class* tempClass = static_cast<Class*>(figure);
+
+		ClassName className(this->startX + 5, this->startY + 33, this->currentX - this->startX - 10, 20, "11111");
+		tempClass->Add(className.Clone());
+		Attribute attribute(this->startX + 5, this->startY + 53, this->currentX - this->startX - 10, (this->startY + 50 + this->currentY) / 2, "2222"); // 내용값은 수정해야함
+		tempClass->Add(attribute.Clone());
+		Method method(this->startX + 5, (this->startY + 50 + this->currentY) / 2, this->currentX - this->startX - 10, this->currentY, "3333");
+		tempClass->Add(method.Clone());
+
+		this->textEdit = new TextEdit(figure);
+
+		this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
+			figure->GetX(),
+			figure->GetY(),
+			figure->GetX() + figure->GetWidth(),
+			figure->GetY() + figure->GetHeight()), NULL, NULL, WS_EX_TOPMOST);
+		this->textEdit->ShowWindow(SW_SHOW);
+	}
+
 	if (this->startX != this->currentX && this->startY != this->currentY) {
 		this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 	}
-
 	//Long length = this->selection->GetLength();
 
 	this->startX = 0;
@@ -611,8 +533,11 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = 0;
 	this->currentY = 0;
 
+	KillTimer(1);
+
 	Invalidate();
 }
+
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	if (nFlags == MK_LBUTTON) {
 		this->currentX = point.x;
@@ -652,6 +577,13 @@ void ClassDiagramForm::OnClose() {
 	if (this->text != NULL) {
 		delete this->text;
 	}
+	if (this->selection != NULL) {
+		delete this->selection;
+	}
+	if (this->drawingController != NULL) {
+		delete this->drawingController;
+	}
+	
 	//6.3. 윈도우를 닫는다.
 	CFrameWnd::OnClose(); // 오버라이딩 코드재사용
 }

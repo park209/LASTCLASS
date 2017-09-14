@@ -18,8 +18,8 @@ BackSpaceKey::~BackSpaceKey() {
 }
 
 void BackSpaceKey::KeyPress(TextEdit *textEdit) {
-	if (textEdit->classDiagramForm->text->GetAt(textEdit->GetRowIndex())->GetLength() > 0 && textEdit->GetCharacterIndex() > 0) {
-		textEdit->classDiagramForm->text->GetAt(textEdit->GetRowIndex())->Remove(textEdit->GetCharacterIndex() - 1);
+	if (textEdit->text->GetAt(textEdit->GetRowIndex())->GetLength() > 0 && textEdit->GetCharacterIndex() > 0) {
+		textEdit->text->GetAt(textEdit->GetRowIndex())->Remove(textEdit->GetCharacterIndex() - 1);
 		(textEdit->characterIndex)--;
 	}
 	if (textEdit->keyBoard->keyAction != 0) {
