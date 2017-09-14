@@ -413,6 +413,7 @@ void ClassDiagramForm::OnPaint() {
 		i++;
 	}
 }
+
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	this->drawingController->ChangeState(nChar);
@@ -467,13 +468,13 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {
 
-		this->textEdit = new TextEdit(figure); // 
+		this->textEdit = new TextEdit(figure);
 
 		this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
-			figure->GetX(),
-			figure->GetY(),
-			figure->GetX() + figure->GetWidth(),
-			figure->GetY() + figure->GetHeight()), NULL, NULL, WS_EX_TOPMOST);
+			figure->GetX()+5,
+			figure->GetY()+33,
+			figure->GetX() + figure->GetWidth()+5,
+			figure->GetY() + figure->GetHeight()+33), NULL, NULL, WS_EX_TOPMOST);
 		this->textEdit->ShowWindow(SW_SHOW);
 	}
 }
@@ -504,27 +505,14 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	}
 
 	if (dynamic_cast<Class*>(figure)) {
-		Class* tempClass = static_cast<Class*>(figure);
-
-		ClassName className(this->startX + 5, this->startY + 33, this->currentX - this->startX - 10, 20, "11111");
-		tempClass->Add(className.Clone());
-		Attribute attribute(this->startX + 5, this->startY + 53, this->currentX - this->startX - 10, (this->startY + 50 + this->currentY) / 2, "2222"); // 내용값은 수정해야함
-		tempClass->Add(attribute.Clone());
-		Method method(this->startX + 5, (this->startY + 50 + this->currentY) / 2, this->currentX - this->startX - 10, this->currentY, "3333");
-		tempClass->Add(method.Clone());
-
 		this->textEdit = new TextEdit(figure);
 
 		this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
-			figure->GetX(),
-			figure->GetY(),
-			figure->GetX() + figure->GetWidth(),
-			figure->GetY() + figure->GetHeight()), NULL, NULL, WS_EX_TOPMOST);
+			figure->GetX()+5,
+			figure->GetY()+33,
+			figure->GetX() + figure->GetWidth()+5,
+			figure->GetY() + figure->GetHeight()+33), NULL, NULL, WS_EX_TOPMOST);
 		this->textEdit->ShowWindow(SW_SHOW);
-	}
-
-	if (this->startX != this->currentX && this->startY != this->currentY) {
-		this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 	}
 	//Long length = this->selection->GetLength();
 
