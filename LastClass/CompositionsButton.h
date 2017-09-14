@@ -21,6 +21,8 @@ public:
 
 	virtual void ChangeState(DrawingController *drawingController, Long key);
 	virtual void AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY);
+	virtual void Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc);
+
 
 	CompositionsButton& operator=(const CompositionsButton& source);
 };

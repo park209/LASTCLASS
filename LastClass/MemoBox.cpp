@@ -1,7 +1,7 @@
 //MemoBox.cpp
 
 #include "MemoBox.h"
-#include "Association.h"
+#include "MemoLine.h"
 #include "SmartPointer.h"
 
 MemoBox::MemoBox(Long capacity) {
@@ -39,7 +39,7 @@ MemoBox::~MemoBox() {
 }
 
 Long MemoBox::Add(Long x, Long y, Long width, Long height) {
-	Association object(x, y, width, height);
+	MemoLine object(x, y, width, height);
 	Long index;
 	if (this->length < this->capacity) {
 		index = this->figures.Store(this->length, object.Clone());
@@ -102,8 +102,8 @@ void MemoBox::Accept (Visitor& visitor, CDC *cPaintDc) {
 	visitor.Visit(this, cPaintDc);
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 	while (!smartPointer->IsDone()) {
-		if (dynamic_cast<Association*>(smartPointer->Current())) {
-			dynamic_cast<Association*>(smartPointer->Current())->Accept(visitor, cPaintDc);  //, CPointDc
+		if (dynamic_cast<MemoLine*>(smartPointer->Current())) {
+			dynamic_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, cPaintDc);  //, CPointDc
 		}
 		smartPointer->Next();
 	}

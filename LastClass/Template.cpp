@@ -2,23 +2,14 @@
 
 
 
-Template::Template() {
-	this->x = 0;
-	this->y = 0;
-	this->width = 0;
-	this->height = 0;
+Template::Template():Figure() {
+
 }
-Template::Template(Long x, Long  y, Long width, Long height) {
-	this->x = x;
-	this->y = y;
-	this->width = width;
-	this->height = height;
+Template::Template(Long x, Long  y, Long width, Long height):Figure(x,y,width,height) {
+
 }
-Template::Template(const Template& source) {
-	this->x = source.x;
-	this->y = source.y;
-	this->width = source.width;
-	this->height = source.height;
+Template::Template(const Template& source):Figure(source) {
+
 }
 Template::~Template() {
 }

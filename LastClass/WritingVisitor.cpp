@@ -70,3 +70,15 @@ void WritingVisitor::Visit(Template *object, CDC *cPaintDc) {
 }
 void WritingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { // CDC  *cPaintDc
 }
+void WritingVisitor::Visit(MemoLine *memoLine, CDC *cPaintDc) {
+}
+void WritingVisitor::Visit(ClassName *className, CDC *cPaintDc) {
+
+}
+
+void WritingVisitor::Visit(Method *method, CDC *cPaintDc) {
+
+}
+void WritingVisitor::Visit(Attribute *attribute, CDC *cPaintDc) {
+
+}

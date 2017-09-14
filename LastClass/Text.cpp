@@ -117,7 +117,7 @@ TextComponent* Text::Clone() const {
 using namespace std;
 
 void Text::PrintRow(SmartPointer<TextComponent*>& index) {
-	Long i;
+	
 	for (index->First(); !index->IsDone(); index->Next()) {
 		cout << "PrintRow È®ÀÎ" << endl;
 	}

@@ -14,6 +14,7 @@
 #include "CompositionsButton.h"
 #include "TemplateButton.h"
 #include "MemoBoxButton.h"
+#include "MemoLineButton.h"
 ButtonState::ButtonState() {
 
 }
@@ -105,12 +106,21 @@ void ButtonState::ChangeState(DrawingController *drawingController, Long key) {
 		}
 		drawingController->buttonState = new MemoBoxButton;
 	}
+	if (key == 13) {
+		if (drawingController->buttonState != 0) {
+			delete drawingController->buttonState;
+		}
+		drawingController->buttonState = new MemoLineButton;
+	}
+
 }
 
 void ButtonState::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
 
 }
+void ButtonState::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 
+}
 ButtonState& ButtonState::operator=(const ButtonState& source) {
 	return const_cast<ButtonState&>(source);
 }

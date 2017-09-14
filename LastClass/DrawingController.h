@@ -1,7 +1,8 @@
 //DrawingController.h
 #ifndef _DRAWINGCONTROLLER_H
 #define _DRAWINGCONTROLLER_H
-
+#include <afxwin.h>
+using namespace std;
 typedef signed long int Long;
 
 
@@ -17,7 +18,7 @@ public:
 
 	void ChangeState(Long key);
 	void AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY);
-	//void Draw()
+	void Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc);
 
 	DrawingController& operator=(const DrawingController& source);
 

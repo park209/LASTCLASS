@@ -26,10 +26,12 @@ void DrawingController::AddToArray(Diagram *diagram, Selection *selection, Long 
 	this->buttonState->AddToArray(diagram, selection, startX, startY, currentX, currentY);
 }
 
+
+void DrawingController::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+	this->buttonState->Draw(startX, startY, currentX, currentY, cPaintDc);
+}
+
 DrawingController& DrawingController::operator=(const DrawingController& source) {
-	//if (this->buttonState != 0) {
-	//	delete this->buttonState;
-	//}
-	//this->buttonState = source.buttonState;
+
 	return const_cast<DrawingController&>(source);
 }

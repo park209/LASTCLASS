@@ -40,6 +40,15 @@ void ClassButton::AddToArray(Diagram *diagram, Selection *selection, Long startX
 	static_cast<Class*>(diagram->GetAt(index))->Add(startX, (startY + 30 + currentY) / 2,
 		currentX - startX, (startY + 30 + currentY) / 2);
 }
+void ClassButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+	CPen pen;
+	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
+	CPen *oldPen = cPaintDc->SelectObject(&pen);
+	cPaintDc->SetBkMode(TRANSPARENT);
+	cPaintDc->Rectangle(startX, startY, currentX, currentY);
+	cPaintDc->SelectObject(oldPen);
+	pen.DeleteObject();
+}
 
 ClassButton& ClassButton::operator=(const ClassButton& source) {
 	return const_cast<ClassButton&>(source);

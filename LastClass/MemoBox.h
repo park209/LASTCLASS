@@ -17,7 +17,7 @@ public:
 	Long Add(Long x, Long y, Long width, Long height);	//
 	virtual Long Add(Figure *figure);	//
 	virtual Figure* GetAt(Long index);	//
-	virtual  Figure* Clone() const;	//
+	virtual Figure* Clone() const;	//
 	virtual Long Remove(Long index);	//
 
 	MemoBox& operator=(const MemoBox& source);

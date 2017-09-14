@@ -14,6 +14,7 @@
 #include "Compositions.h"
 #include "Template.h"
 #include "MemoBox.h"
+#include "MemoLine.h"
 #include <iostream>
 using namespace std;
 
@@ -514,4 +515,32 @@ void DrawingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { // CDC  *cPaintDc
 
 	cPaintDc->MoveTo(pts2[1].x, pts2[1].y);
 	cPaintDc->LineTo(pts2[0].x, pts2[0].y + 15);
+}
+
+void DrawingVisitor::Visit(MemoLine *memoLine, CDC *cPaintDc) {
+	Long x = memoLine->GetX();
+	Long  y = memoLine->GetY();;
+	Long width = memoLine->GetWidth();
+	Long height = memoLine->GetHeight();
+
+	CPen pen;
+	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
+	CPen *oldPen = cPaintDc->SelectObject(&pen);
+	cPaintDc->SetBkMode(TRANSPARENT);
+	cPaintDc->MoveTo(x, y);
+	cPaintDc->LineTo(x + width, y + height);
+	cPaintDc->SelectObject(oldPen);
+	pen.DeleteObject();
+}
+
+void DrawingVisitor::Visit(ClassName *className, CDC *cPaintDc) {
+
+}
+
+void DrawingVisitor::Visit(Method *method, CDC *cPatinDc) {
+
+}
+
+void DrawingVisitor::Visit(Attribute *attribute, CDC *cPaintDc) {
+
 }

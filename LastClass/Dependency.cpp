@@ -1,29 +1,20 @@
 #include "Dependency.h"
 
-Dependency::Dependency() {
-	this->x = 0;
-	this->y = 0;
-	this->width = 0;
-	this->height = 0;
+Dependency::Dependency():Relation(){
+
 }
 
 
-Dependency::Dependency(Long x, Long y, Long width, Long height) {
-	this->x = x;
-	this->y = y;
-	this->width = width;
-	this->height = height;
+Dependency::Dependency(Long x, Long y, Long width, Long height) : Relation(x,y,width,height){
+
 }
 
 Dependency::~Dependency() {
 
 }
 
-Dependency::Dependency(const Dependency& source) {
-	this->x = source.x;
-	this->y = source.y;
-	this->width = source.width;
-	this->height = source.height;
+Dependency::Dependency(const Dependency& source) :Relation(source){
+
 }
 
 Dependency& Dependency::operator=(const Dependency& source) {

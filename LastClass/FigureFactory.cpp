@@ -18,6 +18,7 @@
 #include "Row.h"
 #include "SingleByteCharacter.h"
 #include "DoubleByteCharacter.h"
+#include "MemoLine.h"
 FigureFactory::FigureFactory() {
 }
 FigureFactory::~FigureFactory() {
@@ -25,7 +26,7 @@ FigureFactory::~FigureFactory() {
 
 TextComponent* FigureFactory::CreateRow(Long x, Long y, Long rowHeight, Long classID, string stringCharacter) {
 	Row* row = new Row(x, y, rowHeight, classID);
-	Long i = 0;
+	ULong i = 0;
 
 	while (i < strlen(stringCharacter.c_str())) {
 		if (stringCharacter[i] & 0x80) {
@@ -100,6 +101,9 @@ Figure* FigureFactory::Create(Long x, Long y, Long width, Long height, Long type
 	}
 	if (type == 12) {
 		return new Compositions(x, y, width, height);
+	}
+	if (type == 13) {
+		return new MemoLine(x, y, width, height);
 	}
 	return 0;
 }

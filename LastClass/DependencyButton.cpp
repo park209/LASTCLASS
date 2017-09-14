@@ -8,6 +8,7 @@
 #include"Selection.h"
 
 #include"Dependency.h"
+#include"Class.h"
 
 DependencyButton::DependencyButton() {
 
@@ -26,12 +27,11 @@ void DependencyButton::ChangeState(DrawingController *drawingController, Long ke
 }
 
 void DependencyButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
-	if (selection->GetLength() == 1) {
-		//Long endClass = this->diagram->Find(this->currentX, this->currentY);//자기자신 연결시 0 0 0 0 값 저장됨.. 수정요 2017_09_09
-		//Long x = this->currentX;
-		//Long y = this->currentY;
+	if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
+
 		selection->FindByPoint(diagram, currentX, currentY);
-		if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1)) {
+
+		if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {
 
 			CPoint line1Start;
 			CPoint line1End;
@@ -118,7 +118,42 @@ void DependencyButton::AddToArray(Diagram *diagram, Selection *selection, Long s
 		}
 	}
 }
+void DependencyButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+	CPen pen;
+	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
+	CPen *oldPen = cPaintDc->SelectObject(&pen);
+	cPaintDc->SetBkMode(TRANSPARENT);
+	cPaintDc->MoveTo(startX, startY);
+	cPaintDc->LineTo(currentX, currentY);
+	cPaintDc->SelectObject(oldPen);
+	pen.DeleteObject();
 
+	double degree = atan2(currentX - startX, startY - currentY); // 기울기
+
+	double distance = sqrt(pow(currentX - startX, 2) + pow(startY - currentY, 2));
+	// 루트안에 = 루트(제곱(
+	double dX = (currentX) - (15 * (currentX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (currentY) + (15 * (startY - currentY) / distance); //뒤로 온 기준점 y
+
+																					  // 수직 기울기
+
+	CPoint pts[3];
+
+	pts[0].x = (currentX); //마우스 현재위치 점
+	pts[0].y = (currentY);
+
+	pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
+	pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+	pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
+	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+
+	cPaintDc->MoveTo(pts[0].x, pts[0].y);
+	cPaintDc->LineTo(pts[1].x, pts[1].y);
+
+	cPaintDc->MoveTo(pts[0].x, pts[0].y);
+	cPaintDc->LineTo(pts[2].x, pts[2].y);
+}
 DependencyButton& DependencyButton::operator=(const DependencyButton& source) {
 	return const_cast<DependencyButton&>(source);
 }

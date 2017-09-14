@@ -1,32 +1,23 @@
 #include "Realization.h"
 
-Realization::Realization() {
-	this->x = 0;
-	this->y = 0;
-	this->width = 0;
-	this->height = 0;
+Realization::Realization() :Relation(){
+
 }
 
 
-Realization::Realization(Long x, Long y, Long width, Long height) {
-	this->x = x;
-	this->y = y;
-	this->width = width;
-	this->height = height;
+Realization::Realization(Long x, Long y, Long width, Long height): Relation(x,y,width,height){
+	
 }
 
 Realization::~Realization() {
 
 }
 
-Realization::Realization(const Realization& source) {
-	this->x = source.x;
-	this->y = source.y;
-	this->width = source.width;
-	this->height = source.height;
+Realization::Realization(const Realization& source):Relation(source){
+
 }
 
-Realization& Realization::operator=(const Realization& source) {
+Realization& Realization::operator=(const Realization& source){
 	this->x = source.x;
 	this->y = source.y;
 	this->width = source.width;

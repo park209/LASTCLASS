@@ -30,7 +30,7 @@ BEGIN_MESSAGE_MAP(TextEdit, CFrameWnd)
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
-TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Long formX, Long formY, Long width, Long height) {
+TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Long formX, Long formY, Long width, Long height, string content) {
 	this->classDiagramForm = classDiagramForm;
 	this->caret = 0;
 	this->width = width;
@@ -43,13 +43,13 @@ TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Long formX, Long formY, L
 	this->startY = 0;
 	this->currentX = 0;
 	this->currentY = 0;
-	this->indexes = NULL;
 	this->count = 0;
 	this->rowHeight = 20;
 	this->koreanEnglish = 0;
 	this->flagBuffer = 0;
 	this->flagInsert = 0;
 	this->keyBoard = NULL;
+	this->content = content;
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -63,11 +63,11 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	//ModifyStyle(0, 0, SetWindowPos(&CWnd::wndTop, this->startY + 5, this->startY + 33, this->width - 5, this->height * 33, 0));
 
 	if (this->classDiagramForm->GetCurrentClassIndex() >= 0) { // 처음 클릭위치에 클래스가 있었다면, 선택된 클래스가 있다면
-		/*this->classDiagramForm->text->Find(this->formX, this->formY - 28, this->height, &(this->indexes), &(this->count));
-		if (this->count == 0) {
-		Row row(this->formX, this->formY - 28, this->rowHeight, this->classDiagramForm->GetCurrentClassIndex());
-		this->classDiagramForm->text->Add(row.Clone());
-		}*/
+															   /*this->classDiagramForm->text->Find(this->formX, this->formY - 28, this->height, &(this->indexes), &(this->count));
+															   if (this->count == 0) {
+															   Row row(this->formX, this->formY - 28, this->rowHeight, this->classDiagramForm->GetCurrentClassIndex());
+															   this->classDiagramForm->text->Add(row.Clone());
+															   }*/
 	}
 	else { // 선택된 클래스가 없다면
 		this->classDiagramForm->currentClassIndex = this->classDiagramForm->diagram->GetLength() - 1;
@@ -82,8 +82,8 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 void TextEdit::OnPaint() {
 	CPaintDC dc(this);
 	Long i = 0;
-	Long j;
-	Long caretX;
+
+
 	this->count = 0;
 
 	while (i < this->classDiagramForm->text->GetLength()) {
@@ -97,25 +97,7 @@ void TextEdit::OnPaint() {
 		i++;
 	}
 
-	//if (this->classDiagramForm->GetCurrentClassIndex() >= 0) {
-	//	while (i < this->count) {
-	//		dc.TextOut(5, 5 + i * dc.GetTabbedTextExtent((CString)this->indexes[i]->PrintRowString().c_str(), 0, 0).cy,
-	//			(CString)this->indexes[i]->PrintRowString().c_str());
-	//		i++;
-	//	}
-	//}
-	//else {
-	//	i = 0;
-	//	while (i < this->classDiagramForm->text->GetLength() && this->classDiagramForm->text->GetLength() > 0) {
-	//		j = 0;
-	//		while (j < this->classDiagramForm->text->GetAt(i)->GetLength()) {
-	//			dc.TextOut(5, 5 + i * dc.GetTabbedTextExtent((CString)this->classDiagramForm->text->GetAt(this->rowIndex)->PrintRowString().c_str(), 0, 0).cy,
-	//				(CString)this->classDiagramForm->text->GetAt(rowIndex)->PrintRowString().c_str());
-	//			j++;
-	//		}
-	//		i++;
-	//	}
-	//}
+
 	this->caret->MoveToIndex(this->characterIndex, this->rowIndex);
 }
 
@@ -257,26 +239,26 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 		this->currentY = point.y;
 		Long height = 5;
 		Long width = 5;
-		
+
 		/*this->rowIndex = 0;
 		this->characterIndex = 0;
 		if (currentX > 5 && currentY > 5) {
-			while (height < this->currentY && this->rowIndex < this->count) {
-				this->rowIndex++;
-				height += rowHeight;
-			}
-			if (this->classDiagramForm->text->GetLength() > 0) {
-				this->rowIndex--;
-			}
+		while (height < this->currentY && this->rowIndex < this->count) {
+		this->rowIndex++;
+		height += rowHeight;
+		}
+		if (this->classDiagramForm->text->GetLength() > 0) {
+		this->rowIndex--;
+		}
 
-			while (width < this->currentX && this->characterIndex < this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetLength()) {
-				width += dc.GetTabbedTextExtent(this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetAt(this->characterIndex)->MakeCString(), 0, 0).cx;
-				this->characterIndex++;
-			}
-			if (this->characterIndex <= this->classDiagramForm->text->GetAt(rowIndex)->GetLength() && this->classDiagramForm->text->GetAt(rowIndex)->GetLength() > 0 &&
-				width - dc.GetTabbedTextExtent(this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetAt(this->characterIndex - 1)->MakeCString(), 0, 0).cx / 2 > this->startX) {
-				this->characterIndex--;
-			}
+		while (width < this->currentX && this->characterIndex < this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetLength()) {
+		width += dc.GetTabbedTextExtent(this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetAt(this->characterIndex)->MakeCString(), 0, 0).cx;
+		this->characterIndex++;
+		}
+		if (this->characterIndex <= this->classDiagramForm->text->GetAt(rowIndex)->GetLength() && this->classDiagramForm->text->GetAt(rowIndex)->GetLength() > 0 &&
+		width - dc.GetTabbedTextExtent(this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetAt(this->characterIndex - 1)->MakeCString(), 0, 0).cx / 2 > this->startX) {
+		this->characterIndex--;
+		}
 		}*/
 		//Invalidate();
 	}
@@ -298,28 +280,28 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	//switch (nChar) {
 	//case VK_TAB:
-	//	if (this->characterIndex < this->classDiagramForm->text->GetAt(rowIndex)->GetLength()) {
-	//		row->Insert(this->characterIndex, tapText.Clone());
-	//	}
-	//	else {
-	//		row->Add(tapText.Clone());
-	//	}
-	//	this->characterIndex++;
-	//	break;
+	//   if (this->characterIndex < this->classDiagramForm->text->GetAt(rowIndex)->GetLength()) {
+	//      row->Insert(this->characterIndex, tapText.Clone());
+	//   }
+	//   else {
+	//      row->Add(tapText.Clone());
+	//   }
+	//   this->characterIndex++;
+	//   break;
 	//default: this->koreanEnglish = 0;
-	//	break;
+	//   break;
 	//}
 	this->koreanEnglish = 0;
 
 	Invalidate();
 
 	//if (nChar == VK_ESCAPE) { // ESC 키
-	//	CFrameWnd::OnClose();
+	//   CFrameWnd::OnClose();
 	//}
 	//if (nChar == VK_RETURN) { // 엔터
-	//	if (GetKeyState(VK_CONTROL) >= 0) {
-	//		CFrameWnd::OnClose();
-	//	}
+	//   if (GetKeyState(VK_CONTROL) >= 0) {
+	//      CFrameWnd::OnClose();
+	//   }
 	//}
 }
 

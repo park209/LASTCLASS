@@ -8,6 +8,7 @@
 #include"Selection.h"
 
 #include"Aggregations.h"
+#include"Class.h"
 
 AggregationsButton::AggregationsButton() {
 
@@ -26,12 +27,11 @@ void AggregationsButton::ChangeState(DrawingController *drawingController, Long 
 }
 
 void AggregationsButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
-	if (selection->GetLength() == 1) {
-		//Long endClass = this->diagram->Find(this->currentX, this->currentY);//자기자신 연결시 0 0 0 0 값 저장됨.. 수정요 2017_09_09
-		//Long x = this->currentX;
-		//Long y = this->currentY;
+	if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
+
 		selection->FindByPoint(diagram, currentX, currentY);
-		if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1)) {
+
+		if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {
 
 			CPoint line1Start;
 			CPoint line1End;
@@ -118,7 +118,69 @@ void AggregationsButton::AddToArray(Diagram *diagram, Selection *selection, Long
 		}
 	}
 }
+void AggregationsButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+	cPaintDc->MoveTo(startX, startY);
+	cPaintDc->LineTo(currentX, currentY);
 
+	CBrush white(RGB(255, 255, 255));
+	CBrush myBrush;
+	myBrush.CreateSolidBrush(RGB(255, 255, 255));
+	CBrush *oldBrush = cPaintDc->SelectObject(&myBrush);
+
+	double degree = atan2(currentX - startX, startY - currentY); // 기울기
+
+	double distance = sqrt(pow(currentX - startX, 2) + pow(startY - currentY, 2));
+	// 루트안에 = 루트(제곱(
+	double dX = (currentX) - (15 * (currentX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (currentY) + (15 * (startY - currentY) / distance); //뒤로 온 기준점 y
+
+																					  // 수직 기울기
+
+	CPoint pts[3];
+
+	pts[0].x = (currentX); //마우스 현재위치 점
+	pts[0].y = (currentY);
+
+	pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
+	pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+	pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
+	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+
+	cPaintDc->MoveTo(pts[0].x, pts[0].y);
+	cPaintDc->LineTo(pts[1].x, pts[1].y);
+
+	cPaintDc->MoveTo(pts[0].x, pts[0].y);
+	cPaintDc->LineTo(pts[2].x, pts[2].y);
+
+
+	//여기까지 화살표 다음부터 마름모
+
+	dX = (startX) + (15 * (currentX - startX) / distance); //뒤로 온 기준점 x
+	dY = (startY) - (15 * (startY - currentY) / distance); //뒤로 온 기준점 y
+
+	double dX2 = (startX) - ((currentX - startX) / distance);
+	double dY2 = (startY) + ((startY - currentY) / distance);
+
+	CPoint pts2[4];
+
+	pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
+	pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+	pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+	pts2[1].y = static_cast<LONG>(dY2);
+
+	pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
+	pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+
+	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(15 * (currentX - startX) / distance); // 윗점
+	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(15 * (startY - currentY) / distance);
+
+	cPaintDc->SelectObject(&white);
+	cPaintDc->Polygon(pts2, 4);
+	cPaintDc->SelectObject(oldBrush);
+	myBrush.DeleteObject();
+}
 AggregationsButton& AggregationsButton::operator=(const AggregationsButton& source) {
 	return const_cast<AggregationsButton&>(source);
 }

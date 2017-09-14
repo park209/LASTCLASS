@@ -18,9 +18,10 @@ class Relation : public Figure {
 public:
 	Relation();
 	Relation(const Relation& source);
-
+	Relation(Long x, Long y, Long width, Long height);
 	virtual ~Relation() = 0;
 	Relation& operator = (const Relation& source);
+
 	//void Accept(Visitor& visitor, CDC* cPaintDc);// CDC *cPaintDc
 	Figure* Clone()const = 0;
 };
