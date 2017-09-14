@@ -416,51 +416,51 @@ void ClassDiagramForm::OnPaint() {
 }
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	char nCharacter = nChar;
-	Long key = -1;
+	//Long key = -1;
 
-	if (nChar == 48) {
-		key = 0;
-	}
-	if (nChar == 49) {
-		key = 1;
-	}
-	if (nChar == 50) {
-		key = 2;
-	}
-	if (nChar == 51) {
-		key = 3;
-	}
-	if (nChar == 52) {
-		key = 4;
-	}
-	if (nChar == 53) {
-		key = 5;
-	}
-	if (nChar == 54) {
-		key = 6;
-	}
-	if (nChar == 55) {
-		key = 7;
-	}
-	if (nChar == 56) {
-		key = 8;
-	}
-	if (nChar == 57) {
-		key = 9;
-	}
-	if (nChar == 113) {
-		key = 10;
-	}
-	if (nChar == 119) {
-		key = 11;
-	}
-	if (nChar == 101) {
-		key = 12;
-	}
-	if (nChar == 114) {
-		key = 13;
-	}
-	this->drawingController->ChangeState(key);
+	//if (nChar == 48) {
+	//	key = 0;
+	//}
+	//if (nChar == 49) {
+	//	key = 1;
+	//}
+	//if (nChar == 50) {
+	//	key = 2;
+	//}
+	//if (nChar == 51) {
+	//	key = 3;
+	//}
+	//if (nChar == 52) {
+	//	key = 4;
+	//}
+	//if (nChar == 53) {
+	//	key = 5;
+	//}
+	//if (nChar == 54) {
+	//	key = 6;
+	//}
+	//if (nChar == 55) {
+	//	key = 7;
+	//}
+	//if (nChar == 56) {
+	//	key = 8;
+	//}
+	//if (nChar == 57) {
+	//	key = 9;
+	//}
+	//if (nChar == 113) {
+	//	key = 10;
+	//}
+	//if (nChar == 119) {
+	//	key = 11;
+	//}
+	//if (nChar == 101) {
+	//	key = 12;
+	//}
+	//if (nChar == 114) {
+	//	key = 13;
+	//}
+	this->drawingController->ChangeState(nChar);
 
 	if (this->text->GetLength() == 0) {
 		Row newRow;
@@ -504,7 +504,7 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	//}
 
 	this->currentClassIndex = -1;
-	this->selection->FindByPoint(this->diagram, this->startX, this->startY);
+	//this->selection->FindByPoint(this->diagram, this->startX, this->startY);
 
 
 	KillTimer(1);

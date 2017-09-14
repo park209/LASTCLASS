@@ -17,7 +17,7 @@ public:
 	ButtonState(const ButtonState& source);
 	virtual ~ButtonState();
 
-	virtual void ChangeState(DrawingController *drawingController, Long key)=0;
+	virtual void ChangeState(DrawingController *drawingController, UINT nChar)=0;
 	virtual void AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY);
 	virtual void Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc);
 	ButtonState& operator=(const ButtonState& source);

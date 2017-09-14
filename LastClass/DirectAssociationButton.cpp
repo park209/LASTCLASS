@@ -22,8 +22,8 @@ DirectAssociationButton::~DirectAssociationButton() {
 
 }
 
-void DirectAssociationButton::ChangeState(DrawingController *drawingController, Long key) {
-	ButtonState::ChangeState(drawingController, key);
+void DirectAssociationButton::ChangeState(DrawingController *drawingController, UINT nChar) {
+	ButtonState::ChangeState(drawingController, nChar);
 }
 
 void DirectAssociationButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {

@@ -18,8 +18,8 @@ DrawingController::~DrawingController() {
 	}
 }
 
-void DrawingController::ChangeState(Long key){
-	this->buttonState->ChangeState(this, key);
+void DrawingController::ChangeState(UINT nChar){
+	this->buttonState->ChangeState(this, nChar);
 }
 
 void DrawingController::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
