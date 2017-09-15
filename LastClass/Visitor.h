@@ -31,6 +31,7 @@ class ClassName;
 class Method;
 class Attribute;
 class Selection;
+class Reception;
 
 class Visitor{
 public:
@@ -75,6 +76,9 @@ public:
 	virtual void Visit(Method *method, CDC *cPaintDc) = 0;
 
 	virtual void Visit(Attribute *attribute, CDC *cPaintDc) = 0;
+	
+	virtual void Visit(Reception* reception, CDC* cPaintDc) = 0;
+		
 protected:
 	Visitor();
 };

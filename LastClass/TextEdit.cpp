@@ -10,6 +10,7 @@
 #include "KeyBoard.h"
 #include "Diagram.h"
 #include "Figure.h"
+#include "Class.h"
 
 #include <iostream>
 #include <fstream> //로드세이브할때
@@ -31,61 +32,65 @@ BEGIN_MESSAGE_MAP(TextEdit, CFrameWnd)
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
-TextEdit::TextEdit(Figure *content) {
-	this->caret = 0;
+TextEdit::TextEdit(Figure *figure) {
+	this->caret = NULL;
 	this->rowIndex = 0;
 	this->characterIndex = 0;
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
 	this->currentY = 0;
-	this->count = 0;
-	this->rowHeight = 20;
+	//this->count = 0;
+	this->rowHeight = 17; // 폰트 사이즈
 	this->koreanEnglish = 0;
 	this->flagBuffer = 0;
 	this->flagInsert = 0;
 	this->keyBoard = NULL;
 	this->text = NULL;
-	this->content = content;
+	this->figure = figure;
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct); //override
+
 	this->keyBoard = new KeyBoard;
 	this->caret = new Caret(5, 5, this);
 	this->text = new Text;
-	CPaintDC dc(this);
-	Long i = 0;
 
 	ModifyStyle(WS_CAPTION, 0);
 	//ModifyStyle(0, 0, SetWindowPos(&CWnd::wndTop, this->startY + 5, this->startY + 33, this->width - 5, this->height * 33, 0));
 
-	this->text->SprayString(this->content->GetContent());
+	this->text->SprayString(this->figure->GetContent()); // 넘겨받아온거 자료구조로 뿌려줌 ㅇㅇㅇㅇㅇ
 
 	Invalidate();
-
 	return 0;
 }
 
 void TextEdit::OnPaint() {
 	CPaintDC dc(this);
 	Long i = 0;
-
-	this->count = 0;
-
 	WritingVisitor writingVisitor;
-	this->text->Accept(writingVisitor, &dc);
 
+	CFont m_font;
+	m_font.CreateFont(this->rowHeight, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
+	SetFont(&m_font, TRUE);
+	CFont *oldFont = dc.SelectObject(&m_font);
+
+	this->text->Accept(writingVisitor, &dc);// 받았던거 출력
 	this->caret->MoveToIndex(this->characterIndex, this->rowIndex);
+
+	dc.SelectObject(oldFont);
+	m_font.DeleteObject();
 }
 
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
-	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN && nChar != VK_SPACE && nChar != VK_TAB) {
+	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN && 
+									nChar != VK_SPACE && nChar != VK_TAB) {
 		char nCharacter = nChar;
 		
 		SingleByteCharacter singleByteCharacter(nCharacter);
 
-		//ClassDiagramForm classDiagramForm = FindWindow(NULL, "classDiagram");
 		if (this->characterIndex == this->text->GetAt(rowIndex)->GetLength()) {
 			this->text->GetAt(rowIndex)->Add(singleByteCharacter.Clone());
 		}
@@ -102,7 +107,8 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 
-	CFrameWnd::OnClose();
+	this->OnClose();
+	//CFrameWnd::OnClose();
 }
 
 Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
@@ -182,7 +188,7 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->rowIndex = 0;
 	this->characterIndex = 0;
 
-	if (startX > 5 && startY > 5) {
+	/*if (startX > 5 && startY > 5) {
 		while (height < this->startY && this->rowIndex < this->count) {
 			this->rowIndex++;
 			height += rowHeight;
@@ -191,15 +197,15 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 			this->rowIndex--;
 		}
 
-		/*while (width < this->startX && this->characterIndex < this->text->GetAt(this->GetCurrentClassIndex())->GetLength()) {
+		while (width < this->startX && this->characterIndex < this->text->GetAt(this->GetCurrentClassIndex())->GetLength()) {
 			width += dc.GetTabbedTextExtent(this->text->GetAt(this->GetCurrentClassIndex())->GetAt(this->characterIndex)->MakeCString(), 0, 0).cx;
 			this->characterIndex++;
 		}
 		if (this->characterIndex <= this->text->GetAt(this->GetCurrentClassIndex())->GetLength() && this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetLength() > 0 &&
 			width - dc.GetTabbedTextExtent(this->text->GetAt(this->GetCurrentClassIndex())->GetAt(this->characterIndex - 1)->MakeCString(), 0, 0).cx / 2 > this->startX) {
 			this->characterIndex--;
-		}*/
-	}
+		}
+	}*/
 	//this->caret->MoveToIndex(this->characterIndex, this->rowIndex);
 	Invalidate();
 }
@@ -249,6 +255,16 @@ void TextEdit::OnLButtonDoubleClicked(UINT nFlags, CPoint point) {
 
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->koreanEnglish = 1;
+	if (nChar == VK_OEM_PLUS) {
+		if (GetKeyState(VK_CONTROL) < 0) { //폰트 size
+			this->rowHeight++;
+		}
+	}
+	if (nChar == VK_OEM_MINUS) {
+		if (GetKeyState(VK_CONTROL) < 0) {
+			this->rowHeight--;
+		}
+	}
 
 	this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 
@@ -297,14 +313,17 @@ LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {
 }
 
 void TextEdit::OnClose() {
-	string content = this->text->MakeText();
-	this->content->ReplaceString(content);
+	string content(this->text->MakeText());
+	this->figure->ReplaceString(content);
 
 	if (this->caret != NULL) {
 		delete this->caret;
 	}
 	if (this->keyBoard != NULL) {
 		delete this->keyBoard;
+	}
+	if (this->text != NULL) {
+		delete this->text;
 	}
 
 	CFrameWnd::OnClose();

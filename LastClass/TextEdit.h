@@ -17,7 +17,7 @@ class Caret;
 class Row;
 class TextEdit : public CFrameWnd {
 public:
-	TextEdit(Figure *content);
+	TextEdit(Figure *figure);
 public:
 	//Long Save();
 	//Long Load();
@@ -46,7 +46,7 @@ public:
 	Long GetKoreanEnglish() const;
 	Long GetFlagBuffer() const;
 	Long GetFlagInsert() const;
-	Figure* GetContent() const;
+	Figure* GetFigure() const;
 public:
 	Caret *caret;
 	Long count;
@@ -63,7 +63,7 @@ private:
 	Long koreanEnglish;
 	Long rowHeight;
 	Long flagBuffer;
-	Figure *content;
+	Figure *figure;
 };
 
 inline Long TextEdit::GetRowIndex() const {
@@ -96,8 +96,8 @@ inline Long TextEdit::GetFlagBuffer() const {
 inline Long TextEdit::GetFlagInsert() const {
 	return this->flagInsert;
 }
-inline Figure* TextEdit::GetContent() const {
-	return const_cast<Figure*>(this->content);
+inline Figure* TextEdit::GetFigure() const {
+	return const_cast<Figure*>(this->figure);
 }
 
 #endif // _TEXTEDIT_H

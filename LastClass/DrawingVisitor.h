@@ -20,6 +20,13 @@ public:
 	void Visit(Row* row, CDC* cPaintDc);
 	void Visit(Text* text, CDC* cPaintDc);
 
+	void Visit(ClassName* className, CDC* cPaintDc);
+	void Visit(Attribute* attribute, CDC* cPaintDc);
+	void Visit(Method* method, CDC* cPaintDc);
+	void Visit(Reception* reception, CDC* cPaintDc);
+
+	void Visit(MemoBox* memoBox, CDC* cPaintDc);
+
 	//0904추가	CDC* cPaintDc
 
 	void Visit(Generalization *generalization, CDC* cPaintDc);		//일반화
@@ -42,15 +49,7 @@ public:
 
 	void Visit(Template *object, CDC *cPaintDc);
 
-	void Visit(MemoBox *memoBox, CDC *cPaintDc);   //CDC  *cPaintDc
-
 	void Visit(MemoLine *memoLine, CDC *cPaintDc);
-
-	void Visit(ClassName *className, CDC *cPaintDc);
-
-	void Visit(Method *method, CDC *cPatinDc);
-
-	void Visit(Attribute *attribute, CDC *cPaintDc);
 
 	void Visit(Selection *selection, CDC *cPaintDc);
 };

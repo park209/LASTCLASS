@@ -31,6 +31,7 @@ Figure::Figure(const Figure& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
+	this->content = source.content;
 }
 
 Figure& Figure::operator = (const Figure& source) {
@@ -42,10 +43,9 @@ Figure& Figure::operator = (const Figure& source) {
 	return *this;
 }
 
-Figure::~Figure() {
+void Figure::ReplaceString(string content_) {
+	this->content = content_;
 }
 
-
-void Figure::ReplaceString(string content) {
-	this->content = content;
+Figure::~Figure() {
 }

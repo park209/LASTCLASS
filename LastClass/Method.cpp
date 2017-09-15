@@ -28,10 +28,9 @@ Figure* Method::Clone() const {
 	return new Method(*this);
 }
 
-//void Method::Accept(Visitor& visitor, CDC *cPaintDc) {
-//	//cout << "Method Accept" << endl;
-//	visitor.Visit(this, cPaintDc);
-//}
+void Method::Accept(Visitor& visitor, CDC *cPaintDc) {
+	visitor.Visit(this, cPaintDc);
+}
 
 //#include <iostream>
 //using namespace std;

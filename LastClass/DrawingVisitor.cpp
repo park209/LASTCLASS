@@ -16,6 +16,11 @@
 #include "MemoBox.h"
 #include "Selection.h"
 #include "MemoLine.h"
+#include "ClassName.h"
+#include "Attribute.h"
+#include "Method.h"
+#include "Reception.h"
+
 #include <iostream>
 using namespace std;
 
@@ -45,12 +50,19 @@ void DrawingVisitor::Visit(Line *line, CDC* cPaintDc) {
 
 void DrawingVisitor::Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc) {
 }
-
 void DrawingVisitor::Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc) {
 }
 void DrawingVisitor::Visit(Row* row, CDC* cPaintDc) {
 }
 void DrawingVisitor::Visit(Text* text, CDC* cPaintDc) {
+}
+void DrawingVisitor::Visit(ClassName* className, CDC* cPaintDc) {
+}
+void DrawingVisitor::Visit(Attribute* attribute, CDC* cPaintDc) {
+}
+void DrawingVisitor::Visit(Method* method, CDC* cPaintDc) {
+}
+void DrawingVisitor::Visit(Reception* reception, CDC* cPaintDc) {
 }
 
 void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
@@ -647,14 +659,4 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 	}	
 	
 }
-void DrawingVisitor::Visit(ClassName *className, CDC *cPaintDc) {
 
-}
-
-void DrawingVisitor::Visit(Method *method, CDC *cPatinDc) {
-
-}
-
-void DrawingVisitor::Visit(Attribute *attribute, CDC *cPaintDc) {
-
-}

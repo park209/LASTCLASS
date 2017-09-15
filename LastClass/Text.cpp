@@ -52,19 +52,19 @@ Long Text::Add(TextComponent *textComponent) {
 	return index;
 }
 ///////////////////////////////////////////////////////////////////////////////
-Long Text::Modify(Long index, Long x, Long y, Long rowHeight, Long classID, TextComponent *textComponent) {
-	Row *row = new Row(x, y, rowHeight, classID);
-
-	if (this->length < this->capacity) {
-		index = this->textComponents.Store(this->length, textComponent);
-	}
-	else {
-		index = this->textComponents.AppendFromRear(textComponent);
-		this->capacity++;
-	}
-	this->length++;
-	return index;
-}
+//Long Text::Modify(Long index, Long x, Long y, Long rowHeight, Long classID, TextComponent *textComponent) {
+//	Row *row = new Row(x, y, rowHeight, classID);
+//
+//	if (this->length < this->capacity) {
+//		index = this->textComponents.Store(this->length, textComponent);
+//	}
+//	else {
+//		index = this->textComponents.AppendFromRear(textComponent);
+//		this->capacity++;
+//	}
+//	this->length++;
+//	return index;
+//}
 
 void Text::Find(Long x, Long y, Long height, Row**(*indexes), Long *count) {
 	if (*indexes != 0) {
@@ -110,6 +110,15 @@ void Text::PrintRow(SmartPointer<TextComponent*>& index) {
 	}
 }
 
+//string Text::MakeText() {
+//	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
+//	string text_;
+//	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
+//		text_.append(((Row*)smartPointer->Current())->PrintRowString());
+//	}
+//	return text_;
+//}
+
 string Text::MakeText() {
 	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
 	string text_;
@@ -117,41 +126,106 @@ string Text::MakeText() {
 		text_.append(((Row*)smartPointer->Current())->PrintRowString());
 		text_.append("\n");
 	}
-	//text_.append("\0");
+	LONG i = text_.find_last_of('\n');
+	text_.replace(i, 1, "\0");
+
 	return text_;
 }
 
-void Text::SprayString(string str) {
-	Long index = 0;
+Long Text::MaxWidth() {
+	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
+	Long width = 0;
+	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
+		if (width < ((Row*)smartPointer->Current())->PrintRowString().length()) {
+			width = ((Row*)smartPointer->Current())->PrintRowString().length();
+		}
+	}
+	return width;
+}
+
+//Long Text::MaxHeight() {
+//	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
+//	Long width = 0;
+//	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
+//		if (width < ((Row*)smartPointer->Current())->PrintRowString().length()) {
+//			width = ((Row*)smartPointer->Current())->PrintRowString().length();
+//		}
+//	}
+//	return width;
+//}
+
+void Text::SprayString(string str/*,Long *characterIndex_, Long *rowIndex_*/) {
+	Long i = 0;
 	char character[2] = { 0, };
 	Long temp = 0;
-	Long temp2 = 0;
-	char n = '\n';
 
-	while (index < (Long)str.length()) {
-		Row *row = new Row;
-		temp = str.find(n, index);
-		if (temp == -1) {
-			temp = str.length();
+	if (i == (Long)str.length()) {
+		if (this->GetLength() == 0) {
+			Row row;
+			this->Add(row.Clone());
 		}
-		while (index < temp) {
-			if (str[index] & 0x80) {
-				character[0] = str[index];
-				character[1] = str[index + 1];
-				index++;
+	}
+	while (str[i] != '\0') {
+		Row *row = new Row;
+		while (str[i] != '\n' && str[i] != '\0') {
+			if (str[i] & 0x80) {
+				character[0] = str[i];
+				character[1] = str[i + 1];
+				i++;
 				DoubleByteCharacter doubleTemp(character);
 				row->Add(doubleTemp.Clone());
 			}
 			else {
-				SingleByteCharacter singleTemp(str[index]);
+				SingleByteCharacter singleTemp(str[i]);
 				row->Add(singleTemp.Clone());
 			}
-			index++;
+			i++;
 		}
 		this->Add(row->Clone());
-		index++;
+		if (i < str.length()) {
+			i++;
+		}
+
 	}
 }
+//void Text::SprayString(string str) {
+//	Long i = 0;
+//	Long j;
+//	char character[2] = { 0, };
+//
+//	if (i == (Long)str.length()) {
+//		if (this->GetLength() == 0) {
+//			Row row;
+//			this->Add(row.Clone());
+//		}
+//	}
+//	while (str[i] != '\0') {
+//		Row *row = new Row;
+//		j = i;
+//		while (str[j] != '\n' && str[j] != '\0') {
+//			if (str[j] & 0x80) {
+//				character[0] = str[j];
+//				character[1] = str[j + 1];
+//				j++;
+//				DoubleByteCharacter doubleTemp(character);
+//				row->Add(doubleTemp.Clone());
+//			}
+//			else {
+//				SingleByteCharacter singleTemp(str[j]);
+//				row->Add(singleTemp.Clone());
+//			}
+//			j++;
+//		}
+//		this->Add(row->Clone());
+//
+//		if (j < str.length()) {
+//			i = j + 1;
+//		}
+//		else {
+//			i = j;
+//		}
+//	}
+//}
 
 void Text::Accept(Visitor& visitor, CDC* cPaintDc) {
 	//cout << "Text Accept" << endl;

@@ -106,42 +106,29 @@ void Row::PrintCharacter(SmartPointer<TextComponent*>& index) {
 }
 
 string Row::PrintRowString() {
-	char tempChar[128];
+	char tempChar[256] = { 0, };
 	Long i = 0;
-	Long j = 0;
-	while (i < this->GetLength()) { //row
-		if (dynamic_cast<SingleByteCharacter*>(this->GetAt(i))) { //character
-			tempChar[j] = dynamic_cast<SingleByteCharacter*>(this->GetAt(i))->GetCharacter();
-			j++;
+
+	SmartPointer<TextComponent*> iterator = this->CreateIterator();
+	for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
+		if (dynamic_cast<SingleByteCharacter*>(iterator->Current())) {
+			tempChar[i] = static_cast<SingleByteCharacter*>(iterator->Current())->GetCharacter();
 		}
-		else if (dynamic_cast<DoubleByteCharacter*>(this->GetAt(i))) {
-			tempChar[j] = dynamic_cast<DoubleByteCharacter*>(this->GetAt(i))->GetCharacters()[0];
-			j++;
-			tempChar[j] = dynamic_cast<DoubleByteCharacter*>(this->GetAt(i))->GetCharacters()[1];
-			j++;
+		else if (dynamic_cast<DoubleByteCharacter*>(iterator->Current())) {
+			tempChar[i] = static_cast<DoubleByteCharacter*>(iterator->Current())->GetCharacters()[0];
+			i++;
+			tempChar[i] = static_cast<DoubleByteCharacter*>(iterator->Current())->GetCharacters()[1];
 		}
 		i++;
 	}
-	tempChar[j] = '\0';
-	string tempString(tempChar);
+	//tempChar[i] = '\n';
+	string tempString(tempChar, i);
 
 	return tempString;
 }
 
 void Row::Accept(Visitor& visitor, CDC* cPaintDc) {
-	cout << "Row Accept" << endl;
-	//SmartPointer<TextComponent*> iterator(this->CreateIterator());
-
 	visitor.Visit(this, cPaintDc);
-	/*while (!smartPointer->IsDone()) {
-	if (dynamic_cast<SingleByteCharacter*>(smartPointer->Current())) {
-	(static_cast<SingleByteCharacter*>(smartPointer->Current()))->Accept(visitor, cPaintDc);
-	}
-	else if (dynamic_cast<DoubleByteCharacter*>(smartPointer->Current())) {
-	(static_cast<DoubleByteCharacter*>(smartPointer->Current()))->Accept(visitor, cPaintDc);
-	}
-	smartPointer->Next();
-	}*/
 }
 
 Row& Row::operator = (const Row& source) {
