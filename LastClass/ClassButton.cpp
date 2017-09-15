@@ -44,9 +44,9 @@ Figure* ClassButton::AddToArray(Diagram *diagram, Selection *selection, Long sta
 		currentX - startX, 0);
 	tempClass->Add(startX, (startY + 50 + currentY) / 2,
 		currentX - startX, 0);
-	ClassName className(startX, startY, currentX - startX, 50, "클래스이름");
-	Attribute attribute(startX, startY + 50, currentX - startX, ((startY + 50 + currentY) / 2) - (startY + 50), "속성"); // 내용값은 수정해야함
-	Method method(startX, (startY + 50 + currentY) / 2, currentX - startX, currentY - ((startY + 50 + currentY) / 2), "메소드");
+	ClassName className(startX, startY, currentX - startX, 50, "");
+	Attribute attribute(startX, startY + 50, currentX - startX, ((startY + 50 + currentY) / 2) - (startY + 50), ""); // 내용값은 수정해야함
+	Method method(startX, (startY + 50 + currentY) / 2, currentX - startX, currentY - ((startY + 50 + currentY) / 2), "");
 	tempClass->Add(className.Clone());
 	tempClass->Add(attribute.Clone());
 	tempClass->Add(method.Clone());

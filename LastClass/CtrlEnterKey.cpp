@@ -1,22 +1,16 @@
 //CtrlEnterKey.cpp
 
 #include "CtrlEnterKey.h"
-#include "ClassDiagramForm.h"
 #include "TextEdit.h"
 #include "Text.h"
 #include "Row.h"
-#include "KeyBoard.h"
-#include "KeyAction.h"
 
 CtrlEnterKey::CtrlEnterKey() {
 }
-
 CtrlEnterKey::CtrlEnterKey(const CtrlEnterKey& source) {
 }
-
 CtrlEnterKey::~CtrlEnterKey() {
 }
-
 void CtrlEnterKey::KeyPress(TextEdit *textEdit) {
 	//if (GetKeyState(VK_CONTROL) < 0) {
 	//	textEdit->rowIndex = textEdit->text->InsertRow(textEdit->GetContent(), textEdit->GetFormY(), textEdit->GetRowHeight(), textEdit->classDiagramForm->GetCurrentClassIndex(), textEdit->GetRowIndex());
@@ -34,8 +28,4 @@ void CtrlEnterKey::KeyPress(TextEdit *textEdit) {
 	//	}
 	//	textEdit->characterIndex = 0;
 	//}
-
-	if (textEdit->keyBoard->keyAction != 0) {
-		delete textEdit->keyBoard->keyAction;
-	}
 }

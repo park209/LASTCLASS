@@ -4,23 +4,17 @@
 #include "TextEdit.h"
 #include "Text.h"
 #include "Row.h"
-#include <afxwin.h>
+#include "Character.h"
 
 Caret::Caret() {
-	this->x = 0;
-	this->y = 0;
 	this->textEdit = 0;
 }
 
-Caret::Caret(Long x, Long y, TextEdit *textEdit) {
-	this->x = x;
-	this->y = y;
+Caret::Caret(TextEdit *textEdit) {
 	this->textEdit = textEdit;
 }
 
 Caret::Caret(const Caret& source) {
-	this->x = source.x;
-	this->y = source.y;
 	this->textEdit = source.textEdit;
 }
 
@@ -28,17 +22,17 @@ Caret::~Caret() {
 
 }
 
-void Caret::MoveToIndex(Long characterIndex, Long rowIndex) {
-	CPaintDC dc(this->textEdit);
-	Long pointX = 5;
-	Long pointY = rowIndex * this->textEdit->GetRowHeight() + 5;
+void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
+	Long pointX = 5;																//가로
+	Long pointY = textEdit->GetRowIndex() * textEdit->GetRowHeight() + 5;			//세로
 	Long i = 0;
 
-	while (i < characterIndex) {
-		//pointX += dc.GetTabbedTextExtent(this->textEdit->text->GetAt(rowIndex)->GetAt(i)->MakeCString(), 0, 0).cx;
+	while (i < textEdit->GetCharacterIndex()) {
+		pointX += dc->GetTabbedTextExtent(textEdit->text->GetAt(textEdit->GetRowIndex())->GetAt(i)->MakeCString(), 0, 0).cx;
 		i++;
 	}
-	this->textEdit->CreateSolidCaret(5, 20);
+
+	this->textEdit->CreateSolidCaret(5, textEdit->GetRowHeight());
 	if (this->textEdit->GetFlagBuffer() == 1) {
 		this->textEdit->CreateSolidCaret(-20, 20);
 	}
@@ -47,8 +41,6 @@ void Caret::MoveToIndex(Long characterIndex, Long rowIndex) {
 }
 
 Caret& Caret::operator = (const Caret& source) {
-	this->x = source.x;
-	this->y = source.y;
 	this->textEdit = source.textEdit;
 
 	return *this;

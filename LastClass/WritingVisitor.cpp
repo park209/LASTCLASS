@@ -27,7 +27,7 @@ void WritingVisitor::Visit(ClassName* className, CDC* cPaintDc) {
 	cPaintDc->DrawText((CString)className->GetContent().c_str(), &rt, DT_EDITCONTROL | DT_EXPANDTABS);
 }
 void WritingVisitor::Visit(Attribute* attribute, CDC* cPaintDc) {
-	RECT rt = { attribute->GetX() + 5 , attribute->GetY() + 5, attribute->GetX() + 5 + attribute->GetWidth(), attribute->GetY() + 5 +attribute->GetHeight() };
+	RECT rt = { attribute->GetX() + 5 , attribute->GetY() + 5, attribute->GetX() + 5 + attribute->GetWidth(), attribute->GetY() + 5 + attribute->GetHeight() };
 	cPaintDc->DrawText((CString)attribute->GetContent().c_str(), &rt, DT_EDITCONTROL | DT_EXPANDTABS);
 }
 void WritingVisitor::Visit(Method* method, CDC* cPaintDc) {
@@ -61,11 +61,11 @@ void WritingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 void WritingVisitor::Visit(MemoLine *memoLine, CDC *cPaintDc) {
 }
 void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
-	Long fontWidth = cPaintDc->GetTextExtent("A").cx;
+	Long fontWidth = cPaintDc->GetTextExtent("한").cx;
 	Long fontHeight = cPaintDc->GetTextExtent("A").cy; // rowHeight 구하는방법
 	Long textWidth = text->MaxWidth();
 	// 맥스하이트 
 
-	RECT rt = { 5 , 5, textWidth*fontWidth + 10, text->GetLength() * fontHeight + 5 };
+	RECT rt = { 5 , 5, textWidth*fontWidth + 5, text->GetLength() * fontHeight + 5 };
 	cPaintDc->DrawText((CString)text->MakeText().c_str(), &rt, DT_EDITCONTROL | DT_EXPANDTABS);
 }

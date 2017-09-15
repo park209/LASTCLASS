@@ -33,9 +33,12 @@ BEGIN_MESSAGE_MAP(TextEdit, CFrameWnd)
 END_MESSAGE_MAP()
 
 TextEdit::TextEdit(Figure *figure) {
+	this->text = NULL;
 	this->caret = NULL;
+	this->keyBoard = NULL;
 	this->rowIndex = 0;
 	this->characterIndex = 0;
+	this->figure = figure;
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
@@ -44,17 +47,14 @@ TextEdit::TextEdit(Figure *figure) {
 	this->koreanEnglish = 0;
 	this->flagBuffer = 0;
 	this->flagInsert = 0;
-	this->keyBoard = NULL;
-	this->text = NULL;
-	this->figure = figure;
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct); //override
 
-	this->keyBoard = new KeyBoard;
-	this->caret = new Caret(5, 5, this);
 	this->text = new Text;
+	this->caret = new Caret(this);
+	this->keyBoard = new KeyBoard;
 
 	ModifyStyle(WS_CAPTION, 0);
 	//ModifyStyle(0, 0, SetWindowPos(&CWnd::wndTop, this->startY + 5, this->startY + 33, this->width - 5, this->height * 33, 0));
@@ -84,15 +84,31 @@ void TextEdit::OnPaint() {
 
 	this->text->Accept(writingVisitor, &dc);// 받았던거 출력
 
-	this->caret->MoveToIndex(this->characterIndex, this->rowIndex);
+	this->caret->MoveToIndex(this, &dc);
 
 	dc.SelectObject(oldFont);
 	m_font.DeleteObject();
 }
 
-void TextEdit::OnKillFocus(CWnd *pNewWnd) {
+void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
+	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN &&
+		nChar != VK_SPACE && nChar != VK_TAB) {
+		char nCharacter = nChar;
 
-	this->OnClose();
+		SingleByteCharacter singleByteCharacter(nCharacter);
+
+		if (this->characterIndex == this->text->GetAt(rowIndex)->GetLength()) {
+			this->text->GetAt(rowIndex)->Add(singleByteCharacter.Clone());
+		}
+		else if (this->characterIndex < this->text->GetAt(rowIndex)->GetLength() && this->flagInsert == 0) {
+			this->text->GetAt(rowIndex)->Insert(this->characterIndex, singleByteCharacter.Clone());
+		}
+		else if (this->characterIndex < this->text->GetAt(rowIndex)->GetLength() && this->flagInsert == 1) {
+			this->text->GetAt(rowIndex)->Modify(this->characterIndex, singleByteCharacter.Clone());
+		}
+		this->characterIndex++;
+	}
+	Invalidate();
 }
 
 Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
@@ -163,25 +179,9 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
-	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN &&
-		nChar != VK_SPACE && nChar != VK_TAB) {
-		char nCharacter = nChar;
+void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 
-		SingleByteCharacter singleByteCharacter(nCharacter);
-
-		if (this->characterIndex == this->text->GetAt(rowIndex)->GetLength()) {
-			this->text->GetAt(rowIndex)->Add(singleByteCharacter.Clone());
-		}
-		else if (this->characterIndex < this->text->GetAt(rowIndex)->GetLength() && this->flagInsert == 0) {
-			this->text->GetAt(rowIndex)->Insert(this->characterIndex, singleByteCharacter.Clone());
-		}
-		else if (this->characterIndex < this->text->GetAt(rowIndex)->GetLength() && this->flagInsert == 1) {
-			this->text->GetAt(rowIndex)->Modify(this->characterIndex, singleByteCharacter.Clone());
-		}
-		this->characterIndex++;
-	}
-	Invalidate();
+	this->OnClose();
 }
 
 void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
@@ -211,7 +211,7 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->characterIndex--;
 	}
 	}*/
-	this->caret->MoveToIndex(this->characterIndex, this->rowIndex);
+	this->caret->MoveToIndex(this, &dc);
 	Invalidate();
 }
 

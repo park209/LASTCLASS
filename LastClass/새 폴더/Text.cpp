@@ -1,0 +1,351 @@
+//Text.cpp 
+#include "Text.h"
+#include "SingleByteCharacter.h"
+#include "DoubleByteCharacter.h"
+#include "WritingVisitor.h"
+#include "Row.h"
+
+Text::Text(Long capacity) : TextComposite(capacity) {
+	this->capacity = capacity;
+	this->length = 0;
+}
+Text::~Text() {
+}
+
+Text::Text(const Text& source) {
+	this->textComponents = source.textComponents;
+
+	Long i = 0;
+	while (i < source.length) {
+		this->textComponents.Modify(i, (const_cast<Text&>(source)).textComponents[i]->Clone());
+		i++;
+	}
+	this->capacity = source.capacity;
+	this->length = source.length;
+}
+
+Long Text::Add(Row *row) {
+	Long index;
+
+	if (this->length < this->capacity) {
+		index = this->textComponents.Store(this->length, row->Clone());
+	}
+	else {
+		index = this->textComponents.AppendFromRear(row->Clone());
+		this->capacity++;
+	}
+	this->length++;
+	return index;
+}
+
+Long Text::Add(TextComponent *textComponent) {
+	Long index;
+
+	if (this->length < this->capacity) {
+		index = this->textComponents.Store(this->length, textComponent);
+	}
+	else {
+		index = this->textComponents.AppendFromRear(textComponent);
+		this->capacity++;
+	}
+	this->length++;
+	return index;
+}
+///////////////////////////////////////////////////////////////////////////////
+//Long Text::Modify(Long index, Long x, Long y, Long rowHeight, Long classID, TextComponent *textComponent) {
+//	Row *row = new Row(x, y, rowHeight, classID);
+//
+//	if (this->length < this->capacity) {
+//		index = this->textComponents.Store(this->length, textComponent);
+//	}
+//	else {
+//		index = this->textComponents.AppendFromRear(textComponent);
+//		this->capacity++;
+//	}
+//	this->length++;
+//	return index;
+//}
+
+void Text::Find(Long x, Long y, Long height, Row**(*indexes), Long *count) {
+	if (*indexes != 0) {
+		delete *indexes;
+		*indexes = 0;
+	}
+	*indexes = new Row*[128];
+	Long i = 0;
+	Long j = 0;
+	while (i < this->GetLength()) {
+		if (this->GetAt(i)->GetX() == x && this->GetAt(i)->GetY() >= y && this->GetAt(i)->GetY() <= y + height) {
+			(*indexes)[j] = (Row*)(this->GetAt(i)->Clone());
+			j++;
+			*count += 1;
+		}
+		i++;
+	}
+}
+
+Long Text::Remove(Long index) {
+	index = this->textComponents.Delete(index);
+	this->length--;
+	this->capacity--;
+	return index;
+}
+
+
+Row* Text::GetAt(Long index) {
+	return dynamic_cast<Row*>(this->textComponents[index]);
+}
+
+TextComponent* Text::Clone() const {
+	return new Text(*this);
+}
+
+#include <iostream>
+using namespace std;
+
+void Text::PrintRow(SmartPointer<TextComponent*>& index) {
+	
+	for (index->First(); !index->IsDone(); index->Next()) {
+		cout << "PrintRow 확인" << endl;
+	}
+}
+
+//string Text::MakeText() {
+//	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
+//	string text_;
+//	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
+//		text_.append(((Row*)smartPointer->Current())->PrintRowString());
+//	}
+//	return text_;
+//}
+
+string Text::MakeText() {
+	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
+	string text_;
+	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
+		text_.append(((Row*)smartPointer->Current())->PrintRowString());
+		text_.append("\n");
+	}
+	LONG i = text_.find_last_of('\n');
+	text_.replace(i, 1, "\0");
+
+	return text_;
+}
+
+Long Text::MaxWidth() {
+	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
+	Long width = 0;
+	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
+		if (width < ((Row*)smartPointer->Current())->PrintRowString().length()) {
+			width = ((Row*)smartPointer->Current())->PrintRowString().length();
+		}
+	}
+	return width;
+}
+
+//Long Text::MaxHeight() {
+//	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
+//	Long width = 0;
+//	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
+//		if (width < ((Row*)smartPointer->Current())->PrintRowString().length()) {
+//			width = ((Row*)smartPointer->Current())->PrintRowString().length();
+//		}
+//	}
+//	return width;
+//}
+
+void Text::SprayString(string str/*,Long *characterIndex_, Long *rowIndex_*/) {
+	Long i = 0;
+	char character[2] = { 0, };
+	Long temp = 0;
+
+	if (i == (Long)str.length()) {
+		if (this->GetLength() == 0) {
+			Row row;
+			this->Add(row.Clone());
+		}
+	}
+	while (str[i] != '\0') {
+		Row *row = new Row;
+		while (str[i] != '\n' && str[i] != '\0') {
+			if (str[i] & 0x80) {
+				character[0] = str[i];
+				character[1] = str[i + 1];
+				i++;
+				DoubleByteCharacter doubleTemp(character);
+				row->Add(doubleTemp.Clone());
+			}
+			else {
+				SingleByteCharacter singleTemp(str[i]);
+				row->Add(singleTemp.Clone());
+			}
+			i++;
+		}
+		this->Add(row->Clone());
+		if (i < str.length()) {
+			i++;
+		}
+
+	}
+}
+//void Text::SprayString(string str) {
+//	Long i = 0;
+//	Long j;
+//	char character[2] = { 0, };
+//
+//	if (i == (Long)str.length()) {
+//		if (this->GetLength() == 0) {
+//			Row row;
+//			this->Add(row.Clone());
+//		}
+//	}
+//	while (str[i] != '\0') {
+//		Row *row = new Row;
+//		j = i;
+//		while (str[j] != '\n' && str[j] != '\0') {
+//			if (str[j] & 0x80) {
+//				character[0] = str[j];
+//				character[1] = str[j + 1];
+//				j++;
+//				DoubleByteCharacter doubleTemp(character);
+//				row->Add(doubleTemp.Clone());
+//			}
+//			else {
+//				SingleByteCharacter singleTemp(str[j]);
+//				row->Add(singleTemp.Clone());
+//			}
+//			j++;
+//		}
+//		this->Add(row->Clone());
+//
+//		if (j < str.length()) {
+//			i = j + 1;
+//		}
+//		else {
+//			i = j;
+//		}
+//	}
+//}
+
+void Text::Accept(Visitor& visitor, CDC* cPaintDc) {
+	//cout << "Text Accept" << endl;
+	WritingVisitor writingVisitor;
+	visitor.Visit(this, cPaintDc);
+}
+
+Long Text::InsertRow(Long formX, Long formY, Long rowHeight, Long classID, Long index) {
+	Row *row = new Row(formX, formY - 28 + (index + 1) * rowHeight, rowHeight, classID);
+	index = this->textComponents.Insert(index + 1, row->Clone());
+	this->capacity++;
+	this->length++;
+
+	return index;
+}
+
+Row* Text::operator [] (Long index) {
+	return dynamic_cast<Row*>(this->textComponents[index]);
+}
+
+Text& Text::operator = (const Text& source) {
+	Long i = 0;
+	this->textComponents = source.textComponents;
+
+	while (i < source.length) {
+		this->textComponents.Modify(i, (const_cast<Text&>(source)).textComponents.GetAt(i)->Clone());
+		i++;
+	}
+	this->capacity = source.capacity;
+	this->length = source.length;
+	return *this;
+}
+
+
+//#include <iostream>
+//using namespace std;
+//
+//#include "SingleByteCharacter.h"
+//#include "DoubleByteCharacter.h"
+//#include "Character.h"
+//#include "WritingVisitor.h"
+//
+//#include <iostream>
+//
+//#include <string>
+//
+//using namespace std;
+//
+//int main(int argc, char* argv[]) {
+//	Text object1(100); //디폴트생성자 확인
+//	cout << object1.GetCapacity() << " " << object1.GetLength() << endl;
+//
+//	Text object2(object1); // 복사생성자 확인
+//	cout << object2.GetCapacity() << " " << object2.GetLength() << endl;
+//
+//	SingleByteCharacter singleByte('A');
+//	
+//	Row rowObject1(100);
+//	Row rowObject2;
+//	Row rowObject3;
+//
+//	DoubleByteCharacter doubleByte("안"); // 1
+//	rowObject1.Add(doubleByte.Clone());
+//	DoubleByteCharacter doubleByte2("녕"); // 1
+//	rowObject1.Add(doubleByte2.Clone());
+//	DoubleByteCharacter doubleByte3("하"); // 2
+//	rowObject2.Add(doubleByte3.Clone());
+//	DoubleByteCharacter doubleByte4("세"); // 2
+//	rowObject2.Add(doubleByte4.Clone());
+//	DoubleByteCharacter doubleByte5(" !"); // 3
+//	rowObject3.Add(doubleByte5.Clone());
+//	SingleByteCharacter singleByte1('C'); // 3
+//	rowObject3.Add(singleByte1.Clone());
+//	SingleByteCharacter singleByte2('A'); // 3
+//	rowObject3.Add(singleByte2.Clone());
+//	SingleByteCharacter singleByte3('E'); // 2
+//	rowObject2.Add(singleByte3.Clone());
+//	SingleByteCharacter singleByte4('C'); // 1
+//	rowObject1.Add(singleByte4.Clone());
+//
+//	object1.Add(rowObject1.Clone());
+//	object1.Add(rowObject2.Clone());
+//	object1.Add(rowObject3.Clone());
+//
+//	string testString;
+//	Long i = 0;
+//
+//	while (i < object1.GetAt(0)->GetLength()) {
+//
+//		char testDouble[3] = { static_cast<DoubleByteCharacter*>(object1.GetAt(0)->GetAt(i))->GetCharacters()[0],
+//								static_cast<DoubleByteCharacter*>(object1.GetAt(0)->GetAt(i))->GetCharacters()[1], '\0' };
+//		testString = testDouble;
+//		cout << testDouble;
+//		i++;
+//	}
+//	
+//	cout << endl << endl << "저장하고 출력까지 확인" << endl << endl;
+//
+//	SmartPointer<TextComponent*> testIterator = object1.CreateIterator();
+//	object1.PrintRow(testIterator);
+//
+//	SmartPointer<TextComponent*> testIterator2 = object1.GetAt(0)->CreateIterator();
+//	object1.GetAt(0)->PrintCharacter(testIterator2);
+//	
+//	cout << endl << endl << "Iterator SmartPointer 까지 확인" << endl << endl;
+//	
+//	WritingVisitor testWritingVisitor;
+//
+//	if (dynamic_cast<SingleByteCharacter*>(object1.GetAt(0)->GetAt(0))) {
+//		static_cast<SingleByteCharacter*>(object1.GetAt(0)->GetAt(0))->Accept(testWritingVisitor);
+//	}
+//	else if (dynamic_cast<DoubleByteCharacter*>(object1.GetAt(0)->GetAt(0))) {
+//		static_cast<DoubleByteCharacter*>(object1.GetAt(0)->GetAt(0))->Accept(testWritingVisitor);
+//	}
+//
+//	object1.GetAt(0)->Accept(testWritingVisitor);
+//	cout << endl;
+//	object1.Accept(testWritingVisitor);
+//
+//
+//
+//	return 0;
+//}
