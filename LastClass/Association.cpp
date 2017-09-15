@@ -3,7 +3,7 @@
 
 #include "Association.h"
 
-Association::Association() :Relation(){
+Association::Association(Long capacity) :Relation(capacity){
 }
 
 Association::Association(Long x, Long y, Long width, Long height):Relation(x,y,width,height) {

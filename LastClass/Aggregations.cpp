@@ -1,6 +1,6 @@
 #include "Aggregations.h"
 
-Aggregations::Aggregations():Relation(){
+Aggregations::Aggregations(Long capacity):Relation(capacity){
 
 }
 

@@ -4,7 +4,7 @@
 #include"DrawingController.h"
 #include "Selection.h"
 #include "Line.h"
-
+#include"Relation.h"
 
 
 Unclicked::Unclicked() {
@@ -24,7 +24,17 @@ void Unclicked::ChangeState(DrawingController *drawingController, UINT nChar) {
 }
 
 Figure* Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
-	return 0;
+	
+	CPoint cPoint;
+	cPoint.x = currentX;
+	cPoint.y = currentY;
+		if (dynamic_cast<Relation*>(selection->GetAt(0))) {
+			
+			static_cast<Relation*>(selection->GetAt(0))->Add(cPoint);
+			
+			
+		}
+	return  static_cast<Relation*>(selection->GetAt(0));
 }
 
 void Unclicked::Draw(Selection *selection,Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
@@ -43,10 +53,7 @@ void Unclicked::Draw(Selection *selection,Long startX, Long startY, Long current
 		cPaintDc->MoveTo(startX, currentY);
 		cPaintDc->LineTo(currentX, currentY);
 	}
-	//cPaintDc->Rectangle(startX, startY, currentX, currentY);
-	//cPaintDc->SelectObject(oldPen);
-	//pen.DeleteObject();
-
+	
 	
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;
@@ -75,6 +82,10 @@ void Unclicked::Draw(Selection *selection,Long startX, Long startY, Long current
 				j++;
 			}
 		}
+		//20170915
+	   /*else if () {
+
+		}*/
 		i++;
 	}
 

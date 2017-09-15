@@ -1,6 +1,6 @@
 #include "Dependency.h"
 
-Dependency::Dependency():Relation(){
+Dependency::Dependency(Long capacity):Relation( capacity){
 
 }
 

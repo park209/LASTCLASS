@@ -396,8 +396,9 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	}
 
 	Figure *figure = 0;
-	if (this->startX != this->currentX && this->startY != this->currentY) {
+	if (this->startX != this->currentX || this->startY != this->currentY) {
 		figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
+	
 	}
 
 	//if (dynamic_cast<Class*>(figure)) {

@@ -3,7 +3,7 @@
 
 #include "DirectedAssociation.h"
 
-DirectedAssociation::DirectedAssociation() :Relation(){
+DirectedAssociation::DirectedAssociation(Long capacity) :Relation( capacity){
 
 }
 

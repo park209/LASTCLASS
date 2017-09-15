@@ -17,6 +17,7 @@
 #include "Selection.h"
 #include "MemoLine.h"
 #include <iostream>
+#include <afxwin.h>
 using namespace std;
 
 DrawingVisitor::DrawingVisitor() {
@@ -54,12 +55,27 @@ void DrawingVisitor::Visit(Text* text, CDC* cPaintDc) {
 }
 
 void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
+	Long aa = generalization->GetCapacity();
 
 	Long startX = generalization->GetX();
 	Long startY = generalization->GetY();
-	Long endX = generalization->GetWidth() + generalization->GetX();
-	Long endY = generalization->GetHeight() + generalization->GetY();
-	//cout << "일반화출력" << " " << x << " " << y << " " << width << " " << height <<  endl;
+	Long endX;
+	Long endY;
+	Long i = 0;
+	while (i < generalization->GetLength()) {
+		//CPoint cPoint = generalization->GetAt(i);
+		//endX = cPoint.x;
+		//endY = cPoint.y;
+		endX = generalization->GetAt(i).x;
+		endY = generalization->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+	endX = generalization->GetWidth() + generalization->GetX();
+	endY = generalization->GetHeight() + generalization->GetY();
 
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
@@ -145,11 +161,32 @@ void DrawingVisitor::Visit(Realization *realization, CDC* cPaintDc) {
 
 void DrawingVisitor::Visit(Dependency *dependency, CDC* cPaintDc) {
 
+	//Long startX = dependency->GetX();
+	//Long startY = dependency->GetY();
+	//Long endX;
+	//Long endY;
+	//Long i = 0;
+	//while (i < dependency->GetLength()) {
+	//	CPoint cPoint = dependency->GetAt(i);
+	//	endX = cPoint.x;
+	//	endY = cPoint.y;
+	//	cPaintDc->MoveTo(startX, startY);
+	//	cPaintDc->LineTo(endX, endY);
+	//	startX = endX;
+	//	startY = endY;
+	//	i++;
+	//}
+	//endX = dependency->GetWidth() + dependency->GetX();
+	//endY = dependency->GetHeight() + dependency->GetY();
+
+	//cPaintDc->MoveTo(startX, startY);
+	//cPaintDc->LineTo(endX, endY);
+
 	Long startX = dependency->GetX();
 	Long  startY = dependency->GetY();
 	Long endX = dependency->GetWidth() + dependency->GetX();
 	Long endY = dependency->GetHeight() + dependency->GetY();
-	//cout << "의존 출력" << " " << x << " " << y << " " << width << " " << height << endl;
+	////cout << "의존 출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
@@ -622,28 +659,43 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 			
 				
 		}
+			Long j = 0;
 				//상태패턴이던 뭐든 적용해야함
-			if (dynamic_cast<Realization*>(selection->GetAt(i)) || dynamic_cast<Generalization*>(selection->GetAt(i)) || dynamic_cast<Dependency*>(selection->GetAt(i)) ||
-				dynamic_cast<Association*>(selection->GetAt(i)) || dynamic_cast<Aggregation*>(selection->GetAt(i)) || dynamic_cast<Aggregations*>(selection->GetAt(i)) ||
-				dynamic_cast<Composition*>(selection->GetAt(i)) || dynamic_cast<Compositions*>(selection->GetAt(i)) || dynamic_cast<DirectedAssociation*>(selection->GetAt(i)) ||
-				dynamic_cast<MemoLine*>(selection->GetAt(i))) {
-			cPaintDc->Rectangle(selection->GetAt(i)->GetX() - 5,
-				selection->GetAt(i)->GetY() - 5,
-				selection->GetAt(i)->GetX() + 5,
-				selection->GetAt(i)->GetY() + 5);
-			cPaintDc->Rectangle(selection->GetAt(i)->GetX() + (selection->GetAt(i)->GetWidth() / 2) - 5,
-				selection->GetAt(i)->GetY() + (selection->GetAt(i)->GetHeight() / 2) - 5,
-				selection->GetAt(i)->GetX() + (selection->GetAt(i)->GetWidth() / 2) + 5,
-				selection->GetAt(i)->GetY() + (selection->GetAt(i)->GetHeight() / 2) + 5);
-			cPaintDc->Rectangle(selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() - 5,
-				selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() - 5,
-				selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() + 5,
-				selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() + 5);
-			
-				
+			if (dynamic_cast<Relation*>(selection->GetAt(i))) {
+				if (static_cast<Relation*>(selection->GetAt(i))->GetLength() == 0) {
+					cPaintDc->Rectangle(selection->GetAt(i)->GetX() - 5,
+						selection->GetAt(i)->GetY() - 5,
+						selection->GetAt(i)->GetX() + 5,
+						selection->GetAt(i)->GetY() + 5);
+					cPaintDc->Rectangle(selection->GetAt(i)->GetX() + (selection->GetAt(i)->GetWidth() / 2) - 5,
+						selection->GetAt(i)->GetY() + (selection->GetAt(i)->GetHeight() / 2) - 5,
+						selection->GetAt(i)->GetX() + (selection->GetAt(i)->GetWidth() / 2) + 5,
+						selection->GetAt(i)->GetY() + (selection->GetAt(i)->GetHeight() / 2) + 5);
+					cPaintDc->Rectangle(selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() - 5,
+						selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() - 5,
+						selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() + 5,
+						selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() + 5);
+				}
+				else {
+					cPaintDc->Rectangle(selection->GetAt(i)->GetX() - 5,
+						selection->GetAt(i)->GetY() - 5,
+						selection->GetAt(i)->GetX() + 5,
+						selection->GetAt(i)->GetY() + 5);
+					cPaintDc->Rectangle(selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() - 5,
+						selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() - 5,
+						selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() + 5,
+						selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() + 5);
+					while (j < dynamic_cast<Relation*>(selection->GetAt(i))->GetLength()) {
+						CPoint cPoint = dynamic_cast<Relation*>(selection->GetAt(i))->GetAt(j);
+						cPaintDc->Rectangle(cPoint.x - 5,
+							cPoint.y - 5,
+							cPoint.x + 5,
+							cPoint.y + 5);
+						j++;
+					}
+				}
 		}
 		i++;
-		
 	}	
 	
 }

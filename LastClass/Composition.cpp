@@ -1,6 +1,6 @@
 #include "Composition.h"
 
-Composition::Composition():Relation(){
+Composition::Composition(Long capacity):Relation(capacity){
 
 }
 

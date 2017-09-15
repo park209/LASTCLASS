@@ -1,6 +1,6 @@
 #include "MemoLine.h"
 
-MemoLine::MemoLine():Relation(){
+MemoLine::MemoLine(Long capacity):Relation( capacity){
 
 }
 

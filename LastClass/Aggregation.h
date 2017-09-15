@@ -12,7 +12,7 @@ typedef signed long int Long;
 
 class Aggregation : public Relation {
 public:
-	Aggregation();
+	Aggregation(Long capacity);
 	Aggregation(Long x, Long y, Long width, Long height);
 	Aggregation(const Aggregation& source);
 	virtual ~Aggregation();

@@ -3,7 +3,7 @@
 
 #include "Aggregation.h"
 
-Aggregation::Aggregation():Relation() {
+Aggregation::Aggregation(Long capacity):Relation(capacity) {
 }
 
 Aggregation::Aggregation(Long x, Long y, Long width, Long height): Relation(x,y,width,height){
