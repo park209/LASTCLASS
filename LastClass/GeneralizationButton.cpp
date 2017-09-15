@@ -152,7 +152,9 @@ void GeneralizationButton::Draw(Selection *selection, Long startX, Long startY, 
 	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
 
 	cPaintDc->SelectObject(&white);
-	cPaintDc->Polygon(pts, 3);
+	if (startX != currentX && startY != currentY) {
+		cPaintDc->Polygon(pts, 3);
+	}
 	cPaintDc->SelectObject(oldBrush);
 	myBrush.DeleteObject();
 }

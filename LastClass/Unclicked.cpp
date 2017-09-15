@@ -3,6 +3,7 @@
 #include"Unclicked.h"
 #include"DrawingController.h"
 #include "Selection.h"
+#include "Line.h"
 
 
 
@@ -43,8 +44,43 @@ void Unclicked::Draw(Selection *selection,Long startX, Long startY, Long current
 		cPaintDc->LineTo(currentX, currentY);
 	}
 	//cPaintDc->Rectangle(startX, startY, currentX, currentY);
+	//cPaintDc->SelectObject(oldPen);
+	//pen.DeleteObject();
+
+	
+	Long distanceX = currentX - startX;
+	Long distanceY = currentY - startY;
+	Long length = selection->GetLength();
+	Long i = 0;
+	Long j;
+	Figure *figure;
+
+	while (i < length) {
+		figure = selection->GetAt(i);
+		//figure->Move(distanceX, distanceY);
+		if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
+			//figure->Move(distanceX, distanceY); // 해당 클래스나 메모 이동
+			cPaintDc->Rectangle(figure->GetX() + distanceX, figure->GetY() + distanceY, figure->GetX() + figure->GetWidth() + distanceX,
+				figure->GetY() + figure->GetHeight()+ distanceY);
+			FigureComposite *figureComposite = static_cast<FigureComposite*>(figure); // 형변환
+			j = 0;
+			while (j < figureComposite->GetLength()) { // 형변환 한게 관리하면 배열 렝스까지
+				figure = figureComposite->GetAt(j);
+				if (dynamic_cast<Line*>(figure)) {
+					cPaintDc->MoveTo(figure->GetX() + distanceX, figure->GetY() + distanceY);
+					cPaintDc->LineTo(figure->GetX() + figure->GetWidth() + distanceX,
+						figure->GetY() + figure->GetHeight() + distanceY);
+				}
+				//figure->Move(distanceX, distanceY);
+				j++;
+			}
+		}
+		i++;
+	}
+
 	cPaintDc->SelectObject(oldPen);
 	pen.DeleteObject();
+	
 }
 
 Unclicked& Unclicked::operator=(const Unclicked& source) {
