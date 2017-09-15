@@ -18,7 +18,7 @@ DeleteKey::~DeleteKey() {
 }
 
 void DeleteKey::KeyPress(TextEdit *textEdit) {
-	if (textEdit->count > 0 && textEdit->GetCharacterIndex() < textEdit->text->GetAt(textEdit->GetRowIndex())->GetLength()) {
+	if (textEdit->GetCharacterIndex() < textEdit->text->GetAt(textEdit->GetRowIndex())->GetLength()) {
 		textEdit->text->GetAt(textEdit->GetRowIndex())->Remove(textEdit->GetCharacterIndex());
 	}
 	if (textEdit->keyBoard->keyAction != 0) {

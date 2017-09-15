@@ -3,10 +3,17 @@
 #ifndef _TEXT_H
 #define _TEXT_H
 
-#include "Row.h"
+#include "TextComposite.h"
+#include <afxwin.h>
+#include <string>
 
 typedef signed long int Long;
 
+using namespace std;
+
+class Row;
+class TextComponent;
+class Visitor;
 class Text : public TextComposite {
 public:
 	Text(Long capacity = 128);
@@ -15,25 +22,22 @@ public:
 
 	Long Add(Row *row);
 	Long Add(TextComponent *textComponent);
-	//Long Modify(Long index, Long x, Long y, Long rowHeight, Long currentClassID, TextComponent *textComponent);
-	void Find(Long x, Long y, Long height, Row**(*indexes), Long *count);
 	Long Remove(Long index);
-	Row* GetAt(Long index);
-
-	TextComponent* Clone() const;
-	void PrintRow(SmartPointer<TextComponent*>& index);
+	Long Insert(Long index);
 	string MakeText();
-	Long MaxWidth();
 	void SprayString(string str);
+	Long MaxWidth();
+	Long MaxHeight();
+	Row* GetAt(Long index);
+	
+	TextComponent* Clone() const;
 	void Accept(Visitor& visitor, CDC* cPaintDc);
-	Long InsertRow(Long formX, Long formY, Long rowHeight, Long classID, Long index);
-
-	Long GetCapacity() const;
-	Long GetLength() const;
 
 	Text& operator = (const Text& source);
 	Row* operator [] (Long index);
 
+	Long GetCapacity() const;
+	Long GetLength() const;
 	Long GetWidth() const;
 	Long GetHeight() const;
 private:

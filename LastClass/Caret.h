@@ -3,10 +3,8 @@
 #ifndef _CARET_H
 #define _CARET_H
 
-#include "TextEdit.h"
-
 typedef signed long int Long;
-
+class TextEdit;
 class Caret {
 public:
 	Caret();
@@ -32,6 +30,5 @@ inline Long Caret::GetX() {
 inline Long Caret::GetY() {
 	return this->y;
 }
-
 
 #endif // _CARET_H

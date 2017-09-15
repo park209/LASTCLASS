@@ -1,5 +1,10 @@
+//Caret.cpp
+
 #include "Caret.h"
+#include "TextEdit.h"
 #include "Text.h"
+#include "Row.h"
+#include <afxwin.h>
 
 Caret::Caret() {
 	this->x = 0;
@@ -30,7 +35,7 @@ void Caret::MoveToIndex(Long characterIndex, Long rowIndex) {
 	Long i = 0;
 
 	while (i < characterIndex) {
-		pointX += dc.GetTabbedTextExtent(this->textEdit->text->GetAt(rowIndex)->GetAt(i)->MakeCString(), 0, 0).cx;
+		//pointX += dc.GetTabbedTextExtent(this->textEdit->text->GetAt(rowIndex)->GetAt(i)->MakeCString(), 0, 0).cx;
 		i++;
 	}
 	this->textEdit->CreateSolidCaret(5, 20);

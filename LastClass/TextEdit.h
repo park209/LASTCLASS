@@ -5,32 +5,29 @@
 
 #include <afxwin.h>
 #include <imm.h>
-#include "ClassDiagramForm.h"
 #include <string>
-using namespace std;
 
 typedef signed long int Long;
 
+class Text;
 class Figure;
-class KeyBoard;
 class Caret;
-class Row;
+class KeyBoard;
 class TextEdit : public CFrameWnd {
 public:
 	TextEdit(Figure *figure);
-public:
-	//Long Save();
-	//Long Load();
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
-	afx_msg void OnKillFocus(CWnd *pNewWnd);
 	afx_msg Long OnComposition(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnKillFocus(CWnd *pNewWnd);
+
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDoubleClicked(UINT nFlags, CPoint point);
+
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg LRESULT OnIMENotify(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnClose();
@@ -38,6 +35,9 @@ protected:
 public:
 	Long GetRowIndex() const;
 	Long GetCharacterIndex() const;
+	Long GetFlagInsert() const;
+
+	Figure* GetFigure() const;
 	Long GetStartX() const;
 	Long GetStartY() const;
 	Long GetCurrentX() const;
@@ -45,25 +45,22 @@ public:
 	Long GetRowHeight() const;
 	Long GetKoreanEnglish() const;
 	Long GetFlagBuffer() const;
-	Long GetFlagInsert() const;
-	Figure* GetFigure() const;
 public:
+	Text *text;
 	Caret *caret;
-	Long count;
+	KeyBoard *keyBoard;
 	Long rowIndex;
 	Long characterIndex;
-	KeyBoard *keyBoard;
 	Long flagInsert;
-	Text *text;
 private:
+	Figure *figure;
 	Long startX;
 	Long startY;
 	Long currentX;
 	Long currentY;
-	Long koreanEnglish;
 	Long rowHeight;
+	Long koreanEnglish;
 	Long flagBuffer;
-	Figure *figure;
 };
 
 inline Long TextEdit::GetRowIndex() const {
@@ -71,6 +68,13 @@ inline Long TextEdit::GetRowIndex() const {
 }
 inline Long TextEdit::GetCharacterIndex() const {
 	return this->characterIndex;
+}
+inline Long TextEdit::GetFlagInsert() const {
+	return this->flagInsert;
+}
+
+inline Figure* TextEdit::GetFigure() const {
+	return const_cast<Figure*>(this->figure);
 }
 inline Long TextEdit::GetStartX() const {
 	return this->startX;
@@ -92,12 +96,6 @@ inline Long TextEdit::GetKoreanEnglish() const {
 }
 inline Long TextEdit::GetFlagBuffer() const {
 	return this->flagBuffer;
-}
-inline Long TextEdit::GetFlagInsert() const {
-	return this->flagInsert;
-}
-inline Figure* TextEdit::GetFigure() const {
-	return const_cast<Figure*>(this->figure);
 }
 
 #endif // _TEXTEDIT_H

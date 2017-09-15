@@ -183,9 +183,6 @@
     <ClInclude Include="Relation.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="RightArrowKey.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -248,9 +245,6 @@
     <ClCompile Include="AggregationsButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ArrayIterator.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Association.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -264,9 +258,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Caret.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Class.cpp">
@@ -411,9 +402,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TextComponent.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="TextComposite.cpp">

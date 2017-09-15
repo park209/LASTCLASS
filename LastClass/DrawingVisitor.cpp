@@ -2,6 +2,13 @@
 
 #include"DrawingVisitor.h"
 #include "Class.h"
+#include "MemoBox.h"
+#include "Selection.h"
+#include "Template.h"
+#include "ClassName.h"
+#include "Attribute.h"
+#include "Method.h"
+#include "Reception.h"
 #include "Line.h"
 #include "Generalization.h"
 #include "Realization.h"
@@ -12,21 +19,15 @@
 #include "Aggregations.h"
 #include "Composition.h"
 #include "Compositions.h"
-#include "Template.h"
-#include "MemoBox.h"
-#include "Selection.h"
 #include "MemoLine.h"
-#include "ClassName.h"
-#include "Attribute.h"
-#include "Method.h"
-#include "Reception.h"
 
 #include <iostream>
 using namespace std;
 
 DrawingVisitor::DrawingVisitor() {
 }
-
+DrawingVisitor::~DrawingVisitor() {
+}
 void DrawingVisitor::Visit(Class *object, CDC* cPaintDc) {
 
 	Long x = object->GetX();
@@ -34,27 +35,50 @@ void DrawingVisitor::Visit(Class *object, CDC* cPaintDc) {
 	Long width = object->GetWidth();
 	Long height = object->GetHeight();
 
-
-
 	cPaintDc->Rectangle(x, y, x + width, y + height);
 }
-void DrawingVisitor::Visit(Line *line, CDC* cPaintDc) {
-	Long x = line->GetX();
-	Long  y = line->GetY();;
-	Long width = line->GetWidth();
+void DrawingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { // CDC  *cPaintDc
+	Long x = memoBox->GetX();
+	Long y = memoBox->GetY();;
+	Long width = memoBox->GetWidth();
+	Long height = memoBox->GetHeight();
 
+	//cout << "¸Þ¸ð¹Ú½ºÃâ·Â" << " " << x << " " << y << " " << width << " " << height << endl;
 
-	cPaintDc->MoveTo(x, y);
-	cPaintDc->LineTo(x + width, y);
-}
+	CPoint pts2[5];
+	pts2[0].x = static_cast<LONG>(x + 15); // À­Á¡
+	pts2[0].y = static_cast<LONG>(y);
 
-void DrawingVisitor::Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc) {
+	pts2[1].x = static_cast<LONG>(x); //¸¶¿ì½º Ã³À½ Á¡
+	pts2[1].y = static_cast<LONG>(y + 15);
+
+	pts2[2].x = static_cast<LONG>(x); // ¾Æ·§Á¡
+	pts2[2].y = static_cast<LONG>(y + height);
+
+	pts2[3].x = static_cast<LONG>(x + width); // À­Á¡
+	pts2[3].y = static_cast<LONG>(y + height);
+
+	pts2[4].x = static_cast<LONG>(x + width); // À­Á¡
+	pts2[4].y = static_cast<LONG>(y);
+
+	cPaintDc->Polygon(pts2, 5);
+
+	cPaintDc->MoveTo(pts2[0].x, pts2[0].y);
+	cPaintDc->LineTo(pts2[0].x, pts2[0].y + 15);
+
+	cPaintDc->MoveTo(pts2[1].x, pts2[1].y);
+	cPaintDc->LineTo(pts2[0].x, pts2[0].y + 15);
 }
-void DrawingVisitor::Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc) {
-}
-void DrawingVisitor::Visit(Row* row, CDC* cPaintDc) {
-}
-void DrawingVisitor::Visit(Text* text, CDC* cPaintDc) {
+void DrawingVisitor::Visit(Template *object, CDC *cPaintDc) {
+
+	Long x = object->GetX();
+	Long  y = object->GetY();;
+	Long width = object->GetWidth();
+	Long height = object->GetHeight();
+
+	cPaintDc->Rectangle(x, y, x + width, y + height);
+	//cout << "ÅÛÇÃ¸´Ãâ·Â" << " " << x << " " << y << " " << width << " " << height << endl;
+
 }
 void DrawingVisitor::Visit(ClassName* className, CDC* cPaintDc) {
 }
@@ -64,7 +88,14 @@ void DrawingVisitor::Visit(Method* method, CDC* cPaintDc) {
 }
 void DrawingVisitor::Visit(Reception* reception, CDC* cPaintDc) {
 }
+void DrawingVisitor::Visit(Line *line, CDC* cPaintDc) {
+	Long x = line->GetX();
+	Long  y = line->GetY();;
+	Long width = line->GetWidth();
 
+	cPaintDc->MoveTo(x, y);
+	cPaintDc->LineTo(x + width, y);
+}
 void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
 
 	Long startX = generalization->GetX();
@@ -484,54 +515,6 @@ void DrawingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 	myBrush.DeleteObject();
 }
 
-DrawingVisitor::~DrawingVisitor() {
-}
-
-void DrawingVisitor::Visit(Template *object, CDC *cPaintDc) {
-
-	Long x = object->GetX();
-	Long  y = object->GetY();;
-	Long width = object->GetWidth();
-	Long height = object->GetHeight();
-
-	cPaintDc->Rectangle(x, y, x + width, y + height);
-	//cout << "ÅÛÇÃ¸´Ãâ·Â" << " " << x << " " << y << " " << width << " " << height << endl;
-
-}
-
-void DrawingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { // CDC  *cPaintDc
-	Long x = memoBox->GetX();
-	Long y = memoBox->GetY();;
-	Long width = memoBox->GetWidth();
-	Long height = memoBox->GetHeight();
-
-	//cout << "¸Þ¸ð¹Ú½ºÃâ·Â" << " " << x << " " << y << " " << width << " " << height << endl;
-
-	CPoint pts2[5];
-	pts2[0].x = static_cast<LONG>(x + 15); // À­Á¡
-	pts2[0].y = static_cast<LONG>(y);
-
-	pts2[1].x = static_cast<LONG>(x); //¸¶¿ì½º Ã³À½ Á¡
-	pts2[1].y = static_cast<LONG>(y + 15);
-
-	pts2[2].x = static_cast<LONG>(x); // ¾Æ·§Á¡
-	pts2[2].y = static_cast<LONG>(y + height);
-
-	pts2[3].x = static_cast<LONG>(x + width); // À­Á¡
-	pts2[3].y = static_cast<LONG>(y + height);
-
-	pts2[4].x = static_cast<LONG>(x + width); // À­Á¡
-	pts2[4].y = static_cast<LONG>(y);
-
-	cPaintDc->Polygon(pts2, 5);
-
-	cPaintDc->MoveTo(pts2[0].x, pts2[0].y);
-	cPaintDc->LineTo(pts2[0].x, pts2[0].y + 15);
-
-	cPaintDc->MoveTo(pts2[1].x, pts2[1].y);
-	cPaintDc->LineTo(pts2[0].x, pts2[0].y + 15);
-}
-
 void DrawingVisitor::Visit(MemoLine *memoLine, CDC *cPaintDc) {
 	Long x = memoLine->GetX();
 	Long  y = memoLine->GetY();;
@@ -658,5 +641,7 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 		
 	}	
 	
+}
+void DrawingVisitor::Visit(Text* text, CDC* cPaintDc) {
 }
 

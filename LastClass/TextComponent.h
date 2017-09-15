@@ -9,9 +9,9 @@ public:
 	TextComponent(const TextComponent& source) {};
 	virtual ~TextComponent() {};
 
-	void operator = (const TextComponent& source) {};
 	virtual TextComponent* Clone() const = 0;
-};
 
+	void operator = (const TextComponent& source) {};
+};
 
 #endif // _TEXTCOMPONENT_H

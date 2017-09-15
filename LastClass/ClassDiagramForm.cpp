@@ -1,16 +1,23 @@
 //ClassDiagramForm.cpp
 
 #include "ClassDiagramForm.h"
-#include "Class.h"
-#include "Line.h"
-#include "Figure.h"
-#include "Diagram.h"
-#include "DrawingVisitor.h"
-#include "Text.h"
-#include "SingleByteCharacter.h"
-#include "WritingVisitor.h"
 #include "TextEdit.h"
+#include "Diagram.h"
+#include "Class.h"
+#include "MemoBox.h"
+#include "Selection.h"
+#include "Text.h"
+#include "Row.h"
+#include "Character.h"
+#include "SingleByteCharacter.h"
+#include "DoubleByteCharacter.h"
+#include "Figure.h"
 #include "Template.h"
+#include "ClassName.h"
+#include "Method.h"
+#include "Attribute.h"
+#include "Reception.h"
+#include "Line.h"
 #include "Generalization.h"
 #include "Realization.h"
 #include "Dependency.h"
@@ -20,16 +27,12 @@
 #include "Aggregations.h"
 #include "Composition.h"
 #include "Compositions.h"
-#include "MemoBox.h"
-#include "Selection.h"
 #include "DrawingController.h"
 #include "FigureFactory.h"
 #include "MemoLine.h"
 #include "Unclicked.h"
-#include "ClassName.h"
-#include "Method.h"
-#include "Attribute.h"
-#include "Reception.h"
+#include "DrawingVisitor.h"
+#include "WritingVisitor.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
@@ -237,50 +240,50 @@ Long ClassDiagramForm::Load() {
 	return this->diagram->GetLength();
 }
 
-Long ClassDiagramForm::TextSave() {
-	Long i = 0;
-	string s;
-	ofstream fText;
-	fText.open("Text.txt");
-	if (fText.is_open()) {
-		while (i < this->text->GetLength()) {
-			s = this->text->GetAt(i)->PrintRowString();
-			fText << this->text->GetAt(i)->GetX() << ' ' << this->text->GetAt(i)->GetY() << ' ' << this->text->GetAt(i)->GetRowHeight() << ' ' << endl;
-			fText << s << endl;
-			i++;
-		}
-		fText.close();
-	}
-	return i;
-}
+//Long ClassDiagramForm::TextSave() {
+//	Long i = 0;
+//	string s;
+//	ofstream fText;
+//	fText.open("Text.txt");
+//	if (fText.is_open()) {
+//		while (i < this->text->GetLength()) {
+//			s = this->text->GetAt(i)->PrintRowString();
+//			fText << this->text->GetAt(i)->GetX() << ' ' << this->text->GetAt(i)->GetY() << ' ' << this->text->GetAt(i)->GetRowHeight() << ' ' << endl;
+//			fText << s << endl;
+//			i++;
+//		}
+//		fText.close();
+//	}
+//	return i;
+//}
 
-Long ClassDiagramForm::TextLoad() {
-	FigureFactory textCreator;
-	Long i = 0;
-	Long x = 0;
-	Long y = 0;
-	Long rowHeight = 0;
-	Long classID = -1;
-	string str;
-	TextComponent* Component = NULL;
-	ifstream fText;
-
-	fText.open("Text.txt");
-	if (fText.is_open()) {
-		while (!fText.eof() || getline(fText, str)) {
-			fText >> x >> y >> rowHeight >> classID;
-			getline(fText, str);
-			fText.clear();
-			getline(fText, str);
-			fText.clear();
-
-			Component = textCreator.CreateRow(x, y, rowHeight, classID, str);
-			this->text->Add(Component);
-			i++;
-		}
-	}
-	return i;
-}
+//Long ClassDiagramForm::TextLoad() {
+//	FigureFactory textCreator;
+//	Long i = 0;
+//	Long x = 0;
+//	Long y = 0;
+//	Long rowHeight = 0;
+//	Long classID = -1;
+//	string str;
+//	TextComponent* Component = NULL;
+//	ifstream fText;
+//
+//	fText.open("Text.txt");
+//	if (fText.is_open()) {
+//		while (!fText.eof() || getline(fText, str)) {
+//			fText >> x >> y >> rowHeight >> classID;
+//			getline(fText, str);
+//			fText.clear();
+//			getline(fText, str);
+//			fText.clear();
+//
+//			Component = textCreator.CreateRow(x, y, rowHeight, classID, str);
+//			this->text->Add(Component);
+//			i++;
+//		}
+//	}
+//	return i;
+//}
 
 int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 

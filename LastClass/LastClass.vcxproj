@@ -75,7 +75,6 @@
     <ClInclude Include="RealizationButton.h" />
     <ClInclude Include="Reception.h" />
     <ClInclude Include="Relation.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="Selection.h" />
@@ -98,14 +97,12 @@
     <ClCompile Include="AggregationButton.cpp" />
     <ClCompile Include="Aggregations.cpp" />
     <ClCompile Include="AggregationsButton.cpp" />
-    <ClCompile Include="ArrayIterator.cpp" />
     <ClCompile Include="Association.cpp" />
     <ClCompile Include="AssociationButton.cpp" />
     <ClCompile Include="Attribute.cpp" />
     <ClCompile Include="BackSpaceKey.cpp" />
     <ClCompile Include="ButtonState.cpp" />
     <ClCompile Include="Caret.cpp" />
-    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="ClassButton.cpp" />
     <ClCompile Include="ClassDiagramApp.cpp" />
@@ -157,7 +154,6 @@
     <ClCompile Include="Template.cpp" />
     <ClCompile Include="TemplateButton.cpp" />
     <ClCompile Include="Text.cpp" />
-    <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextComposite.cpp" />
     <ClCompile Include="TextEdit.cpp" />
     <ClCompile Include="Unclicked.cpp" />

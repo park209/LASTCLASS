@@ -6,7 +6,6 @@ TextComposite::TextComposite(Long capacity) : textComponents(capacity) {
 	this->capacity = capacity;
 	this->length = 0;
 }
-
 TextComposite::TextComposite(const TextComposite& source) : textComponents(source.textComponents) {
 	Long i = 0;
 	while (i < source.length) {
@@ -16,7 +15,6 @@ TextComposite::TextComposite(const TextComposite& source) : textComponents(sourc
 	this->capacity = source.capacity;
 	this->length = source.length;
 }
-
 TextComposite::~TextComposite() {
 	Long i = 0;
 	while (i < this->length) {
@@ -24,7 +22,6 @@ TextComposite::~TextComposite() {
 		i++;
 	}
 }
-
 TextComposite& TextComposite::operator = (const TextComposite& source) {
 	Long i = 0;
 	this->textComponents = source.textComponents;
@@ -37,13 +34,6 @@ TextComposite& TextComposite::operator = (const TextComposite& source) {
 
 	return *this;
 }
-
 ArrayIterator<TextComponent*>* TextComposite::CreateIterator() const {
 	return new ArrayIterator<TextComponent*>(&this->textComponents);
 }
-
-//
-//int main(int argc, char* argv[]) {
-//
-//	return 0;
-//}
