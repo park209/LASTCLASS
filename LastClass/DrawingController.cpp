@@ -27,8 +27,8 @@ Figure* DrawingController::AddToArray(Diagram *diagram, Selection *selection, Lo
 }
 
 
-void DrawingController::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
-	this->buttonState->Draw(startX, startY, currentX, currentY, cPaintDc);
+void DrawingController::Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+	this->buttonState->Draw(selection, startX, startY, currentX, currentY, cPaintDc);
 }
 
 DrawingController& DrawingController::operator=(const DrawingController& source) {

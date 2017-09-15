@@ -123,7 +123,7 @@ Figure* CompositionsButton::AddToArray(Diagram *diagram, Selection *selection, L
 	}
 	return figure;
 }
-void CompositionsButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+void CompositionsButton::Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(currentX, currentY);
 

@@ -18,7 +18,7 @@ public:
 	virtual ~Line();
 
 	Line& operator = (const Line& source);
-
+	Figure* Move(Long distanceX, Long distanceY);
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 	Figure* Clone() const;
 };

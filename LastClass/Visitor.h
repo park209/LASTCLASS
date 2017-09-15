@@ -4,8 +4,9 @@
 
 #ifndef _VISITOR_H
 #define _VISITOR_H
-
+typedef signed long  int Long;
 #include <afxwin.h>
+
 
 class SingleByteCharacter;
 class DoubleByteCharacter;
@@ -75,6 +76,10 @@ public:
 	virtual void Visit(Method *method, CDC *cPaintDc) = 0;
 
 	virtual void Visit(Attribute *attribute, CDC *cPaintDc) = 0;
+
+	virtual void Visit(Selection *selection, CDC *cPaintDc) = 0;
+
+	virtual void Visit(Selection *selection, Long distanceX, Long distanceY) = 0;
 protected:
 	Visitor();
 };

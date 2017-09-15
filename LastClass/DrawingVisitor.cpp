@@ -658,3 +658,7 @@ void DrawingVisitor::Visit(Method *method, CDC *cPatinDc) {
 void DrawingVisitor::Visit(Attribute *attribute, CDC *cPaintDc) {
 
 }
+
+void DrawingVisitor::Visit(Selection *selection, Long distanceX, Long distanceY) {
+
+}

@@ -132,7 +132,7 @@ void ButtonState::ChangeState(DrawingController *drawingController, UINT nChar) 
 Figure* ButtonState::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
 	return 0;
 }
-void ButtonState::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+void ButtonState::Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 
 }
 ButtonState& ButtonState::operator=(const ButtonState& source) {

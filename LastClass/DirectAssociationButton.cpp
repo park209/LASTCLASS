@@ -122,7 +122,7 @@ Figure* DirectAssociationButton::AddToArray(Diagram *diagram, Selection *selecti
 	}
 	return figure;
 }
-void DirectAssociationButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+void DirectAssociationButton::Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(currentX, currentY);
 

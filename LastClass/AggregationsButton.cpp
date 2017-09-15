@@ -122,7 +122,7 @@ Figure* AggregationsButton::AddToArray(Diagram *diagram, Selection *selection, L
 	}
 	return figure;
 }
-void AggregationsButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+void AggregationsButton::Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(currentX, currentY);
 

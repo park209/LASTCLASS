@@ -54,7 +54,7 @@ Figure* ClassButton::AddToArray(Diagram *diagram, Selection *selection, Long sta
 	return diagram->GetAt(index);
 }
 
-void ClassButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+void ClassButton::Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDc->SelectObject(&pen);

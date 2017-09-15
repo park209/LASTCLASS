@@ -274,6 +274,13 @@ Long Selection::FindByPoint(Diagram *diagram, Long x, Long y) {
 		return index;
 }
 
+void Selection :: Accept(Visitor& visitor, Long distanceX, Long distanceY) {
+	visitor.Visit(this, distanceX,distanceY);
+}
+
+void Selection::Accept(Visitor& visitor, CDC *cPaintDc) {
+	visitor.Visit(this, cPaintDc);
+}
 
 //#include "Diagram.h"
 //#include "Class.h"

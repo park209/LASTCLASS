@@ -122,7 +122,7 @@ Figure* RealizationButton::AddToArray(Diagram *diagram, Selection *selection, Lo
 	}
 	return figure;
 }
-void RealizationButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+void RealizationButton::Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDc->SelectObject(&pen);

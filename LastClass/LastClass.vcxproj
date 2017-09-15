@@ -71,6 +71,7 @@
     <ClInclude Include="MemoLine.h" />
     <ClInclude Include="MemoLineButton.h" />
     <ClInclude Include="Method.h" />
+    <ClInclude Include="MovingVisitor.h" />
     <ClInclude Include="Realization.h" />
     <ClInclude Include="RealizationButton.h" />
     <ClInclude Include="Reception.h" />
@@ -144,6 +145,7 @@
     <ClCompile Include="MemoLine.cpp" />
     <ClCompile Include="MemoLineButton.cpp" />
     <ClCompile Include="Method.cpp" />
+    <ClCompile Include="MovingVisitor.cpp" />
     <ClCompile Include="Realization.cpp" />
     <ClCompile Include="RealizationButton.cpp" />
     <ClCompile Include="Reception.cpp" />
@@ -243,7 +245,7 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -259,7 +261,7 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -276,7 +278,7 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -295,7 +297,7 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>

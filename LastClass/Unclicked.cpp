@@ -2,7 +2,7 @@
 
 #include"Unclicked.h"
 #include"DrawingController.h"
-
+#include "Selection.h"
 
 
 
@@ -26,20 +26,22 @@ Figure* Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long start
 	return 0;
 }
 
-void Unclicked::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+void Unclicked::Draw(Selection *selection,Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDc->SelectObject(&pen);
 	cPaintDc->SetBkMode(TRANSPARENT);
-	cPaintDc->MoveTo(startX, startY);
-	cPaintDc->LineTo(currentX, startY);
-	cPaintDc->MoveTo(startX, startY);
-	cPaintDc->LineTo(startX, currentY);
-	cPaintDc->MoveTo(currentX, startY);
-	cPaintDc->LineTo(currentX, currentY);
-	cPaintDc->MoveTo(startX, currentY);
-	cPaintDc->LineTo(currentX, currentY);
 	
+	if (selection->GetLength() == 0) {
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(currentX, startY);
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(startX, currentY);
+		cPaintDc->MoveTo(currentX, startY);
+		cPaintDc->LineTo(currentX, currentY);
+		cPaintDc->MoveTo(startX, currentY);
+		cPaintDc->LineTo(currentX, currentY);
+	}
 	//cPaintDc->Rectangle(startX, startY, currentX, currentY);
 	cPaintDc->SelectObject(oldPen);
 	pen.DeleteObject();
