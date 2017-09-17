@@ -5,6 +5,7 @@
 #include"ButtonState.h"
 
 typedef signed long int Long;
+
 class Figure;
 class ClassButton : public ButtonState {
 public:
@@ -15,7 +16,7 @@ public:
 
 	virtual void ChangeState(DrawingController *drawingController, UINT nChar);
 	virtual Figure* AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY);
-	virtual void Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc);
+	virtual void Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc);
 
 	ClassButton& operator=(const ClassButton& source);
 };

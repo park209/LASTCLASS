@@ -4,8 +4,9 @@
 
 #ifndef _VISITOR_H
 #define _VISITOR_H
-
+typedef signed long  int Long;
 #include <afxwin.h>
+
 
 class SingleByteCharacter;
 class DoubleByteCharacter;
@@ -13,6 +14,7 @@ class Diagram;
 class Class;
 class Line;
 class Row;
+class Text;
 class Relation;
 class Generalization;
 class Realization;
@@ -30,9 +32,6 @@ class ClassName;
 class Method;
 class Attribute;
 class Selection;
-
-
-
 
 class Visitor{
 public:
@@ -70,6 +69,8 @@ public:
 
 	virtual void Visit(MemoLine* memobox, CDC *cPaintDc) = 0;// CDC  *cPaintDc
 
+	virtual void Visit(Text* text, CDC *cPaintDc) = 0;
+
 	virtual void Visit(ClassName *className, CDC *cPaintDc) = 0;
 
 	virtual void Visit(Method *method, CDC *cPaintDc) = 0;
@@ -78,7 +79,7 @@ public:
 
 	virtual void Visit(Selection *selection, CDC *cPaintDc) = 0;
 
-
+	virtual void Visit(Selection *selection, Long distanceX, Long distanceY) = 0;
 protected:
 	Visitor();
 };

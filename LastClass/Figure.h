@@ -19,7 +19,8 @@ public:
 
 	//virtual void Accept(Visitor& visitor) = 0;// , CDC *cPaintDc) = 0;
 	virtual Figure* Clone() const = 0;
-
+	void ReplaceString(string content);
+	Figure* Move(Long distanceX, Long distanceY);
 	Long GetX() const;
 	Long GetY() const;
 	Long GetWidth() const;

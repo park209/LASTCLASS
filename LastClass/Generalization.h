@@ -9,7 +9,7 @@
 typedef signed long int Long;
 class Generalization : public Relation{
 public:
-	Generalization();
+	Generalization(Long capacity);
 	Generalization(Long x, Long y, Long width, Long height);
 	Generalization(const Generalization& source);
 	virtual ~Generalization();

@@ -32,7 +32,12 @@ Figure::Figure(const Figure& source) {
 	this->width = source.width;
 	this->height = source.height;
 }
-
+Figure* Figure::Move(Long distanceX, Long distanceY) {
+	this->x = this->x + distanceX;
+	this->y = this->y + distanceY;
+	return this;
+	//return static_cast<Figure*>(this);
+}
 Figure& Figure::operator = (const Figure& source) {
 	this->x = source.x;
 	this->y = source.y;
@@ -45,7 +50,7 @@ Figure& Figure::operator = (const Figure& source) {
 Figure::~Figure() {
 }
 
-//int main(int argc, char* argv[]) {
-//
-//	return 0;
-//}
+
+void Figure::ReplaceString(string content) {
+	this->content = content;
+}

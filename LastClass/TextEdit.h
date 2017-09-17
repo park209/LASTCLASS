@@ -11,12 +11,13 @@ using namespace std;
 
 typedef signed long int Long;
 
+class Figure;
 class KeyBoard;
 class Caret;
 class Row;
 class TextEdit : public CFrameWnd {
 public:
-	TextEdit(ClassDiagramForm *classDiagramForm, Long startX, Long startY, Long width, Long height, string content);
+	TextEdit(Figure *content);
 public:
 	//Long Save();
 	//Long Load();
@@ -35,50 +36,36 @@ protected:
 	afx_msg void OnClose();
 	DECLARE_MESSAGE_MAP()
 public:
-	Long GetWidth() const;
-	Long GetHeight() const;
 	Long GetRowIndex() const;
 	Long GetCharacterIndex() const;
 	Long GetStartX() const;
 	Long GetStartY() const;
-	Long GetFormX() const;
-	Long GetFormY() const;
 	Long GetCurrentX() const;
 	Long GetCurrentY() const;
 	Long GetRowHeight() const;
 	Long GetKoreanEnglish() const;
 	Long GetFlagBuffer() const;
 	Long GetFlagInsert() const;
-	string& GetContent() const;
+	Figure* GetContent() const;
 public:
-	ClassDiagramForm *classDiagramForm;
 	Caret *caret;
 	Long count;
 	Long rowIndex;
 	Long characterIndex;
 	KeyBoard *keyBoard;
 	Long flagInsert;
+	Text *text;
 private:
-	Long width;
-	Long height;
 	Long startX;
 	Long startY;
-	Long formX;
-	Long formY;
 	Long currentX;
 	Long currentY;
 	Long koreanEnglish;
 	Long rowHeight;
 	Long flagBuffer;
-	string content;
+	Figure *content;
 };
 
-inline Long TextEdit::GetWidth() const {
-	return this->width;
-}
-inline Long TextEdit::GetHeight() const {
-	return this->height;
-}
 inline Long TextEdit::GetRowIndex() const {
 	return this->rowIndex;
 }
@@ -90,12 +77,6 @@ inline Long TextEdit::GetStartX() const {
 }
 inline Long TextEdit::GetStartY() const {
 	return this->startY;
-}
-inline Long TextEdit::GetFormX() const {
-	return this->formX;
-}
-inline Long TextEdit::GetFormY() const {
-	return this->formY;
 }
 inline Long TextEdit::GetCurrentX() const {
 	return this->currentX;
@@ -115,8 +96,8 @@ inline Long TextEdit::GetFlagBuffer() const {
 inline Long TextEdit::GetFlagInsert() const {
 	return this->flagInsert;
 }
-inline string& TextEdit::GetContent() const {
-	return const_cast<string&>(this->content);
+inline Figure* TextEdit::GetContent() const {
+	return const_cast<Figure*>(this->content);
 }
 
 #endif // _TEXTEDIT_H

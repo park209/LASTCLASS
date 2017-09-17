@@ -18,8 +18,8 @@ DeleteKey::~DeleteKey() {
 }
 
 void DeleteKey::KeyPress(TextEdit *textEdit) {
-	if (textEdit->count > 0 && textEdit->GetCharacterIndex() < textEdit->classDiagramForm->text->GetAt(textEdit->GetRowIndex())->GetLength()) {
-		textEdit->classDiagramForm->text->GetAt(textEdit->GetRowIndex())->Remove(textEdit->GetCharacterIndex());
+	if (textEdit->count > 0 && textEdit->GetCharacterIndex() < textEdit->text->GetAt(textEdit->GetRowIndex())->GetLength()) {
+		textEdit->text->GetAt(textEdit->GetRowIndex())->Remove(textEdit->GetCharacterIndex());
 	}
 	if (textEdit->keyBoard->keyAction != 0) {
 		delete textEdit->keyBoard->keyAction;

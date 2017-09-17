@@ -4,7 +4,7 @@
 
 #ifndef _WRITINGVISITOR_H
 #define _WRITINGVISITOR_H
-
+typedef signed long  int Long;
 #include "Visitor.h" 
 
 class WritingVisitor : public Visitor {
@@ -17,7 +17,7 @@ public:
 	void Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc);
 	void Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc);
 	void Visit(Row* row, CDC* cPaintDc);
-
+	void Visit(Text* text, CDC* cPaintDc);
 
 	 void Visit(Generalization *generalization, CDC* cPaintDc) ;		//¿œπ›»≠
 
@@ -50,9 +50,8 @@ public:
 	 void Visit(Attribute *attribute, CDC *cPaintDc);
 
 	 void Visit(Selection *selection, CDC *cPaintDc);
-
-
 	   // CDC  *cPaintDc
+	 void Visit(Selection *selection, Long distanceX, Long distanceY);
 };
 
 #endif // _WRITINGVISITOR_H

@@ -7,6 +7,7 @@
 #include"ClassName.h"
 #include"Attribute.h"
 #include"Method.h"
+#include "Figure.h"
 
 ClassButton::ClassButton() {
 
@@ -39,20 +40,21 @@ Figure* ClassButton::AddToArray(Diagram *diagram, Selection *selection, Long sta
 	//선 만듦
 	//수정
 	Class *tempClass = static_cast<Class*>(diagram->GetAt(index));
-	tempClass->Add(startX, startY + 30,
-		currentX - startX, startY + 30);
-	tempClass->Add(startX, (startY + 30 + currentY) / 2,
-		currentX - startX, (startY + 30 + currentY) / 2);
-	ClassName className (startX + 5, startY + 33, currentX - startX - 10, 20, "11111");
+	tempClass->Add(startX, startY + 50,
+		currentX - startX, 0);
+	tempClass->Add(startX, (startY + 50 + currentY) / 2,
+		currentX - startX, 0);
+	ClassName className (startX, startY, currentX - startX, 50, "11111");
 	tempClass->Add(className.Clone());
-	Attribute attribute(startX, startY + 50, currentX, (startY + 50 + currentY) / 2, "2222"); // 내용값은 수정해야함
-	Method method(startX, (startY + 50 + currentY) / 2, currentX, currentY, "3333");
+	Attribute attribute(startX, startY + 50, currentX-startX, ((startY + 50 + currentY) / 2)-(startY+50), "2222"); // 내용값은 수정해야함
+	Method method(startX, (startY + 50 + currentY) / 2, currentX-startX, currentY-((startY + 50 + currentY) / 2), "3333");
 	tempClass->Add(attribute.Clone());
 	tempClass->Add(method.Clone());
 
 	return diagram->GetAt(index);
 }
-void ClassButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+
+void ClassButton::Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDc->SelectObject(&pen);

@@ -122,7 +122,7 @@ Figure* GeneralizationButton::AddToArray(Diagram *diagram, Selection *selection,
 	}
 	return figure;
 }
-void GeneralizationButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+void GeneralizationButton::Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(currentX, currentY);
 
@@ -152,7 +152,9 @@ void GeneralizationButton::Draw(Long startX, Long startY, Long currentX, Long cu
 	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
 
 	cPaintDc->SelectObject(&white);
-	cPaintDc->Polygon(pts, 3);
+	if (startX != currentX && startY != currentY) {
+		cPaintDc->Polygon(pts, 3);
+	}
 	cPaintDc->SelectObject(oldBrush);
 	myBrush.DeleteObject();
 }

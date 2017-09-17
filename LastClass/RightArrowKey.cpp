@@ -19,8 +19,8 @@ RightArrowKey::~RightArrowKey() {
 
 void RightArrowKey::KeyPress(TextEdit *textEdit) {
 	textEdit->characterIndex++;
-	if (textEdit->characterIndex > textEdit->classDiagramForm->text->GetAt(textEdit->rowIndex)->GetLength()) {
-		textEdit->characterIndex = textEdit->classDiagramForm->text->GetAt(textEdit->rowIndex)->GetLength();
+	if (textEdit->characterIndex > textEdit->text->GetAt(textEdit->rowIndex)->GetLength()) {
+		textEdit->characterIndex = textEdit->text->GetAt(textEdit->rowIndex)->GetLength();
 	}
 	if (textEdit->keyBoard->keyAction != 0) {
 		delete textEdit->keyBoard->keyAction;

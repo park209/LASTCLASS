@@ -1,6 +1,6 @@
 #include "Generalization.h"
 
-Generalization::Generalization():Relation(){
+Generalization::Generalization(Long capacity):Relation(capacity){
 
 }
 

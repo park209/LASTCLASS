@@ -39,6 +39,9 @@
     <ClInclude Include="AssociationButton.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Attribute.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
     <ClInclude Include="BackSpaceKey.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
@@ -61,6 +64,9 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="ClassDiagramForm.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassName.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Composition.h">
@@ -162,10 +168,16 @@
     <ClInclude Include="MemoLineButton.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Method.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
     <ClInclude Include="Realization.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="RealizationButton.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Reception.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Relation.h">
@@ -222,16 +234,7 @@
     <ClInclude Include="WritingVisitor.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ClassName.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Method.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Attribute.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Reception.h">
+    <ClInclude Include="MovingVisitor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -257,6 +260,9 @@
     <ClCompile Include="AssociationButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Attribute.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="BackSpaceKey.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -279,6 +285,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="ClassDiagramForm.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassName.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Composition.cpp">
@@ -377,10 +386,16 @@
     <ClCompile Include="MemoLineButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Method.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="Realization.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="RealizationButton.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Reception.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Relation.cpp">
@@ -431,16 +446,7 @@
     <ClCompile Include="WritingVisitor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ClassName.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Method.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Attribute.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Reception.cpp">
+    <ClCompile Include="MovingVisitor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

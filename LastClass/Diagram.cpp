@@ -96,23 +96,35 @@ Long Diagram::AddMemoBox(Long x, Long y, Long width, Long height) {
 	return index;
 }
 
-//Long Diagram::Find(Long x, Long y) {
-//	Long i = 0;
-//	Long j = 0;
-//	Long endX;
-//	Long endY;
-//	Long index = -1;
-//		while (i < this->GetLength() && index == -1) {
-//		endX = this->figures[i]->GetX() + this->figures[i]->GetWidth();
-//		endY = this->figures[i]->GetY() + this->figures[i]->GetHeight();
-//		if (this->figures[i]->GetX() <= x&&endX >= x&&this->figures[i]->GetY() <= y&&endY >= y) {
-//			index = i;
-//		}
-//		i++;
-//	}
-//	return index;
-//	
-//}
+Figure* Diagram::FindItem(Long x, Long y) {
+	SmartPointer<Figure*> smartPointer(this->CreateIterator());//다이어그램 배열 반복자
+	Figure *figure = 0;
+	Long endX;
+	Long endY;
+	Long index = -1;
+	smartPointer->First();
+	while (!smartPointer->IsDone() && index != 0) {
+		endX = smartPointer->Current()->GetX() + smartPointer->Current()->GetWidth();
+		endY = smartPointer->Current()->GetY() + smartPointer->Current()->GetHeight();
+		if (smartPointer->Current()->GetX() <= x && endX >= x && smartPointer->Current()->GetY() <= y && endY >= y) {
+			figure = smartPointer->Current();
+			index = 0;
+		}
+		smartPointer->Next();
+	}
+	if (index == 0) {
+		SmartPointer<Figure*> smartPointer_(static_cast<Class*>(figure)->CreateIterator()); //클래스 배열 반복자
+		for (smartPointer_->First(); !smartPointer_->IsDone(); smartPointer_->Next()) {
+			if (smartPointer_->Current()->GetX() <= x && smartPointer_->Current()->GetX() + smartPointer_->Current()->GetWidth() >= x
+				&& smartPointer_->Current()->GetY() <= y   && smartPointer_->Current()->GetY() + smartPointer_->Current()->GetHeight() >= y) {
+				figure = smartPointer_->Current();
+			}
+		}
+	}
+	return figure;
+}
+
+
 
 Long Diagram::Remove(Long index) {
 	return this->figures.Delete(index);

@@ -1,6 +1,6 @@
 #include "Realization.h"
 
-Realization::Realization() :Relation(){
+Realization::Realization(Long capacity) :Relation(capacity){
 
 }
 

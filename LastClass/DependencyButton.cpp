@@ -122,7 +122,7 @@ Figure* DependencyButton::AddToArray(Diagram *diagram, Selection *selection, Lon
 	}
 	return figure;
 }
-void DependencyButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+void DependencyButton::Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDc->SelectObject(&pen);

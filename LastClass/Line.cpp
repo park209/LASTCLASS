@@ -37,3 +37,7 @@ void Line::Accept(Visitor& visitor, CDC *cPaintDc) {
 }
 
 
+Figure* Line::Move(Long distanceX, Long distanceY) {
+	Figure::Move(distanceX, distanceY);
+	return this;
+}

@@ -1,17 +1,15 @@
+//MovingVisitor.h
 
+#ifndef _MOVINGVISITOR_H
+#define _MOVINGVISITOR_H
 
-//DrawingVisitor.h
-
-#ifndef _DRAWINGVISITOR_H
-#define _DRAWINGVISITOR_H
-
-#include "Visitor.h"
+#include"Visitor.h"
 
 typedef signed long  int Long;
-class DrawingVisitor :public Visitor {
+class MovingVisitor :public Visitor {
 public:
-	DrawingVisitor();
-	~DrawingVisitor();
+	MovingVisitor();
+	~MovingVisitor();
 
 	void Visit(Class *object, CDC* cPaintDc);
 	void Visit(Line *line, CDC* cPaintDc);
@@ -57,4 +55,6 @@ public:
 	void Visit(Selection *selection, Long distanceX, Long distanceY);
 };
 
-#endif // _DRAWINGVISITOR_H
+
+
+#endif //_MOVINGVISITOR_H
