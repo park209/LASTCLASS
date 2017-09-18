@@ -28,13 +28,14 @@ Figure* Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long start
 	CPoint cPoint;
 	cPoint.x = currentX;
 	cPoint.y = currentY;
-	if (selection->GetLength() !=0) { //드래그할때 추가해버리는거 막아야되는데
+	if (selection->GetLength() == 1) { //드래그할때 추가해버리는거 막아야되는데
 		if (dynamic_cast<Relation*>(selection->GetAt(0))) {
 
 			static_cast<Relation*>(selection->GetAt(0))->Add(cPoint);
 
 		}
 	}
+
 	return  static_cast<Relation*>(selection->GetAt(0));
 }
 
@@ -54,7 +55,6 @@ void Unclicked::Draw(Selection *selection,Long startX, Long startY, Long current
 		cPaintDc->MoveTo(startX, currentY);
 		cPaintDc->LineTo(currentX, currentY);
 	}
-	
 	
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;

@@ -1,6 +1,8 @@
 #include  "Selection.h"
 #include "Diagram.h"
 #include "Relation.h"
+#include "Finder.h"
+
 Selection::Selection(Long capacity):FigureComposite(capacity) {
 	this->x = 0;
 	this->y = 0;
@@ -48,6 +50,8 @@ Long Selection::Add(Figure *figure) {
 
 
 Long Selection::Remove(Long index) {
+	this->capacity--;
+	this->length--;
 	return this->figures.Delete(index);
 }
 
@@ -60,24 +64,22 @@ Figure* Selection::GetAt(Long index) {
 }
 void Selection::DeleteAllItems() {
 	
-
 	while (this->length != 0){
 		this->figures.Modify(this->length -1 , 0);
 		this->length--;
-		
 	}
-
 }
 
 void Selection::FindByArea(Diagram *diagram, CRect area) {
 
+	Finder finder;
 	Long i = 0;
 	Long j;
+	Long k;
 
 	FigureComposite *composite;
 	CRect rect;
-	bool ret;
-	Figure *figure;
+	bool ret = false;
 	Relation *relation;
 
 	while (i < diagram->GetLength()) {
@@ -87,7 +89,9 @@ void Selection::FindByArea(Diagram *diagram, CRect area) {
 		rect.top = composite->GetY();
 		rect.right = composite->GetX() + composite->GetWidth();
 		rect.bottom = composite->GetY() + composite->GetHeight();
-		ret = rect.IntersectRect(area, rect);
+
+		ret = finder.FindRectangleByArea(rect, area);
+
 		if (ret == true) {
 			if (this->length < this->capacity) {
 				this->figures.Store(this->length, composite);
@@ -100,137 +104,32 @@ void Selection::FindByArea(Diagram *diagram, CRect area) {
 		}
 
 		j = 0;
-
-
 		while (j < composite->GetLength()) {
-			
 			if (dynamic_cast<Relation*>(composite->GetAt(j))) {
+
 				relation = static_cast<Relation*>(composite->GetAt(j));
+
+				CPoint lineStart(relation->GetX(), relation->GetY());
+				CPoint lineEnd;
+
 				ret = false;
-				CPoint line1Start;
-				CPoint line1End;
-				CPoint line2Start;
-				CPoint line2End;
-				CPoint cross1;
+				k = 0;
 
-
-			
-
-				//범위안 라인찾기
-
-
-				if (relation->GetX() >= area.left  &&  relation->GetY() >= area.top  &&  relation->GetX() <= area.right  &&   relation->GetY() <= area.bottom
-					&& relation->GetX() + relation->GetWidth() >= area.left  &&  relation->GetY() + relation->GetHeight() >= area.top  &&
-					relation->GetX() + relation->GetWidth() <= area.right  &&   relation->GetY() + relation->GetHeight() <= area.bottom) {
-					ret = true;
-				}
-				if (ret == true) {
-					if (this->length < this->capacity) {
-						this->figures.Store(this->length, relation);
-					}
-					else {
-						this->figures.AppendFromRear(relation);
-						this->capacity++;
-					}
-					this->length++;
-				}
-				 line1Start.x = relation->GetX();
-				 line1Start.y = relation->GetY();
-				
-				Long k = 0;
-				while (k < relation->GetLength()) {
-					//CPoint cPoint = generalization->GetAt(i);
-					//endX = cPoint.x;
-					//endY = cPoint.y;
-					line1End.x = relation->GetAt(k).x;
-					line1End.y = relation->GetAt(k).y;
-					if (ret == false) {//시작 클래스에서 선과 교차하는 면 찾기
-									   //상단
-						line2Start.x = area.left;
-						line2Start.y = area.top;
-						line2End.x = area.right;
-						line2End.y = area.top;
-						ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-					}
-					if (ret == false) {
-						//좌측
-						line2Start.x = area.left;
-						line2Start.y = area.top;
-						line2End.x = area.left;
-						line2End.y = area.bottom;
-						ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-					}
-					if (ret == false) {
-						//우측
-						line2Start.x = area.right;
-						line2Start.y = area.top;
-						line2End.x = area.right;
-						line2End.y = area.bottom;
-						ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-					}
-					if (ret == false) {
-						//하단
-						line2Start.x = area.left;
-						line2Start.y = area.bottom;
-						line2End.x = area.right;
-						line2End.y = area.bottom;
-						ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-					}
-
-
-
-					if (ret == true) {
-						if (this->length < this->capacity) {
-							this->figures.Store(this->length, relation);
-						}
-						else {
-							this->figures.AppendFromRear(relation);
-							this->capacity++;
-						}
-						this->length++;
-					}
-					line1Start.x = line1End.x;
-					line1Start.y = line1End.y;
+				while (k < relation->GetLength() && ret == false) {
+					lineEnd.x = relation->GetAt(k).x;
+					lineEnd.y = relation->GetAt(k).y;
+					ret = finder.FindLineByArea(lineStart, lineEnd, area);
+					lineStart.x = lineEnd.x;
+					lineStart.y = lineEnd.y;
 					k++;
 				}
-				line1End.x = relation->GetWidth() + relation->GetX();
-				line1End.y = relation->GetHeight() + relation->GetY();
-				//교차점 찾기
 
-				if (ret == false) {//시작 클래스에서 선과 교차하는 면 찾기
-								   //상단
-					line2Start.x = area.left;
-					line2Start.y = area.top;
-					line2End.x = area.right;
-					line2End.y = area.top;
-					ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-				}
-				if (ret == false) {
-					//좌측
-					line2Start.x = area.left;
-					line2Start.y = area.top;
-					line2End.x = area.left;
-					line2End.y = area.bottom;
-					ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-				}
-				if (ret == false) {
-					//우측
-					line2Start.x = area.right;
-					line2Start.y = area.top;
-					line2End.x = area.right;
-					line2End.y = area.bottom;
-					ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-				}
-				if (ret == false) {
-					//하단
-					line2Start.x = area.left;
-					line2Start.y = area.bottom;
-					line2End.x = area.right;
-					line2End.y = area.bottom;
-					ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-				}
+				lineEnd.x = relation->GetWidth() + relation->GetX();
+				lineEnd.y = relation->GetHeight() + relation->GetY();
 
-
+				if (ret == false) {
+					ret = finder.FindLineByArea(lineStart, lineEnd, area);
+				}
 
 				if (ret == true) {
 					if (this->length < this->capacity) {
@@ -243,153 +142,91 @@ void Selection::FindByArea(Diagram *diagram, CRect area) {
 					this->length++;
 				}
 			}
-
 			j++;
 		}
 		i++;
 	}
 }
+			
 Long Selection::FindByPoint(Diagram *diagram, Long x, Long y) {
-
+	Finder finder;
+	CRect rect;
 	FigureComposite *composite;
-	//Figure *figure = 0;
 	Relation *relation=0;
-	bool ret=false;
+	bool ret = false;
 	Long i = 0;
-	Long j ;
+	Long j;
 	Long k;
 	Long endX;
 	Long endY;
 	Long index = -1;
 
+	while (i < diagram->GetLength() && ret == false) {
+		
+		composite = static_cast<FigureComposite*>(diagram->GetAt(i));
+		rect.left = composite->GetX();
+		rect.top = composite->GetY();
+		rect.right = composite->GetX() + composite->GetWidth();
+		rect.bottom = composite->GetY() + composite->GetHeight();
 
-	while (i < diagram->GetLength() && index == -1) {
-		endX = diagram->GetAt(i)->GetX() + diagram->GetAt(i)->GetWidth();
-		endY = diagram->GetAt(i)->GetY() + diagram->GetAt(i)->GetHeight();
-		if (diagram->GetAt(i)->GetX() <= x && endX >= x && diagram->GetAt(i)->GetY() <= y && endY >= y) {
-			index = i;
-		}
-		if (index != -1) {
+		ret = finder.FindRectangleByPoint(rect, x, y);
+
+		if (ret == true) {
 			if (this->length < this->capacity) {
-				this->figures.Store(this->length, diagram->GetAt(index));
+				this->figures.Store(this->length, composite);
 			}
 			else {
-				this->figures.AppendFromRear(diagram->GetAt(index));
+				this->figures.AppendFromRear(composite);
 				this->capacity++;
 			}
 			this->length++;
+
+			index = this->length;
 		}
+
 		composite = static_cast<FigureComposite*>(diagram->GetAt(i));
 		j = 0;
-		while (j < composite->GetLength() && ret != true && index == -1) {
+		while (j < composite->GetLength() && ret == false) {
 			if (dynamic_cast<Relation*>(composite->GetAt(j))) {
 				relation = static_cast<Relation*>(composite->GetAt(j));
 
-				CPoint line1Start;
-				CPoint line1End;
-				CPoint line2Start;
-				CPoint line2End;
-				CPoint cross1;
+				CPoint lineStart(relation->GetX(), relation->GetY());
+				CPoint lineEnd;
 
-				line1Start.x = relation->GetX();
-				line1Start.y = relation->GetY();
-				
 				k = 0;
-				while (k < relation->GetLength() && ret != true) {
-					
-					line1End.x = relation->GetAt(k).x;
-					line1End.y = relation->GetAt(k).y;
-					if (ret == false) {//시작 클래스에서 선과 교차하는 면 찾기
-									   //상단
-						line2Start.x = x - 5;
-						line2Start.y = y - 5;
-						line2End.x = x + 5;
-						line2End.y = y - 5;
-						ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-					}
-					if (ret == false) {
-						//좌측
-						line2Start.x = x - 5;
-						line2Start.y = y - 5;
-						line2End.x = x - 5;
-						line2End.y = y + 5;
-						ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-					}
-					if (ret == false) {
-						//우측
-						line2Start.x = x + 5;
-						line2Start.y = y - 5;
-						line2End.x = x + 5;
-						line2End.y = y + 5;
-						ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-					}
-					if (ret == false) {
-						//하단
-						line2Start.x = x - 5;
-						line2Start.y = y + 5;
-						line2End.x = x + 5;
-						line2End.y = y + 5;
-						ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-					}
-					line1Start.x = line1End.x;
-					line1Start.y = line1End.y;
-				
+				while (k < relation->GetLength() && ret == false) {
+
+					lineEnd.x = relation->GetAt(k).x;
+					lineEnd.y = relation->GetAt(k).y;
+					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+					lineStart.x = lineEnd.x;
+					lineStart.y = lineEnd.y;
 					k++;
 				}
-				line1End.x = relation->GetWidth() + relation->GetX();
-				line1End.y = relation->GetHeight() + relation->GetY();
 
+				lineEnd.x = relation->GetWidth() + relation->GetX();
+				lineEnd.y = relation->GetHeight() + relation->GetY();
+				if (ret == false) {
+					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+				}
+				if (ret == true) {
+					if (this->length < this->capacity) {
+						this->figures.Store(this->length, relation);
+					}
+					else {
+						this->figures.AppendFromRear(relation);
+						this->capacity++;
+					}
+					this->length++;
 
-
-				if (ret == false) {//시작 클래스에서 선과 교차하는 면 찾기
-								   //상단
-					line2Start.x = x - 5;
-					line2Start.y = y - 5;
-					line2End.x = x + 5;
-					line2End.y = y - 5;
-					ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-				}
-				if (ret == false) {
-					//좌측
-					line2Start.x = x - 5;
-					line2Start.y = y - 5;
-					line2End.x = x - 5;
-					line2End.y = y + 5;
-					ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-				}
-				if (ret == false) {
-					//우측
-					line2Start.x = x + 5;
-					line2Start.y = y - 5;
-					line2End.x = x + 5;
-					line2End.y = y + 5;
-					ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-				}
-				if (ret == false) {
-					//하단
-					line2Start.x = x - 5;
-					line2Start.y = y + 5;
-					line2End.x = x + 5;
-					line2End.y = y + 5;
-					ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
+					index = this->length;
 				}
 			}
 			j++;
 		}
-		if (ret == true) {
-			index = j;
-			if (this->length < this->capacity) {
-				this->figures.Store(this->length, relation);
-			}
-			else {
-				this->figures.AppendFromRear(relation);
-				this->capacity++;
-			}
-			this->length++;
-		}
 		i++;
 	}
-		return index;
+	return index;
 }
 
 void Selection :: Accept(Visitor& visitor, Long distanceX, Long distanceY) {
@@ -399,38 +236,6 @@ void Selection :: Accept(Visitor& visitor, Long distanceX, Long distanceY) {
 void Selection::Accept(Visitor& visitor, CDC *cPaintDc) {
 	visitor.Visit(this, cPaintDc);
 }
-
-//#include "Diagram.h"
-//#include "Class.h"
-//#include "MemoBox.h"
-//#include "Line.h"
-//#include "Generalization.h"
-//#include "Template.h"
-//
-//#include <iostream>
-//using namespace std;
-//int main(int argc, char* argv[]) {
-//		Diagram object0;
-//		object0.AddClass(10, 20, 30, 40);
-//		dynamic_cast<Class*>(object0.GetAt(0))->Add(20, 30, 40, 40);
-//		dynamic_cast<Class*>(object0.GetAt(0))->AddGeneralization(40, 50, 10, 10);
-//		dynamic_cast<Class*>(object0.GetAt(0))->AddTemplate(13, 17, 10, 10);
-//	    object0.AddMemoBox(50, 60, 70, 80);
-//
-//		Selection object1;
-//		object1.Add(object0.GetAt(0));
-//		object1.Add(dynamic_cast<Class*>(object0.GetAt(0))->GetAt(0));
-//		object1.Add(dynamic_cast<Class*>(object0.GetAt(0))->GetAt(1));
-//		object1.Add(dynamic_cast<Class*>(object0.GetAt(0))->GetAt(2));
-//		object1.Add(object0.GetAt(1));
-//
-//		
-//		cout << dynamic_cast<MemoBox*>(object1.GetAt(4))->GetX() << dynamic_cast<MemoBox*>(object1.GetAt(4))->GetY() << dynamic_cast<MemoBox*>(object1.GetAt(4))->GetWidth() <<
-//			dynamic_cast<MemoBox*>(object1.GetAt(4))->GetHeight() << endl;
-//
-//		return 0;
-//
-//}
 
 bool Selection::FindCrossPoints(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End, CPoint *crossPoint){
 	double t;
