@@ -4,24 +4,20 @@
 #include "MemoLine.h"
 #include "SmartPointer.h"
 
-MemoBox::MemoBox(Long capacity) {
-	this->capacity = capacity;
-	this->length = 0;
+MemoBox::MemoBox(Long capacity) : FigureComposite(capacity) {
 	this->x = 0;
 	this->y = 0;
 	this->width = 0;
 	this->height = 0;
 }
-MemoBox::MemoBox(Long x, Long y, Long width, Long height) {
-	this->capacity = 256;
-	this->length = 0;
+MemoBox::MemoBox(Long x, Long y, Long width, Long height) : FigureComposite(10) {
 	this->x = x;
 	this->y = y;
 	this->width = width;
 	this->height = height;
 }
-MemoBox::MemoBox(const MemoBox& source) {
-	this->figures = source.figures;
+MemoBox::MemoBox(const MemoBox& source) : FigureComposite(source) {
+	/*this->figures = source.figures;
 	Long i = 0;
 	
 	while (i < source.length) {
@@ -29,7 +25,7 @@ MemoBox::MemoBox(const MemoBox& source) {
 		i++;
 	}
 	this->capacity = source.capacity;
-	this->length = source.length;
+	this->length = source.length;*/
 	this->x = source.x;
 	this->y = source.y;
 	this->width = source.width;

@@ -13,7 +13,7 @@ typedef signed long int Long;
 
 class Association : public Relation {
 public:
-	Association(Long capacity);
+	Association(Long capacity = 10);
 	Association(Long x, Long y, Long width, Long height);
 	Association(const Association& source);
 	virtual ~Association();

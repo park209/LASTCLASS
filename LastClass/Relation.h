@@ -27,7 +27,7 @@ public:
 	//선 점구하는거
 	Long Move(Long index, CPoint cPoint);
 	CPoint GetAt(Long index);
-	Long Add(CPoint cPoint);
+	Long Add(const CPoint& cPoint);
 	Long Remove(Long index);
 	Long Find(CPoint cPoint);
 	Long GetCapacity() const;

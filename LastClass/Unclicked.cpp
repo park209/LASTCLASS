@@ -25,7 +25,8 @@ void Unclicked::ChangeState(DrawingController *drawingController, UINT nChar) {
 
 Figure* Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
 	
-	CPoint cPoint;
+	CPoint cPoint/*(currentX, currentY)*/;
+	//cPoint.Offset(currentX, currentY);
 	cPoint.x = currentX;
 	cPoint.y = currentY;
 		if (dynamic_cast<Relation*>(selection->GetAt(0))) {

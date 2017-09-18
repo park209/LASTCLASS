@@ -20,8 +20,6 @@
 #include "Iterator.h"
 
 Class::Class(Long capacity):FigureComposite(capacity) {
-	this->capacity = capacity;
-	this->length = 0;
 	this->x = 0;
 	this->y = 0;
 	this->width = 0;
@@ -29,9 +27,7 @@ Class::Class(Long capacity):FigureComposite(capacity) {
 	this->templetePosition = -1;
 }
 
-Class::Class(Long x, Long y, Long width, Long height) {
-	this->capacity = 256;
-	this->length = 0;
+Class::Class(Long x, Long y, Long width, Long height) : FigureComposite(64) {
 	this->x = x;
 	this->y = y;
 	this->width = width;
@@ -39,15 +35,15 @@ Class::Class(Long x, Long y, Long width, Long height) {
 	this->templetePosition = -1;
 }
 
-Class::Class(const Class& source) {
-	this->figures = source.figures;
-	Long i = 0;
-	while (i < source.length) {
-		this->figures.Modify(i, (const_cast<Class&>(source)).figures[i]->Clone());
-		i++;
-	}
-	this->capacity = source.capacity;
-	this->length = source.length;
+Class::Class(const Class& source) : FigureComposite(source) {
+	//this->figures = source.figures;
+	//Long i = 0;
+	//while (i < source.length) {
+	//	this->figures.Modify(i, (const_cast<Class&>(source)).figures[i]->Clone());
+	//	i++;
+	//}
+	//this->capacity = source.capacity;
+	//this->length = source.length;
 	this->x = source.x;
 	this->y = source.y;
 	this->width = source.width;

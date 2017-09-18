@@ -12,7 +12,7 @@ typedef signed long int Long;
 
 class MemoLine : public Relation {
 public:
-	MemoLine(Long capacity);
+	MemoLine(Long capacity = 10);
 	MemoLine(Long x, Long y, Long width, Long height);
 	MemoLine(const MemoLine& source);
 	virtual ~MemoLine();
