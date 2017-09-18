@@ -333,13 +333,12 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->startY = point.y;
 	this->currentX = point.x;
 	this->currentY = point.y;
-	//this->selected = this->diagram->Find(this->currentX, this->currentY);
 	this->selection->DeleteAllItems();
-	//if (this->relationButton == true) {
+
 	Long x = this->startX;
 	Long y = this->startY;
 	this->selection->FindByPoint(this->diagram, x, y);
-	//}
+
 
 	KillTimer(1);
 

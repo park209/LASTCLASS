@@ -117,7 +117,6 @@ void DrawingVisitor::Visit(Realization *realization, CDC* cPaintDc) {
 	Long  startY = realization->GetY();
 	Long endX = realization->GetWidth() + realization->GetX();
 	Long endY = realization->GetHeight() + realization->GetY();
-	//cout << "실체화출력" << " " << x << " " << y << " " << width << " " << height << endl;
 
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));

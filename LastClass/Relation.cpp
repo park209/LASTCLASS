@@ -58,6 +58,8 @@ Long Relation::Add(CPoint cPoint) {
 	return index;
 }
 Long Relation::Remove(Long index) {
+	this->capacity--;
+	this->length--;
 	return this->points.Delete(index);
 }
 Long Relation::Find(CPoint cPoint) {

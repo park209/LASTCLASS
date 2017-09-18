@@ -8,10 +8,9 @@
 #include "DrawingVisitor.h"
 #include "Array.h"
 #include <afxwin.h>
+
+
 typedef signed long int Long;
-
-
-
 class Relation : public Figure {
 
 
