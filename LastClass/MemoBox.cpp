@@ -54,6 +54,10 @@ Figure* MemoBox::GetAt(Long index) {
 
 
 Long MemoBox::Remove(Long index) {
+
+	this->length--;
+	this->capacity--;
+
 	return this->figures.Delete(index);
 }
 

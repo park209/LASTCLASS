@@ -127,6 +127,10 @@ Figure* Diagram::FindItem(Long x, Long y) {
 
 
 Long Diagram::Remove(Long index) {
+
+	this->length--;
+	this->capacity--;
+
 	return this->figures.Delete(index);
 }
 

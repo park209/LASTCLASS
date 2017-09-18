@@ -270,6 +270,10 @@ Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
 }
 
 Long Class::Remove(Long index) {
+
+	this->length--;
+	this->capacity--;
+
 	return this->figures.Delete(index);
 }
 

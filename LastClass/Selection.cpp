@@ -252,11 +252,12 @@ void Selection::FindByArea(Diagram *diagram, CRect area) {
 Long Selection::FindByPoint(Diagram *diagram, Long x, Long y) {
 
 	FigureComposite *composite;
-	Figure *figure = 0;
+	//Figure *figure = 0;
 	Relation *relation=0;
-	bool ret;
+	bool ret=false;
 	Long i = 0;
 	Long j ;
+	Long k;
 	Long endX;
 	Long endY;
 	Long index = -1;
@@ -280,7 +281,6 @@ Long Selection::FindByPoint(Diagram *diagram, Long x, Long y) {
 		}
 		composite = static_cast<FigureComposite*>(diagram->GetAt(i));
 		j = 0;
-		ret = false;
 		while (j < composite->GetLength() && ret != true && index == -1) {
 			if (dynamic_cast<Relation*>(composite->GetAt(j))) {
 				relation = static_cast<Relation*>(composite->GetAt(j));
@@ -291,24 +291,53 @@ Long Selection::FindByPoint(Diagram *diagram, Long x, Long y) {
 				CPoint line2End;
 				CPoint cross1;
 
-				Long startX = relation->GetX();
-				Long startY = relation->GetY();
-				Long endX;
-				Long endY;
-				Long k = 0;
-				while (k < relation->GetLength()) {
-					//CPoint cPoint = generalization->GetAt(i);
-					//endX = cPoint.x;
-					//endY = cPoint.y;
-					endX = relation->GetAt(k).x;
-					endY = relation->GetAt(k).y;
+				line1Start.x = relation->GetX();
+				line1Start.y = relation->GetY();
+				
+				k = 0;
+				while (k < relation->GetLength() && ret != true) {
 					
-					startX = endX;
-					startY = endY;
+					line1End.x = relation->GetAt(k).x;
+					line1End.y = relation->GetAt(k).y;
+					if (ret == false) {//시작 클래스에서 선과 교차하는 면 찾기
+									   //상단
+						line2Start.x = x - 5;
+						line2Start.y = y - 5;
+						line2End.x = x + 5;
+						line2End.y = y - 5;
+						ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
+					}
+					if (ret == false) {
+						//좌측
+						line2Start.x = x - 5;
+						line2Start.y = y - 5;
+						line2End.x = x - 5;
+						line2End.y = y + 5;
+						ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
+					}
+					if (ret == false) {
+						//우측
+						line2Start.x = x + 5;
+						line2Start.y = y - 5;
+						line2End.x = x + 5;
+						line2End.y = y + 5;
+						ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
+					}
+					if (ret == false) {
+						//하단
+						line2Start.x = x - 5;
+						line2Start.y = y + 5;
+						line2End.x = x + 5;
+						line2End.y = y + 5;
+						ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
+					}
+					line1Start.x = line1End.x;
+					line1Start.y = line1End.y;
+				
 					k++;
 				}
-				endX = relation->GetWidth() + relation->GetX();
-				endY = relation->GetHeight() + relation->GetY();
+				line1End.x = relation->GetWidth() + relation->GetX();
+				line1End.y = relation->GetHeight() + relation->GetY();
 
 
 
@@ -350,10 +379,10 @@ Long Selection::FindByPoint(Diagram *diagram, Long x, Long y) {
 		if (ret == true) {
 			index = j;
 			if (this->length < this->capacity) {
-				this->figures.Store(this->length, figure);
+				this->figures.Store(this->length, relation);
 			}
 			else {
-				this->figures.AppendFromRear(figure);
+				this->figures.AppendFromRear(relation);
 				this->capacity++;
 			}
 			this->length++;
