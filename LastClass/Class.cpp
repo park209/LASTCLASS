@@ -258,11 +258,12 @@ Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
 		this->capacity++;
 	}
 	this->length++;
-
 	return this->templetePosition;
 }
 
 Long Class::Remove(Long index) {
+	this->capacity--;
+	this->length--;
 	return this->figures.Delete(index);
 }
 

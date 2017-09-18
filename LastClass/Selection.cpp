@@ -48,6 +48,8 @@ Long Selection::Add(Figure *figure) {
 
 
 Long Selection::Remove(Long index) {
+	this->capacity--;
+	this->length--;
 	return this->figures.Delete(index);
 }
 
@@ -281,39 +283,6 @@ void Selection :: Accept(Visitor& visitor, Long distanceX, Long distanceY) {
 void Selection::Accept(Visitor& visitor, CDC *cPaintDc) {
 	visitor.Visit(this, cPaintDc);
 }
-
-//#include "Diagram.h"
-//#include "Class.h"
-//#include "MemoBox.h"
-//#include "Line.h"
-//#include "Generalization.h"
-//#include "Template.h"
-//
-//#include <iostream>
-//using namespace std;
-//int main(int argc, char* argv[]) {
-//		Diagram object0;
-//		object0.AddClass(10, 20, 30, 40);
-//		dynamic_cast<Class*>(object0.GetAt(0))->Add(20, 30, 40, 40);
-//		dynamic_cast<Class*>(object0.GetAt(0))->AddGeneralization(40, 50, 10, 10);
-//		dynamic_cast<Class*>(object0.GetAt(0))->AddTemplate(13, 17, 10, 10);
-//	    object0.AddMemoBox(50, 60, 70, 80);
-//
-//		Selection object1;
-//		object1.Add(object0.GetAt(0));
-//		object1.Add(dynamic_cast<Class*>(object0.GetAt(0))->GetAt(0));
-//		object1.Add(dynamic_cast<Class*>(object0.GetAt(0))->GetAt(1));
-//		object1.Add(dynamic_cast<Class*>(object0.GetAt(0))->GetAt(2));
-//		object1.Add(object0.GetAt(1));
-//
-//		
-//		cout << dynamic_cast<MemoBox*>(object1.GetAt(4))->GetX() << dynamic_cast<MemoBox*>(object1.GetAt(4))->GetY() << dynamic_cast<MemoBox*>(object1.GetAt(4))->GetWidth() <<
-//			dynamic_cast<MemoBox*>(object1.GetAt(4))->GetHeight() << endl;
-//
-//		return 0;
-//
-//}
-
 bool Selection::FindCrossPoints(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End, CPoint *crossPoint){
 	double t;
 	double s;
