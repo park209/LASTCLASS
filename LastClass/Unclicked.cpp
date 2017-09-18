@@ -24,17 +24,17 @@ void Unclicked::ChangeState(DrawingController *drawingController, UINT nChar) {
 }
 
 Figure* Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
-	
-	CPoint cPoint/*(currentX, currentY)*/;
-	//cPoint.Offset(currentX, currentY);
+
+	CPoint cPoint;
 	cPoint.x = currentX;
 	cPoint.y = currentY;
+	if (selection->GetLength() !=0) { //드래그할때 추가해버리는거 막아야되는데
 		if (dynamic_cast<Relation*>(selection->GetAt(0))) {
-			
+
 			static_cast<Relation*>(selection->GetAt(0))->Add(cPoint);
-			
-			
+
 		}
+	}
 	return  static_cast<Relation*>(selection->GetAt(0));
 }
 

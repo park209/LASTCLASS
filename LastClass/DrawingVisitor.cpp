@@ -55,7 +55,7 @@ void DrawingVisitor::Visit(Text* text, CDC* cPaintDc) {
 }
 
 void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
-	Long aa = generalization->GetCapacity();
+	
 
 	Long startX = generalization->GetX();
 	Long startY = generalization->GetY();
