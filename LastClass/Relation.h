@@ -17,7 +17,7 @@ class Relation : public Figure {
 
 
 public:
-	Relation(Long capacity = 10);
+	Relation(Long capacity = 1);
 	Relation(const Relation& source);
 	Relation(Long x, Long y, Long width, Long height);
 	virtual ~Relation() = 0;
@@ -27,7 +27,7 @@ public:
 	//선 점구하는거
 	Long Move(Long index, CPoint cPoint);
 	CPoint GetAt(Long index);
-	Long Add(const CPoint& cPoint);
+	Long Add(const CPoint& stratCPoint , const CPoint& currentCPoint);
 	Long Remove(Long index);
 	Long Find(CPoint cPoint);
 	Long GetCapacity() const;

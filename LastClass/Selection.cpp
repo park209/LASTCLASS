@@ -157,8 +157,6 @@ Long Selection::FindByPoint(Diagram *diagram, Long x, Long y) {
 	Long i = 0;
 	Long j;
 	Long k;
-	Long endX;
-	Long endY;
 	Long index = -1;
 
 	while (i < diagram->GetLength() && ret == false) {

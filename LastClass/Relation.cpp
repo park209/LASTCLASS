@@ -1,6 +1,6 @@
 //Relation.cpp
 #include "Relation.h"
-
+#include "Finder.h"
 Relation::Relation(Long capacity):Figure(), points(capacity){
 	//this->points;
 	this->capacity = capacity;
@@ -45,17 +45,41 @@ Long Relation::Move(Long index, CPoint cPoint) {
 CPoint Relation::GetAt(Long index) {
 	return this->points.GetAt(index);
 }
-Long Relation::Add(const CPoint& cPoint) {
+Long Relation::Add(const CPoint& stratCPoint, const CPoint& currentCPoint) {
 	Long index;
-	if (this->length < this->capacity) {
-		index = this->points.Store(this->length, cPoint);
+	Finder finder;
+	if (this->length == 0 ) {
+		index = this->points.Store(this->length, currentCPoint);
 	}
 	else {
-		index = this->points.AppendFromRear(cPoint);
+		bool ret = false;
+		CPoint lineStart(this->x, this->y);
+		CPoint lineEnd;
+
+		index = 0;
+		while (index < this->length && ret == false) {
+
+			lineEnd.x = this->GetAt(index).x;
+			lineEnd.y = this->GetAt(index).y;
+			ret = finder.FindLineByPoint(lineStart, lineEnd, stratCPoint.x, stratCPoint.y);
+			lineStart.x = lineEnd.x;
+			lineStart.y = lineEnd.y;
+			index++;
+		}
+
+		if (ret == true) {
+			index--;
+		}
+
+		lineEnd.x = this->width + this->x;
+		lineEnd.y = this->height + this->y;
+		if (ret == false) {
+			ret = finder.FindLineByPoint(lineStart, lineEnd, stratCPoint.x, stratCPoint.y);
+		}
+		this->points.Insert(index, currentCPoint);
 		this->capacity++;
 	}
 	this->length++;
-
 	return index;
 }
 Long Relation::Remove(Long index) {
