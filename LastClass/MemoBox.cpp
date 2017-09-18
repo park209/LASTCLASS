@@ -4,19 +4,28 @@
 #include "MemoLine.h"
 #include "SmartPointer.h"
 
-MemoBox::MemoBox(Long capacity):FigureComposite(capacity) {
+MemoBox::MemoBox(Long capacity) : FigureComposite(capacity) {
 	this->x = 0;
 	this->y = 0;
 	this->width = 0;
 	this->height = 0;
 }
-MemoBox::MemoBox(Long x, Long y, Long width, Long height):FigureComposite(10) {
+MemoBox::MemoBox(Long x, Long y, Long width, Long height) : FigureComposite(10) {
 	this->x = x;
 	this->y = y;
 	this->width = width;
 	this->height = height;
 }
-MemoBox::MemoBox(const MemoBox& source):FigureComposite(source) {
+MemoBox::MemoBox(const MemoBox& source) : FigureComposite(source) {
+	/*this->figures = source.figures;
+	Long i = 0;
+	
+	while (i < source.length) {
+		this->figures.Modify(i, (const_cast<MemoBox&>(source)).figures[i]->Clone());
+		i++;
+	}
+	this->capacity = source.capacity;
+	this->length = source.length;*/
 	this->x = source.x;
 	this->y = source.y;
 	this->width = source.width;
@@ -45,6 +54,10 @@ Figure* MemoBox::GetAt(Long index) {
 
 
 Long MemoBox::Remove(Long index) {
+
+	this->length--;
+	this->capacity--;
+
 	return this->figures.Delete(index);
 }
 

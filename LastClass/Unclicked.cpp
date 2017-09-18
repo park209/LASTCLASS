@@ -5,7 +5,7 @@
 #include "Selection.h"
 #include "Line.h"
 #include"Relation.h"
-
+#include "Finder.h"
 
 Unclicked::Unclicked() {
 
@@ -25,16 +25,45 @@ void Unclicked::ChangeState(DrawingController *drawingController, UINT nChar) {
 
 Figure* Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
 
-	CPoint cPoint;
-	cPoint.x = currentX;
-	cPoint.y = currentY;
-	Figure *figure = 0;
+	Finder finder;
+	CPoint stratCPoint;
+	CPoint currentCPoint;
+	stratCPoint.x = startX;
+	stratCPoint.y = startY;
+	currentCPoint.x = currentX;
+	currentCPoint.y = currentY;
 
-	if (selection->GetLength() != 0 && dynamic_cast<Relation*>(selection->GetAt(0))) {
-		Long index= static_cast<Relation*>(selection->GetAt(0))->Add(cPoint);
-		 figure = static_cast<Relation*>(selection->GetAt(index));
+	if (selection->GetLength() == 1 && dynamic_cast<Relation*>(selection->GetAt(0))) { //드래그할때 추가해버리는거 막아야되는데
+		
+			Relation *relation = static_cast<Relation*>(selection->GetAt(0));
+			bool ret = false;
+			CPoint lineStart(relation->GetX(), relation->GetY());
+			CPoint lineEnd;
+
+			Long i = 0;
+			while (i < relation->GetLength() && ret == false) {
+
+				lineEnd.x = relation->GetAt(i).x;
+				lineEnd.y = relation->GetAt(i).y;
+				ret = finder.FindLineByPoint(lineStart, lineEnd, startX, startY);
+				lineStart.x = lineEnd.x;
+				lineStart.y = lineEnd.y;
+				i++;
+			}
+
+			lineEnd.x = relation->GetWidth() + relation->GetX();
+			lineEnd.y = relation->GetHeight() + relation->GetY();
+			if (ret == false) {
+				ret = finder.FindLineByPoint(lineStart, lineEnd, startX, startY);
+			}
+
+			if (ret == true) {
+				relation->Add(stratCPoint,currentCPoint);
+			}
+	
 	}
-	return figure;
+
+	return  static_cast<Relation*>(selection->GetAt(0));
 }
 
 void Unclicked::Draw(Selection *selection,Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
@@ -53,7 +82,6 @@ void Unclicked::Draw(Selection *selection,Long startX, Long startY, Long current
 		cPaintDc->MoveTo(startX, currentY);
 		cPaintDc->LineTo(currentX, currentY);
 	}
-	
 	
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;

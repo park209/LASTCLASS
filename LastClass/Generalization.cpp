@@ -1,7 +1,6 @@
 #include "Generalization.h"
 
 Generalization::Generalization(Long capacity):Relation(capacity){
-
 }
 
 
@@ -32,4 +31,3 @@ void Generalization::Accept(Visitor& visitor, CDC *cPaintDc) {
 Figure* Generalization::Clone() const {
 	return new Generalization(*this);
 }
-

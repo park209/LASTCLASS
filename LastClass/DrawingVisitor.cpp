@@ -55,7 +55,7 @@ void DrawingVisitor::Visit(Text* text, CDC* cPaintDc) {
 }
 
 void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
-	//Long capacity = generalization->GetCapacity();
+	
 
 	Long startX = generalization->GetX();
 	Long startY = generalization->GetY();
@@ -63,9 +63,6 @@ void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
 	Long endY;
 	Long i = 0;
 	while (i < generalization->GetLength()) {
-		//CPoint cPoint = generalization->GetAt(i);
-		//endX = cPoint.x;
-		//endY = cPoint.y;
 		endX = generalization->GetAt(i).x;
 		endY = generalization->GetAt(i).y;
 		cPaintDc->MoveTo(startX, startY);
@@ -112,18 +109,32 @@ void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
 }
 
 void DrawingVisitor::Visit(Realization *realization, CDC* cPaintDc) {
-
-	Long startX = realization->GetX();
-	Long  startY = realization->GetY();
-	Long endX = realization->GetWidth() + realization->GetX();
-	Long endY = realization->GetHeight() + realization->GetY();
-
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDc->SelectObject(&pen);
 	cPaintDc->SetBkMode(TRANSPARENT);
+
+
+	Long startX = realization->GetX();
+	Long startY = realization->GetY();
+	Long endX;
+	Long endY;
+	Long i = 0;
+	while (i < realization->GetLength()) {
+		endX = realization->GetAt(i).x;
+		endY = realization->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+	endX = realization->GetWidth() + realization->GetX();
+	endY = realization->GetHeight() + realization->GetY();
+
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
+
 	cPaintDc->SelectObject(oldPen);
 	pen.DeleteObject();
 
@@ -160,37 +171,28 @@ void DrawingVisitor::Visit(Realization *realization, CDC* cPaintDc) {
 
 void DrawingVisitor::Visit(Dependency *dependency, CDC* cPaintDc) {
 
-	//Long startX = dependency->GetX();
-	//Long startY = dependency->GetY();
-	//Long endX;
-	//Long endY;
-	//Long i = 0;
-	//while (i < dependency->GetLength()) {
-	//	CPoint cPoint = dependency->GetAt(i);
-	//	endX = cPoint.x;
-	//	endY = cPoint.y;
-	//	cPaintDc->MoveTo(startX, startY);
-	//	cPaintDc->LineTo(endX, endY);
-	//	startX = endX;
-	//	startY = endY;
-	//	i++;
-	//}
-	//endX = dependency->GetWidth() + dependency->GetX();
-	//endY = dependency->GetHeight() + dependency->GetY();
-
-	//cPaintDc->MoveTo(startX, startY);
-	//cPaintDc->LineTo(endX, endY);
-
-	Long startX = dependency->GetX();
-	Long  startY = dependency->GetY();
-	Long endX = dependency->GetWidth() + dependency->GetX();
-	Long endY = dependency->GetHeight() + dependency->GetY();
-	////cout << "의존 출력" << " " << x << " " << y << " " << width << " " << height << endl;
-
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDc->SelectObject(&pen);
 	cPaintDc->SetBkMode(TRANSPARENT);
+
+	Long startX = dependency->GetX();
+	Long startY = dependency->GetY();
+	Long endX;
+	Long endY;
+	Long i = 0;
+	while (i < dependency->GetLength()) {
+		endX = dependency->GetAt(i).x;
+		endY = dependency->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+	endX = dependency->GetWidth() + dependency->GetX();
+	endY = dependency->GetHeight() + dependency->GetY();
+
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
 	cPaintDc->SelectObject(oldPen);
@@ -223,14 +225,24 @@ void DrawingVisitor::Visit(Dependency *dependency, CDC* cPaintDc) {
 	cPaintDc->LineTo(pts[2].x, pts[2].y);
 }
 
-void DrawingVisitor::Visit(Association *association, CDC* cPaintDc) { //, CDC* cPaintDc
+void DrawingVisitor::Visit(Association *association, CDC* cPaintDc) { 
 
 	Long startX = association->GetX();
 	Long startY = association->GetY();
-	Long endX = association->GetWidth() + association->GetX();
-	Long endY = association->GetHeight() + association->GetY();
-	//cout << "연관화출력" << " " << startX << " " << startY << " " << endX << " " << endY << endl;
-
+	Long endX;
+	Long endY;
+	Long i = 0;
+	while (i < association->GetLength()) {
+		endX = association->GetAt(i).x;
+		endY = association->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+	endX = association->GetWidth() + association->GetX();
+	endY = association->GetHeight() + association->GetY();
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
 }
@@ -238,11 +250,21 @@ void DrawingVisitor::Visit(Association *association, CDC* cPaintDc) { //, CDC* c
 void DrawingVisitor::Visit(DirectedAssociation *directedAssociation, CDC* cPaintDc) {
 
 	Long startX = directedAssociation->GetX();
-	Long  startY = directedAssociation->GetY();
-	Long endX = directedAssociation->GetWidth() + directedAssociation->GetX();
-	Long endY = directedAssociation->GetHeight() + directedAssociation->GetY();
-	//cout << "직접연관출력" << " " << x << " " << y << " " << width << " " << height << endl;
-
+	Long startY = directedAssociation->GetY();
+	Long endX;
+	Long endY;
+	Long i = 0;
+	while (i < directedAssociation->GetLength()) {
+		endX = directedAssociation->GetAt(i).x;
+		endY = directedAssociation->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+	endX = directedAssociation->GetWidth() + directedAssociation->GetX();
+	endY = directedAssociation->GetHeight() + directedAssociation->GetY();
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
 
@@ -275,14 +297,30 @@ void DrawingVisitor::Visit(DirectedAssociation *directedAssociation, CDC* cPaint
 
 void DrawingVisitor::Visit(Aggregation *aggregation, CDC* cPaintDc) {
 
-	Long  startX = aggregation->GetX();
-	Long  startY = aggregation->GetY();
-	Long endX = aggregation->GetWidth() + aggregation->GetX();
-	Long endY = aggregation->GetHeight() + aggregation->GetY();
-	//cout << "집합출력" << " " << x << " " << y << " " << width << " " << height << endl;
+	Long startX = aggregation->GetX();
+	Long startY = aggregation->GetY();
+	Long endX;
+	Long endY;
+	Long i = 0;
+
+	while (i < aggregation->GetLength()) {
+		endX = aggregation->GetAt(i).x;
+		endY = aggregation->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+
+	endX = aggregation->GetWidth() + aggregation->GetX();
+	endY = aggregation->GetHeight() + aggregation->GetY();
 
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
+	//시작지점 원위치
+	startX = aggregation->GetX(); 
+	startY = aggregation->GetY();
 
 	CBrush white(RGB(255, 255, 255));
 	CBrush myBrush;
@@ -322,13 +360,31 @@ void DrawingVisitor::Visit(Aggregation *aggregation, CDC* cPaintDc) {
 void DrawingVisitor::Visit(Aggregations *aggregations, CDC* cPaintDc) {
 
 	Long startX = aggregations->GetX();
-	Long  startY = aggregations->GetY();
-	Long endX = aggregations->GetWidth() + aggregations->GetX();
-	Long endY = aggregations->GetHeight() + aggregations->GetY();
-	//cout << "집합연관출력" << " " << x << " " << y << " " << width << " " << height << endl;
+	Long startY = aggregations->GetY();
+	Long endX;
+	Long endY;
+	Long i = 0;
+
+	while (i < aggregations->GetLength()) {
+		endX = aggregations->GetAt(i).x;
+		endY = aggregations->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+
+	endX = aggregations->GetWidth() + aggregations->GetX();
+	endY = aggregations->GetHeight() + aggregations->GetY();
+
 
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
+
+	//시작지점 원위치
+	startX = aggregations->GetX();
+	startY = aggregations->GetY();
 
 	CBrush white(RGB(255, 255, 255));
 	CBrush myBrush;
@@ -391,15 +447,31 @@ void DrawingVisitor::Visit(Aggregations *aggregations, CDC* cPaintDc) {
 }
 
 void DrawingVisitor::Visit(Composition *composition, CDC* cPaintDc) {
-
 	Long startX = composition->GetX();
-	Long  startY = composition->GetY();
-	Long endX = composition->GetWidth() + composition->GetX();
-	Long endY = composition->GetHeight() + composition->GetY();
-	//cout << "합성출력" << " " << x << " " << y << " " << width << " " << height << endl;
+	Long startY = composition->GetY();
+	Long endX;
+	Long endY;
+	Long i = 0;
+
+	while (i < composition->GetLength()) {
+		endX = composition->GetAt(i).x;
+		endY = composition->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+
+	endX = composition->GetWidth() + composition->GetX();
+	endY = composition->GetHeight() + composition->GetY();
 
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
+
+	//시작지점 원위치
+	startX = composition->GetX();
+	startY = composition->GetY();
 
 	CBrush black(RGB(000, 000, 000));
 	CBrush myBrush;
@@ -440,13 +512,30 @@ void DrawingVisitor::Visit(Composition *composition, CDC* cPaintDc) {
 void DrawingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 
 	Long startX = compositions->GetX();
-	Long  startY = compositions->GetY();
-	Long endX = compositions->GetWidth() + compositions->GetX();
-	Long endY = compositions->GetHeight() + compositions->GetY();
-	//cout << "복합연관출력" << " " << x << " " << y << " " << width << " " << height << endl;
+	Long startY = compositions->GetY();
+	Long endX;
+	Long endY;
+	Long i = 0;
+
+	while (i < compositions->GetLength()) {
+		endX = compositions->GetAt(i).x;
+		endY = compositions->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+
+	endX = compositions->GetWidth() + compositions->GetX();
+	endY = compositions->GetHeight() + compositions->GetY();
 
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
+
+	//시작지점 원위치
+	startX = compositions->GetX();
+	startY = compositions->GetY();
 
 	CBrush black(RGB(000, 000, 000));
 	CBrush myBrush;
@@ -519,17 +608,17 @@ void DrawingVisitor::Visit(Template *object, CDC *cPaintDc) {
 	Long height = object->GetHeight();
 
 	cPaintDc->Rectangle(x, y, x + width, y + height);
-	//cout << "템플릿출력" << " " << x << " " << y << " " << width << " " << height << endl;
+
 
 }
 
-void DrawingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { // CDC  *cPaintDc
+void DrawingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) {
 	Long x = memoBox->GetX();
 	Long y = memoBox->GetY();;
 	Long width = memoBox->GetWidth();
 	Long height = memoBox->GetHeight();
 
-	//cout << "메모박스출력" << " " << x << " " << y << " " << width << " " << height << endl;
+
 
 	CPoint pts2[5];
 	pts2[0].x = static_cast<LONG>(x + 15); // 윗점
@@ -557,17 +646,34 @@ void DrawingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { // CDC  *cPaintDc
 }
 
 void DrawingVisitor::Visit(MemoLine *memoLine, CDC *cPaintDc) {
-	Long x = memoLine->GetX();
-	Long  y = memoLine->GetY();;
-	Long width = memoLine->GetWidth();
-	Long height = memoLine->GetHeight();
-
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDc->SelectObject(&pen);
 	cPaintDc->SetBkMode(TRANSPARENT);
-	cPaintDc->MoveTo(x, y);
-	cPaintDc->LineTo(x + width, y + height);
+
+	Long startX = memoLine->GetX();
+	Long startY = memoLine->GetY();
+	Long endX;
+	Long endY;
+	Long i = 0;
+
+	while (i < memoLine->GetLength()) {
+		endX = memoLine->GetAt(i).x;
+		endY = memoLine->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+
+	endX = memoLine->GetWidth() + memoLine->GetX();
+	endY = memoLine->GetHeight() + memoLine->GetY();
+
+
+	cPaintDc->MoveTo(startX, startY);
+	cPaintDc->LineTo(endX, endY);
+
 	cPaintDc->SelectObject(oldPen);
 	pen.DeleteObject();
 }

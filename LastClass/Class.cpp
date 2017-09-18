@@ -27,8 +27,7 @@ Class::Class(Long capacity):FigureComposite(capacity) {
 	this->templetePosition = -1;
 }
 
-Class::Class(Long x, Long y, Long width, Long height):FigureComposite(64) {
-
+Class::Class(Long x, Long y, Long width, Long height) : FigureComposite(64) {
 	this->x = x;
 	this->y = y;
 	this->width = width;
@@ -36,7 +35,15 @@ Class::Class(Long x, Long y, Long width, Long height):FigureComposite(64) {
 	this->templetePosition = -1;
 }
 
-Class::Class(const Class& source):FigureComposite(source){
+Class::Class(const Class& source) : FigureComposite(source) {
+	//this->figures = source.figures;
+	//Long i = 0;
+	//while (i < source.length) {
+	//	this->figures.Modify(i, (const_cast<Class&>(source)).figures[i]->Clone());
+	//	i++;
+	//}
+	//this->capacity = source.capacity;
+	//this->length = source.length;
 	this->x = source.x;
 	this->y = source.y;
 	this->width = source.width;
@@ -258,12 +265,15 @@ Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
 		this->capacity++;
 	}
 	this->length++;
+
 	return this->templetePosition;
 }
 
 Long Class::Remove(Long index) {
-	this->capacity--;
+
 	this->length--;
+	this->capacity--;
+
 	return this->figures.Delete(index);
 }
 
@@ -343,19 +353,4 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		smartPointer->Next();
 	}
 }
-#include <iostream>
-using namespace std;
 
-
-int main() {
-	Class object;
-	Long x = object.GetX();
-	Long y = object.GetY();
-	Long width = object.GetWidth();
-	Long height = object.GetHeight();
-
-	cout << x <<" " << y << " " << width << " " << height << endl;
-
-	return 0;
-
-}

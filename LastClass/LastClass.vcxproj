@@ -57,6 +57,7 @@
     <ClInclude Include="Figure.h" />
     <ClInclude Include="FigureComposite.h" />
     <ClInclude Include="FigureFactory.h" />
+    <ClInclude Include="Finder.h" />
     <ClInclude Include="Generalization.h" />
     <ClInclude Include="GeneralizationButton.h" />
     <ClInclude Include="HomeKey.h" />
@@ -132,6 +133,7 @@
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="FigureComposite.cpp" />
     <ClCompile Include="FigureFactory.cpp" />
+    <ClCompile Include="Finder.cpp" />
     <ClCompile Include="Generalization.cpp" />
     <ClCompile Include="GeneralizationButton.cpp" />
     <ClCompile Include="HomeKey.cpp" />
