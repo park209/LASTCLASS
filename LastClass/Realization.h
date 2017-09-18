@@ -11,7 +11,7 @@
 typedef signed long int Long;
 class Realization : public Relation {
 public:
-	Realization(Long capacity);
+	Realization(Long capacity = 10);
 	Realization(Long x, Long y, Long width, Long height);
 	Realization(const Realization& source);
 	virtual ~Realization();

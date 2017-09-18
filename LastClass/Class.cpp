@@ -20,8 +20,6 @@
 #include "Iterator.h"
 
 Class::Class(Long capacity):FigureComposite(capacity) {
-	this->capacity = capacity;
-	this->length = 0;
 	this->x = 0;
 	this->y = 0;
 	this->width = 0;
@@ -343,55 +341,4 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		//static_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		smartPointer->Next();
 	}
-}
-
-#include <iostream>
-using namespace std;
-
-int main(int argc, char *argv[]) {
-	Class object;
-	Long capacity = object.GetCapacity();
-	Long length = object.GetLength();
-	cout << capacity << " " << length << endl;
-
-	Long i = 0;
-	while (i < 100) {
-		object.Add(10,20, 30, 40);
-		i++;
-	}
-	i = 0;
-	 length = object.GetLength();
-	Long x;
-	Long y;
-	Long width;
-	Long height;
-
-	while (i < length) {
-		Figure *figure = object.GetAt(i);
-		x = figure->GetX();
-		y = figure->GetY();
-		width = figure->GetWidth();
-		height = figure->GetHeight();
-
-		cout << x << " " << y << " " << width << " " << height << endl;
-		i++;
-	}
-	Class object1(object);
-	i = 0;
-	cout << endl << endl;
-	while (i < length) {
-		Figure *figure1 = object1.GetAt(i);
-		x = figure1->GetX();
-		y = figure1->GetY();
-		width = figure1->GetWidth();
-		height = figure1->GetHeight();
-
-		cout << x << " " << y << " " << width << " " << height << endl;
-		i++;
-	}
-	cout << endl << endl;
-
-	cout << object.GetCapacity() << object.GetLength() << endl;
-	cout << object1.GetCapacity() << object1.GetLength() << endl;
-	return 0;
 }

@@ -1,8 +1,7 @@
 //Relation.cpp
 #include "Relation.h"
 
-Relation::Relation(Long capacity):Figure(){
-	this->points;
+Relation::Relation(Long capacity):Figure(),points(capacity){
 	this->capacity = capacity;
 	this->length = 0;
 }
@@ -18,8 +17,8 @@ Relation::Relation(const Relation& source) :Figure(source), points(source.points
 	this->length = source.length;
 
 }
-Relation::Relation(Long x, Long y, Long width, Long height) :Figure(x,y,width,height), points() {
-	this->capacity = capacity;
+Relation::Relation(Long x, Long y, Long width, Long height) :Figure(x,y,width,height), points(10) {
+	this->capacity = 10;
 	this->length = 0;
 }
 Relation& Relation::operator=(const Relation& source) {

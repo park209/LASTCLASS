@@ -9,7 +9,7 @@
 typedef signed long int Long;
 class Composition : public Relation {
 public:
-	Composition(Long capacity);
+	Composition(Long capacity =10);
 	Composition(Long x, Long y, Long width, Long height);
 	Composition(const Composition& source);
 	virtual ~Composition();
