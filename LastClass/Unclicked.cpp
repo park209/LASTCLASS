@@ -28,13 +28,13 @@ Figure* Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long start
 	CPoint cPoint;
 	cPoint.x = currentX;
 	cPoint.y = currentY;
-	if (selection->GetLength() != 0) {
-	if (dynamic_cast<Relation*>(selection->GetAt(0))) {
+	Figure *figure = 0;
 
-		static_cast<Relation*>(selection->GetAt(0))->Add(cPoint);
+	if (selection->GetLength() != 0 && dynamic_cast<Relation*>(selection->GetAt(0))) {
+		Long index= static_cast<Relation*>(selection->GetAt(0))->Add(cPoint);
+		 figure = static_cast<Relation*>(selection->GetAt(index));
 	}
-}
-	return  static_cast<Relation*>(selection->GetAt(0));
+	return figure;
 }
 
 void Unclicked::Draw(Selection *selection,Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {

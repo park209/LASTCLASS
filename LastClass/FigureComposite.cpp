@@ -39,11 +39,3 @@ ArrayIterator<Figure*>* FigureComposite::CreateIterator() const {
 	return new ArrayIterator<Figure*>(&this->figures);
 }
 
-
-//#include <iostream>
-//using namespace std;
-//
-//int main(int argc, char* argv[]) {
-//
-//	return 0;
-//}

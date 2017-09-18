@@ -342,3 +342,19 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		smartPointer->Next();
 	}
 }
+#include <iostream>
+using namespace std;
+
+
+int main() {
+	Class object;
+	Long x = object.GetX();
+	Long y = object.GetY();
+	Long width = object.GetWidth();
+	Long height = object.GetHeight();
+
+	cout << x <<" " << y << " " << width << " " << height << endl;
+
+	return 0;
+
+}

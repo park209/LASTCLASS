@@ -245,7 +245,7 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>

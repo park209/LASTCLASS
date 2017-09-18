@@ -34,6 +34,3 @@ Figure* Realization::Clone() const {
 	return new Realization(*this);
 }
 
-int main() {
-	Realization object;
-}

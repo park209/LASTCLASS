@@ -45,6 +45,7 @@ CPoint Relation::GetAt(Long index) {
 }
 Long Relation::Add(CPoint cPoint) {
 	Long index;
+
 	if (this->length < this->capacity) {
 		index = this->points.Store(this->length, cPoint);
 	}
