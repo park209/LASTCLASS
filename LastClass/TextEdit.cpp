@@ -66,7 +66,7 @@ void TextEdit::OnPaint() {
 	WritingVisitor writingVisitor;
 
 	CFont cFont;
-	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
@@ -79,7 +79,7 @@ void TextEdit::OnPaint() {
 		dc.SetBkColor(RGB(0, 051, 255));
 		//dc.SetBkMode(TRANSPARENT);//텍스트 배경을 투명하게 설정
 		dc.SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
-		Long x = 5;
+		Long x = 0;
 		while (i < this->selectedX) { // 현재줄에서 캐릭터인덱스까지 너비 구한다
 			x += dc.GetTextExtent(this->text->GetAt(this->caret->GetRowIndex())->GetAt(i)->MakeCString()).cx;
 			i++;
@@ -89,20 +89,21 @@ void TextEdit::OnPaint() {
 		
 		if (y == this->caret->GetCurrentCaretY()) {
 			if (x < this->caret->GetCurrentCaretX()) {
-				rt = { x + 5, y, this->caret->GetCurrentCaretX() + 5, this->caret->GetCurrentCaretY() + this->rowHeight };
+				rt = { x + 5, y, this->caret->GetCurrentCaretX(), this->caret->GetCurrentCaretY() + this->rowHeight };
 			}
 			else {
-				rt = { this->caret->GetCurrentCaretX() + 5 , this->caret->GetCurrentCaretY(), x - this->caret->GetCurrentCaretX() + 5, this->caret->GetCurrentCaretY() + this->rowHeight };
+				rt = { this->caret->GetCurrentCaretX() , this->caret->GetCurrentCaretY(), x + 5, y + this->rowHeight };
 			}
 		}
 		else {
 			if (y < this->caret->GetCurrentCaretY()) {
-				rt = { x + 5, y, this->caret->GetCurrentCaretX() + 5, this->caret->GetCurrentCaretY() + this->rowHeight };
+				rt = { x + 5, y, this->caret->GetCurrentCaretX(), this->caret->GetCurrentCaretY() + this->rowHeight };
 			}
 			else {
-				rt = { this->caret->GetCurrentCaretX()+5 ,  this->caret->GetCurrentCaretY(), x - this->caret->GetCurrentCaretX() + 5, y - this->caret->GetCurrentCaretY() + this->rowHeight };
+				rt = { this->caret->GetCurrentCaretX() ,  this->caret->GetCurrentCaretY(), x + 5, y + this->rowHeight };
 			}
 		}
+
 		dc.DrawText((CString)text->MakeText().c_str(),&rt, DT_LEFT | DT_TOP | DT_EDITCONTROL | DT_EXPANDTABS);
 	}
 	dc.SelectObject(oldFont);
@@ -206,11 +207,9 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 
 void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
-	this->selectedX = point.x;
-	this->selectedY = point.y;
 
 	CFont cFont;
-	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
+	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
@@ -235,7 +234,7 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 
 		CFont cFont;
 		CPaintDC dc(this);
-		cFont.CreateFont(this->GetRowHeight(), 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
+		cFont.CreateFont(this->GetRowHeight(), 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
 		this->SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);// 폰트 시작
@@ -263,13 +262,9 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 			this->flagInsert = 0;
 		}
 	}
-
+//	this->koreanEnglish = 0;
 	this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
-
-	this->koreanEnglish = 0;
-	Invalidate(TRUE);//지우고다시그림
-	Invalidate(FALSE);//덮어씌움
-	//Invalidate();
+	Invalidate();
 }
 
 LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {

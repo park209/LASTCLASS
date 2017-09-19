@@ -49,8 +49,8 @@ private:
 	Long rowHeight;//figure에서 저장을 해줘야 하기때문에 삭제가능
 	Long koreanEnglish;//flag
 	Long flagBuffer;//flag
-	Long selectedX;//보류
-	Long selectedY;//보류
+	Long selectedX;//드래그시 고정되는 인덱스값
+	Long selectedY;//드래그시 고정되는 인덱스값
 };
 
 inline Long TextEdit::GetFlagInsert() const {
