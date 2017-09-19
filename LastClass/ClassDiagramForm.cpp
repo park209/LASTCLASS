@@ -231,22 +231,26 @@ Long ClassDiagramForm::Save() {
 			 }
 				 else if(dynamic_cast<ClassName*>(object->GetAt(j))) {
 					 figure = static_cast<ClassName*>(object->GetAt(j));
-					 fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " " << figure->GetHeight() << " " << 14 <<
+					 fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
+						 << figure->GetHeight() << " " << 14 <<
 						 " " << 0 << endl;
 			 }
 				 else if (dynamic_cast<Attribute*>(object->GetAt(j))) {
 					 figure = static_cast<Attribute*>(object->GetAt(j));
-					 fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " " << figure->GetHeight() << " " << 14 <<
+					 fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " " 
+						 << figure->GetHeight() << " " << 15 <<
 						 " " << 0 << endl;
 				 }
 				 else if (dynamic_cast<Method*>(object->GetAt(j))) {
 					 figure = static_cast<Method*>(object->GetAt(j));
-					 fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " " << figure->GetHeight() << " " << 14 <<
+					 fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " " 
+						 << figure->GetHeight() << " " << 16 <<
 						 " " << 0 << endl;
 				 }
 				 else if (dynamic_cast<Reception*>(object->GetAt(j))) {
 					 figure = static_cast<Reception*>(object->GetAt(j));
-					 fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " " << figure->GetHeight() << " " << 14 <<
+					 fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
+						 << figure->GetHeight() << " " << 17 <<
 						 " " << 0 << endl;
 				 }
             j++;
