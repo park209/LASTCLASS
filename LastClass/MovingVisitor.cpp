@@ -115,7 +115,7 @@ void MovingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 
 }
 
-void MovingVisitor::Visit(Selection *selection, Long distanceX, Long distanceY) {
+void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY) {
 	Long length = selection->GetLength();
 	Long i = 0;
 	Long j;

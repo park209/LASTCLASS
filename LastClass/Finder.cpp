@@ -116,17 +116,58 @@ bool Finder::FindLineByPoint(const CPoint& lineStart, const CPoint& lineEnd, Lon
 	return ret;
 }
 
-CPoint Finder::GetCrossPoint(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End) {
+CPoint& Finder::GetCrossPoint(const CPoint& lineStart, const CPoint& lineEnd, CRect object) {
+
 	CPoint crossPoint;
 	double t;
 	double s;
-	double under = (line2End.y - line2Start.y)*(line1End.x - line1Start.x) - (line2End.x - line2Start.x)*(line1End.y - line1Start.y);
-	double _t = (line2End.x - line2Start.x)*(line1Start.y - line2Start.y) - (line2End.y - line2Start.y)*(line1Start.x - line2Start.x);
-	double _s = (line1End.x - line1Start.x)*(line1Start.y - line2Start.y) - (line1End.y - line1Start.y)*(line1Start.x - line2Start.x);
+	double under;
+	double _t;
+	double _s;
+
+	CPoint line2Start;
+	CPoint line2End;
+	bool ret = false;
+
+	if (ret == false) {
+		line2Start.x = object.left;
+		line2Start.y = object.top;
+		line2End.x = object.right;
+		line2End.y = object.top;
+		ret = IsLineCross(lineStart, lineEnd, line2Start, line2End);
+	}
+
+	if (ret == false) {
+		line2Start.x = object.right;
+		line2Start.y = object.top;
+		line2End.x = object.right;
+		line2End.y = object.bottom;
+		ret = IsLineCross(lineStart, lineEnd, line2Start, line2End);
+	}
+	
+	if (ret == false) {
+		line2Start.x = object.left;
+		line2Start.y = object.top;
+		line2End.x = object.left;
+		line2End.y = object.bottom;
+		ret = IsLineCross(lineStart, lineEnd, line2Start, line2End);
+	}
+	
+	if (ret == false) {
+		line2Start.x = object.left;
+		line2Start.y = object.bottom;
+		line2End.x = object.right;
+		line2End.y = object.bottom;
+		ret = IsLineCross(lineStart, lineEnd, line2Start, line2End);
+	}
+	
+	under = (line2End.y - line2Start.y)*(lineEnd.x - lineStart.x) - (line2End.x - line2Start.x)*(lineEnd.y - lineStart.y);
+	_t = (line2End.x - line2Start.x)*(lineStart.y - line2Start.y) - (line2End.y - line2Start.y)*(lineStart.x - line2Start.x);
+	_s = (lineEnd.x - lineStart.x)*(lineStart.y - line2Start.y) - (lineEnd.y - lineStart.y)*(lineStart.x - line2Start.x);
 	t = _t / under;
 	s = _s / under;
-	crossPoint.x = static_cast<LONG>(line1Start.x + t*(double)(line1End.x - line1Start.x));
-	crossPoint.y = static_cast<LONG>(line1Start.y + t*(double)(line1End.y - line1Start.y));
+	crossPoint.x = static_cast<LONG>(lineStart.x + t*(double)(lineEnd.x - lineStart.x));
+	crossPoint.y = static_cast<LONG>(lineStart.y + t*(double)(lineEnd.y - lineStart.y));
 
 	return crossPoint;
 }

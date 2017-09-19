@@ -91,6 +91,6 @@ void WritingVisitor::Visit(Attribute *attribute, CDC *cPaintDc) {
 void WritingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 }
 
-void WritingVisitor::Visit(Selection *selection, Long distanceX, Long distanceY) {
+void WritingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY){
 
 }

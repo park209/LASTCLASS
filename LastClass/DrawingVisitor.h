@@ -54,7 +54,9 @@ public:
 
 	void Visit(Selection *selection, CDC *cPaintDc);
 
-	void Visit(Selection *selection, Long distanceX, Long distanceY);
+	void Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY);
+
+
 };
 
 #endif // _DRAWINGVISITOR_H

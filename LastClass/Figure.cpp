@@ -1,7 +1,7 @@
 //Figure.cpp
 
 #include "Figure.h"
-
+#include "Relation.h"
 Figure::Figure() {
 	this->x = 0;
 	this->y = 0;
@@ -35,6 +35,10 @@ Figure::Figure(const Figure& source) {
 Figure* Figure::Move(Long distanceX, Long distanceY) {
 	this->x = this->x + distanceX;
 	this->y = this->y + distanceY;
+	if (dynamic_cast<Relation*>(this)) {
+		this->width = this->width - distanceX;
+		this->height = this->height - distanceY;
+	}
 	return this;
 	//return static_cast<Figure*>(this);
 }

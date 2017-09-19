@@ -79,7 +79,7 @@ public:
 
 	virtual void Visit(Selection *selection, CDC *cPaintDc) = 0;
 
-	virtual void Visit(Selection *selection, Long distanceX, Long distanceY) = 0;
+	virtual void Visit(Diagram *diagram,Selection *selection, Long distanceX, Long distanceY) = 0;
 protected:
 	Visitor();
 };

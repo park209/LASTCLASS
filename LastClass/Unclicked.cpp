@@ -39,10 +39,9 @@ Figure* Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long start
 		bool ret = false;
 		CPoint lineStart(relation->GetX(), relation->GetY());
 		CPoint lineEnd;
-
-		Long i = 0;
 		Long index = 0;
 		CRect rect;
+
 		while (index < relation->GetLength() && ret == false) {
 			rect.left = relation->GetAt(index).x - 5;
 			rect.top = relation->GetAt(index).y - 5;
@@ -55,7 +54,10 @@ Figure* Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long start
 			CPoint point(currentX, currentY);
 			relation->Move(index - 1, point);
 		}
+
+
 		else {
+			Long i = 0;
 			while (i < relation->GetLength() && ret == false) {
 
 				lineEnd.x = relation->GetAt(i).x;
@@ -76,6 +78,7 @@ Figure* Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long start
 				relation->Add(startCPoint, currentCPoint);
 			}
 		}
+
 	}
 
 	return  static_cast<Relation*>(selection->GetAt(0));

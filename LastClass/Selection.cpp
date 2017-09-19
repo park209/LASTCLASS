@@ -70,7 +70,7 @@ void Selection::DeleteAllItems() {
 	}
 }
 
-void Selection::FindByArea(Diagram *diagram, CRect area) {
+void Selection::SelectByArea(Diagram *diagram, CRect area) {
 
 	Finder finder;
 	Long i = 0;
@@ -148,7 +148,7 @@ void Selection::FindByArea(Diagram *diagram, CRect area) {
 	}
 }
 			
-Long Selection::FindByPoint(Diagram *diagram, Long x, Long y) {
+Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 	Finder finder;
 	CRect rect;
 	FigureComposite *composite;
@@ -227,29 +227,10 @@ Long Selection::FindByPoint(Diagram *diagram, Long x, Long y) {
 	return index;
 }
 
-void Selection :: Accept(Visitor& visitor, Long distanceX, Long distanceY) {
-	visitor.Visit(this, distanceX,distanceY);
+void Selection :: Accept(Diagram *diagram,Visitor& visitor, Long distanceX, Long distanceY) {
+	visitor.Visit(diagram,this, distanceX,distanceY);
 }
 
 void Selection::Accept(Visitor& visitor, CDC *cPaintDc) {
 	visitor.Visit(this, cPaintDc);
-}
-
-bool Selection::FindCrossPoints(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End, CPoint *crossPoint){
-	double t;
-	double s;
-	bool ret = false;
-	double under = (line2End.y - line2Start.y)*(line1End.x - line1Start.x) - (line2End.x - line2Start.x)*(line1End.y - line1Start.y);
-	if (under != 0) {
-		double _t = (line2End.x - line2Start.x)*(line1Start.y - line2Start.y) - (line2End.y - line2Start.y)*(line1Start.x - line2Start.x);
-		double _s = (line1End.x - line1Start.x)*(line1Start.y - line2Start.y) - (line1End.y - line1Start.y)*(line1Start.x - line2Start.x);
-		t = _t / under;
-		s = _s / under;
-		if (t >= 0.0 && t <= 1.0 && s >= 0.0 && s <= 1.0 && _t != 0 && _s != 0) {
-			crossPoint->x = static_cast<LONG>(line1Start.x + t*(double)(line1End.x - line1Start.x));
-			crossPoint->y = static_cast<LONG>(line1Start.y + t*(double)(line1End.y - line1Start.y));
-			ret = true;
-		}
-	}
-	return ret;
 }
