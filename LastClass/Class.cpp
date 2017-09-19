@@ -16,6 +16,12 @@
 #include "MemoLine.h"
 #include "SelfGeneralization.h"
 #include "SelfDependency.h"
+#include "SelfAggregation.h"
+#include "SelfAssociation.h"
+#include "SelfAggregations.h"
+#include "SelfDirectedAssociation.h"
+#include "SelfComposition.h"
+#include "SelfCompositions.h"
 #include "SmartPointer.h"
 #include "ArrayIterator.h"
 #include "Iterator.h"
@@ -289,7 +295,6 @@ Figure* Class::Clone() const{
 
 
 void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
-	//cout << "Class Accept" << endl;
 	visitor.Visit(this, cPaintDc);
 
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
@@ -354,6 +359,24 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		}
 		else if(dynamic_cast<SelfDependency*>(smartPointer->Current())) {
 			dynamic_cast<SelfDependency*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfAggregation*>(smartPointer->Current())) {
+			dynamic_cast<SelfAggregation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfAssociation*>(smartPointer->Current())) {
+			dynamic_cast<SelfAssociation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfAggregations*>(smartPointer->Current())) {
+			dynamic_cast<SelfAggregations*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfDirectedAssociation*>(smartPointer->Current())) {
+			dynamic_cast<SelfDirectedAssociation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfComposition*>(smartPointer->Current())) {
+			dynamic_cast<SelfComposition*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfCompositions*>(smartPointer->Current())) {
+			dynamic_cast<SelfCompositions*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		//static_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		smartPointer->Next();

@@ -60,6 +60,17 @@ public:
 
 	void Visit(SelfDependency *selfDependency, CDC *cPaintDc);
 
+	void Visit(SelfAggregation *selfAggregation, CDC *cPaintDc);
+
+	void Visit(SelfAssociation *selfAssociation, CDC *cPaintDc);
+
+	void Visit(SelfAggregations *selfAggregations, CDC *cPaintDc);
+
+	void Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *cPaintDc);
+
+	void Visit(SelfComposition *selfComposition, CDC *cPaintDc);
+
+	void Visit(SelfCompositions *selfCompositions, CDC *cPaintDc);
 
 };
 

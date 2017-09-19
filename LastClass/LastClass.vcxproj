@@ -81,7 +81,13 @@
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="Selection.h" />
+    <ClInclude Include="SelfAggregation.h" />
+    <ClInclude Include="SelfAggregations.h" />
+    <ClInclude Include="SelfAssociation.h" />
+    <ClInclude Include="SelfComposition.h" />
+    <ClInclude Include="SelfCompositions.h" />
     <ClInclude Include="SelfDependency.h" />
+    <ClInclude Include="SelfDirectedAssociation.h" />
     <ClInclude Include="SelfGeneralization.h" />
     <ClInclude Include="SelfRelation.h" />
     <ClInclude Include="SingleByteCharacter.h" />
@@ -158,7 +164,13 @@
     <ClCompile Include="RightArrowKey.cpp" />
     <ClCompile Include="Row.cpp" />
     <ClCompile Include="Selection.cpp" />
+    <ClCompile Include="SelfAggregation.cpp" />
+    <ClCompile Include="SelfAggregations.cpp" />
+    <ClCompile Include="SelfAssociation.cpp" />
+    <ClCompile Include="SelfComposition.cpp" />
+    <ClCompile Include="SelfCompositions.cpp" />
     <ClCompile Include="SelfDependency.cpp" />
+    <ClCompile Include="SelfDirectedAssociation.cpp" />
     <ClCompile Include="SelfGeneralization.cpp" />
     <ClCompile Include="SelfRelation.cpp" />
     <ClCompile Include="SingleByteCharacter.cpp" />

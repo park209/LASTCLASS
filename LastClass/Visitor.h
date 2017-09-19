@@ -34,6 +34,12 @@ class Attribute;
 class Selection;
 class SelfGeneralization;
 class SelfDependency;
+class SelfAggregation;
+class SelfAssociation;
+class SelfAggregations;
+class SelfDirectedAssociation;
+class SelfComposition;
+class SelfCompositions;
 class Visitor{
 public:
 	virtual ~Visitor();
@@ -82,9 +88,21 @@ public:
 
 	virtual void Visit(Diagram *diagram,Selection *selection, Long distanceX, Long distanceY) = 0;
 
-	virtual void Visit(SelfGeneralization *selfGeneralization, CDC *CPatinDc) = 0;
+	virtual void Visit(SelfGeneralization *selfGeneralization, CDC *cPaintDc) = 0;
 
-	virtual void Visit(SelfDependency *selfDependency, CDC *CPatinDc) = 0;
+	virtual void Visit(SelfDependency *selfDependency, CDC *cPaintDc) = 0;
+
+	virtual void Visit(SelfAggregation *selfAggregation, CDC *cPaintDc) = 0;
+
+	virtual void Visit(SelfAssociation *selfAssociation,CDC *cPaintDc) = 0;
+
+	virtual void Visit(SelfAggregations *selfAggregations, CDC *cPaintDc) = 0;
+
+	virtual void Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *cPaintDc) = 0;
+
+	virtual void Visit(SelfComposition *selfComposition, CDC *cPaintDc) = 0;
+
+	virtual void Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) = 0;
 protected:
 	Visitor();
 };

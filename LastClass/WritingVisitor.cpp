@@ -94,10 +94,33 @@ void WritingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 void WritingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY){
 
 }
-void WritingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *CPatinDc) {
+void WritingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *cPaintDc) {
 
 }
 
-void WritingVisitor::Visit(SelfDependency *selfDependency, CDC *CPatinDc) {
+void WritingVisitor::Visit(SelfDependency *selfDependency, CDC *cPaintDc) {
+
+}
+
+void WritingVisitor::Visit(SelfAggregation *selfAggregation, CDC *cPaintDc) {
+
+}
+
+void WritingVisitor::Visit(SelfAssociation *selfAssociation, CDC *cPaintDc) {
+
+}
+
+void WritingVisitor::Visit(SelfAggregations *selfAggregations, CDC *cPaintDc) {
+
+}
+void WritingVisitor::Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *cPaintDc){
+
+}
+
+void WritingVisitor::Visit(SelfComposition *selfComposition, CDC *cPaintDc) {
+
+}
+
+void WritingVisitor::Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) {
 
 }

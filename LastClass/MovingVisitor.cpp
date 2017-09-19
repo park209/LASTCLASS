@@ -171,3 +171,26 @@ void MovingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *CPatinDc)
 void MovingVisitor::Visit(SelfDependency *selfDependency, CDC *CPatinDc) {
 
 }
+
+void MovingVisitor::Visit(SelfAggregation *selfAggregation, CDC *CPatinDc) {
+
+}
+
+void MovingVisitor::Visit(SelfAssociation *selfAssociation, CDC *cPaintDc) {
+
+}
+
+void MovingVisitor::Visit(SelfAggregations *selfAggregations, CDC *cPaintDc) {
+
+}
+
+void MovingVisitor::Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *cPaintDc){
+
+}
+void MovingVisitor::Visit(SelfComposition *selfComposition, CDC *cPaintDc) {
+
+}
+
+void MovingVisitor::Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) {
+
+}
