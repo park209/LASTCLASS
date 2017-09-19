@@ -123,7 +123,6 @@ void MovingVisitor::Visit(Selection *selection, Long distanceX, Long distanceY) 
 
 	while (i < length) {
 		figure = selection->GetAt(i);
-		//figure->Move(distanceX, distanceY);
 		if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
 			figure->Move(distanceX, distanceY); // 해당 클래스나 메모 이동
 			FigureComposite *figureComposite = static_cast<FigureComposite*>(figure); // 형변환

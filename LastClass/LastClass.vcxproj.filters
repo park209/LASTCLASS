@@ -129,9 +129,6 @@
     <ClInclude Include="FigureFactory.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Finder.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Generalization.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
@@ -172,9 +169,6 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Method.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MovingVisitor.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Realization.h">
@@ -239,6 +233,12 @@
     </ClInclude>
     <ClInclude Include="WritingVisitor.h">
       <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingVisitor.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Finder.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -353,9 +353,6 @@
     <ClCompile Include="FigureFactory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Finder.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Generalization.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -393,9 +390,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Method.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MovingVisitor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Realization.cpp">
@@ -453,6 +447,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="WritingVisitor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingVisitor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Finder.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

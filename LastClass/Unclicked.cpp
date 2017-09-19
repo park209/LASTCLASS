@@ -26,21 +26,36 @@ void Unclicked::ChangeState(DrawingController *drawingController, UINT nChar) {
 Figure* Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
 
 	Finder finder;
-	CPoint stratCPoint;
+	CPoint startCPoint;
 	CPoint currentCPoint;
-	stratCPoint.x = startX;
-	stratCPoint.y = startY;
+	startCPoint.x = startX;
+	startCPoint.y = startY;
 	currentCPoint.x = currentX;
 	currentCPoint.y = currentY;
 
-	if (selection->GetLength() == 1 && dynamic_cast<Relation*>(selection->GetAt(0))) { //드래그할때 추가해버리는거 막아야되는데
-		
-			Relation *relation = static_cast<Relation*>(selection->GetAt(0));
-			bool ret = false;
-			CPoint lineStart(relation->GetX(), relation->GetY());
-			CPoint lineEnd;
+	if (selection->GetLength() == 1 && dynamic_cast<Relation*>(selection->GetAt(0))) {
 
-			Long i = 0;
+		Relation *relation = static_cast<Relation*>(selection->GetAt(0));
+		bool ret = false;
+		CPoint lineStart(relation->GetX(), relation->GetY());
+		CPoint lineEnd;
+
+		Long i = 0;
+		Long index = 0;
+		CRect rect;
+		while (index < relation->GetLength() && ret == false) {
+			rect.left = relation->GetAt(index).x - 5;
+			rect.top = relation->GetAt(index).y - 5;
+			rect.right = relation->GetAt(index).x + 5;
+			rect.bottom = relation->GetAt(index).y + 5;
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			index++;
+		}
+		if (ret == true) {
+			CPoint point(currentX, currentY);
+			relation->Move(index - 1, point);
+		}
+		else {
 			while (i < relation->GetLength() && ret == false) {
 
 				lineEnd.x = relation->GetAt(i).x;
@@ -58,20 +73,20 @@ Figure* Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long start
 			}
 
 			if (ret == true) {
-				relation->Add(stratCPoint,currentCPoint);
+				relation->Add(startCPoint, currentCPoint);
 			}
-	
+		}
 	}
 
 	return  static_cast<Relation*>(selection->GetAt(0));
 }
 
-void Unclicked::Draw(Selection *selection,Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+void Unclicked::Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDc->SelectObject(&pen);
 	cPaintDc->SetBkMode(TRANSPARENT);
-	
+
 	if (selection->GetLength() == 0) {
 		cPaintDc->MoveTo(startX, startY);
 		cPaintDc->LineTo(currentX, startY);
@@ -82,7 +97,78 @@ void Unclicked::Draw(Selection *selection,Long startX, Long startY, Long current
 		cPaintDc->MoveTo(startX, currentY);
 		cPaintDc->LineTo(currentX, currentY);
 	}
-	
+
+	if (selection->GetLength() == 1 && dynamic_cast<Relation*>(selection->GetAt(0))) {
+		Relation *relation = static_cast<Relation*>(selection->GetAt(0));
+
+		Finder finder;
+		bool ret = false;
+		CPoint lineStart(relation->GetX(), relation->GetY());
+		CPoint lineEnd;
+		CRect rect;
+		Long index = 0;
+
+		while (index < relation->GetLength() && ret == false) {
+			rect.left = relation->GetAt(index).x - 5;
+			rect.top = relation->GetAt(index).y - 5;
+			rect.right = relation->GetAt(index).x + 5;
+			rect.bottom = relation->GetAt(index).y + 5;
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			index++;
+		}
+		if (ret == true && relation->GetLength() == 1) {
+			//lineStart.x = relation->GetX();
+			//lineStart.y = relation->GetY();
+			lineEnd.x = relation->GetX() + relation->GetWidth();
+			lineEnd.y = relation->GetY() + relation->GetHeight();
+		}
+		else if (ret == true && index == 1 && index < relation->GetLength()) {
+			//lineStart.x = relation->GetX();
+			//lineStart.y = relation->GetY();
+			lineEnd.x = relation->GetAt(index).x;
+			lineEnd.y = relation->GetAt(index).y;
+		}
+		else if (ret == true && index == relation->GetLength()) {
+			lineStart.x = relation->GetAt(index-2).x;
+			lineStart.y = relation->GetAt(index-2).y;
+			lineEnd.x = relation->GetX() + relation->GetWidth();
+			lineEnd.y = relation->GetY() + relation->GetHeight();
+		}
+		else if (ret == true) {
+			lineStart.x = relation->GetAt(index - 2).x;
+			lineStart.y = relation->GetAt(index - 2).y;
+			lineEnd.x = relation->GetAt(index).x;
+			lineEnd.y = relation->GetAt(index).y;
+		}
+
+		index = 0;
+		while (index < relation->GetLength() && ret == false) {
+
+			lineEnd.x = relation->GetAt(index).x;
+			lineEnd.y = relation->GetAt(index).y;
+			ret = finder.FindLineByPoint(lineStart, lineEnd, startX, startY);
+			if (ret == false) {
+				lineStart.x = lineEnd.x;
+				lineStart.y = lineEnd.y;
+			}
+			index++;
+		}
+
+		if (ret == false) {
+			lineEnd.x = relation->GetWidth() + relation->GetX();
+			lineEnd.y = relation->GetHeight() + relation->GetY();
+			ret = finder.FindLineByPoint(lineStart, lineEnd, startX, startY);
+		}
+
+		if (ret == true) {
+			cPaintDc->MoveTo(lineStart.x, lineStart.y);
+			cPaintDc->LineTo(currentX, currentY);
+			cPaintDc->MoveTo(lineEnd.x, lineEnd.y);
+			cPaintDc->LineTo(currentX, currentY);
+		}
+	}
+
+
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;
 	Long length = selection->GetLength();

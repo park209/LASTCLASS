@@ -116,7 +116,7 @@ bool Finder::FindLineByPoint(const CPoint& lineStart, const CPoint& lineEnd, Lon
 	return ret;
 }
 
-CPoint& Finder::GetCrossPoint(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End) {
+CPoint Finder::GetCrossPoint(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End) {
 	CPoint crossPoint;
 	double t;
 	double s;

@@ -96,7 +96,8 @@ Long ClassDiagramForm::Save() {
          j = 0;
          while (j < object->GetLength()) {
 			 Figure *figure;
-			 
+			 Long i;
+			 CPoint cPoint;
 			 if (dynamic_cast<Line*>(object->GetAt(j))) {
 				 figure = object->GetAt(j);
 				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
@@ -110,63 +111,126 @@ Long ClassDiagramForm::Save() {
 			 }
 
 			 else if (dynamic_cast<Generalization*>(object->GetAt(j))) {
-				 figure = object->GetAt(j);
-				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
-					 figure->GetWidth() << " " << figure->GetHeight() << " " << 4 << endl;
+				 Relation *relation =static_cast<Relation*>(object->GetAt(j));
+				// figure = object->GetAt(j);
+				 //fLine << figure->GetX() << " " << figure->GetY() << " " <<
+					// figure->GetWidth() << " " << figure->GetHeight() << " " << 4 << endl;
+				 fLine << relation->GetX() << " " << relation->GetY() << " " <<
+					 relation->GetWidth() << " " << relation->GetHeight() << " " << 4 << " " << relation->GetLength() << endl;
+				 i = 0;
+				 while (i < relation->GetLength()) {
+					 cPoint = relation->GetAt(i);
+					 fLine << cPoint.x << " " << cPoint.y << endl;
+					 i++;
+				 }
 			 }
 
 			 else if (dynamic_cast<Realization*>(object->GetAt(j))) {
-				 figure = object->GetAt(j);
-				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
-					 figure->GetWidth() << " " << figure->GetHeight() << " " << 5 << endl;
+				 Relation *relation = static_cast<Relation*>(object->GetAt(j));
+				 fLine << relation->GetX() << " " << relation->GetY() << " " <<
+					 relation->GetWidth() << " " << relation->GetHeight() << " " << 5 << " " << relation->GetLength() << endl;
+				 i = 0;
+				 while (i < relation->GetLength()) {
+					 cPoint = relation->GetAt(i);
+					 fLine << cPoint.x << " " << cPoint.y << endl;
+					 i++;
+				 }
 			 }
 
 			 else if (dynamic_cast<Dependency*>(object->GetAt(j))) {
-				 figure = object->GetAt(j);
-				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
-					 figure->GetWidth() << " " << figure->GetHeight() << " " << 6 << endl;
+				 Relation *relation = static_cast<Relation*>(object->GetAt(j));
+				 fLine << relation->GetX() << " " << relation->GetY() << " " <<
+					 relation->GetWidth() << " " << relation->GetHeight() << " " << 6 << " " << relation->GetLength() << endl;
+				 i = 0;
+				 while (i < relation->GetLength()) {
+					 cPoint = relation->GetAt(i);
+					 fLine << cPoint.x << " " << cPoint.y << endl;
+					 i++;
+				 }
 			 }
 
 			 else if (dynamic_cast<Association*>(object->GetAt(j))) {
-				 figure = object->GetAt(j);
-				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
-					 figure->GetWidth() << " " << figure->GetHeight() << " " << 7 << endl;
+				 Relation *relation = static_cast<Relation*>(object->GetAt(j));
+				 fLine << relation->GetX() << " " << relation->GetY() << " " <<
+					 relation->GetWidth() << " " << relation->GetHeight() << " " << 7 << " " << relation->GetLength() << endl;
+				 i = 0;
+				 while (i < relation->GetLength()) {
+					 cPoint = relation->GetAt(i);
+					 fLine << cPoint.x << " " << cPoint.y << endl;
+					 i++;
+				 }
 			 }
 
 			 else if (dynamic_cast<DirectedAssociation*>(object->GetAt(j))) {
-				 figure = object->GetAt(j);
-				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
-					 figure->GetWidth() << " " << figure->GetHeight() << " " << 8 << endl;
+				 Relation *relation = static_cast<Relation*>(object->GetAt(j));
+				 fLine << relation->GetX() << " " << relation->GetY() << " " <<
+					 relation->GetWidth() << " " << relation->GetHeight() << " " << 8 << " " << relation->GetLength() << endl;
+				 i = 0;
+				 while (i < relation->GetLength()) {
+					 cPoint = relation->GetAt(i);
+					 fLine << cPoint.x << " " << cPoint.y << endl;
+					 i++;
+				 }
 			 }
 
 			 else if (dynamic_cast<Aggregation*>(object->GetAt(j))) {
-				 figure = object->GetAt(j);
-				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
-					 figure->GetWidth() << " " << figure->GetHeight() << " " << 9 << endl;
+				 Relation *relation = static_cast<Relation*>(object->GetAt(j));
+				 fLine << relation->GetX() << " " << relation->GetY() << " " <<
+					 relation->GetWidth() << " " << relation->GetHeight() << " " << 9 << " " << relation->GetLength() << endl;
+				 i = 0;
+				 while (i < relation->GetLength()) {
+					 cPoint = relation->GetAt(i);
+					 fLine << cPoint.x << " " << cPoint.y << endl;
+					 i++;
+				 }
 			 }
 
 			 else if (dynamic_cast<Aggregations*>(object->GetAt(j))) {
-				 figure = object->GetAt(j);
-				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
-					 figure->GetWidth() << " " << figure->GetHeight() << " " << 10 << endl;
+				 Relation *relation = static_cast<Relation*>(object->GetAt(j));
+				 fLine << relation->GetX() << " " << relation->GetY() << " " <<
+					 relation->GetWidth() << " " << relation->GetHeight() << " " << 10 << " " << relation->GetLength() << endl;
+				 i = 0;
+				 while (i < relation->GetLength()) {
+					 cPoint = relation->GetAt(i);
+					 fLine << cPoint.x << " " << cPoint.y << endl;
+					 i++;
+				 }
 			 }
 
 			 else if (dynamic_cast<Composition*>(object->GetAt(j))) {
-				 figure = object->GetAt(j);
-				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
-					 figure->GetWidth() << " " << figure->GetHeight() << " " << 11 << endl;
+				 Relation *relation = static_cast<Relation*>(object->GetAt(j));
+				 fLine << relation->GetX() << " " << relation->GetY() << " " <<
+					 relation->GetWidth() << " " << relation->GetHeight() << " " << 11 << " " << relation->GetLength() << endl;
+				 i = 0;
+				 while (i < relation->GetLength()) {
+					 cPoint = relation->GetAt(i);
+					 fLine << cPoint.x << " " << cPoint.y << endl;
+					 i++;
+				 }
 			 }
 
 			 else if (dynamic_cast<Compositions*>(object->GetAt(j))) {
-				 figure = object->GetAt(j);
-				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
-					 figure->GetWidth() << " " << figure->GetHeight() << " " << 12 << endl;
+				 Relation *relation = static_cast<Relation*>(object->GetAt(j));
+				 fLine << relation->GetX() << " " << relation->GetY() << " " <<
+					 relation->GetWidth() << " " << relation->GetHeight() << " " << 12 << " " << relation->GetLength() << endl;
+				 i = 0;
+				 while (i < relation->GetLength()) {
+					 cPoint = relation->GetAt(i);
+					 fLine << cPoint.x << " " << cPoint.y << endl;
+					 i++;
+				 }
 			 }
 
 			 else if (dynamic_cast<MemoLine*>(object->GetAt(j))) {
-				 figure = object->GetAt(j);
-				 fLine << figure->GetX() << " " << figure->GetY() << " " <<
-					 figure->GetWidth() << " " << figure->GetHeight() << " " << 13 << endl;
+				 Relation *relation = static_cast<Relation*>(object->GetAt(j));
+				 fLine << relation->GetX() << " " << relation->GetY() << " " <<
+					 relation->GetWidth() << " " << relation->GetHeight() << " " << 13 << " " << relation->GetLength() << endl;
+				 i = 0;
+				 while (i < relation->GetLength()) {
+					 cPoint = relation->GetAt(i);
+					 fLine << cPoint.x << " " << cPoint.y << endl;
+					 i++;
+				 }
 			 }
             j++;
          }
@@ -193,7 +257,9 @@ Long ClassDiagramForm::Load() {
 	ifstream fClass;
 	ifstream fLine;
 	Long type;
-
+	Long relationLength;
+	Long relationEndX;
+	Long relationEndY;
 	FigureFactory factory;
 	Figure *figure;
 
@@ -211,9 +277,24 @@ Long ClassDiagramForm::Load() {
 			position = this->diagram->Add(figure);
 			i = 0;
 			while (position !=-1 && i < length) {
-				fLine >> lineX >> lineY >> lineWidth >> lineHeight >> type;
-				figure = factory.Create(lineX, lineY, lineWidth, lineHeight, type);
+				fLine >> lineX >> lineY >> lineWidth >> lineHeight >> type >> relationLength;
+				figure = factory.Create(lineX, lineY, lineWidth, lineHeight, type );
 				static_cast<FigureComposite*>(this->diagram->GetAt(position))->Add(figure);
+				if (dynamic_cast<Relation*>(this->diagram->GetAt(position))) {
+					Relation *relation = static_cast<Relation*>(this->diagram->GetAt(position));
+					CPoint startCPoint;
+					CPoint currentCPoint;
+					Long j = 0;
+					while (j < relationLength) {
+						fLine >> relationEndX >> relationEndY;
+						startCPoint.x = x;
+						startCPoint.y = y;
+						currentCPoint.x = relationEndX;
+						currentCPoint.y = relationEndY;
+						relation->Add(startCPoint, currentCPoint);
+						j++;
+					}
+				}
 				i++;
 			}
 			fClass >> length >> x >> y >> width >> height >> type;
@@ -279,7 +360,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->drawingController = new DrawingController;
 
 	//1.2. 적재한다
-	//this->Load();
+	this->Load();
 	//this->TextLoad();
 	//1.3. 윈도우를 갱신한다
 	Invalidate();
@@ -385,6 +466,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		Long distanceX = currentX - startX;
 		Long distanceY = currentY - startY;
 		this->selection->Accept(movingVisitor, distanceX, distanceY);
+	
 		if (this->selection->GetLength() == 0) {
 			CRect area;
 			area.left = this->startX;
@@ -398,23 +480,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	Figure *figure = 0;
 	if (this->startX != this->currentX || this->startY != this->currentY) {
 		figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-	
 	}
-
-	//if (dynamic_cast<Class*>(figure)) {
-	//	this->textEdit = new TextEdit(figure);
-
-	//	this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
-	//		figure->GetX() + 5,
-	//		figure->GetY() + 33,
-	//		figure->GetX() + figure->GetWidth() + 5,
-	//		figure->GetY() + figure->GetHeight() + 33), NULL, NULL, WS_EX_TOPMOST);
-	//	this->textEdit->ShowWindow(SW_SHOW);
-	//}
-
-
-//}
-	//Long length = this->selection->GetLength();
 
 	this->startX = 0;
 	this->startY = 0;
@@ -439,7 +505,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
-	//this->Save();
+	this->Save();
 	//this->TextSave();
 	//6.2. 다이어그램을 지운다.
 	if (this->diagram != NULL) {
