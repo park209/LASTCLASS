@@ -40,7 +40,11 @@ Figure* Figure::Move(Long distanceX, Long distanceY) {
 		this->height = this->height - distanceY;
 	}
 	return this;
-	//return static_cast<Figure*>(this);
+}
+Figure *Figure::EndPointMove(Long distanceX, Long distanceY) {
+	this->width = this->width + distanceX;
+	this->height = this->height + distanceY;
+	return this;
 }
 Figure& Figure::operator = (const Figure& source) {
 	this->x = source.x;
