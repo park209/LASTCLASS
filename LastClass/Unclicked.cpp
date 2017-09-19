@@ -26,10 +26,10 @@ void Unclicked::ChangeState(DrawingController *drawingController, UINT nChar) {
 Figure* Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
 
 	Finder finder;
-	CPoint stratCPoint;
+	CPoint startCPoint;
 	CPoint currentCPoint;
-	stratCPoint.x = startX;
-	stratCPoint.y = startY;
+	startCPoint.x = startX;
+	startCPoint.y = startY;
 	currentCPoint.x = currentX;
 	currentCPoint.y = currentY;
 
@@ -39,26 +39,44 @@ Figure* Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long start
 		bool ret = false;
 		CPoint lineStart(relation->GetX(), relation->GetY());
 		CPoint lineEnd;
+		Long index = 0;
+		CRect rect;
 
-		Long i = 0;
-		while (i < relation->GetLength() && ret == false) {
-
-			lineEnd.x = relation->GetAt(i).x;
-			lineEnd.y = relation->GetAt(i).y;
-			ret = finder.FindLineByPoint(lineStart, lineEnd, startX, startY);
-			lineStart.x = lineEnd.x;
-			lineStart.y = lineEnd.y;
-			i++;
+		while (index < relation->GetLength() && ret == false) {
+			rect.left = relation->GetAt(index).x - 5;
+			rect.top = relation->GetAt(index).y - 5;
+			rect.right = relation->GetAt(index).x + 5;
+			rect.bottom = relation->GetAt(index).y + 5;
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			index++;
 		}
-
-		lineEnd.x = relation->GetWidth() + relation->GetX();
-		lineEnd.y = relation->GetHeight() + relation->GetY();
-		if (ret == false) {
-			ret = finder.FindLineByPoint(lineStart, lineEnd, startX, startY);
-		}
-
 		if (ret == true) {
-			relation->Add(stratCPoint, currentCPoint);
+			CPoint point(currentX, currentY);
+			relation->Move(index - 1, point);
+		}
+
+
+		else {
+			Long i = 0;
+			while (i < relation->GetLength() && ret == false) {
+
+				lineEnd.x = relation->GetAt(i).x;
+				lineEnd.y = relation->GetAt(i).y;
+				ret = finder.FindLineByPoint(lineStart, lineEnd, startX, startY);
+				lineStart.x = lineEnd.x;
+				lineStart.y = lineEnd.y;
+				i++;
+			}
+
+			lineEnd.x = relation->GetWidth() + relation->GetX();
+			lineEnd.y = relation->GetHeight() + relation->GetY();
+			if (ret == false) {
+				ret = finder.FindLineByPoint(lineStart, lineEnd, startX, startY);
+			}
+
+			if (ret == true) {
+				relation->Add(startCPoint, currentCPoint);
+			}
 		}
 
 	}

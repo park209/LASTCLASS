@@ -339,7 +339,7 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	//if (this->relationButton == true) {
 	Long x = this->startX;
 	Long y = this->startY;
-	this->selection->FindByPoint(this->diagram, x, y);
+	this->selection->SelectByPoint(this->diagram, x, y);
 	//}
 
 	KillTimer(1);
@@ -391,7 +391,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 			area.top = this->startY;
 			area.right = this->currentX;
 			area.bottom = this->currentY;
-			this->selection->FindByArea(this->diagram, area);
+			this->selection->SelectByArea(this->diagram, area);
 		}
 	}
 

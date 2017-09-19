@@ -22,10 +22,9 @@ public:
 	void Accept(Visitor& visitor, Long distanceX, Long distanceY);
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 
-	void FindByArea(Diagram *diagram, CRect area);
-	Long FindByPoint(Diagram *diagram, Long x, Long y);
+	void SelectByArea(Diagram *diagram, CRect area);
+	Long SelectByPoint(Diagram *diagram, Long x, Long y);
 
-	bool FindCrossPoints(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End, CPoint *crossPoint);
 };
 
 #endif // !_SELECTION_H
