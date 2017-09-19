@@ -14,7 +14,8 @@
 #include "Template.h"
 #include "SmartPointer.h"
 #include "MemoLine.h"
-
+#include "SelfGeneralization.h"
+#include "SelfDependency.h"
 #include "SmartPointer.h"
 #include "ArrayIterator.h"
 #include "Iterator.h"
@@ -348,9 +349,13 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		else if (dynamic_cast<MemoLine*>(smartPointer->Current())) {
 			dynamic_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-
+		else if (dynamic_cast<SelfGeneralization*>(smartPointer->Current())) {
+			dynamic_cast<SelfGeneralization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if(dynamic_cast<SelfDependency*>(smartPointer->Current())) {
+			dynamic_cast<SelfDependency*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
 		//static_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		smartPointer->Next();
 	}
 }
-

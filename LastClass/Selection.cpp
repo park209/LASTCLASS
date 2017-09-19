@@ -2,7 +2,7 @@
 #include "Diagram.h"
 #include "Relation.h"
 #include "Finder.h"
-
+#include "SelfRelation.h"
 Selection::Selection(Long capacity):FigureComposite(capacity) {
 	this->x = 0;
 	this->y = 0;
@@ -153,11 +153,14 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 	CRect rect;
 	FigureComposite *composite;
 	Relation *relation=0;
+	SelfRelation *selfRelation = 0;
 	bool ret = false;
 	Long i = 0;
 	Long j;
 	Long k;
 	Long index = -1;
+	CPoint lineStart;
+	CPoint lineEnd;
 
 	while (i < diagram->GetLength() && ret == false) {
 		
@@ -188,8 +191,9 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 			if (dynamic_cast<Relation*>(composite->GetAt(j))) {
 				relation = static_cast<Relation*>(composite->GetAt(j));
 
-				CPoint lineStart(relation->GetX(), relation->GetY());
-				CPoint lineEnd;
+		
+			lineStart.x = relation->GetX();
+			lineStart.y = relation->GetY();
 
 				k = 0;
 				while (k < relation->GetLength() && ret == false) {
@@ -213,6 +217,52 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 					}
 					else {
 						this->figures.AppendFromRear(relation);
+						this->capacity++;
+					}
+					this->length++;
+
+					index = this->length;
+				}
+			}
+			if (dynamic_cast<SelfRelation*>(composite->GetAt(j))) {
+				selfRelation = static_cast<SelfRelation*>(composite->GetAt(j));
+				lineStart.x = selfRelation->GetX();
+				lineStart.y = selfRelation->GetY();
+				lineEnd.x = selfRelation->GetX();
+				lineEnd.y= selfRelation->GetY() - 30;
+				if (ret == false) {
+					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+				}
+				
+				lineStart.x = selfRelation->GetX();
+				lineStart.y = selfRelation->GetY() - 30;
+				lineEnd.x = selfRelation->GetX() + 60;
+				lineEnd.y = selfRelation->GetY() - 30;
+				if (ret == false) {
+					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+				}
+		
+				lineStart.x = selfRelation->GetX() + 60;
+				lineStart.y = selfRelation->GetY() - 30;
+				lineEnd.x = selfRelation->GetX() + 60;
+				lineEnd.y = selfRelation->GetY() + 30;
+				if (ret == false) {
+					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+				}
+			
+				lineStart.x = selfRelation->GetX() + 60;
+				lineStart.y = selfRelation->GetY() + 30;
+				lineEnd.x = selfRelation->GetX() + 30;
+				lineEnd.y = selfRelation->GetY() + 30;
+				if (ret == false) {
+					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+				}
+				if (ret == true) {
+					if (this->length < this->capacity) {
+						this->figures.Store(this->length, selfRelation);
+					}
+					else {
+						this->figures.AppendFromRear(selfRelation);
 						this->capacity++;
 					}
 					this->length++;

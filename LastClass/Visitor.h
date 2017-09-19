@@ -32,7 +32,8 @@ class ClassName;
 class Method;
 class Attribute;
 class Selection;
-
+class SelfGeneralization;
+class SelfDependency;
 class Visitor{
 public:
 	virtual ~Visitor();
@@ -80,6 +81,10 @@ public:
 	virtual void Visit(Selection *selection, CDC *cPaintDc) = 0;
 
 	virtual void Visit(Diagram *diagram,Selection *selection, Long distanceX, Long distanceY) = 0;
+
+	virtual void Visit(SelfGeneralization *selfGeneralization, CDC *CPatinDc) = 0;
+
+	virtual void Visit(SelfDependency *selfDependency, CDC *CPatinDc) = 0;
 protected:
 	Visitor();
 };

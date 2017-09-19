@@ -6,7 +6,7 @@
 
 #include"Diagram.h"
 #include"Selection.h"
-
+#include "SelfDependency.h"
 #include"Dependency.h"
 #include"Class.h"
 #include"Finder.h"
@@ -55,6 +55,12 @@ Figure* DependencyButton::AddToArray(Diagram *diagram, Selection *selection, Lon
 			Dependency object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 			index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 			figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
+		}
+		if (selection->GetLength() == 2 && selection->GetAt(0) == selection->GetAt(1)) {
+			Class *object = static_cast<Class*>(selection->GetAt(0));
+			SelfDependency selfDependency(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
+			index = object->Add(selfDependency.Clone());
+			figure = object->GetAt(index);
 		}
 	}
 	return figure;

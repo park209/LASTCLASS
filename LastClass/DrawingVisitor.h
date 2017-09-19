@@ -56,6 +56,10 @@ public:
 
 	void Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY);
 
+	void Visit(SelfGeneralization *selfGeneralization, CDC *cPaintDc);
+
+	void Visit(SelfDependency *selfDependency, CDC *cPaintDc);
+
 
 };
 

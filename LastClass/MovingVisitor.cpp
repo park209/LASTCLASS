@@ -136,3 +136,9 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 		i++;
 	}
 }
+void MovingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *CPatinDc) {
+
+}
+void MovingVisitor::Visit(SelfDependency *selfDependency, CDC *CPatinDc) {
+
+}

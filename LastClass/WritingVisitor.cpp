@@ -94,3 +94,10 @@ void WritingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 void WritingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY){
 
 }
+void WritingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *CPatinDc) {
+
+}
+
+void WritingVisitor::Visit(SelfDependency *selfDependency, CDC *CPatinDc) {
+
+}

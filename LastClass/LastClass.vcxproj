@@ -81,6 +81,9 @@
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="Selection.h" />
+    <ClInclude Include="SelfDependency.h" />
+    <ClInclude Include="SelfGeneralization.h" />
+    <ClInclude Include="SelfRelation.h" />
     <ClInclude Include="SingleByteCharacter.h" />
     <ClInclude Include="SmartPointer.h" />
     <ClInclude Include="SpaceKey.h" />
@@ -155,6 +158,9 @@
     <ClCompile Include="RightArrowKey.cpp" />
     <ClCompile Include="Row.cpp" />
     <ClCompile Include="Selection.cpp" />
+    <ClCompile Include="SelfDependency.cpp" />
+    <ClCompile Include="SelfGeneralization.cpp" />
+    <ClCompile Include="SelfRelation.cpp" />
     <ClCompile Include="SingleByteCharacter.cpp" />
     <ClCompile Include="SpaceKey.cpp" />
     <ClCompile Include="TabKey.cpp" />

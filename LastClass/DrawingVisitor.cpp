@@ -16,6 +16,8 @@
 #include "MemoBox.h"
 #include "Selection.h"
 #include "MemoLine.h"
+#include "SelfGeneralization.h"
+#include "SelfDependency.h"
 #include <iostream>
 #include <afxwin.h>
 using namespace std;
@@ -829,7 +831,32 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 						j++;
 					}
 				}
-		}
+			}
+			if (dynamic_cast<SelfRelation*>(selection->GetAt(i))) {
+				SelfRelation *selfRelation = static_cast<SelfRelation*>(selection->GetAt(i));
+				Long x;
+				Long y;
+				Long x1;
+				Long y1;
+			
+				x = selfRelation->GetX() -5;
+				y = selfRelation->GetY() - 35;
+				x1 = selfRelation->GetX() +5;
+				y1 = selfRelation->GetY() - 25;
+				cPaintDc->Rectangle(x, y, x1, y1);
+
+				x = selfRelation->GetX() + 55;
+				y = selfRelation->GetY() - 35;
+				x1 = selfRelation->GetX() + 65;
+				y1 = selfRelation->GetY() - 25;
+				cPaintDc->Rectangle(x, y, x1, y1);
+
+				x = selfRelation->GetX() + 55;
+				y = selfRelation->GetY() + 25;
+				x1 = selfRelation->GetX() + 65;
+				y1 = selfRelation->GetY() + 35;
+				cPaintDc->Rectangle(x, y, x1, y1);
+			}
 		i++;
 	}	
 	
@@ -848,4 +875,110 @@ void DrawingVisitor::Visit(Attribute *attribute, CDC *cPaintDc) {
 
 void DrawingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY){
 
+}
+
+void DrawingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *cPaintDc) {
+
+	cPaintDc->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY());
+	cPaintDc->LineTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 30);
+
+	cPaintDc->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 30);
+	cPaintDc->LineTo(selfGeneralization->GetX() + 60, selfGeneralization->GetY() - 30);
+
+	cPaintDc->MoveTo(selfGeneralization->GetX() + 60, selfGeneralization->GetY() - 30);
+	cPaintDc->LineTo(selfGeneralization->GetX() + 60, selfGeneralization->GetY() + 30);
+
+	cPaintDc->MoveTo(selfGeneralization->GetX() + 60, selfGeneralization->GetY() + 30);
+	cPaintDc->LineTo(selfGeneralization->GetX() + 30, selfGeneralization->GetY() + 30);
+
+	CBrush white(RGB(255, 255, 255));
+	CBrush myBrush;
+	myBrush.CreateSolidBrush(RGB(255, 255, 255));
+	CBrush *oldBrush = cPaintDc->SelectObject(&myBrush);
+
+	Long startX = selfGeneralization->GetX() + 60;
+	Long startY = selfGeneralization->GetY() + 30;
+	Long endX = selfGeneralization->GetX() + 30;
+	Long endY = selfGeneralization->GetY() + 30;
+
+	double degree = atan2(endX - startX, startY - endY); // 기울기
+
+	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+	// 루트안에 = 루트(제곱(
+	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+														  // 수직 기울기
+
+	CPoint pts[3];
+
+	pts[0].x = (endX); //마우스 현재위치 점
+	pts[0].y = (endY);
+
+	pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
+	pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+	pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
+	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+
+	cPaintDc->SelectObject(&white);
+	cPaintDc->Polygon(pts, 3);
+	cPaintDc->SelectObject(oldBrush);
+	myBrush.DeleteObject();
+}
+void DrawingVisitor::Visit(SelfDependency *selfDependency, CDC *cPaintDc) {
+
+	CPen pen;
+	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
+	CPen *oldPen = cPaintDc->SelectObject(&pen);
+	cPaintDc->SetBkMode(TRANSPARENT);
+
+	cPaintDc->MoveTo(selfDependency->GetX(), selfDependency->GetY());
+	cPaintDc->LineTo(selfDependency->GetX(), selfDependency->GetY() - 30);
+
+	cPaintDc->MoveTo(selfDependency->GetX(), selfDependency->GetY() - 30);
+	cPaintDc->LineTo(selfDependency->GetX() + 60, selfDependency->GetY() - 30);
+
+	cPaintDc->MoveTo(selfDependency->GetX() + 60, selfDependency->GetY() - 30);
+	cPaintDc->LineTo(selfDependency->GetX() + 60, selfDependency->GetY() + 30);
+
+	cPaintDc->MoveTo(selfDependency->GetX() + 60, selfDependency->GetY() + 30);
+	cPaintDc->LineTo(selfDependency->GetX() + 30, selfDependency->GetY() + 30);
+
+
+	Long startX = selfDependency->GetX() + 60;
+	Long startY = selfDependency->GetY() + 30;
+	Long endX = selfDependency->GetX() + 30;
+	Long endY = selfDependency->GetY() + 30;
+	
+	cPaintDc->SelectObject(oldPen);
+	pen.DeleteObject();
+
+
+
+	double degree = atan2(endX - startX, startY - endY); // 기울기
+
+	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+	// 루트안에 = 루트(제곱(
+	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+														  // 수직 기울기
+
+	CPoint pts[3];
+
+	pts[0].x = endX; //마우스 현재위치 점
+	pts[0].y = endY;
+
+	pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
+	pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+
+	pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
+	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+
+	cPaintDc->MoveTo(pts[0].x, pts[0].y);
+	cPaintDc->LineTo(pts[1].x, pts[1].y);
+
+	cPaintDc->MoveTo(pts[0].x, pts[0].y);
+	cPaintDc->LineTo(pts[2].x, pts[2].y);
 }
