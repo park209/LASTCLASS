@@ -16,6 +16,7 @@ public:
 	virtual void First();
 	virtual void Previous();
 	virtual void Next();
+	virtual void SkipTo(Long index);
 	virtual bool IsDone() const;
 	virtual T Current() const;
 private:
@@ -42,6 +43,11 @@ void ArrayIterator<T>::Previous() {
 template<typename T>
 void ArrayIterator<T>::Next() {
 	this->current++;
+}
+
+template<typename T>
+void ArrayIterator<T>::SkipTo(Long index) {
+	this->current= index;
 }
 
 template<typename T>

@@ -49,6 +49,7 @@
     <ClInclude Include="DirectAssociationButton.h" />
     <ClInclude Include="DirectedAssociation.h" />
     <ClInclude Include="DoubleByteCharacter.h" />
+    <ClInclude Include="DownArrowKey.h" />
     <ClInclude Include="DrawingController.h" />
     <ClInclude Include="DrawingVisitor.h" />
     <ClInclude Include="EndKey.h" />
@@ -57,6 +58,7 @@
     <ClInclude Include="Figure.h" />
     <ClInclude Include="FigureComposite.h" />
     <ClInclude Include="FigureFactory.h" />
+    <ClInclude Include="FlagSet.h" />
     <ClInclude Include="Generalization.h" />
     <ClInclude Include="GeneralizationButton.h" />
     <ClInclude Include="HomeKey.h" />
@@ -75,6 +77,7 @@
     <ClInclude Include="RealizationButton.h" />
     <ClInclude Include="Reception.h" />
     <ClInclude Include="Relation.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="Selection.h" />
@@ -89,6 +92,7 @@
     <ClInclude Include="TextComposite.h" />
     <ClInclude Include="TextEdit.h" />
     <ClInclude Include="Unclicked.h" />
+    <ClInclude Include="UpArrowKey.h" />
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="WritingVisitor.h" />
   </ItemGroup>
@@ -97,12 +101,14 @@
     <ClCompile Include="AggregationButton.cpp" />
     <ClCompile Include="Aggregations.cpp" />
     <ClCompile Include="AggregationsButton.cpp" />
+    <ClCompile Include="ArrayIterator.cpp" />
     <ClCompile Include="Association.cpp" />
     <ClCompile Include="AssociationButton.cpp" />
     <ClCompile Include="Attribute.cpp" />
     <ClCompile Include="BackSpaceKey.cpp" />
     <ClCompile Include="ButtonState.cpp" />
     <ClCompile Include="Caret.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="ClassButton.cpp" />
     <ClCompile Include="ClassDiagramApp.cpp" />
@@ -120,6 +126,7 @@
     <ClCompile Include="DirectAssociationButton.cpp" />
     <ClCompile Include="DirectedAssociation.cpp" />
     <ClCompile Include="DoubleByteCharacter.cpp" />
+    <ClCompile Include="DownArrowKey.cpp" />
     <ClCompile Include="DrawingController.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
     <ClCompile Include="EndKey.cpp" />
@@ -128,6 +135,7 @@
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="FigureComposite.cpp" />
     <ClCompile Include="FigureFactory.cpp" />
+    <ClCompile Include="FlagSet.cpp" />
     <ClCompile Include="Generalization.cpp" />
     <ClCompile Include="GeneralizationButton.cpp" />
     <ClCompile Include="HomeKey.cpp" />
@@ -154,9 +162,11 @@
     <ClCompile Include="Template.cpp" />
     <ClCompile Include="TemplateButton.cpp" />
     <ClCompile Include="Text.cpp" />
+    <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextComposite.cpp" />
     <ClCompile Include="TextEdit.cpp" />
     <ClCompile Include="Unclicked.cpp" />
+    <ClCompile Include="UpArrowKey.cpp" />
     <ClCompile Include="Visitor.cpp" />
     <ClCompile Include="WritingVisitor.cpp" />
   </ItemGroup>

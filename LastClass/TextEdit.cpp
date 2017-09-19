@@ -12,7 +12,7 @@
 #include "Figure.h"
 #include "Caret.h"
 #include "KeyBoard.h"
-#include "WritingVisitor.h"	
+#include "WritingVisitor.h"   
 #include <iostream>
 
 BEGIN_MESSAGE_MAP(TextEdit, CFrameWnd)
@@ -36,14 +36,8 @@ TextEdit::TextEdit(Figure *figure) {
 	this->text = NULL;
 	this->caret = NULL;
 	this->keyBoard = NULL;
-	this->rowIndex = 0;
-	this->characterIndex = 0;
 	this->figure = figure;
-	this->startX = 0;
-	this->startY = 0;
-	this->currentX = 0;
-	this->currentY = 0;
-	this->rowHeight = 17; // 폰트 사이즈
+	this->rowHeight = 18; // 폰트 사이즈
 	this->koreanEnglish = 0;
 	this->flagBuffer = 0;
 	this->flagInsert = 0;
@@ -53,60 +47,86 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct); //override
 
 	this->text = new Text;
-	this->caret = new Caret(this);
+	this->caret = new Caret;
 	this->keyBoard = new KeyBoard;
 
 	ModifyStyle(WS_CAPTION, 0);
-	//ModifyStyle(0, 0, SetWindowPos(&CWnd::wndTop, this->startY + 5, this->startY + 33, this->width - 5, this->height * 33, 0));
+	//ModifyStyle(0, 0, SetWindowPos(&CWnd::wndTop, this->selectedY + 5, this->selectedY + 33, this->width - 5, this->height * 33, 0));
 
 	this->text->SprayString(this->figure->GetContent()); // 넘겨받아온거 자료구조로 뿌려줌 ㅇㅇㅇㅇㅇ
-	if (this->text->GetLength() > 0) {
-		this->rowIndex = this->text->GetLength() - 1;
-		if (this->text->GetAt(this->text->GetLength() - 1)->GetLength() > 0) {
-			this->characterIndex = this->text->GetAt(this->text->GetLength() - 1)->GetLength();
-		}
-	}
-
 	Invalidate();
 	return 0;
 }
 
+//#include <gdiplus.h>
+//using namespace Gdiplus;
 void TextEdit::OnPaint() {
 	CPaintDC dc(this);
 	Long i = 0;
 	WritingVisitor writingVisitor;
 
-	CFont m_font;
-	m_font.CreateFont(this->rowHeight, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,
+	CFont cFont;
+	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
-	SetFont(&m_font, TRUE);
-	CFont *oldFont = dc.SelectObject(&m_font);
+	SetFont(&cFont, TRUE);
+	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 
-	this->text->Accept(writingVisitor, &dc);// 받았던거 출력
-
+	this->text->Accept(writingVisitor, &dc);//받았던거 출력
 	this->caret->MoveToIndex(this, &dc);
-
+	
+	if (this->flagInsert == 2) {
+		dc.SetTextColor(RGB(255, 255, 255));
+		dc.SetBkColor(RGB(0, 051, 255));
+		//dc.SetBkMode(TRANSPARENT);//텍스트 배경을 투명하게 설정
+		dc.SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
+		Long x = 5;
+		while (i < this->selectedX) { // 현재줄에서 캐릭터인덱스까지 너비 구한다
+			x += dc.GetTextExtent(this->text->GetAt(this->caret->GetRowIndex())->GetAt(i)->MakeCString()).cx;
+			i++;
+		}
+		Long y = this->rowHeight*this->selectedY + 5;
+		CRect rt;
+		
+		if (y == this->caret->GetCurrentCaretY()) {
+			if (x < this->caret->GetCurrentCaretX()) {
+				rt = { x + 5, y, this->caret->GetCurrentCaretX() + 5, this->caret->GetCurrentCaretY() + this->rowHeight };
+			}
+			else {
+				rt = { this->caret->GetCurrentCaretX() + 5 , this->caret->GetCurrentCaretY(), x - this->caret->GetCurrentCaretX() + 5, this->caret->GetCurrentCaretY() + this->rowHeight };
+			}
+		}
+		else {
+			if (y < this->caret->GetCurrentCaretY()) {
+				rt = { x + 5, y, this->caret->GetCurrentCaretX() + 5, this->caret->GetCurrentCaretY() + this->rowHeight };
+			}
+			else {
+				rt = { this->caret->GetCurrentCaretX()+5 ,  this->caret->GetCurrentCaretY(), x - this->caret->GetCurrentCaretX() + 5, y - this->caret->GetCurrentCaretY() + this->rowHeight };
+			}
+		}
+		dc.DrawText((CString)text->MakeText().c_str(),&rt, DT_LEFT | DT_TOP | DT_EDITCONTROL | DT_EXPANDTABS);
+	}
 	dc.SelectObject(oldFont);
-	m_font.DeleteObject();
+	cFont.DeleteObject(); // 폰트
+
 }
 
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN &&
-		nChar != VK_SPACE && nChar != VK_TAB) {
+		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10&&nChar!=VK_EXECUTE){
 		char nCharacter = nChar;
 
 		SingleByteCharacter singleByteCharacter(nCharacter);
 
-		if (this->characterIndex == this->text->GetAt(rowIndex)->GetLength()) {
-			this->text->GetAt(rowIndex)->Add(singleByteCharacter.Clone());
+		if (this->caret->GetCharacterIndex() == this->text->GetAt(this->caret->GetRowIndex())->GetLength()) {
+			this->text->GetAt(this->caret->GetRowIndex())->Add(singleByteCharacter.Clone());
 		}
-		else if (this->characterIndex < this->text->GetAt(rowIndex)->GetLength() && this->flagInsert == 0) {
-			this->text->GetAt(rowIndex)->Insert(this->characterIndex, singleByteCharacter.Clone());
+		else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 0) {
+			this->text->GetAt(this->caret->GetRowIndex())->Insert(this->caret->GetCharacterIndex(), singleByteCharacter.Clone());
 		}
-		else if (this->characterIndex < this->text->GetAt(rowIndex)->GetLength() && this->flagInsert == 1) {
-			this->text->GetAt(rowIndex)->Modify(this->characterIndex, singleByteCharacter.Clone());
+		else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 1) {
+			this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex(), singleByteCharacter.Clone());
 		}
-		this->characterIndex++;
+		this->caret->MoveForwardCharacterIndex();
 	}
 	Invalidate();
 }
@@ -128,7 +148,7 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 		DoubleByteCharacter doubleByteCharacter(tempChar);
 		delete[] tempChar;
 
-		this->text->GetAt(rowIndex)->Modify(this->characterIndex - 1, doubleByteCharacter.Clone());
+		this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex() - 1, doubleByteCharacter.Clone());
 		this->flagBuffer = 0;
 	}
 	else if (lParam & GCS_COMPSTR) {
@@ -143,16 +163,16 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 			DoubleByteCharacter doubleByteCharacter(tempChar);
 			delete[] tempChar;
 
-			if (this->characterIndex == this->text->GetAt(rowIndex)->GetLength()) {
-				this->text->GetAt(rowIndex)->Add(doubleByteCharacter.Clone());
+			if (this->caret->GetCharacterIndex() == this->text->GetAt(this->caret->GetRowIndex())->GetLength()) {
+				this->text->GetAt(this->caret->GetRowIndex())->Add(doubleByteCharacter.Clone());
 			}
-			else if (this->characterIndex < this->text->GetAt(rowIndex)->GetLength() && this->flagInsert == 0) {
-				this->text->GetAt(rowIndex)->Insert(this->characterIndex, doubleByteCharacter.Clone());
+			else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 0) {
+				this->text->GetAt(this->caret->GetRowIndex())->Insert(this->caret->GetCharacterIndex(), doubleByteCharacter.Clone());
 			}
-			else if (this->characterIndex < this->text->GetAt(rowIndex)->GetLength() && this->flagInsert == 1) {
-				this->text->GetAt(rowIndex)->Modify(this->characterIndex, doubleByteCharacter.Clone());
-			}
-			this->characterIndex++;
+			else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 1) {
+				this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex(), doubleByteCharacter.Clone());
+			}	
+			this->caret->MoveForwardCharacterIndex();
 			this->flagBuffer = 1;
 		}
 		else { // 조합중에서 조합중일때
@@ -163,12 +183,12 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 					i++;
 				}
 				DoubleByteCharacter doubleByteCharacter(tempChar);
-				this->text->GetAt(rowIndex)->Modify(this->characterIndex - 1, doubleByteCharacter.Clone());
+				this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex() - 1, doubleByteCharacter.Clone());
 				delete[] tempChar;
 			}
 			else if (bufferLength == 0) {
-				this->text->GetAt(rowIndex)->Remove(this->characterIndex - 1);
-				this->characterIndex--;
+				this->text->GetAt(this->caret->GetRowIndex())->Remove(this->caret->GetCharacterIndex() - 1);
+				this->caret->MoveBackwardCharacterIndex();
 				this->flagBuffer = 0;
 			}
 		}
@@ -186,71 +206,41 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 
 void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
-	this->startX = point.x;
-	this->startY = point.y;
-	/*Long height = 5;
-	Long width = 5;
-	this->rowIndex = 0;
-	this->characterIndex = 0;*/
+	this->selectedX = point.x;
+	this->selectedY = point.y;
 
-	/*if (startX > 5 && startY > 5) {
-	while (height < this->startY && this->rowIndex < this->count) {
-	this->rowIndex++;
-	height += rowHeight;
-	}
-	if (this->text->GetLength() > 0) {
-	this->rowIndex--;
-	}
+	CFont cFont;
+	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
+	SetFont(&cFont, TRUE);
+	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
+	
 
-	while (width < this->startX && this->characterIndex < this->text->GetAt(this->GetCurrentClassIndex())->GetLength()) {
-	width += dc.GetTabbedTextExtent(this->text->GetAt(this->GetCurrentClassIndex())->GetAt(this->characterIndex)->MakeCString(), 0, 0).cx;
-	this->characterIndex++;
-	}
-	if (this->characterIndex <= this->text->GetAt(this->GetCurrentClassIndex())->GetLength() && this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetLength() > 0 &&
-	width - dc.GetTabbedTextExtent(this->text->GetAt(this->GetCurrentClassIndex())->GetAt(this->characterIndex - 1)->MakeCString(), 0, 0).cx / 2 > this->startX) {
-	this->characterIndex--;
-	}
-	}*/
-	this->caret->MoveToIndex(this, &dc);
+	this->caret->MoveToPoint(this, &dc, point);
+
+	dc.SelectObject(oldFont);
+	cFont.DeleteObject(); // 폰트 끝
+
 	Invalidate();
 }
 
+
 void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
-	this->currentX = point.x;
-	this->currentY = point.y;
 
 	Invalidate();
 }
 
 void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 	if (nFlags == MK_LBUTTON) {
+
+		CFont cFont;
 		CPaintDC dc(this);
-		this->currentX = point.x;
-		this->currentY = point.y;
-		Long height = 5;
-		Long width = 5;
+		cFont.CreateFont(this->GetRowHeight(), 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
+		this->SetFont(&cFont, TRUE);
+		CFont *oldFont = dc.SelectObject(&cFont);// 폰트 시작
 
-		/*this->rowIndex = 0;
-		this->characterIndex = 0;
-		if (currentX > 5 && currentY > 5) {
-		while (height < this->currentY && this->rowIndex < this->count) {
-		this->rowIndex++;
-		height += rowHeight;
-		}
-		if (this->classDiagramForm->text->GetLength() > 0) {
-		this->rowIndex--;
-		}
-
-		while (width < this->currentX && this->characterIndex < this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetLength()) {
-		width += dc.GetTabbedTextExtent(this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetAt(this->characterIndex)->MakeCString(), 0, 0).cx;
-		this->characterIndex++;
-		}
-		if (this->characterIndex <= this->classDiagramForm->text->GetAt(rowIndex)->GetLength() && this->classDiagramForm->text->GetAt(rowIndex)->GetLength() > 0 &&
-		width - dc.GetTabbedTextExtent(this->classDiagramForm->text->GetAt(this->classDiagramForm->GetCurrentClassIndex())->GetAt(this->characterIndex - 1)->MakeCString(), 0, 0).cx / 2 > this->startX) {
-		this->characterIndex--;
-		}
-		}*/
-		//Invalidate();
+		this->caret->MoveToPoint(this, &dc, point);
 	}
 }
 
@@ -262,19 +252,24 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (nChar == VK_OEM_PLUS) {
 		if (GetKeyState(VK_SHIFT) < 0) { //폰트 size
 			this->rowHeight++;
+			this->flagInsert = 2;
+			this->selectedX = this->caret->GetCharacterIndex();
+			this->selectedY = this->caret->GetRowIndex();
 		}
 	}
 	if (nChar == VK_OEM_MINUS) {
 		if (GetKeyState(VK_SHIFT) < 0) {
 			this->rowHeight--;
+			this->flagInsert = 0;
 		}
 	}
 
 	this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 
 	this->koreanEnglish = 0;
-
-	Invalidate();
+	Invalidate(TRUE);//지우고다시그림
+	Invalidate(FALSE);//덮어씌움
+	//Invalidate();
 }
 
 LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {

@@ -33,15 +33,9 @@ protected:
 	afx_msg void OnClose();
 	DECLARE_MESSAGE_MAP()
 public:
-	Long GetRowIndex() const;
-	Long GetCharacterIndex() const;
 	Long GetFlagInsert() const;
 
 	Figure* GetFigure() const;
-	Long GetStartX() const;
-	Long GetStartY() const;
-	Long GetCurrentX() const;
-	Long GetCurrentY() const;
 	Long GetRowHeight() const;
 	Long GetKoreanEnglish() const;
 	Long GetFlagBuffer() const;
@@ -49,44 +43,22 @@ public:
 	Text *text;
 	Caret *caret;
 	KeyBoard *keyBoard;
-	Long rowIndex;
-	Long characterIndex;
-	Long flagInsert;
+	Long flagInsert;//flag
 private:
 	Figure *figure;
-	Long startX;
-	Long startY;
-	Long currentX;
-	Long currentY;
-	Long rowHeight;
-	Long koreanEnglish;
-	Long flagBuffer;
+	Long rowHeight;//figure에서 저장을 해줘야 하기때문에 삭제가능
+	Long koreanEnglish;//flag
+	Long flagBuffer;//flag
+	Long selectedX;//보류
+	Long selectedY;//보류
 };
 
-inline Long TextEdit::GetRowIndex() const {
-	return this->rowIndex;
-}
-inline Long TextEdit::GetCharacterIndex() const {
-	return this->characterIndex;
-}
 inline Long TextEdit::GetFlagInsert() const {
 	return this->flagInsert;
 }
 
 inline Figure* TextEdit::GetFigure() const {
 	return const_cast<Figure*>(this->figure);
-}
-inline Long TextEdit::GetStartX() const {
-	return this->startX;
-}
-inline Long TextEdit::GetStartY() const {
-	return this->startY;
-}
-inline Long TextEdit::GetCurrentX() const {
-	return this->currentX;
-}
-inline Long TextEdit::GetCurrentY() const {
-	return this->currentY;
 }
 inline Long TextEdit::GetRowHeight() const {
 	return this->rowHeight;

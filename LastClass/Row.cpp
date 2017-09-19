@@ -90,6 +90,28 @@ string Row::PrintRowString() {
 	return tempString;
 }
 
+string Row::PrintRowString(Long count, Long offset) {
+	char tempChar[256] = { 0, };
+	Long i = 0;
+
+	SmartPointer<TextComponent*> iterator = this->CreateIterator();
+	iterator->SkipTo(offset);
+	while (!iterator->IsDone() && i<count) {
+		if (dynamic_cast<SingleByteCharacter*>(iterator->Current())) {
+			tempChar[i] = static_cast<SingleByteCharacter*>(iterator->Current())->GetCharacter();
+		}
+		else if (dynamic_cast<DoubleByteCharacter*>(iterator->Current())) {
+			tempChar[i] = static_cast<DoubleByteCharacter*>(iterator->Current())->GetCharacters()[0];
+			i++;
+			tempChar[i] = static_cast<DoubleByteCharacter*>(iterator->Current())->GetCharacters()[1];
+		}
+		i++;
+		iterator->Next();
+	}
+	string tempString(tempChar, i);
+	return tempString;
+}
+
 Character* Row::GetAt(Long index) {
 	return static_cast<Character*>(this->textComponents[index]);
 }

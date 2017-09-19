@@ -11,16 +11,40 @@ class TextEdit;
 class Caret {
 public:
 	Caret();
-	Caret(TextEdit *textEdit);
 	Caret(const Caret& source);
 	~Caret();
 
 	void MoveToIndex(TextEdit *textEdit, CPaintDC *cPaintDc);
+	void MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point);
+	void MoveForwardRowIndex(Long index=1);
+	void MoveBackwardRowIndex(Long index = 1);
+	void MoveForwardCharacterIndex(Long index=1);
+	void MoveBackwardCharacterIndex(Long index=1);
+	void SetCharacterIndex(Long index);
+	Long GetCurrentCaretX() const;
+	Long GetCurrentCaretY() const;
+	Long GetRowIndex() const;
+	Long GetCharacterIndex() const;
 
 	Caret& operator = (const Caret& source);
 
 private:
-	TextEdit *textEdit;
+	Long rowIndex;
+	Long characterIndex;
+	Long currentCaretX;
+	Long currentCaretY;
 };
 
+inline Long Caret::GetRowIndex() const {
+	return this->rowIndex;
+}
+inline Long Caret::GetCharacterIndex() const {
+	return this->characterIndex;
+}
+inline Long Caret::GetCurrentCaretX() const {
+	return this->currentCaretX;
+}
+inline Long Caret::GetCurrentCaretY() const {
+	return this->currentCaretY;
+}
 #endif // _CARET_H

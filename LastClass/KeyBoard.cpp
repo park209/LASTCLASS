@@ -6,6 +6,8 @@
 #include "BackSpaceKey.h"
 #include "LeftArrowKey.h"
 #include "RightArrowKey.h"
+#include "UpArrowKey.h"
+#include "DownArrowKey.h"
 #include "SpaceKey.h"
 #include "CtrlEnterKey.h"
 #include "HomeKey.h"
@@ -55,6 +57,14 @@ void KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT nFlags
 		break;
 	case VK_RIGHT:
 		this->keyAction = new RightArrowKey;
+		this->keyAction->KeyPress(textEdit);
+		break;
+	case VK_UP:
+		this->keyAction = new UpArrowKey;
+		this->keyAction->KeyPress(textEdit);
+		break;
+	case VK_DOWN:
+		this->keyAction = new DownArrowKey;
 		this->keyAction->KeyPress(textEdit);
 		break;
 	case VK_SPACE:

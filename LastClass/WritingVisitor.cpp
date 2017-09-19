@@ -67,5 +67,5 @@ void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 	// ¸Æ½ºÇÏÀÌÆ® 
 
 	RECT rt = { 5 , 5, textWidth*fontWidth + 5, text->GetLength() * fontHeight + 5 };
-	cPaintDc->DrawText((CString)text->MakeText().c_str(), &rt, DT_EDITCONTROL | DT_EXPANDTABS);
+	cPaintDc->DrawText((CString)text->MakeText().c_str(), &rt, DT_LEFT | DT_TOP | DT_EDITCONTROL | DT_EXPANDTABS);
 }

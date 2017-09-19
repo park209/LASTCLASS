@@ -314,7 +314,6 @@ void ClassDiagramForm::OnPaint() {
 	this->diagram->Accept(writingVisitor, &dc);
 
 	this->drawingController->Draw(this->startX, this->startY, this->currentX, this->currentY, &dc);
-
 	//선택 표시 막아둠
 	//if (this->selected != -1) {
 

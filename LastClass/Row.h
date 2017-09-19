@@ -27,6 +27,7 @@ public:
 	Long Remove(Long index);
 	Long Insert(Long index, TextComponent *textComponent);
 	string PrintRowString();
+	string PrintRowString(Long count, Long offset=0);
 	Character* GetAt(Long index);
 
 	TextComponent* Clone() const;

@@ -10,6 +10,7 @@ public:
 	virtual void First() = 0;
 	virtual void Previous() = 0;
 	virtual void Next() = 0;
+	virtual void SkipTo(Long index) = 0;
 	virtual bool IsDone() const = 0;
 	virtual T Current() const = 0;
 protected:
