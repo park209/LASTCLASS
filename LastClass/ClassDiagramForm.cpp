@@ -1,17 +1,23 @@
 //ClassDiagramForm.cpp
 
 #include "ClassDiagramForm.h"
-#include "Class.h"
-#include "Line.h"
-//#include "Figure.h"
-#include "Diagram.h"
-#include "DrawingVisitor.h"
-#include "Text.h"
-#include "SingleByteCharacter.h"
-#include "WritingVisitor.h"
 #include "TextEdit.h"
-
+#include "Diagram.h"
+#include "Class.h"
+#include "MemoBox.h"
+#include "Selection.h"
+#include "Text.h"
+#include "Row.h"
+#include "Character.h"
+#include "SingleByteCharacter.h"
+#include "DoubleByteCharacter.h"
+#include "Figure.h"
 #include "Template.h"
+#include "ClassName.h"
+#include "Method.h"
+#include "Attribute.h"
+#include "Reception.h"
+#include "Line.h"
 #include "Generalization.h"
 #include "Realization.h"
 #include "Dependency.h"
@@ -21,12 +27,12 @@
 #include "Aggregations.h"
 #include "Composition.h"
 #include "Compositions.h"
-#include "MemoBox.h"
-#include "Selection.h"
 #include "DrawingController.h"
 #include "FigureFactory.h"
 #include "MemoLine.h"
 #include "Unclicked.h"
+#include "DrawingVisitor.h"
+#include "WritingVisitor.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
@@ -234,50 +240,50 @@ Long ClassDiagramForm::Load() {
 	return this->diagram->GetLength();
 }
 
-Long ClassDiagramForm::TextSave() {
-	Long i = 0;
-	string s;
-	ofstream fText;
-	fText.open("Text.txt");
-	if (fText.is_open()) {
-		while (i < this->text->GetLength()) {
-			s = this->text->GetAt(i)->PrintRowString();
-			fText << this->text->GetAt(i)->GetX() << ' ' << this->text->GetAt(i)->GetY() << ' ' << this->text->GetAt(i)->GetRowHeight() << ' ' << endl;
-			fText << s << endl;
-			i++;
-		}
-		fText.close();
-	}
-	return i;
-}
+//Long ClassDiagramForm::TextSave() {
+//	Long i = 0;
+//	string s;
+//	ofstream fText;
+//	fText.open("Text.txt");
+//	if (fText.is_open()) {
+//		while (i < this->text->GetLength()) {
+//			s = this->text->GetAt(i)->PrintRowString();
+//			fText << this->text->GetAt(i)->GetX() << ' ' << this->text->GetAt(i)->GetY() << ' ' << this->text->GetAt(i)->GetRowHeight() << ' ' << endl;
+//			fText << s << endl;
+//			i++;
+//		}
+//		fText.close();
+//	}
+//	return i;
+//}
 
-Long ClassDiagramForm::TextLoad() {
-	FigureFactory textCreator;
-	Long i = 0;
-	Long x = 0;
-	Long y = 0;
-	Long rowHeight = 0;
-	Long classID = -1;
-	string str;
-	TextComponent* Component = NULL;
-	ifstream fText;
-
-	fText.open("Text.txt");
-	if (fText.is_open()) {
-		while (!fText.eof() || getline(fText, str)) {
-			fText >> x >> y >> rowHeight >> classID;
-			getline(fText, str);
-			fText.clear();
-			getline(fText, str);
-			fText.clear();
-
-			Component = textCreator.CreateRow(x, y, rowHeight, classID, str);
-			this->text->Add(Component);
-			i++;
-		}
-	}
-	return i;
-}
+//Long ClassDiagramForm::TextLoad() {
+//	FigureFactory textCreator;
+//	Long i = 0;
+//	Long x = 0;
+//	Long y = 0;
+//	Long rowHeight = 0;
+//	Long classID = -1;
+//	string str;
+//	TextComponent* Component = NULL;
+//	ifstream fText;
+//
+//	fText.open("Text.txt");
+//	if (fText.is_open()) {
+//		while (!fText.eof() || getline(fText, str)) {
+//			fText >> x >> y >> rowHeight >> classID;
+//			getline(fText, str);
+//			fText.clear();
+//			getline(fText, str);
+//			fText.clear();
+//
+//			Component = textCreator.CreateRow(x, y, rowHeight, classID, str);
+//			this->text->Add(Component);
+//			i++;
+//		}
+//	}
+//	return i;
+//}
 
 int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
@@ -292,6 +298,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	//this->Load();
 	//this->TextLoad();
 	//1.3. 윈도우를 갱신한다
+
 	Invalidate();
 
 	return 0;
@@ -304,7 +311,7 @@ void ClassDiagramForm::OnPaint() {
 	WritingVisitor writingVisitor;
 
 	this->diagram->Accept(drawingVisitor, &dc);
-	this->text->Accept(writingVisitor, &dc);
+	this->diagram->Accept(writingVisitor, &dc);
 
 	this->drawingController->Draw(this->startX, this->startY, this->currentX, this->currentY, &dc);
 
@@ -313,25 +320,78 @@ void ClassDiagramForm::OnPaint() {
 
 	Long i = 0;
 	while (i < this->selection->GetLength()) {
-		if (dynamic_cast<Class*>(this->selection->GetAt(i)) || dynamic_cast<MemoBox*>(this->selection->GetAt(i))) {
-			dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
-				this->selection->GetAt(i)->GetY() - 5,
-				this->selection->GetAt(i)->GetX() + 5,
-				this->selection->GetAt(i)->GetY() + 5);
-			dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
-				this->selection->GetAt(i)->GetY() - 5,
-				this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
-				this->selection->GetAt(i)->GetY() + 5);
-			dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
-				this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
-				this->selection->GetAt(i)->GetX() + 5,
-				this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
-			dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
-				this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
-				this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
-				this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
-
+		if (dynamic_cast<Class*>(this->selection->GetAt(i))) {
+			if (dynamic_cast<Class*>(this->selection->GetAt(i))->GetTempletePosition() == -1) {
+				dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
+					this->selection->GetAt(i)->GetY() - 5,
+					this->selection->GetAt(i)->GetX() + 5,
+					this->selection->GetAt(i)->GetY() + 5);
+				dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
+					this->selection->GetAt(i)->GetY() - 5,
+					this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
+					this->selection->GetAt(i)->GetY() + 5);
+				dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
+					this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
+					this->selection->GetAt(i)->GetX() + 5,
+					this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+				dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
+					this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
+					this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
+					this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+			}
+			else {
+				Long j = 0;
+				while (j < dynamic_cast<Class*>(this->selection->GetAt(i))->GetLength()) {
+					if (dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))) {
+						dc.Rectangle(
+							this->selection->GetAt(i)->GetX() - 5,
+							dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetY() - 5,
+							this->selection->GetAt(i)->GetX() + 5,
+							dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetY() + 5);
+						dc.Rectangle(
+							dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetX() +
+							dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetWidth() - 5,
+							dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetY() - 5,
+							dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetX() +
+							dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetWidth() + 5,
+							dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetY() + 5);
+						dc.Rectangle(
+							this->selection->GetAt(i)->GetX() - 5,
+							this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
+							this->selection->GetAt(i)->GetX() + 5,
+							this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+						dc.Rectangle(
+							dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetX() +
+							dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetWidth() - 5,
+							this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
+							dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetX() +
+							dynamic_cast<Template*>(dynamic_cast<Class*>(this->selection->GetAt(i))->GetAt(j))->GetWidth() + 5,
+							this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+						}
+					j++;
+				}
+			}
 		}
+		if (dynamic_cast<MemoBox*>(this->selection->GetAt(i))) {
+
+			dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
+				this->selection->GetAt(i)->GetY() - 5,
+				this->selection->GetAt(i)->GetX() + 5,
+				this->selection->GetAt(i)->GetY() + 5);
+			dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
+				this->selection->GetAt(i)->GetY() - 5,
+				this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
+				this->selection->GetAt(i)->GetY() + 5);
+			dc.Rectangle(this->selection->GetAt(i)->GetX() - 5,
+				this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
+				this->selection->GetAt(i)->GetX() + 5,
+				this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+			dc.Rectangle(this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() - 5,
+				this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() - 5,
+				this->selection->GetAt(i)->GetX() + this->selection->GetAt(i)->GetWidth() + 5,
+				this->selection->GetAt(i)->GetY() + this->selection->GetAt(i)->GetHeight() + 5);
+		}
+
 		if (dynamic_cast<Realization*>(this->selection->GetAt(i)) || dynamic_cast<Generalization*>(this->selection->GetAt(i)) || dynamic_cast<Dependency*>(this->selection->GetAt(i)) ||
 			dynamic_cast<Association*>(this->selection->GetAt(i)) || dynamic_cast<Aggregation*>(this->selection->GetAt(i)) || dynamic_cast<Aggregations*>(this->selection->GetAt(i)) ||
 			dynamic_cast<Composition*>(this->selection->GetAt(i)) || dynamic_cast<Compositions*>(this->selection->GetAt(i)) || dynamic_cast<DirectedAssociation*>(this->selection->GetAt(i)) ||
@@ -354,61 +414,8 @@ void ClassDiagramForm::OnPaint() {
 	}
 }
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
-	char nCharacter = nChar;
-	Long key = -1;
-
-	if (nChar == 48) {
-		key = 0;
-	}
-	if (nChar == 49) {
-		key = 1;
-	}
-	if (nChar == 50) {
-		key = 2;
-	}
-	if (nChar == 51) {
-		key = 3;
-	}
-	if (nChar == 52) {
-		key = 4;
-	}
-	if (nChar == 53) {
-		key = 5;
-	}
-	if (nChar == 54) {
-		key = 6;
-	}
-	if (nChar == 55) {
-		key = 7;
-	}
-	if (nChar == 56) {
-		key = 8;
-	}
-	if (nChar == 57) {
-		key = 9;
-	}
-	if (nChar == 113) {
-		key = 10;
-	}
-	if (nChar == 119) {
-		key = 11;
-	}
-	if (nChar == 101) {
-		key = 12;
-	}
-	if (nChar == 114) {
-		key = 13;
-	}
-	this->drawingController->ChangeState(key);
-
-	if (this->text->GetLength() == 0) {
-		Row newRow;
-		this->text->Add(newRow.Clone());
-	} 
-	SingleByteCharacter singleByteCharacter(nCharacter);
-	this->startX += 10;
-	this->text->GetAt(this->rowIndex)->Add(singleByteCharacter.Clone());
-
+	this->drawingController->ChangeState(nChar);
+	
 	Invalidate();
 }
 
@@ -418,47 +425,68 @@ void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 }
 
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
+	MSG msg;
+	UINT dblclkTime = GetDoubleClickTime();
+	UINT elapseTime = 0;
+
+	SetTimer(1, 1, NULL);
+	while (elapseTime < dblclkTime) {
+		PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+		if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
+			KillTimer(1);
+		}
+		elapseTime++;
+	}
+
 	this->startX = point.x;
 	this->startY = point.y;
 	this->currentX = point.x;
 	this->currentY = point.y;
-	//this->selected = this->diagram->Find(this->currentX, this->currentY);
 	this->selection->DeleteAllItems();
-	//if (this->relationButton == true) {
-		Long x = this->startX;
-		Long y = this->startY;
-		this->selection->FindByPoint(this->diagram, x, y);
-	//}
+	Long x = this->startX;
+	Long y = this->startY;
+	this->selection->FindByPoint(this->diagram, x, y);
 
-	//this->currentClassIndex = -1;
-	//this->currentClassIndex = this->selection->FindByPoint(this->diagram, this->startX, this->startY);
-	if (this->currentClassIndex >= 0) { //클릭한 위치에 클래스가 있었다면
-		this->textEdit = new TextEdit(this, // 텍스트에딧 크기는 클래스 크기, 일단은
-			this->diagram->GetAt(currentClassIndex)->GetX() + 5,
-			this->diagram->GetAt(currentClassIndex)->GetY() + 33,
-			this->diagram->GetAt(currentClassIndex)->GetWidth() - 5,
-			this->diagram->GetAt(currentClassIndex)->GetHeight() - 5);
+
+	KillTimer(1);
+
+	Invalidate();
+}
+
+
+void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
+	CPaintDC dc(this);
+	this->startX = point.x;
+	this->startY = point.y;
+	this->currentX = point.x;
+	this->currentY = point.y;
+
+	Figure* figure = this->diagram->FindItem(startX, startY);
+
+	if (figure != NULL) {
+
+		this->textEdit = new TextEdit(figure); // 
 
 		this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
-			this->textEdit->GetFormX(),
-			this->textEdit->GetFormY(),
-			this->textEdit->GetFormX() + this->textEdit->GetWidth(),
-			this->textEdit->GetFormY() + this->textEdit->GetHeight()), NULL, NULL, WS_EX_TOPMOST);
+			figure->GetX() + 5,
+			figure->GetY() + 33,
+			figure->GetX() + figure->GetWidth() - 5,
+			figure->GetY() + figure->GetHeight() + 23), NULL, NULL, WS_EX_TOPMOST);
 		this->textEdit->ShowWindow(SW_SHOW);
 	}
 }
 
-void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
-	this->startX = point.x;
-	this->startY = point.y;
-	this->currentX = point.x;
-	this->currentY = point.y;
-
-}
-
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
+	MSG msg;
+	UINT dblclkTime = GetDoubleClickTime();
+	UINT elapseTime = 0;
+	PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+	if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
+		return;
+	}
 	this->currentX = point.x;
 	this->currentY = point.y;
+
 	if (dynamic_cast<Unclicked*>(this->drawingController->buttonState)) {
 		CRect area;
 		area.left = this->startX;
@@ -467,46 +495,34 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		area.bottom = this->currentY;
 		this->selection->FindByArea(this->diagram, area);
 	}
-	if (this->classButton == true) {
-		if (this->currentX != this->startX && this->currentY != this->startY) {
-			if (this->currentX - this->startX < 150) {
-				this->currentX = this->startX + 150;
+
+	Figure *figure = 0;
+	if (this->startX != this->currentX && this->startY != this->currentY) {
+		figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
+	}
+
+	if (dynamic_cast<Class*>(figure)) {
+		SmartPointer<Figure*> iterator = static_cast<Class*>(figure)->CreateIterator();
+		for(iterator->First(); !iterator->IsDone(); iterator->Next()) {
+			if (dynamic_cast<ClassName*>(iterator->Current())) {
+				this->textEdit = new TextEdit(iterator->Current());
+
+				this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
+					iterator->Current()->GetX() + 5,
+					iterator->Current()->GetY() + 33,
+					iterator->Current()->GetX() + iterator->Current()->GetWidth() - 5,
+					iterator->Current()->GetY() + iterator->Current()->GetHeight() + 23), NULL, NULL, WS_EX_TOPMOST);
+				this->textEdit->ShowWindow(SW_SHOW);
 			}
-			if (this->currentY - this->startY < 200) {
-				this->currentY = this->startY + 200;
-			}
-			Long index = this->diagram->AddClass(this->startX, this->startY, this->currentX - this->startX, this->currentY - this->startY);
-
-			//첨자연산자 왜 안돼는지 확인해야함
-			static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, this->startY + 50,
-				this->currentX - this->startX, this->startY + 50);
-			static_cast<Class*>(this->diagram->GetAt(index))->Add(this->startX, (this->startY + 50 + this->currentY) / 2,
-				this->currentX - this->startX, (this->startY + 50 + this->currentY) / 2);
-
-			this->textEdit = new TextEdit(this, // 텍스트에딧 크기는 클래스 크기, 일단은
-				this->diagram->GetAt(index)->GetX() + 5,
-				this->diagram->GetAt(index)->GetY() + 33,
-				this->diagram->GetAt(index)->GetWidth() - 5,
-				this->diagram->GetAt(index)->GetHeight() - 100);
-
-			this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
-				this->textEdit->GetFormX(),
-				this->textEdit->GetFormY(),
-				this->textEdit->GetFormX() + this->textEdit->GetWidth(),
-				this->textEdit->GetFormY() + this->textEdit->GetHeight() - 100), NULL, NULL, WS_EX_TOPMOST);
-			this->textEdit->ShowWindow(SW_SHOW);
 		}
 	}
-	if (this->startX != this->currentX && this->startY != this->currentY) {
-		this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-	}
-	
-	//Long length = this->selection->GetLength();
-	
+
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
-	this->currentY = 0;	
+	this->currentY = 0;
+
+	KillTimer(1);
 
 	Invalidate();
 }
@@ -520,25 +536,6 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	}
 }
 
-bool ClassDiagramForm::FindCrossPoint(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End, CPoint *crossPoint) {
-	double t;
-	double s;
-	bool ret = false;
-	double under = (line2End.y - line2Start.y)*(line1End.x - line1Start.x) - (line2End.x - line2Start.x)*(line1End.y - line1Start.y);
-	if (under != 0) {
-		double _t = (line2End.x - line2Start.x)*(line1Start.y - line2Start.y) - (line2End.y - line2Start.y)*(line1Start.x - line2Start.x);
-		double _s = (line1End.x - line1Start.x)*(line1Start.y - line2Start.y) - (line1End.y - line1Start.y)*(line1Start.x - line2Start.x);
-		t = _t / under;
-		s = _s / under;
-		if (t >= 0.0 && t <= 1.0 && s >= 0.0 && s <= 1.0 && _t != 0 && _s != 0) {
-			crossPoint->x = static_cast<LONG>(line1Start.x + t*(double)(line1End.x - line1Start.x));
-			crossPoint->y = static_cast<LONG>(line1Start.y + t*(double)(line1End.y - line1Start.y));
-			ret = true;
-		}
-	}
-	return ret;
-}
-
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
 	//this->Save();
@@ -550,6 +547,13 @@ void ClassDiagramForm::OnClose() {
 	if (this->text != NULL) {
 		delete this->text;
 	}
+	if (this->selection != NULL) {
+		delete this->selection;
+	}
+	if (this->drawingController != NULL) {
+		delete this->drawingController;
+	}
+	
 	//6.3. 윈도우를 닫는다.
 	CFrameWnd::OnClose(); // 오버라이딩 코드재사용
 }

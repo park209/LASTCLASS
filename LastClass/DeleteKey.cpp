@@ -1,12 +1,10 @@
 //DeleteKey.cpp
 
 #include "DeleteKey.h"
-#include "ClassDiagramForm.h"
 #include "TextEdit.h"
 #include "Text.h"
 #include "Row.h"
-#include "KeyBoard.h"
-#include "KeyAction.h"
+#include "Caret.h"
 
 DeleteKey::DeleteKey() {
 }
@@ -18,11 +16,17 @@ DeleteKey::~DeleteKey() {
 }
 
 void DeleteKey::KeyPress(TextEdit *textEdit) {
-	if (textEdit->count > 0 && textEdit->GetCharacterIndex() < textEdit->classDiagramForm->text->GetAt(textEdit->GetRowIndex())->GetLength()) {
-		textEdit->classDiagramForm->text->GetAt(textEdit->GetRowIndex())->Remove(textEdit->GetCharacterIndex());
+	if (textEdit->caret->GetCharacterIndex() < textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength()) {
+		textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Remove(textEdit->caret->GetCharacterIndex());
 	}
-	if (textEdit->keyBoard->keyAction != 0) {
-		delete textEdit->keyBoard->keyAction;
+	else if (textEdit->caret->GetCharacterIndex() == textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength()
+		&& textEdit->caret->GetRowIndex() < textEdit->text->GetLength() - 1) {
+		Long i = 0;
+		while (i < textEdit->text->GetAt(textEdit->caret->GetRowIndex() + 1)->GetLength()) {
+			textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Add(textEdit->text->GetAt(textEdit->caret->GetRowIndex() + 1)->GetAt(i));
+			i++;
+		}
+		textEdit->text->Remove(textEdit->caret->GetRowIndex() + 1);
 	}
 }
 

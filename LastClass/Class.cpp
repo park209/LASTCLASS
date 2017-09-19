@@ -14,6 +14,10 @@
 #include "Template.h"
 #include "SmartPointer.h"
 #include "MemoLine.h"
+#include "ClassName.h"
+#include "Attribute.h"
+#include "Method.h"
+#include "Reception.h"
 
 #include "SmartPointer.h"
 #include "ArrayIterator.h"
@@ -294,10 +298,6 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		if (dynamic_cast<Line*>(smartPointer->Current())){
 			dynamic_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-		
-		else if (dynamic_cast<Template*>(smartPointer->Current())) {
-			dynamic_cast<Template*>(smartPointer->Current())->Accept(visitor, cPaintDc);
-		}
 
 		else if (dynamic_cast<Generalization*>(smartPointer->Current())) {
 			dynamic_cast<Generalization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
@@ -314,7 +314,7 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		
 
 		else if (dynamic_cast<Association*>(smartPointer->Current())) {
-			dynamic_cast<Association*>(smartPointer->Current())->Accept(visitor, cPaintDc); //, cPaintDc
+			dynamic_cast<Association*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		
 
@@ -341,40 +341,27 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		else if (dynamic_cast<Compositions*>(smartPointer->Current())) {
 			dynamic_cast<Compositions*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-
 		else if (dynamic_cast<MemoLine*>(smartPointer->Current())) {
 			dynamic_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 
-		//static_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+
+		else if (dynamic_cast<Template*>(smartPointer->Current())) {
+			dynamic_cast<Template*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<ClassName*>(smartPointer->Current())) {
+			dynamic_cast<ClassName*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<Attribute*>(smartPointer->Current())) {
+			dynamic_cast<Attribute*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<Method*>(smartPointer->Current())) {
+			dynamic_cast<Method*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<Reception*>(smartPointer->Current())) {
+			dynamic_cast<Reception*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
 		smartPointer->Next();
 	}
 }
-
-
-//#include <iostream>
-//using namespace std;
-//
-//int main(int argc, char* argv[]) {
-//	
-//	Class testClass1(10, 20, 30, 40);
-//	SmartPointer<Figure*> smartPointer(testClass1.CreateIterator());
-//	//ArrayIterator<Template*> smartPointer = dynamic_cast<Template*>(testClass1.CreateIterator());
-//	testClass1.Add(10, 10, 10, 10);
-//	testC
-//	testClass1.Add(20, 20, 20, 20);
-//	testClass1.Add(10, 10, 20, 40 );
-//
-//	Long i = 0;
-//	while (i < testClass1.GetLength()) {
-//		Figure *figure = testClass1.GetAt(i);
-//		if (dynamic_cast<Line*>(figure)) {
-//			cout << "¶óÀÎ"<< endl;
-//		}
-//		
-//		i++;
-//	}
-//
-//	return 0;
-//}
-//

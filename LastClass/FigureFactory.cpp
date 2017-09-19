@@ -19,13 +19,14 @@
 #include "SingleByteCharacter.h"
 #include "DoubleByteCharacter.h"
 #include "MemoLine.h"
+
 FigureFactory::FigureFactory() {
 }
 FigureFactory::~FigureFactory() {
 }
 
 TextComponent* FigureFactory::CreateRow(Long x, Long y, Long rowHeight, Long classID, string stringCharacter) {
-	Row* row = new Row(x, y, rowHeight, classID);
+	Row* row = new Row;
 	ULong i = 0;
 
 	while (i < strlen(stringCharacter.c_str())) {

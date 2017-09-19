@@ -22,11 +22,13 @@ MemoLineButton::~MemoLineButton() {
 
 }
 
-void MemoLineButton::ChangeState(DrawingController *drawingController, Long key) {
-	ButtonState::ChangeState(drawingController, key);
+void MemoLineButton::ChangeState(DrawingController *drawingController, UINT nChar) {
+	ButtonState::ChangeState(drawingController, nChar);
 }
 
-void MemoLineButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+Figure* MemoLineButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+	Long index;
+	Figure *figure = 0;
 	if (selection->GetLength() == 1 && dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
 		//Long endClass = this->diagram->Find(this->currentX, this->currentY);//자기자신 연결시 0 0 0 0 값 저장됨.. 수정요 2017_09_09
 		//Long x = this->currentX;
@@ -117,9 +119,11 @@ void MemoLineButton::AddToArray(Diagram *diagram, Selection *selection, Long sta
 			}
 
 			MemoLine object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
-			static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+			index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+			figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
 		}
 	}
+	return figure;
 }
 void MemoLineButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 

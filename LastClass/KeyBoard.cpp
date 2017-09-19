@@ -6,6 +6,8 @@
 #include "BackSpaceKey.h"
 #include "LeftArrowKey.h"
 #include "RightArrowKey.h"
+#include "UpArrowKey.h"
+#include "DownArrowKey.h"
 #include "SpaceKey.h"
 #include "CtrlEnterKey.h"
 #include "HomeKey.h"
@@ -14,6 +16,7 @@
 #include "EscapeKey.h"
 #include "EnterKey.h"
 #include "TabKey.h"
+#include "TextEdit.h"
 
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
@@ -37,6 +40,9 @@ KeyBoard& KeyBoard::operator = (const KeyBoard& source) {
 }
 
 void KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT nFlags) {
+	if (textEdit->flagSelection == 1) {
+		textEdit->flagSelection = 0;
+	}
 	switch (nChar) {
 	case VK_DELETE:
 		this->keyAction = new DeleteKey;
@@ -52,6 +58,14 @@ void KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT nFlags
 		break;
 	case VK_RIGHT:
 		this->keyAction = new RightArrowKey;
+		this->keyAction->KeyPress(textEdit);
+		break;
+	case VK_UP:
+		this->keyAction = new UpArrowKey;
+		this->keyAction->KeyPress(textEdit);
+		break;
+	case VK_DOWN:
+		this->keyAction = new DownArrowKey;
 		this->keyAction->KeyPress(textEdit);
 		break;
 	case VK_SPACE:

@@ -4,7 +4,7 @@
 #define _RECEPTION_H
 
 #include "Figure.h"
-#include "DrawingVisitor.h"
+#include "WritingVisitor.h"
 
 typedef signed long int Long;
 using namespace std;
@@ -19,7 +19,7 @@ public:
 
 	Reception& operator = (const Reception& source);
 
-	//void Accept(Visitor& visitor, CDC *cPaintDc);
+	void Accept(Visitor& visitor, CDC *cPaintDc);
 
 	Figure* Clone() const;
 

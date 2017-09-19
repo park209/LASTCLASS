@@ -28,8 +28,6 @@ public:
 	Long Load();
 	Long TextSave();
 	Long TextLoad();
-	//void FindLinePoints(Long firstClass, Long secondClass ,Long startX, Long startY, Long currentX, Long currentY, Long  *lineStartX, Long *lineStartY, Long *lineEndX, Long *lineEndY);
-	bool FindCrossPoint(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End, CPoint *crossPoint);
 public:
 	Long GetRowIndex() const;
 	Long GetCharacterIndex() const;

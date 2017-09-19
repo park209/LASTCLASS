@@ -179,20 +179,23 @@ void Selection::FindByArea(Diagram *diagram, CRect area) {
 		i++;
 	}
 }
-void Selection::FindByPoint(Diagram *diagram, Long x, Long y) {
-	
-		Long i = 0;
-		Long j = 0;
-		Long endX;
-		Long endY;
-		Long index = -1;
-		while (i < diagram->GetLength() && index == -1) {
-			endX = diagram->GetAt(i)->GetX() + diagram->GetAt(i)->GetWidth();
-			endY = diagram->GetAt(i)->GetY() + diagram->GetAt(i)->GetHeight();
-			if (diagram->GetAt(i)->GetX() <= x && endX >= x && diagram->GetAt(i)->GetY() <= y && endY >= y) {
-				index = i;
-			}
-			i++;
+Long Selection::FindByPoint(Diagram *diagram, Long x, Long y) {
+
+	FigureComposite *composite;
+	Figure *figure = 0;
+	bool ret;
+	Long i = 0;
+	Long j ;
+	Long endX;
+	Long endY;
+	Long index = -1;
+
+
+	while (i < diagram->GetLength() && index == -1) {
+		endX = diagram->GetAt(i)->GetX() + diagram->GetAt(i)->GetWidth();
+		endY = diagram->GetAt(i)->GetY() + diagram->GetAt(i)->GetHeight();
+		if (diagram->GetAt(i)->GetX() <= x && endX >= x && diagram->GetAt(i)->GetY() <= y && endY >= y) {
+			index = i;
 		}
 		if (index != -1) {
 			if (this->length < this->capacity) {
@@ -204,6 +207,71 @@ void Selection::FindByPoint(Diagram *diagram, Long x, Long y) {
 			}
 			this->length++;
 		}
+		composite = static_cast<FigureComposite*>(diagram->GetAt(i));
+		j = 0;
+		ret = false;
+		while (j < composite->GetLength() && ret != true && index == -1) {
+			figure = composite->GetAt(j);
+
+			CPoint line1Start;
+			CPoint line1End;
+			CPoint line2Start;
+			CPoint line2End;
+			CPoint cross1;
+
+
+			line1Start.x = figure->GetX();
+			line1Start.y = figure->GetY();
+			line1End.x = figure->GetX() + figure->GetWidth();
+			line1End.y = figure->GetY() + figure->GetHeight();
+			if (ret == false) {//시작 클래스에서 선과 교차하는 면 찾기
+							   //상단
+				line2Start.x = x - 5;
+				line2Start.y = y - 5;
+				line2End.x = x + 5;
+				line2End.y = y - 5;
+				ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
+			}
+			if (ret == false) {
+				//좌측
+				line2Start.x = x - 5;
+				line2Start.y = y - 5;
+				line2End.x = x - 5;
+				line2End.y = y + 5;
+				ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
+			}
+			if (ret == false) {
+				//우측
+				line2Start.x = x + 5;
+				line2Start.y = y - 5;
+				line2End.x = x + 5;
+				line2End.y = y + 5;
+				ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
+			}
+			if (ret == false) {
+				//하단
+				line2Start.x = x - 5;
+				line2Start.y = y + 5;
+				line2End.x = x + 5;
+				line2End.y = y + 5;
+				ret = this->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
+			}
+			j++;
+		}
+		if (ret == true) {
+			index = j;
+			if (this->length < this->capacity) {
+				this->figures.Store(this->length, figure);
+			}
+			else {
+				this->figures.AppendFromRear(figure);
+				this->capacity++;
+			}
+			this->length++;
+		}
+		i++;
+	}
+		return index;
 }
 
 

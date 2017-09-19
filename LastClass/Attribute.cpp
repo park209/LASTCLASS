@@ -28,6 +28,6 @@ Figure* Attribute::Clone() const {
 	return new Attribute(*this);
 }
 
-//void Attribute::Accept(Visitor& visitor, CDC *cPaintDc) {
-//   visitor.Visit(this, cPaintDc);
-//}
+void Attribute::Accept(Visitor& visitor, CDC *cPaintDc) {
+	visitor.Visit(this, cPaintDc);
+}

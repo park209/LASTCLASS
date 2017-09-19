@@ -9,7 +9,7 @@
 #include"ButtonState.h"
 class Selection;
 typedef signed long int Long;
-
+class Figure;
 
 
 class CompositionsButton : public ButtonState {
@@ -19,8 +19,8 @@ public:
 	CompositionsButton(const CompositionsButton& source);
 	virtual ~CompositionsButton();
 
-	virtual void ChangeState(DrawingController *drawingController, Long key);
-	virtual void AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY);
+	virtual void ChangeState(DrawingController *drawingController, UINT nChar);
+	virtual Figure* AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY);
 	virtual void Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc);
 
 

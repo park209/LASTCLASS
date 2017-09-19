@@ -1,7 +1,7 @@
 //DeleteKey.h
 
-#ifndef _DELETE_H
-#define _DELETE_H
+#ifndef _DELETEKEY_H
+#define _DELETEKEY_H
 
 #include "KeyAction.h"
 
