@@ -36,6 +36,7 @@ Class::Class(Long capacity):FigureComposite(capacity) {
 	this->width = 0;
 	this->height = 0;
 	this->templetePosition = -1;
+	this->receptionPosition = -1;
 }
 
 Class::Class(Long x, Long y, Long width, Long height) : FigureComposite(64) {
@@ -44,6 +45,7 @@ Class::Class(Long x, Long y, Long width, Long height) : FigureComposite(64) {
 	this->width = width;
 	this->height = height;
 	this->templetePosition = -1;
+	this->receptionPosition = -1;
 }
 
 Class::Class(const Class& source) : FigureComposite(source) {
@@ -55,6 +57,11 @@ Class::Class(const Class& source) : FigureComposite(source) {
 }
 
 Class::~Class() {
+	Long i = 0;
+	while (i < this->length) {
+		delete this->figures[i];
+		i++;
+	}
 }
 Figure* Class::Move(Long distanceX, Long distanceY){
 	Figure::Move(distanceX, distanceY);
@@ -74,6 +81,7 @@ Class& Class::operator = (const Class& source) {
 	this->width = source.width;
 	this->height = source.height;
 	this->templetePosition = source.templetePosition;
+	this->receptionPosition = source.receptionPosition;
 
 	return *this;
 }
@@ -256,8 +264,8 @@ Long Class::AddCompositions(Long x, Long y, Long width, Long height) {
 
 	return index;
 }
-Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
-	
+Long Class::AddTemplate(Long x, Long y, Long width, Long height) { //중복생성 안되게 막아야함
+
 	Template object(x, y, width, height);
 
 	if (this->length < this->capacity) {
@@ -271,22 +279,22 @@ Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
 
 	return this->templetePosition;
 }
-Figure* Class::AddReception(Diagram *diagram) {
+Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
 
-	Line line(this->x, this->y+this->height, this->width, 0);
-	
+	Line line(this->x, this->y + this->height, this->width, 0);
+
 	this->height = height + 50;
 
 	if (this->length < this->capacity) {
-		this->figures.Store(this->length, line.Clone());
+		this->receptionPosition = this->figures.Store(this->length, line.Clone());
 	}
 	else {
-		this->figures.AppendFromRear(line.Clone());
+		this->receptionPosition = this->figures.AppendFromRear(line.Clone());
 		this->capacity++;
 	}
 	this->length++;
-	
-	Reception reception(this->x, this->y, this->width,50,"");
+
+	Reception reception(this->x, this->y, this->width, 50, "");
 
 	if (this->length < this->capacity) {
 		this->figures.Store(this->length, reception.Clone());
@@ -300,7 +308,7 @@ Figure* Class::AddReception(Diagram *diagram) {
 	Long i = 0;
 	Long j = 0;
 	while (i < this->GetLength()) {
-		
+
 		if (dynamic_cast<Relation*>(this->GetAt(i))) {
 			this->GetAt(i)->Modify(this->GetAt(i)->GetX(), this->GetAt(i)->GetY() + 50, this->GetAt(i)->GetWidth(), this->GetAt(i)->GetHeight() - 50);
 		}
@@ -314,39 +322,52 @@ Figure* Class::AddReception(Diagram *diagram) {
 	while (i<diagram->GetLength()) {
 		j = 0;
 		FigureComposite *figureComposite = dynamic_cast<FigureComposite*>(diagram->GetAt(i));
-			while (j < figureComposite->GetLength()) {
-				Figure *figure = figureComposite->GetAt(j);
-				if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
-					Long relationEndX = figure->GetX() + figure->GetWidth();
-					Long relationEndY = figure->GetY() + figure->GetHeight();
-					if (startX <= relationEndX &&  relationEndX <= endX &&
-						startY <= relationEndY &&  relationEndY <= endY) {
-						figure->EndPointMove(0, 50);
-					}
+		while (j < figureComposite->GetLength()) {
+			Figure *figure = figureComposite->GetAt(j);
+			if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
+				Long relationEndX = figure->GetX() + figure->GetWidth();
+				Long relationEndY = figure->GetY() + figure->GetHeight();
+				if (startX <= relationEndX &&  relationEndX <= endX &&
+					startY <= relationEndY &&  relationEndY <= endY) {
+					figure->EndPointMove(0, 50);
 				}
-				j++;
+			}
+			j++;
 		}
 		i++;
 	}
-	return this;
+
+	return this->receptionPosition;
 }
 Long Class::Remove(Long index) {
 
+	if (this->figures[index] != 0) {
+		delete this->figures[index];
+	}
 	this->length--;
 	this->capacity--;
-
 	return this->figures.Delete(index);
 }
-
+Long Class::RemoveTemplate() {
+	if (this->templetePosition != -1) {
+		this->templetePosition = this->Remove(this->templetePosition);
+	}
+	return this->templetePosition;
+}
+Long Class::RemoveReception() {
+	if (this->receptionPosition != -1) {
+		this->Remove(this->receptionPosition + 1);
+		this->receptionPosition = this->Remove(this->receptionPosition);
+	}
+	return this->receptionPosition;
+}
 Figure* Class::GetAt(Long index) {
 	return static_cast<Figure*>(this->figures.GetAt(index));
 }
 
-Figure* Class::Clone() const{
+Figure* Class::Clone() const {
 	return new Class(*this);
 }
-
-
 
 void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 	visitor.Visit(this, cPaintDc);
@@ -354,23 +375,23 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 
 	while (!smartPointer->IsDone()) {
-		if (dynamic_cast<Line*>(smartPointer->Current())){
+		if (dynamic_cast<Line*>(smartPointer->Current())) {
 			static_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		else if (dynamic_cast<Template*>(smartPointer->Current())) {
 			static_cast<Template*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		else if (dynamic_cast<ClassName*>(smartPointer->Current())) {
-			dynamic_cast<ClassName*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<ClassName*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		else if (dynamic_cast<Attribute*>(smartPointer->Current())) {
-			dynamic_cast<Attribute*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<Attribute*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		else if (dynamic_cast<Method*>(smartPointer->Current())) {
-			dynamic_cast<Method*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<Method*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		else if (dynamic_cast<Reception*>(smartPointer->Current())) {
-			dynamic_cast<Reception*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<Reception*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		else if (dynamic_cast<Generalization*>(smartPointer->Current())) {
 			static_cast<Generalization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
@@ -395,6 +416,7 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		}
 		else if (dynamic_cast<Composition*>(smartPointer->Current())) {
 			static_cast<Composition*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+
 		}
 		else if (dynamic_cast<Compositions*>(smartPointer->Current())) {
 			static_cast<Compositions*>(smartPointer->Current())->Accept(visitor, cPaintDc);
@@ -405,7 +427,7 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		else if (dynamic_cast<SelfGeneralization*>(smartPointer->Current())) {
 			static_cast<SelfGeneralization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-		else if(dynamic_cast<SelfDependency*>(smartPointer->Current())) {
+		else if (dynamic_cast<SelfDependency*>(smartPointer->Current())) {
 			static_cast<SelfDependency*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		else if (dynamic_cast<SelfAggregation*>(smartPointer->Current())) {
@@ -426,7 +448,7 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		else if (dynamic_cast<SelfCompositions*>(smartPointer->Current())) {
 			static_cast<SelfCompositions*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-	
+
 		smartPointer->Next();
 	}
 }

@@ -44,6 +44,7 @@
     <ClInclude Include="CtrlAllKey.h" />
     <ClInclude Include="CtrlCopyKey.h" />
     <ClInclude Include="CtrlEnterKey.h" />
+    <ClInclude Include="CtrlPasteKey.h" />
     <ClInclude Include="DeleteKey.h" />
     <ClInclude Include="Dependency.h" />
     <ClInclude Include="DependencyButton.h" />
@@ -122,7 +123,6 @@
     <ClCompile Include="BackSpaceKey.cpp" />
     <ClCompile Include="ButtonState.cpp" />
     <ClCompile Include="Caret.cpp" />
-    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="ClassButton.cpp" />
     <ClCompile Include="ClassDiagramApp.cpp" />
@@ -135,6 +135,7 @@
     <ClCompile Include="CtrlAllKey.cpp" />
     <ClCompile Include="CtrlCopyKey.cpp" />
     <ClCompile Include="CtrlEnterKey.cpp" />
+    <ClCompile Include="CtrlPasteKeyy.cpp" />
     <ClCompile Include="DeleteKey.cpp" />
     <ClCompile Include="Dependency.cpp" />
     <ClCompile Include="DependencyButton.cpp" />

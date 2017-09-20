@@ -48,6 +48,41 @@ Long Selection::Add(Figure *figure) {
 	return index;
 }
 
+Long Selection::Remove(Diagram *diagram, Figure *figure) {
+	Long i = 0;
+	Long index = -1;
+	FigureComposite *figures = 0;
+	while (i < diagram->GetLength() && figure != diagram->GetAt(i)) {
+		i++;
+	}
+	if (i < diagram->GetLength()) {
+		index = i;
+		diagram->Remove(index);
+		this->figures.Delete(this->length - 1);
+		this->length--;
+		this->capacity--;
+	}
+
+	i = 0;
+	Long j;
+	while (i < diagram->GetLength() && index == -1) {
+		j = 0;
+		figures = static_cast<FigureComposite*>(diagram->GetAt(i));
+		while (j < figures->GetLength() && figure != figures->GetAt(j)) {
+			j++;
+		}
+		if (j < figures->GetLength()) {
+			index = j;
+			figures->Remove(index);
+			this->figures.Delete(this->length - 1);
+			this->length--;
+			this->capacity--;
+		}
+		i++;
+	}
+
+	return index;
+}
 
 Long Selection::Remove(Long index) {
 	this->capacity--;
