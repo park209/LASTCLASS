@@ -34,6 +34,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	Long GetFlagInsert() const;
+	Long GetSelectedX() const;
+	Long GetSelectedY() const;
 
 	Figure* GetFigure() const;
 	Long GetRowHeight() const;
@@ -49,12 +51,12 @@ public:
 	Long rowHeight; //figure에서 저장을 해줘야 하기때문에 삭제가능
 	Long selectedX; //보류
 	Long selectedY; //보류
+	CString copyBuffer;
 private:
 	Figure *figure;
 	Long koreanEnglish; //flag
 	Long flagBuffer; //flag
 	Long currentX;
-	CString copyBuffer;
 };
 
 inline Long TextEdit::GetFlagInsert() const {
@@ -75,6 +77,12 @@ inline Long TextEdit::GetFlagBuffer() const {
 }
 inline CString TextEdit::GetCopyBuffer() const {
 	return this->copyBuffer;
+}
+inline Long TextEdit::GetSelectedX() const {
+	return this->selectedX;
+}
+inline Long TextEdit::GetSelectedY() const {
+	return this->selectedY;
 }
 
 #endif // _TEXTEDIT_H

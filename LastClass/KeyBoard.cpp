@@ -19,6 +19,8 @@
 #include "TextEdit.h"
 #include "PlusKey.h"
 #include "MinusKey.h"
+#include "CtrlCopyKey.h"
+#include "CtrlAllKey.h"
 
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
@@ -96,6 +98,12 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		break;
 	case VK_OEM_MINUS:
 		this->keyAction = new MinusKey;
+		break;
+	case 67:
+		this->keyAction = new CtrlCopyKey;
+		break;
+	case 65:
+		this->keyAction = new CtrlAllKey;
 		break;
 	default:
 		this->keyAction = 0;

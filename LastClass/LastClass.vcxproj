@@ -41,6 +41,7 @@
     <ClInclude Include="CompositionButton.h" />
     <ClInclude Include="Compositions.h" />
     <ClInclude Include="CompositionsButton.h" />
+    <ClInclude Include="CtrlAllKey.h" />
     <ClInclude Include="CtrlCopyKey.h" />
     <ClInclude Include="CtrlEnterKey.h" />
     <ClInclude Include="DeleteKey.h" />
@@ -131,6 +132,7 @@
     <ClCompile Include="CompositionButton.cpp" />
     <ClCompile Include="Compositions.cpp" />
     <ClCompile Include="CompositionsButton.cpp" />
+    <ClCompile Include="CtrlAllKey.cpp" />
     <ClCompile Include="CtrlCopyKey.cpp" />
     <ClCompile Include="CtrlEnterKey.cpp" />
     <ClCompile Include="DeleteKey.cpp" />

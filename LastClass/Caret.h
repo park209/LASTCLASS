@@ -22,6 +22,7 @@ public:
 	void MoveBackwardCharacterIndex(Long index=1);
 
 	void SetCharacterIndex(Long index);
+	void SetRowIndex(Long index);
 
 	Long GetCurrentCaretX() const;
 	Long GetCurrentCaretY() const;

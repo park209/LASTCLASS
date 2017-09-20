@@ -86,6 +86,9 @@ void Caret::MoveBackwardCharacterIndex(Long index) {
 void Caret::SetCharacterIndex(Long index) {
 	this->characterIndex = index;
 }
+void Caret::SetRowIndex(Long index) {
+	this->rowIndex = index;
+}
 
 Caret& Caret::operator = (const Caret& source) {
 	rowIndex = source.rowIndex;
