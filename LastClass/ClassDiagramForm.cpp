@@ -1,16 +1,18 @@
 //ClassDiagramForm.cpp
 
 #include "ClassDiagramForm.h"
-#include "Class.h"
-#include "Line.h"
-#include "Figure.h"
-#include "Diagram.h"
-#include "DrawingVisitor.h"
-#include "Text.h"
-#include "SingleByteCharacter.h"
-#include "WritingVisitor.h"
 #include "TextEdit.h"
+#include "Diagram.h"
+#include "Class.h"
+#include "MemoBox.h"
+#include "Selection.h"
+#include "Text.h"
 #include "Template.h"
+#include "ClassName.h"
+#include "Method.h"
+#include "Attribute.h"
+#include "Reception.h"
+#include "Line.h"
 #include "Generalization.h"
 #include "Realization.h"
 #include "Dependency.h"
@@ -20,29 +22,26 @@
 #include "Aggregations.h"
 #include "Composition.h"
 #include "Compositions.h"
-#include "MemoBox.h"
-#include "Selection.h"
-#include "DrawingController.h"
-#include "FigureFactory.h"
 #include "MemoLine.h"
-#include "Unclicked.h"
-#include "ClassName.h"
-#include "Method.h"
-#include "Attribute.h"
-#include "Reception.h"
 #include "SelfAggregation.h"
-#include  "SelfAggregations.h"
-#include  "SelfAssociation.h"
-#include  "SelfComposition.h"
-#include  "SelfCompositions.h"
-#include  "SelfDependency.h"
-#include  "SelfDirectedAssociation.h"
-#include  "SelfGeneralization.h"
+#include "SelfAggregations.h"
+#include "SelfAssociation.h"
+#include "SelfComposition.h"
+#include "SelfCompositions.h"
+#include "SelfDependency.h"
+#include "SelfDirectedAssociation.h"
+#include "SelfGeneralization.h"
 #include "SelfRelation.h"
+#include "Figure.h"
+#include "Unclicked.h"
+#include "FigureFactory.h"
+#include "DrawingController.h"
+#include "DrawingVisitor.h"
+#include "WritingVisitor.h"
+#include "MovingVisitor.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
-#include "MovingVisitor.h"
 
 using namespace std;
 
@@ -69,8 +68,6 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->currentX = 0;
 	this->currentY = 0;
 	this->currentClassIndex = -1;
-	this->rowIndex = 0;
-	this->characterIndex = 0;
 }
 
 Long ClassDiagramForm::Save() {
@@ -384,7 +381,7 @@ Long ClassDiagramForm::Load() {
 	return this->diagram->GetLength();
 }
 
-
+/*
 Long ClassDiagramForm::TextSave() {
 	Long i = 0;
 	string s;
@@ -401,7 +398,6 @@ Long ClassDiagramForm::TextSave() {
 	}
 	return i;
 }
-
 Long ClassDiagramForm::TextLoad() {
 	FigureFactory textCreator;
 	Long i = 0;
@@ -428,7 +424,7 @@ Long ClassDiagramForm::TextLoad() {
 		}
 	}
 	return i;
-}
+}*/
 
 int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
@@ -440,8 +436,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->drawingController = new DrawingController;
 
 	//1.2. 적재한다
-	this->Load();
-	//this->TextLoad();
+	//this->Load();
 	//1.3. 윈도우를 갱신한다
 	Invalidate();
 
@@ -455,7 +450,7 @@ void ClassDiagramForm::OnPaint() {
 	WritingVisitor writingVisitor;
 
 	this->diagram->Accept(drawingVisitor, &dc);
-	this->text->Accept(writingVisitor, &dc);
+	this->diagram->Accept(writingVisitor, &dc);
 	
 	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
 		this->drawingController->Draw(this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
@@ -584,8 +579,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
-	this->Save();
-	//this->TextSave();
+	//this->Save();
 	//6.2. 다이어그램을 지운다.
 	if (this->diagram != NULL) {
 		delete this->diagram;

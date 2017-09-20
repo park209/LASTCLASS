@@ -1,4 +1,3 @@
-
 //ClassDiagramForm.h
 
 #ifndef _CLASSDIAGRAM_H
@@ -26,22 +25,11 @@ public:
 public:
 	Long Save();
 	Long Load();
-	Long TextSave();
-	Long TextLoad();
-	
-public:
-	Long GetRowIndex() const;
-	Long GetCharacterIndex() const;
-	Long GetCurrentClassIndex()const;
 private:
 	Long startX;
 	Long startY;
 	Long currentX;
 	Long currentY;
-	Long rowIndex;
-	Long characterIndex;
-	
-	
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
@@ -54,15 +42,4 @@ protected:
 	afx_msg void OnClose();
 	DECLARE_MESSAGE_MAP()
 };
-
-inline Long ClassDiagramForm::GetRowIndex() const {
-	return this->rowIndex;
-}
-inline Long ClassDiagramForm::GetCharacterIndex() const {
-	return this->characterIndex;
-}
-inline Long ClassDiagramForm::GetCurrentClassIndex()const {
-	return this->currentClassIndex;
-}
-
 #endif // _CLASSDIAGRAM_H

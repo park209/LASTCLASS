@@ -1,5 +1,3 @@
-
-
 //Class.h
 
 #ifndef _CLASS_H

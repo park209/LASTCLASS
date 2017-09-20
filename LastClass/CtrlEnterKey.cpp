@@ -1,41 +1,41 @@
 //CtrlEnterKey.cpp
 
 #include "CtrlEnterKey.h"
-#include "ClassDiagramForm.h"
 #include "TextEdit.h"
 #include "Text.h"
 #include "Row.h"
-#include "KeyBoard.h"
-#include "KeyAction.h"
+#include "Caret.h"
+#include "Character.h"
 
 CtrlEnterKey::CtrlEnterKey() {
 }
-
 CtrlEnterKey::CtrlEnterKey(const CtrlEnterKey& source) {
 }
-
 CtrlEnterKey::~CtrlEnterKey() {
 }
 
 void CtrlEnterKey::KeyPress(TextEdit *textEdit) {
-	//if (GetKeyState(VK_CONTROL) < 0) {
-	//	textEdit->rowIndex = textEdit->text->InsertRow(textEdit->GetContent(), textEdit->GetFormY(), textEdit->GetRowHeight(), textEdit->classDiagramForm->GetCurrentClassIndex(), textEdit->GetRowIndex());
-	//	while (textEdit->characterIndex < textEdit->text->GetAt(textEdit->GetRowIndex() - 1)->GetLength()) {
-	//		Character *character = textEdit->text->GetAt(textEdit->GetRowIndex() - 1)->GetAt(textEdit->characterIndex);
+	if (GetKeyState(VK_CONTROL) < 0) {
+		Row row;
+		//if (!GetKeyState(VK_RETURN)) {
 
-	//		textEdit->text->GetAt(textEdit->GetRowIndex())->Add(character->Clone());
-	//		textEdit->text->GetAt(textEdit->GetRowIndex() - 1)->Remove(textEdit->GetCharacterIndex());
-	//	}
-	//	Long i = textEdit->GetRowIndex() + 1;
-	//	while (i < textEdit->text->GetLength()) {
-	//		/*textEdit->classDiagramForm->text->Modify(textEdit->classDiagramForm->text->GetAt(i)->GetX(), textEdit->classDiagramForm->text->GetAt(i)->GetY() + textEdit->GetRowHeight(),
-	//		textEdit->classDiagramForm->text->GetAt(i)->Clone());
-	//		i++;*/
-	//	}
-	//	textEdit->characterIndex = 0;
-	//}
+		if (textEdit->caret->GetCharacterIndex() == 0) {
+			textEdit->text->InsertRow(textEdit->caret->GetRowIndex(),row.Clone());
+			textEdit->caret->MoveForwardRowIndex();
+			textEdit->caret->SetCharacterIndex(textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength());
+		}
+		else {
+			textEdit->text->InsertRow(textEdit->caret->GetRowIndex() + 1, row.Clone());
+			textEdit->caret->MoveForwardRowIndex();
+			Long j = 0;
+			while (textEdit->caret->GetCharacterIndex() < textEdit->text->GetAt(textEdit->caret->GetRowIndex() - 1)->GetLength()) {
+				Character *character = textEdit->text->GetAt(textEdit->caret->GetRowIndex() - 1)->GetAt(textEdit->caret->GetCharacterIndex());
+				textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Add(character->Clone());
+				textEdit->text->GetAt(textEdit->caret->GetRowIndex() - 1)->Remove(textEdit->caret->GetCharacterIndex());
+			}
+			textEdit->caret->SetCharacterIndex(textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength());
 
-	if (textEdit->keyBoard->keyAction != 0) {
-		delete textEdit->keyBoard->keyAction;
+		}
+		textEdit->caret->SetCharacterIndex(0);
 	}
 }
