@@ -65,7 +65,6 @@ Long Selection::Remove(Diagram *diagram, Figure *figure) {
 
 	i = 0;
 	Long j;
-
 	while (i < diagram->GetLength() && index == -1) {
 		j = 0;
 		figures = static_cast<FigureComposite*>(diagram->GetAt(i));
