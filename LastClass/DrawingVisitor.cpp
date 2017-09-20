@@ -733,6 +733,26 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 					object->GetX() + object->GetWidth() + 5,
 					object->GetY() + 5);
 				cPaintDc->Rectangle(
+					object->GetX() + object->GetWidth() / 2 - 5,
+					object->GetY() - 5,
+					object->GetX() + object->GetWidth() / 2 + 5,
+					object->GetY() + 5);
+				cPaintDc->Rectangle(
+					object->GetX() + object->GetWidth() / 2 - 5,
+					object->GetY() + object->GetHeight() - 5,
+					object->GetX() + object->GetWidth() / 2 + 5,
+					object->GetY() + object->GetHeight() + 5);
+				cPaintDc->Rectangle(
+					object->GetX() - 5,
+					object->GetY() + object->GetHeight()/2 - 5,
+					object->GetX() + 5,
+					object->GetY() + object->GetHeight()/2 + 5);
+				cPaintDc->Rectangle(
+					object->GetX() + object->GetWidth() - 5,
+					object->GetY() + object->GetHeight() / 2 - 5,
+					object->GetX() + object->GetWidth() + 5,
+					object->GetY() + object->GetHeight() / 2 + 5);
+				cPaintDc->Rectangle(
 				 object->GetX() - 5,
 				object->GetY() + object->GetHeight() - 5,
 					object->GetX() + 5,
@@ -749,6 +769,24 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 				while (j < object->GetLength()) {
 					if (dynamic_cast<Template*>(object->GetAt(j))) {
 						Template *templete = static_cast<Template*>(object->GetAt(j));
+						CPen pen;
+						pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
+						CPen *oldPen = cPaintDc->SelectObject(&pen);
+						cPaintDc->SetBkMode(TRANSPARENT);
+						cPaintDc->MoveTo(object->GetX(), templete->GetY());
+						cPaintDc->LineTo(templete->GetX(), templete->GetY());
+
+						cPaintDc->MoveTo(object->GetX(), templete->GetY());
+						cPaintDc->LineTo(object->GetX(), object->GetY());
+
+						cPaintDc->MoveTo(templete->GetX() + templete->GetWidth(), templete->GetY()+ templete ->GetHeight());
+						cPaintDc->LineTo(templete->GetX() + templete->GetWidth(), object->GetY() + object->GetHeight());
+
+						cPaintDc->MoveTo(object->GetX()+ object->GetWidth(), object->GetY() + object->GetHeight());
+						cPaintDc->LineTo(templete->GetX() + templete->GetWidth(), object->GetY() + object->GetHeight());
+						cPaintDc->SelectObject(oldPen);
+						pen.DeleteObject();
+
 						cPaintDc->Rectangle(
 							object->GetX() - 5,
 							templete->GetY() - 5,
@@ -769,7 +807,27 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 							object->GetY() + object->GetHeight() - 5,
 							templete->GetX() + templete->GetWidth() + 5,
 							object->GetY() + object->GetHeight() + 5);
-						
+					
+						cPaintDc->Rectangle(
+							object->GetX()+(templete->GetX() +templete->GetWidth() - object->GetX())/2 - 5,
+							templete->GetY() - 5,
+							object->GetX()+(templete->GetX() + templete->GetWidth() - object->GetX()) / 2 + 5,
+							templete->GetY() + 5);
+						cPaintDc->Rectangle(
+							object->GetX() + (templete->GetX() + templete->GetWidth() - object->GetX()) / 2 - 5,
+							object->GetY() + object->GetHeight() - 5,
+							object->GetX() + (templete->GetX() + templete->GetWidth() - object->GetX()) / 2 + 5,
+							object->GetY() + object->GetHeight() + 5);
+						cPaintDc->Rectangle(
+							object->GetX() - 5,
+							templete->GetY() + (object->GetY() + object->GetHeight() - templete->GetY()) / 2 - 5,
+							object->GetX() + 5,
+							templete->GetY() + (object->GetY() + object->GetHeight() - templete->GetY()) / 2 + 5);
+						cPaintDc->Rectangle(
+							templete->GetX() + templete->GetWidth() - 5,
+							templete->GetY() + (object->GetY() + object->GetHeight() - templete->GetY()) / 2 - 5,
+							templete->GetX() + templete->GetWidth() + 5,
+							templete->GetY() + (object->GetY() + object->GetHeight() - templete->GetY()) / 2 + 5);
 					}
 					j++;
 					
@@ -791,6 +849,26 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 				memoBox->GetX() + memoBox->GetWidth() + 5,
 				memoBox->GetY() + 5);
 			cPaintDc->Rectangle(
+				memoBox->GetX() + memoBox->GetWidth() / 2 - 5,
+				memoBox->GetY() - 5,
+				memoBox->GetX() + memoBox->GetWidth() / 2 + 5,
+				memoBox->GetY() + 5);
+			cPaintDc->Rectangle(
+				memoBox->GetX() + memoBox->GetWidth() / 2 - 5,
+				memoBox->GetY() + memoBox->GetHeight() - 5,
+				memoBox->GetX() + memoBox->GetWidth() / 2 + 5,
+				memoBox->GetY() + memoBox->GetHeight() + 5);
+			cPaintDc->Rectangle(
+				memoBox->GetX() - 5,
+				memoBox->GetY() + memoBox->GetHeight() / 2 - 5,
+				memoBox->GetX() + 5,
+				memoBox->GetY() + memoBox->GetHeight() / 2 + 5);
+			cPaintDc->Rectangle(
+				memoBox->GetX() + memoBox->GetWidth() - 5,
+				memoBox->GetY() + memoBox->GetHeight() / 2 - 5,
+				memoBox->GetX() + memoBox->GetWidth() + 5,
+				memoBox->GetY() + memoBox->GetHeight() / 2 + 5);
+			cPaintDc->Rectangle(
 				memoBox->GetX() - 5,
 				memoBox->GetY() + memoBox->GetHeight() - 5,
 				memoBox->GetX() + 5,
@@ -800,8 +878,6 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 				memoBox->GetY() + memoBox->GetHeight() - 5,
 				memoBox->GetX() + memoBox->GetWidth() + 5,
 				memoBox->GetY() + memoBox->GetHeight() + 5);
-			
-				
 		}
 			Long j = 0;
 				//상태패턴이던 뭐든 적용해야함
