@@ -3,35 +3,51 @@
 #ifndef _CARET_H
 #define _CARET_H
 
-#include "TextEdit.h"
+#include <afxwin.h>
 
 typedef signed long int Long;
 
+class TextEdit;
 class Caret {
 public:
 	Caret();
-	Caret(Long x, Long y, TextEdit *textEdit);
 	Caret(const Caret& source);
 	~Caret();
 
-	void MoveToIndex(Long characterIndex, Long rowIndex);
+	void MoveToIndex(TextEdit *textEdit, CPaintDC *cPaintDc);
+	void MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point);
+	void MoveForwardRowIndex(Long index=1);
+	void MoveBackwardRowIndex(Long index = 1);
+	void MoveForwardCharacterIndex(Long index=1);
+	void MoveBackwardCharacterIndex(Long index=1);
+
+	void SetCharacterIndex(Long index);
+	void SetRowIndex(Long index);
+
+	Long GetCurrentCaretX() const;
+	Long GetCurrentCaretY() const;
+	Long GetRowIndex() const;
+	Long GetCharacterIndex() const;
 
 	Caret& operator = (const Caret& source);
 
-	Long GetX();
-	Long GetY();
 private:
-	TextEdit *textEdit;
-	Long x;
-	Long y;
+	Long rowIndex;
+	Long characterIndex;
+	Long currentCaretX;
+	Long currentCaretY;
 };
 
-inline Long Caret::GetX() {
-	return this->x;
+inline Long Caret::GetRowIndex() const {
+	return this->rowIndex;
 }
-inline Long Caret::GetY() {
-	return this->y;
+inline Long Caret::GetCharacterIndex() const {
+	return this->characterIndex;
 }
-
-
+inline Long Caret::GetCurrentCaretX() const {
+	return this->currentCaretX;
+}
+inline Long Caret::GetCurrentCaretY() const {
+	return this->currentCaretY;
+}
 #endif // _CARET_H

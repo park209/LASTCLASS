@@ -26,6 +26,11 @@
 #include "ArrayIterator.h"
 #include "Reception.h"
 #include "Iterator.h"
+#include "ClassName.h"
+#include "Attribute.h"
+#include "Method.h"
+#include "Reception.h"
+#include "Diagram.h"
 
 Class::Class(Long capacity):FigureComposite(capacity) {
 	this->x = 0;
@@ -277,7 +282,7 @@ Long Class::AddTemplate(Long x, Long y, Long width, Long height) { //중복생성 안
 
 	return this->templetePosition;
 }
-Long Class::AddReception() {	//중복생성 안되게 막아야함
+Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
 
 	Line line(this->x, this->y+this->height, this->width, 0);
 	
@@ -302,6 +307,38 @@ Long Class::AddReception() {	//중복생성 안되게 막아야함
 		this->capacity++;
 	}
 	this->length++;
+
+	Long i = 0;
+	Long j = 0;
+	while (i < this->GetLength()) {
+
+		if (dynamic_cast<Relation*>(this->GetAt(i))) {
+			this->GetAt(i)->Modify(this->GetAt(i)->GetX(), this->GetAt(i)->GetY() + 50, this->GetAt(i)->GetWidth(), this->GetAt(i)->GetHeight() - 50);
+		}
+		i++;
+	}
+	i = 0;
+	Long startX = this->GetX();
+	Long startY = this->GetY();
+	Long endX = this->GetX() + this->GetWidth();
+	Long endY = this->GetY() + this->GetHeight();
+	while (i<diagram->GetLength()) {
+		j = 0;
+		FigureComposite *figureComposite = dynamic_cast<FigureComposite*>(diagram->GetAt(i));
+		while (j < figureComposite->GetLength()) {
+			Figure *figure = figureComposite->GetAt(j);
+			if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
+				Long relationEndX = figure->GetX() + figure->GetWidth();
+				Long relationEndY = figure->GetY() + figure->GetHeight();
+				if (startX <= relationEndX &&  relationEndX <= endX &&
+					startY <= relationEndY &&  relationEndY <= endY) {
+					figure->EndPointMove(0, 50);
+				}
+			}
+			j++;
+		}
+		i++;
+	}
 
 	return this->receptionPosition;
 }
@@ -349,6 +386,22 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		
 		else if (dynamic_cast<Template*>(smartPointer->Current())) {
 			static_cast<Template*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<ClassName*>(smartPointer->Current())) {
+			static_cast<ClassName*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<Attribute*>(smartPointer->Current())) {
+			static_cast<Attribute*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<Method*>(smartPointer->Current())) {
+			static_cast<Method*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<Reception*>(smartPointer->Current())) {
+			static_cast<Reception*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 
 		else if (dynamic_cast<Generalization*>(smartPointer->Current())) {

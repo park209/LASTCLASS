@@ -13,7 +13,7 @@ public:
 	KeyBoard(const KeyBoard& source);
 	~KeyBoard();
 	KeyBoard& operator = (const KeyBoard& source);
-	void KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT nFlags);
+	KeyAction* KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT nFlags);
 public:
 	KeyAction *keyAction;
 };

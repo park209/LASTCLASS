@@ -24,12 +24,6 @@ MemoBox::MemoBox(const MemoBox& source) : FigureComposite(source) {
 	this->height = source.height;
 }
 MemoBox::~MemoBox() {
-	Long i = 0;
-	while (i < this->length) {
-		delete this->figures[i];
-		i++;
-	}
-
 }
 
 Long MemoBox::Add(Long x, Long y, Long width, Long height) {
@@ -52,11 +46,10 @@ Figure* MemoBox::GetAt(Long index) {
 
 
 Long MemoBox::Remove(Long index) {
-	if (this->figures[index] != 0){
-		delete this->figures[index];
-	}
+
 	this->length--;
 	this->capacity--;
+
 	return this->figures.Delete(index);
 }
 

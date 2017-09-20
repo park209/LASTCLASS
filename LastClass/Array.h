@@ -479,5 +479,4 @@ T& Array<T>::operator [] (Long index) { //첨자연산자 []
 
 
 
-
 #endif // ! _ARRAY_H

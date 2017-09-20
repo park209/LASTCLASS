@@ -4,8 +4,7 @@
 #define _DOUBLEBYTECHARACTER_H
 
 #include "Character.h"
-
-typedef signed long int Long;
+#include <afxwin.h>
 
 class DoubleByteCharacter : public Character {
 public:
@@ -14,27 +13,17 @@ public:
 	DoubleByteCharacter(const DoubleByteCharacter& source);
 	virtual ~DoubleByteCharacter();
 
-	virtual TextComponent* Clone() const;
-	virtual void Accept(Visitor& visitor, CDC* cPaintDc);
 	CString MakeCString() const;
+
+	virtual TextComponent* Clone() const;
 
 	DoubleByteCharacter& operator = (const DoubleByteCharacter& source);
 
-	Long GetX() const;
-	Long GetY() const;
 	char* GetCharacters() const;
 private:
-	Long x;
-	Long y;
 	char characters[2];
 };
 
-inline Long DoubleByteCharacter::GetX() const {
-	return this->x;
-}
-inline Long DoubleByteCharacter::GetY() const {
-	return this->y;
-}
 inline char* DoubleByteCharacter::GetCharacters() const {
 	return const_cast<char*>(this->characters);
 }

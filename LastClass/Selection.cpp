@@ -1,7 +1,6 @@
 #include  "Selection.h"
 #include "Diagram.h"
 #include "Relation.h"
-#include "FigureComposite.h"
 #include "Finder.h"
 #include "SelfRelation.h"
 Selection::Selection(Long capacity):FigureComposite(capacity) {
@@ -49,17 +48,6 @@ Long Selection::Add(Figure *figure) {
 	return index;
 }
 
-
-Long Selection::Remove(Long index) {
-
-	if (this->figures[index] != 0) {
-		delete this->figures[index];
-	}
-	this->length--;
-	this->capacity--;
-	return this->figures.Delete(index);
-
-}
 Long Selection::Remove(Diagram *diagram, Figure *figure) {
 	Long i = 0;
 	Long index = -1;
@@ -75,11 +63,11 @@ Long Selection::Remove(Diagram *diagram, Figure *figure) {
 		this->capacity--;
 	}
 	i = 0;
-	Long j ;
+	Long j;
 
 	while (i < diagram->GetLength() && index == -1) {
 		j = 0;
-		figures =static_cast<FigureComposite*>(diagram->GetAt(i));
+		figures = static_cast<FigureComposite*>(diagram->GetAt(i));
 		while (j < figures->GetLength() && figure != figures->GetAt(j)) {
 			j++;
 		}
@@ -92,9 +80,16 @@ Long Selection::Remove(Diagram *diagram, Figure *figure) {
 		}
 		i++;
 	}
-	
+
 	return index;
 }
+
+Long Selection::Remove(Long index) {
+	this->capacity--;
+	this->length--;
+	return this->figures.Delete(index);
+}
+
 Figure* Selection::Clone() const {
 	return new Selection(*this);
 }
@@ -224,7 +219,7 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 
 			index = this->length;
 		}
-
+		
 		composite = static_cast<FigureComposite*>(diagram->GetAt(i));
 		j = 0;
 		while (j < composite->GetLength() && ret == false) {

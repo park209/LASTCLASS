@@ -1,12 +1,10 @@
 //RightArrowKey.cpp
 
 #include "RightArrowKey.h"
-#include "ClassDiagramForm.h"
 #include "TextEdit.h"
 #include "Text.h"
 #include "Row.h"
-#include "KeyBoard.h"
-#include "KeyAction.h"
+#include "Caret.h"
 
 RightArrowKey::RightArrowKey() {
 }
@@ -18,11 +16,26 @@ RightArrowKey::~RightArrowKey() {
 }
 
 void RightArrowKey::KeyPress(TextEdit *textEdit) {
-	textEdit->characterIndex++;
-	if (textEdit->characterIndex > textEdit->text->GetAt(textEdit->rowIndex)->GetLength()) {
-		textEdit->characterIndex = textEdit->text->GetAt(textEdit->rowIndex)->GetLength();
+	if (GetKeyState(VK_SHIFT) >= 0) {
+		if (textEdit->flagSelection == 1) {
+			textEdit->flagSelection = 0;
+		}
 	}
-	if (textEdit->keyBoard->keyAction != 0) {
-		delete textEdit->keyBoard->keyAction;
+	else {
+		if (textEdit->flagSelection == 0) {
+			textEdit->flagSelection = 1;
+			textEdit->selectedX = textEdit->caret->GetCharacterIndex();
+			textEdit->selectedY = textEdit->caret->GetRowIndex();
+		}
+	}
+	textEdit->caret->MoveForwardCharacterIndex();
+	if (textEdit->caret->GetCharacterIndex() > textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength()
+		&& textEdit->caret->GetRowIndex() == textEdit->text->GetLength() - 1) {
+		textEdit->caret->MoveBackwardCharacterIndex();
+	}
+	else if (textEdit->caret->GetCharacterIndex() > textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength()
+		&& textEdit->caret->GetRowIndex() < textEdit->text->GetLength() - 1) {
+		textEdit->caret->SetCharacterIndex(0);
+		textEdit->caret->MoveForwardRowIndex();
 	}
 }

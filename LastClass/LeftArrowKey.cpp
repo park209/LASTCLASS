@@ -1,12 +1,10 @@
 //LeftArrowKey.cpp
 
 #include "LeftArrowKey.h"
-#include "ClassDiagramForm.h"
 #include "TextEdit.h"
 #include "Text.h"
 #include "Row.h"
-#include "KeyBoard.h"
-#include "KeyAction.h"
+#include "Caret.h"
 
 LeftArrowKey::LeftArrowKey() {
 }
@@ -18,11 +16,26 @@ LeftArrowKey::~LeftArrowKey() {
 }
 
 void LeftArrowKey::KeyPress(TextEdit *textEdit) {
-	textEdit->characterIndex--;
-	if (textEdit->characterIndex < 0) {
-		textEdit->characterIndex = 0;
+	if (GetKeyState(VK_SHIFT) >= 0) {
+		if (textEdit->flagSelection == 1) {
+			textEdit->flagSelection = 0;
+		}
 	}
-	if (textEdit->keyBoard->keyAction != 0) {
-		delete textEdit->keyBoard->keyAction;
+	else {
+		if (textEdit->flagSelection == 0) {
+			textEdit->flagSelection = 1;
+			textEdit->selectedX = textEdit->caret->GetCharacterIndex();
+			textEdit->selectedY = textEdit->caret->GetRowIndex();
+		}
+	}
+	textEdit->caret->MoveBackwardCharacterIndex();
+	if (textEdit->caret->GetCharacterIndex() < 0
+		&& textEdit->caret->GetRowIndex() == 0) {
+		textEdit->caret->MoveForwardCharacterIndex();
+	}
+	else if (textEdit->caret->GetCharacterIndex() < 0
+		&& textEdit->caret->GetRowIndex() > 0) {
+		textEdit->caret->MoveBackwardRowIndex();
+		textEdit->caret->SetCharacterIndex(textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength());
 	}
 }

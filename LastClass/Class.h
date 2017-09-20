@@ -1,5 +1,4 @@
 
-
 //Class.h
 
 #ifndef _CLASS_H
@@ -36,7 +35,7 @@ public:
 
 	Long RemoveTemplate();
 	Long RemoveReception();
-	Long AddReception();
+	Long AddReception(Diagram *diagram);
 
 
 	virtual Long Add(Figure *figure);
@@ -48,6 +47,7 @@ public:
 	virtual Figure* Clone() const;
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 
+	Long GetReceptionPosition() const;
 	Long GetTempletePosition() const;
 
 private:
@@ -56,6 +56,9 @@ private:
 };
 inline Long Class::GetTempletePosition() const {
 	return this->templetePosition;
+}
+inline Long Class::GetReceptionPosition()const {
+	return this->receptionPosition;
 }
 
 #endif //_CLASS_H

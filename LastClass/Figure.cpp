@@ -2,6 +2,7 @@
 
 #include "Figure.h"
 #include "Relation.h"
+
 Figure::Figure() {
 	this->x = 0;
 	this->y = 0;

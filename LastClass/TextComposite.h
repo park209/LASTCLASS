@@ -1,7 +1,7 @@
 //TextComposite.h
 
 #ifndef _TEXTCOMPOSITE_H
-#define _TEXTCOMPOSTIE_H
+#define _TEXTCOMPOSITE_H
 
 #include "TextComponent.h"
 #include "Array.h"
@@ -19,7 +19,7 @@ public:
 
 	virtual Long Add(TextComponent *textComponent) = 0;
 	virtual Long Remove(Long index) = 0;
-	virtual TextComponent* GetAt(Long index) = 0;
+	//virtual TextComponent* GetAt(Long index);
 	virtual TextComponent* Clone() const = 0;
 	ArrayIterator<TextComponent*>* CreateIterator() const;
 
@@ -35,9 +35,8 @@ protected:
 inline Long TextComposite::GetCapacity() const {
 	return this->capacity;
 }
-
 inline Long TextComposite::GetLength() const {
 	return this->length;
 }
 
-#endif // _TEXTCOMPONENT_H
+#endif // TEXTCOMPOSITE_H
