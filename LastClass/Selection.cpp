@@ -62,6 +62,7 @@ Long Selection::Remove(Diagram *diagram, Figure *figure) {
 		this->length--;
 		this->capacity--;
 	}
+
 	i = 0;
 	Long j;
 
