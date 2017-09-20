@@ -17,6 +17,8 @@
 #include "EnterKey.h"
 #include "TabKey.h"
 #include "TextEdit.h"
+#include "PlusKey.h"
+#include "MinusKey.h"
 
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
@@ -30,6 +32,7 @@ KeyBoard::KeyBoard(const KeyBoard& source) {
 KeyBoard::~KeyBoard() {
 	if (this->keyAction != 0) {
 		delete this->keyAction;
+		this->keyAction = 0;
 	}
 }
 
@@ -87,6 +90,12 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		break;
 	case VK_ESCAPE:
 		this->keyAction = new EscapeKey;
+		break;
+	case  VK_OEM_PLUS:
+		this->keyAction = new PlusKey;
+		break;
+	case VK_OEM_MINUS:
+		this->keyAction = new MinusKey;
 		break;
 	default:
 		this->keyAction = 0;

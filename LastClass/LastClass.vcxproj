@@ -74,7 +74,9 @@
     <ClInclude Include="MemoLine.h" />
     <ClInclude Include="MemoLineButton.h" />
     <ClInclude Include="Method.h" />
+    <ClInclude Include="MinusKey.h" />
     <ClInclude Include="MovingVisitor.h" />
+    <ClInclude Include="PlusKey.h" />
     <ClInclude Include="Realization.h" />
     <ClInclude Include="RealizationButton.h" />
     <ClInclude Include="Reception.h" />
@@ -161,7 +163,9 @@
     <ClCompile Include="MemoLine.cpp" />
     <ClCompile Include="MemoLineButton.cpp" />
     <ClCompile Include="Method.cpp" />
+    <ClCompile Include="MinusKey.cpp" />
     <ClCompile Include="MovingVisitor.cpp" />
+    <ClCompile Include="PlusKey.cpp" />
     <ClCompile Include="Realization.cpp" />
     <ClCompile Include="RealizationButton.cpp" />
     <ClCompile Include="Reception.cpp" />

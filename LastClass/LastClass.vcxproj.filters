@@ -279,6 +279,12 @@
     <ClInclude Include="ReceptionButton.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="PlusKey.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MinusKey.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aggregation.cpp">
@@ -528,6 +534,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="ReceptionButton.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="PlusKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MinusKey.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

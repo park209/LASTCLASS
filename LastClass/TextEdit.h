@@ -39,20 +39,22 @@ public:
 	Long GetRowHeight() const;
 	Long GetKoreanEnglish() const;
 	Long GetFlagBuffer() const;
+	CString GetCopyBuffer() const;
 public:
 	Text *text;
 	Caret *caret;
 	KeyBoard *keyBoard;
 	Long flagInsert; //flag
 	Long flagSelection;
-private:
-	Figure *figure;
 	Long rowHeight; //figure에서 저장을 해줘야 하기때문에 삭제가능
-	Long koreanEnglish; //flag
-	Long flagBuffer; //flag
 	Long selectedX; //보류
 	Long selectedY; //보류
+private:
+	Figure *figure;
+	Long koreanEnglish; //flag
+	Long flagBuffer; //flag
 	Long currentX;
+	CString copyBuffer;
 };
 
 inline Long TextEdit::GetFlagInsert() const {
@@ -70,6 +72,9 @@ inline Long TextEdit::GetKoreanEnglish() const {
 }
 inline Long TextEdit::GetFlagBuffer() const {
 	return this->flagBuffer;
+}
+inline CString TextEdit::GetCopyBuffer() const {
+	return this->copyBuffer;
 }
 
 #endif // _TEXTEDIT_H
