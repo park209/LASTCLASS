@@ -1,7 +1,7 @@
 //Figure.cpp
 
 #include "Figure.h"
-
+#include "Relation.h"
 Figure::Figure() {
 	this->x = 0;
 	this->y = 0;
@@ -32,7 +32,20 @@ Figure::Figure(const Figure& source) {
 	this->width = source.width;
 	this->height = source.height;
 }
-
+Figure* Figure::Move(Long distanceX, Long distanceY) {
+	this->x = this->x + distanceX;
+	this->y = this->y + distanceY;
+	if (dynamic_cast<Relation*>(this)) {
+		this->width = this->width - distanceX;
+		this->height = this->height - distanceY;
+	}
+	return this;
+}
+Figure *Figure::EndPointMove(Long distanceX, Long distanceY) {
+	this->width = this->width + distanceX;
+	this->height = this->height + distanceY;
+	return this;
+}
 Figure& Figure::operator = (const Figure& source) {
 	this->x = source.x;
 	this->y = source.y;
@@ -45,7 +58,7 @@ Figure& Figure::operator = (const Figure& source) {
 Figure::~Figure() {
 }
 
-//int main(int argc, char* argv[]) {
-//
-//	return 0;
-//}
+
+void Figure::ReplaceString(string content) {
+	this->content = content;
+}

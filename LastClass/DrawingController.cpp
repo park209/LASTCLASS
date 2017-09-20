@@ -9,7 +9,6 @@ DrawingController::DrawingController() {
 }
 
 DrawingController::DrawingController(const DrawingController& source) {
-	//this->buttonState = source.buttonState;
 }
 
 DrawingController::~DrawingController() {
@@ -18,17 +17,17 @@ DrawingController::~DrawingController() {
 	}
 }
 
-void DrawingController::ChangeState(Long key){
-	this->buttonState->ChangeState(this, key);
+void DrawingController::ChangeState(UINT nChar){
+	this->buttonState->ChangeState(this, nChar);
 }
 
-void DrawingController::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
-	this->buttonState->AddToArray(diagram, selection, startX, startY, currentX, currentY);
+Figure* DrawingController::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+	return  this->buttonState->AddToArray(diagram, selection, startX, startY, currentX, currentY);
 }
 
 
-void DrawingController::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
-	this->buttonState->Draw(startX, startY, currentX, currentY, cPaintDc);
+void DrawingController::Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+	this->buttonState->Draw(selection, startX, startY, currentX, currentY, cPaintDc);
 }
 
 DrawingController& DrawingController::operator=(const DrawingController& source) {

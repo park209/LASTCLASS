@@ -14,14 +14,19 @@
 #include "Template.h"
 #include "SmartPointer.h"
 #include "MemoLine.h"
-
+#include "SelfGeneralization.h"
+#include "SelfDependency.h"
+#include "SelfAggregation.h"
+#include "SelfAssociation.h"
+#include "SelfAggregations.h"
+#include "SelfDirectedAssociation.h"
+#include "SelfComposition.h"
+#include "SelfCompositions.h"
 #include "SmartPointer.h"
 #include "ArrayIterator.h"
 #include "Iterator.h"
 
 Class::Class(Long capacity):FigureComposite(capacity) {
-	this->capacity = capacity;
-	this->length = 0;
 	this->x = 0;
 	this->y = 0;
 	this->width = 0;
@@ -29,9 +34,7 @@ Class::Class(Long capacity):FigureComposite(capacity) {
 	this->templetePosition = -1;
 }
 
-Class::Class(Long x, Long y, Long width, Long height) {
-	this->capacity = 256;
-	this->length = 0;
+Class::Class(Long x, Long y, Long width, Long height) : FigureComposite(64) {
 	this->x = x;
 	this->y = y;
 	this->width = width;
@@ -39,15 +42,7 @@ Class::Class(Long x, Long y, Long width, Long height) {
 	this->templetePosition = -1;
 }
 
-Class::Class(const Class& source) {
-	this->figures = source.figures;
-	Long i = 0;
-	while (i < source.length) {
-		this->figures.Modify(i, (const_cast<Class&>(source)).figures[i]->Clone());
-		i++;
-	}
-	this->capacity = source.capacity;
-	this->length = source.length;
+Class::Class(const Class& source) : FigureComposite(source) {
 	this->x = source.x;
 	this->y = source.y;
 	this->width = source.width;
@@ -57,7 +52,10 @@ Class::Class(const Class& source) {
 
 Class::~Class() {
 }
-
+Figure* Class::Move(Long distanceX, Long distanceY){
+	Figure::Move(distanceX, distanceY);
+	return this;
+}
 Class& Class::operator = (const Class& source) {
 	this->figures = source.figures;
 	Long i = 0;
@@ -271,6 +269,10 @@ Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
 }
 
 Long Class::Remove(Long index) {
+
+	this->length--;
+	this->capacity--;
+
 	return this->figures.Delete(index);
 }
 
@@ -285,96 +287,90 @@ Figure* Class::Clone() const{
 
 
 void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
-	//cout << "Class Accept" << endl;
 	visitor.Visit(this, cPaintDc);
 
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 
 	while (!smartPointer->IsDone()) {
 		if (dynamic_cast<Line*>(smartPointer->Current())){
-			dynamic_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		
 		else if (dynamic_cast<Template*>(smartPointer->Current())) {
-			dynamic_cast<Template*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<Template*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 
 		else if (dynamic_cast<Generalization*>(smartPointer->Current())) {
-			dynamic_cast<Generalization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<Generalization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 
 		else if (dynamic_cast<Realization*>(smartPointer->Current())) {
-			dynamic_cast<Realization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<Realization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 	
 
 		else if (dynamic_cast<Dependency*>(smartPointer->Current())) {
-			dynamic_cast<Dependency*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<Dependency*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		
 
 		else if (dynamic_cast<Association*>(smartPointer->Current())) {
-			dynamic_cast<Association*>(smartPointer->Current())->Accept(visitor, cPaintDc); //, cPaintDc
+			static_cast<Association*>(smartPointer->Current())->Accept(visitor, cPaintDc); //, cPaintDc
 		}
 		
 
 		else if (dynamic_cast<DirectedAssociation*>(smartPointer->Current())) {
-			dynamic_cast<DirectedAssociation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<DirectedAssociation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		
 
 		else if (dynamic_cast<Aggregation*>(smartPointer->Current())) {
-			dynamic_cast<Aggregation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<Aggregation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		
 
 		else if (dynamic_cast<Aggregations*>(smartPointer->Current())) {
-			dynamic_cast<Aggregations*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<Aggregations*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		
 
 		else if (dynamic_cast<Composition*>(smartPointer->Current())) {
-			dynamic_cast<Composition*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<Composition*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		
 		}
 
 		else if (dynamic_cast<Compositions*>(smartPointer->Current())) {
-			dynamic_cast<Compositions*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<Compositions*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 
 		else if (dynamic_cast<MemoLine*>(smartPointer->Current())) {
-			dynamic_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-
-		//static_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		else if (dynamic_cast<SelfGeneralization*>(smartPointer->Current())) {
+			static_cast<SelfGeneralization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if(dynamic_cast<SelfDependency*>(smartPointer->Current())) {
+			static_cast<SelfDependency*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfAggregation*>(smartPointer->Current())) {
+			static_cast<SelfAggregation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfAssociation*>(smartPointer->Current())) {
+			static_cast<SelfAssociation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfAggregations*>(smartPointer->Current())) {
+			static_cast<SelfAggregations*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfDirectedAssociation*>(smartPointer->Current())) {
+			static_cast<SelfDirectedAssociation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfComposition*>(smartPointer->Current())) {
+			static_cast<SelfComposition*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfCompositions*>(smartPointer->Current())) {
+			static_cast<SelfCompositions*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+	
 		smartPointer->Next();
 	}
 }
-
-
-//#include <iostream>
-//using namespace std;
-//
-//int main(int argc, char* argv[]) {
-//	
-//	Class testClass1(10, 20, 30, 40);
-//	SmartPointer<Figure*> smartPointer(testClass1.CreateIterator());
-//	//ArrayIterator<Template*> smartPointer = dynamic_cast<Template*>(testClass1.CreateIterator());
-//	testClass1.Add(10, 10, 10, 10);
-//	testC
-//	testClass1.Add(20, 20, 20, 20);
-//	testClass1.Add(10, 10, 20, 40 );
-//
-//	Long i = 0;
-//	while (i < testClass1.GetLength()) {
-//		Figure *figure = testClass1.GetAt(i);
-//		if (dynamic_cast<Line*>(figure)) {
-//			cout << "¶óÀÎ"<< endl;
-//		}
-//		
-//		i++;
-//	}
-//
-//	return 0;
-//}
-//

@@ -21,6 +21,7 @@ public:
 	virtual Long Add(Figure *figure);
 	Long AddClass(Long x, Long y, Long width, Long height);
 	Long AddMemoBox(Long x, Long y, Long width, Long height);
+	Figure* FindItem(Long x, Long y);
 	virtual Long Remove(Long index);
 	virtual Figure* GetAt(Long index);
 	

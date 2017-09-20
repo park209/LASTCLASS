@@ -1,6 +1,6 @@
 #include "Dependency.h"
 
-Dependency::Dependency():Relation(){
+Dependency::Dependency(Long capacity):Relation( capacity){
 
 }
 
@@ -26,7 +26,7 @@ Dependency& Dependency::operator=(const Dependency& source) {
 }
 
 void Dependency::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);//, cPaintDc);
+	visitor.Visit(this, cPaintDc);
 }
 
 

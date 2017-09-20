@@ -18,7 +18,6 @@ TabKey::~TabKey() {
 }
 
 void TabKey::KeyPress(TextEdit *textEdit) {
-	
 
 	if (textEdit->keyBoard->keyAction != 0) {
 		delete textEdit->keyBoard->keyAction;

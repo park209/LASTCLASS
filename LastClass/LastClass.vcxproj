@@ -57,6 +57,7 @@
     <ClInclude Include="Figure.h" />
     <ClInclude Include="FigureComposite.h" />
     <ClInclude Include="FigureFactory.h" />
+    <ClInclude Include="Finder.h" />
     <ClInclude Include="Generalization.h" />
     <ClInclude Include="GeneralizationButton.h" />
     <ClInclude Include="HomeKey.h" />
@@ -71,6 +72,7 @@
     <ClInclude Include="MemoLine.h" />
     <ClInclude Include="MemoLineButton.h" />
     <ClInclude Include="Method.h" />
+    <ClInclude Include="MovingVisitor.h" />
     <ClInclude Include="Realization.h" />
     <ClInclude Include="RealizationButton.h" />
     <ClInclude Include="Reception.h" />
@@ -79,6 +81,15 @@
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="Selection.h" />
+    <ClInclude Include="SelfAggregation.h" />
+    <ClInclude Include="SelfAggregations.h" />
+    <ClInclude Include="SelfAssociation.h" />
+    <ClInclude Include="SelfComposition.h" />
+    <ClInclude Include="SelfCompositions.h" />
+    <ClInclude Include="SelfDependency.h" />
+    <ClInclude Include="SelfDirectedAssociation.h" />
+    <ClInclude Include="SelfGeneralization.h" />
+    <ClInclude Include="SelfRelation.h" />
     <ClInclude Include="SingleByteCharacter.h" />
     <ClInclude Include="SmartPointer.h" />
     <ClInclude Include="SpaceKey.h" />
@@ -131,6 +142,7 @@
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="FigureComposite.cpp" />
     <ClCompile Include="FigureFactory.cpp" />
+    <ClCompile Include="Finder.cpp" />
     <ClCompile Include="Generalization.cpp" />
     <ClCompile Include="GeneralizationButton.cpp" />
     <ClCompile Include="HomeKey.cpp" />
@@ -144,6 +156,7 @@
     <ClCompile Include="MemoLine.cpp" />
     <ClCompile Include="MemoLineButton.cpp" />
     <ClCompile Include="Method.cpp" />
+    <ClCompile Include="MovingVisitor.cpp" />
     <ClCompile Include="Realization.cpp" />
     <ClCompile Include="RealizationButton.cpp" />
     <ClCompile Include="Reception.cpp" />
@@ -151,6 +164,15 @@
     <ClCompile Include="RightArrowKey.cpp" />
     <ClCompile Include="Row.cpp" />
     <ClCompile Include="Selection.cpp" />
+    <ClCompile Include="SelfAggregation.cpp" />
+    <ClCompile Include="SelfAggregations.cpp" />
+    <ClCompile Include="SelfAssociation.cpp" />
+    <ClCompile Include="SelfComposition.cpp" />
+    <ClCompile Include="SelfCompositions.cpp" />
+    <ClCompile Include="SelfDependency.cpp" />
+    <ClCompile Include="SelfDirectedAssociation.cpp" />
+    <ClCompile Include="SelfGeneralization.cpp" />
+    <ClCompile Include="SelfRelation.cpp" />
     <ClCompile Include="SingleByteCharacter.cpp" />
     <ClCompile Include="SpaceKey.cpp" />
     <ClCompile Include="TabKey.cpp" />
@@ -184,7 +206,8 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -198,7 +221,8 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -271,6 +295,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -289,6 +314,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

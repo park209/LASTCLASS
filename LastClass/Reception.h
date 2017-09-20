@@ -9,6 +9,7 @@
 typedef signed long int Long;
 using namespace std;
 
+
 class Visitor;
 class Reception :public Figure {
 public:
@@ -22,6 +23,7 @@ public:
 	//void Accept(Visitor& visitor, CDC *cPaintDc);
 
 	Figure* Clone() const;
+
 
 };
 

@@ -28,12 +28,12 @@ Figure* Line::Clone() const {
 	return new Line(*this);
 }
 
-//#include <iostream>
-//using namespace std;
-
 void Line::Accept(Visitor& visitor, CDC *cPaintDc) {
-	//cout << "Line Accept" << endl;
 	visitor.Visit(this, cPaintDc);
 }
 
 
+Figure* Line::Move(Long distanceX, Long distanceY) {
+	Figure::Move(distanceX, distanceY);
+	return this;
+}

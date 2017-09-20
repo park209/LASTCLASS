@@ -6,9 +6,10 @@
 
 #include"Diagram.h"
 #include"Selection.h"
-
+#include "SelfAggregations.h"
 #include"Aggregations.h"
 #include"Class.h"
+#include"Finder.h"
 
 AggregationsButton::AggregationsButton() {
 
@@ -22,103 +23,49 @@ AggregationsButton::~AggregationsButton() {
 
 }
 
-void AggregationsButton::ChangeState(DrawingController *drawingController, Long key) {
-	ButtonState::ChangeState(drawingController, key);
+void AggregationsButton::ChangeState(DrawingController *drawingController, UINT nChar) {
+	ButtonState::ChangeState(drawingController, nChar);
 }
 
-void AggregationsButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+Figure* AggregationsButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+	Long index;
+	Figure *figure = 0;
 	if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
-		selection->FindByPoint(diagram, currentX, currentY);
+		selection->SelectByPoint(diagram, currentX, currentY);
 
 		if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {
 
-			CPoint line1Start;
-			CPoint line1End;
-			CPoint line2Start;
-			CPoint line2End;
-			CPoint cross1;
-			CPoint cross2;
+			CPoint lineStart(startX, startY);
+			CPoint lineEnd(currentX, currentY);
 
-			line1Start.x = startX;
-			line1Start.y = startY;
-			line1End.x = currentX;
-			line1End.y = currentY;
+			CRect rect(selection->GetAt(0)->GetX(), selection->GetAt(0)->GetY(),
+				selection->GetAt(0)->GetX() + selection->GetAt(0)->GetWidth(),
+				selection->GetAt(0)->GetY() + selection->GetAt(0)->GetHeight());
 
-			bool startClassCheck = false;
-			if (startClassCheck == false) {//시작 클래스에서 선과 교차하는 면 찾기
-										   //상단
-				line2Start.x = selection->GetAt(0)->GetX();
-				line2Start.y = selection->GetAt(0)->GetY();
-				line2End.x = selection->GetAt(0)->GetX() + selection->GetAt(0)->GetWidth();
-				line2End.y = selection->GetAt(0)->GetY();
-				startClassCheck = selection->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-			}
-			if (startClassCheck == false) {
-				//좌측
-				line2Start.x = selection->GetAt(0)->GetX();
-				line2Start.y = selection->GetAt(0)->GetY();
-				line2End.x = selection->GetAt(0)->GetX();
-				line2End.y = selection->GetAt(0)->GetY() + selection->GetAt(0)->GetHeight();
-				startClassCheck = selection->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-			}
-			if (startClassCheck == false) {
-				//우측
-				line2Start.x = selection->GetAt(0)->GetX() + selection->GetAt(0)->GetWidth();
-				line2Start.y = selection->GetAt(0)->GetY();
-				line2End.x = selection->GetAt(0)->GetX() + selection->GetAt(0)->GetWidth();
-				line2End.y = selection->GetAt(0)->GetY() + selection->GetAt(0)->GetHeight();
-				startClassCheck = selection->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-			}
-			if (startClassCheck == false) {
-				//하단
-				line2Start.x = selection->GetAt(0)->GetX();
-				line2Start.y = selection->GetAt(0)->GetY() + selection->GetAt(0)->GetHeight();
-				line2End.x = selection->GetAt(0)->GetX() + selection->GetAt(0)->GetWidth();
-				line2End.y = selection->GetAt(0)->GetY() + selection->GetAt(0)->GetHeight();
-				startClassCheck = selection->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross1);
-			}
+			Finder finder;
+			CPoint cross1 = finder.GetCrossPoint(lineStart, lineEnd, rect);
 
-			bool endClassCheck = false;
-			if (endClassCheck == false) {//끝 클래스에서 선과 교차하는 면 찾기
-										 //상단
-				line2Start.x = selection->GetAt(1)->GetX();
-				line2Start.y = selection->GetAt(1)->GetY();
-				line2End.x = selection->GetAt(1)->GetX() + selection->GetAt(1)->GetWidth();
-				line2End.y = selection->GetAt(1)->GetY();
-				endClassCheck = selection->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross2);
-			}
-			if (endClassCheck == false) {
-				//좌측
-				line2Start.x = selection->GetAt(1)->GetX();
-				line2Start.y = selection->GetAt(1)->GetY();
-				line2End.x = selection->GetAt(1)->GetX();
-				line2End.y = selection->GetAt(1)->GetY() + selection->GetAt(1)->GetHeight();
-				endClassCheck = selection->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross2);
-			}
-			if (endClassCheck == false) {
-				//우측
-				line2Start.x = selection->GetAt(1)->GetX() + selection->GetAt(1)->GetWidth();
-				line2Start.y = selection->GetAt(1)->GetY();
-				line2End.x = selection->GetAt(1)->GetX() + selection->GetAt(1)->GetWidth();
-				line2End.y = selection->GetAt(1)->GetY() + selection->GetAt(1)->GetHeight();
-				endClassCheck = selection->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross2);
-			}
-			if (endClassCheck == false) {
-				//하단
-				line2Start.x = selection->GetAt(1)->GetX();
-				line2Start.y = selection->GetAt(1)->GetY() + selection->GetAt(1)->GetHeight();
-				line2End.x = selection->GetAt(1)->GetX() + selection->GetAt(1)->GetWidth();
-				line2End.y = selection->GetAt(1)->GetY() + selection->GetAt(1)->GetHeight();
-				endClassCheck = selection->FindCrossPoints(line1Start, line1End, line2Start, line2End, &cross2);
-			}
+			rect.left = selection->GetAt(1)->GetX();
+			rect.top = selection->GetAt(1)->GetY();
+			rect.right = selection->GetAt(1)->GetX() + selection->GetAt(1)->GetWidth();
+			rect.bottom = selection->GetAt(1)->GetY() + selection->GetAt(1)->GetHeight();
+			CPoint cross2 = finder.GetCrossPoint(lineStart, lineEnd, rect);
 
 			Aggregations object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
-			static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+			index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+			figure= static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
+		}
+		if (selection->GetLength() == 2 && selection->GetAt(0) == selection->GetAt(1)) {
+			Class *object = static_cast<Class*>(selection->GetAt(0));
+			SelfAggregations selfAggregations(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
+			index = object->Add(selfAggregations.Clone());
+			figure = object->GetAt(index);
 		}
 	}
+	return figure;
 }
-void AggregationsButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+void AggregationsButton::Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(currentX, currentY);
 

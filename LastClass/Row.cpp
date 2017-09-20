@@ -124,6 +124,7 @@ string Row::PrintRowString() {
 	}
 	tempChar[j] = '\0';
 	string tempString(tempChar);
+
 	return tempString;
 }
 

@@ -18,8 +18,7 @@ public:
 	void Visit(SingleByteCharacter *singleByteCharacter, CDC* cPaintDc);
 	void Visit(DoubleByteCharacter *doubleByteCharacter, CDC* cPaintDc);
 	void Visit(Row* row, CDC* cPaintDc);
-
-
+	void Visit(Text* text, CDC* cPaintDc);
 
 	//0904Ãß°¡	CDC* cPaintDc
 
@@ -52,6 +51,27 @@ public:
 	void Visit(Method *method, CDC *cPatinDc);
 
 	void Visit(Attribute *attribute, CDC *cPaintDc);
+
+	void Visit(Selection *selection, CDC *cPaintDc);
+
+	void Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY);
+
+	void Visit(SelfGeneralization *selfGeneralization, CDC *cPaintDc);
+
+	void Visit(SelfDependency *selfDependency, CDC *cPaintDc);
+
+	void Visit(SelfAggregation *selfAggregation, CDC *cPaintDc);
+
+	void Visit(SelfAssociation *selfAssociation, CDC *cPaintDc);
+
+	void Visit(SelfAggregations *selfAggregations, CDC *cPaintDc);
+
+	void Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *cPaintDc);
+
+	void Visit(SelfComposition *selfComposition, CDC *cPaintDc);
+
+	void Visit(SelfCompositions *selfCompositions, CDC *cPaintDc);
+
 };
 
 #endif // _DRAWINGVISITOR_H

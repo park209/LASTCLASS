@@ -1,8 +1,11 @@
 #ifndef _SELECTION_H
 #define _SELECTION_H
 #include "FigureComposite.h"
+#include "MovingVisitor.h"
+#include "DrawingVisitor.h"
 #include <afxwin.h>
 using namespace std;
+typedef signed long  int Long;
 class Diagram;
 class Selection : public  FigureComposite{
 public: 
@@ -16,11 +19,12 @@ public:
 	virtual Figure* GetAt(Long index);
 	virtual Figure* Clone() const;
 	void DeleteAllItems();
+	void Accept(Diagram *diagram,Visitor& visitor, Long distanceX, Long distanceY);
+	void Accept(Visitor& visitor, CDC *cPaintDc);
 
-	void FindByArea(Diagram *diagram, CRect area);
-	void FindByPoint(Diagram *diagram, Long x, Long y);
+	void SelectByArea(Diagram *diagram, CRect area);
+	Long SelectByPoint(Diagram *diagram, Long x, Long y);
 
-	bool FindCrossPoints(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End, CPoint *crossPoint);
 };
 
 #endif // !_SELECTION_H

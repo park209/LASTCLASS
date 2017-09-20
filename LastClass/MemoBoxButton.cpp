@@ -18,20 +18,22 @@ MemoBoxButton::~MemoBoxButton() {
 
 }
 
-void MemoBoxButton::ChangeState(DrawingController *drawingController, Long key) {
-	ButtonState::ChangeState(drawingController, key);
+void MemoBoxButton::ChangeState(DrawingController *drawingController, UINT nChar) {
+	ButtonState::ChangeState(drawingController, nChar);
 }
 
-void MemoBoxButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+Figure* MemoBoxButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
+	Long index;
 	if (currentX - startX < 100) {
 		currentX = startX + 100;
 	}
 	if (currentY - startY < 80) {
 		currentY = startY + 80;
 	}
-	diagram->AddMemoBox(startX, startY, currentX - startX, currentY - startY);
+	index = diagram->AddMemoBox(startX, startY, currentX - startX, currentY - startY);
+	return diagram->GetAt(index);
 }
-void MemoBoxButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+void MemoBoxButton::Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDc->SelectObject(&pen);
