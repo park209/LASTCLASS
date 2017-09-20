@@ -31,8 +31,6 @@
 #include  "SelfDependency.h"
 #include  "SelfDirectedAssociation.h"
 #include  "SelfGeneralization.h"
-
-
 FigureFactory::FigureFactory() {
 }
 FigureFactory::~FigureFactory() {
@@ -58,6 +56,8 @@ TextComponent* FigureFactory::CreateRow(Long x, Long y, Long rowHeight, Long cla
 		i++;
 	}
 	return row->Clone();
+
+	
 }
 
 // 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 6 = Dependency(의존), 7 = Association(연관화),
@@ -121,29 +121,38 @@ Figure* FigureFactory::Create(Long x, Long y, Long width, Long height, Long type
 	}
 	if (type == 18) {
 		return new SelfGeneralization(x, y, width, height);
+		
 	}
 	if (type == 19) {
 		return new SelfDependency(x, y, width, height);
+		
 	}
 	if (type == 20) {
 		return new SelfAssociation(x, y, width, height);
+		
 	}
 	if (type == 21) {
 		return new SelfDirectedAssociation(x, y, width, height);
+		
 	}
 	if (type == 22) {
 		return new SelfAggregation(x, y, width, height);
+		
 	}
 	if (type == 23) {
 		return new SelfAggregations(x, y, width, height);
+		
 	}
 	if (type == 24) {
 		return new SelfComposition(x, y, width, height);
+		
 	}
 	if (type == 25) {
 		return new SelfCompositions(x, y, width, height);
+		
 	}
 	return 0;
 }
+
 
 

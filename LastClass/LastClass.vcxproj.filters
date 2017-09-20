@@ -129,6 +129,9 @@
     <ClInclude Include="FigureFactory.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Finder.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
     <ClInclude Include="Generalization.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
@@ -171,6 +174,9 @@
     <ClInclude Include="Method.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="MovingVisitor.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
     <ClInclude Include="Realization.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
@@ -193,6 +199,33 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Selection.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfAggregation.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfAggregations.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfAssociation.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfComposition.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfCompositions.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfDependency.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfDirectedAssociation.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfGeneralization.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfRelation.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="SingleByteCharacter.h">
@@ -234,37 +267,7 @@
     <ClInclude Include="WritingVisitor.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="MovingVisitor.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Finder.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfRelation.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfGeneralization.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfDependency.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfAggregation.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfAssociation.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfAggregations.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfDirectedAssociation.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfComposition.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfCompositions.h">
+    <ClInclude Include="ReceptionButton.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -380,6 +383,9 @@
     <ClCompile Include="FigureFactory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Finder.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="Generalization.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -419,6 +425,9 @@
     <ClCompile Include="Method.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="MovingVisitor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="Realization.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -438,6 +447,33 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Selection.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfAggregation.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfAggregations.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfAssociation.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfComposition.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfCompositions.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfDependency.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfDirectedAssociation.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfGeneralization.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfRelation.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="SingleByteCharacter.cpp">
@@ -476,37 +512,7 @@
     <ClCompile Include="WritingVisitor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="MovingVisitor.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Finder.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfRelation.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfGeneralization.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfDependency.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfAggregation.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfAssociation.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfAggregations.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfDirectedAssociation.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfComposition.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfCompositions.cpp">
+    <ClCompile Include="ReceptionButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

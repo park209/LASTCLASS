@@ -51,3 +51,4 @@ CString DoubleByteCharacter::MakeCString() const {
 
 	return cs;
 }
+

@@ -31,8 +31,12 @@ Figure* MemoLineButton::AddToArray(Diagram *diagram, Selection *selection, Long 
 	Long index;
 	Figure *figure = 0;
 	if (selection->GetLength() == 1 && dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
+		
+
 		selection->SelectByPoint(diagram, currentX, currentY);
 		if(selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && (dynamic_cast<MemoBox*>(selection->GetAt(0)) || dynamic_cast<MemoBox*>(selection->GetAt(1)))) {
+		
+
 			CPoint lineStart(startX, startY);
 			CPoint lineEnd(currentX, currentY);
 

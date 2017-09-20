@@ -15,6 +15,7 @@
 #include "TemplateButton.h"
 #include "MemoBoxButton.h"
 #include "MemoLineButton.h"
+#include "ReceptionButton.h"
 ButtonState::ButtonState() {
 
 }
@@ -125,6 +126,12 @@ void ButtonState::ChangeState(DrawingController *drawingController, UINT nChar) 
 			delete drawingController->buttonState;
 		}
 		drawingController->buttonState = new MemoLineButton;
+	}
+	if (nChar == 116) {
+		if (drawingController->buttonState != 0) {
+			delete drawingController->buttonState;
+		}
+		drawingController->buttonState = new ReceptionButton;
 	}
 
 }

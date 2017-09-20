@@ -28,3 +28,4 @@ Figure* Template::Clone() const {
 	return new Template(*this);
 }
 
+

@@ -27,3 +27,5 @@ Method& Method::operator = (const Method& source) {
 Figure* Method::Clone() const {
 	return new Method(*this);
 }
+
+

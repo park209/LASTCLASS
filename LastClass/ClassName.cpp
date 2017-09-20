@@ -27,3 +27,4 @@ ClassName& ClassName::operator = (const ClassName& source) {
 Figure* ClassName::Clone() const {
 	return new ClassName(*this);
 }
+

@@ -9,6 +9,7 @@ DrawingController::DrawingController() {
 }
 
 DrawingController::DrawingController(const DrawingController& source) {
+
 }
 
 DrawingController::~DrawingController() {

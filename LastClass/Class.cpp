@@ -24,6 +24,7 @@
 #include "SelfCompositions.h"
 #include "SmartPointer.h"
 #include "ArrayIterator.h"
+#include "Reception.h"
 #include "Iterator.h"
 
 Class::Class(Long capacity):FigureComposite(capacity) {
@@ -267,7 +268,34 @@ Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
 
 	return this->templetePosition;
 }
+Figure* Class::AddReception() {
 
+	Line line(this->x, this->y+this->height, this->width, 0);
+	
+	this->height = height + 50;
+
+	if (this->length < this->capacity) {
+		 this->figures.Store(this->length, line.Clone());
+	}
+	else {
+	 this->figures.AppendFromRear(line.Clone());
+		this->capacity++;
+	}
+	this->length++;
+	
+	Reception reception(this->x, this->y, this->width,50,"");
+
+	if (this->length < this->capacity) {
+		this->figures.Store(this->length, reception.Clone());
+	}
+	else {
+		 this->figures.AppendFromRear(reception.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return this;
+}
 Long Class::Remove(Long index) {
 
 	this->length--;

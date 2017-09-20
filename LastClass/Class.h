@@ -34,7 +34,7 @@ public:
 	Long AddCompositions(Long x, Long y, Long width, Long height);
 	Long AddTemplate(Long x, Long y, Long width, Long height);
 
-
+	Figure* AddReception();
 
 
 	virtual Long Add(Figure *figure);
