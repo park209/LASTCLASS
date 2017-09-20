@@ -17,15 +17,7 @@ MemoBox::MemoBox(Long x, Long y, Long width, Long height) : FigureComposite(10) 
 	this->height = height;
 }
 MemoBox::MemoBox(const MemoBox& source) : FigureComposite(source) {
-	/*this->figures = source.figures;
-	Long i = 0;
 	
-	while (i < source.length) {
-		this->figures.Modify(i, (const_cast<MemoBox&>(source)).figures[i]->Clone());
-		i++;
-	}
-	this->capacity = source.capacity;
-	this->length = source.length;*/
 	this->x = source.x;
 	this->y = source.y;
 	this->width = source.width;
@@ -110,43 +102,3 @@ void MemoBox::Accept (Visitor& visitor, CDC *cPaintDc) {
 }
 
 
-//#include <iostream>
-//using namespace std;
-//
-//int main(int argc, char *argv[]) {
-//	MemoBox memoBox;
-//	memoBox.Add(10, 20, 30, 40);
-//	memoBox.Add(25, 20, 30, 40);
-//	memoBox.Add(65, 76, 30, 543);
-//	memoBox.Add(45, 76, 30, 40);
-//	memoBox.Add(10, 20, 456, 40);
-//	MemoBox memoBox1;
-//	memoBox1 = memoBox;
-//
-//	Long i = 0;
-//	Long x;
-//	Long y;
-//	Long width;
-//	Long height;
-//	Long capacity;
-//	Long length;
-//	while (i < memoBox1.GetLength()) {
-//		x = memoBox1.GetAt(i)->GetX();
-//		y = memoBox1.GetAt(i)->GetY();
-//		width = memoBox1.GetAt(i)->GetWidth();
-//		height = memoBox1.GetAt(i)->GetHeight();
-//		capacity = memoBox1.GetCapacity();
-//		length = memoBox1.GetLength();
-//		cout << x <<" " << y << " " << width << " " << height << " " << " " << capacity << " " << length <<endl;
-//		i++;
-//	}
-//	Figure *figure = memoBox1[3];
-//
-//	x = figure->GetX();
-//	y = figure->GetY();
-//	width = figure->GetWidth();
-//	height = figure->GetHeight();
-//	cout << x << " " << y << " " << width << " " << height << " " << " " << capacity << " " << length << endl;
-//	return 0;
-//
-//}

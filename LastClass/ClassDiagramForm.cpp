@@ -1,5 +1,13 @@
 //ClassDiagramForm.cpp
-
+#include "SelfAggregation.h"
+ #include  "SelfAggregations.h"
+ #include  "SelfAssociation.h"
+ #include  "SelfComposition.h"
+ #include  "SelfCompositions.h"
+ #include  "SelfDependency.h"
+ #include  "SelfDirectedAssociation.h"
+ #include  "SelfGeneralization.h"
+ #include "SelfRelation.h"
 #include "ClassDiagramForm.h"
 #include "Class.h"
 #include "Line.h"
@@ -76,10 +84,13 @@ Long ClassDiagramForm::Save() {
 	if (fClass.is_open() && fLine.is_open()) {
 		while (i < this->diagram->GetLength()) {
 			//종류 구별을 위한 마지막 칸 
-			// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 6 = Dependency(의존), 7 = Association(연관화),
-			// 8 = DirectedAssociation(직접연관),  9 = Aggregation(집합), 10 = Aggregations(집합연관), 11 =  Composition(합성), 12 = Compositions(복합연관), 13 = MemoLine
-			// 14 = ClassName , 15 = Attribute , 16 = Method , 17 = Reception
-
+			// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 
+			//6 = Dependency(의존), 7 = Association(연관화),
+			// 8 = DirectedAssociation(직접연관),  9 = Aggregation(집합), 10 = Aggregations(집합연관), 
+			//11 =  Composition(합성), 12 = Compositions(복합연관), 13 = MemoLine
+			// 14 = ClassName , 15 = Attribute , 16 = Method , 17 = Reception , 18 =SelfGeneralization ,
+			//19 = SelfDependency , 20 = SelfAssociation , 21 = SelfDirectedAssociation
+			// 22 = SelfAggregation , 23 = SelfAggregations , 24 =SelfComposition , 25 = SelfCompositions
 			FigureComposite *object = 0;
 			if (dynamic_cast<Class*>(this->diagram->GetAt(i))) {
 				object = static_cast<FigureComposite*>(this->diagram->GetAt(i));
@@ -92,9 +103,7 @@ Long ClassDiagramForm::Save() {
 				fClass << object->GetLength() << " " << object->GetX() << " " << object->GetY()
 					<< " " << object->GetWidth() << " " << object->GetHeight() << " " << 1 << endl;
 			}
-			//object = dynamic_cast<Class*>(this->diagram->GetAt(i));
-			//fClass << object->GetLength() << " " << object->GetX() << " " << object->GetY()
-			//   << " " << object->GetWidth() << " " << object->GetHeight() << endl;
+			
 			j = 0;
 			while (j < object->GetLength()) {
 				Figure *figure;
@@ -253,6 +262,62 @@ Long ClassDiagramForm::Save() {
 						<< figure->GetHeight() << " " << 17 <<
 						" " << 0 << endl;
 				}
+				else if (dynamic_cast<SelfGeneralization*>(object->GetAt(j))) {
+					figure = static_cast<SelfRelation*>(object->GetAt(j));
+					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
+						 << figure->GetHeight() << " " << 18 <<
+						" " << 0 << endl;
+					
+				}
+				else if (dynamic_cast<SelfDependency*>(object->GetAt(j))) {
+					figure = static_cast<SelfRelation*>(object->GetAt(j));
+					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
+						 << figure->GetHeight() << " " << 19 <<
+						" " << 0 << endl;
+					
+				}
+				else if (dynamic_cast<SelfAssociation*>(object->GetAt(j))) {
+				    figure = static_cast<SelfRelation*>(object->GetAt(j));
+					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
+						 << figure->GetHeight() << " " << 20 <<
+						" " << 0 << endl;
+					
+				}
+				else if (dynamic_cast<SelfDirectedAssociation*>(object->GetAt(j))) {
+					figure = static_cast<SelfRelation*>(object->GetAt(j));
+					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
+						 << figure->GetHeight() << " " << 21 <<
+						" " << 0 << endl;
+					
+				}
+				else if (dynamic_cast<SelfAggregation*>(object->GetAt(j))) {
+					figure = static_cast<SelfRelation*>(object->GetAt(j));
+					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
+						 << figure->GetHeight() << " " << 22 <<
+						" " << 0 << endl;
+					
+				}
+				else if (dynamic_cast<SelfAggregations*>(object->GetAt(j))) {
+					figure = static_cast<SelfRelation*>(object->GetAt(j));
+					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
+						 << figure->GetHeight() << " " << 23 <<
+						" " << 0 << endl;
+					
+				}
+				else if (dynamic_cast<SelfComposition*>(object->GetAt(j))) {
+					figure = static_cast<SelfRelation*>(object->GetAt(j));
+					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
+						 << figure->GetHeight() << " " << 24 <<
+						" " << 0 << endl;
+					
+				}
+				else if (dynamic_cast<SelfCompositions*>(object->GetAt(j))) {
+					figure = static_cast<SelfRelation*>(object->GetAt(j));
+					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
+						 << figure->GetHeight() << " " << 25 <<
+						" " << 0 << endl;
+					
+				}
 				j++;
 			}
 			i++;
@@ -303,7 +368,6 @@ Long ClassDiagramForm::Load() {
 			while (position != -1 && i < length) {
 				fLine >> lineX >> lineY >> lineWidth >> lineHeight >> type >> relationLength;
 				figure = factory.Create(lineX, lineY, lineWidth, lineHeight, type);
-				//FigureComposite *figureComposite = static_cast<FigureComposite*>(this->diagram->GetAt(position));
 				index = figureComposite->Add(figure);
 				if (dynamic_cast<Relation*>(figureComposite->GetAt(index))) {
 					Relation *relation = static_cast<Relation*>(figureComposite->GetAt(index));
@@ -441,13 +505,13 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->startY = point.y;
 	this->currentX = point.x;
 	this->currentY = point.y;
-	//this->selected = this->diagram->Find(this->currentX, this->currentY);
+	
 	this->selection->DeleteAllItems();
-	//if (this->relationButton == true) {
+
 	Long x = this->startX;
 	Long y = this->startY;
 	this->selection->SelectByPoint(this->diagram, x, y);
-	//}
+	
 
 	KillTimer(1);
 
@@ -491,7 +555,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		MovingVisitor movingVisitor;
 		Long distanceX = currentX - startX;
 		Long distanceY = currentY - startY;
-		this->selection->Accept(movingVisitor, distanceX, distanceY);
+		this->selection->Accept(this->diagram,movingVisitor, distanceX, distanceY);
 		if (this->selection->GetLength() == 0) {
 			CRect area;
 			area.left = this->startX;
@@ -507,21 +571,6 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 	
 	}
-
-	//if (dynamic_cast<Class*>(figure)) {
-	//	this->textEdit = new TextEdit(figure);
-
-	//	this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
-	//		figure->GetX() + 5,
-	//		figure->GetY() + 33,
-	//		figure->GetX() + figure->GetWidth() + 5,
-	//		figure->GetY() + figure->GetHeight() + 33), NULL, NULL, WS_EX_TOPMOST);
-	//	this->textEdit->ShowWindow(SW_SHOW);
-	//}
-
-
-//}
-	//Long length = this->selection->GetLength();
 
 	this->startX = 0;
 	this->startY = 0;

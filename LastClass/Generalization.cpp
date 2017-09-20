@@ -25,7 +25,7 @@ Generalization& Generalization::operator=(const Generalization& source) {
 }
 
 void Generalization::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);//, cPaintDc);
+	visitor.Visit(this, cPaintDc);
 }
 
 Figure* Generalization::Clone() const {

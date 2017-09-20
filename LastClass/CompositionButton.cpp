@@ -7,7 +7,7 @@
 
 #include"Diagram.h"
 #include"Selection.h"
-
+#include "SelfComposition.h"
 #include"Composition.h"
 #include"Class.h"
 #include"Finder.h"
@@ -57,6 +57,12 @@ Figure* CompositionButton::AddToArray(Diagram *diagram, Selection *selection, Lo
 			index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 			figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
 		}
+		if (selection->GetLength() == 2 && selection->GetAt(0) == selection->GetAt(1)) {
+			Class *object = static_cast<Class*>(selection->GetAt(0));
+			SelfComposition selfComposition(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
+			index = object->Add(selfComposition.Clone());
+			figure = object->GetAt(index);
+		}
 	}
 	return figure;
 }
@@ -74,25 +80,25 @@ void CompositionButton::Draw(Selection *selection, Long startX, Long startY, Lon
 
 	double distance = sqrt(pow(currentX - startX, 2) + pow(startY - currentY, 2));
 
-	double dX = (startX) + (15 * (currentX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (startY) - (15 * (startY - currentY) / distance); //뒤로 온 기준점 y
+	double dX = (startX) + (9 * (currentX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (startY) - (9 * (startY - currentY) / distance); //뒤로 온 기준점 y
 
 	double dX2 = (startX) - ((currentX - startX) / distance);
 	double dY2 = (startY) + ((startY - currentY) / distance);
 
 	CPoint pts2[4];
 
-	pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
 
 	pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
 	pts2[1].y = static_cast<LONG>(dY2);
 
-	pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
-	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(15 * (currentX - startX) / distance); // 윗점
-	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(15 * (startY - currentY) / distance);
+	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (currentX - startX) / distance); // 윗점
+	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - currentY) / distance);
 
 	cPaintDc->SelectObject(&black);
 	cPaintDc->Polygon(pts2, 4);

@@ -28,7 +28,7 @@ DirectedAssociation& DirectedAssociation::operator=(const DirectedAssociation& s
 }
 
 void DirectedAssociation::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);//, cPaintDc);
+	visitor.Visit(this, cPaintDc);
 }
 
 Figure* DirectedAssociation::Clone() const {

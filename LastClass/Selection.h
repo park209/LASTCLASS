@@ -19,7 +19,7 @@ public:
 	virtual Figure* GetAt(Long index);
 	virtual Figure* Clone() const;
 	void DeleteAllItems();
-	void Accept(Visitor& visitor, Long distanceX, Long distanceY);
+	void Accept(Diagram *diagram,Visitor& visitor, Long distanceX, Long distanceY);
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 
 	void SelectByArea(Diagram *diagram, CRect area);

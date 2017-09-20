@@ -52,7 +52,23 @@ public:
 
 	void Visit(Selection *selection, CDC *cPaintDc);
 
-	void Visit(Selection *selection, Long distanceX, Long distanceY);
+	void Visit(Diagram *diagram,Selection *selection, Long distanceX, Long distanceY);
+
+	void Visit(SelfGeneralization *selfGeneralization, CDC *CPatinDc);
+
+	void Visit(SelfDependency *selfDependency, CDC *CPatinDc);
+
+	void Visit(SelfAggregation *selfAggregation, CDC *CPatinDc);
+
+	void Visit(SelfAssociation *selfAssociation, CDC *cPaintDc);
+
+	void Visit(SelfAggregations *selfAggregations, CDC *cPaintDc);
+
+	void Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *cPaintDc);
+
+	void Visit(SelfComposition *selfComposition, CDC *cPaintDc);
+
+	void Visit(SelfCompositions *selfCompositions, CDC *cPaintDc);
 };
 
 

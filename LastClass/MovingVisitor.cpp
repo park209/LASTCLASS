@@ -16,6 +16,7 @@
 #include "MemoBox.h"
 #include "Selection.h"
 #include "MemoLine.h"
+#include "Diagram.h"
 #include <iostream>
 using namespace std;
 
@@ -115,15 +116,23 @@ void MovingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 
 }
 
-void MovingVisitor::Visit(Selection *selection, Long distanceX, Long distanceY) {
+void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY) {
 	Long length = selection->GetLength();
 	Long i = 0;
 	Long j;
+	Long k = 0;
+	Long l = 0;
 	Figure *figure;
 
 	while (i < length) {
 		figure = selection->GetAt(i);
+
+
 		if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
+			Long startX = figure->GetX();
+			Long startY = figure->GetY();
+			Long endX = figure->GetX() + figure->GetWidth();
+			Long endY = figure->GetY() + figure->GetHeight();
 			figure->Move(distanceX, distanceY); // 해당 클래스나 메모 이동
 			FigureComposite *figureComposite = static_cast<FigureComposite*>(figure); // 형변환
 			j = 0;
@@ -132,7 +141,56 @@ void MovingVisitor::Visit(Selection *selection, Long distanceX, Long distanceY) 
 				figure->Move(distanceX, distanceY);
 				j++;
 			}
+
+			while (k < diagram->GetLength()) {
+				figureComposite = static_cast<FigureComposite*>(diagram->GetAt(k));
+				l = 0;
+				while (l < figureComposite->GetLength()) {
+					if (dynamic_cast<Relation*>(figureComposite->GetAt(l))) {
+						figure = figureComposite->GetAt(l);
+						Long relationEndX = figure->GetX() + figure->GetWidth();
+						Long relationEndY = figure->GetY() + figure->GetHeight();
+						if (startX <= relationEndX &&  relationEndX <= endX &&
+							startY <= relationEndY &&  relationEndY <= endY) {
+
+							figure->EndPointMove(distanceX, distanceY);
+						}
+					}
+					l++;
+				}
+				k++;
+			}
+
 		}
 		i++;
 	}
+}
+void MovingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *CPatinDc) {
+
+}
+void MovingVisitor::Visit(SelfDependency *selfDependency, CDC *CPatinDc) {
+
+}
+
+void MovingVisitor::Visit(SelfAggregation *selfAggregation, CDC *CPatinDc) {
+
+}
+
+void MovingVisitor::Visit(SelfAssociation *selfAssociation, CDC *cPaintDc) {
+
+}
+
+void MovingVisitor::Visit(SelfAggregations *selfAggregations, CDC *cPaintDc) {
+
+}
+
+void MovingVisitor::Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *cPaintDc){
+
+}
+void MovingVisitor::Visit(SelfComposition *selfComposition, CDC *cPaintDc) {
+
+}
+
+void MovingVisitor::Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) {
+
 }

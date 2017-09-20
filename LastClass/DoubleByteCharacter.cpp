@@ -52,10 +52,3 @@ CString DoubleByteCharacter::MakeCString() const {
 	return cs;
 }
 
-//
-//#include <iostream>
-//using namespace std; 
-//int main(int argc, char *argv[]) {
-//	Character* a = new DoubleByteCharacter("±è");
-//	cout << static_cast<DoubleByteCharacter*>(a)->GetCharacters() << endl;
-//}

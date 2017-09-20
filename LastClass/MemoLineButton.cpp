@@ -31,13 +31,11 @@ Figure* MemoLineButton::AddToArray(Diagram *diagram, Selection *selection, Long 
 	Long index;
 	Figure *figure = 0;
 	if (selection->GetLength() == 1 && dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
-		//Long endClass = this->diagram->Find(this->currentX, this->currentY);//자기자신 연결시 0 0 0 0 값 저장됨.. 수정요 2017_09_09
-		//Long x = this->currentX;
-		//Long y = this->currentY;
+		
 
 		selection->SelectByPoint(diagram, currentX, currentY);
 		if(selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && (dynamic_cast<MemoBox*>(selection->GetAt(0)) || dynamic_cast<MemoBox*>(selection->GetAt(1)))) {
-		//if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1)) {
+		
 
 			CPoint lineStart(startX, startY);
 			CPoint lineEnd(currentX, currentY);
