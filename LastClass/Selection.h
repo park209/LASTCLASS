@@ -14,6 +14,7 @@ public:
 	virtual ~Selection();
 	Selection& operator = (const Selection& source);
 
+	Long Remove(Diagram *diagram, Figure *figure);
 	virtual Long Remove(Long index);
 	virtual Long Add(Figure *figure);
 	virtual Figure* GetAt(Long index);
