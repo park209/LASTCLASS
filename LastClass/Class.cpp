@@ -1,5 +1,5 @@
 //Class.cpp
-
+#include "Diagram.h"
 #include "Class.h"
 #include "Line.h"
 #include "Generalization.h"
@@ -268,17 +268,17 @@ Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
 
 	return this->templetePosition;
 }
-Figure* Class::AddReception() {
+Figure* Class::AddReception(Diagram *diagram) {
 
 	Line line(this->x, this->y+this->height, this->width, 0);
 	
 	this->height = height + 50;
 
 	if (this->length < this->capacity) {
-		this->templetePosition = this->figures.Store(this->length, line.Clone());
+		this->figures.Store(this->length, line.Clone());
 	}
 	else {
-		this->templetePosition = this->figures.AppendFromRear(line.Clone());
+		this->figures.AppendFromRear(line.Clone());
 		this->capacity++;
 	}
 	this->length++;
@@ -286,14 +286,45 @@ Figure* Class::AddReception() {
 	Reception reception(this->x, this->y, this->width,50,"");
 
 	if (this->length < this->capacity) {
-		this->templetePosition = this->figures.Store(this->length, reception.Clone());
+		this->figures.Store(this->length, reception.Clone());
 	}
 	else {
-		this->templetePosition = this->figures.AppendFromRear(reception.Clone());
+		this->figures.AppendFromRear(reception.Clone());
 		this->capacity++;
 	}
 	this->length++;
 
+	Long i = 0;
+	Long j = 0;
+	while (i < this->GetLength()) {
+		
+		if (dynamic_cast<Relation*>(this->GetAt(i))) {
+			this->GetAt(i)->Modify(this->GetAt(i)->GetX(), this->GetAt(i)->GetY() + 50, this->GetAt(i)->GetWidth(), this->GetAt(i)->GetHeight() - 50);
+		}
+		i++;
+	}
+	i = 0;
+	Long startX = this->GetX();
+	Long startY = this->GetY();
+	Long endX = this->GetX() + this->GetWidth();
+	Long endY = this->GetY() + this->GetHeight();
+	while (i<diagram->GetLength()) {
+		j = 0;
+		FigureComposite *figureComposite = dynamic_cast<FigureComposite*>(diagram->GetAt(i));
+			while (j < figureComposite->GetLength()) {
+				Figure *figure = figureComposite->GetAt(j);
+				if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
+					Long relationEndX = figure->GetX() + figure->GetWidth();
+					Long relationEndY = figure->GetY() + figure->GetHeight();
+					if (startX <= relationEndX &&  relationEndX <= endX &&
+						startY <= relationEndY &&  relationEndY <= endY) {
+						figure->EndPointMove(0, 50);
+					}
+				}
+				j++;
+		}
+		i++;
+	}
 	return this;
 }
 Long Class::Remove(Long index) {

@@ -32,7 +32,7 @@ Figure* ReceptionButton::AddToArray(Diagram *diagram, Selection *selection, Long
 
 	if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 		object = static_cast<Class*>(selection->GetAt(0));
-		figure = object->AddReception();
+		figure = object->AddReception(diagram);
 	}
 	return figure;
 }

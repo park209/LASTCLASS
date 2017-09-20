@@ -715,6 +715,7 @@ void DrawingVisitor::Visit(MemoLine *memoLine, CDC *cPaintDc) {
 	cPaintDc->SelectObject(oldPen);
 	pen.DeleteObject();
 }
+
 void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 	Long i = 0;
 	while (i < selection->GetLength()) {
