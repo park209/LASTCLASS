@@ -28,11 +28,12 @@ void ReceptionButton::ChangeState(DrawingController *drawingController, UINT nCh
 Figure* ReceptionButton::AddToArray(Diagram *diagram, Selection *selection, Long startX, Long startY, Long currentX, Long currentY) {
 	Class *object = 0;
 	Figure *figure = 0;
-
+	Long index;
 
 	if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 		object = static_cast<Class*>(selection->GetAt(0));
-		figure = object->AddReception(diagram);
+		index = object->AddReception(diagram);
+		figure = object->GetAt(index);
 	}
 	return figure;
 }

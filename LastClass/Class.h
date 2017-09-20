@@ -32,7 +32,7 @@ public:
 
 	Long RemoveTemplate();
 	Long RemoveReception();
-	Figure* AddReception(Diagram *diagram);
+	Long AddReception(Diagram *diagram);
 
 	virtual Long Add(Figure *figure);
 	virtual Long Remove(Long index);
