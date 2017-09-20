@@ -379,7 +379,6 @@ Long ClassDiagramForm::Save() {
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
 						<< figure->GetHeight() << " " << 25 <<
 						" " << 0 << endl;
-
 				}
 				j++;
 			}
