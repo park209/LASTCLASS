@@ -136,8 +136,8 @@ void AggregationButton::Draw(Long startX, Long startY, Long currentX, Long curre
 
 	double distance = sqrt(pow(currentX - startX, 2) + pow(startY - currentY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (currentX) - (15 * (currentX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (currentY) + (15 * (startY - currentY) / distance); //뒤로 온 기준점 y
+	double dX = (currentX) - (10 * (currentX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (currentY) + (10 * (startY - currentY) / distance); //뒤로 온 기준점 y
 
 	  // 수직 기울기
 
@@ -161,25 +161,25 @@ void AggregationButton::Draw(Long startX, Long startY, Long currentX, Long curre
 
 	//여기까지 화살표 다음부터 마름모
 
-	dX = (startX) + (15 * (currentX - startX) / distance); //뒤로 온 기준점 x
-	dY = (startY) - (15 * (startY - currentY) / distance); //뒤로 온 기준점 y
+	dX = (startX) + (10 * (currentX - startX) / distance); //뒤로 온 기준점 x
+	dY = (startY) - (10 * (startY - currentY) / distance); //뒤로 온 기준점 y
 
 	double dX2 = (startX) - ((currentX - startX) / distance);
 	double dY2 = (startY) + ((startY - currentY) / distance);
 
 	CPoint pts2[4];
 
-	pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
 
 	pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
 	pts2[1].y = static_cast<LONG>(dY2);
 
-	pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
-	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(15 * (currentX - startX) / distance); // 윗점
-	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(15 * (startY - currentY) / distance);
+	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (currentX - startX) / distance); // 윗점
+	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - currentY) / distance);
 
 	cPaintDc->SelectObject(&white);
 	cPaintDc->Polygon(pts2, 4);

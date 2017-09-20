@@ -41,6 +41,8 @@
     <ClInclude Include="CompositionButton.h" />
     <ClInclude Include="Compositions.h" />
     <ClInclude Include="CompositionsButton.h" />
+    <ClInclude Include="CtrlAllKey.h" />
+    <ClInclude Include="CtrlCopyKey.h" />
     <ClInclude Include="CtrlEnterKey.h" />
     <ClInclude Include="DeleteKey.h" />
     <ClInclude Include="Dependency.h" />
@@ -49,10 +51,7 @@
     <ClInclude Include="DirectAssociationButton.h" />
     <ClInclude Include="DirectedAssociation.h" />
     <ClInclude Include="DoubleByteCharacter.h" />
-<<<<<<< HEAD
     <ClInclude Include="DownArrowKey.h" />
-=======
->>>>>>> master
     <ClInclude Include="DrawingController.h" />
     <ClInclude Include="DrawingVisitor.h" />
     <ClInclude Include="EndKey.h" />
@@ -61,11 +60,7 @@
     <ClInclude Include="Figure.h" />
     <ClInclude Include="FigureComposite.h" />
     <ClInclude Include="FigureFactory.h" />
-<<<<<<< HEAD
-    <ClInclude Include="FlagSet.h" />
-=======
     <ClInclude Include="Finder.h" />
->>>>>>> master
     <ClInclude Include="Generalization.h" />
     <ClInclude Include="GeneralizationButton.h" />
     <ClInclude Include="HomeKey.h" />
@@ -80,20 +75,18 @@
     <ClInclude Include="MemoLine.h" />
     <ClInclude Include="MemoLineButton.h" />
     <ClInclude Include="Method.h" />
-<<<<<<< HEAD
-=======
+    <ClInclude Include="MinusKey.h" />
     <ClInclude Include="MovingVisitor.h" />
->>>>>>> master
+    <ClInclude Include="PlusKey.h" />
     <ClInclude Include="Realization.h" />
     <ClInclude Include="RealizationButton.h" />
     <ClInclude Include="Reception.h" />
+    <ClInclude Include="ReceptionButton.h" />
     <ClInclude Include="Relation.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="Selection.h" />
-<<<<<<< HEAD
-=======
     <ClInclude Include="SelfAggregation.h" />
     <ClInclude Include="SelfAggregations.h" />
     <ClInclude Include="SelfAssociation.h" />
@@ -103,7 +96,6 @@
     <ClInclude Include="SelfDirectedAssociation.h" />
     <ClInclude Include="SelfGeneralization.h" />
     <ClInclude Include="SelfRelation.h" />
->>>>>>> master
     <ClInclude Include="SingleByteCharacter.h" />
     <ClInclude Include="SmartPointer.h" />
     <ClInclude Include="SpaceKey.h" />
@@ -115,10 +107,7 @@
     <ClInclude Include="TextComposite.h" />
     <ClInclude Include="TextEdit.h" />
     <ClInclude Include="Unclicked.h" />
-<<<<<<< HEAD
     <ClInclude Include="UpArrowKey.h" />
-=======
->>>>>>> master
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="WritingVisitor.h" />
   </ItemGroup>
@@ -127,7 +116,6 @@
     <ClCompile Include="AggregationButton.cpp" />
     <ClCompile Include="Aggregations.cpp" />
     <ClCompile Include="AggregationsButton.cpp" />
-    <ClCompile Include="ArrayIterator.cpp" />
     <ClCompile Include="Association.cpp" />
     <ClCompile Include="AssociationButton.cpp" />
     <ClCompile Include="Attribute.cpp" />
@@ -144,6 +132,8 @@
     <ClCompile Include="CompositionButton.cpp" />
     <ClCompile Include="Compositions.cpp" />
     <ClCompile Include="CompositionsButton.cpp" />
+    <ClCompile Include="CtrlAllKey.cpp" />
+    <ClCompile Include="CtrlCopyKey.cpp" />
     <ClCompile Include="CtrlEnterKey.cpp" />
     <ClCompile Include="DeleteKey.cpp" />
     <ClCompile Include="Dependency.cpp" />
@@ -152,10 +142,7 @@
     <ClCompile Include="DirectAssociationButton.cpp" />
     <ClCompile Include="DirectedAssociation.cpp" />
     <ClCompile Include="DoubleByteCharacter.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="DownArrowKey.cpp" />
-=======
->>>>>>> master
     <ClCompile Include="DrawingController.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
     <ClCompile Include="EndKey.cpp" />
@@ -164,11 +151,7 @@
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="FigureComposite.cpp" />
     <ClCompile Include="FigureFactory.cpp" />
-<<<<<<< HEAD
-    <ClCompile Include="FlagSet.cpp" />
-=======
     <ClCompile Include="Finder.cpp" />
->>>>>>> master
     <ClCompile Include="Generalization.cpp" />
     <ClCompile Include="GeneralizationButton.cpp" />
     <ClCompile Include="HomeKey.cpp" />
@@ -182,19 +165,17 @@
     <ClCompile Include="MemoLine.cpp" />
     <ClCompile Include="MemoLineButton.cpp" />
     <ClCompile Include="Method.cpp" />
-<<<<<<< HEAD
-=======
+    <ClCompile Include="MinusKey.cpp" />
     <ClCompile Include="MovingVisitor.cpp" />
->>>>>>> master
+    <ClCompile Include="PlusKey.cpp" />
     <ClCompile Include="Realization.cpp" />
     <ClCompile Include="RealizationButton.cpp" />
     <ClCompile Include="Reception.cpp" />
+    <ClCompile Include="ReceptionButton.cpp" />
     <ClCompile Include="Relation.cpp" />
     <ClCompile Include="RightArrowKey.cpp" />
     <ClCompile Include="Row.cpp" />
     <ClCompile Include="Selection.cpp" />
-<<<<<<< HEAD
-=======
     <ClCompile Include="SelfAggregation.cpp" />
     <ClCompile Include="SelfAggregations.cpp" />
     <ClCompile Include="SelfAssociation.cpp" />
@@ -204,7 +185,6 @@
     <ClCompile Include="SelfDirectedAssociation.cpp" />
     <ClCompile Include="SelfGeneralization.cpp" />
     <ClCompile Include="SelfRelation.cpp" />
->>>>>>> master
     <ClCompile Include="SingleByteCharacter.cpp" />
     <ClCompile Include="SpaceKey.cpp" />
     <ClCompile Include="TabKey.cpp" />
@@ -215,10 +195,7 @@
     <ClCompile Include="TextComposite.cpp" />
     <ClCompile Include="TextEdit.cpp" />
     <ClCompile Include="Unclicked.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="UpArrowKey.cpp" />
-=======
->>>>>>> master
     <ClCompile Include="Visitor.cpp" />
     <ClCompile Include="WritingVisitor.cpp" />
   </ItemGroup>
@@ -319,6 +296,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

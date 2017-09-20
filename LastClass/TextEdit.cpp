@@ -12,6 +12,7 @@
 #include "Figure.h"
 #include "Caret.h"
 #include "KeyBoard.h"
+#include "KeyAction.h"
 #include "WritingVisitor.h"   
 #include <iostream>
 
@@ -43,6 +44,7 @@ TextEdit::TextEdit(Figure *figure) {
 	this->flagInsert = 0;
 	this->flagSelection = 0;
 	this->currentX = 0;
+	this->copyBuffer = "";
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -76,7 +78,6 @@ void TextEdit::OnPaint() {
 
 	dc.SetTextColor(RGB(255, 255, 255));
 	dc.SetBkColor(RGB(0, 100, 255));
-	//dc.SetBkMode(TRANSPARENT);//텍스트 배경을 투명하게 설정
 	dc.SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
 
 	if (this->flagSelection == 1) { // flagSelection이 눌려있으면
@@ -86,10 +87,8 @@ void TextEdit::OnPaint() {
 		Long endCharacterIndex = 0;
 		Long endRowIndex = 0;
 		Long i;
-		Long j;
 		Long x;
 		Long width = 0;
-		CString copyBuffer;
 
 		CString cString1;
 		if (this->selectedY == this->caret->GetRowIndex()) {
@@ -179,25 +178,8 @@ void TextEdit::OnPaint() {
 			rect = { x, endRowIndex * this->rowHeight + 5, x + width, endRowIndex * this->rowHeight + this->rowHeight + 5 };
 			dc.DrawText(cString3, rect, DT_EDITCONTROL | DT_EXPANDTABS);
 
-			copyBuffer = cString1 + string2.c_str() + cString3; // 클립보드에 저장
+			this->copyBuffer = cString1 + string2.c_str() + cString3; // 클립보드에 저장
 		}
-		////////////////////
-		//ctrl+c기능
-		//////////////////////
-		OpenClipboard();
-		EmptyClipboard();
-		size_t cbstr = (copyBuffer.GetLength() + 1) * sizeof(TCHAR);
-		HGLOBAL h = GlobalAlloc(GMEM_MOVEABLE, cbstr);
-		memcpy_s(GlobalLock(h), cbstr, copyBuffer.LockBuffer(), cbstr);
-		GlobalUnlock(h);
-		copyBuffer.UnlockBuffer();
-		UINT uniFormat = (sizeof(TCHAR) == sizeof(WCHAR)) ? CF_UNICODETEXT : CF_TEXT;
-		if (::SetClipboardData(uniFormat, h) == NULL) {
-		}
-		CloseClipboard();
-		///////////////////////////
-		//
-		//////////////////////////
 	}
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject(); // 폰트
@@ -328,7 +310,7 @@ void TextEdit::OnPaint() {
 
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN &&
-		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10&&nChar!=VK_EXECUTE){
+		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10 && GetKeyState(VK_RSHIFT) >= 0 && GetKeyState(VK_CONTROL) >= 0) {
 		char nCharacter = nChar;
 
 		SingleByteCharacter singleByteCharacter(nCharacter);
@@ -424,7 +406,7 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
 
 	CFont cFont;
-	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
+	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
@@ -459,7 +441,7 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 
 		CFont cFont;
 		CPaintDC dc(this);
-		cFont.CreateFont(this->GetRowHeight(), 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
+		cFont.CreateFont(this->GetRowHeight(), 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
 		this->SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);// 폰트 시작
@@ -484,18 +466,16 @@ void TextEdit::OnLButtonDoubleClicked(UINT nFlags, CPoint point) {
 }
 
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
-	if (nChar == VK_OEM_PLUS) {
-		if (GetKeyState(VK_SHIFT) < 0) { //폰트 size
-			this->rowHeight++;
-		}
-	}
-	if (nChar == VK_OEM_MINUS) {
-		if (GetKeyState(VK_SHIFT) < 0) {
-			this->rowHeight--;
-		}
-	}
+	/*if (textEdit->flagSelection == 1) {
+	textEdit->flagSelection = 0;
+	}*/
+	this->koreanEnglish = 1;
 
-	this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
+	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
+	if (keyAction != 0) {
+		keyAction->KeyPress(this);
+	}
+	this->koreanEnglish = 0;
 
 	Invalidate();
 }

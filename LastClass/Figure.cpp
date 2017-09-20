@@ -2,6 +2,7 @@
 
 #include "Figure.h"
 #include "Relation.h"
+
 Figure::Figure() {
 	this->x = 0;
 	this->y = 0;
@@ -46,6 +47,16 @@ Figure *Figure::EndPointMove(Long distanceX, Long distanceY) {
 	this->height = this->height + distanceY;
 	return this;
 }
+
+Figure* Figure::Modify(Long x, Long y, Long width, Long height) {
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
+
+	return this;
+}
+
 Figure& Figure::operator = (const Figure& source) {
 	this->x = source.x;
 	this->y = source.y;

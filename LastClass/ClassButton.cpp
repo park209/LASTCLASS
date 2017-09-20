@@ -1,12 +1,12 @@
 //ClassButton.cpp
 
-#include"ClassButton.h"
-#include"Diagram.h"
-#include"Class.h"
-#include"DrawingController.h"
-#include"ClassName.h"
-#include"Attribute.h"
-#include"Method.h"
+#include "ClassButton.h"
+#include "Diagram.h"
+#include "Class.h"
+#include "DrawingController.h"
+#include "ClassName.h"
+#include "Attribute.h"
+#include "Method.h"
 #include "Figure.h"
 
 ClassButton::ClassButton() {

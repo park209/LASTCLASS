@@ -12,6 +12,8 @@ WritingVisitor::WritingVisitor() {
 }
 WritingVisitor::~WritingVisitor() {
 }
+void WritingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY) {
+}
 void WritingVisitor::Visit(Class *object, CDC* cPaintDc) {
 }
 void WritingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) {
@@ -60,12 +62,28 @@ void WritingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 }
 void WritingVisitor::Visit(MemoLine *memoLine, CDC *cPaintDc) {
 }
+void WritingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *cPaintDc) {
+}
+void WritingVisitor::Visit(SelfDependency *selfDependency, CDC *cPaintDc) {
+}
+void WritingVisitor::Visit(SelfAggregation *selfAggregation, CDC *cPaintDc) {
+}
+void WritingVisitor::Visit(SelfAssociation *selfAssociation, CDC *cPaintDc) {
+}
+void WritingVisitor::Visit(SelfAggregations *selfAggregations, CDC *cPaintDc) {
+}
+void WritingVisitor::Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *cPaintDc) {
+}
+void WritingVisitor::Visit(SelfComposition *selfComposition, CDC *cPaintDc) {
+}
+void WritingVisitor::Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) {
+}
 void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
-	Long fontWidth = cPaintDc->GetTextExtent("한").cx;
+	Long fontWidth = cPaintDc->GetTextExtent("A").cx;
 	Long fontHeight = cPaintDc->GetTextExtent("A").cy; // rowHeight 구하는방법
 	Long textWidth = text->MaxWidth();
 	// 맥스하이트 
 
-	RECT rt = { 5 , 5, textWidth*fontWidth + 5, text->GetLength() * fontHeight + 500 };
+	RECT rt = { 5 , 5, textWidth*fontWidth + 5, text->GetLength() * fontHeight + 5 };
 	cPaintDc->DrawText((CString)text->MakeText().c_str(), &rt, DT_EDITCONTROL | DT_EXPANDTABS);
 }

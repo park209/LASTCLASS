@@ -16,6 +16,18 @@ RightArrowKey::~RightArrowKey() {
 }
 
 void RightArrowKey::KeyPress(TextEdit *textEdit) {
+	if (GetKeyState(VK_SHIFT) >= 0) {
+		if (textEdit->flagSelection == 1) {
+			textEdit->flagSelection = 0;
+		}
+	}
+	else {
+		if (textEdit->flagSelection == 0) {
+			textEdit->flagSelection = 1;
+			textEdit->selectedX = textEdit->caret->GetCharacterIndex();
+			textEdit->selectedY = textEdit->caret->GetRowIndex();
+		}
+	}
 	textEdit->caret->MoveForwardCharacterIndex();
 	if (textEdit->caret->GetCharacterIndex() > textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength()
 		&& textEdit->caret->GetRowIndex() == textEdit->text->GetLength() - 1) {
