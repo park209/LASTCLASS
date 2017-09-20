@@ -9,7 +9,6 @@ DrawingController::DrawingController() {
 }
 
 DrawingController::DrawingController(const DrawingController& source) {
-	//this->buttonState = source.buttonState;
 }
 
 DrawingController::~DrawingController() {

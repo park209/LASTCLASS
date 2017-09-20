@@ -26,7 +26,7 @@ Realization& Realization::operator=(const Realization& source){
 }
 
 void Realization::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);//, cPaintDc);
+	visitor.Visit(this, cPaintDc);
 }
 
 
