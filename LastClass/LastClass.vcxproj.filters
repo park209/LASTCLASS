@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="TextEdit KeyAction">
+      <UniqueIdentifier>{eb15a20f-d27a-4959-a7fa-af2c9ad992af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainForm Button">
+      <UniqueIdentifier>{f2187758-5580-4ac1-b360-d3bd7e1fdb09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Relation">
+      <UniqueIdentifier>{548044af-725b-41bc-b366-3bac1a9b1718}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MovingVisitor.h">
@@ -21,73 +30,13 @@
     <ClInclude Include="Finder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="SelfRelation.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfGeneralization.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfDependency.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfAggregation.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfAssociation.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfAggregations.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfDirectedAssociation.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfComposition.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SelfCompositions.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlCopyKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="DownArrowKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="UpArrowKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Aggregation.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="AggregationButton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Aggregations.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="AggregationsButton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Array.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ArrayIterator.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Association.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="AssociationButton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Attribute.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="BackSpaceKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonState.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Caret.h">
@@ -99,9 +48,6 @@
     <ClInclude Include="Class.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ClassButton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="ClassDiagramApp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -111,37 +57,7 @@
     <ClInclude Include="ClassName.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Composition.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CompositionButton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Compositions.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CompositionsButton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlEnterKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="DeleteKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Dependency.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="DependencyButton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Diagram.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectAssociationButton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectedAssociation.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="DoubleByteCharacter.h">
@@ -153,15 +69,6 @@
     <ClInclude Include="DrawingVisitor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="EndKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="EnterKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="EscapeKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Figure.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -169,18 +76,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="FigureFactory.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Generalization.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneralizationButton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="HomeKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="InsertKey.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Iterator.h">
@@ -192,43 +87,16 @@
     <ClInclude Include="KeyBoard.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="LeftArrowKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Line.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="MemoBox.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="MemoBoxButton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MemoLine.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MemoLineButton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Method.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Realization.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="RealizationButton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Reception.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Relation.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="RightArrowKey.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Row.h">
@@ -243,16 +111,7 @@
     <ClInclude Include="SmartPointer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="SpaceKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TabKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Template.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TemplateButton.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Text.h">
@@ -276,45 +135,171 @@
     <ClInclude Include="WritingVisitor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ReceptionButton.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="UpArrowKey.h">
+      <Filter>TextEdit KeyAction</Filter>
     </ClInclude>
-    <ClInclude Include="PlusKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MinusKey.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="BackSpaceKey.h">
+      <Filter>TextEdit KeyAction</Filter>
     </ClInclude>
     <ClInclude Include="CtrlAllKey.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>TextEdit KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlCopyKey.h">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlEnterKey.h">
+      <Filter>TextEdit KeyAction</Filter>
     </ClInclude>
     <ClInclude Include="CtrlPasteKey.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>TextEdit KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteKey.h">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="DownArrowKey.h">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="EndKey.h">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="EnterKey.h">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="EscapeKey.h">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="HomeKey.h">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="InsertKey.h">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="LeftArrowKey.h">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="MinusKey.h">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="PlusKey.h">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="RightArrowKey.h">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceKey.h">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="TabKey.h">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateButton.h">
+      <Filter>MainForm Button</Filter>
+    </ClInclude>
+    <ClInclude Include="AggregationButton.h">
+      <Filter>MainForm Button</Filter>
+    </ClInclude>
+    <ClInclude Include="AggregationsButton.h">
+      <Filter>MainForm Button</Filter>
+    </ClInclude>
+    <ClInclude Include="AssociationButton.h">
+      <Filter>MainForm Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonState.h">
+      <Filter>MainForm Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassButton.h">
+      <Filter>MainForm Button</Filter>
+    </ClInclude>
+    <ClInclude Include="CompositionButton.h">
+      <Filter>MainForm Button</Filter>
+    </ClInclude>
+    <ClInclude Include="CompositionsButton.h">
+      <Filter>MainForm Button</Filter>
+    </ClInclude>
+    <ClInclude Include="DependencyButton.h">
+      <Filter>MainForm Button</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectAssociationButton.h">
+      <Filter>MainForm Button</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneralizationButton.h">
+      <Filter>MainForm Button</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoBoxButton.h">
+      <Filter>MainForm Button</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoLineButton.h">
+      <Filter>MainForm Button</Filter>
+    </ClInclude>
+    <ClInclude Include="RealizationButton.h">
+      <Filter>MainForm Button</Filter>
+    </ClInclude>
+    <ClInclude Include="ReceptionButton.h">
+      <Filter>MainForm Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Aggregation.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="Aggregations.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="Association.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="Composition.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="Compositions.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependency.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectedAssociation.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="Generalization.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoLine.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="Realization.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="Relation.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfAggregation.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfAggregations.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfAssociation.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfComposition.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfCompositions.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfDependency.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfDirectedAssociation.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfGeneralization.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfRelation.h">
+      <Filter>Relation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Aggregation.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="AggregationButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Aggregations.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="AggregationsButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Association.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="AssociationButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Attribute.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="BackSpaceKey.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="ButtonState.cpp">
@@ -326,9 +311,6 @@
     <ClCompile Include="Class.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ClassButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="ClassDiagramApp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -338,37 +320,7 @@
     <ClCompile Include="ClassName.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Composition.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CompositionButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Compositions.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CompositionsButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlEnterKey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="DeleteKey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Dependency.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="DependencyButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Diagram.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectAssociationButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectedAssociation.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="DoubleByteCharacter.cpp">
@@ -380,15 +332,6 @@
     <ClCompile Include="DrawingVisitor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="EndKey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="EnterKey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="EscapeKey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Figure.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -398,25 +341,10 @@
     <ClCompile Include="FigureFactory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Generalization.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneralizationButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="HomeKey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="InsertKey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="KeyAction.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="KeyBoard.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="LeftArrowKey.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Line.cpp">
@@ -425,31 +353,10 @@
     <ClCompile Include="MemoBox.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="MemoBoxButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MemoLine.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MemoLineButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Method.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Realization.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="RealizationButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Reception.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Relation.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="RightArrowKey.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Row.cpp">
@@ -461,16 +368,7 @@
     <ClCompile Include="SingleByteCharacter.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="SpaceKey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TabKey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Template.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TemplateButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
@@ -500,56 +398,164 @@
     <ClCompile Include="Finder.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="SelfRelation.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfGeneralization.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfDependency.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfAggregation.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfAssociation.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfAggregations.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfDirectedAssociation.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfComposition.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfCompositions.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlCopyKey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="DownArrowKey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="UpArrowKey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ReceptionButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="PlusKey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MinusKey.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="BackSpaceKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
     </ClCompile>
     <ClCompile Include="CtrlAllKey.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlCopyKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlEnterKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="DownArrowKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="EndKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="EnterKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="EscapeKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="HomeKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="InsertKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="LeftArrowKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="MinusKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="PlusKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="RightArrowKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="TabKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="UpArrowKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="AggregationButton.cpp">
+      <Filter>MainForm Button</Filter>
+    </ClCompile>
+    <ClCompile Include="AggregationsButton.cpp">
+      <Filter>MainForm Button</Filter>
+    </ClCompile>
+    <ClCompile Include="AssociationButton.cpp">
+      <Filter>MainForm Button</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassButton.cpp">
+      <Filter>MainForm Button</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositionButton.cpp">
+      <Filter>MainForm Button</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositionsButton.cpp">
+      <Filter>MainForm Button</Filter>
+    </ClCompile>
+    <ClCompile Include="DependencyButton.cpp">
+      <Filter>MainForm Button</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectAssociationButton.cpp">
+      <Filter>MainForm Button</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneralizationButton.cpp">
+      <Filter>MainForm Button</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoBoxButton.cpp">
+      <Filter>MainForm Button</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoLineButton.cpp">
+      <Filter>MainForm Button</Filter>
+    </ClCompile>
+    <ClCompile Include="RealizationButton.cpp">
+      <Filter>MainForm Button</Filter>
+    </ClCompile>
+    <ClCompile Include="ReceptionButton.cpp">
+      <Filter>MainForm Button</Filter>
+    </ClCompile>
+    <ClCompile Include="TemplateButton.cpp">
+      <Filter>MainForm Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Composition.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="Compositions.cpp">
+      <Filter>Relation</Filter>
     </ClCompile>
     <ClCompile Include="CtrlPasteKeyy.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependency.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectedAssociation.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="Generalization.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoLine.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="Realization.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="Relation.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfAggregation.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfAggregations.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfAssociation.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfComposition.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfCompositions.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfDependency.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfDirectedAssociation.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfGeneralization.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfRelation.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="Aggregations.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="Aggregation.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="Association.cpp">
+      <Filter>Relation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

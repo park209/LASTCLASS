@@ -84,7 +84,6 @@
     <ClInclude Include="Reception.h" />
     <ClInclude Include="ReceptionButton.h" />
     <ClInclude Include="Relation.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="Selection.h" />
