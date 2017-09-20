@@ -69,12 +69,22 @@ string Text::MakeText() {
 	string text_;
 	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
 		text_.append(((Row*)smartPointer->Current())->PrintRowString());
-		text_+='\n';
+		text_.append("\n");
 	}
-	LONG i = text_.find_last_of('\n');
+	Long i = text_.find_last_of('\n');
 	text_.replace(i, 1, "\0");
 
 	return text_;
+}
+
+Long Text::InsertRow(Long index) {
+
+	Row row;
+	this->textComponents.Insert(index, row.Clone());
+	this->capacity++;
+	this->length++;
+
+	return index;
 }
 
 Long Text::InsertRow(Long index, TextComponent *textComponent) {

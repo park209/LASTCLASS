@@ -20,7 +20,9 @@ public:
 	void MoveBackwardRowIndex(Long index = 1);
 	void MoveForwardCharacterIndex(Long index=1);
 	void MoveBackwardCharacterIndex(Long index=1);
+
 	void SetCharacterIndex(Long index);
+
 	Long GetCurrentCaretX() const;
 	Long GetCurrentCaretY() const;
 	Long GetRowIndex() const;

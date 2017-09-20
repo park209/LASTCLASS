@@ -26,7 +26,7 @@ Caret::~Caret() {
 
 
 void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
-	Long pointX = 5;																//가로
+	Long pointX = 5;														//가로
 	Long pointY = this->rowIndex * textEdit->GetRowHeight() + 5;			//세로
 	Long i = 0;
 	while (i < this->characterIndex) {

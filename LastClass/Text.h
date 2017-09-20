@@ -23,8 +23,11 @@ public:
 	Long Add(Row *row);
 	Long Add(TextComponent *textComponent);
 	Long Remove(Long index);
-	Long Insert(Long rowIndex);
+	Long Insert(Long index);
+
 	string MakeText();
+
+	Long InsertRow(Long index);
 	Long InsertRow(Long index, TextComponent *textComponent);
 	void SprayString(string str);
 	Long MaxWidth();

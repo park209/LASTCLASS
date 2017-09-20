@@ -16,6 +16,7 @@
 #include "EscapeKey.h"
 #include "EnterKey.h"
 #include "TabKey.h"
+#include "TextEdit.h"
 
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
@@ -39,9 +40,9 @@ KeyBoard& KeyBoard::operator = (const KeyBoard& source) {
 }
 
 void KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT nFlags) {
-	/*if (this->keyAction != NULL) {
-		delete this->keyAction;
-	}*/
+	if (textEdit->flagSelection == 1) {
+		textEdit->flagSelection = 0;
+	}
 	switch (nChar) {
 	case VK_DELETE:
 		this->keyAction = new DeleteKey;

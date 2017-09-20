@@ -41,6 +41,8 @@ TextEdit::TextEdit(Figure *figure) {
 	this->koreanEnglish = 0;
 	this->flagBuffer = 0;
 	this->flagInsert = 0;
+	this->flagSelection = 0;
+	this->currentX = 0;
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -54,15 +56,13 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	//ModifyStyle(0, 0, SetWindowPos(&CWnd::wndTop, this->selectedY + 5, this->selectedY + 33, this->width - 5, this->height * 33, 0));
 
 	this->text->SprayString(this->figure->GetContent()); // 넘겨받아온거 자료구조로 뿌려줌 ㅇㅇㅇㅇㅇ
+
 	Invalidate();
 	return 0;
 }
 
-//#include <gdiplus.h>
-//using namespace Gdiplus;
 void TextEdit::OnPaint() {
 	CPaintDC dc(this);
-	Long i = 0;
 	WritingVisitor writingVisitor;
 
 	CFont cFont;
@@ -73,43 +73,258 @@ void TextEdit::OnPaint() {
 
 	this->text->Accept(writingVisitor, &dc);//받았던거 출력
 	this->caret->MoveToIndex(this, &dc);
-	
-	if (this->flagInsert == 2) {
-		dc.SetTextColor(RGB(255, 255, 255));
-		dc.SetBkColor(RGB(0, 051, 255));
-		//dc.SetBkMode(TRANSPARENT);//텍스트 배경을 투명하게 설정
-		dc.SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
-		Long x = 0;
-		while (i < this->selectedX) { // 현재줄에서 캐릭터인덱스까지 너비 구한다
-			x += dc.GetTextExtent(this->text->GetAt(this->caret->GetRowIndex())->GetAt(i)->MakeCString()).cx;
-			i++;
-		}
-		Long y = this->rowHeight*this->selectedY + 5;
-		CRect rt;
-		
-		if (y == this->caret->GetCurrentCaretY()) {
-			if (x < this->caret->GetCurrentCaretX()) {
-				rt = { x + 5, y, this->caret->GetCurrentCaretX(), this->caret->GetCurrentCaretY() + this->rowHeight };
+
+	dc.SetTextColor(RGB(255, 255, 255));
+	dc.SetBkColor(RGB(0, 100, 255));
+	//dc.SetBkMode(TRANSPARENT);//텍스트 배경을 투명하게 설정
+	dc.SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
+
+	if (this->flagSelection == 1) { // flagSelection이 눌려있으면
+		CRect rect;
+		Long startCharacterIndex = 0;
+		Long startRowIndex = 0;
+		Long endCharacterIndex = 0;
+		Long endRowIndex = 0;
+		Long i;
+		Long j;
+		Long x;
+		Long width = 0;
+		CString copyBuffer;
+
+		CString cString1;
+		if (this->selectedY == this->caret->GetRowIndex()) {
+			if (this->selectedX < this->caret->GetCharacterIndex()) {
+				startCharacterIndex = this->selectedX;
+				startRowIndex = this->selectedY;
+				endCharacterIndex = this->caret->GetCharacterIndex();
+				endRowIndex = this->caret->GetRowIndex();
 			}
 			else {
-				rt = { this->caret->GetCurrentCaretX() , this->caret->GetCurrentCaretY(), x + 5, y + this->rowHeight };
+				startCharacterIndex = this->caret->GetCharacterIndex();
+				startRowIndex = this->caret->GetRowIndex();
+				endCharacterIndex = this->selectedX;
+				endRowIndex = this->selectedY;
 			}
+			width = 0;
+			i = startCharacterIndex;
+			while (i < endCharacterIndex) { // 첫줄
+				cString1 += this->text->GetAt(startRowIndex)->GetAt(i)->MakeCString();
+				width += dc.GetTextExtent(this->text->GetAt(startRowIndex)->GetAt(i)->MakeCString()).cx;
+				i++;
+			}
+			x = 5;
+			i = 0;
+			while (i < startCharacterIndex) { // 현재줄에서 캐릭터인덱스까지 너비 구한다
+				x += dc.GetTextExtent(this->text->GetAt(startRowIndex)->GetAt(i)->MakeCString()).cx;
+				i++;
+			}
+			rect = { x, startRowIndex * this->rowHeight + 5, x + width, startRowIndex * this->rowHeight + this->rowHeight + 5 };
+			dc.DrawText(cString1, rect, DT_EDITCONTROL | DT_EXPANDTABS);
+
+			copyBuffer = cString1;
 		}
 		else {
-			if (y < this->caret->GetCurrentCaretY()) {
-				rt = { x + 5, y, this->caret->GetCurrentCaretX(), this->caret->GetCurrentCaretY() + this->rowHeight };
+			if (this->selectedY < this->caret->GetRowIndex()) {
+				startCharacterIndex = this->selectedX;
+				startRowIndex = this->selectedY;
+				endCharacterIndex = this->caret->GetCharacterIndex();
+				endRowIndex = this->caret->GetRowIndex();
 			}
 			else {
-				rt = { this->caret->GetCurrentCaretX() ,  this->caret->GetCurrentCaretY(), x + 5, y + this->rowHeight };
+				startCharacterIndex = this->caret->GetCharacterIndex();
+				startRowIndex = this->caret->GetRowIndex();
+				endCharacterIndex = this->selectedX;
+				endRowIndex = this->selectedY;
 			}
-		}
+			width = 0;
+			i = startCharacterIndex;
+			while (i < this->text->GetAt(startRowIndex)->GetLength()) { // 첫줄
+				cString1 += this->text->GetAt(startRowIndex)->GetAt(i)->MakeCString();
+				width += dc.GetTextExtent(this->text->GetAt(startRowIndex)->GetAt(i)->MakeCString()).cx;
+				i++;
+			}
+			cString1 += "\r\n";
+			x = 5;
+			i = 0;
+			while (i < startCharacterIndex) { // 현재줄에서 캐릭터인덱스까지 너비 구한다
+				x += dc.GetTextExtent(this->text->GetAt(startRowIndex)->GetAt(i)->MakeCString()).cx;
+				i++;
+			}
+			rect = { x, startRowIndex * this->rowHeight + 5, x + width, startRowIndex * this->rowHeight + this->rowHeight + 5 };
+			dc.DrawText(cString1, rect, DT_EDITCONTROL | DT_EXPANDTABS);
 
-		dc.DrawText((CString)text->MakeText().c_str(),&rt, DT_LEFT | DT_TOP | DT_EDITCONTROL | DT_EXPANDTABS);
+			string string2; // 중간
+			if (startRowIndex + 1 < endRowIndex) {
+				i = startRowIndex + 1;
+				while (i < endRowIndex) {
+					string2 += this->text->GetAt(i)->PrintRowString().c_str();
+					string2 += "\r\n";
+					i++;
+				}
+				x = 5;
+				rect = { x, (startRowIndex + 1) * this->rowHeight + 5, 1000, (endRowIndex - 1) * this->rowHeight + this->rowHeight + 5 };
+				dc.DrawText(string2.c_str(), rect, DT_EDITCONTROL | DT_EXPANDTABS);
+			}
+
+			CString cString3;
+			width = 0;
+			i = 0;
+			while (i < endCharacterIndex) { // 첫줄
+				cString3 += this->text->GetAt(endRowIndex)->GetAt(i)->MakeCString();
+				width += dc.GetTextExtent(this->text->GetAt(endRowIndex)->GetAt(i)->MakeCString()).cx;
+				i++;
+			}
+			x = 5;
+			i = 0;
+			rect = { x, endRowIndex * this->rowHeight + 5, x + width, endRowIndex * this->rowHeight + this->rowHeight + 5 };
+			dc.DrawText(cString3, rect, DT_EDITCONTROL | DT_EXPANDTABS);
+
+			copyBuffer = cString1 + string2.c_str() + cString3; // 클립보드에 저장
+		}
+		////////////////////
+		//ctrl+c기능
+		//////////////////////
+		OpenClipboard();
+		EmptyClipboard();
+		size_t cbstr = (copyBuffer.GetLength() + 1) * sizeof(TCHAR);
+		HGLOBAL h = GlobalAlloc(GMEM_MOVEABLE, cbstr);
+		memcpy_s(GlobalLock(h), cbstr, copyBuffer.LockBuffer(), cbstr);
+		GlobalUnlock(h);
+		copyBuffer.UnlockBuffer();
+		UINT uniFormat = (sizeof(TCHAR) == sizeof(WCHAR)) ? CF_UNICODETEXT : CF_TEXT;
+		if (::SetClipboardData(uniFormat, h) == NULL) {
+		}
+		CloseClipboard();
+		///////////////////////////
+		//
+		//////////////////////////
 	}
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject(); // 폰트
-
 }
+
+//void TextEdit::OnPaint() {
+//	CPaintDC dc(this);
+//	Long i = 0;
+//	WritingVisitor writingVisitor;
+//
+//	CFont cFont;
+//	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+//		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
+//	SetFont(&cFont, TRUE);
+//	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
+//
+//	this->text->Accept(writingVisitor, &dc);//받았던거 출력
+//	this->caret->MoveToIndex(this, &dc);
+//
+//	if (this->flagSelection == 1) {
+//		dc.SetTextColor(RGB(255, 255, 255));
+//		dc.SetBkColor(RGB(0, 100, 255));
+//		//dc.SetBkMode(TRANSPARENT);//텍스트 배경을 투명하게 설정
+//		dc.SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
+//		Long x = 0;
+//		//   while (i < this->selectedX) { // 현재줄에서 캐릭터인덱스까지 너비 구한다
+//		//      x += dc.GetTextExtent(this->text->GetAt(this->caret->GetRowIndex())->GetAt(i)->MakeCString()).cx;
+//		//      i++;
+//		//   }
+//		Long y = 0;
+//		CRect rt;
+//		Long startCI = 0;
+//		Long startRI = 0;
+//		Long endCI = 0;
+//		Long endRI = 0;
+//		CString rows;
+//		if (this->selectedY == this->caret->GetRowIndex()) {
+//			if (this->selectedX < this->caret->GetCharacterIndex()) {
+//				//   rt = { x + 5, y, this->caret->GetCurrentCaretX(), this->caret->GetCurrentCaretY() + this->rowHeight };
+//				startCI = this->selectedX;
+//				startRI = this->selectedY;
+//				endCI = this->caret->GetCharacterIndex();
+//				endRI = this->caret->GetRowIndex();
+//			}
+//			else {
+//				//   rt = { this->caret->GetCurrentCaretX() , this->caret->GetCurrentCaretY(), x + 5, y + this->rowHeight };
+//				startCI = this->caret->GetCharacterIndex();
+//				startRI = this->caret->GetRowIndex();
+//				endCI = this->selectedX;
+//				endRI = this->selectedY;
+//			}
+//		}
+//		else {
+//			if (this->selectedY < this->caret->GetRowIndex()) {
+//				//   rt = { x + 5, y, this->caret->GetCurrentCaretX(), this->caret->GetCurrentCaretY() + this->rowHeight };
+//				startCI = this->selectedX;
+//				startRI = this->selectedY;
+//				endCI = this->caret->GetCharacterIndex();
+//				endRI = this->caret->GetRowIndex();
+//			}
+//			else {
+//				//   rt = { this->caret->GetCurrentCaretX() ,  this->caret->GetCurrentCaretY(), x + 5, y + this->rowHeight };
+//				startCI = this->caret->GetCharacterIndex();
+//				startRI = this->caret->GetRowIndex();
+//				endCI = this->selectedX;
+//				endRI = this->selectedY;
+//			}
+//		}
+//		Long j = 0;
+//		CString text;
+//		while (startRI < endRI) {
+//			while (startCI + j < this->text->GetAt(startRI)->GetLength()) {
+//				rows.Append(this->text->GetAt(startRI)->GetAt(startCI + j)->MakeCString());
+//				j++;
+//			}
+//			while (i < startCI) { // 현재줄에서 캐릭터인덱스까지 너비 구한다
+//				x += dc.GetTextExtent(this->text->GetAt(startRI)->GetAt(i)->MakeCString()).cx;
+//				i++;
+//			}
+//			y = this->rowHeight*startRI + 5;
+//			rt = { x + 5,y,x + 5 + dc.GetTextExtent(rows).cx,y + this->rowHeight };
+//			dc.DrawText(rows, &rt, DT_LEFT | DT_TOP | DT_EDITCONTROL | DT_EXPANDTABS);
+//			text.Append(rows);
+//			text.Append("\r\n");
+//			rows = "";
+//			startCI = 0;
+//			j = 0;
+//			x = 0;
+//
+//			startRI++;
+//		}
+//		while (startCI + j < endCI) {
+//			while (startCI + j < endCI) {
+//				rows.Append(this->text->GetAt(startRI)->GetAt(startCI + j)->MakeCString());
+//				j++;
+//			}
+//			while (i < startCI) { // 현재줄에서 캐릭터인덱스까지 너비 구한다
+//				x += dc.GetTextExtent(this->text->GetAt(startRI)->GetAt(i)->MakeCString()).cx;
+//				i++;
+//			}
+//			y = this->rowHeight*startRI + 5;
+//			rt = { x + 5,y,x + 5 + dc.GetTextExtent(rows).cx,y + this->rowHeight };
+//			dc.DrawText(rows, &rt, DT_LEFT | DT_TOP | DT_EDITCONTROL | DT_EXPANDTABS);
+//			text.Append(rows);
+//		}
+//		//////////////////////
+//		//ctrl+c기능
+//		//////////////////////
+//		OpenClipboard();
+//		EmptyClipboard();
+//		size_t cbstr = (text.GetLength() + 1) * sizeof(TCHAR);
+//		HGLOBAL h = GlobalAlloc(GMEM_MOVEABLE, cbstr);
+//		memcpy_s(GlobalLock(h), cbstr, text.LockBuffer(), cbstr);
+//		GlobalUnlock(h);
+//		text.UnlockBuffer();
+//		UINT uniFormat = (sizeof(TCHAR) == sizeof(WCHAR)) ? CF_UNICODETEXT : CF_TEXT;
+//		if (::SetClipboardData(uniFormat, h) == NULL) {
+//		}
+//		CloseClipboard();
+//		///////////////////////////
+//		//
+//		//////////////////////////
+//	}
+//	//dc.DrawText((CString)text->MakeText().c_str(),&rt, DT_LEFT | DT_TOP | DT_EDITCONTROL | DT_EXPANDTABS);
+//	dc.SelectObject(oldFont);
+//	cFont.DeleteObject(); // 폰트
+//}
 
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN &&
@@ -209,20 +424,30 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
 
 	CFont cFont;
-	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
+	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
-	
 
-	this->caret->MoveToPoint(this, &dc, point);
+	if (GetKeyState(VK_SHIFT) < 0) { // 클릭했는데 쉬프트가 눌려있을 때
+		if (this->flagSelection == 0) { // flag 가 안눌려있으면
+			this->flagSelection = 1; // flag 를 눌러준다
+			this->selectedX = this->caret->GetCharacterIndex(); // selectedX, Y 를 기존 위치 캐럿 상단 좌표로 고정한다
+			this->selectedY = this->caret->GetRowIndex();
+		}
+	}
+	else {
+		if (this->flagSelection == 1) { // 쉬프트 안눌려있는데 flag 가 눌려있으면 flag 취소해준다
+			this->flagSelection = 0;
+		}
+	}
+	this->caret->MoveToPoint(this, &dc, point); // 옮긴 위치로 캐럿을 이동시켜준다
 
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject(); // 폰트 끝
 
 	Invalidate();
 }
-
 
 void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 
@@ -234,36 +459,44 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 
 		CFont cFont;
 		CPaintDC dc(this);
-		cFont.CreateFont(this->GetRowHeight(), 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
+		cFont.CreateFont(this->GetRowHeight(), 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
 		this->SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);// 폰트 시작
 
-		this->caret->MoveToPoint(this, &dc, point);
+		if (this->flagSelection == 0 && this->currentX != 0) {// && this->) { // 왼마우스 눌려있는데 이동시에 flag 진행중인지 확인해서
+			this->flagSelection = 1; // flag 진행중 아니면 진행중으로 바꾸고
+			this->selectedX = this->caret->GetCharacterIndex(); // 최초 한번 selectedX, Y 를
+			this->selectedY = this->caret->GetRowIndex();
+		}
+		this->caret->MoveToPoint(this, &dc, point); // 새로운 위치로 캐럿 이동한다
+
+		dc.SelectObject(oldFont);
+		cFont.DeleteObject(); // 폰트 끝
+
+		Invalidate();
 	}
+	this->currentX = point.x;
 }
 
 void TextEdit::OnLButtonDoubleClicked(UINT nFlags, CPoint point) {
-
+	
 }
 
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (nChar == VK_OEM_PLUS) {
 		if (GetKeyState(VK_SHIFT) < 0) { //폰트 size
 			this->rowHeight++;
-			this->flagInsert = 2;
-			this->selectedX = this->caret->GetCharacterIndex();
-			this->selectedY = this->caret->GetRowIndex();
 		}
 	}
 	if (nChar == VK_OEM_MINUS) {
 		if (GetKeyState(VK_SHIFT) < 0) {
 			this->rowHeight--;
-			this->flagInsert = 0;
 		}
 	}
-//	this->koreanEnglish = 0;
+
 	this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
+
 	Invalidate();
 }
 
@@ -295,3 +528,4 @@ void TextEdit::OnClose() {
 
 	CFrameWnd::OnClose();
 }
+
