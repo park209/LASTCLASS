@@ -1,30 +1,34 @@
+
 //FigureComposite.h
 
 #ifndef _FIGURECOMPOSITE_H
-#define _FIGURECOMPOSTIE_H
+#define _FIGURECOMPOSITE_H
 
 #include "Array.h"
 #include "Figure.h"
 #include "ArrayIterator.h"
-#include "SmartPointer.h"
+//#include "SmartPointer.h"
 
 typedef signed long int Long;
 
 class FigureComposite : public Figure {
 public:
+
 	FigureComposite(Long capcity = 256);
 	FigureComposite(const FigureComposite& source);
-	virtual ~FigureComposite() = 0;
-
-	virtual Figure* Clone() const = 0;
 	ArrayIterator<Figure*>* CreateIterator() const;
+	FigureComposite& operator = (const FigureComposite& source);
 
-    virtual	Long Add(Figure *figure) = 0;
-	virtual Long Add(Long x, Long y, Long width, Long height) = 0;
+
+	virtual ~FigureComposite() = 0;
+	virtual Figure* Clone() const = 0;
+	virtual	Long Add(Figure *figure) = 0; //2개가 좋을듯
 	virtual Long Remove(Long index) = 0;
 	virtual Figure* GetAt(Long index) = 0;
 
-	//virtual FigureComposite& operator = (const FigureComposite& source) = 0;
+
+	Long GetCapacity();
+	Long GetLength();
 
 protected:
 	Array<Figure*> figures;
@@ -32,4 +36,11 @@ protected:
 	Long length;
 };
 
-#endif //_FIGURECOMOSITE_H
+inline Long FigureComposite::GetCapacity() {
+	return this->capacity;
+}
+inline Long FigureComposite::GetLength() {
+	return this->length;
+}
+
+#endif //_FIGURECOMPOSITE_H

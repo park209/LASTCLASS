@@ -1,3 +1,4 @@
+
 //ArrayIterator.h
 
 #ifndef _ARRAYITERATOR_H
@@ -13,6 +14,7 @@ class ArrayIterator : public Iterator<T> {
 public:
 	ArrayIterator(const Array<T>* array);
 	virtual void First();
+	virtual void Previous();
 	virtual void Next();
 	virtual bool IsDone() const;
 	virtual T Current() const;
@@ -30,6 +32,11 @@ ArrayIterator<T>::ArrayIterator(const Array<T>* array) {
 template<typename T>
 void ArrayIterator<T>::First() {
 	this->current = 0;
+}
+
+template<typename T>
+void ArrayIterator<T>::Previous() {
+	this->current--;
 }
 
 template<typename T>
