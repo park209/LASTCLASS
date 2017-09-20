@@ -1,24 +1,18 @@
 //ClassDiagramForm.cpp
-#include "SelfAggregation.h"
- #include  "SelfAggregations.h"
- #include  "SelfAssociation.h"
- #include  "SelfComposition.h"
- #include  "SelfCompositions.h"
- #include  "SelfDependency.h"
- #include  "SelfDirectedAssociation.h"
- #include  "SelfGeneralization.h"
- #include "SelfRelation.h"
+
 #include "ClassDiagramForm.h"
-#include "Class.h"
-#include "Line.h"
-#include "Figure.h"
-#include "Diagram.h"
-#include "DrawingVisitor.h"
-#include "Text.h"
-#include "SingleByteCharacter.h"
-#include "WritingVisitor.h"
 #include "TextEdit.h"
+#include "Diagram.h"
+#include "Class.h"
+#include "MemoBox.h"
+#include "Selection.h"
+#include "Text.h"
 #include "Template.h"
+#include "ClassName.h"
+#include "Method.h"
+#include "Attribute.h"
+#include "Reception.h"
+#include "Line.h"
 #include "Generalization.h"
 #include "Realization.h"
 #include "Dependency.h"
@@ -28,20 +22,26 @@
 #include "Aggregations.h"
 #include "Composition.h"
 #include "Compositions.h"
-#include "MemoBox.h"
-#include "Selection.h"
-#include "DrawingController.h"
-#include "FigureFactory.h"
 #include "MemoLine.h"
+#include "SelfAggregation.h"
+#include "SelfAggregations.h"
+#include "SelfAssociation.h"
+#include "SelfComposition.h"
+#include "SelfCompositions.h"
+#include "SelfDependency.h"
+#include "SelfDirectedAssociation.h"
+#include "SelfGeneralization.h"
+#include "SelfRelation.h"
+#include "Figure.h"
 #include "Unclicked.h"
-#include "ClassName.h"
-#include "Method.h"
-#include "Attribute.h"
-#include "Reception.h"
+#include "FigureFactory.h"
+#include "DrawingController.h"
+#include "DrawingVisitor.h"
+#include "WritingVisitor.h"
+#include "MovingVisitor.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
-#include "MovingVisitor.h"
 
 using namespace std;
 
@@ -67,9 +67,77 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->startY = 0;
 	this->currentX = 0;
 	this->currentY = 0;
-	this->currentClassIndex = -1;
-	this->rowIndex = 0;
-	this->characterIndex = 0;
+}
+
+Long ClassDiagramForm::Load() {
+	Long position = -1;
+	Long i;
+	Long x;
+	Long y;
+	Long width;
+	Long height;
+	Long length;
+	Long lineX;
+	Long lineY;
+	Long lineWidth;
+	Long lineHeight;
+	Long index;
+	ifstream fClass;
+	ifstream fLine;
+	Long type;
+	Long relationLength;
+	Long relationEndX;
+	Long relationEndY;
+	FigureFactory factory;
+	Figure *figure;
+
+	fClass.open("ClassSave.txt");
+	fLine.open("LineSave.txt");
+	//종류 구별을 위한 마지막 칸 
+	// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 
+	//6 = Dependency(의존), 7 = Association(연관화),
+	// 8 = DirectedAssociation(직접연관),  9 = Aggregation(집합), 10 = Aggregations(집합연관), 
+	//11 =  Composition(합성), 12 = Compositions(복합연관), 13 = MemoLine
+	// 14 = ClassName , 15 = Attribute , 16 = Method , 17 = Reception , 18 =SelfGeneralization ,
+	//19 = SelfDependency , 20 = SelfAssociation , 21 = SelfDirectedAssociation
+	// 22 = SelfAggregation , 23 = SelfAggregations , 24 =SelfComposition , 25 = SelfCompositions
+
+
+	if (fClass.is_open() && fLine.is_open()) {
+		fClass >> length >> x >> y >> width >> height >> type;
+		while (!fClass.eof()) {
+			figure = factory.Create(x, y, width, height, type);
+			position = this->diagram->Add(figure);
+
+			FigureComposite *figureComposite = static_cast<FigureComposite*>(this->diagram->GetAt(position));
+			i = 0;
+			while (position != -1 && i < length) {
+				fLine >> lineX >> lineY >> lineWidth >> lineHeight >> type >> relationLength;
+				figure = factory.Create(lineX, lineY, lineWidth, lineHeight, type);
+				index = figureComposite->Add(figure);
+				if (dynamic_cast<Relation*>(figureComposite->GetAt(index))) {
+					Relation *relation = static_cast<Relation*>(figureComposite->GetAt(index));
+					CPoint startCPoint;
+					CPoint currentCPoint;
+					Long j = 0;
+					while (j < relationLength) {
+						fLine >> relationEndX >> relationEndY;
+						startCPoint.x = x;
+						startCPoint.y = y;
+						currentCPoint.x = relationEndX;
+						currentCPoint.y = relationEndY;
+						relation->Add(startCPoint, currentCPoint);
+						j++;
+					}
+				}
+				i++;
+			}
+			fClass >> length >> x >> y >> width >> height >> type;
+		}
+		fClass.close();
+		fLine.close();
+	}
+	return this->diagram->GetLength();
 }
 
 Long ClassDiagramForm::Save() {
@@ -103,7 +171,7 @@ Long ClassDiagramForm::Save() {
 				fClass << object->GetLength() << " " << object->GetX() << " " << object->GetY()
 					<< " " << object->GetWidth() << " " << object->GetHeight() << " " << 1 << endl;
 			}
-			
+
 			j = 0;
 			while (j < object->GetLength()) {
 				Figure *figure;
@@ -265,58 +333,58 @@ Long ClassDiagramForm::Save() {
 				else if (dynamic_cast<SelfGeneralization*>(object->GetAt(j))) {
 					figure = static_cast<SelfRelation*>(object->GetAt(j));
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-						 << figure->GetHeight() << " " << 18 <<
+						<< figure->GetHeight() << " " << 18 <<
 						" " << 0 << endl;
-					
+
 				}
 				else if (dynamic_cast<SelfDependency*>(object->GetAt(j))) {
 					figure = static_cast<SelfRelation*>(object->GetAt(j));
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-						 << figure->GetHeight() << " " << 19 <<
+						<< figure->GetHeight() << " " << 19 <<
 						" " << 0 << endl;
-					
+
 				}
 				else if (dynamic_cast<SelfAssociation*>(object->GetAt(j))) {
-				    figure = static_cast<SelfRelation*>(object->GetAt(j));
+					figure = static_cast<SelfRelation*>(object->GetAt(j));
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-						 << figure->GetHeight() << " " << 20 <<
+						<< figure->GetHeight() << " " << 20 <<
 						" " << 0 << endl;
-					
+
 				}
 				else if (dynamic_cast<SelfDirectedAssociation*>(object->GetAt(j))) {
 					figure = static_cast<SelfRelation*>(object->GetAt(j));
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-						 << figure->GetHeight() << " " << 21 <<
+						<< figure->GetHeight() << " " << 21 <<
 						" " << 0 << endl;
-					
+
 				}
 				else if (dynamic_cast<SelfAggregation*>(object->GetAt(j))) {
 					figure = static_cast<SelfRelation*>(object->GetAt(j));
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-						 << figure->GetHeight() << " " << 22 <<
+						<< figure->GetHeight() << " " << 22 <<
 						" " << 0 << endl;
-					
+
 				}
 				else if (dynamic_cast<SelfAggregations*>(object->GetAt(j))) {
 					figure = static_cast<SelfRelation*>(object->GetAt(j));
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-						 << figure->GetHeight() << " " << 23 <<
+						<< figure->GetHeight() << " " << 23 <<
 						" " << 0 << endl;
-					
+
 				}
 				else if (dynamic_cast<SelfComposition*>(object->GetAt(j))) {
 					figure = static_cast<SelfRelation*>(object->GetAt(j));
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-						 << figure->GetHeight() << " " << 24 <<
+						<< figure->GetHeight() << " " << 24 <<
 						" " << 0 << endl;
-					
+
 				}
 				else if (dynamic_cast<SelfCompositions*>(object->GetAt(j))) {
 					figure = static_cast<SelfRelation*>(object->GetAt(j));
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-						 << figure->GetHeight() << " " << 25 <<
+						<< figure->GetHeight() << " " << 25 <<
 						" " << 0 << endl;
-					
+
 				}
 				j++;
 			}
@@ -326,118 +394,6 @@ Long ClassDiagramForm::Save() {
 		fLine.close();
 	}
 	return this->diagram->GetLength();
-}
-
-Long ClassDiagramForm::Load() {
-	Long position = -1;
-	Long i;
-	Long x;
-	Long y;
-	Long width;
-	Long height;
-	Long length;
-	Long lineX;
-	Long lineY;
-	Long lineWidth;
-	Long lineHeight;
-	Long index;
-	ifstream fClass;
-	ifstream fLine;
-	Long type;
-	Long relationLength;
-	Long relationEndX;
-	Long relationEndY;
-	FigureFactory factory;
-	Figure *figure;
-
-	fClass.open("ClassSave.txt");
-	fLine.open("LineSave.txt");
-	//종류 구별을 위한 마지막 칸 
-	// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 6 = Dependency(의존), 7 = Association(연관화),
-	// 8 = DirectedAssociation(직접연관),  9 = Aggregation(집합), 10 = Aggregations(집합연관), 11 =  Composition(합성), 12 = Compositions(복합연관), 13 = MemoLine
-	// 14 = ClassName , 15 = Attribute , 16 = Method , 17 = Reception
-
-	if (fClass.is_open() && fLine.is_open()) {
-		fClass >> length >> x >> y >> width >> height >> type;
-		while (!fClass.eof()) {
-			figure = factory.Create(x, y, width, height, type);
-			position = this->diagram->Add(figure);
-
-			FigureComposite *figureComposite = static_cast<FigureComposite*>(this->diagram->GetAt(position));
-			i = 0;
-			while (position != -1 && i < length) {
-				fLine >> lineX >> lineY >> lineWidth >> lineHeight >> type >> relationLength;
-				figure = factory.Create(lineX, lineY, lineWidth, lineHeight, type);
-				index = figureComposite->Add(figure);
-				if (dynamic_cast<Relation*>(figureComposite->GetAt(index))) {
-					Relation *relation = static_cast<Relation*>(figureComposite->GetAt(index));
-					CPoint startCPoint;
-					CPoint currentCPoint;
-					Long j = 0;
-					while (j < relationLength) {
-						fLine >> relationEndX >> relationEndY;
-						startCPoint.x = x;
-						startCPoint.y = y;
-						currentCPoint.x = relationEndX;
-						currentCPoint.y = relationEndY;
-						relation->Add(startCPoint, currentCPoint);
-						j++;
-					}
-				}
-				i++;
-			}
-			fClass >> length >> x >> y >> width >> height >> type;
-		}
-		fClass.close();
-		fLine.close();
-	}
-	return this->diagram->GetLength();
-}
-
-
-Long ClassDiagramForm::TextSave() {
-	Long i = 0;
-	string s;
-	ofstream fText;
-	fText.open("Text.txt");
-	if (fText.is_open()) {
-		while (i < this->text->GetLength()) {
-			s = this->text->GetAt(i)->PrintRowString();
-			fText << this->text->GetAt(i)->GetX() << ' ' << this->text->GetAt(i)->GetY() << ' ' << this->text->GetAt(i)->GetRowHeight() << ' ' << endl;
-			fText << s << endl;
-			i++;
-		}
-		fText.close();
-	}
-	return i;
-}
-
-Long ClassDiagramForm::TextLoad() {
-	FigureFactory textCreator;
-	Long i = 0;
-	Long x = 0;
-	Long y = 0;
-	Long rowHeight = 0;
-	Long classID = -1;
-	string str;
-	TextComponent* Component = NULL;
-	ifstream fText;
-
-	fText.open("Text.txt");
-	if (fText.is_open()) {
-		while (!fText.eof() || getline(fText, str)) {
-			fText >> x >> y >> rowHeight >> classID;
-			getline(fText, str);
-			fText.clear();
-			getline(fText, str);
-			fText.clear();
-
-			Component = textCreator.CreateRow(x, y, rowHeight, classID, str);
-			this->text->Add(Component);
-			i++;
-		}
-	}
-	return i;
 }
 
 int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -451,7 +407,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 	//1.2. 적재한다
 	//this->Load();
-	//this->TextLoad();
+
 	//1.3. 윈도우를 갱신한다
 	Invalidate();
 
@@ -462,20 +418,43 @@ void ClassDiagramForm::OnPaint() {
 	CPaintDC dc(this);
 
 	DrawingVisitor drawingVisitor;
-	WritingVisitor writingVisitor;
-
 	this->diagram->Accept(drawingVisitor, &dc);
-	this->text->Accept(writingVisitor, &dc);
-	
+
+	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
+	cFont.CreateFont(18, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
+	SetFont(&cFont, TRUE);
+	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
+
+	WritingVisitor writingVisitor;
+	this->diagram->Accept(writingVisitor, &dc);
+
+	dc.SelectObject(oldFont);
+	cFont.DeleteObject();
+
 	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
 		this->drawingController->Draw(this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
 	}
 
 	this->selection->Accept(drawingVisitor, &dc);
-	
 }
 
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
+
+	Class *object;
+	if (nChar == 100) { // D 선택항목 지우기
+		while (this->selection->GetLength() != 0) {
+			this->selection->Remove(this->diagram, this->selection->GetAt(this->selection->GetLength() -  1));
+		}
+	}
+	if (nChar == 102) { // F 템플릿기호 지우기
+		object = static_cast<Class*>(this->selection->GetAt(0));
+		object->RemoveTemplate();
+	}
+	if (nChar == 103) { // G 리셉션칸 지우기
+		object = static_cast<Class*>(this->selection->GetAt(0));
+		object->RemoveReception();
+	}
 
 	this->drawingController->ChangeState(nChar);
 	
@@ -484,7 +463,7 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 
-	this->Invalidate();
+	Invalidate();
 }
 
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
@@ -505,19 +484,18 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->startY = point.y;
 	this->currentX = point.x;
 	this->currentY = point.y;
-	
+
 	this->selection->DeleteAllItems();
 
 	Long x = this->startX;
 	Long y = this->startY;
 	this->selection->SelectByPoint(this->diagram, x, y);
-	
+
 
 	KillTimer(1);
 
 	Invalidate();
 }
-
 
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
@@ -555,7 +533,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		MovingVisitor movingVisitor;
 		Long distanceX = currentX - startX;
 		Long distanceY = currentY - startY;
-		this->selection->Accept(this->diagram,movingVisitor, distanceX, distanceY);
+		this->selection->Accept(this->diagram, movingVisitor, distanceX, distanceY);
 		if (this->selection->GetLength() == 0) {
 			CRect area;
 			area.left = this->startX;
@@ -569,7 +547,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	Figure *figure = 0;
 	if (this->startX != this->currentX || this->startY != this->currentY) {
 		figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-	
+
 	}
 
 	this->startX = 0;
@@ -590,13 +568,10 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 		Invalidate();
 	}
 }
-
-
-
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
 	//this->Save();
-	//this->TextSave();
+
 	//6.2. 다이어그램을 지운다.
 	if (this->diagram != NULL) {
 		delete this->diagram;

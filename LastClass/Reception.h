@@ -20,11 +20,8 @@ public:
 
 	Reception& operator = (const Reception& source);
 
-	//void Accept(Visitor& visitor, CDC *cPaintDc);
-
 	Figure* Clone() const;
-
-
+	void Accept(Visitor& visitor, CDC *cPaintDc);
 };
 
 #endif // !_RECEPTION_H

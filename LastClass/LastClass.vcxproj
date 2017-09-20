@@ -41,6 +41,8 @@
     <ClInclude Include="CompositionButton.h" />
     <ClInclude Include="Compositions.h" />
     <ClInclude Include="CompositionsButton.h" />
+    <ClInclude Include="CtrlAllKey.h" />
+    <ClInclude Include="CtrlCopyKey.h" />
     <ClInclude Include="CtrlEnterKey.h" />
     <ClInclude Include="DeleteKey.h" />
     <ClInclude Include="Dependency.h" />
@@ -49,6 +51,7 @@
     <ClInclude Include="DirectAssociationButton.h" />
     <ClInclude Include="DirectedAssociation.h" />
     <ClInclude Include="DoubleByteCharacter.h" />
+    <ClInclude Include="DownArrowKey.h" />
     <ClInclude Include="DrawingController.h" />
     <ClInclude Include="DrawingVisitor.h" />
     <ClInclude Include="EndKey.h" />
@@ -72,7 +75,9 @@
     <ClInclude Include="MemoLine.h" />
     <ClInclude Include="MemoLineButton.h" />
     <ClInclude Include="Method.h" />
+    <ClInclude Include="MinusKey.h" />
     <ClInclude Include="MovingVisitor.h" />
+    <ClInclude Include="PlusKey.h" />
     <ClInclude Include="Realization.h" />
     <ClInclude Include="RealizationButton.h" />
     <ClInclude Include="Reception.h" />
@@ -102,6 +107,7 @@
     <ClInclude Include="TextComposite.h" />
     <ClInclude Include="TextEdit.h" />
     <ClInclude Include="Unclicked.h" />
+    <ClInclude Include="UpArrowKey.h" />
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="WritingVisitor.h" />
   </ItemGroup>
@@ -110,7 +116,6 @@
     <ClCompile Include="AggregationButton.cpp" />
     <ClCompile Include="Aggregations.cpp" />
     <ClCompile Include="AggregationsButton.cpp" />
-    <ClCompile Include="ArrayIterator.cpp" />
     <ClCompile Include="Association.cpp" />
     <ClCompile Include="AssociationButton.cpp" />
     <ClCompile Include="Attribute.cpp" />
@@ -127,6 +132,8 @@
     <ClCompile Include="CompositionButton.cpp" />
     <ClCompile Include="Compositions.cpp" />
     <ClCompile Include="CompositionsButton.cpp" />
+    <ClCompile Include="CtrlAllKey.cpp" />
+    <ClCompile Include="CtrlCopyKey.cpp" />
     <ClCompile Include="CtrlEnterKey.cpp" />
     <ClCompile Include="DeleteKey.cpp" />
     <ClCompile Include="Dependency.cpp" />
@@ -135,6 +142,7 @@
     <ClCompile Include="DirectAssociationButton.cpp" />
     <ClCompile Include="DirectedAssociation.cpp" />
     <ClCompile Include="DoubleByteCharacter.cpp" />
+    <ClCompile Include="DownArrowKey.cpp" />
     <ClCompile Include="DrawingController.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
     <ClCompile Include="EndKey.cpp" />
@@ -157,7 +165,9 @@
     <ClCompile Include="MemoLine.cpp" />
     <ClCompile Include="MemoLineButton.cpp" />
     <ClCompile Include="Method.cpp" />
+    <ClCompile Include="MinusKey.cpp" />
     <ClCompile Include="MovingVisitor.cpp" />
+    <ClCompile Include="PlusKey.cpp" />
     <ClCompile Include="Realization.cpp" />
     <ClCompile Include="RealizationButton.cpp" />
     <ClCompile Include="Reception.cpp" />
@@ -185,6 +195,7 @@
     <ClCompile Include="TextComposite.cpp" />
     <ClCompile Include="TextEdit.cpp" />
     <ClCompile Include="Unclicked.cpp" />
+    <ClCompile Include="UpArrowKey.cpp" />
     <ClCompile Include="Visitor.cpp" />
     <ClCompile Include="WritingVisitor.cpp" />
   </ItemGroup>
@@ -285,6 +296,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

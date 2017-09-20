@@ -4,16 +4,12 @@
 
 Method::Method() : Figure() {
 }
-
 Method::~Method() {
 }
-
 Method::Method(Long x, Long y, Long width, Long height, string content) : Figure(x, y, width, height, content) {
 }
-
 Method::Method(const Method& source) : Figure(source) {
 }
-
 Method& Method::operator = (const Method& source) {
 	this->x = source.x;
 	this->y = source.y;
@@ -23,9 +19,9 @@ Method& Method::operator = (const Method& source) {
 
 	return *this;
 }
-
 Figure* Method::Clone() const {
 	return new Method(*this);
 }
-
-
+void Method::Accept(Visitor& visitor, CDC *cPaintDc) {
+	visitor.Visit(this, cPaintDc);
+}

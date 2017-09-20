@@ -48,6 +48,41 @@ Long Selection::Add(Figure *figure) {
 	return index;
 }
 
+Long Selection::Remove(Diagram *diagram, Figure *figure) {
+	Long i = 0;
+	Long index = -1;
+	FigureComposite *figures = 0;
+	while (i < diagram->GetLength() && figure != diagram->GetAt(i)) {
+		i++;
+	}
+	if (i < diagram->GetLength()) {
+		index = i;
+		diagram->Remove(index);
+		index = this->figures.Delete(this->length-1);
+		this->length--;
+		this->capacity--;
+	}
+	i = 0;
+	Long j;
+
+	while (i < diagram->GetLength() && index == -1) {
+		j = 0;
+		figures = static_cast<FigureComposite*>(diagram->GetAt(i));
+		while (j < figures->GetLength() && figure != figures->GetAt(j)) {
+			j++;
+		}
+		if (j < figures->GetLength()) {
+			index = j;
+			figures->Remove(index);
+			index = this->figures.Delete(this->length-1);
+			this->length--;
+			this->capacity--;
+		}
+		i++;
+	}
+
+	return index;
+}
 
 Long Selection::Remove(Long index) {
 	this->capacity--;
@@ -165,11 +200,11 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 	while (i < diagram->GetLength() && ret == false) {
 		
 		composite = static_cast<FigureComposite*>(diagram->GetAt(i));
-		rect.left = composite->GetX();
-		rect.top = composite->GetY();
-		rect.right = composite->GetX() + composite->GetWidth();
-		rect.bottom = composite->GetY() + composite->GetHeight();
-
+		rect.left = composite->GetX()-3;
+		rect.top = composite->GetY()-3;
+		rect.right = composite->GetX() + composite->GetWidth()+3;
+		rect.bottom = composite->GetY() + composite->GetHeight()+3;
+		//1여기에 템플릿일때 if() 이거하고/2 템플릿일때 작은 사각형 누르기 하고/3 확대하기 
 		ret = finder.FindRectangleByPoint(rect, x, y);
 
 		if (ret == true) {
@@ -184,7 +219,7 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 
 			index = this->length;
 		}
-
+		
 		composite = static_cast<FigureComposite*>(diagram->GetAt(i));
 		j = 0;
 		while (j < composite->GetLength() && ret == false) {

@@ -16,6 +16,7 @@ public:
 
 	virtual Long Remove(Long index);
 	virtual Long Add(Figure *figure);
+	Long Remove(Diagram *diagram, Figure *figure);
 	virtual Figure* GetAt(Long index);
 	virtual Figure* Clone() const;
 	void DeleteAllItems();

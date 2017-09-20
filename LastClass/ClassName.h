@@ -16,8 +16,8 @@ public:
 
 	ClassName& operator = (const ClassName& source);
 
-	void Accept(Visitor& visitor, CDC *cPaintDc);
 	Figure* Clone() const;
+	void Accept(Visitor& visitor, CDC *cPaintDc);
 };
 
 #endif // !_CLASSNAME_H

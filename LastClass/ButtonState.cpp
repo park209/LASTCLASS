@@ -1,4 +1,5 @@
 //ButtonState.cpp
+
 #include "Unclicked.h"
 #include"ButtonState.h"
 #include "ClassButton.h"
@@ -16,6 +17,7 @@
 #include "MemoBoxButton.h"
 #include "MemoLineButton.h"
 #include "ReceptionButton.h"
+
 ButtonState::ButtonState() {
 
 }

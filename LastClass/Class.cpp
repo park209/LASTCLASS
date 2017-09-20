@@ -1,5 +1,5 @@
 //Class.cpp
-#include "Diagram.h"
+
 #include "Class.h"
 #include "Line.h"
 #include "Generalization.h"
@@ -26,6 +26,11 @@
 #include "ArrayIterator.h"
 #include "Reception.h"
 #include "Iterator.h"
+#include "ClassName.h"
+#include "Attribute.h"
+#include "Method.h"
+#include "Reception.h"
+#include "Diagram.h"
 
 Class::Class(Long capacity):FigureComposite(capacity) {
 	this->x = 0;
@@ -33,6 +38,7 @@ Class::Class(Long capacity):FigureComposite(capacity) {
 	this->width = 0;
 	this->height = 0;
 	this->templetePosition = -1;
+	this->receptionPosition = -1;
 }
 
 Class::Class(Long x, Long y, Long width, Long height) : FigureComposite(64) {
@@ -41,6 +47,7 @@ Class::Class(Long x, Long y, Long width, Long height) : FigureComposite(64) {
 	this->width = width;
 	this->height = height;
 	this->templetePosition = -1;
+	this->receptionPosition = -1;
 }
 
 Class::Class(const Class& source) : FigureComposite(source) {
@@ -49,9 +56,15 @@ Class::Class(const Class& source) : FigureComposite(source) {
 	this->width = source.width;
 	this->height = source.height;
 	this->templetePosition = source.templetePosition;
+	this->receptionPosition = source.receptionPosition;
 }
 
 Class::~Class() {
+	Long i = 0;
+	while (i < this->length) {
+		delete this->figures[i];
+		i++;
+	}
 }
 Figure* Class::Move(Long distanceX, Long distanceY){
 	Figure::Move(distanceX, distanceY);
@@ -71,6 +84,7 @@ Class& Class::operator = (const Class& source) {
 	this->width = source.width;
 	this->height = source.height;
 	this->templetePosition = source.templetePosition;
+	this->receptionPosition = source.receptionPosition;
 
 	return *this;
 }
@@ -253,7 +267,7 @@ Long Class::AddCompositions(Long x, Long y, Long width, Long height) {
 
 	return index;
 }
-Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
+Long Class::AddTemplate(Long x, Long y, Long width, Long height) { //중복생성 안되게 막아야함
 	
 	Template object(x, y, width, height);
 
@@ -268,17 +282,17 @@ Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
 
 	return this->templetePosition;
 }
-Figure* Class::AddReception(Diagram *diagram) {
+Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
 
 	Line line(this->x, this->y+this->height, this->width, 0);
 	
 	this->height = height + 50;
 
 	if (this->length < this->capacity) {
-		this->figures.Store(this->length, line.Clone());
+		this->receptionPosition = this->figures.Store(this->length, line.Clone());
 	}
 	else {
-		this->figures.AppendFromRear(line.Clone());
+		this->receptionPosition = this->figures.AppendFromRear(line.Clone());
 		this->capacity++;
 	}
 	this->length++;
@@ -297,7 +311,7 @@ Figure* Class::AddReception(Diagram *diagram) {
 	Long i = 0;
 	Long j = 0;
 	while (i < this->GetLength()) {
-		
+
 		if (dynamic_cast<Relation*>(this->GetAt(i))) {
 			this->GetAt(i)->Modify(this->GetAt(i)->GetX(), this->GetAt(i)->GetY() + 50, this->GetAt(i)->GetWidth(), this->GetAt(i)->GetHeight() - 50);
 		}
@@ -311,30 +325,45 @@ Figure* Class::AddReception(Diagram *diagram) {
 	while (i<diagram->GetLength()) {
 		j = 0;
 		FigureComposite *figureComposite = dynamic_cast<FigureComposite*>(diagram->GetAt(i));
-			while (j < figureComposite->GetLength()) {
-				Figure *figure = figureComposite->GetAt(j);
-				if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
-					Long relationEndX = figure->GetX() + figure->GetWidth();
-					Long relationEndY = figure->GetY() + figure->GetHeight();
-					if (startX <= relationEndX &&  relationEndX <= endX &&
-						startY <= relationEndY &&  relationEndY <= endY) {
-						figure->EndPointMove(0, 50);
-					}
+		while (j < figureComposite->GetLength()) {
+			Figure *figure = figureComposite->GetAt(j);
+			if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
+				Long relationEndX = figure->GetX() + figure->GetWidth();
+				Long relationEndY = figure->GetY() + figure->GetHeight();
+				if (startX <= relationEndX &&  relationEndX <= endX &&
+					startY <= relationEndY &&  relationEndY <= endY) {
+					figure->EndPointMove(0, 50);
 				}
-				j++;
+			}
+			j++;
 		}
 		i++;
 	}
-	return this;
+
+	return this->receptionPosition;
 }
 Long Class::Remove(Long index) {
 
+	if (this->figures[index] != 0) {
+		delete this->figures[index];
+	}
 	this->length--;
 	this->capacity--;
-
 	return this->figures.Delete(index);
 }
-
+Long Class::RemoveTemplate() {
+	if (this->templetePosition != -1) {
+		this->templetePosition = this->Remove(this->templetePosition);
+	}
+	return this->templetePosition;
+}
+Long Class::RemoveReception() {
+	if (this->receptionPosition != -1) {
+		this->Remove(this->receptionPosition + 1);
+		this->receptionPosition = this->Remove(this->receptionPosition);
+	}
+	return this->receptionPosition;
+}
 Figure* Class::GetAt(Long index) {
 	return static_cast<Figure*>(this->figures.GetAt(index));
 }
@@ -357,6 +386,22 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		
 		else if (dynamic_cast<Template*>(smartPointer->Current())) {
 			static_cast<Template*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<ClassName*>(smartPointer->Current())) {
+			static_cast<ClassName*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<Attribute*>(smartPointer->Current())) {
+			static_cast<Attribute*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<Method*>(smartPointer->Current())) {
+			static_cast<Method*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<Reception*>(smartPointer->Current())) {
+			static_cast<Reception*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 
 		else if (dynamic_cast<Generalization*>(smartPointer->Current())) {

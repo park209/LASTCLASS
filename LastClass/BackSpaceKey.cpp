@@ -1,12 +1,11 @@
 //BackSpaceKey.cpp
 
 #include "BackSpaceKey.h"
-#include "ClassDiagramForm.h"
 #include "TextEdit.h"
 #include "Text.h"
 #include "Row.h"
-#include "KeyBoard.h"
-#include "KeyAction.h"
+#include "Caret.h"
+#include "Character.h"
 
 BackSpaceKey::BackSpaceKey() {
 }
@@ -18,11 +17,25 @@ BackSpaceKey::~BackSpaceKey() {
 }
 
 void BackSpaceKey::KeyPress(TextEdit *textEdit) {
-	if (textEdit->text->GetAt(textEdit->GetRowIndex())->GetLength() > 0 && textEdit->GetCharacterIndex() > 0) {
-		textEdit->text->GetAt(textEdit->GetRowIndex())->Remove(textEdit->GetCharacterIndex() - 1);
-		(textEdit->characterIndex)--;
+	if (textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength() > 0 &&textEdit->caret->GetCharacterIndex() > 0) {
+		textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Remove(textEdit->caret->GetCharacterIndex() - 1);
+		textEdit->caret->MoveBackwardCharacterIndex();
 	}
-	if (textEdit->keyBoard->keyAction != 0) {
-		delete textEdit->keyBoard->keyAction;
+	else if (textEdit->caret->GetCharacterIndex() == 0 && textEdit->caret->GetRowIndex() >0) {
+		if (textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength() == 0) {
+			textEdit->text->Remove(textEdit->caret->GetRowIndex());
+			textEdit->caret->MoveBackwardRowIndex();
+			textEdit->caret->SetCharacterIndex(textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength());
+		}
+		else {
+			while (textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength()>0) {
+				Character *character = textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetAt(0);
+				textEdit->text->GetAt(textEdit->caret->GetRowIndex() - 1)->Add(character->Clone());
+				textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Remove(0);
+			}
+			textEdit->text->Remove(textEdit->caret->GetRowIndex());
+			textEdit->caret->MoveBackwardRowIndex();
+			textEdit->caret->SetCharacterIndex(textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength());
+		}
 	}
 }
