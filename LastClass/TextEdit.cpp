@@ -12,6 +12,7 @@
 #include "Figure.h"
 #include "Caret.h"
 #include "KeyBoard.h"
+#include "KeyAction.h"
 #include "WritingVisitor.h"   
 #include <iostream>
 
@@ -86,7 +87,6 @@ void TextEdit::OnPaint() {
 		Long endCharacterIndex = 0;
 		Long endRowIndex = 0;
 		Long i;
-		Long j;
 		Long x;
 		Long width = 0;
 		CString copyBuffer;
@@ -424,7 +424,7 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
 
 	CFont cFont;
-	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
+	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
@@ -459,7 +459,7 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 
 		CFont cFont;
 		CPaintDC dc(this);
-		cFont.CreateFont(this->GetRowHeight(), 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
+		cFont.CreateFont(this->GetRowHeight(), 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
 		this->SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);// 폰트 시작
@@ -484,6 +484,9 @@ void TextEdit::OnLButtonDoubleClicked(UINT nFlags, CPoint point) {
 }
 
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
+	/*if (textEdit->flagSelection == 1) {
+	textEdit->flagSelection = 0;
+	}*/
 	if (nChar == VK_OEM_PLUS) {
 		if (GetKeyState(VK_SHIFT) < 0) { //폰트 size
 			this->rowHeight++;
@@ -494,9 +497,10 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 			this->rowHeight--;
 		}
 	}
-
-	this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
-
+	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
+	if (keyAction != 0) {
+		keyAction->KeyPress(this);
+	}
 	Invalidate();
 }
 

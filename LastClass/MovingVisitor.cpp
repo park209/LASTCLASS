@@ -32,8 +32,11 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 	Long k = 0;
 	Long l = 0;
 	Figure *figure;
+
 	while (i < length) {
 		figure = selection->GetAt(i);
+
+
 		if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
 			Long startX = figure->GetX();
 			Long startY = figure->GetY();
@@ -47,6 +50,7 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 				figure->Move(distanceX, distanceY);
 				j++;
 			}
+
 			while (k < diagram->GetLength()) {
 				figureComposite = static_cast<FigureComposite*>(diagram->GetAt(k));
 				l = 0;
@@ -65,6 +69,7 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 				}
 				k++;
 			}
+
 		}
 		i++;
 	}

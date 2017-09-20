@@ -18,13 +18,12 @@ public:
 	Text *text;
 	TextEdit *textEdit;
 	Selection *selection;
-	Long currentClassIndex;
 	DrawingController *drawingController;
 public:
 	ClassDiagramForm();
 public:
-	Long Save();
 	Long Load();
+	Long Save();
 private:
 	Long startX;
 	Long startY;

@@ -23,6 +23,8 @@ public:
 	Figure* Move(Long distanceX, Long distanceY);
 	Figure* EndPointMove(Long distanceX, Long distanceY);
 
+	Figure* Modify(Long x, Long y, Long width, Long height);
+
 	Long GetX() const;
 	Long GetY() const;
 	Long GetWidth() const;

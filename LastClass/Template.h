@@ -1,4 +1,4 @@
-
+//Template.h
 
 #ifndef _TEMPLATE_H
 #define _TEMPLATE_H
@@ -16,14 +16,8 @@ public:
 	virtual ~Template();
 
 	Template& operator=(const Template& source);
-	void Accept(Visitor& visitor, CDC *cPaintDc);
 	Figure* Clone() const;
+	void Accept(Visitor& visitor, CDC *cPaintDc);
 };
-
-
-
-
-
-
 
 #endif // !_TEMPLATE_H

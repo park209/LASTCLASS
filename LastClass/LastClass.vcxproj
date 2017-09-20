@@ -78,6 +78,7 @@
     <ClInclude Include="Realization.h" />
     <ClInclude Include="RealizationButton.h" />
     <ClInclude Include="Reception.h" />
+    <ClInclude Include="ReceptionButton.h" />
     <ClInclude Include="Relation.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RightArrowKey.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="Realization.cpp" />
     <ClCompile Include="RealizationButton.cpp" />
     <ClCompile Include="Reception.cpp" />
+    <ClCompile Include="ReceptionButton.cpp" />
     <ClCompile Include="Relation.cpp" />
     <ClCompile Include="RightArrowKey.cpp" />
     <ClCompile Include="Row.cpp" />

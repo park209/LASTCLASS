@@ -1,6 +1,6 @@
 //DrawingVisitor.cpp
 
-#include"DrawingVisitor.h"
+#include "DrawingVisitor.h"
 #include "Diagram.h"
 #include "Class.h"
 #include "MemoBox.h"
@@ -40,7 +40,6 @@ DrawingVisitor::~DrawingVisitor() {
 void DrawingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY) {
 }
 void DrawingVisitor::Visit(Class *object, CDC* cPaintDc) {
-
 	Long x = object->GetX();
 	Long y = object->GetY();
 	Long width = object->GetWidth();
@@ -131,15 +130,11 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 							object->GetY() + object->GetHeight() - 5,
 							templete->GetX() + templete->GetWidth() + 5,
 							object->GetY() + object->GetHeight() + 5);
-
 					}
 					j++;
-
 				}
-
 			}
 		}
-
 		if (dynamic_cast<MemoBox*>(selection->GetAt(i))) {
 			MemoBox *memoBox = static_cast<MemoBox*>(selection->GetAt(i));
 			cPaintDc->Rectangle(
@@ -228,7 +223,6 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 		}
 		i++;
 	}
-
 }
 void DrawingVisitor::Visit(Template *object, CDC *cPaintDc) {
 	Long x = object->GetX();
@@ -256,11 +250,23 @@ void DrawingVisitor::Visit(Line *line, CDC* cPaintDc) {
 }
 void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
 
+
 	Long startX = generalization->GetX();
 	Long startY = generalization->GetY();
-	Long endX = generalization->GetWidth() + generalization->GetX();
-	Long endY = generalization->GetHeight() + generalization->GetY();
-	//cout << "일반화출력" << " " << x << " " << y << " " << width << " " << height <<  endl;
+	Long endX;
+	Long endY;
+	Long i = 0;
+	while (i < generalization->GetLength()) {
+		endX = generalization->GetAt(i).x;
+		endY = generalization->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+	endX = generalization->GetWidth() + generalization->GetX();
+	endY = generalization->GetHeight() + generalization->GetY();
 
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
@@ -274,8 +280,8 @@ void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
 
 														  // 수직 기울기
 
@@ -284,11 +290,11 @@ void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
 	pts[0].x = (endX); //마우스 현재위치 점
 	pts[0].y = (endY);
 
-	pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
 	cPaintDc->SelectObject(&white);
 	cPaintDc->Polygon(pts, 3);
@@ -296,19 +302,32 @@ void DrawingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
 	myBrush.DeleteObject();
 }
 void DrawingVisitor::Visit(Realization *realization, CDC* cPaintDc) {
-
-	Long startX = realization->GetX();
-	Long  startY = realization->GetY();
-	Long endX = realization->GetWidth() + realization->GetX();
-	Long endY = realization->GetHeight() + realization->GetY();
-	//cout << "실체화출력" << " " << x << " " << y << " " << width << " " << height << endl;
-
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDc->SelectObject(&pen);
 	cPaintDc->SetBkMode(TRANSPARENT);
+
+
+	Long startX = realization->GetX();
+	Long startY = realization->GetY();
+	Long endX;
+	Long endY;
+	Long i = 0;
+	while (i < realization->GetLength()) {
+		endX = realization->GetAt(i).x;
+		endY = realization->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+	endX = realization->GetWidth() + realization->GetX();
+	endY = realization->GetHeight() + realization->GetY();
+
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
+
 	cPaintDc->SelectObject(oldPen);
 	pen.DeleteObject();
 
@@ -321,8 +340,8 @@ void DrawingVisitor::Visit(Realization *realization, CDC* cPaintDc) {
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
 
 														  // 수직 기울기
 
@@ -331,11 +350,11 @@ void DrawingVisitor::Visit(Realization *realization, CDC* cPaintDc) {
 	pts[0].x = endX; //마우스 현재위치 점
 	pts[0].y = endY;
 
-	pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
 	cPaintDc->SelectObject(&white);
 	cPaintDc->Polygon(pts, 3);
@@ -344,16 +363,28 @@ void DrawingVisitor::Visit(Realization *realization, CDC* cPaintDc) {
 }
 void DrawingVisitor::Visit(Dependency *dependency, CDC* cPaintDc) {
 
-	Long startX = dependency->GetX();
-	Long  startY = dependency->GetY();
-	Long endX = dependency->GetWidth() + dependency->GetX();
-	Long endY = dependency->GetHeight() + dependency->GetY();
-	//cout << "의존 출력" << " " << x << " " << y << " " << width << " " << height << endl;
-
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDc->SelectObject(&pen);
 	cPaintDc->SetBkMode(TRANSPARENT);
+
+	Long startX = dependency->GetX();
+	Long startY = dependency->GetY();
+	Long endX;
+	Long endY;
+	Long i = 0;
+	while (i < dependency->GetLength()) {
+		endX = dependency->GetAt(i).x;
+		endY = dependency->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+	endX = dependency->GetWidth() + dependency->GetX();
+	endY = dependency->GetHeight() + dependency->GetY();
+
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
 	cPaintDc->SelectObject(oldPen);
@@ -363,8 +394,8 @@ void DrawingVisitor::Visit(Dependency *dependency, CDC* cPaintDc) {
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
 
 														  // 수직 기울기
 
@@ -373,11 +404,11 @@ void DrawingVisitor::Visit(Dependency *dependency, CDC* cPaintDc) {
 	pts[0].x = endX; //마우스 현재위치 점
 	pts[0].y = endY;
 
-	pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
 	cPaintDc->MoveTo(pts[0].x, pts[0].y);
 	cPaintDc->LineTo(pts[1].x, pts[1].y);
@@ -385,25 +416,45 @@ void DrawingVisitor::Visit(Dependency *dependency, CDC* cPaintDc) {
 	cPaintDc->MoveTo(pts[0].x, pts[0].y);
 	cPaintDc->LineTo(pts[2].x, pts[2].y);
 }
-void DrawingVisitor::Visit(Association *association, CDC* cPaintDc) { //, CDC* cPaintDc
+void DrawingVisitor::Visit(Association *association, CDC* cPaintDc) {
 
 	Long startX = association->GetX();
 	Long startY = association->GetY();
-	Long endX = association->GetWidth() + association->GetX();
-	Long endY = association->GetHeight() + association->GetY();
-	//cout << "연관화출력" << " " << startX << " " << startY << " " << endX << " " << endY << endl;
-
+	Long endX;
+	Long endY;
+	Long i = 0;
+	while (i < association->GetLength()) {
+		endX = association->GetAt(i).x;
+		endY = association->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+	endX = association->GetWidth() + association->GetX();
+	endY = association->GetHeight() + association->GetY();
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
 }
 void DrawingVisitor::Visit(DirectedAssociation *directedAssociation, CDC* cPaintDc) {
 
 	Long startX = directedAssociation->GetX();
-	Long  startY = directedAssociation->GetY();
-	Long endX = directedAssociation->GetWidth() + directedAssociation->GetX();
-	Long endY = directedAssociation->GetHeight() + directedAssociation->GetY();
-	//cout << "직접연관출력" << " " << x << " " << y << " " << width << " " << height << endl;
-
+	Long startY = directedAssociation->GetY();
+	Long endX;
+	Long endY;
+	Long i = 0;
+	while (i < directedAssociation->GetLength()) {
+		endX = directedAssociation->GetAt(i).x;
+		endY = directedAssociation->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+	endX = directedAssociation->GetWidth() + directedAssociation->GetX();
+	endY = directedAssociation->GetHeight() + directedAssociation->GetY();
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
 
@@ -411,8 +462,8 @@ void DrawingVisitor::Visit(DirectedAssociation *directedAssociation, CDC* cPaint
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
 
 														  // 수직 기울기
 
@@ -421,11 +472,11 @@ void DrawingVisitor::Visit(DirectedAssociation *directedAssociation, CDC* cPaint
 	pts[0].x = endX; //마우스 현재위치 점
 	pts[0].y = endY;
 
-	pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
 	cPaintDc->MoveTo(pts[0].x, pts[0].y);
 	cPaintDc->LineTo(pts[1].x, pts[1].y);
@@ -435,43 +486,65 @@ void DrawingVisitor::Visit(DirectedAssociation *directedAssociation, CDC* cPaint
 }
 void DrawingVisitor::Visit(Aggregation *aggregation, CDC* cPaintDc) {
 
-	Long  startX = aggregation->GetX();
-	Long  startY = aggregation->GetY();
-	Long endX = aggregation->GetWidth() + aggregation->GetX();
-	Long endY = aggregation->GetHeight() + aggregation->GetY();
-	//cout << "집합출력" << " " << x << " " << y << " " << width << " " << height << endl;
+	Long startX = aggregation->GetX();
+	Long startY = aggregation->GetY();
+	Long endX;
+	Long endY;
+	Long i = 0;
+
+	while (i < aggregation->GetLength()) {
+		endX = aggregation->GetAt(i).x;
+		endY = aggregation->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+
+	endX = aggregation->GetWidth() + aggregation->GetX();
+	endY = aggregation->GetHeight() + aggregation->GetY();
 
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
+	//시작지점 원위치
+	startX = aggregation->GetX();
+	startY = aggregation->GetY();
 
 	CBrush white(RGB(255, 255, 255));
 	CBrush myBrush;
 	myBrush.CreateSolidBrush(RGB(255, 255, 255));
 	CBrush *oldBrush = cPaintDc->SelectObject(&myBrush);
 
+	startX = aggregation->GetX();
+	startY = aggregation->GetY();
+	if (aggregation->GetLength() != 0) {
+		endX = aggregation->GetAt(0).x;
+		endY = aggregation->GetAt(0).y;
+	}
 	double degree = atan2(endX - startX, startY - endY); // 기울기
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 
-	double dX = (startX)+(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (startY)-(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
 
 	double dX2 = (startX)-((endX - startX) / distance);
 	double dY2 = (startY)+((startY - endY) / distance);
 
 	CPoint pts2[4];
 
-	pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
 
 	pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
 	pts2[1].y = static_cast<LONG>(dY2);
 
-	pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
-	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(15 * (endX - startX) / distance); // 윗점
-	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(15 * (startY - endY) / distance);
+	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
+	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
 
 	cPaintDc->SelectObject(&white);
 	cPaintDc->Polygon(pts2, 4);
@@ -481,14 +554,33 @@ void DrawingVisitor::Visit(Aggregation *aggregation, CDC* cPaintDc) {
 void DrawingVisitor::Visit(Aggregations *aggregations, CDC* cPaintDc) {
 
 	Long startX = aggregations->GetX();
-	Long  startY = aggregations->GetY();
-	Long endX = aggregations->GetWidth() + aggregations->GetX();
-	Long endY = aggregations->GetHeight() + aggregations->GetY();
-	//cout << "집합연관출력" << " " << x << " " << y << " " << width << " " << height << endl;
+	Long startY = aggregations->GetY();
+	Long endX;
+	Long endY;
+	Long i = 0;
+
+	while (i < aggregations->GetLength()) {
+		endX = aggregations->GetAt(i).x;
+		endY = aggregations->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+
+	endX = aggregations->GetWidth() + aggregations->GetX();
+	endY = aggregations->GetHeight() + aggregations->GetY();
+
 
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
 
+	//시작지점 원위치
+	if (aggregations->GetLength() != 0) {
+		startX = aggregations->GetAt(aggregations->GetLength() - 1).x;
+		startY = aggregations->GetAt(aggregations->GetLength() - 1).y;
+	}
 	CBrush white(RGB(255, 255, 255));
 	CBrush myBrush;
 	myBrush.CreateSolidBrush(RGB(255, 255, 255));
@@ -498,8 +590,8 @@ void DrawingVisitor::Visit(Aggregations *aggregations, CDC* cPaintDc) {
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
 
 														  // 수직 기울기
 
@@ -508,11 +600,11 @@ void DrawingVisitor::Visit(Aggregations *aggregations, CDC* cPaintDc) {
 	pts[0].x = endX; //마우스 현재위치 점
 	pts[0].y = endY;
 
-	pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
 	cPaintDc->MoveTo(pts[0].x, pts[0].y);
 	cPaintDc->LineTo(pts[1].x, pts[1].y);
@@ -522,26 +614,33 @@ void DrawingVisitor::Visit(Aggregations *aggregations, CDC* cPaintDc) {
 
 
 	//여기까지 화살표 다음부터 마름모
-
-	dX = (startX)+(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	dY = (startY)-(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	startX = aggregations->GetX();
+	startY = aggregations->GetY();
+	if (aggregations->GetLength() != 0) {
+		endX = aggregations->GetAt(0).x;
+		endY = aggregations->GetAt(0).y;
+	}
+	degree = atan2(endX - startX, startY - endY);
+	distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+	dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
+	dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
 
 	double dX2 = (startX)-((endX - startX) / distance);
 	double dY2 = (startY)+((startY - endY) / distance);
 
 	CPoint pts2[4];
+	//작 성 자:구 보 승
+	pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts2[1].x = static_cast<LONG>(startX); //마우스 처음 점
+	pts2[1].y = static_cast<LONG>(startY);
 
-	pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
-	pts2[1].y = static_cast<LONG>(dY2);
+	pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
-	pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
-
-	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(15 * (endX - startX) / distance); // 윗점
-	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(15 * (startY - endY) / distance);
+	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
+	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
 
 	cPaintDc->SelectObject(&white);
 	cPaintDc->Polygon(pts2, 4);
@@ -549,45 +648,67 @@ void DrawingVisitor::Visit(Aggregations *aggregations, CDC* cPaintDc) {
 	myBrush.DeleteObject();
 }
 void DrawingVisitor::Visit(Composition *composition, CDC* cPaintDc) {
-
 	Long startX = composition->GetX();
-	Long  startY = composition->GetY();
-	Long endX = composition->GetWidth() + composition->GetX();
-	Long endY = composition->GetHeight() + composition->GetY();
-	//cout << "합성출력" << " " << x << " " << y << " " << width << " " << height << endl;
+	Long startY = composition->GetY();
+	Long endX;
+	Long endY;
+	Long i = 0;
+
+	while (i < composition->GetLength()) {
+		endX = composition->GetAt(i).x;
+		endY = composition->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+
+	endX = composition->GetWidth() + composition->GetX();
+	endY = composition->GetHeight() + composition->GetY();
 
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
+
+	//시작지점 원위치
+	startX = composition->GetX();
+	startY = composition->GetY();
 
 	CBrush black(RGB(000, 000, 000));
 	CBrush myBrush;
 	myBrush.CreateSolidBrush(RGB(255, 255, 255));
 	CBrush *oldBrush = cPaintDc->SelectObject(&myBrush);
 
+	startX = composition->GetX();
+	startY = composition->GetY();
+	if (composition->GetLength() != 0) {
+		endX = composition->GetAt(0).x;
+		endY = composition->GetAt(0).y;
+	}
 
 	double degree = atan2(endX - startX, startY - endY); // 기울기
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 
-	double dX = (startX)+(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (startY)-(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
 
 	double dX2 = (startX)-((endX - startX) / distance);
 	double dY2 = (startY)+((startY - endY) / distance);
 
 	CPoint pts2[4];
 
-	pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
 
 	pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
 	pts2[1].y = static_cast<LONG>(dY2);
 
-	pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
-	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(15 * (endX - startX) / distance); // 윗점
-	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(15 * (startY - endY) / distance);
+	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
+	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
 
 	cPaintDc->SelectObject(&black);
 	cPaintDc->Polygon(pts2, 4);
@@ -597,13 +718,32 @@ void DrawingVisitor::Visit(Composition *composition, CDC* cPaintDc) {
 void DrawingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 
 	Long startX = compositions->GetX();
-	Long  startY = compositions->GetY();
-	Long endX = compositions->GetWidth() + compositions->GetX();
-	Long endY = compositions->GetHeight() + compositions->GetY();
-	//cout << "복합연관출력" << " " << x << " " << y << " " << width << " " << height << endl;
+	Long startY = compositions->GetY();
+	Long endX;
+	Long endY;
+	Long i = 0;
+
+	while (i < compositions->GetLength()) {
+		endX = compositions->GetAt(i).x;
+		endY = compositions->GetAt(i).y;
+		cPaintDc->MoveTo(startX, startY);
+		cPaintDc->LineTo(endX, endY);
+		startX = endX;
+		startY = endY;
+		i++;
+	}
+
+	endX = compositions->GetWidth() + compositions->GetX();
+	endY = compositions->GetHeight() + compositions->GetY();
 
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
+
+	//시작지점 원위치
+	if (compositions->GetLength() != 0) {
+		startX = compositions->GetAt(compositions->GetLength() - 1).x;
+		startY = compositions->GetAt(compositions->GetLength() - 1).y;
+	}
 
 	CBrush black(RGB(000, 000, 000));
 	CBrush myBrush;
@@ -615,8 +755,8 @@ void DrawingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
 
 														  // 수직 기울기
 	CPoint pts[3];
@@ -624,11 +764,11 @@ void DrawingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 	pts[0].x = endX; //마우스 현재위치 점
 	pts[0].y = endY;
 
-	pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
 	cPaintDc->MoveTo(pts[0].x, pts[0].y);
 	cPaintDc->LineTo(pts[1].x, pts[1].y);
@@ -637,27 +777,35 @@ void DrawingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 	cPaintDc->LineTo(pts[2].x, pts[2].y);
 
 	//여기까지 화살표 다음부터 마름모
-	distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 
-	dX = (startX)+(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	dY = (startY)-(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+	startX = compositions->GetX();
+	startY = compositions->GetY();
+	if (compositions->GetLength() != 0) {
+		endX = compositions->GetAt(0).x;
+		endY = compositions->GetAt(0).y;
+	}
+	degree = atan2(endX - startX, startY - endY);
+	distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+	dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
+	dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
 
 	double dX2 = (startX)-((endX - startX) / distance);
 	double dY2 = (startY)+((startY - endY) / distance);
 
 	CPoint pts2[4];
+	//작 성 자:구 보 승
+	pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts2[1].x = static_cast<LONG>(startX); //마우스 처음 점
+	pts2[1].y = static_cast<LONG>(startY);
 
-	pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
-	pts2[1].y = static_cast<LONG>(dY2);
+	pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
-	pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
-
-	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(16 * (endX - startX) / distance); // 윗점
-	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(16 * (startY - endY) / distance);
+	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
+	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
 
 	cPaintDc->SelectObject(&black);
 	cPaintDc->Polygon(pts2, 4);
@@ -722,19 +870,20 @@ void DrawingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *cPaintDc
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
+
 														  // 수직 기울기
 	CPoint pts[3];
 
 	pts[0].x = (endX); //마우스 현재위치 점
 	pts[0].y = (endY);
 
-	pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
 	cPaintDc->SelectObject(&white);
 	cPaintDc->Polygon(pts, 3);
@@ -771,19 +920,20 @@ void DrawingVisitor::Visit(SelfDependency *selfDependency, CDC *cPaintDc) {
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
-	// 수직 기울기
+	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+														  // 수직 기울기
 	CPoint pts[3];
 
 	pts[0].x = endX; //마우스 현재위치 점
 	pts[0].y = endY;
 
-	pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
 	cPaintDc->MoveTo(pts[0].x, pts[0].y);
 	cPaintDc->LineTo(pts[1].x, pts[1].y);
@@ -809,40 +959,41 @@ void DrawingVisitor::Visit(SelfAggregation *selfAggregation, CDC *cPaintDc) {
 	cPaintDc->MoveTo(selfAggregation->GetX() + 60, selfAggregation->GetY() + 30);
 	cPaintDc->LineTo(selfAggregation->GetX() + 30, selfAggregation->GetY() + 30);
 
-	Long startX = selfAggregation->GetX() + 60;
-	Long startY = selfAggregation->GetY() + 30;
-	Long endX = selfAggregation->GetX() + 30;
-	Long endY = selfAggregation->GetY() + 30;
+	Long startX = selfAggregation->GetX();
+	Long startY = selfAggregation->GetY();
+	Long endX = selfAggregation->GetX();
+	Long endY = selfAggregation->GetY() - 30;
 
 	double degree = atan2(endX - startX, startY - endY); // 기울기
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 
-	double dX = (startX)+(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (startY)-(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
 
 	double dX2 = (startX)-((endX - startX) / distance);
 	double dY2 = (startY)+((startY - endY) / distance);
 
 	CPoint pts2[4];
 
-	pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
 
 	pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
 	pts2[1].y = static_cast<LONG>(dY2);
 
-	pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
-	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(15 * (endX - startX) / distance); // 윗점
-	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(15 * (startY - endY) / distance);
+	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
+	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
 
 	cPaintDc->SelectObject(&white);
 	cPaintDc->Polygon(pts2, 4);
 	cPaintDc->SelectObject(oldBrush);
 	myBrush.DeleteObject();
 }
+
 void DrawingVisitor::Visit(SelfAssociation *selfAssociation, CDC *cPaintDc) {
 
 	cPaintDc->MoveTo(selfAssociation->GetX(), selfAssociation->GetY());
@@ -857,6 +1008,7 @@ void DrawingVisitor::Visit(SelfAssociation *selfAssociation, CDC *cPaintDc) {
 	cPaintDc->MoveTo(selfAssociation->GetX() + 60, selfAssociation->GetY() + 30);
 	cPaintDc->LineTo(selfAssociation->GetX() + 30, selfAssociation->GetY() + 30);
 }
+
 void DrawingVisitor::Visit(SelfAggregations *selfAggregations, CDC *cPaintDc) {
 	CBrush white(RGB(255, 255, 255));
 	CBrush myBrush;
@@ -884,53 +1036,57 @@ void DrawingVisitor::Visit(SelfAggregations *selfAggregations, CDC *cPaintDc) {
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
-	// 수직 기울기
+	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+														  // 수직 기울기
 	CPoint pts[3];
 
 	pts[0].x = endX; //마우스 현재위치 점
 	pts[0].y = endY;
 
-	pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
 	cPaintDc->MoveTo(pts[0].x, pts[0].y);
 	cPaintDc->LineTo(pts[1].x, pts[1].y);
 
 	cPaintDc->MoveTo(pts[0].x, pts[0].y);
 	cPaintDc->LineTo(pts[2].x, pts[2].y);
+
 	//여기까지 화살표 다음부터 마름모
 	//문제
 	startX = selfAggregations->GetX();
 	startY = selfAggregations->GetY();
-	endX = selfAggregations->GetWidth();
-	endY = selfAggregations->GetHeight();
+	endX = selfAggregations->GetX();
+	endY = selfAggregations->GetY() - 30;
 
-	degree = atan2(endX - startX, startY - endY);
+	degree = atan2(endX - startX, startY - endY); // 기울기
+
 	distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
-	dX = (startX)+(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	dY = (startY)-(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+	dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
+	dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
 
 	double dX2 = (startX)-((endX - startX) / distance);
 	double dY2 = (startY)+((startY - endY) / distance);
 
 	CPoint pts2[4];
-	//작 성 자:구 보 승
-	pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
 
-	pts2[1].x = static_cast<LONG>(startX); //마우스 처음 점
-	pts2[1].y = static_cast<LONG>(startY);
+	pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+	pts2[1].y = static_cast<LONG>(dY2);
 
-	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(15 * (endX - startX) / distance); // 윗점
-	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(15 * (startY - endY) / distance);
+	pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
+	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
 
 	cPaintDc->SelectObject(&white);
 	cPaintDc->Polygon(pts2, 4);
@@ -938,6 +1094,7 @@ void DrawingVisitor::Visit(SelfAggregations *selfAggregations, CDC *cPaintDc) {
 	myBrush.DeleteObject();
 }
 void DrawingVisitor::Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *cPaintDc) {
+
 	cPaintDc->MoveTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY());
 	cPaintDc->LineTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 30);
 
@@ -962,19 +1119,20 @@ void DrawingVisitor::Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
-	// 수직 기울기
+	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+														  // 수직 기울기
 	CPoint pts[3];
 
 	pts[0].x = endX; //마우스 현재위치 점
 	pts[0].y = endY;
 
-	pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
 	cPaintDc->MoveTo(pts[0].x, pts[0].y);
 	cPaintDc->LineTo(pts[1].x, pts[1].y);
@@ -983,7 +1141,6 @@ void DrawingVisitor::Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC
 	cPaintDc->LineTo(pts[2].x, pts[2].y);
 }
 void DrawingVisitor::Visit(SelfComposition *selfComposition, CDC *cPaintDc) {
-
 	CBrush black(RGB(000, 000, 000));
 	CBrush myBrush;
 	myBrush.CreateSolidBrush(RGB(255, 255, 255));
@@ -1001,42 +1158,41 @@ void DrawingVisitor::Visit(SelfComposition *selfComposition, CDC *cPaintDc) {
 	cPaintDc->MoveTo(selfComposition->GetX() + 60, selfComposition->GetY() + 30);
 	cPaintDc->LineTo(selfComposition->GetX() + 30, selfComposition->GetY() + 30);
 
-	Long startX = selfComposition->GetX() + 60;
-	Long startY = selfComposition->GetY() + 30;
-	Long endX = selfComposition->GetX() + 30;
-	Long endY = selfComposition->GetY() + 30;
-
+	Long startX = selfComposition->GetX();
+	Long startY = selfComposition->GetY();
+	Long endX = selfComposition->GetX();
+	Long endY = selfComposition->GetY() - 30;
 	double degree = atan2(endX - startX, startY - endY); // 기울기
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 
-	double dX = (startX)+(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (startY)-(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+	double dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
 
 	double dX2 = (startX)-((endX - startX) / distance);
 	double dY2 = (startY)+((startY - endY) / distance);
 
 	CPoint pts2[4];
 
-	pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
 
 	pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
 	pts2[1].y = static_cast<LONG>(dY2);
 
-	pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
-	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(15 * (endX - startX) / distance); // 윗점
-	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(15 * (startY - endY) / distance);
+	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
+	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
 
 	cPaintDc->SelectObject(&black);
 	cPaintDc->Polygon(pts2, 4);
 	cPaintDc->SelectObject(oldBrush);
 	myBrush.DeleteObject();
 }
-
 void DrawingVisitor::Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) {
+
 	CBrush black(RGB(000, 000, 000));
 	CBrush myBrush;
 	myBrush.CreateSolidBrush(RGB(255, 255, 255));
@@ -1058,55 +1214,61 @@ void DrawingVisitor::Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) {
 	Long startY = selfCompositions->GetY() + 30;
 	Long endX = selfCompositions->GetX() + 30;
 	Long endY = selfCompositions->GetY() + 30;
-
 	double degree = atan2(endX - startX, startY - endY); // 기울기
-
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endX)-(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY)+(15 * (startY - endY) / distance); //뒤로 온 기준점 y
-	// 수직 기울기
+	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+														  // 수직 기울기
 	CPoint pts[3];
+
 	pts[0].x = endX; //마우스 현재위치 점
 	pts[0].y = endY;
 
-	pts[1].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts[1].y = static_cast<LONG>(dY - 15 * sin(degree));
+	pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
 	cPaintDc->MoveTo(pts[0].x, pts[0].y);
 	cPaintDc->LineTo(pts[1].x, pts[1].y);
 
 	cPaintDc->MoveTo(pts[0].x, pts[0].y);
 	cPaintDc->LineTo(pts[2].x, pts[2].y);
+
 	//여기까지 화살표 다음부터 마름모
+	//문제
 	startX = selfCompositions->GetX();
 	startY = selfCompositions->GetY();
+	endX = selfCompositions->GetX();
+	endY = selfCompositions->GetY() - 30;
 
-	degree = atan2(endX - startX, startY - endY);
+	degree = atan2(endX - startX, startY - endY); // 기울기
+
 	distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
-	dX = (startX)+(15 * (endX - startX) / distance); //뒤로 온 기준점 x
-	dY = (startY)-(15 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+	dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
+	dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
 
 	double dX2 = (startX)-((endX - startX) / distance);
 	double dY2 = (startY)+((startY - endY) / distance);
 
 	CPoint pts2[4];
-	//작 성 자:구 보 승
-	pts2[0].x = static_cast<LONG>(dX - 15 * cos(degree)); // 윗점
-	pts2[0].y = static_cast<LONG>(dY - 15 * sin(degree));
 
-	pts2[1].x = static_cast<LONG>(startX); //마우스 처음 점
-	pts2[1].y = static_cast<LONG>(startY);
+	pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+	pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts2[2].x = static_cast<LONG>(dX + 15 * cos(degree)); // 아랫점
-	pts2[2].y = static_cast<LONG>(dY + 15 * sin(degree));
+	pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+	pts2[1].y = static_cast<LONG>(dY2);
 
-	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(15 * (endX - startX) / distance); // 윗점
-	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(15 * (startY - endY) / distance);
+	pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+	pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
+	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
 
 	cPaintDc->SelectObject(&black);
 	cPaintDc->Polygon(pts2, 4);

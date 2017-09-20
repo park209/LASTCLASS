@@ -1,6 +1,12 @@
 //Class.cpp
 
+#include "Diagram.h"
 #include "Class.h"
+#include "Template.h"
+#include "ClassName.h"
+#include "Attribute.h"
+#include "Method.h"
+#include "Reception.h"
 #include "Line.h"
 #include "Generalization.h"
 #include "Realization.h"
@@ -11,8 +17,6 @@
 #include "Aggregations.h"
 #include "Composition.h"
 #include "Compositions.h"
-#include "Template.h"
-#include "SmartPointer.h"
 #include "MemoLine.h"
 #include "SelfGeneralization.h"
 #include "SelfDependency.h"
@@ -22,9 +26,9 @@
 #include "SelfDirectedAssociation.h"
 #include "SelfComposition.h"
 #include "SelfCompositions.h"
-#include "SmartPointer.h"
-#include "ArrayIterator.h"
 #include "Iterator.h"
+#include "ArrayIterator.h"
+#include "SmartPointer.h"
 
 Class::Class(Long capacity):FigureComposite(capacity) {
 	this->x = 0;
@@ -267,7 +271,65 @@ Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
 
 	return this->templetePosition;
 }
+Figure* Class::AddReception(Diagram *diagram) {
 
+	Line line(this->x, this->y+this->height, this->width, 0);
+	
+	this->height = height + 50;
+
+	if (this->length < this->capacity) {
+		this->figures.Store(this->length, line.Clone());
+	}
+	else {
+		this->figures.AppendFromRear(line.Clone());
+		this->capacity++;
+	}
+	this->length++;
+	
+	Reception reception(this->x, this->y, this->width,50,"");
+
+	if (this->length < this->capacity) {
+		this->figures.Store(this->length, reception.Clone());
+	}
+	else {
+		this->figures.AppendFromRear(reception.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	Long i = 0;
+	Long j = 0;
+	while (i < this->GetLength()) {
+		
+		if (dynamic_cast<Relation*>(this->GetAt(i))) {
+			this->GetAt(i)->Modify(this->GetAt(i)->GetX(), this->GetAt(i)->GetY() + 50, this->GetAt(i)->GetWidth(), this->GetAt(i)->GetHeight() - 50);
+		}
+		i++;
+	}
+	i = 0;
+	Long startX = this->GetX();
+	Long startY = this->GetY();
+	Long endX = this->GetX() + this->GetWidth();
+	Long endY = this->GetY() + this->GetHeight();
+	while (i<diagram->GetLength()) {
+		j = 0;
+		FigureComposite *figureComposite = dynamic_cast<FigureComposite*>(diagram->GetAt(i));
+			while (j < figureComposite->GetLength()) {
+				Figure *figure = figureComposite->GetAt(j);
+				if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
+					Long relationEndX = figure->GetX() + figure->GetWidth();
+					Long relationEndY = figure->GetY() + figure->GetHeight();
+					if (startX <= relationEndX &&  relationEndX <= endX &&
+						startY <= relationEndY &&  relationEndY <= endY) {
+						figure->EndPointMove(0, 50);
+					}
+				}
+				j++;
+		}
+		i++;
+	}
+	return this;
+}
 Long Class::Remove(Long index) {
 
 	this->length--;
@@ -295,54 +357,48 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 		if (dynamic_cast<Line*>(smartPointer->Current())){
 			static_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-		
 		else if (dynamic_cast<Template*>(smartPointer->Current())) {
 			static_cast<Template*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-
+		else if (dynamic_cast<ClassName*>(smartPointer->Current())) {
+			dynamic_cast<ClassName*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<Attribute*>(smartPointer->Current())) {
+			dynamic_cast<Attribute*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<Method*>(smartPointer->Current())) {
+			dynamic_cast<Method*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<Reception*>(smartPointer->Current())) {
+			dynamic_cast<Reception*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
 		else if (dynamic_cast<Generalization*>(smartPointer->Current())) {
 			static_cast<Generalization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-
 		else if (dynamic_cast<Realization*>(smartPointer->Current())) {
 			static_cast<Realization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-	
-
 		else if (dynamic_cast<Dependency*>(smartPointer->Current())) {
 			static_cast<Dependency*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-		
-
 		else if (dynamic_cast<Association*>(smartPointer->Current())) {
 			static_cast<Association*>(smartPointer->Current())->Accept(visitor, cPaintDc); //, cPaintDc
 		}
-		
-
 		else if (dynamic_cast<DirectedAssociation*>(smartPointer->Current())) {
 			static_cast<DirectedAssociation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-		
-
 		else if (dynamic_cast<Aggregation*>(smartPointer->Current())) {
 			static_cast<Aggregation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-		
-
 		else if (dynamic_cast<Aggregations*>(smartPointer->Current())) {
 			static_cast<Aggregations*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-		
-
 		else if (dynamic_cast<Composition*>(smartPointer->Current())) {
 			static_cast<Composition*>(smartPointer->Current())->Accept(visitor, cPaintDc);
-		
 		}
-
 		else if (dynamic_cast<Compositions*>(smartPointer->Current())) {
 			static_cast<Compositions*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-
 		else if (dynamic_cast<MemoLine*>(smartPointer->Current())) {
 			static_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
