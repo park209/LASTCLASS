@@ -39,7 +39,7 @@ Figure* TemplateButton::AddToArray(Diagram *diagram, Selection *selection, Long 
 	return figure;
 }
 
-void TemplateButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+void TemplateButton::Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 
 }
 

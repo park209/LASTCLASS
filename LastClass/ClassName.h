@@ -2,7 +2,7 @@
 #define _CLASSNAME_H
 
 #include "Figure.h"
-#include "WritingVisitor.h"
+#include "DrawingVisitor.h"
 
 typedef signed long int Long;
 
@@ -20,4 +20,4 @@ public:
 	Figure* Clone() const;
 };
 
-#endif // _CLASSNAME_H
+#endif // !_CLASSNAME_H

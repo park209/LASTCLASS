@@ -124,25 +124,13 @@ Figure* Diagram::FindItem(Long x, Long y) {
 	return figure;
 }
 
-//Long Diagram::Find(Long x, Long y) {
-//	Long i = 0;
-//	Long j = 0;
-//	Long endX;
-//	Long endY;
-//	Long index = -1;
-//		while (i < this->GetLength() && index == -1) {
-//		endX = this->figures[i]->GetX() + this->figures[i]->GetWidth();
-//		endY = this->figures[i]->GetY() + this->figures[i]->GetHeight();
-//		if (this->figures[i]->GetX() <= x&&endX >= x&&this->figures[i]->GetY() <= y&&endY >= y) {
-//			index = i;
-//		}
-//		i++;
-//	}
-//	return index;
-//	
-//}
+
 
 Long Diagram::Remove(Long index) {
+
+	this->length--;
+	this->capacity--;
+
 	return this->figures.Delete(index);
 }
 
@@ -156,7 +144,6 @@ Figure* Diagram::Clone() const {
 
 
 void Diagram::Accept(Visitor& visitor, CDC *cPaintDc) {
-	//cout << "Diagram Accept" << endl;
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 	while (!smartPointer->IsDone()) {
 		if (dynamic_cast<Class*>(smartPointer->Current())) {
@@ -168,20 +155,3 @@ void Diagram::Accept(Visitor& visitor, CDC *cPaintDc) {
 		smartPointer->Next();
 	}
 }
-
-//
-//#include <iostream>
-//using namespace std;
-//int main(int argc, char* argv[]) {
-//	Diagram object0;
-//	object0.AddClass(10, 20, 30, 40);
-//	object0.AddMemoBox(50, 60, 70, 80);
-//	cout << "디폴트생성자, 매개변수생성자2개" << endl;
-//	if (dynamic_cast<MemoBox*>(object0.GetAt(1))) {
-//		cout << dynamic_cast<MemoBox*>(object0.GetAt(1))->GetX() << dynamic_cast<MemoBox*>(object0.GetAt(1))->GetY() <<
-//			dynamic_cast<MemoBox*>(object0.GetAt(1))->GetWidth() << dynamic_cast<MemoBox*>(object0.GetAt(1))->GetHeight() << endl;
-//	}
-//	cout << object0.GetLength() << endl;
-//	
-//	return 0;
-//}

@@ -4,7 +4,7 @@
 #define _METHOD_H
 
 #include "Figure.h"
-#include "WritingVisitor.h"
+#include "DrawingVisitor.h"
 
 typedef signed long int Long;
 
@@ -18,7 +18,7 @@ public:
 
 	Method& operator = (const Method& source);
 
-	void Accept(Visitor& visitor, CDC *cPaintDc);
+	//void Accept(Visitor& visitor, CDC *cPaintDc);
 	Figure* Clone() const;
 };
 

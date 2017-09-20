@@ -28,6 +28,7 @@ public:
 	Long Load();
 	Long TextSave();
 	Long TextLoad();
+	
 public:
 	Long GetRowIndex() const;
 	Long GetCharacterIndex() const;
@@ -39,20 +40,8 @@ private:
 	Long currentY;
 	Long rowIndex;
 	Long characterIndex;
-	//Long selected;
-	bool classButton;	//임시버튼
-	bool relationButton;	//임시버튼
-	bool generalizationButton; //일반화
-	bool realizationButton; //실체화
-	bool dependencyButton; //의존
-	bool associationButton; //연관화
-	bool directedAssociationButton; //직접연관
-	bool aggregationButton; // 집합
-	bool aggregationSButton; // 집합연관
-	bool compositionButton; // 합성
-	bool compositionSBtton; // 복합연관
-	bool templateButton; //템플릿기호
-	bool memoBoxButton; //메모박스
+	
+	
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();

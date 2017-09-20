@@ -9,7 +9,7 @@ typedef signed long int Long;
 
 class MemoBox : public FigureComposite {
 public:
-	MemoBox(Long capacity = 256);
+	MemoBox(Long capacity = 10);
 	MemoBox(Long x, Long y, Long width, Long height);
 	MemoBox(const MemoBox& source);
 	virtual ~MemoBox();	// 

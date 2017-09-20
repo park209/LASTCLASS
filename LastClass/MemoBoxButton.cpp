@@ -33,7 +33,7 @@ Figure* MemoBoxButton::AddToArray(Diagram *diagram, Selection *selection, Long s
 	index = diagram->AddMemoBox(startX, startY, currentX - startX, currentY - startY);
 	return diagram->GetAt(index);
 }
-void MemoBoxButton::Draw(Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
+void MemoBoxButton::Draw(Selection *selection, Long startX, Long startY, Long currentX, Long currentY, CDC *cPaintDc) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDc->SelectObject(&pen);

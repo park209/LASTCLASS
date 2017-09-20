@@ -11,7 +11,7 @@
 typedef signed long int Long;
 class Dependency : public Relation {
 public:
-	Dependency();
+	Dependency(Long capacity = 10);
 	Dependency(Long x, Long y, Long width, Long height);
 	Dependency(const Dependency& source);
 	virtual ~Dependency();

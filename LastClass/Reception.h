@@ -4,10 +4,11 @@
 #define _RECEPTION_H
 
 #include "Figure.h"
-#include "WritingVisitor.h"
+#include "DrawingVisitor.h"
 
 typedef signed long int Long;
 using namespace std;
+
 
 class Visitor;
 class Reception :public Figure {
@@ -19,9 +20,10 @@ public:
 
 	Reception& operator = (const Reception& source);
 
-	void Accept(Visitor& visitor, CDC *cPaintDc);
+	//void Accept(Visitor& visitor, CDC *cPaintDc);
 
 	Figure* Clone() const;
+
 
 };
 
