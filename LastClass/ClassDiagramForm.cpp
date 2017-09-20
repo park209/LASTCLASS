@@ -443,7 +443,9 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	Class *object;
 	if (nChar == 100) { // D 선택항목 지우기
-		this->selection->Remove(this->diagram, this->selection->GetAt(0));
+		while (this->selection->GetLength() != 0) {
+			this->selection->Remove(this->diagram, this->selection->GetAt(this->selection->GetLength() -1));
+		}
 	}
 	if (nChar == 102) { // F 템플릿기호 지우기
 		object = static_cast<Class*>(this->selection->GetAt(0));
