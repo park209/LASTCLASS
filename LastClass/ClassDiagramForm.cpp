@@ -475,8 +475,19 @@ void ClassDiagramForm::OnPaint() {
 	
 }
 
-void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
-
+	void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
+		Class *object;
+	if (nChar == 100) { // D 선택항목 지우기
+		this->selection->Remove(this->diagram,this->selection->GetAt(0));
+	}
+	if (nChar == 102) { // F 템플릿기호 지우기
+		object = static_cast<Class*>(this->selection->GetAt(0));
+		object->RemoveTemplate();
+	}
+	if (nChar == 103) { // G 리셉션칸 지우기
+		object = static_cast<Class*>(this->selection->GetAt(0));
+		object->RemoveReception();
+	}
 	this->drawingController->ChangeState(nChar);
 	
 	Invalidate();

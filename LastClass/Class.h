@@ -34,7 +34,9 @@ public:
 	Long AddCompositions(Long x, Long y, Long width, Long height);
 	Long AddTemplate(Long x, Long y, Long width, Long height);
 
-	Figure* AddReception();
+	Long RemoveTemplate();
+	Long RemoveReception();
+	Long AddReception();
 
 
 	virtual Long Add(Figure *figure);
@@ -50,6 +52,7 @@ public:
 
 private:
 	Long templetePosition;
+	Long receptionPosition;
 };
 inline Long Class::GetTempletePosition() const {
 	return this->templetePosition;

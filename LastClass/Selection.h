@@ -18,6 +18,7 @@ public:
 	virtual Long Add(Figure *figure);
 	virtual Figure* GetAt(Long index);
 	virtual Figure* Clone() const;
+	Long Remove(Diagram *diagram, Figure *figure);
 	void DeleteAllItems();
 	void Accept(Diagram *diagram,Visitor& visitor, Long distanceX, Long distanceY);
 	void Accept(Visitor& visitor, CDC *cPaintDc);

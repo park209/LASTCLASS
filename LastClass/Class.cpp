@@ -33,6 +33,7 @@ Class::Class(Long capacity):FigureComposite(capacity) {
 	this->width = 0;
 	this->height = 0;
 	this->templetePosition = -1;
+	this->receptionPosition = -1;
 }
 
 Class::Class(Long x, Long y, Long width, Long height) : FigureComposite(64) {
@@ -41,6 +42,7 @@ Class::Class(Long x, Long y, Long width, Long height) : FigureComposite(64) {
 	this->width = width;
 	this->height = height;
 	this->templetePosition = -1;
+	this->receptionPosition = -1;
 }
 
 Class::Class(const Class& source) : FigureComposite(source) {
@@ -49,9 +51,15 @@ Class::Class(const Class& source) : FigureComposite(source) {
 	this->width = source.width;
 	this->height = source.height;
 	this->templetePosition = source.templetePosition;
+	this->receptionPosition = source.receptionPosition;
 }
 
 Class::~Class() {
+	Long i = 0;
+	while (i < this->length) {
+		delete this->figures[i];
+		i++;
+	}
 }
 Figure* Class::Move(Long distanceX, Long distanceY){
 	Figure::Move(distanceX, distanceY);
@@ -71,6 +79,7 @@ Class& Class::operator = (const Class& source) {
 	this->width = source.width;
 	this->height = source.height;
 	this->templetePosition = source.templetePosition;
+	this->receptionPosition = source.receptionPosition;
 
 	return *this;
 }
@@ -253,7 +262,7 @@ Long Class::AddCompositions(Long x, Long y, Long width, Long height) {
 
 	return index;
 }
-Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
+Long Class::AddTemplate(Long x, Long y, Long width, Long height) { //중복생성 안되게 막아야함
 	
 	Template object(x, y, width, height);
 
@@ -268,17 +277,17 @@ Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
 
 	return this->templetePosition;
 }
-Figure* Class::AddReception() {
+Long Class::AddReception() {	//중복생성 안되게 막아야함
 
 	Line line(this->x, this->y+this->height, this->width, 0);
 	
 	this->height = height + 50;
 
 	if (this->length < this->capacity) {
-		 this->figures.Store(this->length, line.Clone());
+		this->receptionPosition = this->figures.Store(this->length, line.Clone());
 	}
 	else {
-	 this->figures.AppendFromRear(line.Clone());
+		this->receptionPosition = this->figures.AppendFromRear(line.Clone());
 		this->capacity++;
 	}
 	this->length++;
@@ -289,21 +298,35 @@ Figure* Class::AddReception() {
 		this->figures.Store(this->length, reception.Clone());
 	}
 	else {
-		 this->figures.AppendFromRear(reception.Clone());
+		this->figures.AppendFromRear(reception.Clone());
 		this->capacity++;
 	}
 	this->length++;
 
-	return this;
+	return this->receptionPosition;
 }
 Long Class::Remove(Long index) {
 
+	if (this->figures[index] != 0) {
+		delete this->figures[index];
+	}
 	this->length--;
 	this->capacity--;
-
 	return this->figures.Delete(index);
 }
-
+Long Class::RemoveTemplate() {
+	if (this->templetePosition != -1) {
+		this->templetePosition = this->Remove(this->templetePosition);
+	}
+	return this->templetePosition;
+}
+Long Class::RemoveReception() {
+	if (this->receptionPosition != -1) {
+		this->Remove(this->receptionPosition + 1);
+		this->receptionPosition = this->Remove(this->receptionPosition);
+	}
+	return this->receptionPosition;
+}
 Figure* Class::GetAt(Long index) {
 	return static_cast<Figure*>(this->figures.GetAt(index));
 }

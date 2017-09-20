@@ -5,9 +5,7 @@
 #include "MemoBox.h"
 #include "SmartPointer.h"
 
-Diagram::Diagram(Long capacity) {
-	this->capacity = capacity;
-	this->length = 0;
+Diagram::Diagram(Long capacity) :FigureComposite(capacity) {
 	this->x = 0;
 	this->y = 0;
 	this->width = 0;
@@ -15,17 +13,14 @@ Diagram::Diagram(Long capacity) {
 }
 
 Diagram::~Diagram() {
-}
-
-Diagram::Diagram(const Diagram& source) {
-	this->figures = source.figures;
 	Long i = 0;
 	while (i < this->length) {
-		this->figures.Modify(i, (const_cast<Diagram&>(source)).figures[i]->Clone());
+		delete this->figures[i];
 		i++;
 	}
-	this->capacity = source.capacity;
-	this->length = source.length;
+}
+
+Diagram::Diagram(const Diagram& source):FigureComposite(source) {
 	this->x = source.x;
 	this->y = source.y;
 	this->width = source.width;
@@ -128,9 +123,11 @@ Figure* Diagram::FindItem(Long x, Long y) {
 
 Long Diagram::Remove(Long index) {
 
+	if (this->figures[index] != 0) {
+		delete this->figures[index];
+	}
 	this->length--;
 	this->capacity--;
-
 	return this->figures.Delete(index);
 }
 
@@ -148,10 +145,10 @@ void Diagram::Accept(Visitor& visitor, CDC *cPaintDc) {
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 	while (!smartPointer->IsDone()) {
 		if (dynamic_cast<Class*>(smartPointer->Current())) {
-			dynamic_cast<Class*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<Class*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		if(dynamic_cast<MemoBox*>(smartPointer->Current())){
-			dynamic_cast<MemoBox*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<MemoBox*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		smartPointer->Next();
 	}

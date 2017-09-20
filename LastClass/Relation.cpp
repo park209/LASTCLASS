@@ -37,6 +37,7 @@ Relation& Relation::operator=(const Relation& source) {
 }
 
 Relation::~Relation() {
+	
 }
 
 Long Relation::Move(Long index, CPoint cPoint) {

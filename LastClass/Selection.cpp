@@ -1,6 +1,7 @@
 #include  "Selection.h"
 #include "Diagram.h"
 #include "Relation.h"
+#include "FigureComposite.h"
 #include "Finder.h"
 #include "SelfRelation.h"
 Selection::Selection(Long capacity):FigureComposite(capacity) {
@@ -50,11 +51,50 @@ Long Selection::Add(Figure *figure) {
 
 
 Long Selection::Remove(Long index) {
-	this->capacity--;
-	this->length--;
-	return this->figures.Delete(index);
-}
 
+	if (this->figures[index] != 0) {
+		delete this->figures[index];
+	}
+	this->length--;
+	this->capacity--;
+	return this->figures.Delete(index);
+
+}
+Long Selection::Remove(Diagram *diagram, Figure *figure) {
+	Long i = 0;
+	Long index = -1;
+	FigureComposite *figures = 0;
+	while (i < diagram->GetLength() && figure != diagram->GetAt(i)) {
+		i++;
+	}
+	if (i < diagram->GetLength()) {
+		index = i;
+		diagram->Remove(index);
+		index = this->figures.Delete(0);
+		this->length--;
+		this->capacity--;
+	}
+	i = 0;
+	Long j ;
+
+	while (i < diagram->GetLength() && index == -1) {
+		j = 0;
+		figures =static_cast<FigureComposite*>(diagram->GetAt(i));
+		while (j < figures->GetLength() && figure != figures->GetAt(j)) {
+			j++;
+		}
+		if (j < figures->GetLength()) {
+			index = j;
+			figures->Remove(index);
+			index = this->figures.Delete(0);
+			this->length--;
+			this->capacity--;
+		}
+		i++;
+	}
+	
+	return index;
+}
 Figure* Selection::Clone() const {
 	return new Selection(*this);
 }

@@ -719,7 +719,7 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 	Long i = 0;
 	while (i < selection->GetLength()) {
 		if (dynamic_cast<Class*>(selection->GetAt(i))) {
-			Class *object = static_cast<Class*>(selection->GetAt(i));
+		Class *object = static_cast<Class*>(selection->GetAt(i));
 			if (object->GetTempletePosition() == -1) {
 				cPaintDc->Rectangle(
 					object->GetX() - 5,

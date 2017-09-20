@@ -30,12 +30,13 @@ public:
 	Long GetCapacity();
 	Long GetLength();
 
+
 protected:
 	Array<Figure*> figures;
 	Long capacity;
 	Long length;
 };
-
+int CompareFigureLinks(void *one, void *other);
 inline Long FigureComposite::GetCapacity() {
 	return this->capacity;
 }
