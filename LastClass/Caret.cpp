@@ -28,12 +28,16 @@ Caret::~Caret() {
 void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
 	Long pointX = 5;														//가로
 	Long pointY = this->rowIndex * textEdit->GetRowHeight() + 5;			//세로
+	CString str;
 	Long i = 0;
 	while (i < this->characterIndex) {
-		pointX += dc->GetTabbedTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(i)->MakeCString(), 0, 0).cx;
+		str = textEdit->text->GetAt(this->rowIndex)->GetAt(i)->MakeCString();
+		if (str == "\t") {
+			str = "    ";
+		}
+		pointX += dc->GetTextExtent(str).cx;
 		i++;
 	}
-
 	textEdit->CreateSolidCaret(2, textEdit->GetRowHeight());
 	if (textEdit->GetFlagBuffer() == 1) {
 		textEdit->CreateSolidCaret(-dc->GetTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex-1)->MakeCString()).cx, textEdit->GetRowHeight());
@@ -47,7 +51,7 @@ void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
 void Caret::MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point) {
 	Long x = point.x;
 	Long y = point.y;
-
+	CString str;
 	this->rowIndex = 0;
 	this->characterIndex = 0;
 
@@ -62,12 +66,22 @@ void Caret::MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point) {
 
 	Long width = 5;
 	while (x > 5 && width < x && this->characterIndex < textEdit->text->GetAt(this->rowIndex)->GetLength()) {
-		width += cPaintDc->GetTabbedTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex)->MakeCString(), 0, 0).cx;
+		str = textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex)->MakeCString();
+		if (str == "\t") {
+			str = "    ";
+		}
+		width += cPaintDc->GetTextExtent(str).cx;
 		this->characterIndex++; // -1 안하면 다음꺼
 	}
-	if (x > 5 && this->characterIndex > 0 &&
-		x < width - (cPaintDc->GetTabbedTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex - 1)->MakeCString(), 0, 0).cx) / 2) {
-		this->characterIndex--;
+	if (this->characterIndex > 0) {
+		str = textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex - 1)->MakeCString();
+		if (str == "\t") {
+			str = "    ";
+		}
+		Long textWidth = cPaintDc->GetTextExtent(str).cx;
+		if (x > 5 && x < width - textWidth / 2) {
+			this->characterIndex--;
+		}
 	}
 }
 
