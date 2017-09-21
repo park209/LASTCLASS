@@ -18,6 +18,7 @@
 #include "Compositions.h"
 #include "MemoLine.h"
 #include <iostream>
+#include "Finder.h"
 
 using namespace std;
 
@@ -29,50 +30,36 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 	Long length = selection->GetLength();
 	Long i = 0;
 	Long j;
-	Long k = 0;
+	Long k;
 	Long l = 0;
 	Figure *figure;
-
+	Finder finder;
+	Figure *(*figures) = new Figure*[32];
+	Long length2=0;
 	while (i < length) {
 		figure = selection->GetAt(i);
 
 
 		if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
-			Long startX = figure->GetX();
-			Long startY = figure->GetY();
-			Long endX = figure->GetX() + figure->GetWidth();
-			Long endY = figure->GetY() + figure->GetHeight();
+			FigureComposite *figureComposite = static_cast<FigureComposite*>(figure);
+			finder.FindRelationEndPoints(diagram, figureComposite, figures, &length2);
+			k = 0;
+			while (k < length2) {
+				figures[k]->EndPointMove(distanceX, distanceY);
+				k++;
+			}
 			figure->Move(distanceX, distanceY); // 해당 클래스나 메모 이동
-			FigureComposite *figureComposite = static_cast<FigureComposite*>(figure); // 형변환
+			 // 형변환
 			j = 0;
 			while (j < figureComposite->GetLength()) { // 형변환 한게 관리하면 배열 렝스까지
 				figure = figureComposite->GetAt(j);
 				figure->Move(distanceX, distanceY);
 				j++;
 			}
-
-			while (k < diagram->GetLength()) {
-				figureComposite = static_cast<FigureComposite*>(diagram->GetAt(k));
-				l = 0;
-				while (l < figureComposite->GetLength()) {
-					if (dynamic_cast<Relation*>(figureComposite->GetAt(l))) {
-						figure = figureComposite->GetAt(l);
-						Long relationEndX = figure->GetX() + figure->GetWidth();
-						Long relationEndY = figure->GetY() + figure->GetHeight();
-						if (startX <= relationEndX &&  relationEndX <= endX &&
-							startY <= relationEndY &&  relationEndY <= endY) {
-
-							figure->EndPointMove(distanceX, distanceY);
-						}
-					}
-					l++;
-				}
-				k++;
-			}
-
 		}
 		i++;
 	}
+	delete figures;
 }
 void MovingVisitor::Visit(Class *object, CDC* cPaintDc) {
 }

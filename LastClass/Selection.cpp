@@ -3,6 +3,8 @@
 #include "Relation.h"
 #include "Finder.h"
 #include "SelfRelation.h"
+#include"Template.h"
+#include "Class.h"
 Selection::Selection(Long capacity):FigureComposite(capacity) {
 	this->x = 0;
 	this->y = 0;
@@ -198,14 +200,23 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 	CPoint lineEnd;
 
 	while (i < diagram->GetLength() && ret == false) {
-		
 		composite = static_cast<FigureComposite*>(diagram->GetAt(i));
-		rect.left = composite->GetX() - 3;
-		rect.top = composite->GetY() - 3;
-		rect.right = composite->GetX() + composite->GetWidth() + 3;
-		rect.bottom = composite->GetY() + composite->GetHeight() + 3;
+		if (dynamic_cast<Class*>(diagram->GetAt(i))->GetTempletePosition()!=-1) {
+			Template *object = dynamic_cast<Template*>(composite->GetAt(static_cast<Class*>(diagram->GetAt(i))->GetTempletePosition()));
+			rect.left = composite->GetX() - 3;
+			rect.top = object->GetY() - 3;
+			rect.right = object->GetX() + object->GetWidth() + 3;
+			rect.bottom = composite->GetY() + composite->GetHeight() + 3;
+		}
+		else {
+			rect.left = composite->GetX() - 3;
+			rect.top = composite->GetY() - 3;
+			rect.right = composite->GetX() + composite->GetWidth() + 3;
+			rect.bottom = composite->GetY() + composite->GetHeight() + 3;
+		}
+		
 
-		//1여기에 템플릿일때 if() 이거하고/2 템플릿일때 작은 사각형 누르기 하고/3 확대하기 
+		
 		ret = finder.FindRectangleByPoint(rect, x, y);
 
 		if (ret == true) {
