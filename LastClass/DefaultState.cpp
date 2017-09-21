@@ -11,6 +11,7 @@
 #include "Selection.h"
 #include "SelectionState.h"
 #include "DrawingRelation.h"
+#include "DrawingMemoBox.h"
 
 DefaultState* DefaultState::instance = 0;
 
@@ -38,6 +39,9 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	UINT object = mouseLButton->GetButtonState();
 	if (object == 49) {
 		this->ChangeState(mouseLButton, DrawingClass::Instance());
+	}
+	if (object == 101) {
+		this->ChangeState(mouseLButton, DrawingMemoBox::Instance());
 	}
 	selection->SelectByPoint(diagram, startX, startY);
 	if (selection->GetLength() > 0) {
