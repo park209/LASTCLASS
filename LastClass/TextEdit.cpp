@@ -512,3 +512,21 @@ void TextEdit::OnClose() {
 	CFrameWnd::OnClose();
 }
 
+
+int main(int argc, char *argv[]) {
+	SingleByteCharacter singleWord('d');
+	DoubleByteCharacter doubleWord("วั");
+	Row textRow;
+	textRow.Add(singleWord.Clone());
+	textRow.Add(doubleWord.Clone());
+
+	cout << textRow.GetLength() << endl << endl;
+
+	SmartPointer<TextComponent*> iterator = textRow.CreateIterator();
+	for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
+		cout << static_cast<SingleByteCharacter*>(iterator->Current())->MakeCString() << endl;
+		//cout << static_cast<DoubleByteCharacter*>(iterator->Current())->MakeCString() << endl;
+	}
+
+	return 0;
+}

@@ -544,7 +544,6 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 			}
 		}
 	}
-
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
