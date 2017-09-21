@@ -39,6 +39,7 @@
 #include "DrawingVisitor.h"
 #include "WritingVisitor.h"
 #include "MovingVisitor.h"
+#include "ClassButton.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
@@ -510,31 +511,36 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentY = point.y;
 
 	if (dynamic_cast<Unclicked*>(this->drawingController->buttonState)) {
-		CRect area;
-		area.left = this->startX;
-		area.top = this->startY;
-		area.right = this->currentX;
-		area.bottom = this->currentY;
-		this->selection->SelectByArea(this->diagram, area);
+		MovingVisitor movingVisitor;
+		Long distanceX = currentX - startX;
+		Long distanceY = currentY - startY;
+		this->selection->Accept(this->diagram, movingVisitor, distanceX, distanceY);
+		if (this->selection->GetLength() == 0) {
+			CRect area;
+			area.left = this->startX;
+			area.top = this->startY;
+			area.right = this->currentX;
+			area.bottom = this->currentY;
+			this->selection->SelectByArea(this->diagram, area);
+		}
 	}
 
 	Figure *figure = 0;
-	if (this->startX != this->currentX && this->startY != this->currentY) {
+	if (this->startX != this->currentX || this->startY != this->currentY) {
 		figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-	}
+		if (dynamic_cast<ClassButton*>(this->drawingController->buttonState)) {
+			SmartPointer<Figure*> iterator = static_cast<Class*>(figure)->CreateIterator();
+			for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
+				if (dynamic_cast<ClassName*>(iterator->Current())) {
+					this->textEdit = new TextEdit(iterator->Current());
 
-	if (dynamic_cast<Class*>(figure)) {
-		SmartPointer<Figure*> iterator = static_cast<Class*>(figure)->CreateIterator();
-		for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
-			if (dynamic_cast<ClassName*>(iterator->Current())) {
-				this->textEdit = new TextEdit(iterator->Current());
-
-				this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
-					iterator->Current()->GetX() + 5,
-					iterator->Current()->GetY() + 33,
-					iterator->Current()->GetX() + iterator->Current()->GetWidth() - 5,
-					iterator->Current()->GetY() + iterator->Current()->GetHeight() + 23), NULL, NULL, WS_EX_TOPMOST);
-				this->textEdit->ShowWindow(SW_SHOW);
+					this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
+						iterator->Current()->GetX() + 5,
+						iterator->Current()->GetY() + 33,
+						iterator->Current()->GetX() + iterator->Current()->GetWidth() - 5,
+						iterator->Current()->GetY() + iterator->Current()->GetHeight() + 23), NULL, NULL, WS_EX_TOPMOST);
+					this->textEdit->ShowWindow(SW_SHOW);
+				}
 			}
 		}
 	}
