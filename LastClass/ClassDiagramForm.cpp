@@ -435,7 +435,7 @@ void ClassDiagramForm::OnPaint() {
 
 	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
 		//this->drawingController->Draw(this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
-		this->mouseLButton->MouseLButtonDown(this->startX, this->startY, this->currentX, this->currentY, &dc);
+		this->mouseLButton->MouseLButtonDrag(this->mouseLButton,this->diagram,this->selection,this->startX,this->startY,this->currentX,this->currentY,&dc);
 
 	}
 	//this->mouseLButton->MouseLButtonDown(this->startX, this->startY, this->currentX, this->currentY, &dc);
@@ -444,20 +444,21 @@ void ClassDiagramForm::OnPaint() {
 
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
-	Class *object;
-	if (nChar == 100) { // D 선택항목 지우기
-		while (this->selection->GetLength() != 0) {
-			this->selection->Remove(this->diagram, this->selection->GetAt(this->selection->GetLength() -1));
-		}
-	}
-	if (nChar == 102) { // F 템플릿기호 지우기
-		object = static_cast<Class*>(this->selection->GetAt(0));
-		object->RemoveTemplate();
-	}
-	if (nChar == 103) { // G 리셉션칸 지우기
-		object = static_cast<Class*>(this->selection->GetAt(0));
-		object->RemoveReception();
-	}
+	//Class *object;
+	this->mouseLButton->ChangeState(nChar);
+	//if (nChar == 100) { // D 선택항목 지우기
+	//	while (this->selection->GetLength() != 0) {
+	//		this->selection->Remove(this->diagram, this->selection->GetAt(this->selection->GetLength() -1));
+	//	}
+	//}
+	//if (nChar == 102) { // F 템플릿기호 지우기
+	//	object = static_cast<Class*>(this->selection->GetAt(0));
+	//	object->RemoveTemplate();
+	//}
+	//if (nChar == 103) { // G 리셉션칸 지우기
+	//	object = static_cast<Class*>(this->selection->GetAt(0));
+	//	object->RemoveReception();
+	//}
 
 	//this->drawingController->ChangeState(nChar);
 	
@@ -492,9 +493,11 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 
 	Long x = this->startX;
 	Long y = this->startY;
-	this->selection->SelectByPoint(this->diagram, x, y);
-	CPaintDC dc(this);
-	
+	//this->selection->SelectByPoint(this->diagram, x, y);
+
+
+
+	this->mouseLButton->MouseLButtonDown(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 
 	KillTimer(1);
 
@@ -551,7 +554,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	Figure *figure = 0;
 	if (this->startX != this->currentX || this->startY != this->currentY) {
 		//figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-		this->mouseLButton->MouseLButtonUp(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
+		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 	}
 
 	this->startX = 0;

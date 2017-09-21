@@ -6,6 +6,7 @@
 #include "Attribute.h"
 #include "Method.h"
 #include "Figure.h"
+#include "DefaultState.h"
 DrawingClass* DrawingClass::instance = 0;
 
 MouseLButtonAction* DrawingClass::Instance() {
@@ -14,7 +15,7 @@ MouseLButtonAction* DrawingClass::Instance() {
 	}
 	return instance;
 }
-void DrawingClass::MouseLButtonUp(Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void DrawingClass::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
 	if (currentX - startX < 120) {
 		currentX = startX + 120;
 	}
@@ -25,14 +26,17 @@ void DrawingClass::MouseLButtonUp(Diagram *diagram, Selection *selection, Long  
 
 	Class *object = static_cast<Class*>(diagram->GetAt(index));
 	object->Initialize();
+	this->ChangeState(mouseLButton, DefaultState::Instance());
+}
+void DrawingClass::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
 
 }
-void DrawingClass::MouseLButtonDown(Long startX, Long startY, Long currentX, Long currentY, CPaintDC *cPatinDC) {
+void DrawingClass::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPatinDC->SelectObject(&pen);
-	cPatinDC->SetBkMode(TRANSPARENT);
-	cPatinDC->Rectangle(startX, startY, currentX, currentY);
-	cPatinDC->SelectObject(oldPen);
+	CPen *oldPen = cPaintDC->SelectObject(&pen);
+	cPaintDC->SetBkMode(TRANSPARENT);
+	cPaintDC->Rectangle(startX, startY, currentX, currentY);
+	cPaintDC->SelectObject(oldPen);
 	pen.DeleteObject();
 }

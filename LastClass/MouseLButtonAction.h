@@ -10,12 +10,11 @@ typedef signed long int Long;
 
 class MouseLButtonAction {
 public:
-	virtual void MouseLButtonUp(Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) = 0;
-	virtual void MouseLButtonDown(Long startX, Long startY, Long currentX, Long currentY, CPaintDC *cPatinDC) = 0;
+	virtual void MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) ;
+	virtual void MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY);
+	virtual void MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPatinDC) ;
 protected:
-	void ChangeState(MouseLButton* mouseLButton, MouseLButtonAction *mouseLButtonAction) {
-		mouseLButton->ChangeState(mouseLButtonAction);
-	}
+	void ChangeState(MouseLButton* mouseLButton, MouseLButtonAction *mouseLButtonAction,UINT nChar=0);
 };
 #endif // !_MOUSELBUTTONACTION_H
 

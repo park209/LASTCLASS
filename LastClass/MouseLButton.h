@@ -18,15 +18,21 @@ public:
 	MouseLButton();
 	//~MouseLButton();
 
-	void MouseLButtonUp(Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY);
-	void MouseLButtonDown(Long startX, Long startY, Long currentX, Long currentY, CPaintDC *cPatinDC);
-
+	void MouseLButtonUp(MouseLButton *mouseLButton,Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY);
+	void MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY);
+	void MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY,CPaintDC *cPaintDC);
+	void ChangeState(UINT nChar);
+	UINT GetButtonState()const;
 private:
 	friend class  MouseLButtonAction;
-	void ChangeState(UINT nChar);
-	void ChangeState(MouseLButtonAction *mouseLButtonAction);
+	
+	void ChangeState(MouseLButtonAction *mouseLButtonAction,UINT nChar=0);
+
 private:
 	MouseLButtonAction *state;
 	UINT buttonState;
 };
+inline UINT MouseLButton::GetButtonState()const {
+	return this->buttonState;
+}
 #endif

@@ -1,21 +1,29 @@
 #include "MouseLButton.h"
 #include "MouseLButtonAction.h"
 #include "DrawingClass.h"
+#include "DrawingRelation.h"
+#include "DefaultState.h"
 
 
 MouseLButton::MouseLButton() {
-	this->state = DrawingClass::Instance();
+	this->state = DefaultState::Instance();
 	this->buttonState = 0;
 }
-void MouseLButton::MouseLButtonUp(Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
-	this->state->MouseLButtonUp(diagram, selection, startX, startY, currentX, currentY);
+void MouseLButton::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
+	this->state->MouseLButtonUp(this, diagram, selection, startX, startY, currentX, currentY);
+	//this->state = DefaultState::Instance();
+	//this->buttonState = 0;
 }
-void MouseLButton::MouseLButtonDown(Long startX, Long startY, Long currentX, Long currentY, CPaintDC *cPatinDC) {
-	this->state->MouseLButtonDown(startX, startY, currentX, currentY, cPatinDC);
+void MouseLButton::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
+	this->state->MouseLButtonDown(this, diagram, selection, startX, startY, currentX, currentY);
+}
+void MouseLButton::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC){
+	this->state->MouseLButtonDrag(this, diagram, selection, startX, startY, currentX, currentY, cPaintDC);
 }
 void MouseLButton::ChangeState(UINT nChar) {
 	this->buttonState = nChar;
 }
-void MouseLButton::ChangeState(MouseLButtonAction *mouseLButtonAction) {
+void MouseLButton::ChangeState(MouseLButtonAction *mouseLButtonAction,UINT nChar) {
 	this->state = mouseLButtonAction;
+	this->buttonState = nChar;
 }

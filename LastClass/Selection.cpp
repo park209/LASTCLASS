@@ -98,10 +98,10 @@ Figure* Selection::GetAt(Long index) {
 	return static_cast<Figure*>(this->figures.GetAt(index));
 }
 void Selection::DeleteAllItems() {
-	
-	while (this->length != 0){
-		this->figures.Modify(this->length -1 , 0);
+	while(this->length != 0){
+		this->figures.Delete(this->length - 1);
 		this->length--;
+		this->capacity--;
 	}
 }
 

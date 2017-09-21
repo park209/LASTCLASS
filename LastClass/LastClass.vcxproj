@@ -43,6 +43,7 @@
     <ClCompile Include="CtrlAllKey.cpp" />
     <ClCompile Include="CtrlCopyKey.cpp" />
     <ClCompile Include="CtrlEnterKey.cpp" />
+    <ClCompile Include="DefaultState.cpp" />
     <ClCompile Include="DeleteKey.cpp" />
     <ClCompile Include="Dependency.cpp" />
     <ClCompile Include="DependencyButton.cpp" />
@@ -53,6 +54,7 @@
     <ClCompile Include="DownArrowKey.cpp" />
     <ClCompile Include="DrawingClass.cpp" />
     <ClCompile Include="DrawingController.cpp" />
+    <ClCompile Include="DrawingRelation.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
     <ClCompile Include="EndKey.cpp" />
     <ClCompile Include="EnterKey.cpp" />
@@ -87,6 +89,7 @@
     <ClCompile Include="RightArrowKey.cpp" />
     <ClCompile Include="Row.cpp" />
     <ClCompile Include="Selection.cpp" />
+    <ClCompile Include="SelectionState.cpp" />
     <ClCompile Include="SelfAggregation.cpp" />
     <ClCompile Include="SelfAggregations.cpp" />
     <ClCompile Include="SelfAssociation.cpp" />
@@ -136,6 +139,7 @@
     <ClInclude Include="CtrlAllKey.h" />
     <ClInclude Include="CtrlCopyKey.h" />
     <ClInclude Include="CtrlEnterKey.h" />
+    <ClInclude Include="DefaultState.h" />
     <ClInclude Include="DeleteKey.h" />
     <ClInclude Include="Dependency.h" />
     <ClInclude Include="DependencyButton.h" />
@@ -146,6 +150,7 @@
     <ClInclude Include="DownArrowKey.h" />
     <ClInclude Include="DrawingClass.h" />
     <ClInclude Include="DrawingController.h" />
+    <ClInclude Include="DrawingRelation.h" />
     <ClInclude Include="DrawingVisitor.h" />
     <ClInclude Include="EndKey.h" />
     <ClInclude Include="EnterKey.h" />
@@ -182,6 +187,7 @@
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="Selection.h" />
+    <ClInclude Include="SelectionState.h" />
     <ClInclude Include="SelfAggregation.h" />
     <ClInclude Include="SelfAggregations.h" />
     <ClInclude Include="SelfAssociation.h" />

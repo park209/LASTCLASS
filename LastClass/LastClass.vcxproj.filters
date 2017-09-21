@@ -285,6 +285,15 @@
     <ClCompile Include="UpArrowKey.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="DrawingRelation.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectionState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Figure.h">
@@ -567,6 +576,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="UpArrowKey.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawingRelation.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectionState.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
