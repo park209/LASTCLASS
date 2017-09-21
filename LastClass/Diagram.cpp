@@ -156,3 +156,20 @@ void Diagram::Accept(Visitor& visitor, CDC *cPaintDc) {
 		smartPointer->Next();
 	}
 }
+
+//
+//#include <iostream>
+//using namespace std;
+//int main(int argc, char* argv[]) {
+//	Diagram object0;
+//	object0.AddClass(10, 20, 30, 40);
+//	object0.AddMemoBox(50, 60, 70, 80);
+//	cout << "디폴트생성자, 매개변수생성자2개" << endl;
+//	if (dynamic_cast<MemoBox*>(object0.GetAt(1))) {
+//		cout << dynamic_cast<MemoBox*>(object0.GetAt(1))->GetX() << dynamic_cast<MemoBox*>(object0.GetAt(1))->GetY() <<
+//			dynamic_cast<MemoBox*>(object0.GetAt(1))->GetWidth() << dynamic_cast<MemoBox*>(object0.GetAt(1))->GetHeight() << endl;
+//	}
+//	cout << object0.GetLength() << endl;
+//	
+//	return 0;
+//}

@@ -10,12 +10,15 @@
 #include "Figure.h"
 
 ClassButton::ClassButton() {
+
 }
 
 ClassButton::ClassButton(const ClassButton& source) {
+
 }
 
 ClassButton::~ClassButton() {
+
 }
 
 void ClassButton::ChangeState(DrawingController *drawingController, UINT nChar) {

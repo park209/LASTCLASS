@@ -39,7 +39,6 @@
 #include "DrawingVisitor.h"
 #include "WritingVisitor.h"
 #include "MovingVisitor.h"
-#include "ClassButton.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
@@ -95,9 +94,14 @@ Long ClassDiagramForm::Load() {
 	fClass.open("ClassSave.txt");
 	fLine.open("LineSave.txt");
 	//종류 구별을 위한 마지막 칸 
-	// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 6 = Dependency(의존), 7 = Association(연관화),
-	// 8 = DirectedAssociation(직접연관),  9 = Aggregation(집합), 10 = Aggregations(집합연관), 11 =  Composition(합성), 12 = Compositions(복합연관), 13 = MemoLine
-	// 14 = ClassName , 15 = Attribute , 16 = Method , 17 = Reception
+	// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 
+	//6 = Dependency(의존), 7 = Association(연관화),
+	// 8 = DirectedAssociation(직접연관),  9 = Aggregation(집합), 10 = Aggregations(집합연관), 
+	//11 =  Composition(합성), 12 = Compositions(복합연관), 13 = MemoLine
+	// 14 = ClassName , 15 = Attribute , 16 = Method , 17 = Reception , 18 =SelfGeneralization ,
+	//19 = SelfDependency , 20 = SelfAssociation , 21 = SelfDirectedAssociation
+	// 22 = SelfAggregation , 23 = SelfAggregations , 24 =SelfComposition , 25 = SelfCompositions
+
 
 	if (fClass.is_open() && fLine.is_open()) {
 		fClass >> length >> x >> y >> width >> height >> type;
@@ -402,7 +406,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->drawingController = new DrawingController;
 
 	//1.2. 적재한다
-	this->Load();
+	//this->Load();
 
 	//1.3. 윈도우를 갱신한다
 	Invalidate();
@@ -436,6 +440,21 @@ void ClassDiagramForm::OnPaint() {
 }
 
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
+
+	Class *object;
+	if (nChar == 100) { // D 선택항목 지우기
+		while (this->selection->GetLength() != 0) {
+			this->selection->Remove(this->diagram, this->selection->GetAt(this->selection->GetLength() -1));
+		}
+	}
+	if (nChar == 102) { // F 템플릿기호 지우기
+		object = static_cast<Class*>(this->selection->GetAt(0));
+		object->RemoveTemplate();
+	}
+	if (nChar == 103) { // G 리셉션칸 지우기
+		object = static_cast<Class*>(this->selection->GetAt(0));
+		object->RemoveReception();
+	}
 
 	this->drawingController->ChangeState(nChar);
 	
@@ -528,21 +547,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	Figure *figure = 0;
 	if (this->startX != this->currentX || this->startY != this->currentY) {
 		figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-		if (dynamic_cast<ClassButton*>(this->drawingController->buttonState)) {
-			SmartPointer<Figure*> iterator = static_cast<Class*>(figure)->CreateIterator();
-			for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
-				if (dynamic_cast<ClassName*>(iterator->Current())) {
-					this->textEdit = new TextEdit(iterator->Current());
 
-					this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
-						iterator->Current()->GetX() + 5,
-						iterator->Current()->GetY() + 33,
-						iterator->Current()->GetX() + iterator->Current()->GetWidth() - 5,
-						iterator->Current()->GetY() + iterator->Current()->GetHeight() + 23), NULL, NULL, WS_EX_TOPMOST);
-					this->textEdit->ShowWindow(SW_SHOW);
-				}
-			}
-		}
 	}
 
 	this->startX = 0;
@@ -565,7 +570,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 }
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
-	this->Save();
+	//this->Save();
 
 	//6.2. 다이어그램을 지운다.
 	if (this->diagram != NULL) {

@@ -31,10 +31,9 @@ public:
 
 	Caret& operator = (const Caret& source);
 
-public:
-	Long characterIndex;
 private:
 	Long rowIndex;
+	Long characterIndex;
 	Long currentCaretX;
 	Long currentCaretY;
 };

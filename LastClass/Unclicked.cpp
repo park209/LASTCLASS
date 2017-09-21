@@ -1,5 +1,4 @@
 //Unclicked.cpp
-
 #include"Unclicked.h"
 #include"DrawingController.h"
 #include "Selection.h"
@@ -8,7 +7,6 @@
 #include "Finder.h"
 #include"Class.h"
 #include"Template.h"
-
 Unclicked::Unclicked() {
 }
 Unclicked::Unclicked(const Unclicked& source) {

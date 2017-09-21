@@ -100,3 +100,5 @@ void MemoBox::Accept (Visitor& visitor, CDC *cPaintDc) {
 		smartPointer->Next();
 	}
 }
+
+

@@ -83,46 +83,46 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 		if (dynamic_cast<Class*>(selection->GetAt(i))) {
 			Class *object = static_cast<Class*>(selection->GetAt(i));
 			if (object->GetTempletePosition() == -1) {
-				cPaintDc->Rectangle(//좌상
-					object->GetX() - 3,
-					object->GetY() - 3,
-					object->GetX() + 6,
-					object->GetY() + 6);
-				cPaintDc->Rectangle(//우상
-					object->GetX() + object->GetWidth() - 6,
-					object->GetY() - 3,
-					object->GetX() + object->GetWidth() + 3,
-					object->GetY() + 6);
-				cPaintDc->Rectangle(//중상
-					object->GetX() + object->GetWidth() / 2 - 4,
-					object->GetY() - 3,
+				cPaintDc->Rectangle(
+					object->GetX() - 5,
+					object->GetY() - 5,
+					object->GetX() + 5,
+					object->GetY() + 5);
+				cPaintDc->Rectangle(
+					object->GetX() + object->GetWidth() - 5,
+					object->GetY() - 5,
+					object->GetX() + object->GetWidth() + 5,
+					object->GetY() + 5);
+				cPaintDc->Rectangle(
+					object->GetX() + object->GetWidth() / 2 - 5,
+					object->GetY() - 5,
 					object->GetX() + object->GetWidth() / 2 + 5,
-					object->GetY() + 6);
-				cPaintDc->Rectangle(//중하
-					object->GetX() + object->GetWidth() / 2 - 4,
-					object->GetY() + object->GetHeight() - 6,
+					object->GetY() + 5);
+				cPaintDc->Rectangle(
+					object->GetX() + object->GetWidth() / 2 - 5,
+					object->GetY() + object->GetHeight() - 5,
 					object->GetX() + object->GetWidth() / 2 + 5,
-					object->GetY() + object->GetHeight() + 3);
-				cPaintDc->Rectangle(//좌중
-					object->GetX() - 3,
-					object->GetY() + object->GetHeight() / 2 - 4,
-					object->GetX() + 6,
+					object->GetY() + object->GetHeight() + 5);
+				cPaintDc->Rectangle(
+					object->GetX() - 5,
+					object->GetY() + object->GetHeight() / 2 - 5,
+					object->GetX() + 5,
 					object->GetY() + object->GetHeight() / 2 + 5);
-				cPaintDc->Rectangle(//우중
-					object->GetX() + object->GetWidth() - 6,
-					object->GetY() + object->GetHeight() / 2 - 4,
-					object->GetX() + object->GetWidth() + 3,
+				cPaintDc->Rectangle(
+					object->GetX() + object->GetWidth() - 5,
+					object->GetY() + object->GetHeight() / 2 - 5,
+					object->GetX() + object->GetWidth() + 5,
 					object->GetY() + object->GetHeight() / 2 + 5);
-				cPaintDc->Rectangle(//좌하
-					object->GetX() - 3,
-					object->GetY() + object->GetHeight() - 6,
-					object->GetX() + 6,
-					object->GetY() + object->GetHeight() + 3);
-				cPaintDc->Rectangle(//우하
-					object->GetX() + object->GetWidth() - 6,
-					object->GetY() + object->GetHeight() - 6,
-					object->GetX() + object->GetWidth() + 3,
-					object->GetY() + object->GetHeight() + 3);
+				cPaintDc->Rectangle(
+					object->GetX() - 5,
+					object->GetY() + object->GetHeight() - 5,
+					object->GetX() + 5,
+					object->GetY() + object->GetHeight() + 5);
+				cPaintDc->Rectangle(
+					object->GetX() + object->GetWidth() - 5,
+					object->GetY() + object->GetHeight() - 5,
+					object->GetX() + object->GetWidth() + 5,
+					object->GetY() + object->GetHeight() + 5);
 
 			}
 			else {
@@ -148,46 +148,46 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 						cPaintDc->SelectObject(oldPen);
 						pen.DeleteObject();
 
-						cPaintDc->Rectangle(//좌상
-							object->GetX() - 3,
-							templete->GetY() - 3,
-							object->GetX() + 6,
-							templete->GetY() + 6);
-						cPaintDc->Rectangle(//우상
-							templete->GetX() + templete->GetWidth() - 6,
-							templete->GetY() - 3,
-							templete->GetX() + templete->GetWidth() + 3,
-							templete->GetY() + 6);
-						cPaintDc->Rectangle(//좌하
-							object->GetX() - 3,
-							object->GetY() + object->GetHeight() - 6,
-							object->GetX() + 6,
-							object->GetY() + object->GetHeight() + 3);
-						cPaintDc->Rectangle(//우하
-							templete->GetX() + templete->GetWidth() - 6,
-							object->GetY() + object->GetHeight() - 6,
-							templete->GetX() + templete->GetWidth() + 3,
-							object->GetY() + object->GetHeight() + 3);
+						cPaintDc->Rectangle(
+							object->GetX() - 5,
+							templete->GetY() - 5,
+							object->GetX() + 5,
+							templete->GetY() + 5);
+						cPaintDc->Rectangle(
+							templete->GetX() + templete->GetWidth() - 5,
+							templete->GetY() - 5,
+							templete->GetX() + templete->GetWidth() + 5,
+							templete->GetY() + 5);
+						cPaintDc->Rectangle(
+							object->GetX() - 5,
+							object->GetY() + object->GetHeight() - 5,
+							object->GetX() + 5,
+							object->GetY() + object->GetHeight() + 5);
+						cPaintDc->Rectangle(
+							templete->GetX() + templete->GetWidth() - 5,
+							object->GetY() + object->GetHeight() - 5,
+							templete->GetX() + templete->GetWidth() + 5,
+							object->GetY() + object->GetHeight() + 5);
 
-						cPaintDc->Rectangle(//중상
-							object->GetX() + (templete->GetX() + templete->GetWidth() - object->GetX()) / 2 - 4,
-							templete->GetY() - 3,
+						cPaintDc->Rectangle(
+							object->GetX() + (templete->GetX() + templete->GetWidth() - object->GetX()) / 2 - 5,
+							templete->GetY() - 5,
 							object->GetX() + (templete->GetX() + templete->GetWidth() - object->GetX()) / 2 + 5,
-							templete->GetY() + 6);
-						cPaintDc->Rectangle(//중하
-							object->GetX() + (templete->GetX() + templete->GetWidth() - object->GetX()) / 2 - 4,
-							object->GetY() + object->GetHeight() - 6,
+							templete->GetY() + 5);
+						cPaintDc->Rectangle(
+							object->GetX() + (templete->GetX() + templete->GetWidth() - object->GetX()) / 2 - 5,
+							object->GetY() + object->GetHeight() - 5,
 							object->GetX() + (templete->GetX() + templete->GetWidth() - object->GetX()) / 2 + 5,
-							object->GetY() + object->GetHeight() + 3);
-						cPaintDc->Rectangle(//좌중
-							object->GetX() - 3,
-							templete->GetY() + (object->GetY() + object->GetHeight() - templete->GetY()) / 2 - 4,
-							object->GetX() + 6,
+							object->GetY() + object->GetHeight() + 5);
+						cPaintDc->Rectangle(
+							object->GetX() - 5,
+							templete->GetY() + (object->GetY() + object->GetHeight() - templete->GetY()) / 2 - 5,
+							object->GetX() + 5,
 							templete->GetY() + (object->GetY() + object->GetHeight() - templete->GetY()) / 2 + 5);
-						cPaintDc->Rectangle(//우중
-							templete->GetX() + templete->GetWidth() - 6,
-							templete->GetY() + (object->GetY() + object->GetHeight() - templete->GetY()) / 2 - 4,
-							templete->GetX() + templete->GetWidth() + 3,
+						cPaintDc->Rectangle(
+							templete->GetX() + templete->GetWidth() - 5,
+							templete->GetY() + (object->GetY() + object->GetHeight() - templete->GetY()) / 2 - 5,
+							templete->GetX() + templete->GetWidth() + 5,
 							templete->GetY() + (object->GetY() + object->GetHeight() - templete->GetY()) / 2 + 5);
 					}
 					j++;
@@ -199,46 +199,46 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 
 		if (dynamic_cast<MemoBox*>(selection->GetAt(i))) {
 			MemoBox *memoBox = static_cast<MemoBox*>(selection->GetAt(i));
-			cPaintDc->Rectangle(//좌상
-				memoBox->GetX() - 3,
-				memoBox->GetY() - 3,
-				memoBox->GetX() + 6,
-				memoBox->GetY() + 6);
-			cPaintDc->Rectangle(//우상
-				memoBox->GetX() + memoBox->GetWidth() - 6,
-				memoBox->GetY() - 3,
-				memoBox->GetX() + memoBox->GetWidth() + 3,
-				memoBox->GetY() + 6);
-			cPaintDc->Rectangle(//중상
-				memoBox->GetX() + memoBox->GetWidth() / 2 - 4,
-				memoBox->GetY() - 3,
+			cPaintDc->Rectangle(
+				memoBox->GetX() - 5,
+				memoBox->GetY() - 5,
+				memoBox->GetX() + 5,
+				memoBox->GetY() + 5);
+			cPaintDc->Rectangle(
+				memoBox->GetX() + memoBox->GetWidth() - 5,
+				memoBox->GetY() - 5,
+				memoBox->GetX() + memoBox->GetWidth() + 5,
+				memoBox->GetY() + 5);
+			cPaintDc->Rectangle(
+				memoBox->GetX() + memoBox->GetWidth() / 2 - 5,
+				memoBox->GetY() - 5,
 				memoBox->GetX() + memoBox->GetWidth() / 2 + 5,
-				memoBox->GetY() + 6);
-			cPaintDc->Rectangle(//중하
-				memoBox->GetX() + memoBox->GetWidth() / 2 - 4,
-				memoBox->GetY() + memoBox->GetHeight() - 6,
+				memoBox->GetY() + 5);
+			cPaintDc->Rectangle(
+				memoBox->GetX() + memoBox->GetWidth() / 2 - 5,
+				memoBox->GetY() + memoBox->GetHeight() - 5,
 				memoBox->GetX() + memoBox->GetWidth() / 2 + 5,
-				memoBox->GetY() + memoBox->GetHeight() + 3);
-			cPaintDc->Rectangle(//좌중
-				memoBox->GetX() - 3,
-				memoBox->GetY() + memoBox->GetHeight() / 2 - 4,
-				memoBox->GetX() + 6,
+				memoBox->GetY() + memoBox->GetHeight() + 5);
+			cPaintDc->Rectangle(
+				memoBox->GetX() - 5,
+				memoBox->GetY() + memoBox->GetHeight() / 2 - 5,
+				memoBox->GetX() + 5,
 				memoBox->GetY() + memoBox->GetHeight() / 2 + 5);
-			cPaintDc->Rectangle(//우중
-				memoBox->GetX() + memoBox->GetWidth() - 6,
-				memoBox->GetY() + memoBox->GetHeight() / 2 - 4,
-				memoBox->GetX() + memoBox->GetWidth() + 3,
+			cPaintDc->Rectangle(
+				memoBox->GetX() + memoBox->GetWidth() - 5,
+				memoBox->GetY() + memoBox->GetHeight() / 2 - 5,
+				memoBox->GetX() + memoBox->GetWidth() + 5,
 				memoBox->GetY() + memoBox->GetHeight() / 2 + 5);
-			cPaintDc->Rectangle(//좌하
-				memoBox->GetX() - 3,
-				memoBox->GetY() + memoBox->GetHeight() - 6,
-				memoBox->GetX() + 6,
-				memoBox->GetY() + memoBox->GetHeight() + 3);
-			cPaintDc->Rectangle(//우하
-				memoBox->GetX() + memoBox->GetWidth() - 6,
-				memoBox->GetY() + memoBox->GetHeight() - 6,
-				memoBox->GetX() + memoBox->GetWidth() + 3,
-				memoBox->GetY() + memoBox->GetHeight() + 3);
+			cPaintDc->Rectangle(
+				memoBox->GetX() - 5,
+				memoBox->GetY() + memoBox->GetHeight() - 5,
+				memoBox->GetX() + 5,
+				memoBox->GetY() + memoBox->GetHeight() + 5);
+			cPaintDc->Rectangle(
+				memoBox->GetX() + memoBox->GetWidth() - 5,
+				memoBox->GetY() + memoBox->GetHeight() - 5,
+				memoBox->GetX() + memoBox->GetWidth() + 5,
+				memoBox->GetY() + memoBox->GetHeight() + 5);
 		}
 		Long j = 0;
 		//상태패턴이던 뭐든 적용해야함

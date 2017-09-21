@@ -6,16 +6,12 @@ using namespace std;
 
 Reception::Reception() : Figure() {
 }
-
 Reception::~Reception() {
 }
-
 Reception::Reception(Long x, Long y, Long width, Long height, string content) : Figure(x, y, width, height, content) {
 }
-
 Reception::Reception(const Reception& source) : Figure(source) {
 }
-
 Reception& Reception::operator = (const Reception& source) {
 	this->x = source.x;
 	this->y = source.y;
@@ -25,11 +21,9 @@ Reception& Reception::operator = (const Reception& source) {
 
 	return *this;
 }
-
 Figure* Reception::Clone() const {
 	return new Reception(*this);
 }
-
 void Reception::Accept(Visitor& visitor, CDC *cPaintDc) {
 	visitor.Visit(this, cPaintDc);
 }

@@ -181,9 +181,6 @@ void TextEdit::OnPaint() {
 			this->copyBuffer = cString1 + string2.c_str() + cString3; // 클립보드에 저장
 		}
 	}
-	//if (this->copyBuffer != "") {
-	//dc.TextOutA(50, 50, this->copyBuffer);
-       // }
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject(); // 폰트
 }
