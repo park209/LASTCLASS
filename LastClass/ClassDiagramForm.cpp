@@ -487,13 +487,15 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	if (figure != NULL) {
 
 		this->textEdit = new TextEdit(figure);
-
-		this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
-			figure->GetX()+5,
-			figure->GetY()+33,
-			figure->GetX() + figure->GetWidth()+5,
-			figure->GetY() + figure->GetHeight()+33), NULL, NULL, WS_EX_TOPMOST);
-		this->textEdit->ShowWindow(SW_SHOW);
+		if (figure != NULL) {
+			this->textEdit = new TextEdit(figure); // 
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+				figure->GetX() + 5,
+				figure->GetY() + 5,
+				figure->GetX() + figure->GetWidth() - 5,
+				figure->GetY() + figure->GetHeight() - 5), this, 10000, NULL);
+			OnKillFocus(NULL);
+		}
 	}
 }
 

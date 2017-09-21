@@ -7,6 +7,7 @@
 #include "Text.h"
 #include "DoubleByteCharacter.h"
 #include "SingleByteCharacter.h"
+
 CtrlPasteKey::CtrlPasteKey() {
 }
 CtrlPasteKey::CtrlPasteKey(const CtrlPasteKey& source) {

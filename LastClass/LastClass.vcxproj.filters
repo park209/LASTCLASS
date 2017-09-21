@@ -302,9 +302,6 @@
     <ClCompile Include="Attribute.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ButtonState.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Caret.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -500,9 +497,6 @@
     <ClCompile Include="Compositions.cpp">
       <Filter>Relation</Filter>
     </ClCompile>
-    <ClCompile Include="CtrlPasteKeyy.cpp">
-      <Filter>Relation</Filter>
-    </ClCompile>
     <ClCompile Include="Dependency.cpp">
       <Filter>Relation</Filter>
     </ClCompile>
@@ -556,6 +550,12 @@
     </ClCompile>
     <ClCompile Include="Association.cpp">
       <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonState.cpp">
+      <Filter>MainForm Button</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlPasteKey.cpp">
+      <Filter>TextEdit KeyAction</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
