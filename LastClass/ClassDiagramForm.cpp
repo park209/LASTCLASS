@@ -110,7 +110,12 @@ Long ClassDiagramForm::Load() {
 			while (position != -1 && i < length) {
 				fLine >> lineX >> lineY >> lineWidth >> lineHeight >> type >> relationLength;
 				figure = factory.Create(lineX, lineY, lineWidth, lineHeight, type);
-				index = figureComposite->Add(figure);
+				if (dynamic_cast<Template*>(figure)) {
+					static_cast<Class*>(figureComposite)->AddTemplate(figure->GetX(), figure->GetY(), figure->GetWidth(), figure->GetHeight());
+				}
+				else {
+					index = figureComposite->Add(figure);
+				}
 				if (dynamic_cast<Relation*>(figureComposite->GetAt(index))) {
 					Relation *relation = static_cast<Relation*>(figureComposite->GetAt(index));
 					CPoint startCPoint;
@@ -136,7 +141,7 @@ Long ClassDiagramForm::Load() {
 	return this->diagram->GetLength();
 }
 
-Long ClassDiagramForm::Save() {
+Long ClassDiagramForm::Save() {//템플릿 포지션도 저장해야함 20170921 발견
 	Long k;
 	Long i = 0;
 	Long j;
