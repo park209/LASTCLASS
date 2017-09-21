@@ -5,6 +5,7 @@
 #include "Text.h"
 #include "Row.h"
 #include "Caret.h"
+#include "HistoryText.h"
 
 DeleteKey::DeleteKey() {
 }
@@ -17,10 +18,12 @@ DeleteKey::~DeleteKey() {
 
 void DeleteKey::KeyPress(TextEdit *textEdit) {
 	if (textEdit->caret->GetCharacterIndex() < textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength()) {
+		textEdit->historyText->PushUndo(textEdit->text);
 		textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Remove(textEdit->caret->GetCharacterIndex());
 	}
 	else if (textEdit->caret->GetCharacterIndex() == textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength()
 		&& textEdit->caret->GetRowIndex() < textEdit->text->GetLength() - 1) {
+		textEdit->historyText->PushUndo(textEdit->text);
 		Long i = 0;
 		while (i < textEdit->text->GetAt(textEdit->caret->GetRowIndex() + 1)->GetLength()) {
 			textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Add(textEdit->text->GetAt(textEdit->caret->GetRowIndex() + 1)->GetAt(i));

@@ -294,6 +294,12 @@
     <ClInclude Include="FlagSet.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="HistoryText.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlUndoKey.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aggregation.cpp">
@@ -560,7 +566,10 @@
     <ClCompile Include="Character.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="FlagSet.cpp">
+    <ClCompile Include="HistoryText.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlUndoKey.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

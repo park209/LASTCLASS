@@ -13,6 +13,7 @@ class Text;
 class Figure;
 class Caret;
 class KeyBoard;
+class HistoryText;
 class TextEdit : public CFrameWnd {
 public:
 	TextEdit(Figure *figure);
@@ -46,6 +47,7 @@ public:
 	Text *text;
 	Caret *caret;
 	KeyBoard *keyBoard;
+	HistoryText *historyText;
 	Long flagInsert; //flag
 	Long flagSelection;
 	Long rowHeight; //figure에서 저장을 해줘야 하기때문에 삭제가능
@@ -62,7 +64,6 @@ private:
 inline Long TextEdit::GetFlagInsert() const {
 	return this->flagInsert;
 }
-
 inline Figure* TextEdit::GetFigure() const {
 	return const_cast<Figure*>(this->figure);
 }

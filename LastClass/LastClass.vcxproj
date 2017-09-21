@@ -45,6 +45,7 @@
     <ClInclude Include="CtrlCopyKey.h" />
     <ClInclude Include="CtrlEnterKey.h" />
     <ClInclude Include="CtrlPasteKey.h" />
+    <ClInclude Include="CtrlUndoKey.h" />
     <ClInclude Include="DeleteKey.h" />
     <ClInclude Include="Dependency.h" />
     <ClInclude Include="DependencyButton.h" />
@@ -65,6 +66,7 @@
     <ClInclude Include="FlagSet.h" />
     <ClInclude Include="Generalization.h" />
     <ClInclude Include="GeneralizationButton.h" />
+    <ClInclude Include="HistoryText.h" />
     <ClInclude Include="HomeKey.h" />
     <ClInclude Include="InsertKey.h" />
     <ClInclude Include="Iterator.h" />
@@ -139,6 +141,7 @@
     <ClCompile Include="CtrlCopyKey.cpp" />
     <ClCompile Include="CtrlEnterKey.cpp" />
     <ClCompile Include="CtrlPasteKeyy.cpp" />
+    <ClCompile Include="CtrlUndoKey.cpp" />
     <ClCompile Include="DeleteKey.cpp" />
     <ClCompile Include="Dependency.cpp" />
     <ClCompile Include="DependencyButton.cpp" />
@@ -156,9 +159,9 @@
     <ClCompile Include="FigureComposite.cpp" />
     <ClCompile Include="FigureFactory.cpp" />
     <ClCompile Include="Finder.cpp" />
-    <ClCompile Include="FlagSet.cpp" />
     <ClCompile Include="Generalization.cpp" />
     <ClCompile Include="GeneralizationButton.cpp" />
+    <ClCompile Include="HistoryText.cpp" />
     <ClCompile Include="HomeKey.cpp" />
     <ClCompile Include="InsertKey.cpp" />
     <ClCompile Include="KeyAction.cpp" />
@@ -283,7 +286,7 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
