@@ -35,18 +35,23 @@ void DefaultState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, 
 	}
 
 }
-void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
+void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	UINT object = mouseLButton->GetButtonState();
 	if (object == 49) {
-		this->ChangeState(mouseLButton, DrawingClass::Instance());
+		this->ChangeState(mouseLButton, DrawingClass::Instance(),49);
 	}
 	if (object == 101) {
-		this->ChangeState(mouseLButton, DrawingMemoBox::Instance());
+		this->ChangeState(mouseLButton, DrawingMemoBox::Instance(),101);
 	}
+	if (object == 50) {
+		this->ChangeState(mouseLButton, DrawingRelation::Instance(),50);
+	}
+	if (mouseLButton->GetButtonState() == 0) {
 	selection->SelectByPoint(diagram, startX, startY);
 	if (selection->GetLength() > 0) {
 		this->ChangeState(mouseLButton, SelectionState::Instance());
 	}
+}
 }
 void DefaultState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
 	//Long length = selection->GetLength();
