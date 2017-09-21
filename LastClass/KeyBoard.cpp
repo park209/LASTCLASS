@@ -21,7 +21,7 @@
 #include "MinusKey.h"
 #include "CtrlCopyKey.h"
 #include "CtrlAllKey.h"
-
+#include "CtrlPasteKey.h"
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
 }
@@ -102,8 +102,11 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 	case 67:
 		this->keyAction = new CtrlCopyKey;
 		break;
-	case 65:
+	case 0x41:
 		this->keyAction = new CtrlAllKey;
+		break;
+	case 0x56:
+		this->keyAction = new CtrlPasteKey;
 		break;
 	default:
 		this->keyAction = 0;

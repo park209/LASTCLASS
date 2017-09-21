@@ -1,4 +1,3 @@
-
 //Class.h
 
 #ifndef _CLASS_H
@@ -17,10 +16,8 @@ public:
 	Class& operator = (const Class& source);
 	Figure* operator [] (Long index);
 
-
 	Long Add(Long x, Long y, Long width, Long height);
 	Figure* Move(Long distanceX, Long distanceY);
-
 
 	Long AddGeneralization(Long x, Long y, Long width, Long height);
 	Long AddRealization(Long x, Long y, Long width, Long height);
@@ -37,19 +34,15 @@ public:
 	Long RemoveReception();
 	Long AddReception(Diagram *diagram);
 
-
 	virtual Long Add(Figure *figure);
 	virtual Long Remove(Long index);
-
 	virtual Figure* GetAt(Long index);
-
 
 	virtual Figure* Clone() const;
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 
-	Long GetReceptionPosition() const;
 	Long GetTempletePosition() const;
-
+	Long GetReceptionPosition() const;
 private:
 	Long templetePosition;
 	Long receptionPosition;
@@ -57,7 +50,7 @@ private:
 inline Long Class::GetTempletePosition() const {
 	return this->templetePosition;
 }
-inline Long Class::GetReceptionPosition()const {
+inline Long Class::GetReceptionPosition() const {
 	return this->receptionPosition;
 }
 
