@@ -551,9 +551,6 @@
     <ClCompile Include="CtrlAllKey.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CtrlPasteKeyy.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="ArrayIterator.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>

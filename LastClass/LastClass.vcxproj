@@ -139,7 +139,6 @@
     <ClCompile Include="CtrlCopyKey.cpp" />
     <ClCompile Include="CtrlEnterKey.cpp" />
     <ClCompile Include="CtrlPasteKey.cpp" />
-    <ClCompile Include="CtrlPasteKeyy.cpp" />
     <ClCompile Include="DeleteKey.cpp" />
     <ClCompile Include="Dependency.cpp" />
     <ClCompile Include="DependencyButton.cpp" />

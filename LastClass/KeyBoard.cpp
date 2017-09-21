@@ -99,7 +99,7 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 	case VK_OEM_MINUS:
 		this->keyAction = new MinusKey;
 		break;
-	case 67:
+	case 0x43:
 		this->keyAction = new CtrlCopyKey;
 		break;
 	case 0x41:
