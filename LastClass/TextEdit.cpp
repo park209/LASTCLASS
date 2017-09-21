@@ -16,7 +16,7 @@
 #include "WritingVisitor.h"   
 #include <iostream>
 
-BEGIN_MESSAGE_MAP(TextEdit, CWnd)
+BEGIN_MESSAGE_MAP(TextEdit, CFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
 	ON_WM_CHAR()
@@ -48,8 +48,7 @@ TextEdit::TextEdit(Figure *figure) {
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
-	CWnd::OnCreate(lpCreateStruct); //override
-	CWnd::SetFocus();
+	CFrameWnd::OnCreate(lpCreateStruct); //override
 
 	this->text = new Text;
 	this->caret = new Caret;
@@ -402,50 +401,41 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 }
 
 void TextEdit::OnKillFocus(CWnd *pNewWnd) {
-	DestroyCaret();
-	CWnd::OnKillFocus(this);
-	CWnd::OnClose();
+
+	this->OnClose();
 }
 
 void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
-	if (point.x >= this->figure->GetX() && point.x <= this->figure->GetX() + this->figure->GetWidth()
-		&& point.y >= this->figure->GetY() && point.y <= this->figure->GetY() + this->figure->GetHeight()) {
-		CPaintDC dc(this);
+	CPaintDC dc(this);
 
-		CFont cFont;
-		cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
-		SetFont(&cFont, TRUE);
-		CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
+	CFont cFont;
+	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
+	SetFont(&cFont, TRUE);
+	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 
-		if (GetKeyState(VK_SHIFT) < 0) { // 클릭했는데 쉬프트가 눌려있을 때
-			if (this->flagSelection == 0) { // flag 가 안눌려있으면
-				this->flagSelection = 1; // flag 를 눌러준다
-				this->selectedX = this->caret->GetCharacterIndex(); // selectedX, Y 를 기존 위치 캐럿 상단 좌표로 고정한다
-				this->selectedY = this->caret->GetRowIndex();
-			}
+	if (GetKeyState(VK_SHIFT) < 0) { // 클릭했는데 쉬프트가 눌려있을 때
+		if (this->flagSelection == 0) { // flag 가 안눌려있으면
+			this->flagSelection = 1; // flag 를 눌러준다
+			this->selectedX = this->caret->GetCharacterIndex(); // selectedX, Y 를 기존 위치 캐럿 상단 좌표로 고정한다
+			this->selectedY = this->caret->GetRowIndex();
 		}
-		else {
-			if (this->flagSelection == 1) { // 쉬프트 안눌려있는데 flag 가 눌려있으면 flag 취소해준다
-				this->flagSelection = 0;
-			}
-		}
-		this->caret->MoveToPoint(this, &dc, point); // 옮긴 위치로 캐럿을 이동시켜준다
-
-		dc.SelectObject(oldFont);
-		cFont.DeleteObject(); // 폰트 끝
-
-		Invalidate();
 	}
 	else {
-		DestroyCaret();
-		CWnd::SetFocus();
-		CWnd::OnKillFocus(this);
-		CWnd::DestroyWindow();
+		if (this->flagSelection == 1) { // 쉬프트 안눌려있는데 flag 가 눌려있으면 flag 취소해준다
+			this->flagSelection = 0;
+		}
 	}
+	this->caret->MoveToPoint(this, &dc, point); // 옮긴 위치로 캐럿을 이동시켜준다
+
+	dc.SelectObject(oldFont);
+	cFont.DeleteObject(); // 폰트 끝
+
+	Invalidate();
 }
 
 void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
+
 	Invalidate();
 }
 
@@ -518,7 +508,7 @@ void TextEdit::OnClose() {
 	if (this->text != NULL) {
 		delete this->text;
 	}
-	DestroyCaret();
-	CWnd::OnClose();
+
+	CFrameWnd::OnClose();
 }
 

@@ -1,3 +1,4 @@
+#pragma once
 //CtrlPasteKey.h
 
 #ifndef _CTRLPASTEKEY_H

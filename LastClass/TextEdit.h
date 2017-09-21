@@ -13,7 +13,7 @@ class Text;
 class Figure;
 class Caret;
 class KeyBoard;
-class TextEdit : public CWnd {
+class TextEdit : public CFrameWnd {
 public:
 	TextEdit(Figure *figure);
 protected:

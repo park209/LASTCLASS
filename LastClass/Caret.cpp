@@ -40,8 +40,8 @@ void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
 	}
 	this->currentCaretX = pointX;
 	this->currentCaretY = pointY;
-	textEdit->CWnd::SetCaretPos(CPoint(pointX, pointY));
-	textEdit->CWnd::ShowCaret();
+	textEdit->SetCaretPos(CPoint(pointX, pointY));
+	textEdit->ShowCaret();
 }
 
 void Caret::MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point) {

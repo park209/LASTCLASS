@@ -200,11 +200,12 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 	while (i < diagram->GetLength() && ret == false) {
 		
 		composite = static_cast<FigureComposite*>(diagram->GetAt(i));
-		rect.left = composite->GetX();
-		rect.top = composite->GetY();
-		rect.right = composite->GetX() + composite->GetWidth();
-		rect.bottom = composite->GetY() + composite->GetHeight();
+		rect.left = composite->GetX() - 3;
+		rect.top = composite->GetY() - 3;
+		rect.right = composite->GetX() + composite->GetWidth() + 3;
+		rect.bottom = composite->GetY() + composite->GetHeight() + 3;
 
+		//1여기에 템플릿일때 if() 이거하고/2 템플릿일때 작은 사각형 누르기 하고/3 확대하기 
 		ret = finder.FindRectangleByPoint(rect, x, y);
 
 		if (ret == true) {
