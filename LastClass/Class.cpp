@@ -54,6 +54,7 @@ Class::Class(const Class& source) : FigureComposite(source) {
 	this->width = source.width;
 	this->height = source.height;
 	this->templetePosition = source.templetePosition;
+	this->receptionPosition = -1;
 }
 
 Class::~Class() {
