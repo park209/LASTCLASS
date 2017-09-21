@@ -1,5 +1,5 @@
 //Class.cpp
-
+#include"Finder.h"
 #include "Diagram.h"
 #include "Class.h"
 #include "Template.h"
@@ -315,29 +315,21 @@ Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
 		}
 		i++;
 	}
+	
+	Figure *(*figures) = new Figure*[32];
 	i = 0;
-	Long startX = this->GetX();
-	Long startY = this->GetY();
-	Long endX = this->GetX() + this->GetWidth();
-	Long endY = this->GetY() + this->GetHeight();
-	while (i<diagram->GetLength()) {
-		j = 0;
+	Finder finder;
+	Long length = 0;
 		FigureComposite *figureComposite = dynamic_cast<FigureComposite*>(diagram->GetAt(i));
-		while (j < figureComposite->GetLength()) {
-			Figure *figure = figureComposite->GetAt(j);
-			if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
-				Long relationEndX = figure->GetX() + figure->GetWidth();
-				Long relationEndY = figure->GetY() + figure->GetHeight();
-				if (startX <= relationEndX &&  relationEndX <= endX &&
-					startY <= relationEndY &&  relationEndY <= endY) {
-					figure->EndPointMove(0, 50);
-				}
-			}
-			j++;
+		finder.FindRelationEndPoints(diagram, figureComposite, figures, &length);
+		i = 0;
+		while (i < length) {
+			figures[i]->EndPointMove(0, 50);
+			i++;
 		}
-		i++;
-	}
-
+		
+	
+    delete figures;
 	return this->receptionPosition;
 }
 Long Class::Remove(Long index) {

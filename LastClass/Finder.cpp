@@ -1,7 +1,10 @@
 //Finder.cpp
 
 #include"Finder.h"
-
+#include"Diagram.h"
+#include"FigureComposite.h"
+#include"Figure.h"
+#include"Relation.h"
 Finder::Finder() {
 
 }
@@ -171,6 +174,51 @@ CPoint& Finder::GetCrossPoint(const CPoint& lineStart, const CPoint& lineEnd, CR
 
 	return crossPoint;
 }
+void Finder::FindRelationEndPoints(Diagram *diagram, FigureComposite *figureComposite, Figure *(*figures), Long *length) {
+	Long i = 0;
+	Long k = 0;
+	Long startX = figureComposite->GetX();
+	Long startY = figureComposite->GetY();
+	Long endX = figureComposite->GetX() + figureComposite->GetWidth();
+	Long endY = figureComposite->GetY() + figureComposite->GetHeight();
+	
+		while (k < diagram->GetLength()) {
+			figureComposite = static_cast<FigureComposite*>(diagram->GetAt(k));
+			Long l = 0;
+			while (l < figureComposite->GetLength()) {
+				if (dynamic_cast<Relation*>(figureComposite->GetAt(l))) {
+					Figure *figure = figureComposite->GetAt(l);
+					Long relationEndX = figure->GetX() + figure->GetWidth();
+					Long relationEndY = figure->GetY() + figure->GetHeight();
+					if (startX <= relationEndX &&  relationEndX <= endX &&
+						startY <= relationEndY &&  relationEndY <= endY) {
+						figures[i] = figure;
+						(*length)++;
+						i++;
+					}
+				}
+				l++;
+			}
+			k++;
+		}
+}
+
+Long Finder::FindQuadrant(Long x, Long y, Long left, Long top, Long right, Long bottom) {
+	Long Quadrant;
+	if (x >= left && x <= right && y == top) {
+		Quadrant = 1;
+	}
+	if (y>= top && y <= bottom&& x == right) {
+		Quadrant = 2;
+	}
+	if (x >= left && x <= right && y == bottom) {
+		Quadrant = 3;
+	}
+	if (y >= top && y <= bottom&& x == left) {
+		Quadrant = 4;
+	}
+	return Quadrant;
+}
 
 bool IsLineCross(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End) {
 	double t;
@@ -188,3 +236,4 @@ bool IsLineCross(const CPoint& line1Start, const CPoint& line1End, const CPoint&
 	}
 	return ret;
 }
+

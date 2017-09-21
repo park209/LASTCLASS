@@ -8,6 +8,9 @@
 #include "Finder.h"
 #include"Class.h"
 #include"Template.h"
+#include"Diagram.h"
+#include"SelfRelation.h"
+#include"Reception.h"
 
 Unclicked::Unclicked() {
 }
@@ -69,56 +72,166 @@ Figure* Unclicked::AddToArray(Diagram *diagram, Selection *selection, Long start
 	else if (selection->GetLength() == 1 && dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
 		FigureComposite *object = static_cast<FigureComposite*>(selection->GetAt(0));
 		bool ret = false;
-		CPoint ;
-		CPoint ;
-		Long index = 0;
-		while (index < 8 && ret == false) {
-			bool ret = false;
-			if (ret == false) { // 좌상단
-				CRect rect(object->GetX() - 3, object->GetY() - 3, object->GetX() + 6, object->GetY() + 6);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				
-			}
-			if (ret == false) { // 우상단
-				CRect rect(object->GetX() + object->GetWidth() - 6, object->GetY() - 3, object->GetX() + object->GetWidth() + 3, object->GetY() + 6);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-			}
-			if (ret == false) { // 좌하단
-				CRect rect(object->GetX() - 3, object->GetY() + object->GetHeight() - 6, object->GetX() + 6, object->GetY() + object->GetHeight() + 3);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				
-			}
-			if (ret == false) { // 우하단
-				CRect rect(object->GetX() + object->GetWidth() - 6, object->GetY() + object->GetHeight() - 6,
-					object->GetX() + object->GetWidth() + 3, object->GetY() + object->GetHeight() + 3);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {//범위 설정안함
-					
-					object->Modify(object->GetX(), object->GetY(), object->GetX()+ object->GetWidth() + currentX - startX, object->GetY()+object->GetHeight() + currentY - startY);
-				}
-			}
-			if (ret == false) { // 상중단
-				CRect rect(object->GetX() + object->GetWidth() / 2 - 4, object->GetY() - 3, object->GetX() + object->GetWidth() / 2 + 5, object->GetY() + 6);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-			}
-			if (ret == false) { // 하중단
-				CRect rect(object->GetX() + object->GetWidth() / 2 - 4, object->GetY() + object->GetHeight() - 6,
-					object->GetX() + object->GetWidth() / 2 + 5, object->GetY() + object->GetHeight() + 3);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-			}
-			if (ret == false) { // 좌중단
-				CRect rect(object->GetX() - 3, object->GetY() + object->GetHeight() / 2 - 4, object->GetX() + 6, object->GetY() + object->GetHeight() / 2 + 5);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-			}
-			if (ret == false) { // 우중단
-				CRect rect(object->GetX() + object->GetWidth() - 6, object->GetY() + object->GetHeight() / 2 - 4,
-					object->GetX() + object->GetWidth() + 3, object->GetY() + object->GetHeight() / 2 + 5);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-			}
-			index++;
-		}
+		Long x = object->GetX();
+		Long y = object->GetY();
+		Long width = object->GetWidth();
+		Long height = object->GetHeight();
+		Long distanceX = currentX - startX;
+		Long distanceY = currentY - startY;
+		Long i = 0;
+		Figure *(*figures) = new Figure*[32];
+		Finder finder;
+		Long length=0;
+		Long k = 0;
+		Long Quadrant;
+		if (ret == false) { // 좌상단
+			CRect rect(object->GetX() - 3, object->GetY() - 3, object->GetX() + 6, object->GetY() + 6);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
 
-	
+		}
+		if (ret == false) { // 우상단
+			CRect rect(object->GetX() + object->GetWidth() - 6, object->GetY() - 3, object->GetX() + object->GetWidth() + 3, object->GetY() + 6);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+		}
+		if (ret == false) { // 좌하단
+			CRect rect(object->GetX() - 3, object->GetY() + object->GetHeight() - 6, object->GetX() + 6, object->GetY() + object->GetHeight() + 3);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+
+		}
+		if (ret == false) { // 우하단
+			CRect rect(object->GetX() + object->GetWidth() - 6, object->GetY() + object->GetHeight() - 6,
+				object->GetX() + object->GetWidth() + 3, object->GetY() + object->GetHeight() + 3);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {//범위 설정안함
+				if (object->GetWidth() + distanceX < 120) {
+					distanceX = 120 - object->GetWidth();
+				}
+				if (object->GetHeight() + distanceY < 150) {
+					distanceY = 150 - object->GetHeight();
+				}
+				
+				
+			    //관계선
+						//끝점
+						finder.FindRelationEndPoints(diagram, object, figures, &length);
+						while (k < length) {
+							Quadrant = finder.FindQuadrant(figures[k]->GetX() + figures[k]->GetWidth(), figures[k]->GetY() + figures[k]->GetHeight(),
+								object->GetX(), object->GetY(), object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
+							if (Quadrant == 1) {
+								if (object->GetX() + object->GetWidth() + distanceX <= object->GetX() + 120) {
+									figures[k]->EndPointMove(object->GetX() + 120 - (figures[k]->GetX() + figures[k]->GetWidth()), 0);
+								}
+								else {
+									figures[k]->EndPointMove(distanceX, 0);
+								}
+							}
+							else if (Quadrant == 2) {
+								figures[k]->EndPointMove(distanceX, distanceY);
+							}
+							else if (Quadrant == 3) {
+								figures[k]->EndPointMove(distanceX, distanceY);
+							}
+							else if (Quadrant == 4) {
+								if (object->GetY() + object->GetHeight() + distanceY <= object->GetY() + 150) {
+									figures[k]->EndPointMove(0, object->GetY() + 150 - (figures[k]->GetY() + figures[k]->GetHeight()));
+								}
+								else {
+									figures[k]->EndPointMove(0, distanceY);
+								}
+							}
+							k++;
+						}
+						//시작점
+						i = 0;//할거1. 릴레이션 마무리, 2 라인구분해결방법 생각하기, 3. 나머지 점들 해결하기
+						while (i<object->GetLength()) {
+							if (dynamic_cast<Template*>(object->GetAt(i))) {
+								object->GetAt(i)->Modify(object->GetAt(i)->GetX(), object->GetAt(i)->GetY(),
+									object->GetAt(i)->GetWidth() + distanceX, object->GetAt(i)->GetHeight());
+							}
+							else if (dynamic_cast<SelfRelation*>(object->GetAt(i))) {
+								object->GetAt(i)->Modify(object->GetAt(i)->GetX()+distanceX, object->GetAt(i)->GetY(), 0,0);
+							}//여기까지
+							else if (dynamic_cast<Relation*>(object->GetAt(i))) {
+
+							}
+							else if (dynamic_cast<Line*>(object->GetAt(i))) {
+								object->GetAt(i)->Modify(object->GetAt(i)->GetX(), object->GetAt(i)->GetY(), 
+									object->GetAt(i)->GetWidth() + distanceX, 0);
+							}
+							else {
+								object->GetAt(i)->Modify(object->GetAt(i)->GetX(), object->GetAt(i)->GetY(), object->GetAt(i)->GetWidth() + distanceX, object->GetAt(i)->GetHeight() + distanceY);
+							}
+							i++;
+					}
+					
+					
+
+				 //
+				 
+
+				object->Modify(object->GetX(), object->GetY(), object->GetWidth() + distanceX, object->GetHeight() + distanceY);
+				
+				
+			
+
+				//if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
+				//	Long startX = figure->GetX();
+				//	Long startY = figure->GetY();
+				//	Long endX = figure->GetX() + figure->GetWidth();
+				//	Long endY = figure->GetY() + figure->GetHeight();
+				//	figure->Move(distanceX, distanceY); // 해당 클래스나 메모 이동
+				//	FigureComposite *figureComposite = static_cast<FigureComposite*>(figure); // 형변환
+				//	j = 0;
+				//	while (j < figureComposite->GetLength()) { // 형변환 한게 관리하면 배열 렝스까지
+				//		figure = figureComposite->GetAt(j);
+				//		figure->Move(distanceX, distanceY);
+				//		j++;
+				//	}
+				//	k = 0;
+				//	while (k < diagram->GetLength()) {
+				//		figureComposite = static_cast<FigureComposite*>(diagram->GetAt(k));
+				//		l = 0;
+				//		while (l < figureComposite->GetLength()) {
+				//			if (dynamic_cast<Relation*>(figureComposite->GetAt(l))) {
+				//				figure = figureComposite->GetAt(l);
+				//				Long relationEndX = figure->GetX() + figure->GetWidth();
+				//				Long relationEndY = figure->GetY() + figure->GetHeight();
+				//				if (startX <= relationEndX &&  relationEndX <= endX &&
+				//					startY <= relationEndY &&  relationEndY <= endY) {
+				//					figure->EndPointMove(distanceX, distanceY);
+				//				}
+				//			}
+				//			l++;
+				//		}
+				//		k++;
+				//	}
+
+				//}
+
+
+
+
+
+			}
+		}
+		if (ret == false) { // 상중단
+			CRect rect(object->GetX() + object->GetWidth() / 2 - 4, object->GetY() - 3, object->GetX() + object->GetWidth() / 2 + 5, object->GetY() + 6);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+		}
+		if (ret == false) { // 하중단
+			CRect rect(object->GetX() + object->GetWidth() / 2 - 4, object->GetY() + object->GetHeight() - 6,
+				object->GetX() + object->GetWidth() / 2 + 5, object->GetY() + object->GetHeight() + 3);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+		}
+		if (ret == false) { // 좌중단
+			CRect rect(object->GetX() - 3, object->GetY() + object->GetHeight() / 2 - 4, object->GetX() + 6, object->GetY() + object->GetHeight() / 2 + 5);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+		}
+		if (ret == false) { // 우중단
+			CRect rect(object->GetX() + object->GetWidth() - 6, object->GetY() + object->GetHeight() / 2 - 4,
+				object->GetX() + object->GetWidth() + 3, object->GetY() + object->GetHeight() / 2 + 5);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+		}
 	}
 	return  selection->GetAt(0);
 }
