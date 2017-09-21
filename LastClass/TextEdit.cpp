@@ -14,6 +14,7 @@
 #include "KeyBoard.h"
 #include "KeyAction.h"
 #include "WritingVisitor.h"   
+#include "TextAreaSelected.h"
 #include "HistoryText.h"
 
 #include <iostream>
@@ -84,109 +85,13 @@ void TextEdit::OnPaint() {
 	dc.SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
 
 	if (this->flagSelection == 1) { // flagSelection이 눌려있으면
-		CRect rect;
-		Long startCharacterIndex = 0;
-		Long startRowIndex = 0;
-		Long endCharacterIndex = 0;
-		Long endRowIndex = 0;
-		Long i;
-		Long x;
-		Long width = 0;
-
-		CString cString1;
-		if (this->selectedY == this->caret->GetRowIndex()) {
-			if (this->selectedX < this->caret->GetCharacterIndex()) {
-				startCharacterIndex = this->selectedX;
-				startRowIndex = this->selectedY;
-				endCharacterIndex = this->caret->GetCharacterIndex();
-				endRowIndex = this->caret->GetRowIndex();
-			}
-			else {
-				startCharacterIndex = this->caret->GetCharacterIndex();
-				startRowIndex = this->caret->GetRowIndex();
-				endCharacterIndex = this->selectedX;
-				endRowIndex = this->selectedY;
-			}
-			width = 0;
-			i = startCharacterIndex;
-			while (i < endCharacterIndex) { // 첫줄
-				cString1 += this->text->GetAt(startRowIndex)->GetAt(i)->MakeCString();
-				width += dc.GetTextExtent(this->text->GetAt(startRowIndex)->GetAt(i)->MakeCString()).cx;
-				i++;
-			}
-			x = 5;
-			i = 0;
-			while (i < startCharacterIndex) { // 현재줄에서 캐릭터인덱스까지 너비 구한다
-				x += dc.GetTextExtent(this->text->GetAt(startRowIndex)->GetAt(i)->MakeCString()).cx;
-				i++;
-			}
-			rect = { x, startRowIndex * this->rowHeight + 5, x + width, startRowIndex * this->rowHeight + this->rowHeight + 5 };
-			dc.DrawText(cString1, rect, DT_EDITCONTROL | DT_EXPANDTABS);
-
-			copyBuffer = cString1;
-		}
-		else {
-			if (this->selectedY < this->caret->GetRowIndex()) {
-				startCharacterIndex = this->selectedX;
-				startRowIndex = this->selectedY;
-				endCharacterIndex = this->caret->GetCharacterIndex();
-				endRowIndex = this->caret->GetRowIndex();
-			}
-			else {
-				startCharacterIndex = this->caret->GetCharacterIndex();
-				startRowIndex = this->caret->GetRowIndex();
-				endCharacterIndex = this->selectedX;
-				endRowIndex = this->selectedY;
-			}
-			width = 0;
-			i = startCharacterIndex;
-			while (i < this->text->GetAt(startRowIndex)->GetLength()) { // 첫줄
-				cString1 += this->text->GetAt(startRowIndex)->GetAt(i)->MakeCString();
-				width += dc.GetTextExtent(this->text->GetAt(startRowIndex)->GetAt(i)->MakeCString()).cx;
-				i++;
-			}
-			cString1 += "\r\n";
-			x = 5;
-			i = 0;
-			while (i < startCharacterIndex) { // 현재줄에서 캐릭터인덱스까지 너비 구한다
-				x += dc.GetTextExtent(this->text->GetAt(startRowIndex)->GetAt(i)->MakeCString()).cx;
-				i++;
-			}
-			rect = { x, startRowIndex * this->rowHeight + 5, x + width, startRowIndex * this->rowHeight + this->rowHeight + 5 };
-			dc.DrawText(cString1, rect, DT_EDITCONTROL | DT_EXPANDTABS);
-
-			string string2; // 중간
-			if (startRowIndex + 1 < endRowIndex) {
-				i = startRowIndex + 1;
-				while (i < endRowIndex) {
-					string2 += this->text->GetAt(i)->PrintRowString().c_str();
-					string2 += "\r\n";
-					i++;
-				}
-				x = 5;
-				rect = { x, (startRowIndex + 1) * this->rowHeight + 5, 1000, (endRowIndex - 1) * this->rowHeight + this->rowHeight + 5 };
-				dc.DrawText(string2.c_str(), rect, DT_EDITCONTROL | DT_EXPANDTABS);
-			}
-
-			CString cString3;
-			width = 0;
-			i = 0;
-			while (i < endCharacterIndex) { // 첫줄
-				cString3 += this->text->GetAt(endRowIndex)->GetAt(i)->MakeCString();
-				width += dc.GetTextExtent(this->text->GetAt(endRowIndex)->GetAt(i)->MakeCString()).cx;
-				i++;
-			}
-			x = 5;
-			i = 0;
-			rect = { x, endRowIndex * this->rowHeight + 5, x + width, endRowIndex * this->rowHeight + this->rowHeight + 5 };
-			dc.DrawText(cString3, rect, DT_EDITCONTROL | DT_EXPANDTABS);
-
-			this->copyBuffer = cString1 + string2.c_str() + cString3; // 클립보드에 저장
+		TextAreaSelected *selectArea = new TextAreaSelected();
+		selectArea->SelectTextArea(this, &dc);
+		if (selectArea != 0) {
+			delete selectArea;
 		}
 	}
-	//if (this->copyBuffer != "") {
-	//dc.TextOutA(50, 50, this->copyBuffer);
-       // }
+	
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject(); // 폰트
 }

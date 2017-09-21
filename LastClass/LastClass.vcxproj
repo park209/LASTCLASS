@@ -107,6 +107,7 @@
     <ClInclude Include="Template.h" />
     <ClInclude Include="TemplateButton.h" />
     <ClInclude Include="Text.h" />
+    <ClInclude Include="TextAreaSelected.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TextComposite.h" />
     <ClInclude Include="TextEdit.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="Template.cpp" />
     <ClCompile Include="TemplateButton.cpp" />
     <ClCompile Include="Text.cpp" />
+    <ClCompile Include="TextAreaSelected.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextComposite.cpp" />
     <ClCompile Include="TextEdit.cpp" />

@@ -300,6 +300,9 @@
     <ClInclude Include="CtrlUndoKey.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="TextAreaSelected.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aggregation.cpp">
@@ -570,6 +573,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="CtrlUndoKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TextAreaSelected.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
