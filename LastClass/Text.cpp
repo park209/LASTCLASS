@@ -68,8 +68,8 @@ string Text::MakeText() {
 	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
 	string text_;
 	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
-		text_.append(((Row*)smartPointer->Current())->PrintRowString());
-		text_.append("\n");
+		text_ += ((Row*)smartPointer->Current())->PrintRowString();
+		text_ += "\n";
 	}
 	Long i = text_.find_last_of('\n');
 	text_.replace(i, 1, "\0");

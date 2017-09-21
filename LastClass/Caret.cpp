@@ -34,9 +34,9 @@ void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
 		i++;
 	}
 
-	textEdit->CreateSolidCaret(5, textEdit->GetRowHeight());
+	textEdit->CreateSolidCaret(2, textEdit->GetRowHeight());
 	if (textEdit->GetFlagBuffer() == 1) {
-		textEdit->CreateSolidCaret(-20, 20);
+		textEdit->CreateSolidCaret(-dc->GetTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex-1)->MakeCString()).cx, textEdit->GetRowHeight());
 	}
 	this->currentCaretX = pointX;
 	this->currentCaretY = pointY;

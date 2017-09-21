@@ -42,7 +42,7 @@ void WritingVisitor::Visit(Reception* reception, CDC* cPaintDc) {
 }
 void WritingVisitor::Visit(Line *line, CDC* cPaintDc) {
 }
-void WritingVisitor::Visit(Generalization *generalization, CDC* cPaintDc){
+void WritingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
 }
 void WritingVisitor::Visit(Realization *realization, CDC* cPaintDc) {
 }
