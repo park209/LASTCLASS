@@ -4,9 +4,9 @@
 #define _CHARACTER_H
 
 #include "TextComponent.h"
-#include "Visitor.h"
-#include "Iterator.h"
-#include "SmartPointer.h"
+#include <afxwin.h>
+
+using namespace std;
 
 class Character : public TextComponent {
 public:

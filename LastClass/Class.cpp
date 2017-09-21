@@ -1,43 +1,104 @@
 //Class.cpp
 
 #include "Class.h"
+#include "Line.h"
+#include "Generalization.h"
+#include "Realization.h"
+#include "Dependency.h"
+#include "Association.h"
+#include "DirectedAssociation.h"
+#include "Aggregation.h"
+#include "Aggregations.h"
+#include "Composition.h"
+#include "Compositions.h"
+#include "Template.h"
+#include "SmartPointer.h"
+#include "MemoLine.h"
+#include "SelfGeneralization.h"
+#include "SelfDependency.h"
+#include "SelfAggregation.h"
+#include "SelfAssociation.h"
+#include "SelfAggregations.h"
+#include "SelfDirectedAssociation.h"
+#include "SelfComposition.h"
+#include "SelfCompositions.h"
+#include "SmartPointer.h"
+#include "ArrayIterator.h"
+#include "Reception.h"
+#include "Iterator.h"
+#include "ClassName.h"
+#include "Attribute.h"
+#include "Method.h"
+#include "Reception.h"
+#include "Diagram.h"
 
-Class::Class(Long capacity) {
-	this->capacity = capacity;
-	this->length = 0;
+Class::Class(Long capacity):FigureComposite(capacity) {
 	this->x = 0;
 	this->y = 0;
 	this->width = 0;
 	this->height = 0;
+	this->attributePosition = -1;
+	this->methodPosition = -1;
+	this->receptionPosition = -1;
+	this->templetePosition = -1;
 }
 
-Class::Class(Long x, Long y, Long width, Long height) {
-	this->capacity = 8;
-	this->length = 0;
+Class::Class(Long x, Long y, Long width, Long height) : FigureComposite(64) {
 	this->x = x;
 	this->y = y;
 	this->width = width;
 	this->height = height;
+	this->attributePosition = -1;
+	this->methodPosition = -1;
+	this->receptionPosition = -1;
+	this->templetePosition = -1;
 }
 
-Class::Class(const Class& source) {
-	this->figures = source.figures;
-	Long i = 0;
-	while (i < source.length) {
-		this->figures.Modify(i, (const_cast<Class&>(source)).figures[i]->Clone());
-		i++;
-	}
-	this->capacity = source.capacity;
-	this->length = source.length;
+Class::Class(const Class& source) : FigureComposite(source) {
 	this->x = source.x;
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
+	this->attributePosition = source.attributePosition;
+	this->methodPosition = source.methodPosition;
+	this->receptionPosition = source.receptionPosition;
+	this->templetePosition = source.templetePosition;
 }
 
 Class::~Class() {
+	Long i = 0;
+	while (i < this->length) {
+		delete this->figures[i];
+		i++;
+	}
 }
+void Class::Initialize() {
+	ClassName className(this->x, this->y, this->width, 50, "");
+	this->figures.Store(this->length, className.Clone());
+	this->length++;
 
+	Line line1(this->x, this->y + 50, width, 0);
+	this->figures.Store(this->length, line1.Clone());
+	this->length++;
+
+	Attribute attribute(this->x, this->y + 50, this->width , ((this->y + 50 + this->y+this->height) / 2) - (this->y + 50), "");
+	this->attributePosition = this->figures.Store(this->length, attribute.Clone());
+	this->length++;
+
+	Line line2(this->x, (this->y + 50 + this->y + this->height) / 2,
+		this->width , 0);
+	this->figures.Store(this->length, line2.Clone());
+	this->length++;
+
+	Method method(this->x, (this->y + 50 + this->y+this->height) / 2,this->width, ((this->y + 50 + this->y + this->height) / 2) - (this->y + 50), "");
+	this->methodPosition = this->figures.Store(this->length, method.Clone());
+	this->length++;
+
+}
+Figure* Class::Move(Long distanceX, Long distanceY){
+	Figure::Move(distanceX, distanceY);
+	return this;
+}
 Class& Class::operator = (const Class& source) {
 	this->figures = source.figures;
 	Long i = 0;
@@ -51,6 +112,10 @@ Class& Class::operator = (const Class& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
+	this->attributePosition = source.attributePosition;
+	this->methodPosition = source.methodPosition;
+	this->receptionPosition = source.receptionPosition;
+	this->templetePosition = source.templetePosition;
 
 	return *this;
 }
@@ -89,69 +154,358 @@ Long Class::Add(Long x, Long y, Long width, Long height) {
 	return index;
 }
 
-Long Class::Remove(Long index) {
-	return this->figures.Delete(index);
+
+
+Long Class::AddGeneralization(Long x, Long y, Long width, Long height) {
+	Long index;
+	Generalization object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
 }
 
-Line* Class::GetAt(Long index) { 
-	return static_cast<Line*>(this->figures.GetAt(index));
+Long Class::AddRealization(Long x, Long y, Long width, Long height) {
+	Long index;
+	Realization object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddDependency(Long x, Long y, Long width, Long height) {
+	Long index;
+	Dependency object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddAssociation(Long x, Long y, Long width, Long height) {
+	Long index;
+	Association object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddDirectedAssociation(Long x, Long y, Long width, Long height) {
+	Long index;
+	DirectedAssociation object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddAggregation(Long x, Long y, Long width, Long height) {
+	Long index;
+	Aggregation object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddAggregations(Long x, Long y, Long width, Long height) {
+	Long index;
+	Aggregations object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddComposition(Long x, Long y, Long width, Long height) {
+	Long index;
+	Composition object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+Long Class::AddCompositions(Long x, Long y, Long width, Long height) {
+	Long index;
+	Compositions object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+Long Class::AddTemplate(Long x, Long y, Long width, Long height) { //중복생성 안되게 막아야함
+	
+	Template object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		this->templetePosition = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		this->templetePosition = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return this->templetePosition;
+}
+Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
+
+	Line line(this->x, this->y+this->height, this->width, 0);
+	
+	this->height = height + 50;
+
+	if (this->length < this->capacity) {
+		this->receptionPosition = this->figures.Store(this->length, line.Clone());
+	}
+	else {
+		this->receptionPosition = this->figures.AppendFromRear(line.Clone());
+		this->capacity++;
+	}
+	this->length++;
+	
+	Reception reception(this->x, this->y, this->width,50,"");
+
+	if (this->length < this->capacity) {
+		this->figures.Store(this->length, reception.Clone());
+	}
+	else {
+		this->figures.AppendFromRear(reception.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	Long i = 0;
+	Long j = 0;
+	while (i < this->GetLength()) {
+
+		if (dynamic_cast<Relation*>(this->GetAt(i))) {
+			this->GetAt(i)->Modify(this->GetAt(i)->GetX(), this->GetAt(i)->GetY() + 50, this->GetAt(i)->GetWidth(), this->GetAt(i)->GetHeight() - 50);
+		}
+		i++;
+	}
+	i = 0;
+	Long startX = this->GetX();
+	Long startY = this->GetY();
+	Long endX = this->GetX() + this->GetWidth();
+	Long endY = this->GetY() + this->GetHeight();
+	while (i<diagram->GetLength()) {
+		j = 0;
+		FigureComposite *figureComposite = dynamic_cast<FigureComposite*>(diagram->GetAt(i));
+		while (j < figureComposite->GetLength()) {
+			Figure *figure = figureComposite->GetAt(j);
+			if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
+				Long relationEndX = figure->GetX() + figure->GetWidth();
+				Long relationEndY = figure->GetY() + figure->GetHeight();
+				if (startX <= relationEndX &&  relationEndX <= endX &&
+					startY <= relationEndY &&  relationEndY <= endY) {
+					figure->EndPointMove(0, 50);
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+
+	return this->receptionPosition;
+}
+Long Class::Remove(Long index) {
+
+	if (this->figures[index] != 0) {
+		delete this->figures[index];
+	}
+	this->length--;
+	this->capacity--;
+	return this->figures.Delete(index);
+}
+Long Class::RemoveTemplate() {
+	if (this->templetePosition != -1) {
+		this->templetePosition = this->Remove(this->templetePosition);
+	}
+	return this->templetePosition;
+}
+Long Class::RemoveReception() {
+	if (this->receptionPosition != -1) {
+		this->Remove(this->receptionPosition + 1);
+		this->receptionPosition = this->Remove(this->receptionPosition);
+	}
+	return this->receptionPosition;
+}
+Figure* Class::GetAt(Long index) {
+	return static_cast<Figure*>(this->figures.GetAt(index));
 }
 
 Figure* Class::Clone() const{
 	return new Class(*this);
 }
 
-#include <iostream>
-using namespace std;
-
-void Class::PrintLine(SmartPointer<Figure*>& index) {
-	for (index->First(); !index->IsDone(); index->Next()) {
-		cout << index->Current()->GetX() << " " << index->Current()->GetY() << endl;
-	}
-}
 
 
 void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
-	cout << "Class Accept" << endl;
 	visitor.Visit(this, cPaintDc);
+
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
+
 	while (!smartPointer->IsDone()) {
-		static_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		if (dynamic_cast<Line*>(smartPointer->Current())){
+			static_cast<Line*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		
+		else if (dynamic_cast<Template*>(smartPointer->Current())) {
+			static_cast<Template*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<ClassName*>(smartPointer->Current())) {
+			static_cast<ClassName*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<Attribute*>(smartPointer->Current())) {
+			static_cast<Attribute*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<Method*>(smartPointer->Current())) {
+			static_cast<Method*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<Reception*>(smartPointer->Current())) {
+			static_cast<Reception*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<Generalization*>(smartPointer->Current())) {
+			static_cast<Generalization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<Realization*>(smartPointer->Current())) {
+			static_cast<Realization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+	
+
+		else if (dynamic_cast<Dependency*>(smartPointer->Current())) {
+			static_cast<Dependency*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		
+
+		else if (dynamic_cast<Association*>(smartPointer->Current())) {
+			static_cast<Association*>(smartPointer->Current())->Accept(visitor, cPaintDc); //, cPaintDc
+		}
+		
+
+		else if (dynamic_cast<DirectedAssociation*>(smartPointer->Current())) {
+			static_cast<DirectedAssociation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		
+
+		else if (dynamic_cast<Aggregation*>(smartPointer->Current())) {
+			static_cast<Aggregation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		
+
+		else if (dynamic_cast<Aggregations*>(smartPointer->Current())) {
+			static_cast<Aggregations*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		
+
+		else if (dynamic_cast<Composition*>(smartPointer->Current())) {
+			static_cast<Composition*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		
+		}
+
+		else if (dynamic_cast<Compositions*>(smartPointer->Current())) {
+			static_cast<Compositions*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+
+		else if (dynamic_cast<MemoLine*>(smartPointer->Current())) {
+			static_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfGeneralization*>(smartPointer->Current())) {
+			static_cast<SelfGeneralization*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if(dynamic_cast<SelfDependency*>(smartPointer->Current())) {
+			static_cast<SelfDependency*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfAggregation*>(smartPointer->Current())) {
+			static_cast<SelfAggregation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfAssociation*>(smartPointer->Current())) {
+			static_cast<SelfAssociation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfAggregations*>(smartPointer->Current())) {
+			static_cast<SelfAggregations*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfDirectedAssociation*>(smartPointer->Current())) {
+			static_cast<SelfDirectedAssociation*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfComposition*>(smartPointer->Current())) {
+			static_cast<SelfComposition*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+		else if (dynamic_cast<SelfCompositions*>(smartPointer->Current())) {
+			static_cast<SelfCompositions*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		}
+	
 		smartPointer->Next();
 	}
 }
-
-
-//#include <iostream>
-//using namespace std;
-//
-//int main(int argc, char* argv[]) {
-//	Class testClass0;
-//	Class testClass1(10, 20, 30, 40);
-//	cout << testClass1.GetX() << " " << testClass1.GetY() << " " << testClass1.GetWidth() << " " << testClass1.GetHeight() << endl;
-//
-//	Class testClass2(testClass1);
-//	cout << testClass2.GetX() << " " << testClass2.GetY() << " " << testClass2.GetWidth() << " " << testClass2.GetHeight() << endl;
-//
-//	Class testClass3(40, 30, 20, 10);
-//	testClass2 = testClass3;
-//	cout << testClass2.GetX() << " " << testClass2.GetY() << " " << testClass2.GetWidth() << " " << testClass2.GetHeight() << endl;
-//
-//	Line testLine0(10, 10, 10, 10);
-//	testClass1.Add(dynamic_cast<Figure*>(&testLine0)); //static_cast도 됨. 뭐가 맞는거? // testLine0.Clone()
-//	cout << testClass1.GetAt(0)->GetX() << " " << testClass1.GetAt(0)->GetY() << " " << testClass1.GetAt(0)->GetWidth() << " " << testClass1.GetAt(0)->GetHeight() << endl;
-//
-//	Long index = testClass1.Add(50, 20, 20, 20);
-//	cout << testClass1[index]->GetX() << " " << testClass1[index]->GetY() << " " << testClass1[index]->GetWidth() << " " << testClass1[index]->GetHeight() << endl;
-//	index = testClass1.Add(60, 20, 20, 20);
-//	cout << testClass1.GetAt(index)->GetX() << " " << testClass1.GetAt(index)->GetY() << " " << testClass1.GetAt(index)->GetWidth() << " " << testClass1.GetAt(index)->GetHeight() << endl;
-//
-//	index = testClass1.Remove(1);
-//	if (index == -1) {
-//		cout << "삭제됨" << endl;
-//	}
-//
-//
-//	return 0;
-//}
-

@@ -1,3 +1,4 @@
+
 //Array.h
 
 #ifndef _ARRAY_H
@@ -11,34 +12,27 @@ public:
 	Array(Long capacity = 100); // default parameter && default value?!
 	Array(const Array& source); // 복사생성자
 	~Array();
-
 	Long Store(Long index, T object);
 	Long Insert(Long index, T object);
 	Long AppendFromFront(T object);
 	Long AppendFromRear(T object);
-
 	Long Delete(Long index);
 	Long DeleteFromFront();
 	Long DeleteFromRear();
 	void Clear();
 	Long Modify(Long index, T object);
-
 	Long LinearSearchUnique(void *key, int(*compare)(void*, void*));
 	void LinearSearchDuplicate(void *key, Long*(*indexes), Long *count, int(*compare)(void*, void*));
 	Long BinarySearchUnique(void *key, int(*compare)(void*, void*));
 	void BinarySearchDuplicate(void *key, Long*(*indexes), Long *count, int(*compare)(void*, void*));
-
 	void BubbleSort(int(*compare)(void*, void*));
 	void SelectionSort(int(*compare)(void*, void*));
 	void InsertionSort(int(*compare)(void*, void*));
 	void MergeSort(const Array& one, const Array& other, int(*compare)(void*, void*));
-
 	T& GetAt(Long index);
-
 	Array& operator = (const Array& source); //치환연산자 =
 	T& operator [] (Long index); //첨자연산자 []
 	T* operator + (Long index); //포인터산술연산자 +
-
 	Long GetCapacity() const;
 	Long GetLength() const;
 private:
@@ -475,7 +469,7 @@ Array<T>& Array<T>::operator = (const Array& source) {
 
 template <typename T>
 T* Array<T>::operator + (Long index) { //포인터산술연산자 +
-	return this->front + i;
+	return this->front + index;
 }
 
 template <typename T>

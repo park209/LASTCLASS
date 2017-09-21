@@ -1,3 +1,4 @@
+
 //Line.h
 
 #ifndef _LINE_H
@@ -9,6 +10,7 @@
 typedef signed long int Long;
 
 class Line : public Figure {
+
 public:
 	Line();
 	Line(Long x, Long y, Long width, Long height);
@@ -16,7 +18,7 @@ public:
 	virtual ~Line();
 
 	Line& operator = (const Line& source);
-
+	Figure* Move(Long distanceX, Long distanceY);
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 	Figure* Clone() const;
 };
