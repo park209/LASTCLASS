@@ -291,6 +291,9 @@
     <ClInclude Include="CtrlPasteKey.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="FlagSet.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aggregation.cpp">
@@ -549,6 +552,15 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="CtrlPasteKeyy.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrayIterator.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="FlagSet.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
