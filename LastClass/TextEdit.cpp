@@ -14,6 +14,7 @@
 #include "KeyBoard.h"
 #include "KeyAction.h"
 #include "TextAreaSelected.h"
+#include "HistoryText.h"
 #include "WritingVisitor.h"   
 #include <iostream>
 
@@ -38,6 +39,8 @@ TextEdit::TextEdit(Figure *figure) {
 	this->text = NULL;
 	this->caret = NULL;
 	this->keyBoard = NULL;
+	this->historyText = NULL;
+	this->textAreaSelected = NULL;
 	this->figure = figure;
 	this->rowHeight = 18; // 폰트 사이즈
 	this->koreanEnglish = 0;
@@ -55,9 +58,10 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->text = new Text;
 	this->caret = new Caret;
 	this->keyBoard = new KeyBoard;
+	this->historyText = new HistoryText;
+	this->textAreaSelected = new TextAreaSelected;
 
 	ModifyStyle(WS_CAPTION, 0);
-	//ModifyStyle(0, 0, SetWindowPos(&CWnd::wndTop, this->selectedY + 5, this->selectedY + 33, this->width - 5, this->height * 33, 0));
 
 	this->text->SprayString(this->figure->GetContent()); // 넘겨받아온거 자료구조로 뿌려줌 ㅇㅇㅇㅇㅇ
 
@@ -69,12 +73,12 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 void TextEdit::OnPaint() {
 	CPaintDC dc(this);
-	
+
 	WritingVisitor writingVisitor;
 
 	CFont cFont;
 	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS,"돋움체");
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 
@@ -88,11 +92,7 @@ void TextEdit::OnPaint() {
 	dc.SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
 
 	if (this->flagSelection == 1) { // flagSelection이 눌려있으면
-		TextAreaSelected *selectArea = new TextAreaSelected();
-		selectArea->SelectTextArea(this, &dc);
-		if (selectArea != 0) {
-			delete selectArea;
-		}
+		this->textAreaSelected->SelectTextArea(this, &dc);
 	}
 
 	dc.SelectObject(oldFont);
@@ -212,38 +212,41 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 	if (this->text != NULL) {
 		delete this->text;
 	}
+	if (this->historyText != NULL) {
+		delete this->historyText;
+	}
 	CWnd::DestroyWindow();
 }
 
 void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
-		CPaintDC dc(this);
+	CPaintDC dc(this);
 
-		CFont cFont;
-		cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
-		SetFont(&cFont, TRUE);
-		CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
+	CFont cFont;
+	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
+	SetFont(&cFont, TRUE);
+	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 
-		if (GetKeyState(VK_SHIFT) < 0) { // 클릭했는데 쉬프트가 눌려있을 때
-			if (this->flagSelection == 0) { // flag 가 안눌려있으면
-				this->flagSelection = 1; // flag 를 눌러준다
-				this->selectedX = this->caret->GetCharacterIndex(); // selectedX, Y 를 기존 위치 캐럿 상단 좌표로 고정한다
-				this->selectedY = this->caret->GetRowIndex();
-			}
+	if (GetKeyState(VK_SHIFT) < 0) { // 클릭했는데 쉬프트가 눌려있을 때
+		if (this->flagSelection == 0) { // flag 가 안눌려있으면
+			this->flagSelection = 1; // flag 를 눌러준다
+			this->selectedX = this->caret->GetCharacterIndex(); // selectedX, Y 를 기존 위치 캐럿 상단 좌표로 고정한다
+			this->selectedY = this->caret->GetRowIndex();
 		}
-		else {
-			if (this->flagSelection == 1) { // 쉬프트 안눌려있는데 flag 가 눌려있으면 flag 취소해준다
-				this->flagSelection = 0;
-			}
+	}
+	else {
+		if (this->flagSelection == 1) { // 쉬프트 안눌려있는데 flag 가 눌려있으면 flag 취소해준다
+			this->flagSelection = 0;
 		}
-		this->caret->MoveToPoint(this, &dc, point); // 옮긴 위치로 캐럿을 이동시켜준다
+	}
+	this->caret->MoveToPoint(this, &dc, point); // 옮긴 위치로 캐럿을 이동시켜준다
 
-		dc.SelectObject(oldFont);
-		cFont.DeleteObject(); // 폰트 끝
+	dc.SelectObject(oldFont);
+	cFont.DeleteObject(); // 폰트 끝
 
-		CWnd::HideCaret();
-		::DestroyCaret();
-		Invalidate();
+	CWnd::HideCaret();
+	::DestroyCaret();
+	Invalidate();
 }
 
 void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
@@ -280,13 +283,10 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 }
 
 void TextEdit::OnLButtonDoubleClicked(UINT nFlags, CPoint point) {
-	
+
 }
 
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
-	/*if (textEdit->flagSelection == 1) {
-	textEdit->flagSelection = 0;
-	}*/
 	this->koreanEnglish = 1;
 
 	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
@@ -297,6 +297,7 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	CWnd::HideCaret();
 	::DestroyCaret();
+
 	CWnd::Invalidate();
 }
 
@@ -328,5 +329,9 @@ void TextEdit::OnClose() {
 	if (this->text != NULL) {
 		delete this->text;
 	}
+	if (this->historyText != NULL) {
+		delete this->historyText;
+	}
+
 	CWnd::DestroyWindow();
 }
