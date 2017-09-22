@@ -142,6 +142,16 @@ Long Text::MaxWidth() {
 	return width;
 }
 
+Long Text::MaxHeight() {
+	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
+	Long width = 0;
+	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
+		if (width < Long(((Row*)smartPointer->Current())->PrintRowString().length())) {
+			width = ((Row*)smartPointer->Current())->PrintRowString().length();
+		}
+	}
+	return width;
+}
 
 Row* Text::GetAt(Long index) {
 	return dynamic_cast<Row*>(this->textComponents[index]);
