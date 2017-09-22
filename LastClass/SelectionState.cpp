@@ -28,7 +28,7 @@ void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagr
 	selection->DeleteAllItems();
 	selection->SelectByPoint(diagram, currentX, currentY);
 	if (selection->GetLength() == 0) {
-		this->ChangeState(mouseLButton, DefaultState::Instance());
+		this->ChangeDefault(mouseLButton);
 	}
 }
 void SelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
@@ -37,9 +37,9 @@ void SelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 	if (mouseLButton->GetButtonState() == 50) {
 		this->ChangeState(mouseLButton, DrawingRelation::Instance(), 50);
 	}
-	if (startX != currentX && startY != currentY) {
+
 		if (selection->GetLength() == 1) {
 			this->ChangeState(mouseLButton, MovingObject::Instance());
-		}
+
 	}
 }
