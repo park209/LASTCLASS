@@ -435,9 +435,11 @@ void ClassDiagramForm::OnPaint() {
 
 	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
 		//this->drawingController->Draw(this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
-		this->mouseLButton->MouseLButtonDrag(this->mouseLButton,this->diagram,this->selection,this->startX,this->startY,this->currentX,this->currentY,&dc);
-
+	//if (this->startX != this->currentX && this->startY != this->currentY) {
+		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
 	}
+
+	//}
 	//this->mouseLButton->MouseLButtonDown(this->startX, this->startY, this->currentX, this->currentY, &dc);
 	this->selection->Accept(drawingVisitor, &dc);
 }
@@ -446,15 +448,22 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	Class *object = static_cast<Class*>(this->selection->GetAt(0));
 	this->mouseLButton->ChangeState(nChar);
-	//if (nChar == 100) { // D 선택항목 지우기
-	//	while (this->selection->GetLength() != 0) {
-	//		this->selection->Remove(this->diagram, this->selection->GetAt(this->selection->GetLength() -1));
-	//	}
-	//}
-	//if (nChar == 102) { // F 템플릿기호 지우기
-	//	object = static_cast<Class*>(this->selection->GetAt(0));
-	//	object->RemoveTemplate();
-	//}
+	if (nChar == 100) { // D 선택항목 지우기
+		while (this->selection->GetLength() != 0) {
+			this->selection->Remove(this->diagram, this->selection->GetAt(this->selection->GetLength() -1));
+		}
+	}
+	if (nChar == 118) { // V 템플릿기호 만들기
+		if (object->GetTempletePosition() == -1) {
+			object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25);
+		}
+	}
+	if (nChar == 102) { // F 템플릿기호 지우기
+		if (object->GetTempletePosition() != -1) {
+			object->RemoveTemplate();
+		}
+	}
+	
 	if (nChar == 104) { //H 리셉션칸 추가
 		if (object->GetReceptionPosition() == -1) {
 			object->AddReception(this->diagram);

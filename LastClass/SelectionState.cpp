@@ -32,11 +32,14 @@ void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagr
 	}
 }
 void SelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
-	
+
+
 	if (mouseLButton->GetButtonState() == 50) {
-		this->ChangeState(mouseLButton, DrawingRelation::Instance(),50);
+		this->ChangeState(mouseLButton, DrawingRelation::Instance(), 50);
 	}
-	if (selection->GetLength() ==1) {
-		this->ChangeState(mouseLButton, MovingObject::Instance());
+	if (startX != currentX && startY != currentY) {
+		if (selection->GetLength() == 1) {
+			this->ChangeState(mouseLButton, MovingObject::Instance());
+		}
 	}
 }

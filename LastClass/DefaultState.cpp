@@ -75,11 +75,11 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 		this->ChangeState(mouseLButton, DrawingRealization::Instance(), 51);
 	}
 	if (mouseLButton->GetButtonState() == 0) {
-	selection->SelectByPoint(diagram, startX, startY);
-	if (selection->GetLength() > 0) {
-		this->ChangeState(mouseLButton, SelectionState::Instance());
+		selection->SelectByPoint(diagram, currentX, currentY);
+		if (selection->GetLength() > 0) {
+			this->ChangeState(mouseLButton, SelectionState::Instance());
+		}
 	}
-}
 }
 void DefaultState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
 	CPen pen;
