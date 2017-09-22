@@ -67,6 +67,7 @@
     <ClCompile Include="DrawingRealization.cpp" />
     <ClCompile Include="DrawingRelation.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
+    <ClCompile Include="DrawningResize.cpp" />
     <ClCompile Include="EndKey.cpp" />
     <ClCompile Include="EnterKey.cpp" />
     <ClCompile Include="EscapeKey.cpp" />
@@ -92,6 +93,7 @@
     <ClCompile Include="MouseLButtonAction.cpp" />
     <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="MovingVisitor.cpp" />
+    <ClCompile Include="MultipleSelectionState.cpp" />
     <ClCompile Include="PlusKey.cpp" />
     <ClCompile Include="Realization.cpp" />
     <ClCompile Include="RealizationButton.cpp" />
@@ -201,12 +203,14 @@
     <ClInclude Include="MouseLButtonAction.h" />
     <ClInclude Include="MovingObject.h" />
     <ClInclude Include="MovingVisitor.h" />
+    <ClInclude Include="MultipleSelectionState.h" />
     <ClInclude Include="PlusKey.h" />
     <ClInclude Include="Realization.h" />
     <ClInclude Include="RealizationButton.h" />
     <ClInclude Include="Reception.h" />
     <ClInclude Include="ReceptionButton.h" />
     <ClInclude Include="Relation.h" />
+    <ClInclude Include="DrawingResize.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="Row.h" />
