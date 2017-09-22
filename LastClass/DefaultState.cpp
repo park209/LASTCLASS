@@ -62,7 +62,7 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 		this->ChangeState(mouseLButton, DrawingAssociation::Instance(), 53);
 	}
 	if (object == 57) {
-		this->ChangeState(mouseLButton, DrawingComposition::Instance(), 57);
+		this->ChangeState(mouseLButton, DrawingComposition::Instance(), 57); 
 	}
 	if (object == 113) {
 		this->ChangeState(mouseLButton, DrawingCompositions::Instance(), 113);
