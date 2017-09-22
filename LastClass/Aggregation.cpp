@@ -24,7 +24,7 @@ Aggregation& Aggregation::operator=(const Aggregation& source) {
 	return *this;
 }
 
-void Aggregation::Accept(Visitor& visitor, CDC *cPaintDc) {
+void Aggregation::Accept(Visitor& visitor, CDC *cPaintDc) { 
 	visitor.Visit(this,cPaintDc);//, cPaintDc);
 }
 
