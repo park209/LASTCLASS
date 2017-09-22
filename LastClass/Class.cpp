@@ -87,7 +87,7 @@ void Class::Initialize() {
 
 	Line line2(this->x, (this->y + 50 + this->y + this->height) / 2,
 		this->width , 0);
-	this->figures.Store(this->length, line2.Clone());
+	 this->figures.Store(this->length, line2.Clone());
 	this->length++;
 
 	Method method(this->x, (this->y + 50 + this->y+this->height) / 2,this->width, ((this->y + 50 + this->y + this->height) / 2) - (this->y + 50), "");
@@ -320,10 +320,10 @@ Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
 	this->height = height + 50;
 
 	if (this->length < this->capacity) {
-		this->receptionPosition = this->figures.Store(this->length, line.Clone());
+		 this->figures.Store(this->length, line.Clone());
 	}
 	else {
-		this->receptionPosition = this->figures.AppendFromRear(line.Clone());
+		 this->figures.AppendFromRear(line.Clone());
 		this->capacity++;
 	}
 	this->length++;
@@ -331,10 +331,10 @@ Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
 	Reception reception(this->x, this->y, this->width,50,"");
 
 	if (this->length < this->capacity) {
-		this->figures.Store(this->length, reception.Clone());
+		this->receptionPosition = this->figures.Store(this->length, reception.Clone());
 	}
 	else {
-		this->figures.AppendFromRear(reception.Clone());
+		this->receptionPosition = this->figures.AppendFromRear(reception.Clone());
 		this->capacity++;
 	}
 	this->length++;
@@ -384,14 +384,21 @@ Long Class::Remove(Long index) {
 }
 Long Class::RemoveTemplate() {
 	if (this->templetePosition != -1) {
-		this->templetePosition = this->Remove(this->templetePosition);
+		this->templetePosition = this->figures.Delete(this->templetePosition);
+		this->length--;
+		this->capacity--;
 	}
 	return this->templetePosition;
 }
 Long Class::RemoveReception() {
 	if (this->receptionPosition != -1) {
-		this->Remove(this->receptionPosition + 1);
-		this->receptionPosition = this->Remove(this->receptionPosition);
+		this->figures.Delete(this->receptionPosition-1);
+		this->length--;
+		this->capacity--;
+
+		this->receptionPosition = this->figures.Delete(this->receptionPosition);
+		this->capacity--;
+		this->length--;	
 	}
 	return this->receptionPosition;
 }

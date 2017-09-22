@@ -491,11 +491,6 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 
 	this->selection->DeleteAllItems();
 
-	Long x = this->startX;
-	Long y = this->startY;
-	//this->selection->SelectByPoint(this->diagram, x, y);
-
-
 
 	this->mouseLButton->MouseLButtonDown(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 

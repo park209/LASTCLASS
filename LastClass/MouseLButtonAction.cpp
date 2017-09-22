@@ -14,3 +14,6 @@ void MouseLButtonAction::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *d
 void MouseLButtonAction::ChangeState(MouseLButton* mouseLButton, MouseLButtonAction *mouseLButtonAction, UINT nChar) {
 	mouseLButton->ChangeState(mouseLButtonAction,nChar);
 }
+void MouseLButtonAction::ChangeDefault(MouseLButton* mouseLButton) {
+	mouseLButton->ChangeDefault();
+}

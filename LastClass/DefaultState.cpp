@@ -12,6 +12,7 @@
 #include "SelectionState.h"
 #include "DrawingRelation.h"
 #include "DrawingMemoBox.h"
+#include"DrawingGeneralization.h" 
 
 DefaultState* DefaultState::instance = 0;
 
@@ -30,9 +31,6 @@ void DefaultState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, 
 	if (selection->GetLength() > 0) {
 		this->ChangeState(mouseLButton, SelectionState::Instance());
 	}
-	else {
-		this->ChangeState(mouseLButton, DefaultState::Instance());
-	}
 
 }
 void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
@@ -44,7 +42,7 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 		this->ChangeState(mouseLButton, DrawingMemoBox::Instance(),101);
 	}
 	if (object == 50) {
-		this->ChangeState(mouseLButton, DrawingRelation::Instance(),50);
+		this->ChangeState(mouseLButton, DrawingGeneralization::Instance(),50);
 	}
 	if (mouseLButton->GetButtonState() == 0) {
 	selection->SelectByPoint(diagram, startX, startY);
@@ -54,7 +52,6 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 }
 }
 void DefaultState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
-	//Long length = selection->GetLength();
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDC->SelectObject(&pen);

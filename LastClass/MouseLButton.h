@@ -22,6 +22,7 @@ public:
 	void MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY);
 	void MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY,CPaintDC *cPaintDC);
 	void ChangeState(UINT nChar);
+	void ChangeDefault();
 	UINT GetButtonState()const;
 private:
 	friend class  MouseLButtonAction;

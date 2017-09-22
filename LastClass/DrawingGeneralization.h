@@ -1,8 +1,8 @@
-#ifndef _DRAWNGRELATION_H
-#define _DRAWNGRELATION_H
+#ifndef _DRAWINGGENERALIZATION_H
+#define _DRAWINGGENERALIZATION_H
 #include "MouseLButtonAction.h"
 
-class DrawingRelation :public MouseLButtonAction {
+class DrawingGeneralization :public MouseLButtonAction {
 public:
 	static MouseLButtonAction* Instance();
 
@@ -14,8 +14,8 @@ public:
 protected:
 	//DrawingClass();
 private:
-	static DrawingRelation* instance;
+	static DrawingGeneralization* instance;
 };
 
-#endif // !_DRAWNGRELATION_H
+#endif // !_DRAWINGGENERALIZATION_H
 

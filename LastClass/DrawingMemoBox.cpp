@@ -22,7 +22,7 @@ void DrawingMemoBox::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram
 		currentY = startY + 80;
 	}
 	index = diagram->AddMemoBox(startX, startY, currentX - startX, currentY - startY);
-	this->ChangeState(mouseLButton, DefaultState::Instance());
+	this->ChangeDefault(mouseLButton);
 }
 void DrawingMemoBox::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 
