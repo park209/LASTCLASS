@@ -4,8 +4,6 @@
 #include "TextEdit.h"
 #include "Text.h"
 #include "Row.h"
-#include "SingleByteCharacter.h"
-#include "DoubleByteCharacter.h"
 #include "Character.h"
 
 Caret::Caret() {
