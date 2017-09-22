@@ -402,7 +402,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->drawingController = new DrawingController;
 
 	//1.2. 적재한다
-	this->Load();
+	//this->Load();
 
 	//1.3. 윈도우를 갱신한다
 	Invalidate();
@@ -417,7 +417,7 @@ void ClassDiagramForm::OnPaint() {
 	this->diagram->Accept(drawingVisitor, &dc);
 
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-	cFont.CreateFont(18, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+	cFont.CreateFont(this->textEdit->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
@@ -443,7 +443,9 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 }
 
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
+	CFrameWnd::OnSetFocus(pOldWnd);
 
+	CWnd::SetFocus();
 	Invalidate();
 }
 
@@ -490,16 +492,18 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 		this->textEdit = new TextEdit(figure);
 
-		this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
-			figure->GetX()+5,
-			figure->GetY()+33,
-			figure->GetX() + figure->GetWidth()+5,
-			figure->GetY() + figure->GetHeight()+33), NULL, NULL, WS_EX_TOPMOST);
-		this->textEdit->ShowWindow(SW_SHOW);
+		this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+			figure->GetX(),
+			figure->GetY(),
+			figure->GetX() + figure->GetWidth(),
+			figure->GetY() + figure->GetHeight()), this, 10000, NULL);
+		OnKillFocus(NULL);
 	}
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
+	CWnd::SetFocus();
+
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
 	UINT elapseTime = 0;
@@ -533,13 +537,12 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 			for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
 				if (dynamic_cast<ClassName*>(iterator->Current())) {
 					this->textEdit = new TextEdit(iterator->Current());
-
-					this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
-						iterator->Current()->GetX() + 5,
-						iterator->Current()->GetY() + 33,
-						iterator->Current()->GetX() + iterator->Current()->GetWidth() - 5,
-						iterator->Current()->GetY() + iterator->Current()->GetHeight() + 23), NULL, NULL, WS_EX_TOPMOST);
-					this->textEdit->ShowWindow(SW_SHOW);
+					this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+						iterator->Current()->GetX(),
+						iterator->Current()->GetY(),
+						iterator->Current()->GetX() + iterator->Current()->GetWidth(),
+						iterator->Current()->GetY() + iterator->Current()->GetHeight()), this, 10000, NULL);
+					OnKillFocus(NULL);
 				}
 			}
 		}
@@ -565,7 +568,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 }
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
-	this->Save();
+	//this->Save();
 
 	//6.2. 다이어그램을 지운다.
 	if (this->diagram != NULL) {

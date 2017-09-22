@@ -37,6 +37,7 @@
     <ClInclude Include="ClassDiagramApp.h" />
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="ClassName.h" />
+    <ClInclude Include="CMemoryDC.h" />
     <ClInclude Include="Composition.h" />
     <ClInclude Include="CompositionButton.h" />
     <ClInclude Include="Compositions.h" />
@@ -62,7 +63,6 @@
     <ClInclude Include="FigureComposite.h" />
     <ClInclude Include="FigureFactory.h" />
     <ClInclude Include="Finder.h" />
-    <ClInclude Include="FlagSet.h" />
     <ClInclude Include="Generalization.h" />
     <ClInclude Include="GeneralizationButton.h" />
     <ClInclude Include="HomeKey.h" />
@@ -105,6 +105,7 @@
     <ClInclude Include="Template.h" />
     <ClInclude Include="TemplateButton.h" />
     <ClInclude Include="Text.h" />
+    <ClInclude Include="TextAreaSelected.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TextComposite.h" />
     <ClInclude Include="TextEdit.h" />
@@ -156,7 +157,6 @@
     <ClCompile Include="FigureComposite.cpp" />
     <ClCompile Include="FigureFactory.cpp" />
     <ClCompile Include="Finder.cpp" />
-    <ClCompile Include="FlagSet.cpp" />
     <ClCompile Include="Generalization.cpp" />
     <ClCompile Include="GeneralizationButton.cpp" />
     <ClCompile Include="HomeKey.cpp" />
@@ -196,6 +196,7 @@
     <ClCompile Include="Template.cpp" />
     <ClCompile Include="TemplateButton.cpp" />
     <ClCompile Include="Text.cpp" />
+    <ClCompile Include="TextAreaSelected.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextComposite.cpp" />
     <ClCompile Include="TextEdit.cpp" />
