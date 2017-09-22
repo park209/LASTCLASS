@@ -37,6 +37,7 @@
     <ClInclude Include="ClassDiagramApp.h" />
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="ClassName.h" />
+    <ClInclude Include="CMemoryDC.h" />
     <ClInclude Include="Composition.h" />
     <ClInclude Include="CompositionButton.h" />
     <ClInclude Include="Compositions.h" />

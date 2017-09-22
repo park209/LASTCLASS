@@ -31,7 +31,7 @@ BEGIN_MESSAGE_MAP(TextEdit, CWnd)
 
 	ON_WM_KEYDOWN()
 	ON_MESSAGE(WM_IME_NOTIFY, OnIMENotify)
-	//ON_WM_CLOSE()
+	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 TextEdit::TextEdit(Figure *figure) {
@@ -77,12 +77,14 @@ void TextEdit::OnPaint() {
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS,"돋움체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
-	
+
+	dc.SetBkMode(TRANSPARENT);//문자배경 투명하게
+
 	this->text->Accept(writingVisitor, &dc);//받았던거 출력
 	this->caret->MoveToIndex(this, &dc);
 
 	dc.SetTextColor(RGB(255, 255, 255));
-	dc.SetBkColor(RGB(0, 100, 255));
+	dc.SetBkColor(RGB(51, 153, 255));
 	dc.SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
 
 	if (this->flagSelection == 1) { // flagSelection이 눌려있으면
@@ -99,7 +101,7 @@ void TextEdit::OnPaint() {
 
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN &&
-		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10 &&  GetKeyState(VK_CONTROL) >= 0) {//GetKeyState(VK_RSHIFT) >= 0 &&
+		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10 && GetKeyState(VK_RSHIFT) >= 0 && GetKeyState(VK_CONTROL) >= 0) {
 		char nCharacter = nChar;
 
 		SingleByteCharacter singleByteCharacter(nCharacter);
@@ -242,7 +244,6 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 		CWnd::HideCaret();
 		::DestroyCaret();
 		Invalidate();
-	
 }
 
 void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
@@ -311,19 +312,21 @@ LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-//void TextEdit::OnClose() {
-//	string content(this->text->MakeText());
-//	this->figure->ReplaceString(content);
-//
-//	if (this->caret != NULL) {
-//		delete this->caret;
-//	}
-//	if (this->keyBoard != NULL) {
-//		delete this->keyBoard;
-//	}
-//	if (this->text != NULL) {
-//		delete this->text;
-//	}
-//	DestroyCaret();
-//	CWnd::OnClose();
-//}
+void TextEdit::OnClose() {
+	CWnd::HideCaret();
+	::DestroyCaret();
+
+	string content(this->text->MakeText());
+	this->figure->ReplaceString(content);
+
+	if (this->caret != NULL) {
+		delete this->caret;
+	}
+	if (this->keyBoard != NULL) {
+		delete this->keyBoard;
+	}
+	if (this->text != NULL) {
+		delete this->text;
+	}
+	CWnd::DestroyWindow();
+}

@@ -30,7 +30,7 @@ protected:
 
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg LRESULT OnIMENotify(WPARAM wParam, LPARAM lParam);
-	//afx_msg void OnClose();
+	afx_msg void OnClose();
 	DECLARE_MESSAGE_MAP()
 public:
 	Long GetFlagInsert() const;

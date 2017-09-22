@@ -4,6 +4,8 @@
 #include "TextEdit.h"
 #include "Text.h"
 #include "Row.h"
+#include "SingleByteCharacter.h"
+#include "DoubleByteCharacter.h"
 #include "Character.h"
 
 Caret::Caret() {
@@ -28,23 +30,28 @@ Caret::~Caret() {
 void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
 	Long pointX = 5;														//가로
 	Long pointY = this->rowIndex * textEdit->GetRowHeight() + 5;			//세로
-	Long i = 0;
-	Long j = 0;
-	Long nextTabStop = 0;
+	Long j;
 	CString str;
+	Long column = 0;
+	Long tabWidth = 0;
+	Long i = 0;
 	while (i < this->characterIndex) {
 		str = textEdit->text->GetAt(this->rowIndex)->GetAt(i)->MakeCString();
-		if (str == "\t") {
-			j = i;
-			Long column = dc->GetTextExtent(str).cx / dc->GetTextExtent("a").cx;//문자열 바이트 수(한글은 1/2)
-			str = (CString)(textEdit->text->GetAt(this->rowIndex)->
-				ReplaceTabString(textEdit->text->GetAt(this->rowIndex)->PrintRowString(), "\t", "        ").c_str());
+		if (str.GetAt(0) & 0x80) { // 2바이트문자면 2칸
+			column += 2;
+		}
+		else if (str == "\t") { // 탭문자면 이전문자의 칸을 셈
+			tabWidth = (column + 8) / 8 * 8 - column;
+			column += tabWidth;
+			j = 0;
 			str = "";
-			nextTabStop = column / 8 * 8;
-			while (j < nextTabStop) {
+			while (j < tabWidth) {
 				str += " ";
 				j++;
 			}
+		}
+		else { // 1바이트문자면 1칸
+			column += 1;
 		}
 		pointX += dc->GetTextExtent(str).cx;
 		i++;

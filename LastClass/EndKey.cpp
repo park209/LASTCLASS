@@ -4,7 +4,10 @@
 #include "TextEdit.h"
 #include "Text.h"
 #include "Row.h"
+#include "Figure.h"
 #include "Caret.h"
+#include "KeyBoard.h"
+#include <afxwin.h>
 
 EndKey::EndKey() {
 }
