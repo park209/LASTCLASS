@@ -2,55 +2,88 @@
 
 #include "HistoryText.h"
 #include "Text.h"
+#include "Caret.h"
 
 HistoryText::HistoryText() {
-	this->undoArray = new Array<Text*>(0);
-	this->redoArray = new Array<Text*>(0);
+	this->undoTextArray = new Array<Text*>(0);
+	this->redoTextArray = new Array<Text*>(0);
+	this->undoCaretArray = new Array<Caret*>(0);
+	this->redoCaretArray = new Array<Caret*>(0);
 }
 
 HistoryText::HistoryText(const HistoryText& source) {
-	this->undoArray = source.undoArray;
-	this->redoArray = source.redoArray;
+	this->undoTextArray = source.undoTextArray;
+	this->redoTextArray = source.redoTextArray;
+	this->undoCaretArray = new Array<Caret*>(0);
+	this->redoCaretArray = new Array<Caret*>(0);
 }
 
 HistoryText::~HistoryText() {
 }
 
-void HistoryText::PushUndo(Text *text) {
-	if (this->undoArray->GetCapacity() < 100) {
-		this->undoArray->AppendFromFront(static_cast<Text*>(text->Clone()));
+void HistoryText::PushUndo(Text *text, Caret *caret) {
+	if (this->undoTextArray->GetCapacity() < 50) {
+		this->undoTextArray->AppendFromFront(static_cast<Text*>(text->Clone()));
+		Caret *tempCaret = new Caret(*caret);
+		this->undoCaretArray->AppendFromFront(tempCaret);
 	}
 	else {
-		this->undoArray->Insert(0, static_cast<Text*>(text->Clone()));
-		this->undoArray->DeleteFromRear();
+		this->undoTextArray->Insert(0, static_cast<Text*>(text->Clone()));
+		this->undoTextArray->DeleteFromRear();
+		Caret *tempCaret = new Caret(*caret);
+		this->undoCaretArray->Insert(0, tempCaret);
+		this->undoCaretArray->DeleteFromRear();
 	}
 }
 
-Text* HistoryText::PopUndo() {
-	if (this->undoArray->GetLength() > 0) {
-		Text *text = this->undoArray->GetAt(0);
-		this->undoArray->Delete(0);
+Text* HistoryText::PopUndoText() {
+	if (this->undoTextArray->GetLength() > 0) {
+		Text *text = this->undoTextArray->GetAt(0);
+		this->undoTextArray->Delete(0);
 
 		return text;
 	}
 }
 
-void HistoryText::PushRedo(Text *text) {
-	if (this->redoArray->GetCapacity() < 100) {
-		this->redoArray->AppendFromFront(static_cast<Text*>(text->Clone()));
-	}
-	else {
-		this->redoArray->Insert(0, static_cast<Text*>(text->Clone()));
-		this->redoArray->DeleteFromRear();
+Caret* HistoryText::PopUndoCaret() {
+	if (this->undoCaretArray->GetLength() > 0) {
+		Caret *caret = this->undoCaretArray->GetAt(0);
+		this->undoCaretArray->Delete(0);
+
+		return caret;
 	}
 }
 
-Text* HistoryText::PopRedo() {
-	if (this->redoArray->GetLength() > 0) {
-		Text *text = this->redoArray->GetAt(0);
-		this->redoArray->Delete(0);
+void HistoryText::PushRedo(Text *text, Caret *caret) {
+	if (this->redoTextArray->GetCapacity() < 50) {
+		this->redoTextArray->AppendFromFront(static_cast<Text*>(text->Clone()));
+		Caret *tempCaret = new Caret(*caret);
+		this->redoCaretArray->AppendFromFront(tempCaret);
+	}
+	else {
+		this->redoTextArray->Insert(0, static_cast<Text*>(text->Clone()));
+		this->redoTextArray->DeleteFromRear();
+		Caret *tempCaret = new Caret(*caret);
+		this->redoCaretArray->Insert(0, tempCaret);
+		this->redoCaretArray->DeleteFromRear();
+	}
+}
+
+Text* HistoryText::PopRedoText() {
+	if (this->redoTextArray->GetLength() > 0) {
+		Text *text = this->redoTextArray->GetAt(0);
+		this->redoTextArray->Delete(0);
 
 		return text;
+	}
+}
+
+Caret* HistoryText::PopRedoCaret() {
+	if (this->redoCaretArray->GetLength() > 0) {
+		Caret *caret = this->redoCaretArray->GetAt(0);
+		this->redoCaretArray->Delete(0);
+
+		return caret;
 	}
 }
 
@@ -137,13 +170,13 @@ Text* HistoryText::PopRedo() {
 //	testHistoryText1.PushRedo(&testText5);
 //	testHistoryText1.PushRedo(&testText6);
 //
-//	cout << testHistoryText1.undoArray->GetLength() << endl;
-//	cout << testHistoryText1.undoArray->GetCapacity() << endl << endl;
+//	cout << testHistoryText1.undoTextArray->GetLength() << endl;
+//	cout << testHistoryText1.undoTextArray->GetCapacity() << endl << endl;
 //
 //	int i = 0;
 //	while (i < 5) {
-//		//cout << testHistoryText1.undoArray->GetLength() << endl;
-//		//cout << testHistoryText1.undoArray->GetCapacity() << endl;
+//		//cout << testHistoryText1.undoTextArray->GetLength() << endl;
+//		//cout << testHistoryText1.undoTextArray->GetCapacity() << endl;
 //		testTextEdit.text = testHistoryText1.PopUndo();
 //		cout << testTextEdit.text->MakeText() << endl;
 //		cout << testHistoryText1.PopRedo()->MakeText() << endl;

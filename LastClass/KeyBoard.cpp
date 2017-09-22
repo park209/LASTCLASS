@@ -22,7 +22,8 @@
 #include "CtrlCopyKey.h"
 #include "CtrlAllKey.h"
 #include "CtrlPasteKey.h"
-#include "CtrlUndoKey.h"
+#include "CtrlUndoTextKey.h"
+#include "CtrlRedoTextKey.h"
 
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
@@ -111,7 +112,10 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		this->keyAction = new CtrlPasteKey;
 		break;
 	case 90:
-		this->keyAction = new CtrlUndoKey;
+		this->keyAction = new CtrlUndoTextKey;
+		break;
+	case 89:
+		this->keyAction = new CtrlRedoTextKey;
 		break;
 	default:
 		this->keyAction = 0;

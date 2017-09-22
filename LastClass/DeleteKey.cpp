@@ -18,12 +18,12 @@ DeleteKey::~DeleteKey() {
 
 void DeleteKey::KeyPress(TextEdit *textEdit) {
 	if (textEdit->caret->GetCharacterIndex() < textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength()) {
-		textEdit->historyText->PushUndo(textEdit->text);
+		textEdit->historyText->PushUndo(textEdit->text, textEdit->caret);
 		textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Remove(textEdit->caret->GetCharacterIndex());
 	}
 	else if (textEdit->caret->GetCharacterIndex() == textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength()
 		&& textEdit->caret->GetRowIndex() < textEdit->text->GetLength() - 1) {
-		textEdit->historyText->PushUndo(textEdit->text);
+		textEdit->historyText->PushUndo(textEdit->text, textEdit->caret);
 		Long i = 0;
 		while (i < textEdit->text->GetAt(textEdit->caret->GetRowIndex() + 1)->GetLength()) {
 			textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Add(textEdit->text->GetAt(textEdit->caret->GetRowIndex() + 1)->GetAt(i));

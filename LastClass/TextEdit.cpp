@@ -49,6 +49,8 @@ TextEdit::TextEdit(Figure *figure) {
 	this->flagSelection = 0;
 	this->currentX = 0;
 	this->copyBuffer = "";
+	this->selectedX = 0;
+	this->selectedY = 0;
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -91,7 +93,6 @@ void TextEdit::OnPaint() {
 			delete selectArea;
 		}
 	}
-	
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject(); // ÆùÆ®
 }
@@ -297,7 +298,6 @@ void TextEdit::OnClose() {
 
 	CFrameWnd::OnClose();
 }
-
 
 //int main(int argc, char *argv[]) {
 //	SingleByteCharacter singleWord1('d');

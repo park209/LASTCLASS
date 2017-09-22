@@ -45,7 +45,8 @@
     <ClInclude Include="CtrlCopyKey.h" />
     <ClInclude Include="CtrlEnterKey.h" />
     <ClInclude Include="CtrlPasteKey.h" />
-    <ClInclude Include="CtrlUndoKey.h" />
+    <ClInclude Include="CtrlRedoTextKey.h" />
+    <ClInclude Include="CtrlUndoTextKey.h" />
     <ClInclude Include="DeleteKey.h" />
     <ClInclude Include="Dependency.h" />
     <ClInclude Include="DependencyButton.h" />
@@ -142,7 +143,8 @@
     <ClCompile Include="CtrlCopyKey.cpp" />
     <ClCompile Include="CtrlEnterKey.cpp" />
     <ClCompile Include="CtrlPasteKeyy.cpp" />
-    <ClCompile Include="CtrlUndoKey.cpp" />
+    <ClCompile Include="CtrlRedoKey.cpp" />
+    <ClCompile Include="CtrlUndoTextKey.cpp" />
     <ClCompile Include="DeleteKey.cpp" />
     <ClCompile Include="Dependency.cpp" />
     <ClCompile Include="DependencyButton.cpp" />

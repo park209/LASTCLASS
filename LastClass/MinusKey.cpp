@@ -18,7 +18,6 @@ MinusKey::~MinusKey() {
 
 void MinusKey::KeyPress(TextEdit *textEdit) {
 	if (GetKeyState(VK_RSHIFT) < 0) { //ÆùÆ® size
-		textEdit->historyText->PushUndo(textEdit->text);
 		textEdit->rowHeight--;
 	}
 }
