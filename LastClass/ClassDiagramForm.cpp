@@ -487,7 +487,6 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {
-
 		this->textEdit = new TextEdit(figure);
 
 		this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
