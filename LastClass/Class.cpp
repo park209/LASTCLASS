@@ -54,7 +54,6 @@ Class::Class(const Class& source) : FigureComposite(source) {
 	this->width = source.width;
 	this->height = source.height;
 	this->templetePosition = source.templetePosition;
-	this->receptionPosition = -1;
 }
 
 Class::~Class() {
@@ -75,14 +74,11 @@ Class& Class::operator = (const Class& source) {
 		this->figures.Modify(i, (const_cast<Class&>(source)).figures[i]->Clone());
 		i++;
 	}
-	this->capacity = source.capacity;
-	this->length = source.length;
-	this->x = source.x;
-	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
 	this->templetePosition = source.templetePosition;
 	this->receptionPosition = source.receptionPosition;
+	this->receptionPosition = -1;
 
 	return *this;
 }

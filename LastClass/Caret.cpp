@@ -29,27 +29,15 @@ void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
 	Long pointX = 5;														//가로
 	Long pointY = this->rowIndex * textEdit->GetRowHeight() + 5;			//세로
 	Long i = 0;
-	Long j = 0;
-	Long nextTabStop = 0;
-	CString tabString;
-	CString str = (CString)textEdit->text->GetAt(this->rowIndex)->ReplaceTabString(textEdit->text->GetAt(this->rowIndex)->PrintRowString(), "\t", "    ").c_str();
-	Long column = dc->GetTextExtent(str).cx / dc->GetTextExtent("a").cx;//문자열 바이트 수(한글은 1/2)
-	nextTabStop = (column + 4) / 4 * 4 - column;
+																						//여기에 일단
 	while (i < this->characterIndex) {
-		str = textEdit->text->GetAt(this->rowIndex)->GetAt(i)->MakeCString();
-		if (str == "\t") {
-			str = "";
-			while (j < nextTabStop) {
-				str += " ";
-				j++;
-			}
-		}
-		pointX += dc->GetTextExtent(str).cx;
+		pointX += dc->GetTabbedTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(i)->MakeCString(), 0, 0).cx;
 		i++;
 	}
-	textEdit->CreateSolidCaret(2, textEdit->GetRowHeight());
+
+	textEdit->CreateSolidCaret(5, textEdit->GetRowHeight());
 	if (textEdit->GetFlagBuffer() == 1) {
-		textEdit->CreateSolidCaret(-dc->GetTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex-1)->MakeCString()).cx, textEdit->GetRowHeight());
+		textEdit->CreateSolidCaret(-dc->GetTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex - 1)->MakeCString()).cx, textEdit->GetRowHeight());
 	}
 	this->currentCaretX = pointX;
 	this->currentCaretY = pointY;
@@ -60,7 +48,7 @@ void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
 void Caret::MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point) {
 	Long x = point.x;
 	Long y = point.y;
-	CString str;
+
 	this->rowIndex = 0;
 	this->characterIndex = 0;
 
@@ -75,22 +63,12 @@ void Caret::MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point) {
 
 	Long width = 5;
 	while (x > 5 && width < x && this->characterIndex < textEdit->text->GetAt(this->rowIndex)->GetLength()) {
-		str = textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex)->MakeCString();
-		if (str == "\t") {
-			str = "    ";
-		}
-		width += cPaintDc->GetTextExtent(str).cx;
+		width += cPaintDc->GetTabbedTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex)->MakeCString(), 0, 0).cx;
 		this->characterIndex++; // -1 안하면 다음꺼
 	}
-	if (this->characterIndex > 0) {
-		str = textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex - 1)->MakeCString();
-		if (str == "\t") {
-			str = "    ";
-		}
-		Long textWidth = cPaintDc->GetTextExtent(str).cx;
-		if (x > 5 && x < width - textWidth / 2) {
-			this->characterIndex--;
-		}
+	if (x > 5 && this->characterIndex > 0 &&
+		x < width - (cPaintDc->GetTabbedTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex - 1)->MakeCString(), 0, 0).cx) / 2) {
+		this->characterIndex--;
 	}
 }
 

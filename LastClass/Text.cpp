@@ -68,8 +68,8 @@ string Text::MakeText() {
 	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
 	string text_;
 	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
-		text_ += ((Row*)smartPointer->Current())->PrintRowString();
-		text_ += "\n";
+		text_.append(((Row*)smartPointer->Current())->PrintRowString());
+		text_.append("\n");
 	}
 	Long i = text_.find_last_of('\n');
 	text_.replace(i, 1, "\0");
@@ -135,12 +135,13 @@ Long Text::MaxWidth() {
 	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
 	Long width = 0;
 	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
-		if (width < Long(((Row*)smartPointer->Current())->ReplaceTabString(((Row*)smartPointer->Current())->PrintRowString(), "\t", "    ").length())) {
+		if (width < Long(((Row*)smartPointer->Current())->PrintRowString().length())) {
 			width = ((Row*)smartPointer->Current())->PrintRowString().length();
 		}
 	}
 	return width;
 }
+
 
 Row* Text::GetAt(Long index) {
 	return dynamic_cast<Row*>(this->textComponents[index]);

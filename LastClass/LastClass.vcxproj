@@ -144,7 +144,6 @@
     <ClCompile Include="CtrlCopyKey.cpp" />
     <ClCompile Include="CtrlCutKey.cpp" />
     <ClCompile Include="CtrlEnterKey.cpp" />
-    <ClCompile Include="CtrlPasteKey.cpp" />
     <ClCompile Include="CtrlPasteKeyy.cpp" />
     <ClCompile Include="CtrlRedoKey.cpp" />
     <ClCompile Include="CtrlUndoTextKey.cpp" />

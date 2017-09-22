@@ -443,9 +443,9 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 }
 
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
-	CFrameWnd::OnSetFocus(pOldWnd);
+	//CFrameWnd::OnSetFocus(pOldWnd); // CWnd
+	//CWnd::SetFocus();
 
-	CWnd::SetFocus();
 	Invalidate();
 }
 
@@ -489,20 +489,27 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {
-
 		this->textEdit = new TextEdit(figure);
 
-		this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+		this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
+			figure->GetX()+5,
+			figure->GetY()+33,
+			figure->GetX() + figure->GetWidth()+5,
+			figure->GetY() + figure->GetHeight()+33), NULL, NULL, WS_EX_TOPMOST);
+		this->textEdit->ShowWindow(SW_SHOW);
+
+		//CWnd
+		/*this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect( 
 			figure->GetX(),
 			figure->GetY(),
 			figure->GetX() + figure->GetWidth(),
 			figure->GetY() + figure->GetHeight()), this, 10000, NULL);
-		OnKillFocus(NULL);
+		OnKillFocus(NULL);*/
 	}
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
-	CWnd::SetFocus();
+	//CWnd::SetFocus(); //CWnd
 
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
@@ -537,17 +544,25 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 			for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
 				if (dynamic_cast<ClassName*>(iterator->Current())) {
 					this->textEdit = new TextEdit(iterator->Current());
-					this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-						iterator->Current()->GetX(),
-						iterator->Current()->GetY(),
-						iterator->Current()->GetX() + iterator->Current()->GetWidth(),
-						iterator->Current()->GetY() + iterator->Current()->GetHeight()), this, 10000, NULL);
-					OnKillFocus(NULL);
+
+					this->textEdit->Create(NULL, "textEdit", WS_DLGFRAME, CRect(
+						iterator->Current()->GetX() + 5,
+						iterator->Current()->GetY() + 33,
+						iterator->Current()->GetX() + iterator->Current()->GetWidth() - 5,
+						iterator->Current()->GetY() + iterator->Current()->GetHeight() + 23), NULL, NULL, WS_EX_TOPMOST);
+					this->textEdit->ShowWindow(SW_SHOW);
+
+					//CWnd
+					/*this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+						figure->GetX(),
+						figure->GetY(),
+						figure->GetX() + figure->GetWidth(),
+						figure->GetY() + figure->GetHeight()), this, 10000, NULL);
+					OnKillFocus(NULL);*/
 				}
 			}
 		}
 	}
-
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;

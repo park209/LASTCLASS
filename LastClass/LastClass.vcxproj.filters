@@ -5,115 +5,12 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MovingVisitor.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlCopyKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="DownArrowKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="UpArrowKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="BackSpaceKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Caret.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ClassDiagramForm.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlEnterKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="DeleteKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="DoubleByteCharacter.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawingController.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="EndKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="EnterKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="EscapeKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="HomeKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyAction.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyBoard.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="LeftArrowKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="RightArrowKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SingleByteCharacter.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SpaceKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TabKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TextComponent.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TextComposite.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TextEdit.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="WritingVisitor.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="PlusKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MinusKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlAllKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlPasteKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="HistoryText.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TextAreaSelected.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Aggregation.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
@@ -141,19 +38,28 @@
     <ClInclude Include="Attribute.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="BackSpaceKey.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
     <ClInclude Include="ButtonState.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Caret.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ClassButton.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Class.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="ClassButton.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
     <ClInclude Include="ClassDiagramApp.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassDiagramForm.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="ClassName.h">
@@ -171,6 +77,30 @@
     <ClInclude Include="CompositionsButton.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CtrlAllKey.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlCopyKey.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlCutKey.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlEnterKey.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlPasteKey.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlRedoTextKey.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlUndoTextKey.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteKey.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
     <ClInclude Include="Dependency.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
@@ -186,7 +116,25 @@
     <ClInclude Include="DirectedAssociation.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="DoubleByteCharacter.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DownArrowKey.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawingController.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
     <ClInclude Include="DrawingVisitor.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="EndKey.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="EnterKey.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="EscapeKey.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Figure.h">
@@ -210,10 +158,25 @@
     <ClInclude Include="GeneralizationButton.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="HistoryText.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="HomeKey.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
     <ClInclude Include="InsertKey.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Iterator.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyAction.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyBoard.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="LeftArrowKey.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Line.h">
@@ -234,6 +197,15 @@
     <ClInclude Include="Method.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="MinusKey.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingVisitor.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PlusKey.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
     <ClInclude Include="Realization.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
@@ -250,6 +222,9 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RightArrowKey.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Row.h">
@@ -285,7 +260,16 @@
     <ClInclude Include="SelfRelation.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="SingleByteCharacter.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
     <ClInclude Include="SmartPointer.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceKey.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TabKey.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Template.h">
@@ -294,122 +278,35 @@
     <ClInclude Include="TemplateButton.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TextAreaSelected.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComponent.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComposite.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TextEdit.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
     <ClInclude Include="Unclicked.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UpArrowKey.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Visitor.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="CtrlRedoTextKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlUndoTextKey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlCutKey.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="WritingVisitor.h">
+      <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BackSpaceKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Caret.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ClassDiagramForm.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlAllKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlCopyKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlEnterKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlPasteKeyy.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="DeleteKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="DoubleByteCharacter.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="DownArrowKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawingController.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="EndKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="EnterKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="EscapeKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="HistoryText.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="HomeKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyAction.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyBoard.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="LeftArrowKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MinusKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MovingVisitor.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="PlusKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="RightArrowKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SingleByteCharacter.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SpaceKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TabKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TextAreaSelected.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TextComponent.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TextComposite.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TextEdit.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="UpArrowKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="WritingVisitor.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Aggregation.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -434,19 +331,28 @@
     <ClCompile Include="Attribute.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="BackSpaceKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="ButtonState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Caret.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ClassButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Class.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="ClassButton.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="ClassDiagramApp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassDiagramForm.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="ClassName.cpp">
@@ -464,6 +370,30 @@
     <ClCompile Include="CompositionsButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CtrlAllKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlCopyKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlCutKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlEnterKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlPasteKeyy.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlRedoKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlUndoTextKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="Dependency.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -479,7 +409,25 @@
     <ClCompile Include="DirectedAssociation.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="DoubleByteCharacter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DownArrowKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingController.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="DrawingVisitor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="EndKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="EnterKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="EscapeKey.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Figure.cpp">
@@ -494,13 +442,31 @@
     <ClCompile Include="Finder.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="FlagSet.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="Generalization.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="GeneralizationButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="HistoryText.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="HomeKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="InsertKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyAction.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyBoard.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="LeftArrowKey.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Line.cpp">
@@ -521,6 +487,15 @@
     <ClCompile Include="Method.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="MinusKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingVisitor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="PlusKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="Realization.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -534,6 +509,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Relation.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RightArrowKey.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Row.cpp">
@@ -569,31 +547,46 @@
     <ClCompile Include="SelfRelation.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="SingleByteCharacter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TabKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="Template.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="TemplateButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TextAreaSelected.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TextComponent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TextComposite.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TextEdit.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="Unclicked.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UpArrowKey.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Visitor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CtrlUndoTextKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlRedoKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlCutKey.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlPasteKey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="FlagSet.cpp">
+    <ClCompile Include="WritingVisitor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

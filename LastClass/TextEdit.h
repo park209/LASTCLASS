@@ -13,7 +13,9 @@ class Text;
 class Figure;
 class Caret;
 class KeyBoard;
-class TextEdit : public CWnd {
+class HistoryText;
+class TextAreaSelected;
+class TextEdit : public CFrameWnd { // CWnd 상속으로 바꿔야함
 public:
 	TextEdit(Figure *figure);
 protected:
@@ -30,7 +32,7 @@ protected:
 
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg LRESULT OnIMENotify(WPARAM wParam, LPARAM lParam);
-	//afx_msg void OnClose();
+	afx_msg void OnClose();
 	DECLARE_MESSAGE_MAP()
 public:
 	Long GetFlagInsert() const;
@@ -46,6 +48,8 @@ public:
 	Text *text;
 	Caret *caret;
 	KeyBoard *keyBoard;
+	HistoryText *historyText;
+	TextAreaSelected *textAreaSelected;
 	Long flagInsert; //flag
 	Long flagSelection;
 	Long rowHeight; //figure에서 저장을 해줘야 하기때문에 삭제가능
@@ -62,7 +66,6 @@ private:
 inline Long TextEdit::GetFlagInsert() const {
 	return this->flagInsert;
 }
-
 inline Figure* TextEdit::GetFigure() const {
 	return const_cast<Figure*>(this->figure);
 }
