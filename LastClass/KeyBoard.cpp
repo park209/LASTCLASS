@@ -22,10 +22,6 @@
 #include "CtrlCopyKey.h"
 #include "CtrlAllKey.h"
 #include "CtrlPasteKey.h"
-#include "CtrlUndoTextKey.h"
-#include "CtrlRedoTextKey.h"
-#include "CtrlCutKey.h"
-
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
 }
@@ -44,11 +40,14 @@ KeyBoard::~KeyBoard() {
 
 KeyBoard& KeyBoard::operator = (const KeyBoard& source) {
 	this->keyAction = 0;
-
+	//this->keyAction = const_cast<KeyBoard>(source).keyAction.Clone();
 	return *this;
 }
 
 KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT nFlags) {
+	/*if (textEdit->flagSelection == 1) {
+	textEdit->flagSelection = 0;
+	}*/
 	switch (nChar) {
 	case VK_DELETE:
 		this->keyAction = new DeleteKey;
@@ -72,10 +71,10 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		this->keyAction = new SpaceKey;
 		break;
 	case VK_RETURN: // 컨트롤 엔터
-		if (GetKeyState(VK_CONTROL) >= 0) {
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
 			this->keyAction = new EnterKey;
 		}
-		else if (GetKeyState(VK_CONTROL) < 0) {
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlEnterKey;
 		}
 		break;
@@ -95,12 +94,14 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		this->keyAction = new EscapeKey;
 		break;
 	case  VK_OEM_PLUS:
-		this->keyAction = new PlusKey;
+		if (nFlags && GetKeyState(VK_SHIFT) > 0) {
+			this->keyAction = new PlusKey;
+		}
 		break;
 	case VK_OEM_MINUS:
 		this->keyAction = new MinusKey;
 		break;
-	case 67:
+	case 0x43:
 		this->keyAction = new CtrlCopyKey;
 		break;
 	case 0x41:
@@ -108,15 +109,6 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		break;
 	case 0x56:
 		this->keyAction = new CtrlPasteKey;
-		break;
-	case 88:
-		this->keyAction = new CtrlCutKey;
-		break;
-	case 90:
-		this->keyAction = new CtrlUndoTextKey;
-		break;
-	case 89:
-		this->keyAction = new CtrlRedoTextKey;
 		break;
 	default:
 		this->keyAction = 0;

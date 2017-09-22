@@ -590,5 +590,11 @@
     <ClCompile Include="CtrlCutKey.cpp">
       <Filter>헤더 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CtrlPasteKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="FlagSet.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

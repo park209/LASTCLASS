@@ -144,6 +144,7 @@
     <ClCompile Include="CtrlCopyKey.cpp" />
     <ClCompile Include="CtrlCutKey.cpp" />
     <ClCompile Include="CtrlEnterKey.cpp" />
+    <ClCompile Include="CtrlPasteKey.cpp" />
     <ClCompile Include="CtrlPasteKeyy.cpp" />
     <ClCompile Include="CtrlRedoKey.cpp" />
     <ClCompile Include="CtrlUndoTextKey.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="FigureComposite.cpp" />
     <ClCompile Include="FigureFactory.cpp" />
     <ClCompile Include="Finder.cpp" />
+    <ClCompile Include="FlagSet.cpp" />
     <ClCompile Include="Generalization.cpp" />
     <ClCompile Include="GeneralizationButton.cpp" />
     <ClCompile Include="HistoryText.cpp" />

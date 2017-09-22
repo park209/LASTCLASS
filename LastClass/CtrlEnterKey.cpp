@@ -6,7 +6,6 @@
 #include "Row.h"
 #include "Caret.h"
 #include "Character.h"
-#include "HistoryText.h"
 
 CtrlEnterKey::CtrlEnterKey() {
 }
@@ -19,6 +18,7 @@ void CtrlEnterKey::KeyPress(TextEdit *textEdit) {
 	if (GetKeyState(VK_CONTROL) < 0) {
 		Row row;
 		//if (!GetKeyState(VK_RETURN)) {
+
 		if (textEdit->caret->GetCharacterIndex() == 0) {
 			textEdit->text->InsertRow(textEdit->caret->GetRowIndex(),row.Clone());
 			textEdit->caret->MoveForwardRowIndex();

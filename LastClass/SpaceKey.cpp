@@ -6,7 +6,6 @@
 #include "Row.h"
 #include "Caret.h"
 #include "SingleByteCharacter.h"
-#include "HistoryText.h"
 
 SpaceKey::SpaceKey() {
 }

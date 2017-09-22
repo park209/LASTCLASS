@@ -31,7 +31,6 @@ public:
 	Long InsertRow(Long index, TextComponent *textComponent);
 	void SprayString(string str);
 	Long MaxWidth();
-	Long MaxHeight();
 	Row* GetAt(Long index);
 	
 	TextComponent* Clone() const;

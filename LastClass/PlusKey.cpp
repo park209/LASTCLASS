@@ -5,7 +5,6 @@
 #include "Text.h"
 #include "Row.h"
 #include "Caret.h"
-#include "HistoryText.h"
 
 PlusKey::PlusKey() {
 }
