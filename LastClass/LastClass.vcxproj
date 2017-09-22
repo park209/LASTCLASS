@@ -64,6 +64,7 @@
     <ClCompile Include="DrawingGeneralization.cpp" />
     <ClCompile Include="DrawingMemoBox.cpp" />
     <ClCompile Include="DrawingMemoLine.cpp" />
+    <ClCompile Include="DrawingRealization.cpp" />
     <ClCompile Include="DrawingRelation.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
     <ClCompile Include="EndKey.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="DrawingGeneralization.h" />
     <ClInclude Include="DrawingMemoBox.h" />
     <ClInclude Include="DrawingMemoLine.h" />
+    <ClInclude Include="DrawingRealization.h" />
     <ClInclude Include="DrawingRelation.h" />
     <ClInclude Include="DrawingVisitor.h" />
     <ClInclude Include="EndKey.h" />

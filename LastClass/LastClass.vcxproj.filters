@@ -327,6 +327,9 @@
     <ClCompile Include="DrawingMemoLine.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="DrawingRealization.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Figure.h">
@@ -651,6 +654,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="DrawingMemoLine.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawingRealization.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

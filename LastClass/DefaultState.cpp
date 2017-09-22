@@ -21,6 +21,7 @@
 #include "DrawingDependency.h"
 #include "DrawingDirectedAssociation.h"
 #include "DrawingMemoLine.h"
+#include "DrawingRealization.h"
 DefaultState* DefaultState::instance = 0;
 
 MouseLButtonAction* DefaultState::Instance() {
@@ -74,6 +75,9 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	}
 	if (object == 114) {
 		this->ChangeState(mouseLButton, DrawingMemoLine::Instance(), 114);
+	}
+	if (object == 51) {
+		this->ChangeState(mouseLButton, DrawingRealization::Instance(), 51);
 	}
 	if (mouseLButton->GetButtonState() == 0) {
 	selection->SelectByPoint(diagram, startX, startY);
