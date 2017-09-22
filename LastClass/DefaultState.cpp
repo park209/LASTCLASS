@@ -13,7 +13,14 @@
 #include "DrawingRelation.h"
 #include "DrawingMemoBox.h"
 #include"DrawingGeneralization.h" 
-
+#include "DrawingAggregation.h"
+#include "DrawingAggregations.h"
+#include "DrawingAssociation.h"
+#include "DrawingComposition.h"
+#include "DrawingCompositions.h"
+#include "DrawingDependency.h"
+#include "DrawingDirectedAssociation.h"
+#include "DrawingMemoLine.h"
 DefaultState* DefaultState::instance = 0;
 
 MouseLButtonAction* DefaultState::Instance() {
@@ -43,6 +50,30 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	}
 	if (object == 50) {
 		this->ChangeState(mouseLButton, DrawingGeneralization::Instance(),50);
+	}
+	if (object == 55) {
+		this->ChangeState(mouseLButton, DrawingAggregation::Instance(), 55);
+	}
+	if (object == 56) {
+		this->ChangeState(mouseLButton, DrawingAggregations::Instance(), 56);
+	}
+	if (object == 53) {
+		this->ChangeState(mouseLButton, DrawingAssociation::Instance(), 53);
+	}
+	if (object == 57) {
+		this->ChangeState(mouseLButton, DrawingComposition::Instance(), 57);
+	}
+	if (object == 113) {
+		this->ChangeState(mouseLButton, DrawingCompositions::Instance(), 113);
+	}
+	if (object == 52) {
+		this->ChangeState(mouseLButton, DrawingDependency::Instance(), 52);
+	}
+	if (object == 54) {
+		this->ChangeState(mouseLButton, DrawingDirectedAssociation::Instance(), 54);
+	}
+	if (object == 114) {
+		this->ChangeState(mouseLButton, DrawingMemoLine::Instance(), 114);
 	}
 	if (mouseLButton->GetButtonState() == 0) {
 	selection->SelectByPoint(diagram, startX, startY);
