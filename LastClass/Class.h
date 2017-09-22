@@ -31,11 +31,17 @@ public:
 	Long AddAggregations(Long x, Long y, Long width, Long height);
 	Long AddComposition(Long x, Long y, Long width, Long height);
 	Long AddCompositions(Long x, Long y, Long width, Long height);
+	
+	Long AddAttribute(Diagram *diagram);
+	Long AddMethod(Diagram *diagram);
+	Long AddReception(Diagram *diagram);
 	Long AddTemplate(Long x, Long y, Long width, Long height);
 
-	Long RemoveTemplate();
+	Long RemoveAttribute();
+	Long RemoveMethod();
 	Long RemoveReception();
-	Long AddReception(Diagram *diagram);
+	Long RemoveTemplate();
+	
 
 
 	virtual Long Add(Figure *figure);
@@ -47,20 +53,28 @@ public:
 	virtual Figure* Clone() const;
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 
+	Long GetAttributePosition()const;
+	Long GetMethodPosition()const;
 	Long GetReceptionPosition() const;
 	Long GetTempletePosition() const;
 
 private:
-	Long templetePosition;
-	Long receptionPosition;
 	Long attributePosition;
 	Long methodPosition;
+	Long receptionPosition;
+	Long templetePosition;
 };
-inline Long Class::GetTempletePosition() const {
-	return this->templetePosition;
+inline Long Class::GetAttributePosition()const {
+	return this->attributePosition;
+}
+inline Long Class::GetMethodPosition()const {
+	return this->methodPosition;
 }
 inline Long Class::GetReceptionPosition()const {
 	return this->receptionPosition;
+}
+inline Long Class::GetTempletePosition() const {
+	return this->templetePosition;
 }
 
 #endif //_CLASS_H

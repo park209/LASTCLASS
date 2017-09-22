@@ -444,7 +444,7 @@ void ClassDiagramForm::OnPaint() {
 
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
-	//Class *object;
+	Class *object = static_cast<Class*>(this->selection->GetAt(0));
 	this->mouseLButton->ChangeState(nChar);
 	//if (nChar == 100) { // D 선택항목 지우기
 	//	while (this->selection->GetLength() != 0) {
@@ -455,11 +455,36 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	//	object = static_cast<Class*>(this->selection->GetAt(0));
 	//	object->RemoveTemplate();
 	//}
-	//if (nChar == 103) { // G 리셉션칸 지우기
-	//	object = static_cast<Class*>(this->selection->GetAt(0));
-	//	object->RemoveReception();
-	//}
-
+	if (nChar == 104) { //H 리셉션칸 추가
+		if (object->GetReceptionPosition() == -1) {
+			object->AddReception(this->diagram);
+		}
+	}
+	if (nChar == 103) { // G 리셉션칸 지우기
+		if (object->GetReceptionPosition() != -1) {
+			object->RemoveReception();
+		}
+	}
+	if (nChar == 117) { // U  
+		if (object->GetAttributePosition() != 1) {
+			object->RemoveAttribute();
+		}
+	}
+	if (nChar == 105) {//i메소드삭제
+		if (object->GetMethodPosition() != -1) {
+			object->RemoveMethod();
+		}
+	}
+	if (nChar == 111) {//o
+		if (object->GetAttributePosition() == -1) {
+			object->AddAttribute(this->diagram);
+		}
+	}
+	if (nChar == 112) {//p
+		if (object->GetMethodPosition() == -1) {
+			object->AddMethod(this->diagram);
+		}
+	}
 	//this->drawingController->ChangeState(nChar);
 	
 	Invalidate();

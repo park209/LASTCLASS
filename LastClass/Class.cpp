@@ -85,9 +85,8 @@ void Class::Initialize() {
 	this->attributePosition = this->figures.Store(this->length, attribute.Clone());
 	this->length++;
 
-	Line line2(this->x, (this->y + 50 + this->y + this->height) / 2,
-		this->width , 0);
-	 this->figures.Store(this->length, line2.Clone());
+	Line line2(this->x, (this->y + 50 + this->y + this->height) / 2,this->width , 0);
+	this->figures.Store(this->length, line2.Clone());
 	this->length++;
 
 	Method method(this->x, (this->y + 50 + this->y+this->height) / 2,this->width, ((this->y + 50 + this->y + this->height) / 2) - (this->y + 50), "");
@@ -298,27 +297,145 @@ Long Class::AddCompositions(Long x, Long y, Long width, Long height) {
 
 	return index;
 }
-Long Class::AddTemplate(Long x, Long y, Long width, Long height) { //중복생성 안되게 막아야함
-	
-	Template object(x, y, width, height);
+Long Class::AddAttribute(Diagram *diagram) {
 
+	Line line(this->x, this->y + this->figures.GetAt(0)->GetHeight(), this->width,0);
 	if (this->length < this->capacity) {
-		this->templetePosition = this->figures.Store(this->length, object.Clone());
+		this->figures.Store(this->length, line.Clone());
 	}
 	else {
-		this->templetePosition = this->figures.AppendFromRear(object.Clone());
+		this->figures.AppendFromRear(line.Clone());
+		this->capacity++;
+	}
+	this->length++;
+	Attribute object(this->x, this->y+this->figures.GetAt(0)->GetHeight(), this->width, 100, "");
+	if (this->length < this->capacity) {
+		this->attributePosition=this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		this->attributePosition = this->figures.AppendFromRear(object.Clone());
 		this->capacity++;
 	}
 	this->length++;
 
-	return this->templetePosition;
+	this->height += 100;
+	if (this->methodPosition != -1) {
+		this->figures.GetAt(this->methodPosition)->Move(0, 100);
+		this->figures.GetAt(this->methodPosition - 1)->Move(0, 100);
+	}
+	if (this->receptionPosition != -1) {
+		this->figures.GetAt(this->receptionPosition)->Move(0, 100);
+		this->figures.GetAt(this->receptionPosition - 1)->Move(0, 100);
+	}
+
+	Long i = 0;
+	Long j = 0;
+	while (i < this->GetLength()) {
+
+		if (dynamic_cast<Relation*>(this->GetAt(i))) {
+			this->GetAt(i)->Modify(this->GetAt(i)->GetX(), this->GetAt(i)->GetY() + 50, this->GetAt(i)->GetWidth(), this->GetAt(i)->GetHeight() - 50);
+		}
+		i++;
+	}
+	i = 0;
+	Long startX = this->GetX();
+	Long startY = this->GetY();
+	Long endX = this->GetX() + this->GetWidth();
+	Long endY = this->GetY() + this->GetHeight();
+	while (i<diagram->GetLength()) {
+		j = 0;
+		FigureComposite *figureComposite = dynamic_cast<FigureComposite*>(diagram->GetAt(i));
+		while (j < figureComposite->GetLength()) {
+			Figure *figure = figureComposite->GetAt(j);
+			if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
+				Long relationEndX = figure->GetX() + figure->GetWidth();
+				Long relationEndY = figure->GetY() + figure->GetHeight();
+				if (startX <= relationEndX &&  relationEndX <= endX &&
+					startY <= relationEndY &&  relationEndY <= endY) {
+					figure->EndPointMove(0, 50);
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+	return this->attributePosition;
+}
+Long Class::AddMethod(Diagram *diagram) {
+
+	Long y;
+	
+	if (this->attributePosition == -1) {
+		y = this->y + this->figures.GetAt(0)->GetHeight();
+	}
+	else {
+		y = this->figures.GetAt(this->attributePosition)->GetY() + this->figures.GetAt(this->attributePosition)->GetHeight();
+
+	}
+	Line line(this->x,y, this->width, 0);
+	if (this->length < this->capacity) {
+		this->figures.Store(this->length, line.Clone());
+	}
+	else {
+		this->figures.AppendFromRear(line.Clone());
+		this->capacity++;
+	}
+	this->length++;
+	Method object(this->x,y, this->width, 100, "");
+	if (this->length < this->capacity) {
+		this->methodPosition = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		this->methodPosition = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	this->height += 100;
+
+	if (this->receptionPosition != -1) {
+		this->figures.GetAt(this->receptionPosition)->Move(0, 100);
+		this->figures.GetAt(this->receptionPosition - 1)->Move(0, 100);
+	}
+
+	Long i = 0;
+	Long j = 0;
+	while (i < this->GetLength()) {
+
+		if (dynamic_cast<Relation*>(this->GetAt(i))) {
+			this->GetAt(i)->Modify(this->GetAt(i)->GetX(), this->GetAt(i)->GetY() + 50, this->GetAt(i)->GetWidth(), this->GetAt(i)->GetHeight() - 50);
+		}
+		i++;
+	}
+	i = 0;
+	Long startX = this->GetX();
+	Long startY = this->GetY();
+	Long endX = this->GetX() + this->GetWidth();
+	Long endY = this->GetY() + this->GetHeight();
+	while (i<diagram->GetLength()) {
+		j = 0;
+		FigureComposite *figureComposite = dynamic_cast<FigureComposite*>(diagram->GetAt(i));
+		while (j < figureComposite->GetLength()) {
+			Figure *figure = figureComposite->GetAt(j);
+			if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
+				Long relationEndX = figure->GetX() + figure->GetWidth();
+				Long relationEndY = figure->GetY() + figure->GetHeight();
+				if (startX <= relationEndX &&  relationEndX <= endX &&
+					startY <= relationEndY &&  relationEndY <= endY) {
+					figure->EndPointMove(0, 50);
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+	return this->methodPosition;
 }
 Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
 
 	Line line(this->x, this->y+this->height, this->width, 0);
 	
-	this->height = height + 50;
-
+	
 	if (this->length < this->capacity) {
 		 this->figures.Store(this->length, line.Clone());
 	}
@@ -328,7 +445,7 @@ Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
 	}
 	this->length++;
 	
-	Reception reception(this->x, this->y, this->width,50,"");
+	Reception reception(this->x, this->y +this->height, this->width,50,"");
 
 	if (this->length < this->capacity) {
 		this->receptionPosition = this->figures.Store(this->length, reception.Clone());
@@ -338,7 +455,7 @@ Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
 		this->capacity++;
 	}
 	this->length++;
-
+	this->height = height + 50;
 	Long i = 0;
 	Long j = 0;
 	while (i < this->GetLength()) {
@@ -373,6 +490,23 @@ Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
 
 	return this->receptionPosition;
 }
+
+Long Class::AddTemplate(Long x, Long y, Long width, Long height) { //중복생성 안되게 막아야함
+	
+	Template object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		this->templetePosition = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		this->templetePosition = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return this->templetePosition;
+}
+
 Long Class::Remove(Long index) {
 
 	if (this->figures[index] != 0) {
@@ -382,26 +516,114 @@ Long Class::Remove(Long index) {
 	this->capacity--;
 	return this->figures.Delete(index);
 }
+Long Class::RemoveAttribute() {
+
+	if (this->attributePosition != -1) {
+		this->figures.GetAt(0)->Modify(this->x, this->y, this->width, this->figures.GetAt(0)->GetHeight() + this->figures.GetAt(this->attributePosition)->GetHeight());
+		if (this->attributePosition < this->methodPosition) {
+			this->methodPosition -= 2;
+		}
+		if (this->attributePosition < this->receptionPosition) {
+			this->receptionPosition -= 2;
+		}
+		if (this->attributePosition < this->templetePosition) {
+			this->templetePosition -= 2;
+		}
+
+		delete this->figures.GetAt(this->attributePosition);
+		this->figures.Delete(this->attributePosition);
+		this->length--;
+		this->capacity--;
+		
+		delete this->figures.GetAt(this->attributePosition-1);
+		this->attributePosition = this->figures.Delete(this->attributePosition-1);
+		this->length--;
+		this->capacity--;
+	}
+
+	return this->attributePosition;
+}
+Long Class::RemoveMethod() {
+	if (this->methodPosition != -1) {
+		if (this->attributePosition == -1) {
+			this->figures.GetAt(0)->Modify(this->x, this->y, this->width, this->figures.GetAt(0)->GetHeight() + this->figures.GetAt(this->methodPosition)->GetHeight());
+		}
+		else {
+			this->figures.GetAt(this->attributePosition)->Modify(this->x, this->figures.GetAt(this->attributePosition)->GetY(), this->width, this->figures.GetAt(this->attributePosition)->GetHeight() + this->figures.GetAt(this->methodPosition)->GetHeight());
+		}
+		if (this->methodPosition < this->attributePosition) {
+			this->attributePosition -= 2;
+		}
+		if (this->methodPosition < this->receptionPosition) {
+			this->receptionPosition -= 2;
+		}
+		if (this->methodPosition < this->templetePosition) {
+			this->templetePosition -= 2;
+		}
+		delete this->figures.GetAt(this->methodPosition);
+		this->figures.Delete(this->methodPosition );
+		this->length--;
+		this->capacity--;
+
+		delete this->figures.GetAt(this->methodPosition-1);
+		this->methodPosition = this->figures.Delete(this->methodPosition-1);
+		this->length--;
+		this->capacity--;
+	}
+	return this->methodPosition;
+}
+Long Class::RemoveReception() {
+	if (this->receptionPosition != -1) {
+		if (this->methodPosition != -1) {
+			this->figures.GetAt(this->methodPosition)->Modify(this->x, this->figures.GetAt(this->methodPosition)->GetY(), this->width, this->figures.GetAt(this->methodPosition)->GetHeight() +this->figures.GetAt(this->receptionPosition)->GetHeight());
+		}
+		else if (this->attributePosition != -1) {
+			this->figures.GetAt(this->attributePosition)->Modify(this->x, this->figures.GetAt(this->attributePosition)->GetY(), this->width, this->figures.GetAt(attributePosition)->GetHeight() + this->figures.GetAt(this->receptionPosition)->GetHeight());
+		}
+		else {
+			this->figures.GetAt(0)->Modify(this->x,this->y, this->width, this->figures.GetAt(0)->GetHeight() + this->figures.GetAt(this->receptionPosition)->GetHeight());
+		}
+		if (this->receptionPosition < this->attributePosition) {
+			this->attributePosition -= 2;
+		}
+		if (this->receptionPosition < this->methodPosition) {
+			this->methodPosition -= 2;
+		}
+		if (this->receptionPosition < this->templetePosition) {
+			this->templetePosition -= 2;
+		}
+		delete this->figures.GetAt(this->receptionPosition);
+		this->figures.Delete(this->receptionPosition);
+		this->length--;
+		this->capacity--;
+
+		delete this->figures.GetAt(this->receptionPosition-1);
+		this->receptionPosition = this->figures.Delete(this->receptionPosition -1);
+		this->length--;
+		this->capacity--;
+	}
+	return this->receptionPosition;
+}
 Long Class::RemoveTemplate() {
 	if (this->templetePosition != -1) {
+
+		if (this->templetePosition < this->attributePosition) {
+			this->attributePosition--;
+		}
+		if (this->templetePosition < this->methodPosition) {
+			this->methodPosition --;
+		}
+		if (this->templetePosition < this->receptionPosition) {
+			this->receptionPosition--;
+		}
+		delete this->figures.GetAt(this->templetePosition);
 		this->templetePosition = this->figures.Delete(this->templetePosition);
 		this->length--;
 		this->capacity--;
 	}
 	return this->templetePosition;
 }
-Long Class::RemoveReception() {
-	if (this->receptionPosition != -1) {
-		this->figures.Delete(this->receptionPosition-1);
-		this->length--;
-		this->capacity--;
 
-		this->receptionPosition = this->figures.Delete(this->receptionPosition);
-		this->capacity--;
-		this->length--;	
-	}
-	return this->receptionPosition;
-}
 Figure* Class::GetAt(Long index) {
 	return static_cast<Figure*>(this->figures.GetAt(index));
 }
