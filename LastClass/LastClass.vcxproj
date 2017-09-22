@@ -81,6 +81,7 @@
     <ClCompile Include="MinusKey.cpp" />
     <ClCompile Include="MouseLButton.cpp" />
     <ClCompile Include="MouseLButtonAction.cpp" />
+    <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="MovingVisitor.cpp" />
     <ClCompile Include="PlusKey.cpp" />
     <ClCompile Include="Realization.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="MinusKey.h" />
     <ClInclude Include="MouseLButton.h" />
     <ClInclude Include="MouseLButtonAction.h" />
+    <ClInclude Include="MovingObject.h" />
     <ClInclude Include="MovingVisitor.h" />
     <ClInclude Include="PlusKey.h" />
     <ClInclude Include="Realization.h" />
