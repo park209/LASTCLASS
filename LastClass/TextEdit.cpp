@@ -41,6 +41,7 @@ TextEdit::TextEdit(Figure *figure) {
 	this->caret = NULL;
 	this->keyBoard = NULL;
 	this->historyText = NULL;
+	this->textAreaSelected = NULL;
 	this->figure = figure;
 	this->rowHeight = 18; // 폰트 사이즈
 	this->koreanEnglish = 0;
@@ -60,6 +61,7 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->caret = new Caret;
 	this->keyBoard = new KeyBoard;
 	this->historyText = new HistoryText;
+	this->textAreaSelected = new TextAreaSelected;
 
 	ModifyStyle(WS_CAPTION, 0);
 
@@ -87,12 +89,9 @@ void TextEdit::OnPaint() {
 	dc.SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
 
 	if (this->flagSelection == 1) { // flagSelection이 눌려있으면
-		TextAreaSelected *selectArea = new TextAreaSelected();
-		selectArea->SelectTextArea(this, &dc);
-		if (selectArea != 0) {
-			delete selectArea;
-		}
+		this->textAreaSelected->SelectTextArea(this, &dc);
 	}
+
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject(); // 폰트
 }
@@ -203,7 +202,7 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	if (GetKeyState(VK_SHIFT) < 0) { // 클릭했는데 쉬프트가 눌려있을 때
 		if (this->flagSelection == 0) { // flag 가 안눌려있으면
 			this->flagSelection = 1; // flag 를 눌러준다
-			this->selectedX = this->caret->GetCharacterIndex(); // selectedX, Y 를 기존 위치 캐럿 상단 좌표로 고정한다
+			this->selectedX = this->caret->GetCharacterIndex(); // selectedX, Y 를 기존 위치 캐럿으로 고정한다
 			this->selectedY = this->caret->GetRowIndex();
 		}
 	}
@@ -222,7 +221,7 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 
 void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 
-	Invalidate();
+	//Invalidate();
 }
 
 void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
@@ -235,9 +234,9 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 		this->SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);// 폰트 시작
 
-		if (this->flagSelection == 0 && this->currentX != 0) {// && this->) { // 왼마우스 눌려있는데 이동시에 flag 진행중인지 확인해서
+		if (this->flagSelection == 0 && this->currentX != 0) { // 왼마우스 눌려있는데 이동시에 flag 진행중인지 확인해서
 			this->flagSelection = 1; // flag 진행중 아니면 진행중으로 바꾸고
-			this->selectedX = this->caret->GetCharacterIndex(); // 최초 한번 selectedX, Y 를
+			this->selectedX = this->caret->GetCharacterIndex(); // 최초 한번 selectedX, Y 를 고정
 			this->selectedY = this->caret->GetRowIndex();
 		}
 		this->caret->MoveToPoint(this, &dc, point); // 새로운 위치로 캐럿 이동한다
@@ -294,6 +293,9 @@ void TextEdit::OnClose() {
 	}
 	if (this->historyText != NULL) {
 		delete this->historyText;
+	}
+	if (this->textAreaSelected != NULL) {
+		delete this->textAreaSelected;
 	}
 
 	CFrameWnd::OnClose();

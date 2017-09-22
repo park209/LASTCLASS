@@ -24,6 +24,7 @@
 #include "CtrlPasteKey.h"
 #include "CtrlUndoTextKey.h"
 #include "CtrlRedoTextKey.h"
+#include "CtrlCutKey.h"
 
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
@@ -43,14 +44,11 @@ KeyBoard::~KeyBoard() {
 
 KeyBoard& KeyBoard::operator = (const KeyBoard& source) {
 	this->keyAction = 0;
-	//this->keyAction = const_cast<KeyBoard>(source).keyAction.Clone();
+
 	return *this;
 }
 
 KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT nFlags) {
-	/*if (textEdit->flagSelection == 1) {
-	textEdit->flagSelection = 0;
-	}*/
 	switch (nChar) {
 	case VK_DELETE:
 		this->keyAction = new DeleteKey;
@@ -110,6 +108,9 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		break;
 	case 0x56:
 		this->keyAction = new CtrlPasteKey;
+		break;
+	case 88:
+		this->keyAction = new CtrlCutKey;
 		break;
 	case 90:
 		this->keyAction = new CtrlUndoTextKey;

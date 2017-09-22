@@ -29,46 +29,80 @@ void CtrlPasteKey::KeyPress(TextEdit *textEdit) {
 		}
 		::CloseClipboard();
 		textEdit->copyBuffer = p_string;
+
 		Long size = strlen(p_string);
 		Long i = 0;
 		char character[2] = { 0, };
 		Long temp = 0;
-		
-			Row *row = textEdit->text->GetAt(textEdit->caret->GetRowIndex());
-			if (textEdit->caret->GetCharacterIndex() < row->GetLength()) {
-				while (i < size) {
-					if (textEdit->copyBuffer[i] & 0x80) {
-						character[0] = textEdit->copyBuffer[i];
-						character[1] = textEdit->copyBuffer[i + 1];
-						i++;
-						DoubleByteCharacter doubleTemp(character);
-						row->Insert(textEdit->caret->GetCharacterIndex(),doubleTemp.Clone());
+		char c = '\r';
+		temp = ((string)textEdit->copyBuffer).find(c);
+		Row *row = textEdit->text->GetAt(textEdit->caret->GetRowIndex());
+		Long rowIndex_ = textEdit->caret->GetRowIndex();
+		while (i < size) {
+			if (i != 0)
+			{
+				row = new Row;
+			}
+			while (textEdit->copyBuffer[i] != '\r' && i < size) {
+				if (textEdit->copyBuffer[i] & 0x80) {
+					character[0] = textEdit->copyBuffer[i];
+					character[1] = textEdit->copyBuffer[i + 1];
+					i++;
+					DoubleByteCharacter doubleTemp(character);
+					if (i < temp || temp == -1) {
+						if (textEdit->caret->characterIndex < row->GetLength()) {
+							row->Insert(textEdit->caret->GetCharacterIndex(), doubleTemp.Clone());
+						}
+						else {
+							row->Add(doubleTemp.Clone());
+						}
 					}
 					else {
-						SingleByteCharacter singleTemp(textEdit->copyBuffer[i]);
-						row->Insert(textEdit->caret->GetCharacterIndex(),singleTemp.Clone());
-					}
-					textEdit->caret->characterIndex++;
-					i++;
-				}
-
-			}
-			else {
-				while (i < size) {
-					if (textEdit->copyBuffer[i] & 0x80) {
-						character[0] = textEdit->copyBuffer[i];
-						character[1] = textEdit->copyBuffer[i + 1];
-						i++;
-						DoubleByteCharacter doubleTemp(character);
 						row->Add(doubleTemp.Clone());
 					}
+				}
+				else {
+					SingleByteCharacter singleTemp(textEdit->copyBuffer[i]);
+					if (i < temp || temp == -1) {
+						if (textEdit->caret->characterIndex < row->GetLength()) {
+							row->Insert(textEdit->caret->GetCharacterIndex(), singleTemp.Clone());
+						}
+						else {
+							row->Add(singleTemp.Clone());
+						}
+					}
 					else {
-						SingleByteCharacter singleTemp(textEdit->copyBuffer[i]);
 						row->Add(singleTemp.Clone());
 					}
-					textEdit->caret->characterIndex++;
-					i++;
 				}
+				if (i < temp || temp == -1) {
+					textEdit->caret->characterIndex++;
+				}
+				i++;
 			}
+
+			if (i > temp&& temp != -1) {
+				if (textEdit->caret->GetRowIndex() + 1 == textEdit->text->GetLength()) {
+					textEdit->text->Add(row->Clone());
+				}
+				else {
+					textEdit->text->InsertRow(textEdit->caret->GetRowIndex() + 1, row->Clone());
+				}
+				textEdit->caret->MoveForwardRowIndex(1);
+			}
+
+			i = i + 2;
+		}
+		Long j = textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength();
+		if (temp != -1) {
+			while (textEdit->caret->GetCharacterIndex() < textEdit->text->GetAt(rowIndex_)->GetLength()) {
+				Character *character = textEdit->text->GetAt(rowIndex_)->GetAt(textEdit->caret->GetCharacterIndex());
+				textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Add(character->Clone());
+				textEdit->text->GetAt(rowIndex_)->Remove(textEdit->caret->GetCharacterIndex());
+			}
+		}
+		if (temp != -1 || textEdit->caret->characterIndex == textEdit->text->GetAt(rowIndex_)->GetLength()) {
+			textEdit->caret->characterIndex = j;
+		}
 	}
 }

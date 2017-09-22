@@ -1,26 +1,36 @@
-//DeleteKey.cpp
+//CtrlCutKey.cpp
 
-#include "DeleteKey.h"
+#include "CtrlCutKey.h"
 #include "TextEdit.h"
+#include "TextAreaSelected.h"
+//#include "HistoryText.h"
 #include "Text.h"
 #include "Row.h"
 #include "Caret.h"
-#include "HistoryText.h"
-#include "TextAreaSelected.h"
 #include "SingleByteCharacter.h"
 #include "DoubleByteCharacter.h"
 
-DeleteKey::DeleteKey() {
+CtrlCutKey::CtrlCutKey() {
+}
+CtrlCutKey::CtrlCutKey(const CtrlCutKey& source) {
+}
+CtrlCutKey::~CtrlCutKey() {
 }
 
-DeleteKey::DeleteKey(const DeleteKey& source) {
-}
+void CtrlCutKey::KeyPress(TextEdit *textEdit) {
+	if (GetKeyState(VK_CONTROL) < 0 && textEdit->flagSelection == 1) {
+		OpenClipboard(NULL);
+		EmptyClipboard();
+		size_t cbstr = (textEdit->copyBuffer.GetLength() + 1) * sizeof(TCHAR);
+		HGLOBAL h = GlobalAlloc(GMEM_MOVEABLE, cbstr);
+		memcpy_s(GlobalLock(h), cbstr, textEdit->copyBuffer.LockBuffer(), cbstr);
+		GlobalUnlock(h);
+		textEdit->copyBuffer.UnlockBuffer();
+		UINT uniFormat = (sizeof(TCHAR) == sizeof(WCHAR)) ? CF_UNICODETEXT : CF_TEXT;
+		if (::SetClipboardData(uniFormat, h) == NULL) {
+		}
+		CloseClipboard();
 
-DeleteKey::~DeleteKey() {
-}
-
-void DeleteKey::KeyPress(TextEdit *textEdit) {
-	if (textEdit->flagSelection == 1) {
 		Long i = 0;
 		if (textEdit->textAreaSelected->GetStartRowIndex() == textEdit->textAreaSelected->GetEndRowIndex()) {
 			while (i < textEdit->textAreaSelected->GetEndCharacterIndex() - textEdit->textAreaSelected->GetStartCharacterIndex()) {
@@ -61,22 +71,6 @@ void DeleteKey::KeyPress(TextEdit *textEdit) {
 		textEdit->caret->SetRowIndex(textEdit->textAreaSelected->GetStartRowIndex());
 		textEdit->caret->SetCharacterIndex(textEdit->textAreaSelected->GetStartCharacterIndex());
 		textEdit->flagSelection = 0;
-	}
-	else {
-		if (textEdit->caret->GetCharacterIndex() < textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength()) {
-			textEdit->historyText->PushUndo(textEdit->text, textEdit->caret);
-			textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Remove(textEdit->caret->GetCharacterIndex());
-		}
-		else if (textEdit->caret->GetCharacterIndex() == textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength()
-			&& textEdit->caret->GetRowIndex() < textEdit->text->GetLength() - 1) {
-			textEdit->historyText->PushUndo(textEdit->text, textEdit->caret);
-			Long i = 0;
-			while (i < textEdit->text->GetAt(textEdit->caret->GetRowIndex() + 1)->GetLength()) {
-				textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Add(textEdit->text->GetAt(textEdit->caret->GetRowIndex() + 1)->GetAt(i));
-				i++;
-			}
-			textEdit->text->Remove(textEdit->caret->GetRowIndex() + 1);
-		}
+
 	}
 }
-

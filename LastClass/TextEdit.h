@@ -14,6 +14,7 @@ class Figure;
 class Caret;
 class KeyBoard;
 class HistoryText;
+class TextAreaSelected;
 class TextEdit : public CFrameWnd {
 public:
 	TextEdit(Figure *figure);
@@ -48,6 +49,7 @@ public:
 	Caret *caret;
 	KeyBoard *keyBoard;
 	HistoryText *historyText;
+	TextAreaSelected *textAreaSelected;
 	Long flagInsert; //flag
 	Long flagSelection;
 	Long rowHeight; //figure에서 저장을 해줘야 하기때문에 삭제가능
