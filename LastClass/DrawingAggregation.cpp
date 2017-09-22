@@ -55,7 +55,7 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *dia
 		index = object->Add(selfAggregation.Clone());
 		figure = object->GetAt(index);
 	}
-	//	}
+	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
 }
 void DrawingAggregation::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {

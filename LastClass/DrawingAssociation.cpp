@@ -55,7 +55,7 @@ void DrawingAssociation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *dia
 		index = object->Add(selfAssociation.Clone());
 		figure = object->GetAt(index);
 	}
-	//	}
+	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
 }
 void DrawingAssociation::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {

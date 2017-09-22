@@ -55,7 +55,7 @@ void DrawingCompositions::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *di
 		index = object->Add(selfCompositions.Clone());
 		figure = object->GetAt(index);
 	}
-	//	}
+	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
 }
 void DrawingCompositions::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {

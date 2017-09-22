@@ -55,7 +55,7 @@ void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *
 		index = object->Add(selfGeneralization.Clone());
 		figure = object->GetAt(index);
 	}
-	//	}
+	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
 }
 void DrawingGeneralization::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {

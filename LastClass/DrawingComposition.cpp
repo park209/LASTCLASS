@@ -56,6 +56,7 @@ void DrawingComposition::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *dia
 		figure = object->GetAt(index);
 	}
 	//	}
+	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
 }
 void DrawingComposition::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {

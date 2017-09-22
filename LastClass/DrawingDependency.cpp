@@ -55,7 +55,7 @@ void DrawingDependency::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diag
 		index = object->Add(selfDependency.Clone());
 		figure = object->GetAt(index);
 	}
-	//	}
+	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
 }
 void DrawingDependency::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
