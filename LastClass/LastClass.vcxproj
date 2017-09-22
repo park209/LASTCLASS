@@ -37,6 +37,7 @@
     <ClInclude Include="ClassDiagramApp.h" />
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="ClassName.h" />
+    <ClInclude Include="CMemoryDC.h" />
     <ClInclude Include="Composition.h" />
     <ClInclude Include="CompositionButton.h" />
     <ClInclude Include="Compositions.h" />
@@ -65,7 +66,6 @@
     <ClInclude Include="FigureComposite.h" />
     <ClInclude Include="FigureFactory.h" />
     <ClInclude Include="Finder.h" />
-    <ClInclude Include="FlagSet.h" />
     <ClInclude Include="Generalization.h" />
     <ClInclude Include="GeneralizationButton.h" />
     <ClInclude Include="HistoryText.h" />
@@ -164,7 +164,6 @@
     <ClCompile Include="FigureComposite.cpp" />
     <ClCompile Include="FigureFactory.cpp" />
     <ClCompile Include="Finder.cpp" />
-    <ClCompile Include="FlagSet.cpp" />
     <ClCompile Include="Generalization.cpp" />
     <ClCompile Include="GeneralizationButton.cpp" />
     <ClCompile Include="HistoryText.cpp" />

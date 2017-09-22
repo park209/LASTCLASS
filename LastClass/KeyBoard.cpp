@@ -72,10 +72,10 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		this->keyAction = new SpaceKey;
 		break;
 	case VK_RETURN: // 컨트롤 엔터
-		if (GetKeyState(VK_CONTROL) >= 0) {
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
 			this->keyAction = new EnterKey;
 		}
-		else if (GetKeyState(VK_CONTROL) < 0) {
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlEnterKey;
 		}
 		break;
@@ -95,7 +95,9 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		this->keyAction = new EscapeKey;
 		break;
 	case  VK_OEM_PLUS:
-		this->keyAction = new PlusKey;
+		if (nFlags && GetKeyState(VK_SHIFT) > 0) {
+			this->keyAction = new PlusKey;
+		}
 		break;
 	case VK_OEM_MINUS:
 		this->keyAction = new MinusKey;
