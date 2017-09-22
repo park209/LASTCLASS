@@ -92,15 +92,7 @@ void TextEdit::OnPaint() {
 			delete selectArea;
 		}
 	}
-	if (this->caret->GetCharacterIndex() > 0) {
-		CString a;
-		a = this->text->GetAt(this->caret->GetRowIndex())->GetAt(this->caret->GetCharacterIndex() - 1)->MakeCString();
-		Long b = dc.GetTextExtent(a).cx;
-		a.Format("d", b);
-		dc.TextOut(5, 45, a);
-		CRect rtc = { 5, 25, 500, 500 };
-		dc.DrawText(a, &rtc, DT_WORDBREAK | DT_EDITCONTROL | DT_EXPANDTABS | DT_TABSTOP | 0x0600);
-	}
+
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject(); // 폰트
 }
@@ -152,7 +144,7 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	else if (lParam & GCS_COMPSTR) {
 		bufferLength = ImmGetCompositionString(hIMC, GCS_COMPSTR, NULL, 0);
 		ImmGetCompositionString(hIMC, GCS_COMPSTR, buffer, bufferLength);
-		if (this->flagBuffer == 0) { // 조합중에서 시작일떄
+		if (this->flagBuffer == 0) { // 조합중에서 시작일때
 			char(*tempChar) = new char[bufferLength];
 			while (i < bufferLength) {
 				tempChar[i] = buffer[i];
@@ -169,7 +161,7 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 			}
 			else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 1) {
 				this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex(), doubleByteCharacter.Clone());
-			}	
+			}
 			this->caret->MoveForwardCharacterIndex();
 			this->flagBuffer = 1;
 		}

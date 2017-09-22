@@ -64,7 +64,7 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 			i++;
 		}
 		rect = { x, startRowIndex * textEdit->rowHeight + 5, x + width, startRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
-		dc->DrawText(cString1, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0600);
+		dc->DrawText(cString1, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0400);
 
 		textEdit->copyBuffer = cString1;
 	}
@@ -104,7 +104,7 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 			i++;
 		}
 		rect = { x, startRowIndex * textEdit->rowHeight + 5, x + width, startRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
-		dc->DrawText(cString1, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0600);
+		dc->DrawText(cString1, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0400);
 
 		string string2; // 중간
 		if (startRowIndex + 1 < endRowIndex) {
@@ -117,7 +117,7 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 			x = 5;
 			rect = { x, (startRowIndex + 1) * textEdit->rowHeight + 5, textEdit->GetFigure()->GetX()+ textEdit->GetFigure()->GetWidth(),
 				(endRowIndex - 1) * textEdit->rowHeight + textEdit->rowHeight + 5 };
-			dc->DrawText(string2.c_str(), rect, DT_EXPANDTABS | DT_TABSTOP | 0x0600);
+			dc->DrawText(string2.c_str(), rect, DT_EXPANDTABS | DT_TABSTOP | 0x0400);
 		}
 
 		CString cString3;
@@ -135,7 +135,7 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 		x = 5;
 		i = 0;
 		rect = { x, endRowIndex * textEdit->rowHeight + 5, x + width, endRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
-		dc->DrawText(cString3, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0600);
+		dc->DrawText(cString3, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0400);
 
 		textEdit->copyBuffer = cString1 + string2.c_str() + cString3; // 클립보드에 저장
 	}

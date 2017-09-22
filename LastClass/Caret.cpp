@@ -28,12 +28,21 @@ Caret::~Caret() {
 void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
 	Long pointX = 5;														//가로
 	Long pointY = this->rowIndex * textEdit->GetRowHeight() + 5;			//세로
-	CString str;
 	Long i = 0;
+	Long j = 0;
+	Long nextTabStop = 0;
+	CString tabString;
+	CString str = (CString)textEdit->text->GetAt(this->rowIndex)->ReplaceTabString(textEdit->text->GetAt(this->rowIndex)->PrintRowString(), "\t", "    ").c_str();
+	Long column = dc->GetTextExtent(str).cx / dc->GetTextExtent("a").cx;//문자열 바이트 수(한글은 1/2)
+	nextTabStop = (column + 4) / 4 * 4 - column;
 	while (i < this->characterIndex) {
 		str = textEdit->text->GetAt(this->rowIndex)->GetAt(i)->MakeCString();
 		if (str == "\t") {
-			str = "    ";
+			str = "";
+			while (j < nextTabStop) {
+				str += " ";
+				j++;
+			}
 		}
 		pointX += dc->GetTextExtent(str).cx;
 		i++;
