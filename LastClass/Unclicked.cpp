@@ -1,4 +1,5 @@
 //Unclicked.cpp
+
 #include"Unclicked.h"
 #include"DrawingController.h"
 #include "Selection.h"
@@ -7,6 +8,7 @@
 #include "Finder.h"
 #include"Class.h"
 #include"Template.h"
+
 Unclicked::Unclicked() {
 }
 Unclicked::Unclicked(const Unclicked& source) {
@@ -97,7 +99,7 @@ void Unclicked::Draw(Selection *selection, Long startX, Long startY, Long curren
 		CPoint lineStart(relation->GetX(), relation->GetY());
 		Long index = 0;
 		CPoint lineEnd;
-
+		//CRect rect;
 		while (index < relation->GetLength() && ret == false) {
 			CRect rect(relation->GetAt(index).x - 5, relation->GetAt(index).y - 5, relation->GetAt(index).x + 5, relation->GetAt(index).y + 5);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);

@@ -11,14 +11,14 @@ class Diagram; //전방선언
 class Text;
 class TextEdit;
 class Selection;
-class MouseLButton;
+class DrawingController;
 class ClassDiagramForm : public CFrameWnd { //CFrameWnd 에 상속관계 표기
 public:
 	Diagram *diagram;
 	Text *text;
 	TextEdit *textEdit;
 	Selection *selection;
-	MouseLButton *mouseLButton;
+	DrawingController *drawingController;
 public:
 	ClassDiagramForm();
 public:

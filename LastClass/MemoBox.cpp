@@ -22,7 +22,6 @@ MemoBox::MemoBox(const MemoBox& source) : FigureComposite(source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
-
 }
 MemoBox::~MemoBox() {
 }
@@ -101,5 +100,3 @@ void MemoBox::Accept (Visitor& visitor, CDC *cPaintDc) {
 		smartPointer->Next();
 	}
 }
-
-

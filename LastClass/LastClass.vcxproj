@@ -19,6 +19,106 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Aggregation.h" />
+    <ClInclude Include="AggregationButton.h" />
+    <ClInclude Include="Aggregations.h" />
+    <ClInclude Include="AggregationsButton.h" />
+    <ClInclude Include="Array.h" />
+    <ClInclude Include="ArrayIterator.h" />
+    <ClInclude Include="Association.h" />
+    <ClInclude Include="AssociationButton.h" />
+    <ClInclude Include="Attribute.h" />
+    <ClInclude Include="BackSpaceKey.h" />
+    <ClInclude Include="ButtonState.h" />
+    <ClInclude Include="Caret.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="Class.h" />
+    <ClInclude Include="ClassButton.h" />
+    <ClInclude Include="ClassDiagramApp.h" />
+    <ClInclude Include="ClassDiagramForm.h" />
+    <ClInclude Include="ClassName.h" />
+    <ClInclude Include="CMemoryDC.h" />
+    <ClInclude Include="Composition.h" />
+    <ClInclude Include="CompositionButton.h" />
+    <ClInclude Include="Compositions.h" />
+    <ClInclude Include="CompositionsButton.h" />
+    <ClInclude Include="CtrlAllKey.h" />
+    <ClInclude Include="CtrlCopyKey.h" />
+    <ClInclude Include="CtrlCutKey.h" />
+    <ClInclude Include="CtrlEnterKey.h" />
+    <ClInclude Include="CtrlPasteKey.h" />
+    <ClInclude Include="CtrlRedoTextKey.h" />
+    <ClInclude Include="CtrlUndoTextKey.h" />
+    <ClInclude Include="DeleteKey.h" />
+    <ClInclude Include="Dependency.h" />
+    <ClInclude Include="DependencyButton.h" />
+    <ClInclude Include="Diagram.h" />
+    <ClInclude Include="DirectAssociationButton.h" />
+    <ClInclude Include="DirectedAssociation.h" />
+    <ClInclude Include="DoubleByteCharacter.h" />
+    <ClInclude Include="DownArrowKey.h" />
+    <ClInclude Include="DrawingController.h" />
+    <ClInclude Include="DrawingVisitor.h" />
+    <ClInclude Include="EndKey.h" />
+    <ClInclude Include="EnterKey.h" />
+    <ClInclude Include="EscapeKey.h" />
+    <ClInclude Include="Figure.h" />
+    <ClInclude Include="FigureComposite.h" />
+    <ClInclude Include="FigureFactory.h" />
+    <ClInclude Include="Finder.h" />
+    <ClInclude Include="Generalization.h" />
+    <ClInclude Include="GeneralizationButton.h" />
+    <ClInclude Include="HistoryText.h" />
+    <ClInclude Include="HomeKey.h" />
+    <ClInclude Include="InsertKey.h" />
+    <ClInclude Include="Iterator.h" />
+    <ClInclude Include="KeyAction.h" />
+    <ClInclude Include="KeyBoard.h" />
+    <ClInclude Include="LeftArrowKey.h" />
+    <ClInclude Include="Line.h" />
+    <ClInclude Include="MemoBox.h" />
+    <ClInclude Include="MemoBoxButton.h" />
+    <ClInclude Include="MemoLine.h" />
+    <ClInclude Include="MemoLineButton.h" />
+    <ClInclude Include="Method.h" />
+    <ClInclude Include="MinusKey.h" />
+    <ClInclude Include="MovingVisitor.h" />
+    <ClInclude Include="PlusKey.h" />
+    <ClInclude Include="Realization.h" />
+    <ClInclude Include="RealizationButton.h" />
+    <ClInclude Include="Reception.h" />
+    <ClInclude Include="ReceptionButton.h" />
+    <ClInclude Include="Relation.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="RightArrowKey.h" />
+    <ClInclude Include="Row.h" />
+    <ClInclude Include="Selection.h" />
+    <ClInclude Include="SelfAggregation.h" />
+    <ClInclude Include="SelfAggregations.h" />
+    <ClInclude Include="SelfAssociation.h" />
+    <ClInclude Include="SelfComposition.h" />
+    <ClInclude Include="SelfCompositions.h" />
+    <ClInclude Include="SelfDependency.h" />
+    <ClInclude Include="SelfDirectedAssociation.h" />
+    <ClInclude Include="SelfGeneralization.h" />
+    <ClInclude Include="SelfRelation.h" />
+    <ClInclude Include="SingleByteCharacter.h" />
+    <ClInclude Include="SmartPointer.h" />
+    <ClInclude Include="SpaceKey.h" />
+    <ClInclude Include="TabKey.h" />
+    <ClInclude Include="Template.h" />
+    <ClInclude Include="TemplateButton.h" />
+    <ClInclude Include="Text.h" />
+    <ClInclude Include="TextAreaSelected.h" />
+    <ClInclude Include="TextComponent.h" />
+    <ClInclude Include="TextComposite.h" />
+    <ClInclude Include="TextEdit.h" />
+    <ClInclude Include="Unclicked.h" />
+    <ClInclude Include="UpArrowKey.h" />
+    <ClInclude Include="Visitor.h" />
+    <ClInclude Include="WritingVisitor.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="Aggregation.cpp" />
     <ClCompile Include="AggregationButton.cpp" />
     <ClCompile Include="Aggregations.cpp" />
@@ -42,8 +142,11 @@
     <ClCompile Include="CompositionsButton.cpp" />
     <ClCompile Include="CtrlAllKey.cpp" />
     <ClCompile Include="CtrlCopyKey.cpp" />
+    <ClCompile Include="CtrlCutKey.cpp" />
     <ClCompile Include="CtrlEnterKey.cpp" />
-    <ClCompile Include="DefaultState.cpp" />
+    <ClCompile Include="CtrlPasteKey.cpp" />
+    <ClCompile Include="CtrlRedoKey.cpp" />
+    <ClCompile Include="CtrlUndoTextKey.cpp" />
     <ClCompile Include="DeleteKey.cpp" />
     <ClCompile Include="Dependency.cpp" />
     <ClCompile Include="DependencyButton.cpp" />
@@ -52,22 +155,8 @@
     <ClCompile Include="DirectedAssociation.cpp" />
     <ClCompile Include="DoubleByteCharacter.cpp" />
     <ClCompile Include="DownArrowKey.cpp" />
-    <ClCompile Include="DrawingAssociation.cpp" />
-    <ClCompile Include="DrawingAggregation.cpp" />
-    <ClCompile Include="DrawingAggregations.cpp" />
-    <ClCompile Include="DrawingClass.cpp" />
-    <ClCompile Include="DrawingComposition.cpp" />
-    <ClCompile Include="DrawingCompositions.cpp" />
     <ClCompile Include="DrawingController.cpp" />
-    <ClCompile Include="DrawingDependency.cpp" />
-    <ClCompile Include="DrawingDirectedAssociation.cpp" />
-    <ClCompile Include="DrawingGeneralization.cpp" />
-    <ClCompile Include="DrawingMemoBox.cpp" />
-    <ClCompile Include="DrawingMemoLine.cpp" />
-    <ClCompile Include="DrawingRealization.cpp" />
-    <ClCompile Include="DrawingRelation.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
-    <ClCompile Include="DrawningResize.cpp" />
     <ClCompile Include="EndKey.cpp" />
     <ClCompile Include="EnterKey.cpp" />
     <ClCompile Include="EscapeKey.cpp" />
@@ -77,6 +166,7 @@
     <ClCompile Include="Finder.cpp" />
     <ClCompile Include="Generalization.cpp" />
     <ClCompile Include="GeneralizationButton.cpp" />
+    <ClCompile Include="HistoryText.cpp" />
     <ClCompile Include="HomeKey.cpp" />
     <ClCompile Include="InsertKey.cpp" />
     <ClCompile Include="KeyAction.cpp" />
@@ -89,11 +179,7 @@
     <ClCompile Include="MemoLineButton.cpp" />
     <ClCompile Include="Method.cpp" />
     <ClCompile Include="MinusKey.cpp" />
-    <ClCompile Include="MouseLButton.cpp" />
-    <ClCompile Include="MouseLButtonAction.cpp" />
-    <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="MovingVisitor.cpp" />
-    <ClCompile Include="MultipleSelectionState.cpp" />
     <ClCompile Include="PlusKey.cpp" />
     <ClCompile Include="Realization.cpp" />
     <ClCompile Include="RealizationButton.cpp" />
@@ -103,7 +189,6 @@
     <ClCompile Include="RightArrowKey.cpp" />
     <ClCompile Include="Row.cpp" />
     <ClCompile Include="Selection.cpp" />
-    <ClCompile Include="SelectionState.cpp" />
     <ClCompile Include="SelfAggregation.cpp" />
     <ClCompile Include="SelfAggregations.cpp" />
     <ClCompile Include="SelfAssociation.cpp" />
@@ -119,6 +204,7 @@
     <ClCompile Include="Template.cpp" />
     <ClCompile Include="TemplateButton.cpp" />
     <ClCompile Include="Text.cpp" />
+    <ClCompile Include="TextAreaSelected.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextComposite.cpp" />
     <ClCompile Include="TextEdit.cpp" />
@@ -126,119 +212,6 @@
     <ClCompile Include="UpArrowKey.cpp" />
     <ClCompile Include="Visitor.cpp" />
     <ClCompile Include="WritingVisitor.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Aggregation.h" />
-    <ClInclude Include="AggregationButton.h" />
-    <ClInclude Include="Aggregations.h" />
-    <ClInclude Include="AggregationsButton.h" />
-    <ClInclude Include="Array.h" />
-    <ClInclude Include="ArrayIterator.h" />
-    <ClInclude Include="Association.h" />
-    <ClInclude Include="AssociationButton.h" />
-    <ClInclude Include="Attribute.h" />
-    <ClInclude Include="BackSpaceKey.h" />
-    <ClInclude Include="ButtonState.h" />
-    <ClInclude Include="Caret.h" />
-    <ClInclude Include="Character.h" />
-    <ClInclude Include="Class.h" />
-    <ClInclude Include="ClassButton.h" />
-    <ClInclude Include="ClassDiagramApp.h" />
-    <ClInclude Include="ClassDiagramForm.h" />
-    <ClInclude Include="ClassName.h" />
-    <ClInclude Include="Composition.h" />
-    <ClInclude Include="CompositionButton.h" />
-    <ClInclude Include="Compositions.h" />
-    <ClInclude Include="CompositionsButton.h" />
-    <ClInclude Include="CtrlAllKey.h" />
-    <ClInclude Include="CtrlCopyKey.h" />
-    <ClInclude Include="CtrlEnterKey.h" />
-    <ClInclude Include="DefaultState.h" />
-    <ClInclude Include="DeleteKey.h" />
-    <ClInclude Include="Dependency.h" />
-    <ClInclude Include="DependencyButton.h" />
-    <ClInclude Include="Diagram.h" />
-    <ClInclude Include="DirectAssociationButton.h" />
-    <ClInclude Include="DirectedAssociation.h" />
-    <ClInclude Include="DoubleByteCharacter.h" />
-    <ClInclude Include="DownArrowKey.h" />
-    <ClInclude Include="DrawingAggregation.h" />
-    <ClInclude Include="DrawingAggregations.h" />
-    <ClInclude Include="DrawingAssociation.h" />
-    <ClInclude Include="DrawingClass.h" />
-    <ClInclude Include="DrawingComposition.h" />
-    <ClInclude Include="DrawingCompositions.h" />
-    <ClInclude Include="DrawingController.h" />
-    <ClInclude Include="DrawingDependency.h" />
-    <ClInclude Include="DrawingDirectedAssociation.h" />
-    <ClInclude Include="DrawingGeneralization.h" />
-    <ClInclude Include="DrawingMemoBox.h" />
-    <ClInclude Include="DrawingMemoLine.h" />
-    <ClInclude Include="DrawingRealization.h" />
-    <ClInclude Include="DrawingRelation.h" />
-    <ClInclude Include="DrawingVisitor.h" />
-    <ClInclude Include="EndKey.h" />
-    <ClInclude Include="EnterKey.h" />
-    <ClInclude Include="EscapeKey.h" />
-    <ClInclude Include="Figure.h" />
-    <ClInclude Include="FigureComposite.h" />
-    <ClInclude Include="FigureFactory.h" />
-    <ClInclude Include="Finder.h" />
-    <ClInclude Include="Generalization.h" />
-    <ClInclude Include="GeneralizationButton.h" />
-    <ClInclude Include="HomeKey.h" />
-    <ClInclude Include="InsertKey.h" />
-    <ClInclude Include="Iterator.h" />
-    <ClInclude Include="KeyAction.h" />
-    <ClInclude Include="KeyBoard.h" />
-    <ClInclude Include="LeftArrowKey.h" />
-    <ClInclude Include="Line.h" />
-    <ClInclude Include="MemoBox.h" />
-    <ClInclude Include="MemoBoxButton.h" />
-    <ClInclude Include="MemoLine.h" />
-    <ClInclude Include="MemoLineButton.h" />
-    <ClInclude Include="Method.h" />
-    <ClInclude Include="MinusKey.h" />
-    <ClInclude Include="MouseLButton.h" />
-    <ClInclude Include="MouseLButtonAction.h" />
-    <ClInclude Include="MovingObject.h" />
-    <ClInclude Include="MovingVisitor.h" />
-    <ClInclude Include="MultipleSelectionState.h" />
-    <ClInclude Include="PlusKey.h" />
-    <ClInclude Include="Realization.h" />
-    <ClInclude Include="RealizationButton.h" />
-    <ClInclude Include="Reception.h" />
-    <ClInclude Include="ReceptionButton.h" />
-    <ClInclude Include="Relation.h" />
-    <ClInclude Include="DrawingResize.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="RightArrowKey.h" />
-    <ClInclude Include="Row.h" />
-    <ClInclude Include="Selection.h" />
-    <ClInclude Include="SelectionState.h" />
-    <ClInclude Include="SelfAggregation.h" />
-    <ClInclude Include="SelfAggregations.h" />
-    <ClInclude Include="SelfAssociation.h" />
-    <ClInclude Include="SelfComposition.h" />
-    <ClInclude Include="SelfCompositions.h" />
-    <ClInclude Include="SelfDependency.h" />
-    <ClInclude Include="SelfDirectedAssociation.h" />
-    <ClInclude Include="SelfGeneralization.h" />
-    <ClInclude Include="SelfRelation.h" />
-    <ClInclude Include="SingleByteCharacter.h" />
-    <ClInclude Include="SmartPointer.h" />
-    <ClInclude Include="SpaceKey.h" />
-    <ClInclude Include="TabKey.h" />
-    <ClInclude Include="Template.h" />
-    <ClInclude Include="TemplateButton.h" />
-    <ClInclude Include="Text.h" />
-    <ClInclude Include="TextComponent.h" />
-    <ClInclude Include="TextComposite.h" />
-    <ClInclude Include="TextEdit.h" />
-    <ClInclude Include="Unclicked.h" />
-    <ClInclude Include="UpArrowKey.h" />
-    <ClInclude Include="Visitor.h" />
-    <ClInclude Include="WritingVisitor.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -260,20 +233,23 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -329,10 +305,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -345,6 +323,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -363,6 +342,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

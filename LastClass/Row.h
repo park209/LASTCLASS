@@ -27,6 +27,7 @@ public:
 	Long Remove(Long index);
 	Long Insert(Long index, TextComponent *textComponent);
 	string PrintRowString();
+	string ReplaceTabString(string &str, const string& from, const string& to);
 	Character* GetAt(Long index);
 
 	TextComponent* Clone() const;
