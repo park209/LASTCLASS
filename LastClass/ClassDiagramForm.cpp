@@ -565,27 +565,12 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 
-	/*if (dynamic_cast<Unclicked*>(this->drawingController->buttonState)) {
-		MovingVisitor movingVisitor;
-		Long distanceX = currentX - startX;
-		Long distanceY = currentY - startY;
-		this->selection->Accept(this->diagram, movingVisitor, distanceX, distanceY);
-		if (this->selection->GetLength() == 0) {
-			CRect area;
-			area.left = this->startX;
-			area.top = this->startY;
-			area.right = this->currentX;
-			area.bottom = this->currentY;
-			this->selection->SelectByArea(this->diagram, area);
-		}
-	}
-*/
 	Figure *figure = 0;
 	if (this->startX != this->currentX || this->startY != this->currentY) {
 		//figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 	}
-
+	 
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
