@@ -36,13 +36,22 @@ void DownArrowKey::KeyPress(TextEdit *textEdit) {
 	textEdit->SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 
-
 	Long x = textEdit->caret->GetCurrentCaretX();
 	Long y = textEdit->caret->GetCurrentCaretY();
 
-	Long rowIndex = y + textEdit->GetRowHeight();
+	Long previousCharacterIndex = textEdit->caret->GetCharacterIndex();
+	Long previousRowIndex = textEdit->caret->GetRowIndex();
+
+	Long rowIndex = y;
+	if (previousRowIndex < textEdit->text->GetLength()) {
+		rowIndex = y + textEdit->GetRowHeight();
+	}
 
 	textEdit->caret->MoveToPoint(textEdit, &dc, CPoint(x, rowIndex));
+
+	if (previousCharacterIndex == textEdit->text->GetAt(previousRowIndex)->GetLength()) {
+		textEdit->caret->SetCharacterIndex(textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength());
+	}
 
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject(); // 폰트
