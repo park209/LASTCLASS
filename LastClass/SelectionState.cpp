@@ -1,4 +1,4 @@
-#include "ClassButton.h"
+
 #include "Diagram.h"
 #include "Class.h"
 #include "SelectionState.h"

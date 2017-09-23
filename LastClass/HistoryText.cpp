@@ -22,6 +22,7 @@ HistoryText::~HistoryText() {
 }
 
 void HistoryText::PushUndo(Text *text, Caret *caret) {
+
 	if (this->undoTextArray->GetCapacity() < 50) {
 		this->undoTextArray->AppendFromFront(static_cast<Text*>(text->Clone()));
 		Caret *tempCaret = new Caret(*caret);
@@ -37,21 +38,25 @@ void HistoryText::PushUndo(Text *text, Caret *caret) {
 }
 
 Text* HistoryText::PopUndoText() {
+	Text *text = 0;
 	if (this->undoTextArray->GetLength() > 0) {
-		Text *text = this->undoTextArray->GetAt(0);
+		text = this->undoTextArray->GetAt(0);
 		this->undoTextArray->Delete(0);
 
 		return text;
 	}
+	return text;
 }
 
 Caret* HistoryText::PopUndoCaret() {
+	Caret *caret = 0;
 	if (this->undoCaretArray->GetLength() > 0) {
-		Caret *caret = this->undoCaretArray->GetAt(0);
+		caret = this->undoCaretArray->GetAt(0);
 		this->undoCaretArray->Delete(0);
 
-		return caret;
 	}
+
+	return caret;
 }
 
 void HistoryText::PushRedo(Text *text, Caret *caret) {
@@ -70,21 +75,24 @@ void HistoryText::PushRedo(Text *text, Caret *caret) {
 }
 
 Text* HistoryText::PopRedoText() {
+	Text *text = 0;
 	if (this->redoTextArray->GetLength() > 0) {
-		Text *text = this->redoTextArray->GetAt(0);
+		text = this->redoTextArray->GetAt(0);
 		this->redoTextArray->Delete(0);
 
-		return text;
+
 	}
+	return text;
 }
 
 Caret* HistoryText::PopRedoCaret() {
+	Caret *caret = 0;
 	if (this->redoCaretArray->GetLength() > 0) {
-		Caret *caret = this->redoCaretArray->GetAt(0);
+		caret = this->redoCaretArray->GetAt(0);
 		this->redoCaretArray->Delete(0);
 
-		return caret;
 	}
+	return caret;
 }
 
 //#include <iostream>

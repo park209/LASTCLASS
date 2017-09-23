@@ -19,7 +19,7 @@ public:
 	bool FindRectangleByPoint(CRect object, Long x, Long y);
 	bool FindLineByArea(const CPoint& lineStart, const CPoint& lineEnd, CRect area);
 	bool FindLineByPoint(const CPoint& lineStart, const CPoint& lineEnd, Long x, Long y);
-	CPoint& GetCrossPoint(const CPoint& lineStart, const CPoint& lineEnd, CRect object);
+	CPoint GetCrossPoint(const CPoint& lineStart, const CPoint& lineEnd, CRect object);
 };
 
 bool IsLineCross(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End);

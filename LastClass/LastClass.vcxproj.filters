@@ -14,13 +14,7 @@
     <ClInclude Include="Aggregation.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="AggregationButton.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Aggregations.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="AggregationsButton.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Array.h">
@@ -32,28 +26,16 @@
     <ClInclude Include="Association.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="AssociationButton.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Attribute.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="BackSpaceKey.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ButtonState.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Caret.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Class.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ClassButton.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="ClassDiagramApp.h">
@@ -68,13 +50,7 @@
     <ClInclude Include="Composition.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="CompositionButton.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Compositions.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CompositionsButton.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="CtrlAllKey.h">
@@ -104,13 +80,7 @@
     <ClInclude Include="Dependency.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="DependencyButton.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Diagram.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectAssociationButton.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="DirectedAssociation.h">
@@ -120,9 +90,6 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="DownArrowKey.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawingController.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="DrawingVisitor.h">
@@ -152,9 +119,6 @@
     <ClInclude Include="Generalization.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GeneralizationButton.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="HistoryText.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
@@ -182,13 +146,7 @@
     <ClInclude Include="MemoBox.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="MemoBoxButton.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="MemoLine.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MemoLineButton.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Method.h">
@@ -206,13 +164,7 @@
     <ClInclude Include="Realization.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="RealizationButton.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Reception.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ReceptionButton.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Relation.h">
@@ -272,9 +224,6 @@
     <ClInclude Include="Template.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TemplateButton.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
@@ -290,9 +239,6 @@
     <ClInclude Include="TextEdit.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Unclicked.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="UpArrowKey.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
@@ -303,18 +249,33 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="CMemoryDC.h" />
+    <ClInclude Include="DefaultState.h" />
+    <ClInclude Include="DrawingAggregation.h" />
+    <ClInclude Include="DrawingAggregations.h" />
+    <ClInclude Include="DrawingAssociation.h" />
+    <ClInclude Include="DrawingClass.h" />
+    <ClInclude Include="DrawingComposition.h" />
+    <ClInclude Include="DrawingCompositions.h" />
+    <ClInclude Include="DrawingDependency.h" />
+    <ClInclude Include="DrawingDirectedAssociation.h" />
+    <ClInclude Include="DrawingGeneralization.h" />
+    <ClInclude Include="DrawingMemoBox.h" />
+    <ClInclude Include="DrawingMemoLine.h" />
+    <ClInclude Include="DrawingRealization.h" />
+    <ClInclude Include="DrawingRelation.h" />
+    <ClInclude Include="DrawingResize.h" />
+    <ClInclude Include="MouseLButton.h" />
+    <ClInclude Include="MouseLButtonAction.h" />
+    <ClInclude Include="MovingObject.h" />
+    <ClInclude Include="MultipleSelectionState.h" />
+    <ClInclude Include="SelectionState.h" />
+    <ClInclude Include="Class.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aggregation.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="AggregationButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Aggregations.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="AggregationsButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="ArrayIterator.cpp">
@@ -323,28 +284,16 @@
     <ClCompile Include="Association.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="AssociationButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Attribute.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="BackSpaceKey.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ButtonState.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Caret.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Class.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ClassButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -359,13 +308,7 @@
     <ClCompile Include="Composition.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CompositionButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Compositions.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CompositionsButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="CtrlAllKey.cpp">
@@ -392,13 +335,7 @@
     <ClCompile Include="Dependency.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="DependencyButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Diagram.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectAssociationButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="DirectedAssociation.cpp">
@@ -408,9 +345,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="DownArrowKey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawingController.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="DrawingVisitor.cpp">
@@ -440,9 +374,6 @@
     <ClCompile Include="Generalization.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GeneralizationButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="HistoryText.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -467,13 +398,7 @@
     <ClCompile Include="MemoBox.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="MemoBoxButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="MemoLine.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MemoLineButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Method.cpp">
@@ -491,13 +416,7 @@
     <ClCompile Include="Realization.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="RealizationButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Reception.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ReceptionButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Relation.cpp">
@@ -551,9 +470,6 @@
     <ClCompile Include="Template.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="TemplateButton.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -569,9 +485,6 @@
     <ClCompile Include="TextEdit.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Unclicked.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="UpArrowKey.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -582,6 +495,69 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="CtrlPasteKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingAggregation.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingAggregations.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingAssociation.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingComposition.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingCompositions.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingDependency.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingDirectedAssociation.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingGeneralization.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingMemoBox.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingMemoLine.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingRealization.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingRelation.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawningResize.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseLButton.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseLButtonAction.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingObject.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MultipleSelectionState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectionState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Class.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
