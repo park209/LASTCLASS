@@ -302,7 +302,9 @@
     <ClInclude Include="WritingVisitor.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="CMemoryDC.h" />
+    <ClInclude Include="CMemoryDC.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aggregation.cpp">

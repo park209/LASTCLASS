@@ -43,7 +43,7 @@ void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
 			column += tabWidth;
 			j = 0;
 			str = "";
-			while (j < tabWidth) {
+			while (j < tabWidth) { //구한 칸만큼 탭문자의 크기를 정함
 				str += " ";
 				j++;
 			}
