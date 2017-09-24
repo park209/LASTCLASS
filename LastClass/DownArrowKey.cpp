@@ -26,14 +26,16 @@ void DownArrowKey::KeyPress(TextEdit *textEdit) {
 	else {
 		if (textEdit->flagSelection == 0) {
 			textEdit->flagSelection = 1;
-			textEdit->selectedX = textEdit->caret->GetCharacterIndex();
-			textEdit->selectedY = textEdit->caret->GetRowIndex();
+			textEdit->selectedCharacterIndex = textEdit->caret->GetCharacterIndex();
+			textEdit->selectedRowIndex = textEdit->caret->GetRowIndex();
 		}
 	}
 	CFont cFont;
-	cFont.CreateFont(textEdit->GetRowHeight(), 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
+	cFont.CreateFont(textEdit->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 	textEdit->SetFont(&cFont, TRUE);
+	/*CFont *cFont = dc.GetCurrentFont();
+	textEdit->SetFont(cFont, TRUE);*/
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 
 

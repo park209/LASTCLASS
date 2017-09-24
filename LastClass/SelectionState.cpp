@@ -1,3 +1,4 @@
+//SelectionState.cpp
 
 #include "Diagram.h"
 #include "Class.h"

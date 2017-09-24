@@ -37,13 +37,15 @@ protected:
 public:
 	Long GetFlagInsert() const;
 	Long GetSelectedX() const;
-	Long GetSelectedY() const;
+	Long GetSelectedCharacterIndex() const;
+	Long GetSelectedRowIndex() const;
 
 	Figure* GetFigure() const;
 	Long GetRowHeight() const;
 	Long GetKoreanEnglish() const;
 	Long GetFlagBuffer() const;
 	CString GetCopyBuffer() const;
+	Long GetCurrentX() const;
 public:
 	Text *text;
 	Caret *caret;
@@ -54,7 +56,8 @@ public:
 	Long flagSelection;
 	Long rowHeight; //figure에서 저장을 해줘야 하기때문에 삭제가능
 	Long selectedX; //보류
-	Long selectedY; //보류
+	Long selectedCharacterIndex;
+	Long selectedRowIndex; //보류
 	CString copyBuffer;
 private:
 	Figure *figure;
@@ -84,8 +87,14 @@ inline CString TextEdit::GetCopyBuffer() const {
 inline Long TextEdit::GetSelectedX() const {
 	return this->selectedX;
 }
-inline Long TextEdit::GetSelectedY() const {
-	return this->selectedY;
+inline Long TextEdit::GetSelectedCharacterIndex() const {
+	return this->selectedCharacterIndex;
+}
+inline Long TextEdit::GetSelectedRowIndex() const {
+	return this->selectedRowIndex;
+}
+inline Long TextEdit::GetCurrentX() const {
+	return this->currentX;
 }
 
 #endif // _TEXTEDIT_H

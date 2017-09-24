@@ -48,14 +48,17 @@ TextEdit::TextEdit(Figure *figure) {
 	this->flagBuffer = 0;
 	this->flagInsert = 0;
 	this->flagSelection = 0;
+	this->selectedX = 0;
 	this->currentX = 0;
+	this->selectedCharacterIndex = 0;
+	this->selectedRowIndex = 0;
 	this->copyBuffer = "";
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CWnd::OnCreate(lpCreateStruct); //override
 	CWnd::SetFocus();
-
+	
 	this->text = new Text;
 	this->caret = new Caret;
 	this->keyBoard = new KeyBoard;
@@ -79,7 +82,7 @@ void TextEdit::OnPaint() {
 
 	CFont cFont;
 	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 
@@ -231,8 +234,11 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	if (GetKeyState(VK_SHIFT) < 0) { // 클릭했는데 쉬프트가 눌려있을 때
 		if (this->flagSelection == 0) { // flag 가 안눌려있으면
 			this->flagSelection = 1; // flag 를 눌러준다
-			this->selectedX = this->caret->GetCharacterIndex(); // selectedX, Y 를 기존 위치 캐럿 상단 좌표로 고정한다
-			this->selectedY = this->caret->GetRowIndex();
+			this->selectedX = this->caret->GetCurrentCaretX();
+			this->selectedCharacterIndex = this->caret->GetCharacterIndex();
+			this->selectedRowIndex = this->caret->GetRowIndex();
+			//this->selectedCharacterIndex = this->caret->GetCharacterIndex(); // selectedCharacterIndex, selectedRowIndex 를 기존 위치 캐럿 상단 좌표로 고정한다
+			//this->selectedRowIndex = this->caret->GetRowIndex();
 		}
 	}
 	else {
@@ -269,8 +275,10 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 
 		if (this->flagSelection == 0 && this->currentX != 0) {// && this->) { // 왼마우스 눌려있는데 이동시에 flag 진행중인지 확인해서
 			this->flagSelection = 1; // flag 진행중 아니면 진행중으로 바꾸고
-			this->selectedX = this->caret->GetCharacterIndex(); // 최초 한번 selectedX, Y 를
-			this->selectedY = this->caret->GetRowIndex();
+			this->selectedCharacterIndex = this->caret->GetCharacterIndex();
+			this->selectedRowIndex = this->caret->GetRowIndex();
+			//this->selectedCharacterIndex = this->caret->GetCharacterIndex(); // 최초 한번 selectedCharacterIndex, selectedRowIndex 를
+			//this->selectedRowIndex = this->caret->GetRowIndex();
 		}
 		this->caret->MoveToPoint(this, &dc, point); // 새로운 위치로 캐럿 이동한다
 

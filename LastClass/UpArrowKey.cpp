@@ -26,18 +26,22 @@ void UpArrowKey::KeyPress(TextEdit *textEdit) {
 	else {
 		if (textEdit->flagSelection == 0) {
 			textEdit->flagSelection = 1;
-			textEdit->selectedX = textEdit->caret->GetCharacterIndex();
-			textEdit->selectedY = textEdit->caret->GetRowIndex();
+			textEdit->selectedX = textEdit->caret->GetCurrentCaretX();
+			textEdit->selectedRowIndex = textEdit->caret->GetRowIndex();
+			//textEdit->selectedX = textEdit->caret->GetCharacterIndex(); // 좌표로 바꿈
+			//textEdit->selectedY = textEdit->caret->GetRowIndex();
 		}
 	}
 	CFont cFont;
-	cFont.CreateFont(textEdit->GetRowHeight(), 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
+	cFont.CreateFont(textEdit->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 	textEdit->SetFont(&cFont, TRUE);
+	/*CFont *cFont = dc.GetCurrentFont();
+	textEdit->SetFont(cFont, TRUE);*/
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 
 	Long x = textEdit->caret->GetCurrentCaretX();
-	Long y = textEdit->caret->GetCurrentCaretY();
+	Long y = textEdit->caret->GetRowIndex();
 
 	Long rowIndex = y - textEdit->GetRowHeight();
 

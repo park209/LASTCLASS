@@ -58,9 +58,6 @@
     <ClInclude Include="ClassName.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="CMemoryDC.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="Diagram.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
@@ -339,6 +336,9 @@
     </ClInclude>
     <ClInclude Include="SmartPointer.h">
       <Filter>Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="CMemoryDC.h">
+      <Filter>TextEdit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

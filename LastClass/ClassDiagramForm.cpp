@@ -560,14 +560,9 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentY = point.y;
 
 	if (this->startX != this->currentX || this->startY != this->currentY) {
-		//figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-	}
-/*
-	Figure *figure = 0;
-	if (this->startX != this->currentX || this->startY != this->currentY) {
-		figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-		if (dynamic_cast<ClassButton*>(this->drawingController->buttonState)) {
+		if (this->diagram->GetLength() > 0) {
+			Figure * figure = this->diagram->GetAt(this->diagram->GetLength() - 1);
 			SmartPointer<Figure*> iterator = static_cast<Class*>(figure)->CreateIterator();
 			for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
 				if (dynamic_cast<ClassName*>(iterator->Current())) {
@@ -581,7 +576,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 				}
 			}
 		}
-	}*/
+	}
 
 	this->startX = 0;
 	this->startY = 0;

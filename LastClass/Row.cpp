@@ -90,6 +90,27 @@ string Row::PrintRowString() {
 	return tempString;
 }
 
+string Row::PrintRowString(Long startIndex, Long endIndex) {
+	char tempChar[256] = { 0, };
+	Long i = 0;
+	Long j = startIndex;
+	while (j < endIndex) {
+		if (dynamic_cast<SingleByteCharacter*>(this->GetAt(j))) {
+			tempChar[i] = static_cast<SingleByteCharacter*>(this->GetAt(j))->GetCharacter();
+		}
+		else if (dynamic_cast<DoubleByteCharacter*>(this->GetAt(j))) {
+			tempChar[i] = static_cast<DoubleByteCharacter*>(this->GetAt(j))->GetCharacters()[0];
+			i++;
+			tempChar[i] = static_cast<DoubleByteCharacter*>(this->GetAt(j))->GetCharacters()[1];
+		}
+		i++;
+		j++;
+	}
+	string tempString(tempChar, i);
+
+	return tempString;
+}
+
 string Row::ReplaceTabString(string &str, const string& from, const string& to) {
 	size_t index = 0; //string처음부터 검사
 	while ((index = str.find(from, index)) != string::npos)  //from을 찾을 수 없을 때까지

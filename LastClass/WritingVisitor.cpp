@@ -7,6 +7,7 @@
 #include "Attribute.h"
 #include "Method.h"
 #include "Reception.h"
+#include "CMemoryDC.h"
 
 WritingVisitor::WritingVisitor() {
 }
@@ -83,6 +84,18 @@ void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 	Long fontHeight = cPaintDc->GetTextExtent("아").cy; // rowHeight 구하는방법
 	Long textWidth = text->MaxWidth();
 	CFont* cFont = cPaintDc->GetCurrentFont();
+
+	/*CRect rt = { 0 , 0, textWidth*fontWidth + 5, text->GetLength() * fontHeight + 5 };
+
+	CMemoryDC cMemDc(cPaintDc, &rt);
+
+	cMemDc.SelectObject(cFont);
+
+	cMemDc.DrawText((CString)text->MakeText().c_str(), &rt, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+
+	cFont->DeleteObject();*/
+
+
 
 	CDC memDC;
 	CBitmap *pOldBitmap;
