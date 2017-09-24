@@ -5,7 +5,7 @@
 #include "Line.h"
 #include "SelectionState.h"
 #include "Relation.h"
-
+#include "Diagram.h"
 MovingObject* MovingObject::instance = 0;
 
 MouseLButtonAction* MovingObject::Instance() {
@@ -18,9 +18,31 @@ MouseLButtonAction* MovingObject::Instance() {
 void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	//selection->DeleteAllItems();
 	//selection->SelectByPoint(diagram, currentX, currentY);
-
+	
 	if (dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
 		MovingVisitor movingVisitor;
+		FigureComposite *figures = static_cast<FigureComposite*>(selection->GetAt(0));
+		Finder finder;
+		Long i = 0; 
+		Long j = 0;
+
+		// FigureComposite에 관계선 점 겹치면 점 Remove
+		while (i < figures->GetLength()) {
+			if (dynamic_cast<Relation*>(figures->GetAt(i))) {
+				Relation *object = static_cast<Relation*>(figures->GetAt(i));
+				j ;
+				while (j < object->GetLength()) {
+					CPoint cPoint = object->GetAt(j);
+					CRect cRect(figures->GetX(),figures->GetY(),figures->GetX()+figures->GetWidth(),figures->GetY()+figures->GetHeight());
+					bool ret1 = finder.FindRectangleByPoint(cRect, cPoint.x, cPoint.y);
+					if (ret1 == true) {
+						object->Remove(j);
+					}
+					j++;
+				}
+			}
+			i++;
+		}
 		Long distanceX = currentX - startX;
 		Long distanceY = currentY - startY;
 		selection->Accept(diagram, movingVisitor, distanceX, distanceY);
@@ -71,6 +93,7 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, 
 			}
 		}
 	}
+
 	this->ChangeState(mouseLButton, SelectionState::Instance());
 }
 void MovingObject::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {

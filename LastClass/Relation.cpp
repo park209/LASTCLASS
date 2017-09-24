@@ -83,6 +83,8 @@ Long Relation::Add(const CPoint& stratCPoint, const CPoint& currentCPoint) {
 	return index;
 }
 Long Relation::Remove(Long index) {
+	this->length--;
+	this->capacity--;
 	return this->points.Delete(index);
 }
 Long Relation::Find(CPoint cPoint) {
