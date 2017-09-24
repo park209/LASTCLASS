@@ -284,7 +284,7 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 
 		dc.SelectObject(oldFont);
 		cFont.DeleteObject(); // ÆùÆ® ³¡
-
+		
 		::DestroyCaret();
 		Invalidate();
 	}
