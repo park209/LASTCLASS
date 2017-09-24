@@ -13,6 +13,7 @@
 #include "Caret.h"
 #include "KeyBoard.h"
 #include "KeyAction.h"
+#include "EndKey.h"
 #include "TextAreaSelected.h"
 #include "HistoryText.h"
 #include "WritingVisitor.h"   
