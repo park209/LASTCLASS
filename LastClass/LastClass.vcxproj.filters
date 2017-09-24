@@ -329,6 +329,7 @@
     <ClInclude Include="resource.h">
       <Filter>Resource</Filter>
     </ClInclude>
+    <ClInclude Include="DeleteTextAreaSelected.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArrayIterator.cpp">
@@ -619,5 +620,6 @@
     <ClCompile Include="DrawingMemoBox.cpp">
       <Filter>Diagram</Filter>
     </ClCompile>
+    <ClCompile Include="DeleteTextAreaSelected.cpp" />
   </ItemGroup>
 </Project>

@@ -40,6 +40,7 @@ void BackSpaceKey::KeyPress(TextEdit *textEdit) {
 				textEdit->text->Remove(textEdit->textAreaSelected->GetStartRowIndex() + 1);
 				i++;
 			}
+			Long tempLimit = textEdit->text->GetAt(textEdit->textAreaSelected->GetStartRowIndex() + 1)->GetLength() - textEdit->textAreaSelected->GetEndCharacterIndex();
 			i = 0; // 제일 아랫줄
 			while (i < textEdit->textAreaSelected->GetEndCharacterIndex()) {
 				textEdit->text->GetAt(textEdit->textAreaSelected->GetStartRowIndex() + 1)->Remove(0);
@@ -47,17 +48,16 @@ void BackSpaceKey::KeyPress(TextEdit *textEdit) {
 			}
 			// 맨 아랫줄 남은거 복사해다가 스타트로우에 붙여넣고 밑에꺼 지워버린다
 			i = 0;
-			while (i < textEdit->text->GetAt(textEdit->textAreaSelected->GetStartRowIndex() + 1)->GetLength() - textEdit->textAreaSelected->GetEndCharacterIndex()) {
+			while (i < tempLimit) {
 				if (dynamic_cast<DoubleByteCharacter*>(textEdit->text->GetAt(textEdit->textAreaSelected->GetStartRowIndex() + 1)->GetAt(i))) {
 					DoubleByteCharacter *tempDouble = static_cast<DoubleByteCharacter*>(textEdit->text->GetAt(textEdit->textAreaSelected->GetStartRowIndex() + 1)->GetAt(i));
 					textEdit->text->GetAt(textEdit->textAreaSelected->GetStartRowIndex())->Add(tempDouble->Clone());
-					i++;
 				}
 				else if (dynamic_cast<SingleByteCharacter*>(textEdit->text->GetAt(textEdit->textAreaSelected->GetStartRowIndex() + 1)->GetAt(i))) {
 					SingleByteCharacter *tempSingle = static_cast<SingleByteCharacter*>(textEdit->text->GetAt(textEdit->textAreaSelected->GetStartRowIndex() + 1)->GetAt(i));
 					textEdit->text->GetAt(textEdit->textAreaSelected->GetStartRowIndex())->Add(tempSingle->Clone());
-					i++;
 				}
+				i++;
 			}
 			textEdit->text->Remove(textEdit->textAreaSelected->GetStartRowIndex() + 1);
 		}

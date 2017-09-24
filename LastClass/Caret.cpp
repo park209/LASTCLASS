@@ -81,7 +81,7 @@ void Caret::MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point) {
 	}
 
 	Long width = 5;
-	while (x > 5 && width < x && this->characterIndex < textEdit->text->GetAt(this->rowIndex)->GetLength()) {
+	while (x > 5 && width <= x && this->characterIndex < textEdit->text->GetAt(this->rowIndex)->GetLength()) {
 		str = textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex)->MakeCString();
 		if (str == "\t") {
 			str = "        ";
@@ -95,7 +95,7 @@ void Caret::MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point) {
 			str = "        ";
 		}
 		Long textWidth = cPaintDc->GetTextExtent(str).cx;
-		if (x > 5 && x < width - textWidth / 2) {
+		if (x > 5 && x < width - textWidth / 2 + textWidth & 2) {
 			this->characterIndex--;
 		}
 	}

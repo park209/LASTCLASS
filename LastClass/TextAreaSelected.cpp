@@ -137,6 +137,6 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 		rect = { x, this->endRowIndex * textEdit->rowHeight + 5, x + width, this->endRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
 		dc->DrawText(cString3, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
 
-		textEdit->copyBuffer = cString1 + string2.c_str() + cString3; // 클립보드에 저장
+		textEdit->copyBuffer = cString1 + string2.c_str() + cString3; // 속성에 저장
 	}
 }
