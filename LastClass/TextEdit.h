@@ -56,10 +56,10 @@ public:
 	Long selectedX; //보류
 	Long selectedY; //보류
 	CString copyBuffer;
+	Long flagBuffer; //flag
 private:
 	Figure *figure;
 	Long koreanEnglish; //flag
-	Long flagBuffer; //flag
 	Long currentX;
 };
 

@@ -17,6 +17,11 @@
 #include "TextAreaSelected.h"
 #include "HistoryText.h"
 #include "WritingVisitor.h"   
+#include "DeleteTextArea.h"
+
+#include "WriteKoreanText.h"
+#include "DoubleClickTextAreaProcess.h"
+
 #include <iostream>
 
 BEGIN_MESSAGE_MAP(TextEdit, CWnd)
@@ -88,6 +93,12 @@ void TextEdit::OnPaint() {
 	this->text->Accept(writingVisitor, &dc);//받았던거 출력
 	this->caret->MoveToIndex(this, &dc);
 
+	DoubleClickTextAreaProcess *testClick = new DoubleClickTextAreaProcess();
+	Long testNumber = testClick->DoubleClickKoreanStartIndex(this);
+	CString testNumber_;
+	testNumber_.Format("%d", testNumber);
+	dc.TextOutA(5, 30, testNumber_);
+
 	dc.SetTextColor(RGB(255, 255, 255));
 	dc.SetBkColor(RGB(51, 153, 255));
 	dc.SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
@@ -103,10 +114,17 @@ void TextEdit::OnPaint() {
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN &&
 		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10 && GetKeyState(VK_RSHIFT) >= 0 && GetKeyState(VK_CONTROL) >= 0) {
+
+		if (flagSelection == 1) {
+			DeleteTextArea *deleteArea = new DeleteTextArea();
+			deleteArea->DeleteArea(this);
+			if (deleteArea != 0) {
+				delete deleteArea;
+			}
+		}
+
 		char nCharacter = nChar;
-
 		SingleByteCharacter singleByteCharacter(nCharacter);
-
 		if (this->caret->GetCharacterIndex() == this->text->GetAt(this->caret->GetRowIndex())->GetLength()) {
 			this->text->GetAt(this->caret->GetRowIndex())->Add(singleByteCharacter.Clone());
 		}
@@ -126,68 +144,20 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	HIMC hIMC = ImmGetContext(GetSafeHwnd());
-	Long bufferLength;
-	char buffer[8];
-	Long i = 0;
-
-	if (lParam & GCS_RESULTSTR) {
-		bufferLength = ImmGetCompositionString(hIMC, GCS_RESULTSTR, NULL, 0);
-		ImmGetCompositionString(hIMC, GCS_RESULTSTR, buffer, bufferLength);
-		char(*tempChar) = new char[bufferLength];
-		while (i < bufferLength) {
-			tempChar[i] = buffer[i];
-			i++;
+	if (flagSelection == 1) {
+		DeleteTextArea *deleteArea = new DeleteTextArea();
+		deleteArea->DeleteArea(this);
+		if (deleteArea != 0) {
+			delete deleteArea;
 		}
-		DoubleByteCharacter doubleByteCharacter(tempChar);
-		delete[] tempChar;
-
-		this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex() - 1, doubleByteCharacter.Clone());
-		this->flagBuffer = 0;
 	}
-	else if (lParam & GCS_COMPSTR) {
-		bufferLength = ImmGetCompositionString(hIMC, GCS_COMPSTR, NULL, 0);
-		ImmGetCompositionString(hIMC, GCS_COMPSTR, buffer, bufferLength);
-		if (this->flagBuffer == 0) { // 조합중에서 시작일때
-			char(*tempChar) = new char[bufferLength];
-			while (i < bufferLength) {
-				tempChar[i] = buffer[i];
-				i++;
-			}
-			DoubleByteCharacter doubleByteCharacter(tempChar);
-			delete[] tempChar;
-
-			if (this->caret->GetCharacterIndex() == this->text->GetAt(this->caret->GetRowIndex())->GetLength()) {
-				this->text->GetAt(this->caret->GetRowIndex())->Add(doubleByteCharacter.Clone());
-			}
-			else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 0) {
-				this->text->GetAt(this->caret->GetRowIndex())->Insert(this->caret->GetCharacterIndex(), doubleByteCharacter.Clone());
-			}
-			else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 1) {
-				this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex(), doubleByteCharacter.Clone());
-			}
-			this->caret->MoveForwardCharacterIndex();
-			this->flagBuffer = 1;
-		}
-		else { // 조합중에서 조합중일때
-			if (bufferLength > 0) {
-				char(*tempChar) = new char[bufferLength];
-				while (i < bufferLength) {
-					tempChar[i] = buffer[i];
-					i++;
-				}
-				DoubleByteCharacter doubleByteCharacter(tempChar);
-				this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex() - 1, doubleByteCharacter.Clone());
-				delete[] tempChar;
-			}
-			else if (bufferLength == 0) {
-				this->text->GetAt(this->caret->GetRowIndex())->Remove(this->caret->GetCharacterIndex() - 1);
-				this->caret->MoveBackwardCharacterIndex();
-				this->flagBuffer = 0;
-			}
-		}
+	WriteKoreanText *writeHanguel = new WriteKoreanText();
+	writeHanguel->WriteHanguel(wParam, lParam, hIMC, this);
+	if (writeHanguel != 0) {
+		delete writeHanguel;
 	}
 	ImmReleaseContext(GetSafeHwnd(), hIMC);
-
+	
 	CWnd::HideCaret();
 	::DestroyCaret();
 	Invalidate();
@@ -285,6 +255,7 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 
 void TextEdit::OnLButtonDoubleClicked(UINT nFlags, CPoint point) {
 
+	//Invalidate();
 }
 
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {

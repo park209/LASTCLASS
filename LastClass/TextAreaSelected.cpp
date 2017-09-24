@@ -29,7 +29,7 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 	CString str;
 
 	CString cString1;
-	if (textEdit->selectedY == textEdit->caret->GetRowIndex()) {
+	if (textEdit->selectedY == textEdit->caret->GetRowIndex()) { // 한줄에서 끝나는거면
 		if (textEdit->selectedX < textEdit->caret->GetCharacterIndex()) {
 			this->startCharacterIndex = textEdit->selectedX;
 			this->startRowIndex = textEdit->selectedY;
@@ -68,7 +68,7 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 
 		textEdit->copyBuffer = cString1;
 	}
-	else {
+	else { // 여러줄 선택이면
 		if (textEdit->selectedY < textEdit->caret->GetRowIndex()) {
 			this->startCharacterIndex = textEdit->selectedX;
 			this->startRowIndex = textEdit->selectedY;
@@ -123,7 +123,7 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 		CString cString3;
 		width = 0;
 		i = 0;
-		while (i < this->endCharacterIndex) { // 첫줄
+		while (i < this->endCharacterIndex) { // 끝줄
 			cString3 += textEdit->text->GetAt(this->endRowIndex)->GetAt(i)->MakeCString();
 			str = textEdit->text->GetAt(this->endRowIndex)->GetAt(i)->MakeCString();
 			if (str == "\t") {

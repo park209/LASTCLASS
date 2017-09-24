@@ -26,8 +26,8 @@ Caret::~Caret() {
 
 
 void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
-	Long pointX = 5;														//°¡·Î
-	Long pointY = this->rowIndex * textEdit->GetRowHeight() + 5;			//¼¼·Î
+	Long pointX = 5;                                          //°¡·Î
+	Long pointY = this->rowIndex * textEdit->GetRowHeight() + 5;         //¼¼·Î
 	Long j;
 	CString str;
 	Long column = 0;
@@ -38,12 +38,12 @@ void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
 		if (str.GetAt(0) & 0x80) { // 2¹ÙÀÌÆ®¹®ÀÚ¸é 2Ä­
 			column += 2;
 		}
-		else if (str == "\t") { // ÅÇ¹®ÀÚ¸é ÀÌÀü¹®ÀÚÀÇ Ä­À» ¼À
+		else if (str == "        ") { // ÅÇ¹®ÀÚ¸é ÀÌÀü¹®ÀÚÀÇ Ä­À» ¼À
 			tabWidth = (column + 8) / 8 * 8 - column;
 			column += tabWidth;
 			j = 0;
 			str = "";
-			while (j < tabWidth) {
+			while (j < tabWidth) { //±¸ÇÑ Ä­¸¸Å­ ÅÇ¹®ÀÚÀÇ Å©±â¸¦ Á¤ÇÔ
 				str += " ";
 				j++;
 			}
@@ -56,7 +56,7 @@ void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
 	}
 	textEdit->CreateSolidCaret(2, textEdit->GetRowHeight());
 	if (textEdit->GetFlagBuffer() == 1) {
-		textEdit->CreateSolidCaret(-dc->GetTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex-1)->MakeCString()).cx, textEdit->GetRowHeight());
+		textEdit->CreateSolidCaret(-dc->GetTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex - 1)->MakeCString()).cx, textEdit->GetRowHeight());
 	}
 	this->currentCaretX = pointX;
 	this->currentCaretY = pointY;
@@ -79,23 +79,16 @@ void Caret::MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point) {
 	if (y > 5 && textEdit->text->GetLength() > 0) {
 		this->rowIndex--;
 	}
-
 	Long width = 5;
-	while (x > 5 && width <= x && this->characterIndex < textEdit->text->GetAt(this->rowIndex)->GetLength()) {
+	while (this->characterIndex < textEdit->text->GetAt(this->rowIndex)->GetLength() && x > 5 && width <= x) {
 		str = textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex)->MakeCString();
-		if (str == "\t") {
-			str = "        ";
-		}
 		width += cPaintDc->GetTextExtent(str).cx;
 		this->characterIndex++; // -1 ¾ÈÇÏ¸é ´ÙÀ½²¨
 	}
 	if (this->characterIndex > 0) {
 		str = textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex - 1)->MakeCString();
-		if (str == "\t") {
-			str = "        ";
-		}
 		Long textWidth = cPaintDc->GetTextExtent(str).cx;
-		if (x > 5 && x < width - textWidth / 2 + textWidth & 2) {
+		if (x > 5 && x < width - textWidth / 2) {
 			this->characterIndex--;
 		}
 	}

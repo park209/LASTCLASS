@@ -23,7 +23,9 @@ CString DoubleByteCharacter::MakeCString() const {
 	newChar[2] = '\0';
 
 	CString cs(newChar);
-
+	if (cs == "\t") {
+		cs = "        ";
+	}
 	return cs;
 }
 TextComponent* DoubleByteCharacter::Clone() const {
