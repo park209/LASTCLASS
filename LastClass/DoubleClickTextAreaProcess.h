@@ -12,10 +12,8 @@ public:
 	DoubleClickTextAreaProcess(const DoubleClickTextAreaProcess& source);
 	~DoubleClickTextAreaProcess();
 public:
-	Long DoubleClickKoreanStartIndex(TextEdit *textEdit);
-	Long DoubleClickKoreanEndIndex(TextEdit *textEdit);
-	Long DoubleClickEnglishStartIndex(TextEdit *textEdit);
-	Long DoubleClickEnglishEndIndex(TextEdit *textEdit);
+	Long DoubleClickStartIndex(TextEdit *textEdit);
+	Long DoubleClickEndIndex(TextEdit *textEdit);
 };
 
 #endif _DOUBLECLICKTEXTAREAPROCESS_H

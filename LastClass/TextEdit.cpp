@@ -18,9 +18,8 @@
 #include "HistoryText.h"
 #include "WritingVisitor.h"   
 #include "DeleteTextArea.h"
-
 #include "WriteKoreanText.h"
-#include "DoubleClickTextAreaProcess.h"
+#include "DoubleClickTextArea.h"
 
 #include <iostream>
 
@@ -90,14 +89,10 @@ void TextEdit::OnPaint() {
 
 	dc.SetBkMode(TRANSPARENT);//문자배경 투명하게
 
+	dc.FillSolidRect(CRect(5, 5, figure->GetWidth() - 1, figure->GetHeight() - 1), RGB(255, 255, 255));
+
 	this->text->Accept(writingVisitor, &dc);//받았던거 출력
 	this->caret->MoveToIndex(this, &dc);
-
-	DoubleClickTextAreaProcess *testClick = new DoubleClickTextAreaProcess();
-	Long testNumber = testClick->DoubleClickKoreanStartIndex(this);
-	CString testNumber_;
-	testNumber_.Format("%d", testNumber);
-	dc.TextOutA(5, 30, testNumber_);
 
 	dc.SetTextColor(RGB(255, 255, 255));
 	dc.SetBkColor(RGB(51, 153, 255));
@@ -190,7 +185,21 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 }
 
 void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
+
 	CPaintDC dc(this);
+
+	MSG msg;
+	UINT dblclkTime = GetDoubleClickTime();
+	UINT elapseTime = 0;
+
+	SetTimer(1, 1, NULL);
+	while (elapseTime < dblclkTime) {
+		PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+		if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
+			KillTimer(1);
+		}
+		elapseTime++;
+	}
 
 	CFont cFont;
 	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
@@ -217,13 +226,24 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 
 	CWnd::HideCaret();
 	::DestroyCaret();
+	KillTimer(1);
 	Invalidate();
 }
 
 void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 
+	MSG msg;
+	UINT dblclkTime = GetDoubleClickTime();
+	UINT elapseTime = 0;
+	PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+	if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
+		return;
+	}
+
 	CWnd::HideCaret();
 	::DestroyCaret();
+
+	KillTimer(1);
 	Invalidate();
 }
 
@@ -253,9 +273,17 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 }
 
-void TextEdit::OnLButtonDoubleClicked(UINT nFlags, CPoint point) {
+void TextEdit::OnLButtonDblClk(UINT nFlags, CPoint point) {
+	CPaintDC dc(this);
 
-	//Invalidate();
+	DoubleClickTextArea *testDoubleClick = new DoubleClickTextArea();
+	testDoubleClick->FindDoubleClickAreaIndex(this);
+	if (testDoubleClick != 0) {
+		delete testDoubleClick;
+	}
+	
+	::DestroyCaret();
+	Invalidate();
 }
 
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {

@@ -537,12 +537,22 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 		this->textEdit = new TextEdit(figure);
 
-		this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-			figure->GetX(),
-			figure->GetY(),
-			figure->GetX() + figure->GetWidth(),
-			figure->GetY() + figure->GetHeight()), this, 10000, NULL);
-		OnKillFocus(NULL);
+		if (dynamic_cast<MemoBox*>(figure)) {
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+				figure->GetX(),
+				figure->GetY() + 20,
+				figure->GetX() + figure->GetWidth(),
+				figure->GetY() + figure->GetHeight()), this, 10000, NULL);
+			OnKillFocus(NULL);
+		}
+		else {
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+				figure->GetX(),
+				figure->GetY(),
+				figure->GetX() + figure->GetWidth(),
+				figure->GetY() + figure->GetHeight()), this, 10000, NULL);
+			OnKillFocus(NULL);
+		}
 	}
 }
 

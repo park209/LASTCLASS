@@ -50,6 +50,7 @@
     <ClInclude Include="Diagram.h" />
     <ClInclude Include="DirectedAssociation.h" />
     <ClInclude Include="DoubleByteCharacter.h" />
+    <ClInclude Include="DoubleClickTextArea.h" />
     <ClInclude Include="DoubleClickTextAreaProcess.h" />
     <ClInclude Include="DownArrowKey.h" />
     <ClInclude Include="DrawingAggregation.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="Diagram.cpp" />
     <ClCompile Include="DirectedAssociation.cpp" />
     <ClCompile Include="DoubleByteCharacter.cpp" />
+    <ClCompile Include="DoubleClickTextArea.cpp" />
     <ClCompile Include="DoubleClickTextAreaProcess.cpp" />
     <ClCompile Include="DownArrowKey.cpp" />
     <ClCompile Include="DrawingAggregation.cpp" />

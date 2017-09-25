@@ -341,7 +341,12 @@
     <ClInclude Include="WriteKoreanText.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
-    <ClInclude Include="DoubleClickTextAreaProcess.h" />
+    <ClInclude Include="DoubleClickTextArea.h">
+      <Filter>TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="DoubleClickTextAreaProcess.h">
+      <Filter>TextEdit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArrayIterator.cpp">
@@ -644,6 +649,11 @@
     <ClCompile Include="WriteKoreanText.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
-    <ClCompile Include="DoubleClickTextAreaProcess.cpp" />
+    <ClCompile Include="DoubleClickTextArea.cpp">
+      <Filter>TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="DoubleClickTextAreaProcess.cpp">
+      <Filter>TextEdit</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

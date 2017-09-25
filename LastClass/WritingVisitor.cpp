@@ -8,6 +8,8 @@
 #include "Method.h"
 #include "Reception.h"
 
+#include "afxwin.h"
+
 WritingVisitor::WritingVisitor() {
 }
 WritingVisitor::~WritingVisitor() {
@@ -16,8 +18,8 @@ void WritingVisitor::Visit(Diagram *diagram, Selection *selection, Long distance
 }
 void WritingVisitor::Visit(Class *object, CDC* cPaintDc) {
 }
-void WritingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) {//접힌부분아래로 적히게
-	RECT rt = { memoBox->GetX() + 5 , memoBox->GetY() + 12, memoBox->GetX() + 5 + memoBox->GetWidth(), memoBox->GetY() + 5 + memoBox->GetHeight() };
+void WritingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { //접힌부분아래로 적히게
+	RECT rt = { memoBox->GetX() + 5 , memoBox->GetY() + 25, memoBox->GetX() + 5 + memoBox->GetWidth(), memoBox->GetY() + 5 + memoBox->GetHeight() };
 	cPaintDc->DrawText((CString)memoBox->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
 }
 void WritingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
@@ -79,7 +81,7 @@ void WritingVisitor::Visit(SelfComposition *selfComposition, CDC *cPaintDc) {
 void WritingVisitor::Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) {
 }
 void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
-	Long fontWidth = cPaintDc->GetTextExtent("아").cx + 20;
+	Long fontWidth = cPaintDc->GetTextExtent("a").cx;
 	Long fontHeight = cPaintDc->GetTextExtent("아").cy; // rowHeight 구하는방법
 	Long textWidth = text->MaxWidth();
 	CFont* cFont = cPaintDc->GetCurrentFont();
@@ -89,12 +91,12 @@ void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 	CBitmap bitmap;
 
 	memDC.CreateCompatibleDC(cPaintDc);
-	bitmap.CreateCompatibleBitmap(cPaintDc, textWidth*fontWidth + 5, text->GetLength() * fontHeight + 5);
+	bitmap.CreateCompatibleBitmap(cPaintDc, textWidth*fontWidth +5, text->GetLength() * fontHeight + 5);
 	pOldBitmap = memDC.SelectObject(&bitmap);
 	memDC.FillSolidRect(CRect(0, 0, textWidth*fontWidth + 5, text->GetLength() * fontHeight + 5), RGB(255, 255, 255));
 	memDC.SelectObject(cFont);
 	RECT rt = { 0 , 0, textWidth*fontWidth + 5, text->GetLength() * fontHeight + 5 };
-	memDC.DrawText((CString)text->MakeText().c_str(), &rt, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+	memDC.DrawText((CString)text->MakeText().c_str(), &rt, DT_EXPANDTABS | DT_TABSTOP | 0x0800 | DT_NOCLIP);
 	cPaintDc->BitBlt(5, 5, textWidth*fontWidth + 5, text->GetLength() * fontHeight + 5, &memDC, 0, 0, SRCCOPY);
 
 	memDC.SelectObject(pOldBitmap);

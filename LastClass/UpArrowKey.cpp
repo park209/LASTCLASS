@@ -39,11 +39,16 @@ void UpArrowKey::KeyPress(TextEdit *textEdit) {
 
 	Long x = textEdit->caret->GetCurrentCaretX();
 	Long y = textEdit->caret->GetCurrentCaretY();
+	Long previousCharacterIndex = textEdit->caret->GetCharacterIndex();
+	Long previousRowIndex = textEdit->caret->GetRowIndex();
 
 	Long rowIndex = y - textEdit->GetRowHeight();
 
 	textEdit->caret->MoveToPoint(textEdit, &dc, CPoint(x, rowIndex));
-
+	if (previousCharacterIndex == textEdit->text->GetAt(previousRowIndex)->GetLength() &&
+		previousRowIndex > 0) {
+		textEdit->caret->SetCharacterIndex(textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength());
+	}
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject(); // ÆùÆ®
 }

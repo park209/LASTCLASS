@@ -15,28 +15,25 @@ DoubleClickTextAreaProcess::DoubleClickTextAreaProcess(const DoubleClickTextArea
 DoubleClickTextAreaProcess::~DoubleClickTextAreaProcess() {
 }
 
-Long DoubleClickTextAreaProcess::DoubleClickKoreanStartIndex(TextEdit *textEdit) {
+Long DoubleClickTextAreaProcess::DoubleClickStartIndex(TextEdit *textEdit) {
 	Row *currentRow = textEdit->text->GetAt(textEdit->caret->GetRowIndex());
-	Long koreanStartIndex = textEdit->caret->GetCharacterIndex();
-	if (koreanStartIndex > 0 && textEdit->caret->GetCharacterIndex() == currentRow->GetLength()) {
-		koreanStartIndex--;
+	Long StartIndex = textEdit->caret->GetCharacterIndex();
+
+	while (StartIndex > 0 && currentRow->GetAt(StartIndex - 1)->MakeCString() != ' ') {
+		StartIndex--;
 	}
-	if (koreanStartIndex > 0 && dynamic_cast<DoubleByteCharacter*>(currentRow->GetAt(koreanStartIndex)) &&
-			currentRow->GetAt(koreanStartIndex)->MakeCString() != ' ') {
-		koreanStartIndex--;
-	}
-	return koreanStartIndex;
+
+	return StartIndex;
 }
 
-//
-//Long DoubleClickTextAreaProcess::DoubleClickKoreanEndIndex(TextEdit *textEdit) {
-//
-//}
-//
-//Long DoubleClickTextAreaProcess::DoubleClickEnglishStartIndex(TextEdit *textEdit) {
-//
-//}
-//
-//Long DoubleClickTextAreaProcess::DoubleClickEnglishEndIndex(TextEdit *textEdit) {
-//
-//}
+Long DoubleClickTextAreaProcess::DoubleClickEndIndex(TextEdit *textEdit) {
+	Row *currentRow = textEdit->text->GetAt(textEdit->caret->GetRowIndex());
+	Long endIndex = textEdit->caret->GetCharacterIndex();
+
+	while (endIndex < currentRow->GetLength() && currentRow->GetAt(endIndex)->MakeCString() != ' ') {
+		endIndex++;
+	}
+
+	return endIndex;
+}
+
