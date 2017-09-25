@@ -1,5 +1,3 @@
-//MultipleSelectionState.h
-
 #ifndef _MULTIPLESELECTIONSTATE_H
 #define _MULTIPLESELECTIONSTATE_H
 #include "MouseLButtonAction.h"

@@ -1,5 +1,3 @@
-//DefaultState.h
-
 #ifndef _DEFAULTSTATE_H
 #define _DEFAULTSTATE_H
 #include "MouseLButtonAction.h"

@@ -1,5 +1,3 @@
-//MouseLButton.h
-
 #include "MouseLButton.h"
 #include "MouseLButtonAction.h"
 #include "DrawingClass.h"

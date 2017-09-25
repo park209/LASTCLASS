@@ -1,5 +1,3 @@
-//DefaultState.cpp
-
 #include "Diagram.h"
 #include "Class.h"
 #include "DefaultState.h"

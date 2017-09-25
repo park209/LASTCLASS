@@ -3,7 +3,6 @@
 #ifndef _HISTORYTEXT_H
 #define _HISTORYTEXT_H
 
-//#include <afxwin.h>
 #include "Array.h"
 
 typedef signed long int Long;

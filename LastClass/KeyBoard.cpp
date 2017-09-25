@@ -96,11 +96,13 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 	case  VK_OEM_PLUS:
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new PlusKey;
-		} break;
+		}
+		break;
 	case VK_OEM_MINUS:
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new MinusKey;
-		}break;
+		}
+		break;
 	case 67:
 		this->keyAction = new CtrlCopyKey;
 		break;
@@ -110,7 +112,8 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 	case 0x56:
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlPasteKey;
-		} break;
+		}
+		break;
 	case 88:
 		this->keyAction = new CtrlCutKey;
 		break;
