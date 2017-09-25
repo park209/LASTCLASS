@@ -100,6 +100,37 @@ string Row::ReplaceTabString(string &str, const string& from, const string& to) 
 	return str;
 }
 
+Long Row::GetRowWidth(Long index, CDC* cPaintDc) {
+	CString str;
+	Long x = 0;
+	Long column = 0;
+	Long tabWidth = 0;
+	Long i = 0;
+	Long j = 0;
+	while (i < index) {
+		str = this->GetAt(i)->MakeCString();
+		if (str.GetAt(0) & 0x80) { // 2¹ÙÀÌÆ®¹®ÀÚ¸é 2Ä­
+			column += 2;
+		}
+		else if (str == "        ") { // ÅÇ¹®ÀÚ¸é ÀÌÀü¹®ÀÚÀÇ Ä­À» ¼À
+			tabWidth = (column + 8) / 8 * 8 - column;
+			column += tabWidth;
+			j = 0;
+			str = "";
+			while (j < tabWidth) { //±¸ÇÑ Ä­¸¸Å­ ÅÇ¹®ÀÚÀÇ Å©±â¸¦ Á¤ÇÔ
+				str += " ";
+				j++;
+			}
+		}
+		else { // 1¹ÙÀÌÆ®¹®ÀÚ¸é 1Ä­
+			column += 1;
+		}
+		x += cPaintDc->GetTextExtent(str).cx;
+		i++;
+	}
+	return x;
+}
+
 Character* Row::GetAt(Long index) {
 	return static_cast<Character*>(this->textComponents[index]);
 }

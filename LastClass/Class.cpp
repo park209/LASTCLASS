@@ -491,9 +491,9 @@ Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
 	return this->receptionPosition;
 }
 
-Long Class::AddTemplate(Long x, Long y, Long width, Long height) { //중복생성 안되게 막아야함
+Long Class::AddTemplate(Long x, Long y, Long width, Long height, string content) { //중복생성 안되게 막아야함
 	
-	Template object(x, y, width, height);
+	Template object(x, y, width, height, content);
 
 	if (this->length < this->capacity) {
 		this->templetePosition = this->figures.Store(this->length, object.Clone());

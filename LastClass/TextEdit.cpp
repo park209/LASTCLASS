@@ -89,7 +89,7 @@ void TextEdit::OnPaint() {
 
 	dc.SetBkMode(TRANSPARENT);//문자배경 투명하게
 
-	dc.FillSolidRect(CRect(5, 5, figure->GetWidth() - 1, figure->GetHeight() - 1), RGB(255, 255, 255));
+	dc.FillSolidRect(CRect(6, 5, figure->GetWidth() - 6, figure->GetHeight() - 5), RGB(255, 255, 255));
 
 	this->text->Accept(writingVisitor, &dc);//받았던거 출력
 	this->caret->MoveToIndex(this, &dc);
@@ -295,10 +295,12 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	}
 	this->koreanEnglish = 0;
 
-	CWnd::HideCaret();
-	::DestroyCaret();
+	if (nChar != VK_RETURN && nChar != VK_ESCAPE) {
+		CWnd::HideCaret();
+		::DestroyCaret();
 
-	CWnd::Invalidate();
+		CWnd::Invalidate();
+	}
 }
 
 LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {
@@ -332,6 +334,7 @@ void TextEdit::OnClose() {
 	if (this->historyText != NULL) {
 		delete this->historyText;
 	}
-
-	CWnd::DestroyWindow();
+	if (this != NULL) {
+		delete this;
+	}
 }

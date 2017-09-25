@@ -32,9 +32,9 @@ protected:
 
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg LRESULT OnIMENotify(WPARAM wParam, LPARAM lParam);
-	afx_msg void OnClose();
 	DECLARE_MESSAGE_MAP()
 public:
+	afx_msg void OnClose();
 	Long GetFlagInsert() const;
 	Long GetSelectedX() const;
 	Long GetSelectedY() const;
@@ -57,8 +57,8 @@ public:
 	Long selectedY; //º¸·ù
 	CString copyBuffer;
 	Long flagBuffer; //flag
-private:
 	Figure *figure;
+private:
 	Long koreanEnglish; //flag
 	Long currentX;
 };
