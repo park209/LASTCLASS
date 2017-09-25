@@ -5,7 +5,6 @@
 
 #include <afxwin.h>
 #include <imm.h>
-#include <string>
 
 typedef signed long int Long;
 
@@ -50,6 +49,7 @@ public:
 	KeyBoard *keyBoard;
 	HistoryText *historyText;
 	TextAreaSelected *textAreaSelected;
+	Figure *figure;
 	Long flagInsert; //flag
 	Long flagSelection;
 	Long rowHeight; //figure에서 저장을 해줘야 하기때문에 삭제가능
@@ -57,7 +57,6 @@ public:
 	Long selectedY; //보류
 	CString copyBuffer;
 	Long flagBuffer; //flag
-	Figure *figure;
 private:
 	Long koreanEnglish; //flag
 	Long currentX;

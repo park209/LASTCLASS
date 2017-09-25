@@ -90,16 +90,6 @@ string Row::PrintRowString() {
 	return tempString;
 }
 
-string Row::ReplaceTabString(string &str, const string& from, const string& to) {
-	size_t index = 0; //string처음부터 검사
-	while ((index = str.find(from, index)) != string::npos)  //from을 찾을 수 없을 때까지
-	{
-		str.replace(index, from.length(), to);
-		index += to.length(); // 중복검사를 피하고 from.length() > to.length()인 경우를 위해서
-	}
-	return str;
-}
-
 Long Row::GetRowWidth(Long index, CDC* cPaintDc) {
 	CString str;
 	Long x = 0;

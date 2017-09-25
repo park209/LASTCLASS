@@ -21,8 +21,6 @@
 #include "WriteKoreanText.h"
 #include "DoubleClickTextArea.h"
 
-#include <iostream>
-
 BEGIN_MESSAGE_MAP(TextEdit, CWnd)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
@@ -66,9 +64,7 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->historyText = new HistoryText;
 	this->textAreaSelected = new TextAreaSelected;
 
-	ModifyStyle(WS_CAPTION, 0);
-
-	this->text->SprayString(this->figure->GetContent()); // 넘겨받아온거 자료구조로 뿌려줌 ㅇㅇㅇㅇㅇ
+	this->text->SprayString(this->figure->GetContent());
 
 	CWnd::HideCaret();
 	::DestroyCaret();
@@ -108,7 +104,7 @@ void TextEdit::OnPaint() {
 
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN &&
-		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10 && GetKeyState(VK_RSHIFT) >= 0 && GetKeyState(VK_CONTROL) >= 0) {
+		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10 && GetKeyState(VK_CONTROL) >= 0) {
 
 		if (flagSelection == 1) {
 			DeleteTextArea *deleteArea = new DeleteTextArea();
@@ -181,7 +177,9 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 	if (this->historyText != NULL) {
 		delete this->historyText;
 	}
-	CWnd::DestroyWindow();
+	if (this != NULL) {
+		delete this;
+	}
 }
 
 void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {

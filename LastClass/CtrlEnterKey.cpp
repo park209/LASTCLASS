@@ -20,12 +20,12 @@ void CtrlEnterKey::KeyPress(TextEdit *textEdit) {
 		Row row;
 		//if (!GetKeyState(VK_RETURN)) {
 		if (textEdit->caret->GetCharacterIndex() == 0) {
-			textEdit->text->InsertRow(textEdit->caret->GetRowIndex(),row.Clone());
+			textEdit->text->Insert(textEdit->caret->GetRowIndex(),row.Clone());
 			textEdit->caret->MoveForwardRowIndex();
 			textEdit->caret->SetCharacterIndex(textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength());
 		}
 		else {
-			textEdit->text->InsertRow(textEdit->caret->GetRowIndex() + 1, row.Clone());
+			textEdit->text->Insert(textEdit->caret->GetRowIndex() + 1, row.Clone());
 			textEdit->caret->MoveForwardRowIndex();
 			Long j = 0;
 			while (textEdit->caret->GetCharacterIndex() < textEdit->text->GetAt(textEdit->caret->GetRowIndex() - 1)->GetLength()) {

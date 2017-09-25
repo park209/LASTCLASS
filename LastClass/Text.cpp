@@ -60,10 +60,6 @@ Long Text::Remove(Long index) {
 	return index;
 }
 
-Long Text::Insert(Long rowIndex) {
-	return rowIndex;
-}
-
 string Text::MakeText() {
 	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
 	string text_;
@@ -77,17 +73,7 @@ string Text::MakeText() {
 	return text_;
 }
 
-Long Text::InsertRow(Long index) {
-
-	Row row;
-	this->textComponents.Insert(index, row.Clone());
-	this->capacity++;
-	this->length++;
-
-	return index;
-}
-
-Long Text::InsertRow(Long index, TextComponent *textComponent) {
+Long Text::Insert(Long index, TextComponent *textComponent) {
 	this->textComponents.Insert(index, textComponent);
 
 	this->capacity++;
@@ -143,7 +129,7 @@ Long Text::MaxWidth(CDC* cPaintDc) {
 }
 
 Row* Text::GetAt(Long index) {
-	return dynamic_cast<Row*>(this->textComponents[index]);
+	return static_cast<Row*>(this->textComponents.GetAt(index));
 }
 
 TextComponent* Text::Clone() const {
@@ -156,7 +142,7 @@ void Text::Accept(Visitor& visitor, CDC* cPaintDc) {
 
 
 Row* Text::operator [] (Long index) {
-	return dynamic_cast<Row*>(this->textComponents[index]);
+	return static_cast<Row*>(this->textComponents[index]);
 }
 
 Text& Text::operator = (const Text& source) {
