@@ -22,7 +22,7 @@ void HomeKey::KeyPress(TextEdit *textEdit) {
 		if (textEdit->flagSelection == 0) {
 			textEdit->flagSelection = 1;
 			textEdit->selectedX = textEdit->caret->GetCharacterIndex();
-			textEdit->selectedRowIndex = textEdit->caret->GetRowIndex();
+			textEdit->selectedY = textEdit->caret->GetRowIndex();
 		}
 	}
 	textEdit->caret->SetCharacterIndex(0);

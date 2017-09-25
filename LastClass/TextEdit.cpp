@@ -17,7 +17,10 @@
 #include "TextAreaSelected.h"
 #include "HistoryText.h"
 #include "WritingVisitor.h"   
+#include "DeleteTextArea.h"
+#include "WriteKoreanText.h"
 #include "DoubleClickTextArea.h"
+
 #include <iostream>
 
 BEGIN_MESSAGE_MAP(TextEdit, CWnd)
@@ -49,17 +52,14 @@ TextEdit::TextEdit(Figure *figure) {
 	this->flagBuffer = 0;
 	this->flagInsert = 0;
 	this->flagSelection = 0;
-	this->selectedX = 0;
 	this->currentX = 0;
-	this->selectedCharacterIndex = 0;
-	this->selectedRowIndex = 0;
 	this->copyBuffer = "";
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CWnd::OnCreate(lpCreateStruct); //override
 	CWnd::SetFocus();
-	
+
 	this->text = new Text;
 	this->caret = new Caret;
 	this->keyBoard = new KeyBoard;
@@ -83,13 +83,13 @@ void TextEdit::OnPaint() {
 
 	CFont cFont;
 	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 
 	dc.SetBkMode(TRANSPARENT);//문자배경 투명하게
 
-	dc.FillSolidRect(CRect(6, 6, figure->GetWidth() - 6, figure->GetHeight() - 6), RGB(255, 255, 255));
+	dc.FillSolidRect(CRect(6, 5, figure->GetWidth() - 6, figure->GetHeight() - 5), RGB(255, 255, 255));
 
 	this->text->Accept(writingVisitor, &dc);//받았던거 출력
 	this->caret->MoveToIndex(this, &dc);
@@ -109,10 +109,17 @@ void TextEdit::OnPaint() {
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN &&
 		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10 && GetKeyState(VK_RSHIFT) >= 0 && GetKeyState(VK_CONTROL) >= 0) {
+
+		if (flagSelection == 1) {
+			DeleteTextArea *deleteArea = new DeleteTextArea();
+			deleteArea->DeleteArea(this);
+			if (deleteArea != 0) {
+				delete deleteArea;
+			}
+		}
+
 		char nCharacter = nChar;
-
 		SingleByteCharacter singleByteCharacter(nCharacter);
-
 		if (this->caret->GetCharacterIndex() == this->text->GetAt(this->caret->GetRowIndex())->GetLength()) {
 			this->text->GetAt(this->caret->GetRowIndex())->Add(singleByteCharacter.Clone());
 		}
@@ -132,68 +139,20 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	HIMC hIMC = ImmGetContext(GetSafeHwnd());
-	Long bufferLength;
-	char buffer[8];
-	Long i = 0;
-
-	if (lParam & GCS_RESULTSTR) {
-		bufferLength = ImmGetCompositionString(hIMC, GCS_RESULTSTR, NULL, 0);
-		ImmGetCompositionString(hIMC, GCS_RESULTSTR, buffer, bufferLength);
-		char(*tempChar) = new char[bufferLength];
-		while (i < bufferLength) {
-			tempChar[i] = buffer[i];
-			i++;
+	if (flagSelection == 1) {
+		DeleteTextArea *deleteArea = new DeleteTextArea();
+		deleteArea->DeleteArea(this);
+		if (deleteArea != 0) {
+			delete deleteArea;
 		}
-		DoubleByteCharacter doubleByteCharacter(tempChar);
-		delete[] tempChar;
-
-		this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex() - 1, doubleByteCharacter.Clone());
-		this->flagBuffer = 0;
 	}
-	else if (lParam & GCS_COMPSTR) {
-		bufferLength = ImmGetCompositionString(hIMC, GCS_COMPSTR, NULL, 0);
-		ImmGetCompositionString(hIMC, GCS_COMPSTR, buffer, bufferLength);
-		if (this->flagBuffer == 0) { // 조합중에서 시작일때
-			char(*tempChar) = new char[bufferLength];
-			while (i < bufferLength) {
-				tempChar[i] = buffer[i];
-				i++;
-			}
-			DoubleByteCharacter doubleByteCharacter(tempChar);
-			delete[] tempChar;
-
-			if (this->caret->GetCharacterIndex() == this->text->GetAt(this->caret->GetRowIndex())->GetLength()) {
-				this->text->GetAt(this->caret->GetRowIndex())->Add(doubleByteCharacter.Clone());
-			}
-			else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 0) {
-				this->text->GetAt(this->caret->GetRowIndex())->Insert(this->caret->GetCharacterIndex(), doubleByteCharacter.Clone());
-			}
-			else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 1) {
-				this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex(), doubleByteCharacter.Clone());
-			}
-			this->caret->MoveForwardCharacterIndex();
-			this->flagBuffer = 1;
-		}
-		else { // 조합중에서 조합중일때
-			if (bufferLength > 0) {
-				char(*tempChar) = new char[bufferLength];
-				while (i < bufferLength) {
-					tempChar[i] = buffer[i];
-					i++;
-				}
-				DoubleByteCharacter doubleByteCharacter(tempChar);
-				this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex() - 1, doubleByteCharacter.Clone());
-				delete[] tempChar;
-			}
-			else if (bufferLength == 0) {
-				this->text->GetAt(this->caret->GetRowIndex())->Remove(this->caret->GetCharacterIndex() - 1);
-				this->caret->MoveBackwardCharacterIndex();
-				this->flagBuffer = 0;
-			}
-		}
+	WriteKoreanText *writeHanguel = new WriteKoreanText();
+	writeHanguel->WriteHanguel(wParam, lParam, hIMC, this);
+	if (writeHanguel != 0) {
+		delete writeHanguel;
 	}
 	ImmReleaseContext(GetSafeHwnd(), hIMC);
-
+	
 	CWnd::HideCaret();
 	::DestroyCaret();
 	Invalidate();
@@ -251,8 +210,8 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	if (GetKeyState(VK_SHIFT) < 0) { // 클릭했는데 쉬프트가 눌려있을 때
 		if (this->flagSelection == 0) { // flag 가 안눌려있으면
 			this->flagSelection = 1; // flag 를 눌러준다
-			this->selectedCharacterIndex = this->caret->GetCharacterIndex(); // selectedX, Y 를 기존 위치 캐럿 상단 좌표로 고정한다
-			this->selectedRowIndex = this->caret->GetRowIndex();
+			this->selectedX = this->caret->GetCharacterIndex(); // selectedX, Y 를 기존 위치 캐럿 상단 좌표로 고정한다
+			this->selectedY = this->caret->GetRowIndex();
 		}
 	}
 	else {
@@ -300,16 +259,14 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 
 		if (this->flagSelection == 0 && this->currentX != 0) {// && this->) { // 왼마우스 눌려있는데 이동시에 flag 진행중인지 확인해서
 			this->flagSelection = 1; // flag 진행중 아니면 진행중으로 바꾸고
-			this->selectedCharacterIndex = this->caret->GetCharacterIndex();
-			this->selectedRowIndex = this->caret->GetRowIndex();
-			//this->selectedCharacterIndex = this->caret->GetCharacterIndex(); // 최초 한번 selectedCharacterIndex, selectedRowIndex 를
-			//this->selectedRowIndex = this->caret->GetRowIndex();
+			this->selectedX = this->caret->GetCharacterIndex(); // 최초 한번 selectedX, Y 를
+			this->selectedY = this->caret->GetRowIndex();
 		}
 		this->caret->MoveToPoint(this, &dc, point); // 새로운 위치로 캐럿 이동한다
 
 		dc.SelectObject(oldFont);
 		cFont.DeleteObject(); // 폰트 끝
-		
+
 		::DestroyCaret();
 		Invalidate();
 	}
@@ -324,7 +281,7 @@ void TextEdit::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	if (testDoubleClick != 0) {
 		delete testDoubleClick;
 	}
-
+	
 	::DestroyCaret();
 	Invalidate();
 }
@@ -337,10 +294,12 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		keyAction->KeyPress(this);
 	}
 	this->koreanEnglish = 0;
-	if (nChar != VK_RETURN) {
-	CWnd::HideCaret();
-	::DestroyCaret();
-	CWnd::Invalidate();
+
+	if (nChar != VK_RETURN && nChar != VK_ESCAPE) {
+		CWnd::HideCaret();
+		::DestroyCaret();
+
+		CWnd::Invalidate();
 	}
 }
 

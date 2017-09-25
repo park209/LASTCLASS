@@ -18,7 +18,6 @@ class TextAreaSelected;
 class TextEdit : public CWnd { // CWnd 상속으로 바꿔야함
 public:
 	TextEdit(Figure *figure);
-	afx_msg void OnClose();
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
@@ -33,20 +32,18 @@ protected:
 
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg LRESULT OnIMENotify(WPARAM wParam, LPARAM lParam);
-	//afx_msg void OnClose();
 	DECLARE_MESSAGE_MAP()
 public:
+	afx_msg void OnClose();
 	Long GetFlagInsert() const;
 	Long GetSelectedX() const;
-	Long GetSelectedCharacterIndex() const;
-	Long GetSelectedRowIndex() const;
+	Long GetSelectedY() const;
 
 	Figure* GetFigure() const;
 	Long GetRowHeight() const;
 	Long GetKoreanEnglish() const;
 	Long GetFlagBuffer() const;
 	CString GetCopyBuffer() const;
-	Long GetCurrentX() const;
 public:
 	Text *text;
 	Caret *caret;
@@ -57,13 +54,12 @@ public:
 	Long flagSelection;
 	Long rowHeight; //figure에서 저장을 해줘야 하기때문에 삭제가능
 	Long selectedX; //보류
-	Long selectedCharacterIndex;
-	Long selectedRowIndex; //보류
+	Long selectedY; //보류
 	CString copyBuffer;
-private:
-	Figure *figure;
-	Long koreanEnglish; //flag
 	Long flagBuffer; //flag
+	Figure *figure;
+private:
+	Long koreanEnglish; //flag
 	Long currentX;
 };
 
@@ -88,14 +84,8 @@ inline CString TextEdit::GetCopyBuffer() const {
 inline Long TextEdit::GetSelectedX() const {
 	return this->selectedX;
 }
-inline Long TextEdit::GetSelectedCharacterIndex() const {
-	return this->selectedCharacterIndex;
-}
-inline Long TextEdit::GetSelectedRowIndex() const {
-	return this->selectedRowIndex;
-}
-inline Long TextEdit::GetCurrentX() const {
-	return this->currentX;
+inline Long TextEdit::GetSelectedY() const {
+	return this->selectedY;
 }
 
 #endif // _TEXTEDIT_H

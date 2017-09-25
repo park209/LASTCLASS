@@ -6,8 +6,6 @@
 #include "DoubleByteCharacter.h"
 #include "Visitor.h"
 
-using namespace std;
-
 Row::Row(Long capacity) : TextComposite(capacity) {
 	this->capacity = capacity;
 	this->length = 0;
@@ -85,27 +83,6 @@ string Row::PrintRowString() {
 			i++;
 			tempChar[i] = static_cast<DoubleByteCharacter*>(iterator->Current())->GetCharacters()[1];
 		}
-		i++;
-	}
-	string tempString(tempChar, i);
-
-	return tempString;
-}
-
-string Row::PrintRowString(Long startIndex, Long endIndex) {
-	char tempChar[256] = { 0, };
-	Long i = startIndex;
-	Long j = 0;
-	while (i < endIndex) {
-		if (dynamic_cast<SingleByteCharacter*>(this->GetAt(i))) {
-			tempChar[j] = static_cast<SingleByteCharacter*>(this->GetAt(i))->GetCharacter();
-		}
-		else if (dynamic_cast<DoubleByteCharacter*>(this->GetAt(i))) {
-			tempChar[j] = static_cast<DoubleByteCharacter*>(this->GetAt(i))->GetCharacters()[0];
-			j++;
-			tempChar[j] = static_cast<DoubleByteCharacter*>(this->GetAt(i))->GetCharacters()[1];
-		}
-		j++;
 		i++;
 	}
 	string tempString(tempChar, i);

@@ -2,10 +2,14 @@
 
 #include "Template.h"
 
-Template::Template():Figure() {
+Template::Template(): Figure() {
 }
 
-Template::Template(Long x, Long  y, Long width, Long height):Figure(x,y,width,height) {
+Template::Template(Long x, Long  y, Long width, Long height) : Figure(x, y, width, height) {
+	this->content = "";
+}
+
+Template::Template(Long x, Long  y, Long width, Long height, string content):Figure(x, y, width, height, content) {
 }
 
 Template::Template(const Template& source):Figure(source) {
@@ -19,6 +23,8 @@ Template& Template::operator= (const Template& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
+	this->content = source.content;
+
 	return *this;
 }
 

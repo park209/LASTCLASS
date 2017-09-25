@@ -14,9 +14,8 @@ public:
 	Character(const Character& source) {};
 	virtual ~Character() {};
 
-	virtual CString MakeCString() const = 0;
-
 	virtual TextComponent* Clone() const = 0;
+	virtual CString MakeCString() const = 0;
 };
 
 #endif // _CHARACTER_H

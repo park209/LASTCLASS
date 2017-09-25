@@ -7,6 +7,10 @@
 #include "Text.h"
 #include "DoubleByteCharacter.h"
 #include "SingleByteCharacter.h"
+#include "TextAreaSelected.h"
+#include "HistoryText.h"
+#include "DeleteTextArea.h"
+
 CtrlPasteKey::CtrlPasteKey() {
 }
 CtrlPasteKey::CtrlPasteKey(const CtrlPasteKey& source) {
@@ -15,6 +19,14 @@ CtrlPasteKey::~CtrlPasteKey() {
 }
 
 void CtrlPasteKey::KeyPress(TextEdit *textEdit) {
+	if (textEdit->flagSelection == 1) {
+		DeleteTextArea *deleteArea = new DeleteTextArea();
+		deleteArea->DeleteArea(textEdit);
+		if (deleteArea != 0) {
+			delete deleteArea;
+		}
+	}
+
 	unsigned int priority_list = CF_TEXT;
 	char *p_string = NULL;
 	if (::GetPriorityClipboardFormat(&priority_list, 1) == CF_TEXT) {

@@ -445,7 +445,7 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	}
 	if (nChar == 118) { // V 템플릿기호 만들기
 		if (object->GetTempletePosition() == -1) {
-			object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25);
+			object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25, "");
 		}
 	}
 	if (nChar == 102) { // F 템플릿기호 지우기
@@ -531,18 +531,30 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->startY = point.y;
 	this->currentX = point.x;
 	this->currentY = point.y;
+
 	this->selection->DeleteAllItems();
+
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {
 
 		this->textEdit = new TextEdit(figure);
 
-		this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-			figure->GetX(),
-			figure->GetY(),
-			figure->GetX() + figure->GetWidth(),
-			figure->GetY() + figure->GetHeight()), this, 10000, NULL);
-		OnKillFocus(NULL);
+		if (dynamic_cast<MemoBox*>(figure)) {
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+				figure->GetX(),
+				figure->GetY() + 20,
+				figure->GetX() + figure->GetWidth(),
+				figure->GetY() + figure->GetHeight()), this, 10000, NULL);
+			OnKillFocus(NULL);
+		}
+		else {
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+				figure->GetX(),
+				figure->GetY(),
+				figure->GetX() + figure->GetWidth(),
+				figure->GetY() + figure->GetHeight()), this, 10000, NULL);
+			OnKillFocus(NULL);
+		}
 	}
 }
 
@@ -560,9 +572,14 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentY = point.y;
 
 	if (this->startX != this->currentX || this->startY != this->currentY) {
+		//figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-		if (this->diagram->GetLength() > 0) {
-			Figure * figure = this->diagram->GetAt(this->diagram->GetLength() - 1);
+	}
+/*
+	Figure *figure = 0;
+	if (this->startX != this->currentX || this->startY != this->currentY) {
+		figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
+		if (dynamic_cast<ClassButton*>(this->drawingController->buttonState)) {
 			SmartPointer<Figure*> iterator = static_cast<Class*>(figure)->CreateIterator();
 			for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
 				if (dynamic_cast<ClassName*>(iterator->Current())) {
@@ -576,7 +593,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 				}
 			}
 		}
-	}
+	}*/
 
 	this->startX = 0;
 	this->startY = 0;
