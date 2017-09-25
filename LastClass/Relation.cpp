@@ -87,7 +87,7 @@ Long Relation::Remove(Long index) {
 	this->capacity--;
 	return this->points.Delete(index);
 }
-Long Relation::Find(CPoint cPoint) {
+void Relation::MergePoints(Long selectIndex,CPoint cPoint) {
 	Long index = -1;
 	bool ret;
 	Finder finder;
@@ -108,7 +108,7 @@ Long Relation::Find(CPoint cPoint) {
 		CRect cRect2(compare.x - 5, compare.y - 5, compare.x + 5, compare.y + 5);
 		ret = finder.FindRectangleByArea(cRect1, cRect2);
 		if (ret == true) {
-			index = i;
+			index = i+1;
 		}
 		i++;
 	}
@@ -116,32 +116,32 @@ Long Relation::Find(CPoint cPoint) {
 		compare.x = this->x + this->width;
 		compare.y = this->y + this->height;
 		CRect cRect3(compare.x - 5, compare.y - 5, compare.x + 5, compare.y + 5);
-		ret == finder.FindRectangleByArea(cRect1, cRect3);
+		ret = finder.FindRectangleByArea(cRect1, cRect3);
 		if (ret == true)
 		{
-			index = this->length;
+			index = this->length+1;
 
 		}
 	}
-	return index;
 
-	Long startIndex;
-	Long currentIndex;
-	
-	if (startIndex > currentIndex) {
-		Long i = 0;
-		Long count = startIndex - currentIndex;
-		while (i < count) {
-			this->Remove(currentIndex);
-			i++;
+	Long startIndex = selectIndex;
+	Long currentIndex = index;
+	if (currentIndex != -1) {
+		if (startIndex > currentIndex) {
+			Long i = 0;
+			Long count = startIndex - currentIndex;
+			while (i < count) {
+				this->Remove(currentIndex+1);
+				i++;
+			}
 		}
-	}
-	if (startIndex < currentIndex) {
-		Long i = 0;
-		Long count = currentIndex - startIndex;
-		while (i < count) {
-			this->Remove(startIndex);
-			i++;
+		if (startIndex < currentIndex) {
+			Long i = 0;
+			Long count = currentIndex - startIndex;
+			while (i < count) {
+				this->Remove(startIndex);
+				i++;
+			}
 		}
 	}
 }

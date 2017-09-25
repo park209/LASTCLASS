@@ -29,8 +29,7 @@ public:
 	CPoint GetAt(Long index);
 	Long Add(const CPoint& stratCPoint , const CPoint& currentCPoint);
 	Long Remove(Long index);
-	Long Find(CPoint cPoint);
-	void MergePoints(Long);
+	void MergePoints(Long selectIndex,CPoint cPoint);
 	Long GetCapacity() const;
 	Long GetLength() const;
 

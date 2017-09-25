@@ -12,6 +12,7 @@
 #include "Finder.h"
 #include "Selection.h"
 #include "MovingObject.h"
+#include "Relation.h"
 
 SelectionState* SelectionState::instance = 0;
 
@@ -25,8 +26,13 @@ void SelectionState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram
 	
 }
 void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
-	selection->DeleteAllItems();
-	selection->SelectByPoint(diagram, currentX, currentY);
+	
+	
+	if ( !selection->SelectByPoint(currentX, currentY )) {
+		selection->DeleteAllItems();
+		selection->SelectByPoint(diagram, currentX, currentY);
+	}
+	
 	if (selection->GetLength() == 0) {
 		this->ChangeDefault(mouseLButton);
 	}
