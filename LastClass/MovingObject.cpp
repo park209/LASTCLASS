@@ -25,27 +25,44 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, 
 		Finder finder;
 		Long i = 0; 
 		Long j = 0;
-
+		bool ret = false;
+		CRect cRect1(figures->GetX()+(currentX-startX), figures->GetY()+(currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
+		while (i < diagram->GetLength() && ret != true) {
+			FigureComposite *figureComposite = static_cast<FigureComposite*>(diagram->GetAt(i));
+			CRect cRect2(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
+			ret = finder.FindRectangleByArea(cRect2, cRect1);
+			if (figures == figureComposite) {
+				ret = false;
+			}
+			i++;
+		}
+		/*if (ret == true) {
+			this->ChangeState(mouseLButton, SelectionState::Instance());
+		}*/
 		// FigureComposite에 관계선 점 겹치면 점 Remove
+		i = 0;
 		while (i < figures->GetLength()) {
 			if (dynamic_cast<Relation*>(figures->GetAt(i))) {
 				Relation *object = static_cast<Relation*>(figures->GetAt(i));
-				j ;
+				j = 0;
 				while (j < object->GetLength()) {
 					CPoint cPoint = object->GetAt(j);
-					CRect cRect(figures->GetX(),figures->GetY(),figures->GetX()+figures->GetWidth(),figures->GetY()+figures->GetHeight());
-					bool ret1 = finder.FindRectangleByPoint(cRect, cPoint.x, cPoint.y);
+					//CRect cRect(figures->GetX() + (currentX - startX), figures->GetY() + (currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
+					bool ret1 = finder.FindRectangleByPoint(cRect1, cPoint.x, cPoint.y);
 					if (ret1 == true) {
 						object->Remove(j);
+						j--;
 					}
 					j++;
 				}
 			}
 			i++;
 		}
-		Long distanceX = currentX - startX;
-		Long distanceY = currentY - startY;
-		selection->Accept(diagram, movingVisitor, distanceX, distanceY);
+		if (ret == false) {
+			Long distanceX = currentX - startX;
+			Long distanceY = currentY - startY;
+			selection->Accept(diagram, movingVisitor, distanceX, distanceY);
+		}
 		this->ChangeState(mouseLButton, SelectionState::Instance());
 	}
 
