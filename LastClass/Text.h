@@ -30,7 +30,7 @@ public:
 	Long InsertRow(Long index);
 	Long InsertRow(Long index, TextComponent *textComponent);
 	void SprayString(string str);
-	Long MaxWidth();
+	Long MaxWidth(CDC* cPaintDc);
 	Row* GetAt(Long index);
 	
 	TextComponent* Clone() const;

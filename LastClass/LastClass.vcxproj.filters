@@ -340,6 +340,12 @@
     <ClInclude Include="CMemoryDC.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
+    <ClInclude Include="DoubleClickTextAreaProcess.h">
+      <Filter>TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="DoubleClickTextArea.h">
+      <Filter>TextEdit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Attribute.cpp">
@@ -629,6 +635,12 @@
     </ClCompile>
     <ClCompile Include="ArrayIterator.cpp">
       <Filter>Iterator</Filter>
+    </ClCompile>
+    <ClCompile Include="DoubleClickTextAreaProcess.cpp">
+      <Filter>TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="DoubleClickTextArea.cpp">
+      <Filter>TextEdit</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

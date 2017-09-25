@@ -131,12 +131,12 @@ void Text::SprayString(string str) {
 	}
 }
 
-Long Text::MaxWidth() {
+Long Text::MaxWidth(CDC* cPaintDc) {
 	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
 	Long width = 0;
 	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
-		if (width < Long(((Row*)smartPointer->Current())->ReplaceTabString(((Row*)smartPointer->Current())->PrintRowString(), "\t", "        ").length())) {
-			width = ((Row*)smartPointer->Current())->PrintRowString().length();
+		if (width < Long(((Row*)smartPointer->Current())->GetRowWidth(((Row*)smartPointer->Current())->GetLength(), cPaintDc))) {
+			width = Long(((Row*)smartPointer->Current())->GetRowWidth(((Row*)smartPointer->Current())->GetLength(), cPaintDc));
 		}
 	}
 	return width;

@@ -17,6 +17,7 @@
 #include "TextAreaSelected.h"
 #include "HistoryText.h"
 #include "WritingVisitor.h"   
+#include "DoubleClickTextArea.h"
 #include <iostream>
 
 BEGIN_MESSAGE_MAP(TextEdit, CWnd)
@@ -87,6 +88,8 @@ void TextEdit::OnPaint() {
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 
 	dc.SetBkMode(TRANSPARENT);//문자배경 투명하게
+
+	dc.FillSolidRect(CRect(6, 6, figure->GetWidth() - 6, figure->GetHeight() - 6), RGB(255, 255, 255));
 
 	this->text->Accept(writingVisitor, &dc);//받았던거 출력
 	this->caret->MoveToIndex(this, &dc);
@@ -223,7 +226,21 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 }
 
 void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
+
 	CPaintDC dc(this);
+
+	MSG msg;
+	UINT dblclkTime = GetDoubleClickTime();
+	UINT elapseTime = 0;
+
+	SetTimer(1, 1, NULL);
+	while (elapseTime < dblclkTime) {
+		PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+		if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
+			KillTimer(1);
+		}
+		elapseTime++;
+	}
 
 	CFont cFont;
 	cFont.CreateFont(this->rowHeight, 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,      // 글꼴 설정
@@ -234,11 +251,8 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	if (GetKeyState(VK_SHIFT) < 0) { // 클릭했는데 쉬프트가 눌려있을 때
 		if (this->flagSelection == 0) { // flag 가 안눌려있으면
 			this->flagSelection = 1; // flag 를 눌러준다
-			this->selectedX = this->caret->GetCurrentCaretX();
-			this->selectedCharacterIndex = this->caret->GetCharacterIndex();
+			this->selectedCharacterIndex = this->caret->GetCharacterIndex(); // selectedX, Y 를 기존 위치 캐럿 상단 좌표로 고정한다
 			this->selectedRowIndex = this->caret->GetRowIndex();
-			//this->selectedCharacterIndex = this->caret->GetCharacterIndex(); // selectedCharacterIndex, selectedRowIndex 를 기존 위치 캐럿 상단 좌표로 고정한다
-			//this->selectedRowIndex = this->caret->GetRowIndex();
 		}
 	}
 	else {
@@ -253,13 +267,24 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 
 	CWnd::HideCaret();
 	::DestroyCaret();
+	KillTimer(1);
 	Invalidate();
 }
 
 void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 
+	MSG msg;
+	UINT dblclkTime = GetDoubleClickTime();
+	UINT elapseTime = 0;
+	PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+	if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
+		return;
+	}
+
 	CWnd::HideCaret();
 	::DestroyCaret();
+
+	KillTimer(1);
 	Invalidate();
 }
 
@@ -291,8 +316,17 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 }
 
-void TextEdit::OnLButtonDoubleClicked(UINT nFlags, CPoint point) {
+void TextEdit::OnLButtonDblClk(UINT nFlags, CPoint point) {
+	CPaintDC dc(this);
 
+	DoubleClickTextArea *testDoubleClick = new DoubleClickTextArea();
+	testDoubleClick->FindDoubleClickAreaIndex(this);
+	if (testDoubleClick != 0) {
+		delete testDoubleClick;
+	}
+
+	::DestroyCaret();
+	Invalidate();
 }
 
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -303,11 +337,11 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		keyAction->KeyPress(this);
 	}
 	this->koreanEnglish = 0;
-
+	if (nChar != VK_RETURN) {
 	CWnd::HideCaret();
 	::DestroyCaret();
-
 	CWnd::Invalidate();
+	}
 }
 
 LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {
@@ -341,6 +375,7 @@ void TextEdit::OnClose() {
 	if (this->historyText != NULL) {
 		delete this->historyText;
 	}
-
-	CWnd::DestroyWindow();
+	if (this != NULL) {
+		delete this;
+	}
 }

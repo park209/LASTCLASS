@@ -29,6 +29,7 @@ public:
 	string PrintRowString();
 	string PrintRowString(Long startIndex, Long endIndex);
 	string ReplaceTabString(string &str, const string& from, const string& to);
+	Long GetRowWidth(Long index, CDC* cPaintDc);
 	Character* GetAt(Long index);
 
 	TextComponent* Clone() const;

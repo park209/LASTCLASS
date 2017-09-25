@@ -58,7 +58,7 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 		}
 		cString1 = (CString)textEdit->text->GetAt(startRowIndex)->PrintRowString(startCharacterIndex, endCharacterIndex).c_str();
 		rect = { x+5, startRowIndex * textEdit->rowHeight + 5, textEdit->caret->GetCurrentCaretX()+5, startRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
-		dc->DrawText(cString1, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+		dc->DrawText(cString1, rect, DT_SINGLELINE | DT_EXPANDTABS | DT_TABSTOP | 0x0800);
 
 		textEdit->copyBuffer = cString1;
 	}

@@ -48,6 +48,8 @@
     <ClInclude Include="Diagram.h" />
     <ClInclude Include="DirectedAssociation.h" />
     <ClInclude Include="DoubleByteCharacter.h" />
+    <ClInclude Include="DoubleClickTextArea.h" />
+    <ClInclude Include="DoubleClickTextAreaProcess.h" />
     <ClInclude Include="DownArrowKey.h" />
     <ClInclude Include="DrawingAggregation.h" />
     <ClInclude Include="DrawingAggregations.h" />
@@ -149,6 +151,8 @@
     <ClCompile Include="Diagram.cpp" />
     <ClCompile Include="DirectedAssociation.cpp" />
     <ClCompile Include="DoubleByteCharacter.cpp" />
+    <ClCompile Include="DoubleClickTextArea.cpp" />
+    <ClCompile Include="DoubleClickTextAreaProcess.cpp" />
     <ClCompile Include="DownArrowKey.cpp" />
     <ClCompile Include="DrawingAggregation.cpp" />
     <ClCompile Include="DrawingAggregations.cpp" />
@@ -298,7 +302,7 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>

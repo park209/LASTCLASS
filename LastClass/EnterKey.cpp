@@ -14,6 +14,6 @@ EnterKey::~EnterKey() {
 void EnterKey::KeyPress(TextEdit *textEdit) {
 	// ÅØ½ºÆ®¿¡µ÷Ã¢ ²¨Áà¾ßÇÔ
 	if (GetKeyState(VK_CONTROL) >= 0) {
-		//textEdit->DestroyWindow();
+		textEdit->OnClose();
 	}
 }
