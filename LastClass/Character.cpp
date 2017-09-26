@@ -4,9 +4,7 @@
 
 Character::Character() {
 }
-
 Character::Character(const Character& source) {
 }
-
 Character::~Character() {
 }

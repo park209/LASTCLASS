@@ -21,6 +21,7 @@ public:
 	virtual Long Remove(Long index) = 0;
 	virtual Long Insert(Long index, TextComponent *textComponent) = 0;
 	//virtual TextComponent* GetAt(Long index);
+
 	virtual TextComponent* Clone() const = 0;
 	ArrayIterator<TextComponent*>* CreateIterator() const;
 

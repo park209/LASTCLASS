@@ -10,7 +10,7 @@ public:
 	SingleByteCharacter();
 	SingleByteCharacter(char character);
 	SingleByteCharacter(const SingleByteCharacter& source);
-	~SingleByteCharacter();
+	virtual ~SingleByteCharacter();
 
 	virtual CString MakeCString() const;
 

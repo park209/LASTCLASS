@@ -23,7 +23,6 @@ CString DoubleByteCharacter::MakeCString() const {
 	newChar[2] = '\0';
 
 	CString cs(newChar);
-
 	return cs;
 }
 Character* DoubleByteCharacter::Clone() const {

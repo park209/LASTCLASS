@@ -88,7 +88,7 @@ void CtrlPasteKey::KeyPress(TextEdit *textEdit) {
 					}
 				}
 				if (i < temp || temp == -1) {
-					textEdit->caret->SetCharacterIndex(textEdit->caret->GetCharacterIndex()+1);
+					textEdit->caret->MoveForwardCharacterIndex();
 				}
 				i++;
 			}

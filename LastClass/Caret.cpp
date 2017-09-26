@@ -21,12 +21,10 @@ Caret::Caret(const Caret& source) {
 }
 
 Caret::~Caret() {
-
 }
 
-
 void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
-	Long pointX = 5;                                          //가로
+	Long pointX = 5;													 //가로
 	Long pointY = this->rowIndex * textEdit->GetRowHeight() + 5;         //세로
 	CString str;
 	Long column = 0;
@@ -52,8 +50,8 @@ void Caret::MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point) {
 	Long x = point.x;
 	Long y = point.y;
 	CString str;
-	this->rowIndex = 0;
 	this->characterIndex = 0;
+	this->rowIndex = 0;
 
 	Long height = 5;
 	while (y > 5 && height <= y && this->rowIndex < textEdit->text->GetLength()) {

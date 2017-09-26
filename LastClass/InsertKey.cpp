@@ -21,5 +21,4 @@ void InsertKey::KeyPress(TextEdit *textEdit) {
 	else {
 		textEdit->flagInsert = 1;
 	}
-
 }
