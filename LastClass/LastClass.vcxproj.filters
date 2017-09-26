@@ -331,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="MovingRelation.h" />
     <ClInclude Include="DrawingRelationPoint.h" />
+    <ClInclude Include="DrawingResizing.h">
+      <Filter>MouseAction</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArrayIterator.cpp">
@@ -625,6 +628,9 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="DrawingRelationPoint.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingResizing.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>

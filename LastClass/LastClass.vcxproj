@@ -64,6 +64,7 @@
     <ClInclude Include="DrawingRelation.h" />
     <ClInclude Include="DrawingRelationPoint.h" />
     <ClInclude Include="DrawingResize.h" />
+    <ClInclude Include="DrawingResizing.h" />
     <ClInclude Include="DrawingVisitor.h" />
     <ClInclude Include="EndKey.h" />
     <ClInclude Include="EnterKey.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="DrawingRealization.cpp" />
     <ClCompile Include="DrawingRelation.cpp" />
     <ClCompile Include="DrawingRelationPoint.cpp" />
+    <ClCompile Include="DrawingResizing.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
     <ClCompile Include="DrawningResize.cpp" />
     <ClCompile Include="EndKey.cpp" />

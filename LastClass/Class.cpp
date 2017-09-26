@@ -31,7 +31,7 @@
 #include "Method.h"
 #include "Reception.h"
 #include "Diagram.h"
-
+#include "Finder.h"
 Class::Class(Long capacity):FigureComposite(capacity) {
 	this->x = 0;
 	this->y = 0;
@@ -433,19 +433,19 @@ Long Class::AddMethod(Diagram *diagram) {
 }
 Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
 
-	Line line(this->x, this->y+this->height, this->width, 0);
-	
-	
+	Line line(this->x, this->y + this->height, this->width, 0);
+
+
 	if (this->length < this->capacity) {
-		 this->figures.Store(this->length, line.Clone());
+		this->figures.Store(this->length, line.Clone());
 	}
 	else {
-		 this->figures.AppendFromRear(line.Clone());
+		this->figures.AppendFromRear(line.Clone());
 		this->capacity++;
 	}
 	this->length++;
-	
-	Reception reception(this->x, this->y +this->height, this->width,50,"");
+
+	Reception reception(this->x, this->y + this->height, this->width, 50, "");
 
 	if (this->length < this->capacity) {
 		this->receptionPosition = this->figures.Store(this->length, reception.Clone());
@@ -458,10 +458,15 @@ Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
 	this->height = height + 50;
 	Long i = 0;
 	Long j = 0;
+	Finder finder;
+	Long Quadrant;
 	while (i < this->GetLength()) {
-
 		if (dynamic_cast<Relation*>(this->GetAt(i))) {
-			this->GetAt(i)->Modify(this->GetAt(i)->GetX(), this->GetAt(i)->GetY() + 50, this->GetAt(i)->GetWidth(), this->GetAt(i)->GetHeight() - 50);
+			Quadrant = finder.FindQuadrant(this->GetAt(i)->GetX(), this->GetAt(i)->GetY(),
+				this->GetX(), this->GetY(), this->GetX() + this->GetWidth(), this->GetY() + this->GetHeight() - 50);
+			if (Quadrant == 3) {
+				this->GetAt(i)->Modify(this->GetAt(i)->GetX(), this->GetAt(i)->GetY() + 50, this->GetAt(i)->GetWidth(), this->GetAt(i)->GetHeight() - 50);
+			}
 		}
 		i++;
 	}
@@ -480,7 +485,11 @@ Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
 				Long relationEndY = figure->GetY() + figure->GetHeight();
 				if (startX <= relationEndX &&  relationEndX <= endX &&
 					startY <= relationEndY &&  relationEndY <= endY) {
-					figure->EndPointMove(0, 50);
+					Quadrant = finder.FindQuadrant(relationEndX, relationEndY,
+						startX, startY, endX, endY - 50);
+					if (Quadrant == 3) {
+						figure->EndPointMove(0, 50);
+					}
 				}
 			}
 			j++;
@@ -490,6 +499,7 @@ Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
 
 	return this->receptionPosition;
 }
+
 
 Long Class::AddTemplate(Long x, Long y, Long width, Long height) { //중복생성 안되게 막아야함
 	

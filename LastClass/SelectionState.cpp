@@ -21,7 +21,7 @@
 #include "MovingObject.h"
 #include "MovingRelation.h"
 #include "DrawingRelationPoint.h"
-
+#include "DrawingResizing.h"
 SelectionState* SelectionState::instance = 0;
 
 MouseLButtonAction* SelectionState::Instance() {
@@ -88,6 +88,9 @@ void SelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 	}
 	if (index == 2) {
 		this->ChangeState(mouseLButton, DrawingRelationPoint::Instance());
+	}
+	if (index == 3) {
+		this->ChangeState(mouseLButton, DrawingResizing::Instance());
 	}
 	if (index == 4) {
 		this->ChangeState(mouseLButton, MovingObject::Instance());
