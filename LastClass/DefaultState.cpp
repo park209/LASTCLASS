@@ -18,6 +18,9 @@
 #include "DrawingMemoLine.h"
 #include "DrawingRealization.h"
 #include "MultipleSelectionState.h"
+#include "DrawingRelationPoint.h"
+#include "MovingRelation.h"
+#include "MovingObject.h"
 DefaultState* DefaultState::instance = 0;
 
 MouseLButtonAction* DefaultState::Instance() {
@@ -81,9 +84,10 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	if (mouseLButton->GetButtonState() == 0) {
 
 		Long index = selection->SelectByPoint(currentX, currentY);
-		if (index != -1) {
+		if (index != -1 && selection->GetLength() > 1) {
 			this->ChangeState(mouseLButton, MultipleSelectionState::Instance());
 		}
+
 		else {
 			selection->DeleteAllItems();
 			selection->SelectByPoint(diagram, currentX, currentY);

@@ -70,7 +70,6 @@ void DrawingRelationPoint::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram 
 	CPen *oldPen = cPaintDC->SelectObject(&pen);
 	cPaintDC->SetBkMode(TRANSPARENT);
 	bool ret = false;
-	//if (dynamic_cast<Relation*>(selection->GetAt(0))) {
 	Relation *relation = static_cast<Relation*>(selection->GetAt(0));
 	Finder finder;
 
@@ -129,7 +128,6 @@ void DrawingRelationPoint::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram 
 		cPaintDC->MoveTo(lineEnd.x, lineEnd.y);
 		cPaintDC->LineTo(currentX, currentY);
 	}
-	//}
 	cPaintDC->SelectObject(oldPen);
 	pen.DeleteObject();
 

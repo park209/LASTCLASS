@@ -103,6 +103,7 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram
 			if (endLine == true) {
 				//끝점 변경하는 로직.
 
+			
 			}
 			/*while (index < relation->GetLength() && point == false) {
 				CRect rect(relation->GetAt(index).x - 5, relation->GetAt(index).y - 5, relation->GetAt(index).x + 5, relation->GetAt(index).y + 5);
@@ -137,7 +138,7 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram
 			
 		}
 	//}
-	//this->ChangeDefault(mouseLButton);
+	this->ChangeDefault(mouseLButton);
 }
 void MovingRelation::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 
