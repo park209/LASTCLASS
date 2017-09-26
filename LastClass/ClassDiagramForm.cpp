@@ -597,8 +597,11 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	if (nFlags == MK_LBUTTON) {
 		this->currentX = point.x;
 		this->currentY = point.y;
-
+		
 		Invalidate();
+	}
+	if (selection->SelectByPoint(point.x, point.y)) {
+		SetCursor(LoadCursor(NULL, IDC_HAND));
 	}
 }
 void ClassDiagramForm::OnClose() {
