@@ -431,7 +431,7 @@ Long Class::AddMethod(Diagram *diagram) {
 	}
 	return this->methodPosition;
 }
-Long Class::AddReception(Diagram *diagram) {	//Áßº¹»ý¼º ¾ÈµÇ°Ô ¸·¾Æ¾ßÇÔ
+Long Class::AddReception(Diagram *diagram) {	//ì¤‘ë³µìƒì„± ì•ˆë˜ê²Œ ë§‰ì•„ì•¼í•¨
 
 	Line line(this->x, this->y + this->height, this->width, 0);
 
@@ -501,9 +501,9 @@ Long Class::AddReception(Diagram *diagram) {	//Áßº¹»ý¼º ¾ÈµÇ°Ô ¸·¾Æ¾ßÇÔ
 }
 
 
-Long Class::AddTemplate(Long x, Long y, Long width, Long height) { //Áßº¹»ý¼º ¾ÈµÇ°Ô ¸·¾Æ¾ßÇÔ
+Long Class::AddTemplate(Long x, Long y, Long width, Long height, string content) { //ì¤‘ë³µìƒì„± ì•ˆë˜ê²Œ ë§‰ì•„ì•¼í•¨
 	
-	Template object(x, y, width, height);
+	Template object(x, y, width, height, content);
 
 	if (this->length < this->capacity) {
 		this->templetePosition = this->figures.Store(this->length, object.Clone());

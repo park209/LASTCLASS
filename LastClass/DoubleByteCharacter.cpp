@@ -23,10 +23,9 @@ CString DoubleByteCharacter::MakeCString() const {
 	newChar[2] = '\0';
 
 	CString cs(newChar);
-
 	return cs;
 }
-TextComponent* DoubleByteCharacter::Clone() const {
+Character* DoubleByteCharacter::Clone() const {
 	return new DoubleByteCharacter(*this);
 }
 DoubleByteCharacter& DoubleByteCharacter::operator=(const DoubleByteCharacter& source) {

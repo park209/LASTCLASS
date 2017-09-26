@@ -60,10 +60,6 @@ Long Text::Remove(Long index) {
 	return index;
 }
 
-Long Text::Insert(Long rowIndex) {
-	return rowIndex;
-}
-
 string Text::MakeText() {
 	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
 	string text_;
@@ -77,17 +73,7 @@ string Text::MakeText() {
 	return text_;
 }
 
-Long Text::InsertRow(Long index) {
-
-	Row row;
-	this->textComponents.Insert(index, row.Clone());
-	this->capacity++;
-	this->length++;
-
-	return index;
-}
-
-Long Text::InsertRow(Long index, TextComponent *textComponent) {
+Long Text::Insert(Long index, TextComponent *textComponent) {
 	this->textComponents.Insert(index, textComponent);
 
 	this->capacity++;
@@ -131,19 +117,19 @@ void Text::SprayString(string str) {
 	}
 }
 
-Long Text::MaxWidth() {
+Long Text::MaxWidth(CDC* cPaintDc) {
 	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
 	Long width = 0;
 	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
-		if (width < Long(((Row*)smartPointer->Current())->ReplaceTabString(((Row*)smartPointer->Current())->PrintRowString(), "\t", "        ").length())) {
-			width = ((Row*)smartPointer->Current())->PrintRowString().length();
+		if (width < Long(((Row*)smartPointer->Current())->GetRowWidth(((Row*)smartPointer->Current())->GetLength(), cPaintDc))) {
+			width = Long(((Row*)smartPointer->Current())->GetRowWidth(((Row*)smartPointer->Current())->GetLength(), cPaintDc));
 		}
 	}
 	return width;
 }
 
 Row* Text::GetAt(Long index) {
-	return dynamic_cast<Row*>(this->textComponents[index]);
+	return static_cast<Row*>(this->textComponents.GetAt(index));
 }
 
 TextComponent* Text::Clone() const {
@@ -156,7 +142,7 @@ void Text::Accept(Visitor& visitor, CDC* cPaintDc) {
 
 
 Row* Text::operator [] (Long index) {
-	return dynamic_cast<Row*>(this->textComponents[index]);
+	return static_cast<Row*>(this->textComponents[index]);
 }
 
 Text& Text::operator = (const Text& source) {

@@ -445,7 +445,7 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	}
 	if (nChar == 118) { // V 템플릿기호 만들기
 		if (object->GetTempletePosition() == -1) {
-			object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25);
+			object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25, "");
 		}
 	}
 	if (nChar == 102) { // F 템플릿기호 지우기
@@ -532,17 +532,29 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 
+	this->selection->DeleteAllItems();
+
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {
 
 		this->textEdit = new TextEdit(figure);
 
-		this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-			figure->GetX(),
-			figure->GetY(),
-			figure->GetX() + figure->GetWidth(),
-			figure->GetY() + figure->GetHeight()), this, 10000, NULL);
-		OnKillFocus(NULL);
+		if (dynamic_cast<MemoBox*>(figure)) {
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+				figure->GetX(),
+				figure->GetY() + 20,
+				figure->GetX() + figure->GetWidth(),
+				figure->GetY() + figure->GetHeight()), this, 10000, NULL);
+			OnKillFocus(NULL);
+		}
+		else {
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+				figure->GetX(),
+				figure->GetY(),
+				figure->GetX() + figure->GetWidth(),
+				figure->GetY() + figure->GetHeight()), this, 10000, NULL);
+			OnKillFocus(NULL);
+		}
 	}
 }
 

@@ -7,6 +7,10 @@
 #include "Text.h"
 #include "DoubleByteCharacter.h"
 #include "SingleByteCharacter.h"
+#include "TextAreaSelected.h"
+#include "HistoryText.h"
+#include "DeleteTextArea.h"
+
 CtrlPasteKey::CtrlPasteKey() {
 }
 CtrlPasteKey::CtrlPasteKey(const CtrlPasteKey& source) {
@@ -15,6 +19,14 @@ CtrlPasteKey::~CtrlPasteKey() {
 }
 
 void CtrlPasteKey::KeyPress(TextEdit *textEdit) {
+	if (textEdit->flagSelection == 1) {
+		DeleteTextArea *deleteArea = new DeleteTextArea();
+		deleteArea->DeleteArea(textEdit);
+		if (deleteArea != 0) {
+			delete deleteArea;
+		}
+	}
+
 	unsigned int priority_list = CF_TEXT;
 	char *p_string = NULL;
 	if (::GetPriorityClipboardFormat(&priority_list, 1) == CF_TEXT) {
@@ -50,7 +62,7 @@ void CtrlPasteKey::KeyPress(TextEdit *textEdit) {
 					i++;
 					DoubleByteCharacter doubleTemp(character);
 					if (i < temp || temp == -1) {
-						if (textEdit->caret->characterIndex < row->GetLength()) {
+						if (textEdit->caret->GetCharacterIndex() < row->GetLength()) {
 							row->Insert(textEdit->caret->GetCharacterIndex(), doubleTemp.Clone());
 						}
 						else {
@@ -64,7 +76,7 @@ void CtrlPasteKey::KeyPress(TextEdit *textEdit) {
 				else {
 					SingleByteCharacter singleTemp(textEdit->copyBuffer[i]);
 					if (i < temp || temp == -1) {
-						if (textEdit->caret->characterIndex < row->GetLength()) {
+						if (textEdit->caret->GetCharacterIndex() < row->GetLength()) {
 							row->Insert(textEdit->caret->GetCharacterIndex(), singleTemp.Clone());
 						}
 						else {
@@ -76,7 +88,7 @@ void CtrlPasteKey::KeyPress(TextEdit *textEdit) {
 					}
 				}
 				if (i < temp || temp == -1) {
-					textEdit->caret->characterIndex++;
+					textEdit->caret->MoveForwardCharacterIndex();
 				}
 				i++;
 			}
@@ -86,7 +98,7 @@ void CtrlPasteKey::KeyPress(TextEdit *textEdit) {
 					textEdit->text->Add(row->Clone());
 				}
 				else {
-					textEdit->text->InsertRow(textEdit->caret->GetRowIndex() + 1, row->Clone());
+					textEdit->text->Insert(textEdit->caret->GetRowIndex() + 1, row->Clone());
 				}
 				textEdit->caret->MoveForwardRowIndex(1);
 			}
@@ -101,8 +113,8 @@ void CtrlPasteKey::KeyPress(TextEdit *textEdit) {
 				textEdit->text->GetAt(rowIndex_)->Remove(textEdit->caret->GetCharacterIndex());
 			}
 		}
-		if (temp != -1 || textEdit->caret->characterIndex == textEdit->text->GetAt(rowIndex_)->GetLength()) {
-			textEdit->caret->characterIndex = j;
+		if (temp != -1 || textEdit->caret->GetCharacterIndex() == textEdit->text->GetAt(rowIndex_)->GetLength()) {
+			textEdit->caret->SetCharacterIndex(j);
 		}
 	}
 }

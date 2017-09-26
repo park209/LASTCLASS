@@ -10,11 +10,11 @@ using namespace std;
 
 class Character : public TextComponent {
 public:
-	Character() {};
-	Character(const Character& source) {};
-	virtual ~Character() {};
+	Character();
+	Character(const Character& source);
+	virtual ~Character();
 
-	virtual TextComponent* Clone() const = 0;
+	//virtual TextComponent* Clone() const = 0;
 	virtual CString MakeCString() const = 0;
 };
 
