@@ -347,9 +347,6 @@
     <ClInclude Include="DoubleClickTextAreaProcess.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
-    <ClInclude Include="TextAreaSelectedProcess.h">
-      <Filter>TextEdit</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArrayIterator.cpp">
@@ -656,9 +653,6 @@
       <Filter>TextEdit</Filter>
     </ClCompile>
     <ClCompile Include="DoubleClickTextAreaProcess.cpp">
-      <Filter>TextEdit</Filter>
-    </ClCompile>
-    <ClCompile Include="TextAreaSelectedProcess.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
   </ItemGroup>
