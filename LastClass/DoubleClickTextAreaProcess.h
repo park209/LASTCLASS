@@ -16,4 +16,4 @@ public:
 	Long DoubleClickEndIndex(TextEdit *textEdit);
 };
 
-#endif _DOUBLECLICKTEXTAREAPROCESS_H
+#endif // _DOUBLECLICKTEXTAREAPROCESS_H

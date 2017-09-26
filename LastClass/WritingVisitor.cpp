@@ -8,8 +8,7 @@
 #include "Method.h"
 #include "Reception.h"
 #include "Template.h"
-
-#include "afxwin.h"
+#include <afxwin.h>
 
 WritingVisitor::WritingVisitor() {
 }
@@ -28,14 +27,14 @@ void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
 
-	memDC.CreateCompatibleDC(cPaintDc);
-	bitmap.CreateCompatibleBitmap(cPaintDc, textWidth + 5, text->GetLength() * fontHeight + 5);
-	pOldBitmap = memDC.SelectObject(&bitmap);
+	memDC.CreateCompatibleDC(cPaintDc); // memDC 호환되는걸 만듦
+	bitmap.CreateCompatibleBitmap(cPaintDc, textWidth + 5, text->GetLength() * fontHeight + 5); // 호환되는 비트맵 만듦
+	pOldBitmap = memDC.SelectObject(&bitmap); // memDC 에 bitmap 을 연결
 	memDC.FillSolidRect(CRect(0, 0, textWidth + 5, text->GetLength() * fontHeight + 5), RGB(255, 255, 255));
 	memDC.SelectObject(cFont);
 	RECT rt = { 0 , 0, textWidth + 5, text->GetLength() * fontHeight + 5 };
-	memDC.DrawText((CString)text->MakeText().c_str(), &rt, DT_EXPANDTABS | 0x0800 | DT_NOCLIP);
-	cPaintDc->BitBlt(5, 5, textWidth + 5, text->GetLength() * fontHeight + 5, &memDC, 0, 0, SRCCOPY);
+	memDC.DrawText((CString)text->MakeText().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
+	cPaintDc->BitBlt(5, 5, textWidth + 5, text->GetLength() * fontHeight + 5, &memDC, 0, 0, SRCCOPY); // bitblt memDC 에 있는걸 dc로 뿌려준다
 
 	memDC.SelectObject(pOldBitmap);
 	bitmap.DeleteObject();
@@ -45,30 +44,30 @@ void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 }
 void WritingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { //접힌부분아래로 적히게
 	RECT rt = { memoBox->GetX() + 5 , memoBox->GetY() + 25, memoBox->GetX() + 5 + memoBox->GetWidth(), memoBox->GetY() + 5 + memoBox->GetHeight() };
-	cPaintDc->DrawText((CString)memoBox->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+	cPaintDc->DrawText((CString)memoBox->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 }
 void WritingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 }
 void WritingVisitor::Visit(Template *object, CDC *cPaintDc) {
 	RECT rt = { object->GetX() + 5 , object->GetY() + 5, object->GetX() + 5 + object->GetWidth(), object->GetY() + 5 + object->GetHeight() };
-	cPaintDc->DrawText((CString)object->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+	cPaintDc->DrawText((CString)object->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 
 }
 void WritingVisitor::Visit(ClassName* className, CDC* cPaintDc) {
 	RECT rt = { className->GetX() + 5 , className->GetY() + 5, className->GetX() + 5 + className->GetWidth(), className->GetY() + 5 + className->GetHeight() };
-	cPaintDc->DrawText((CString)className->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+	cPaintDc->DrawText((CString)className->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 }
 void WritingVisitor::Visit(Attribute* attribute, CDC* cPaintDc) {
 	RECT rt = { attribute->GetX() + 5 , attribute->GetY() + 5, attribute->GetX() + 5 + attribute->GetWidth(), attribute->GetY() + 5 + attribute->GetHeight() };
-	cPaintDc->DrawText((CString)attribute->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+	cPaintDc->DrawText((CString)attribute->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 }
 void WritingVisitor::Visit(Method* method, CDC* cPaintDc) {
 	RECT rt = { method->GetX() + 5 , method->GetY() + 5, method->GetX() + 5 + method->GetWidth(), method->GetY() + 5 + method->GetHeight() };
-	cPaintDc->DrawText((CString)method->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+	cPaintDc->DrawText((CString)method->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 }
 void WritingVisitor::Visit(Reception* reception, CDC* cPaintDc) {
 	RECT rt = { reception->GetX() + 5 , reception->GetY() + 5, reception->GetX() + 5 + reception->GetWidth(), reception->GetY() + 5 + reception->GetHeight() };
-	cPaintDc->DrawText((CString)reception->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+	cPaintDc->DrawText((CString)reception->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 }
 void WritingVisitor::Visit(Line *line, CDC* cPaintDc) {
 }

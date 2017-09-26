@@ -19,11 +19,9 @@ public:
 	Text* PopUndoText();
 	Caret* PopUndoCaret();
 
-
 	void PushRedo(Text *text, Caret *caret);
 	Text* PopRedoText();
 	Caret* PopRedoCaret();
-
 
 	Text* GetUndoArray() const;
 	Text* GetRedoArray() const;

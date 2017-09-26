@@ -16,10 +16,10 @@ public:
 
 	void MoveToIndex(TextEdit *textEdit, CPaintDC *cPaintDc);
 	void MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point);
-	void MoveForwardRowIndex(Long index=1);
+	void MoveForwardRowIndex(Long index = 1);
 	void MoveBackwardRowIndex(Long index = 1);
-	void MoveForwardCharacterIndex(Long index=1);
-	void MoveBackwardCharacterIndex(Long index=1);
+	void MoveForwardCharacterIndex(Long index = 1);
+	void MoveBackwardCharacterIndex(Long index = 1);
 
 	void SetCharacterIndex(Long index);
 	void SetRowIndex(Long index);
@@ -30,10 +30,8 @@ public:
 	Long GetCharacterIndex() const;
 
 	Caret& operator = (const Caret& source);
-
-public:
-	Long characterIndex;
 private:
+	Long characterIndex;
 	Long rowIndex;
 	Long currentCaretX;
 	Long currentCaretY;

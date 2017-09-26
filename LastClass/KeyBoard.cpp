@@ -48,6 +48,10 @@ KeyBoard& KeyBoard::operator = (const KeyBoard& source) {
 }
 
 KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT nFlags) {
+	if (this->keyAction != 0) {
+		delete this->keyAction;
+		this->keyAction = 0;
+	}
 	switch (nChar) {
 	case VK_DELETE:
 		this->keyAction = new DeleteKey;
@@ -104,10 +108,14 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		}
 		break;
 	case 67:
-		this->keyAction = new CtrlCopyKey;
+		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlCopyKey;
+		}
 		break;
 	case 0x41:
-		this->keyAction = new CtrlAllKey;
+		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlAllKey;
+		}
 		break;
 	case 0x56:
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
@@ -115,16 +123,21 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		}
 		break;
 	case 88:
-		this->keyAction = new CtrlCutKey;
+		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlCutKey;
+		}
 		break;
 	case 90:
-		this->keyAction = new CtrlUndoTextKey;
+		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlUndoTextKey;
+		}
 		break;
 	case 89:
-		this->keyAction = new CtrlRedoTextKey;
+		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlRedoTextKey;
+		}
 		break;
 	default:
-		this->keyAction = 0;
 		break;
 	}
 	return this->keyAction;

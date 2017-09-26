@@ -10,10 +10,8 @@
 
 TextAreaSelected::TextAreaSelected() {
 }
-
 TextAreaSelected::TextAreaSelected(const TextAreaSelected& source) {
 }
-
 TextAreaSelected::~TextAreaSelected() {
 }
 

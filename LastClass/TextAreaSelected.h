@@ -42,4 +42,4 @@ inline Long TextAreaSelected::GetEndRowIndex() const {
 }
 
 
-#endif _TEXTAREASELECTED_H
+#endif // _TEXTAREASELECTED_H

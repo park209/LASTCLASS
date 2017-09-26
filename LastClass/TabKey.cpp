@@ -7,6 +7,7 @@
 #include "Caret.h"
 #include "SingleByteCharacter.h"
 #include "HistoryText.h"
+#include "DeleteTextArea.h"
 
 TabKey::TabKey() {
 }
@@ -18,6 +19,14 @@ TabKey::~TabKey() {
 }
 
 void TabKey::KeyPress(TextEdit *textEdit) {
+	if (textEdit->flagSelection == 1) {
+		DeleteTextArea *deleteArea = new DeleteTextArea();
+		deleteArea->DeleteArea(textEdit);
+		if (deleteArea != 0) {
+			delete deleteArea;
+		}
+	}
+
 	SingleByteCharacter tab('\t');
 	if (textEdit->caret->GetCharacterIndex() == textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength()) {
 		textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Add(tab.Clone());

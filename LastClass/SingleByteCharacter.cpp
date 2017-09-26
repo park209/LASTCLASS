@@ -19,9 +19,7 @@ CString SingleByteCharacter::MakeCString() const {
 	tempChar[1] = '\0';
 
 	CString cs(tempChar);
-	if (cs == "\t") {
-		cs = "        ";
-	}
+	
 	return cs;
 }
 Character* SingleByteCharacter::Clone() const {

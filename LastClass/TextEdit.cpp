@@ -1,7 +1,5 @@
 //TextEdit.cpp
 
-#pragma comment(lib,"imm32")
-
 #include "TextEdit.h"
 #include "ClassDiagramForm.h"
 #include "Text.h"

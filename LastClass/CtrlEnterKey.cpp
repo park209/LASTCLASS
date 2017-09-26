@@ -7,6 +7,7 @@
 #include "Caret.h"
 #include "Character.h"
 #include "HistoryText.h"
+#include "DeleteTextArea.h"
 
 CtrlEnterKey::CtrlEnterKey() {
 }
@@ -16,8 +17,14 @@ CtrlEnterKey::~CtrlEnterKey() {
 }
 
 void CtrlEnterKey::KeyPress(TextEdit *textEdit) {
+	if (textEdit->flagSelection == 1) {
+		DeleteTextArea *deleteArea = new DeleteTextArea();
+		deleteArea->DeleteArea(textEdit);
+		if (deleteArea != 0) {
+			delete deleteArea;
+		}
+	}
 	Row row;
-	//if (!GetKeyState(VK_RETURN)) {
 	if (textEdit->caret->GetCharacterIndex() == 0) {
 		textEdit->text->Insert(textEdit->caret->GetRowIndex(), row.Clone());
 		textEdit->caret->MoveForwardRowIndex();

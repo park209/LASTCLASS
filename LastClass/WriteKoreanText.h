@@ -17,4 +17,4 @@ public:
 	void WriteHanguel(WPARAM wParam, LPARAM lParam, HIMC hIMC, TextEdit *textEdit);
 };
 
-#endif _WRITEKOREANTEXT_H
+#endif // _WRITEKOREANTEXT_H
