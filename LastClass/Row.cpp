@@ -102,7 +102,7 @@ Long Row::GetRowWidth(Long index, CDC* cPaintDc) {
 		if (str.GetAt(0) & 0x80) { // 2바이트문자면 2칸
 			column += 2;
 		}
-		else if (str == "        ") { // 탭문자면 이전문자의 칸을 셈
+		else if (str == "\t") { // 탭문자면 이전문자의 칸을 셈
 			tabWidth = (column + 8) / 8 * 8 - column;
 			column += tabWidth;
 			j = 0;
