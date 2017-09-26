@@ -13,4 +13,4 @@ public:
 	void FindDoubleClickAreaIndex(TextEdit *textEdit);
 };
 
-#endif _DOUBLECLICKTEXTAREA_H
+#endif //_DOUBLECLICKTEXTAREA_H

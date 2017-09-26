@@ -53,7 +53,7 @@ void WriteKoreanTextProcess::StartComposition(TextEdit *textEdit, Long bufferLen
 	textEdit->flagBuffer = 1;
 }
 
-void WriteKoreanTextProcess::DuringComposition(TextEdit *textEdit, Long bufferLength, char (*buffer)) {
+void WriteKoreanTextProcess::DuringComposition(TextEdit *textEdit, Long bufferLength, char(*buffer)) {
 	Long i = 0;
 	if (bufferLength > 0) {
 		char(*tempChar) = new char[bufferLength];

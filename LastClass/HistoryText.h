@@ -42,4 +42,4 @@ inline Text* HistoryText::GetRedoArray() const {
 	// 필요하면 배열 전체 나중에
 }
 
-#endif // _HISTORYTEXT_H
+#endif //_HISTORYTEXT_H

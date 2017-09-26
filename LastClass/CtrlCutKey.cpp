@@ -17,7 +17,7 @@ CtrlCutKey::~CtrlCutKey() {
 }
 
 void CtrlCutKey::KeyPress(TextEdit *textEdit) {
-	if (GetKeyState(VK_CONTROL) < 0 && textEdit->flagSelection == 1) {
+	if (textEdit->flagSelection == 1) {
 		OpenClipboard(NULL);
 		EmptyClipboard();
 		size_t cbstr = (textEdit->copyBuffer.GetLength() + 1) * sizeof(TCHAR);

@@ -7,23 +7,21 @@
 #include "Character.h"
 
 Caret::Caret() {
-	rowIndex = 0;
 	characterIndex = 0;
+	rowIndex = 0;
 	currentCaretX = 0;
 	currentCaretY = 0;
 }
 
 Caret::Caret(const Caret& source) {
-	rowIndex = source.rowIndex;
 	characterIndex = source.characterIndex;
+	rowIndex = source.rowIndex;
 	currentCaretX = source.currentCaretX;
 	currentCaretY = source.currentCaretY;
 }
 
 Caret::~Caret() {
-
 }
-
 
 void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
 	Long pointX = 5;                                          //°¡·Î
@@ -68,8 +66,8 @@ void Caret::MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point) {
 	Long x = point.x;
 	Long y = point.y;
 	CString str;
-	this->rowIndex = 0;
 	this->characterIndex = 0;
+	this->rowIndex = 0;
 
 	Long height = 5;
 	while (y > 5 && height <= y && this->rowIndex < textEdit->text->GetLength()) {
@@ -114,8 +112,8 @@ void Caret::SetRowIndex(Long index) {
 }
 
 Caret& Caret::operator = (const Caret& source) {
-	rowIndex = source.rowIndex;
 	characterIndex = source.characterIndex;
+	rowIndex = source.rowIndex;
 	currentCaretX = source.currentCaretX;
 	currentCaretY = source.currentCaretY;
 
