@@ -1,22 +1,22 @@
 //SingleByteCharacter.h
+
 #ifndef _SINGLEBYTECHARACTER_H
 #define _SINGLEBYTECHARACTER_H
 
 #include "Character.h"
-#include <afxwin.h>
 
 class SingleByteCharacter : public Character {
 public:
 	SingleByteCharacter();
 	SingleByteCharacter(char character);
 	SingleByteCharacter(const SingleByteCharacter& source);
-	~SingleByteCharacter();
+	virtual ~SingleByteCharacter();
 
-	CString MakeCString() const;
+	virtual CString MakeCString() const;
 
 	virtual Character* Clone() const;
 
-	SingleByteCharacter& operator=(const SingleByteCharacter& sourcce);
+	SingleByteCharacter& operator = (const SingleByteCharacter& source);
 
 	char GetCharacter() const;
 private:

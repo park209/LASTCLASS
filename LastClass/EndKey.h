@@ -15,4 +15,4 @@ public:
 	void KeyPress(TextEdit *textEdit);
 };
 
-#endif // _ENDKEY_He
+#endif // _ENDKEY_H

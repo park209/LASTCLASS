@@ -90,14 +90,35 @@ string Row::PrintRowString() {
 	return tempString;
 }
 
-string Row::ReplaceTabString(string &str, const string& from, const string& to) {
-	size_t index = 0; //string처음부터 검사
-	while ((index = str.find(from, index)) != string::npos)  //from을 찾을 수 없을 때까지
-	{
-		str.replace(index, from.length(), to);
-		index += to.length(); // 중복검사를 피하고 from.length() > to.length()인 경우를 위해서
+Long Row::GetRowWidth(Long index, CDC* cPaintDc) {
+	CString str;
+	Long x = 0;
+	Long column = 0;
+	Long tabWidth = 0;
+	Long i = 0;
+	Long j = 0;
+	while (i < index) {
+		str = this->GetAt(i)->MakeCString();
+		if (str.GetAt(0) & 0x80) { // 2바이트문자면 2칸
+			column += 2;
+		}
+		else if (str == "\t") { // 탭문자면 이전문자의 칸을 셈
+			tabWidth = (column + 8) / 8 * 8 - column;
+			column += tabWidth;
+			j = 0;
+			str = "";
+			while (j < tabWidth) { //구한 칸만큼 탭문자의 크기를 정함
+				str += " ";
+				j++;
+			}
+		}
+		else { // 1바이트문자면 1칸
+			column += 1;
+		}
+		x += cPaintDc->GetTextExtent(str).cx;
+		i++;
 	}
-	return str;
+	return x;
 }
 
 Character* Row::GetAt(Long index) {

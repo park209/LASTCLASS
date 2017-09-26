@@ -44,10 +44,14 @@
     <ClInclude Include="CtrlUndoTextKey.h" />
     <ClInclude Include="DefaultState.h" />
     <ClInclude Include="DeleteKey.h" />
+    <ClInclude Include="DeleteTextArea.h" />
+    <ClInclude Include="DeleteTextAreaSelected.h" />
     <ClInclude Include="Dependency.h" />
     <ClInclude Include="Diagram.h" />
     <ClInclude Include="DirectedAssociation.h" />
     <ClInclude Include="DoubleByteCharacter.h" />
+    <ClInclude Include="DoubleClickTextArea.h" />
+    <ClInclude Include="DoubleClickTextAreaProcess.h" />
     <ClInclude Include="DownArrowKey.h" />
     <ClInclude Include="DrawingAggregation.h" />
     <ClInclude Include="DrawingAggregations.h" />
@@ -119,6 +123,8 @@
     <ClInclude Include="TextEdit.h" />
     <ClInclude Include="UpArrowKey.h" />
     <ClInclude Include="Visitor.h" />
+    <ClInclude Include="WriteKoreanText.h" />
+    <ClInclude Include="WriteKoreanTextProcess.h" />
     <ClInclude Include="WritingVisitor.h" />
   </ItemGroup>
   <ItemGroup>
@@ -145,10 +151,14 @@
     <ClCompile Include="CtrlUndoTextKey.cpp" />
     <ClCompile Include="DefaultState.cpp" />
     <ClCompile Include="DeleteKey.cpp" />
+    <ClCompile Include="DeleteTextArea.cpp" />
+    <ClCompile Include="DeleteTextAreaSelected.cpp" />
     <ClCompile Include="Dependency.cpp" />
     <ClCompile Include="Diagram.cpp" />
     <ClCompile Include="DirectedAssociation.cpp" />
     <ClCompile Include="DoubleByteCharacter.cpp" />
+    <ClCompile Include="DoubleClickTextArea.cpp" />
+    <ClCompile Include="DoubleClickTextAreaProcess.cpp" />
     <ClCompile Include="DownArrowKey.cpp" />
     <ClCompile Include="DrawingAggregation.cpp" />
     <ClCompile Include="DrawingAggregations.cpp" />
@@ -217,6 +227,8 @@
     <ClCompile Include="TextEdit.cpp" />
     <ClCompile Include="UpArrowKey.cpp" />
     <ClCompile Include="Visitor.cpp" />
+    <ClCompile Include="WriteKoreanText.cpp" />
+    <ClCompile Include="WriteKoreanTextProcess.cpp" />
     <ClCompile Include="WritingVisitor.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

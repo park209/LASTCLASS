@@ -5,7 +5,6 @@
 
 #include <afxwin.h>
 #include <imm.h>
-#include <string>
 
 typedef signed long int Long;
 
@@ -28,13 +27,13 @@ protected:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonDoubleClicked(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg LRESULT OnIMENotify(WPARAM wParam, LPARAM lParam);
-	afx_msg void OnClose();
 	DECLARE_MESSAGE_MAP()
 public:
+	afx_msg void OnClose();
 	Long GetFlagInsert() const;
 	Long GetSelectedX() const;
 	Long GetSelectedY() const;
@@ -50,16 +49,16 @@ public:
 	KeyBoard *keyBoard;
 	HistoryText *historyText;
 	TextAreaSelected *textAreaSelected;
+	Figure *figure;
 	Long flagInsert; //flag
 	Long flagSelection;
 	Long rowHeight; //figure에서 저장을 해줘야 하기때문에 삭제가능
 	Long selectedX; //보류
 	Long selectedY; //보류
 	CString copyBuffer;
-private:
-	Figure *figure;
-	Long koreanEnglish; //flag
 	Long flagBuffer; //flag
+private:
+	Long koreanEnglish; //flag
 	Long currentX;
 };
 

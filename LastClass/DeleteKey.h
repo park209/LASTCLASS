@@ -13,7 +13,6 @@ public:
 	virtual ~DeleteKey();
 
 	void KeyPress(TextEdit *textEdit);
-	//DeleteKey& operator = (const DeleteKey& source);
 };
 
 #endif // _DELETEKEY_H

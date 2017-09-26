@@ -30,10 +30,8 @@ public:
 	Long GetCharacterIndex() const;
 
 	Caret& operator = (const Caret& source);
-
-public:
-	Long characterIndex;
 private:
+	Long characterIndex;
 	Long rowIndex;
 	Long currentCaretX;
 	Long currentCaretY;

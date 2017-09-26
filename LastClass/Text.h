@@ -16,31 +16,27 @@ class TextComponent;
 class Visitor;
 class Text : public TextComposite {
 public:
-	Text(Long capacity = 128);
+	Text(Long capacity = 64);
 	Text(const Text& source);
 	virtual ~Text();
 
 	Long Add(Row *row);
-	Long Add(TextComponent *textComponent);
-	Long Remove(Long index);
-	Long Insert(Long index);
+	virtual Long Add(TextComponent *textComponent);
+	virtual Long Remove(Long index);
 
 	string MakeText();
 
-	Long InsertRow(Long index);
-	Long InsertRow(Long index, TextComponent *textComponent);
+	virtual Long Insert(Long index, TextComponent *textComponent);
 	void SprayString(string str);
-	Long MaxWidth();
+	Long MaxWidth(CDC* cPaintDc);
 	Row* GetAt(Long index);
 	
-	TextComponent* Clone() const;
+	virtual TextComponent* Clone() const;
 	void Accept(Visitor& visitor, CDC* cPaintDc);
 
 	Text& operator = (const Text& source);
 	Row* operator [] (Long index);
 
-	Long GetCapacity() const;
-	Long GetLength() const;
 	Long GetWidth() const;
 	Long GetHeight() const;
 private:
@@ -48,12 +44,6 @@ private:
 	Long height;
 };
 
-inline Long Text::GetCapacity() const {
-	return this->capacity;
-}
-inline Long Text::GetLength() const {
-	return this->length;
-}
 inline Long Text::GetWidth() const {
 	return this->width;
 }
