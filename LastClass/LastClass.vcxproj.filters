@@ -343,10 +343,10 @@
     <ClInclude Include="Visitor.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="TextAreaSelectedProcess.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="FontSet.h" />
+    <ClInclude Include="TextAreaSelectedProcess.h">
+      <Filter>TextEdit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -651,9 +651,9 @@
     <ClCompile Include="Visitor.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="TextAreaSelectedProcess.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
     <ClCompile Include="FontSet.cpp" />
+    <ClCompile Include="TextAreaSelectedProcess.cpp">
+      <Filter>TextEdit</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

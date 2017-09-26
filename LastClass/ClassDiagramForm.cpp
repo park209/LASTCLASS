@@ -41,8 +41,8 @@
 #include <math.h>
 #include <iostream>
 #include <fstream>
-using namespace std;
 
+using namespace std;
 
 BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
 	ON_WM_CREATE()
@@ -416,7 +416,7 @@ void ClassDiagramForm::OnPaint() {
 	this->diagram->Accept(drawingVisitor, &dc);
 
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+	cFont.CreateFont(24, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
@@ -533,7 +533,6 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->currentY = point.y;
 
 	//this->selection->DeleteAllItems();
-
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {
 
@@ -575,24 +574,24 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		//figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 	}
-/*
+	/*
 	Figure *figure = 0;
 	if (this->startX != this->currentX || this->startY != this->currentY) {
-		figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-		if (dynamic_cast<ClassButton*>(this->drawingController->buttonState)) {
-			SmartPointer<Figure*> iterator = static_cast<Class*>(figure)->CreateIterator();
-			for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
-				if (dynamic_cast<ClassName*>(iterator->Current())) {
-					this->textEdit = new TextEdit(iterator->Current());
-					this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-						iterator->Current()->GetX(),
-						iterator->Current()->GetY(),
-						iterator->Current()->GetX() + iterator->Current()->GetWidth(),
-						iterator->Current()->GetY() + iterator->Current()->GetHeight()), this, 10000, NULL);
-					OnKillFocus(NULL);
-				}
-			}
-		}
+	figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
+	if (dynamic_cast<ClassButton*>(this->drawingController->buttonState)) {
+	SmartPointer<Figure*> iterator = static_cast<Class*>(figure)->CreateIterator();
+	for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
+	if (dynamic_cast<ClassName*>(iterator->Current())) {
+	this->textEdit = new TextEdit(iterator->Current());
+	this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+	iterator->Current()->GetX(),
+	iterator->Current()->GetY(),
+	iterator->Current()->GetX() + iterator->Current()->GetWidth(),
+	iterator->Current()->GetY() + iterator->Current()->GetHeight()), this, 10000, NULL);
+	OnKillFocus(NULL);
+	}
+	}
+	}
 	}*/
 
 	this->startX = 0;
@@ -609,7 +608,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	if (nFlags == MK_LBUTTON) {
 		this->currentX = point.x;
 		this->currentY = point.y;
-		
+
 		Invalidate();
 	}
 	if (selection->SelectByPoint(point.x, point.y)) {
@@ -632,6 +631,9 @@ void ClassDiagramForm::OnClose() {
 	}
 	if (this->mouseLButton != NULL) {
 		delete this->mouseLButton;
+	}
+	if (this->textEdit != NULL) {
+		delete this->textEdit;
 	}
 
 	//6.3. 윈도우를 닫는다.

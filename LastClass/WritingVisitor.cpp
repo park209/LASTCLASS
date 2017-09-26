@@ -32,15 +32,17 @@ void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 	pOldBitmap = memDC.SelectObject(&bitmap); // memDC 에 bitmap 을 연결
 	memDC.FillSolidRect(CRect(0, 0, textWidth + 5, text->GetLength() * fontHeight + 5), RGB(255, 255, 255));
 	memDC.SelectObject(cFont);
+
 	RECT rt = { 0 , 0, textWidth + 5, text->GetLength() * fontHeight + 5 };
 	memDC.DrawText((CString)text->MakeText().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
-	cPaintDc->BitBlt(5, 5, textWidth + 5, text->GetLength() * fontHeight + 5, &memDC, 0, 0, SRCCOPY); // bitblt memDC 에 있는걸 dc로 뿌려준다
+
+	cPaintDc->BitBlt(5, 5, textWidth, text->GetLength() * fontHeight, &memDC, 0, 0, SRCCOPY); // bitblt memDC 에 있는걸 dc로 뿌려준다
 
 	memDC.SelectObject(pOldBitmap);
 	bitmap.DeleteObject();
-	memDC.SelectObject(cFont);
-	cFont->DeleteObject();
 	memDC.DeleteDC();
+	//memDC.SelectObject(cFont);
+	//cFont->DeleteObject();
 }
 void WritingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { //접힌부분아래로 적히게
 	RECT rt = { memoBox->GetX() + 5 , memoBox->GetY() + 25, memoBox->GetX() + 5 + memoBox->GetWidth(), memoBox->GetY() + 5 + memoBox->GetHeight() };
@@ -55,7 +57,7 @@ void WritingVisitor::Visit(Template *object, CDC *cPaintDc) {
 }
 void WritingVisitor::Visit(ClassName* className, CDC* cPaintDc) {
 	RECT rt = { className->GetX() + 5 , className->GetY() + 5, className->GetX() + 5 + className->GetWidth(), className->GetY() + 5 + className->GetHeight() };
-	cPaintDc->DrawText((CString)className->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
+	cPaintDc->DrawText((CString)className->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP | DT_CENTER);
 }
 void WritingVisitor::Visit(Attribute* attribute, CDC* cPaintDc) {
 	RECT rt = { attribute->GetX() + 5 , attribute->GetY() + 5, attribute->GetX() + 5 + attribute->GetWidth(), attribute->GetY() + 5 + attribute->GetHeight() };

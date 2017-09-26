@@ -78,7 +78,6 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 void TextEdit::OnPaint() {
 	CPaintDC dc(this);
-
 	WritingVisitor writingVisitor;
 
 	CFont cFont;
@@ -87,16 +86,13 @@ void TextEdit::OnPaint() {
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 
-	dc.FillSolidRect(CRect(5, 5, figure->GetWidth() - 6, figure->GetHeight() - 5), RGB(255, 255, 255));
+	if (this->flagSelection == 0) {
+		dc.FillSolidRect(CRect(5, 5, figure->GetWidth() - 5, figure->GetHeight() - 5), RGB(255, 255, 255));
 
-	this->text->Accept(writingVisitor, &dc);//받았던거 출력
-	this->caret->MoveToIndex(this, &dc);
-
-	dc.SetTextColor(RGB(255, 255, 255));
-	dc.SetBkColor(RGB(51, 153, 255));
-	dc.SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
-
-	if (this->flagSelection == 1) { // flagSelection이 눌려있으면
+		this->text->Accept(writingVisitor, &dc);//받았던거 출력
+		this->caret->MoveToIndex(this, &dc);
+	}
+	else if (this->flagSelection == 1) { // flagSelection이 눌려있으면
 		this->textAreaSelected->SelectTextArea(this, &dc);
 	}
 
@@ -201,6 +197,7 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 
 	CWnd::HideCaret();
 	::DestroyCaret();
+
 	KillTimer(1);
 	Invalidate();
 }
@@ -223,8 +220,11 @@ void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 }
 
 void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
-	if (nFlags == MK_LBUTTON) {
+	//bool ret = IsOntheText(this, point);
+	//SetCursor(LoadCursor(NULL, IDC_IBEAM));
 
+	if (nFlags == MK_LBUTTON) {
+		SetCursor(LoadCursor(NULL, IDC_IBEAM));
 		CFont cFont;
 		CPaintDC dc(this);
 		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
@@ -251,10 +251,10 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 void TextEdit::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
 
-	DoubleClickTextArea *testDoubleClick = new DoubleClickTextArea();
-	testDoubleClick->FindDoubleClickAreaIndex(this);
-	if (testDoubleClick != 0) {
-		delete testDoubleClick;
+	DoubleClickTextArea *DoubleClick = new DoubleClickTextArea();
+	DoubleClick->FindDoubleClickAreaIndex(this);
+	if (DoubleClick != 0) {
+		delete DoubleClick;
 	}
 	
 	::DestroyCaret();
@@ -311,6 +311,9 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 	if (this->historyText != NULL) {
 		delete this->historyText;
 	}
+	if (this->textAreaSelected != NULL) {
+		delete this->textAreaSelected;
+	}
 	if (this != NULL) {
 		delete this;
 	}
@@ -334,6 +337,9 @@ void TextEdit::OnClose() {
 	}
 	if (this->historyText != NULL) {
 		delete this->historyText;
+	}
+	if (this->textAreaSelected != NULL) {
+		delete this->textAreaSelected;
 	}
 	if (this != NULL) {
 		delete this;
