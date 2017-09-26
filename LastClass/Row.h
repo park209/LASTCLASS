@@ -27,7 +27,7 @@ public:
 	virtual Long Remove(Long index);
 	virtual Long Insert(Long index, TextComponent *textComponent);
 	string PrintRowString();
-	Long GetRowWidth(CDC* cPaintDc, Long to ,Long from = 0);
+	Long GetRowWidth(Long index, CDC* cPaintDc);
 	Character* GetAt(Long index);
 
 	virtual TextComponent* Clone() const;

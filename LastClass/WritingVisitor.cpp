@@ -34,8 +34,6 @@ void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 	memDC.FillSolidRect(CRect(0, 0, textWidth + 5, text->GetLength() * fontHeight + 5), RGB(255, 255, 255));//흰색의 사각형을 준비
 	memDC.SelectObject(cFont);																				//MemoryDC에 폰트를 연결
 	RECT rt = { 0 , 0, textWidth + 5, text->GetLength() * fontHeight + 5 };									//사각형의 크기
-
-
 	memDC.DrawText((CString)text->MakeText().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);						//MemoryDC에 적어둔다
 	cPaintDc->BitBlt(5, 5, textWidth + 5, text->GetLength() * fontHeight + 5, &memDC, 0, 0, SRCCOPY);		//화면에 적어둔 MemoryDC를 출력한다
 

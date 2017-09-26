@@ -90,14 +90,14 @@ string Row::PrintRowString() {
 	return tempString;
 }
 
-Long Row::GetRowWidth(CDC* cPaintDc, Long to, Long from) {
+Long Row::GetRowWidth(Long index, CDC* cPaintDc) {
 	CString str;
 	Long x = 0;
 	Long column = 0;
 	Long tabWidth = 0;
-	Long i = from;
+	Long i = 0;
 	Long j = 0;
-	while (i < to) {
+	while (i < index) {
 		str = this->GetAt(i)->MakeCString();
 		if (str.GetAt(0) & 0x80) { // 2바이트문자면 2칸
 			column += 2;
