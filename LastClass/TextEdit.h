@@ -14,6 +14,7 @@ class Caret;
 class KeyBoard;
 class HistoryText;
 class TextAreaSelected;
+class CFontSet;
 class TextEdit : public CWnd { // CWnd 상속으로 바꿔야함
 public:
 	TextEdit(Figure *figure);

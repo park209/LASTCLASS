@@ -27,8 +27,8 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 	CString str;
 
 	CFont cFont;
-	cFont.CreateFont(textEdit->GetRowHeight(), 0, 0, 0, FW_LIGHT, FALSE, FALSE, 0, DEFAULT_CHARSET,// ±Û²Ã ¼³Á¤
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "µ¸¿òÃ¼");
+	cFont.CreateFont(textEdit->GetRowHeight(), 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// ±Û²Ã ¼³Á¤
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "¸¼Àº °íµñ");
 	textEdit->SetFont(&cFont, TRUE);
 	CFont *oldFont = dc->SelectObject(&cFont);
 

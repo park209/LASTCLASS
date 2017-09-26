@@ -14,7 +14,7 @@ public:
 	Character(const Character& source);
 	virtual ~Character();
 
-	//virtual TextComponent* Clone() const = 0;
+	virtual Character* Clone() const = 0;
 	virtual CString MakeCString() const = 0;
 };
 

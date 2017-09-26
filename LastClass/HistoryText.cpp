@@ -19,6 +19,10 @@ HistoryText::HistoryText(const HistoryText& source) {
 }
 
 HistoryText::~HistoryText() {
+	delete[] this->undoTextArray;
+	delete[] this->redoTextArray;
+	delete[] this->undoCaretArray;
+	delete[] this->redoCaretArray;
 }
 
 void HistoryText::PushUndo(Text *text, Caret *caret) {
