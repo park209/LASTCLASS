@@ -532,7 +532,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 
-	this->selection->DeleteAllItems();
+	//this->selection->DeleteAllItems();
 
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {

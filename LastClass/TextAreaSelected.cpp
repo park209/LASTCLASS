@@ -31,20 +31,21 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "돋움체");
 	textEdit->SetFont(&cFont, TRUE);
 	CFont *oldFont = dc->SelectObject(&cFont);
-	CDC memDC;
-	CBitmap *pOldBitmap;
-	CBitmap bitmap;
 
-	memDC.CreateCompatibleDC(dc);
-	bitmap.CreateCompatibleBitmap(dc, textEdit->GetFigure()->GetWidth(), textEdit->GetFigure()->GetHeight());
-	pOldBitmap = memDC.SelectObject(&bitmap);
+	//CDC memDC;
+	//CBitmap *pOldBitmap;
+	//CBitmap bitmap;
 
-	memDC.FillSolidRect(CRect(0, 0, textEdit->GetFigure()->GetWidth(), textEdit->GetFigure()->GetHeight()), RGB(255, 255, 255));
-	memDC.SelectObject(cFont);
+	//memDC.CreateCompatibleDC(dc);
+	//bitmap.CreateCompatibleBitmap(dc, textEdit->GetFigure()->GetWidth(), textEdit->GetFigure()->GetHeight());
+	//pOldBitmap = memDC.SelectObject(&bitmap);
 
-	memDC.SetTextColor(RGB(255, 255, 255));
-	memDC.SetBkColor(RGB(51, 153, 255));
-	memDC.SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
+	//memDC.FillSolidRect(CRect(0, 0, textEdit->GetFigure()->GetWidth(), textEdit->GetFigure()->GetHeight()), RGB(255, 255, 255));
+	//memDC.SelectObject(cFont);
+
+	//memDC.SetTextColor(RGB(255, 255, 255));
+	//memDC.SetBkColor(RGB(51, 153, 255));
+	//memDC.SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
 
 
 	CString cString1;
@@ -82,9 +83,11 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 			x += dc->GetTextExtent(str).cx;
 			i++;
 		}
-		rect = { 0, 0, x + width, startRowIndex * textEdit->rowHeight + textEdit->rowHeight +5 };
-		memDC.DrawText(cString1, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
-		dc->BitBlt(x, startRowIndex * textEdit->rowHeight+5, x + width-32, startRowIndex * textEdit->rowHeight + textEdit->rowHeight+5, &memDC, 0, 0, SRCCOPY);
+		rect = { x, startRowIndex * textEdit->rowHeight + 5, x + width, startRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };		 
+		dc->DrawText(cString1, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+		//rect = { 0, 0, x + width, startRowIndex * textEdit->rowHeight + textEdit->rowHeight +5 };
+		//memDC.DrawText(cString1, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+		//dc->BitBlt(x, startRowIndex * textEdit->rowHeight+5, x + width-32, startRowIndex * textEdit->rowHeight + textEdit->rowHeight+5, &memDC, 0, 0, SRCCOPY);
 
 		textEdit->copyBuffer = cString1;
 	}
@@ -123,9 +126,11 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 			x += dc->GetTextExtent(str).cx;
 			i++;
 		}
-		rect = { 0, 0, x + width, this->startRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
-		memDC.DrawText(cString1, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
-		dc->BitBlt(x, this->startRowIndex * textEdit->rowHeight + 5, x + width, this->startRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5, &memDC, 0, 0, SRCCOPY);
+		rect = { x, this->startRowIndex * textEdit->rowHeight + 5, x + width, this->startRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };		
+		dc->DrawText(cString1, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+		//rect = { 0, 0, x + width, this->startRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
+		//memDC.DrawText(cString1, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+		//dc->BitBlt(x, this->startRowIndex * textEdit->rowHeight + 5, x + width, this->startRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5, &memDC, 0, 0, SRCCOPY);
 
 		string string2; // 중간
 		if (this->startRowIndex + 1 < this->endRowIndex) {
@@ -136,13 +141,15 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 				i++;
 			}
 			x = 5;
-			rect = { 0, 0, textEdit->GetFigure()->GetX()+ textEdit->GetFigure()->GetWidth(),
-				(this->endRowIndex - 1) * textEdit->rowHeight + textEdit->rowHeight + 5 };
-			memDC.DrawText(string2.c_str(), rect, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
-			dc->BitBlt(x, (this->startRowIndex + 1) * textEdit->rowHeight + 5, textEdit->GetFigure()->GetX() + textEdit->GetFigure()->GetWidth(),
-				(this->endRowIndex - 1) * textEdit->rowHeight + textEdit->rowHeight + 5, &memDC, 0, 0, SRCCOPY);
+			rect = { x, (this->startRowIndex + 1) * textEdit->rowHeight + 5, textEdit->GetFigure()->GetX() + textEdit->GetFigure()->GetWidth(),		 
+			(this->endRowIndex - 1) * textEdit->rowHeight + textEdit->rowHeight + 5 };
+			dc->DrawText(string2.c_str(), rect, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+			//rect = { 0, 0, textEdit->GetFigure()->GetX()+ textEdit->GetFigure()->GetWidth(),
+			//	(this->endRowIndex - 1) * textEdit->rowHeight + textEdit->rowHeight + 5 };
+			//memDC.DrawText(string2.c_str(), rect, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+			//dc->BitBlt(x, (this->startRowIndex + 1) * textEdit->rowHeight + 5, textEdit->GetFigure()->GetX() + textEdit->GetFigure()->GetWidth(),
+			//	(this->endRowIndex - 1) * textEdit->rowHeight + textEdit->rowHeight + 5, &memDC, 0, 0, SRCCOPY);
 		}
-
 		CString cString3;
 		width = 0;
 		i = 0;
@@ -157,18 +164,18 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 		}
 		x = 5;
 		i = 0;
-		rect = { 0, 0, x + width, this->endRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
-		memDC.DrawText(cString3, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
-		dc->BitBlt(x, this->endRowIndex * textEdit->rowHeight + 5, x + width, this->endRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5, &memDC, 0, 0, SRCCOPY);
+		rect = { x, this->endRowIndex * textEdit->rowHeight + 5, x + width, this->endRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };		
+		dc->DrawText(cString3, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+		//rect = { 0, 0, x + width, this->endRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
+		//memDC.DrawText(cString3, rect, DT_EXPANDTABS | DT_TABSTOP | 0x0800);
+		//dc->BitBlt(x, this->endRowIndex * textEdit->rowHeight + 5, x + width, this->endRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5, &memDC, 0, 0, SRCCOPY);
 
 		textEdit->copyBuffer = cString1 + string2.c_str() + cString3; // 속성에 저장
 	}
-
-
-	memDC.SelectObject(pOldBitmap);
-	bitmap.DeleteObject();
-	memDC.SelectObject(cFont);
-	dc->SelectObject(oldFont);
-	cFont.DeleteObject(); // 폰트
-	memDC.DeleteDC();
+	//memDC.SelectObject(pOldBitmap);
+	//bitmap.DeleteObject();
+	//memDC.SelectObject(cFont);
+	//dc->SelectObject(oldFont);
+	//cFont.DeleteObject(); // 폰트
+	//memDC.DeleteDC();
 }
