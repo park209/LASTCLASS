@@ -4,7 +4,6 @@
 #define _DOUBLEBYTECHARACTER_H
 
 #include "Character.h"
-#include <afxwin.h>
 
 class DoubleByteCharacter : public Character {
 public:
@@ -13,9 +12,9 @@ public:
 	DoubleByteCharacter(const DoubleByteCharacter& source);
 	virtual ~DoubleByteCharacter();
 
-	CString MakeCString() const;
+	virtual CString MakeCString() const;
 
-	virtual TextComponent* Clone() const;
+	virtual Character* Clone() const;
 
 	DoubleByteCharacter& operator = (const DoubleByteCharacter& source);
 

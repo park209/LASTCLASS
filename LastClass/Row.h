@@ -22,16 +22,15 @@ public:
 	virtual ~Row();
 
 	Long Add(Character *character);
-	Long Add(TextComponent *textComponent);
+	virtual Long Add(TextComponent *textComponent);
+	virtual Long Remove(Long index);
+	virtual Long Insert(Long index, TextComponent *textComponent);
+	virtual TextComponent* Clone() const;
+
 	Long Modify(Long index, TextComponent *textComponent);
-	Long Remove(Long index);
-	Long Insert(Long index, TextComponent *textComponent);
 	string PrintRowString();
 	Long GetRowWidth(Long index, CDC* cPaintDc);
-	string ReplaceTabString(string &str, const string& from, const string& to);
 	Character* GetAt(Long index);
-
-	TextComponent* Clone() const;
 
 	Row& operator = (const Row& source);
 	Character* operator [] (Long index);

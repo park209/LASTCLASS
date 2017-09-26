@@ -98,7 +98,7 @@ void CtrlPasteKey::KeyPress(TextEdit *textEdit) {
 					textEdit->text->Add(row->Clone());
 				}
 				else {
-					textEdit->text->InsertRow(textEdit->caret->GetRowIndex() + 1, row->Clone());
+					textEdit->text->Insert(textEdit->caret->GetRowIndex() + 1, row->Clone());
 				}
 				textEdit->caret->MoveForwardRowIndex(1);
 			}

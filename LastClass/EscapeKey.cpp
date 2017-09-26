@@ -12,5 +12,5 @@ EscapeKey::EscapeKey(const EscapeKey& source) {
 EscapeKey::~EscapeKey() {
 }
 void EscapeKey::KeyPress(TextEdit *textEdit) {
-	// ÅØ½ºÆ®¿¡µ÷Ã¢ ²¨Áà¾ßÇÔ
+	textEdit->OnClose();
 }

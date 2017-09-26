@@ -5,7 +5,6 @@
 
 #include <afxwin.h>
 #include <imm.h>
-#include <string>
 
 typedef signed long int Long;
 
@@ -21,8 +20,7 @@ public:
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
-	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
-	afx_msg Long OnComposition(WPARAM wParam, LPARAM lParam);
+
 	afx_msg void OnKillFocus(CWnd *pNewWnd);
 
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
@@ -30,6 +28,8 @@ protected:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 
+	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg Long OnComposition(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg LRESULT OnIMENotify(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()

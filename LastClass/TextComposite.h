@@ -13,12 +13,13 @@ typedef signed long int Long;
 class Character;
 class TextComposite : public TextComponent {
 public:
-	TextComposite(Long capacity = 128);
+	TextComposite(Long capacity = 256);
 	TextComposite(const TextComposite& source);
 	virtual ~TextComposite() = 0;
 
 	virtual Long Add(TextComponent *textComponent) = 0;
 	virtual Long Remove(Long index) = 0;
+	virtual Long Insert(Long index, TextComponent *textComponent) = 0;
 	//virtual TextComponent* GetAt(Long index);
 	virtual TextComponent* Clone() const = 0;
 	ArrayIterator<TextComponent*>* CreateIterator() const;

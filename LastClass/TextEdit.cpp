@@ -21,7 +21,7 @@
 #include "WriteKoreanText.h"
 #include "DoubleClickTextArea.h"
 
-#include <iostream>
+//#include <iostream>
 
 BEGIN_MESSAGE_MAP(TextEdit, CWnd)
 	ON_WM_CREATE()
@@ -58,7 +58,7 @@ TextEdit::TextEdit(Figure *figure) {
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CWnd::OnCreate(lpCreateStruct); //override
-	CWnd::SetFocus();
+	 CWnd::SetFocus();
 
 	this->text = new Text;
 	this->caret = new Caret;
@@ -66,12 +66,11 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->historyText = new HistoryText;
 	this->textAreaSelected = new TextAreaSelected;
 
-	ModifyStyle(WS_CAPTION, 0);
-
 	this->text->SprayString(this->figure->GetContent()); // 넘겨받아온거 자료구조로 뿌려줌 ㅇㅇㅇㅇㅇ
 
 	CWnd::HideCaret();
 	::DestroyCaret();
+
 	Invalidate();
 	return 0;
 }
@@ -87,9 +86,7 @@ void TextEdit::OnPaint() {
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 
-	dc.SetBkMode(TRANSPARENT);//문자배경 투명하게
-
-	dc.FillSolidRect(CRect(6, 5, figure->GetWidth() - 6, figure->GetHeight() - 5), RGB(255, 255, 255));
+	dc.FillSolidRect(CRect(5, 5, figure->GetWidth() - 6, figure->GetHeight() - 5), RGB(255, 255, 255));
 
 	this->text->Accept(writingVisitor, &dc);//받았던거 출력
 	this->caret->MoveToIndex(this, &dc);
@@ -108,7 +105,7 @@ void TextEdit::OnPaint() {
 
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN &&
-		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10 && GetKeyState(VK_RSHIFT) >= 0 && GetKeyState(VK_CONTROL) >= 0) {
+		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10  && GetKeyState(VK_CONTROL) >= 0) {
 
 		if (flagSelection == 1) {
 			DeleteTextArea *deleteArea = new DeleteTextArea();
@@ -117,7 +114,6 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 				delete deleteArea;
 			}
 		}
-
 		char nCharacter = nChar;
 		SingleByteCharacter singleByteCharacter(nCharacter);
 		if (this->caret->GetCharacterIndex() == this->text->GetAt(this->caret->GetRowIndex())->GetLength()) {
@@ -134,11 +130,13 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	CWnd::HideCaret();
 	::DestroyCaret();
+
 	Invalidate();
 }
 
 Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	HIMC hIMC = ImmGetContext(GetSafeHwnd());
+
 	if (flagSelection == 1) {
 		DeleteTextArea *deleteArea = new DeleteTextArea();
 		deleteArea->DeleteArea(this);
@@ -155,33 +153,9 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	
 	CWnd::HideCaret();
 	::DestroyCaret();
+
 	Invalidate();
-
 	return 0;
-}
-
-void TextEdit::OnKillFocus(CWnd *pNewWnd) {
-	CWnd::OnKillFocus(pNewWnd);
-
-	CWnd::HideCaret();
-	::DestroyCaret();
-
-	string content(this->text->MakeText());
-	this->figure->ReplaceString(content);
-
-	if (this->caret != NULL) {
-		delete this->caret;
-	}
-	if (this->keyBoard != NULL) {
-		delete this->keyBoard;
-	}
-	if (this->text != NULL) {
-		delete this->text;
-	}
-	if (this->historyText != NULL) {
-		delete this->historyText;
-	}
-	CWnd::DestroyWindow();
 }
 
 void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
@@ -313,6 +287,32 @@ LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {
 		}
 	}
 	return 0;
+}
+
+void TextEdit::OnKillFocus(CWnd *pNewWnd) {
+	CWnd::OnKillFocus(pNewWnd);
+
+	CWnd::HideCaret();
+	::DestroyCaret();
+
+	string content(this->text->MakeText());
+	this->figure->ReplaceString(content);
+
+	if (this->caret != NULL) {
+		delete this->caret;
+	}
+	if (this->keyBoard != NULL) {
+		delete this->keyBoard;
+	}
+	if (this->text != NULL) {
+		delete this->text;
+	}
+	if (this->historyText != NULL) {
+		delete this->historyText;
+	}
+	if (this != NULL) {
+		delete this;
+	}
 }
 
 void TextEdit::OnClose() {
