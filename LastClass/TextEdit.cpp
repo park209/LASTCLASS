@@ -175,6 +175,9 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 	if (this->historyText != NULL) {
 		delete this->historyText;
 	}
+	if (this->textAreaSelected != NULL) {
+		delete this->textAreaSelected;
+	}
 	if (this != NULL) {
 		delete this;
 	}
@@ -270,6 +273,7 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 }
 
 void TextEdit::OnLButtonDblClk(UINT nFlags, CPoint point) {
+	CWnd::OnLButtonDblClk(nFlags, point);
 	CPaintDC dc(this);
 
 	DoubleClickTextArea *testDoubleClick = new DoubleClickTextArea();
@@ -277,7 +281,7 @@ void TextEdit::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	if (testDoubleClick != 0) {
 		delete testDoubleClick;
 	}
-	
+
 	::DestroyCaret();
 	Invalidate();
 }
@@ -329,6 +333,9 @@ void TextEdit::OnClose() {
 	}
 	if (this->historyText != NULL) {
 		delete this->historyText;
+	}
+	if (this->textAreaSelected != NULL) {
+		delete this->textAreaSelected;
 	}
 	if (this != NULL) {
 		delete this;

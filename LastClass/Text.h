@@ -42,6 +42,7 @@ public:
 private:
 	Long width;
 	Long height;
+	LOGFONT logFont;
 };
 
 inline Long Text::GetWidth() const {
