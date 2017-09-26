@@ -30,12 +30,15 @@ public:
 	Long GetWidth() const;
 	Long GetHeight() const;
 	string& GetContent() const;
+	Long GetStringHeight() const;
+
 protected:
 	Long x;
 	Long y;
 	Long width;
 	Long height;
 	string content;
+	Long stringHeight;
 };
 
 inline Long Figure::GetX() const {
@@ -52,6 +55,10 @@ inline Long Figure::GetHeight() const {
 }
 inline string& Figure::GetContent() const {
 	return const_cast<string&>(this->content);
+}
+
+inline Long Figure::GetStringHeight() const {
+	return this->stringHeight;
 }
 
 #endif //_FIGURE_H

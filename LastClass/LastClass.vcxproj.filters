@@ -329,24 +329,6 @@
     <ClInclude Include="resource.h">
       <Filter>Resource</Filter>
     </ClInclude>
-    <ClInclude Include="DeleteTextAreaSelected.h">
-      <Filter>TextEdit</Filter>
-    </ClInclude>
-    <ClInclude Include="DeleteTextArea.h">
-      <Filter>TextEdit</Filter>
-    </ClInclude>
-    <ClInclude Include="WriteKoreanTextProcess.h">
-      <Filter>TextEdit</Filter>
-    </ClInclude>
-    <ClInclude Include="WriteKoreanText.h">
-      <Filter>TextEdit</Filter>
-    </ClInclude>
-    <ClInclude Include="DoubleClickTextArea.h">
-      <Filter>TextEdit</Filter>
-    </ClInclude>
-    <ClInclude Include="DoubleClickTextAreaProcess.h">
-      <Filter>TextEdit</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArrayIterator.cpp">
@@ -637,6 +619,14 @@
     <ClCompile Include="DrawingMemoBox.cpp">
       <Filter>Diagram</Filter>
     </ClCompile>
+    <ClCompile Include="MovingRelation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingRelationPoint.cpp">
+      <Filter>MouseAction</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingResizing.cpp">
+      <Filter>ClassDiagram</Filter>
     <ClCompile Include="DeleteTextAreaSelected.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>

@@ -66,7 +66,9 @@
     <ClInclude Include="DrawingMemoLine.h" />
     <ClInclude Include="DrawingRealization.h" />
     <ClInclude Include="DrawingRelation.h" />
+    <ClInclude Include="DrawingRelationPoint.h" />
     <ClInclude Include="DrawingResize.h" />
+    <ClInclude Include="DrawingResizing.h" />
     <ClInclude Include="DrawingVisitor.h" />
     <ClInclude Include="EndKey.h" />
     <ClInclude Include="EnterKey.h" />
@@ -91,6 +93,7 @@
     <ClInclude Include="MouseLButton.h" />
     <ClInclude Include="MouseLButtonAction.h" />
     <ClInclude Include="MovingObject.h" />
+    <ClInclude Include="MovingRelation.h" />
     <ClInclude Include="MovingVisitor.h" />
     <ClInclude Include="MultipleSelectionState.h" />
     <ClInclude Include="PlusKey.h" />
@@ -173,6 +176,8 @@
     <ClCompile Include="DrawingMemoLine.cpp" />
     <ClCompile Include="DrawingRealization.cpp" />
     <ClCompile Include="DrawingRelation.cpp" />
+    <ClCompile Include="DrawingRelationPoint.cpp" />
+    <ClCompile Include="DrawingResizing.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
     <ClCompile Include="DrawningResize.cpp" />
     <ClCompile Include="EndKey.cpp" />
@@ -197,6 +202,7 @@
     <ClCompile Include="MouseLButton.cpp" />
     <ClCompile Include="MouseLButtonAction.cpp" />
     <ClCompile Include="MovingObject.cpp" />
+    <ClCompile Include="MovingRelation.cpp" />
     <ClCompile Include="MovingVisitor.cpp" />
     <ClCompile Include="MultipleSelectionState.cpp" />
     <ClCompile Include="PlusKey.cpp" />

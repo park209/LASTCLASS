@@ -9,6 +9,7 @@ Figure::Figure() {
 	this->width = 0;
 	this->height = 0;
 	this->content = "";
+	this->stringHeight = 18;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height) {
@@ -17,6 +18,7 @@ Figure::Figure(Long x, Long y, Long width, Long height) {
 	this->width = width;
 	this->height = height;
 	this->content = "";
+	this->stringHeight = 18;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height, string content) {
@@ -25,6 +27,7 @@ Figure::Figure(Long x, Long y, Long width, Long height, string content) {
 	this->width = width;
 	this->height = height;
 	this->content = content;
+	this->stringHeight = 18; // 입력받을 문자열에 맞게 값 줘야하는데
 }
 
 Figure::Figure(const Figure& source) {
@@ -32,6 +35,7 @@ Figure::Figure(const Figure& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
+	this->stringHeight = source.stringHeight;
 }
 Figure* Figure::Move(Long distanceX, Long distanceY) {
 	this->x = this->x + distanceX;
@@ -62,7 +66,8 @@ Figure& Figure::operator = (const Figure& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
-	
+	this->stringHeight = source.stringHeight;
+
 	return *this;
 }
 
