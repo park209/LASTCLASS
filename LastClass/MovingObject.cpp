@@ -236,7 +236,7 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram
 		CPoint lineEnd;
 
 		while (index < relation->GetLength() && ret == false) {
-			CRect rect(relation->GetAt(index).x - 5, relation->GetAt(index).y - 5, relation->GetAt(index).x + 5, relation->GetAt(index).y + 5);
+			CRect rect(relation->GetAt(index).x - 10, relation->GetAt(index).y - 10, relation->GetAt(index).x + 10, relation->GetAt(index).y + 10);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			index++;
 		}

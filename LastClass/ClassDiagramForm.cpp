@@ -600,9 +600,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 		
 		Invalidate();
 	}
-	if (selection->SelectByPoint(point.x, point.y)) {
-		SetCursor(LoadCursor(NULL, IDC_HAND));
-	}
+
 }
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.

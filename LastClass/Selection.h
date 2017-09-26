@@ -25,7 +25,7 @@ public:
 
 	void SelectByArea(Diagram *diagram, CRect area);
 	Long SelectByPoint(Diagram *diagram, Long x, Long y);
-	bool SelectByPoint(Long x, Long y);
+	Long SelectByPoint(Long x, Long y);
 
 };
 

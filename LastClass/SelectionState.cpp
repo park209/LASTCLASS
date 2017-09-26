@@ -34,7 +34,7 @@ void SelectionState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram
 void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
 	
 	
-	if ( !selection->SelectByPoint(currentX, currentY )) {
+	
 		UINT object = mouseLButton->GetButtonState();
 		if (object == 49) {
 			this->ChangeState(mouseLButton, DrawingClass::Instance(), 49);
@@ -72,10 +72,12 @@ void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagr
 		if (object == 51) {
 			this->ChangeState(mouseLButton, DrawingRealization::Instance(), 51);
 		}
-
+		selection->SelectByPoint(currentX, currentY);
+		
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);
-	}
+
+	
 	
 	if (selection->GetLength() == 0) {
 		this->ChangeDefault(mouseLButton);
