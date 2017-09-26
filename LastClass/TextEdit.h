@@ -14,7 +14,7 @@ class Caret;
 class KeyBoard;
 class HistoryText;
 class TextAreaSelected;
-class CFontSet;
+class FontSet;
 class TextEdit : public CWnd { // CWnd 상속으로 바꿔야함
 public:
 	TextEdit(Figure *figure);
@@ -51,6 +51,7 @@ public:
 	KeyBoard *keyBoard;
 	HistoryText *historyText;
 	TextAreaSelected *textAreaSelected;
+	FontSet *fontSet;
 	Long flagInsert; //flag
 	Long flagSelection;
 	Long rowHeight; //figure에서 저장을 해줘야 하기때문에 삭제가능
