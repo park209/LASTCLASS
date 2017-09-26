@@ -560,7 +560,6 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentY = point.y;
 
 	if (this->startX != this->currentX || this->startY != this->currentY) {
-		//figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 	}
 /*
@@ -600,7 +599,20 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 		
 		Invalidate();
 	}
-
+	Long index;
+	index = this->selection->SelectByPoint(point.x, point.y);
+	if (index == 1){
+		SetCursor(LoadCursor(NULL,IDC_HAND));
+	}
+	else if (index == 2) {
+		SetCursor(LoadCursor(NULL, IDC_CROSS));
+	}
+	else if (index == 3) {
+		SetCursor(LoadCursor(NULL, IDC_HELP));
+	}
+	else if (index == 4) {
+		SetCursor(LoadCursor(NULL, IDC_SIZEALL));
+	}
 }
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.

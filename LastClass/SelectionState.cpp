@@ -19,6 +19,8 @@
 #include "DrawingMemoLine.h"
 #include "DrawingRealization.h"
 #include "MovingObject.h"
+#include "MovingRelation.h"
+#include "DrawingRelationPoint.h"
 
 SelectionState* SelectionState::instance = 0;
 
@@ -32,9 +34,7 @@ void SelectionState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram
 	
 }
 void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
-	
-	
-	
+	Long index;
 		UINT object = mouseLButton->GetButtonState();
 		if (object == 49) {
 			this->ChangeState(mouseLButton, DrawingClass::Instance(), 49);
@@ -72,20 +72,24 @@ void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagr
 		if (object == 51) {
 			this->ChangeState(mouseLButton, DrawingRealization::Instance(), 51);
 		}
-		selection->SelectByPoint(currentX, currentY);
-		
+	index=	selection->SelectByPoint(currentX, currentY);
+	if (index == -1) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);
-
-	
-	
+	}
 	if (selection->GetLength() == 0) {
 		this->ChangeDefault(mouseLButton);
 	}
 }
 void SelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
-
-	if (selection->GetLength() == 1) {
+	Long index = selection->SelectByPoint(currentX, currentY);
+	if (index == 1) {
+		this->ChangeState(mouseLButton, MovingRelation::Instance());
+	}
+	if (index == 2) {
+		this->ChangeState(mouseLButton, DrawingRelationPoint::Instance());
+	}
+	if (index == 4) {
 		this->ChangeState(mouseLButton, MovingObject::Instance());
 	}
 }

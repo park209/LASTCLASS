@@ -17,6 +17,7 @@
 #include "DrawingDirectedAssociation.h"
 #include "DrawingMemoLine.h"
 #include "DrawingRealization.h"
+#include "MultipleSelectionState.h"
 DefaultState* DefaultState::instance = 0;
 
 MouseLButtonAction* DefaultState::Instance() {
@@ -28,24 +29,27 @@ MouseLButtonAction* DefaultState::Instance() {
 void DefaultState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
 	Finder finder; 
 	CRect area(startX, startY, currentX, currentY);
-
+	selection->DeleteAllItems();
 	selection->SelectByArea(diagram, area);
 	
-	if (selection->GetLength() > 0) {
+	if (selection->GetLength() ==1 ) {
 		this->ChangeState(mouseLButton, SelectionState::Instance());
+	}
+	if (selection->GetLength() > 1) {
+		this->ChangeState(mouseLButton, MultipleSelectionState::Instance());
 	}
 
 }
 void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	UINT object = mouseLButton->GetButtonState();
 	if (object == 49) {
-		this->ChangeState(mouseLButton, DrawingClass::Instance(),49);
+		this->ChangeState(mouseLButton, DrawingClass::Instance(), 49);
 	}
 	if (object == 101) {
-		this->ChangeState(mouseLButton, DrawingMemoBox::Instance(),101);
+		this->ChangeState(mouseLButton, DrawingMemoBox::Instance(), 101);
 	}
 	if (object == 50) {
-		this->ChangeState(mouseLButton, DrawingGeneralization::Instance(),50);
+		this->ChangeState(mouseLButton, DrawingGeneralization::Instance(), 50);
 	}
 	if (object == 55) {
 		this->ChangeState(mouseLButton, DrawingAggregation::Instance(), 55);
@@ -57,7 +61,7 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 		this->ChangeState(mouseLButton, DrawingAssociation::Instance(), 53);
 	}
 	if (object == 57) {
-		this->ChangeState(mouseLButton, DrawingComposition::Instance(), 57); 
+		this->ChangeState(mouseLButton, DrawingComposition::Instance(), 57);
 	}
 	if (object == 113) {
 		this->ChangeState(mouseLButton, DrawingCompositions::Instance(), 113);
@@ -75,12 +79,24 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 		this->ChangeState(mouseLButton, DrawingRealization::Instance(), 51);
 	}
 	if (mouseLButton->GetButtonState() == 0) {
-		selection->SelectByPoint(diagram, currentX, currentY);
-		if (selection->GetLength() > 0) {
-			this->ChangeState(mouseLButton, SelectionState::Instance());
+
+		Long index = selection->SelectByPoint(currentX, currentY);
+		if (index != -1) {
+			this->ChangeState(mouseLButton, MultipleSelectionState::Instance());
+		}
+		else {
+			selection->DeleteAllItems();
+			selection->SelectByPoint(diagram, currentX, currentY);
+			if (selection->GetLength() > 0) {
+				this->ChangeState(mouseLButton, SelectionState::Instance());
+			}
+			else {
+				this->ChangeDefault(mouseLButton);
+			}
 		}
 	}
 }
+
 void DefaultState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
