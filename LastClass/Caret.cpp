@@ -31,7 +31,7 @@ void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
 	Long tabWidth = 0;
 	Long i = 0;
 
-	pointX += textEdit->text->GetAt((this->rowIndex))->GetRowWidth(this->characterIndex, dc);
+	pointX += textEdit->text->GetAt((this->rowIndex))->GetRowWidth(dc, this->characterIndex);
 
 	textEdit->CreateSolidCaret(2, textEdit->GetRowHeight());
 	if (textEdit->GetFlagBuffer() == 1) {

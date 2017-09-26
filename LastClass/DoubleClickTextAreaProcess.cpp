@@ -22,7 +22,6 @@ Long DoubleClickTextAreaProcess::DoubleClickStartIndex(TextEdit *textEdit) {
 	while (StartIndex > 0 && currentRow->GetAt(StartIndex - 1)->MakeCString() != ' ') {
 		StartIndex--;
 	}
-
 	return StartIndex;
 }
 
