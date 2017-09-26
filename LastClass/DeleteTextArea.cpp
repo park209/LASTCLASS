@@ -6,6 +6,7 @@
 #include "Text.h"
 #include "Row.h"
 #include "TextAreaSelected.h"
+#include "TextAreaSelectedProcess.h"
 #include "HistoryText.h"
 #include "Caret.h"
 
@@ -19,19 +20,19 @@ DeleteTextArea::~DeleteTextArea() {
 void DeleteTextArea::DeleteArea(TextEdit *textEdit) {
 	DeleteTextAreaSelected *deleteLines = new DeleteTextAreaSelected();
 	Long i = 0;
-	if (textEdit->textAreaSelected->GetStartRowIndex() == textEdit->textAreaSelected->GetEndRowIndex()) {
+	if (textEdit->textAreaSelected->selected->GetStartRowIndex() == textEdit->textAreaSelected->selected->GetEndRowIndex()) {
 		textEdit->historyText->PushUndo(textEdit->text, textEdit->caret);
 		deleteLines->DeleteSingleLineSelected(textEdit);
 	}
-	else if (textEdit->textAreaSelected->GetStartRowIndex() < textEdit->textAreaSelected->GetEndRowIndex()) { // 여러줄이면
+	else if (textEdit->textAreaSelected->selected->GetStartRowIndex() < textEdit->textAreaSelected->selected->GetEndRowIndex()) { // 여러줄이면
 		textEdit->historyText->PushUndo(textEdit->text, textEdit->caret);
 		deleteLines->DeleteFirstMultiLineSelected(textEdit);
 		deleteLines->DeleteMiddleMultiLineSelected(textEdit);
-		Long copyCount = textEdit->text->GetAt(textEdit->textAreaSelected->GetStartRowIndex() + 1)->GetLength() - textEdit->textAreaSelected->GetEndCharacterIndex();
+		Long copyCount = textEdit->text->GetAt(textEdit->textAreaSelected->selected->GetStartRowIndex() + 1)->GetLength() - textEdit->textAreaSelected->selected->GetEndCharacterIndex();
 		deleteLines->DeleteEndMultiLineSelected(textEdit);
 		deleteLines->ConnectRemains(textEdit, copyCount);
 	}
-	textEdit->caret->SetRowIndex(textEdit->textAreaSelected->GetStartRowIndex());
-	textEdit->caret->SetCharacterIndex(textEdit->textAreaSelected->GetStartCharacterIndex());
+	textEdit->caret->SetRowIndex(textEdit->textAreaSelected->selected->GetStartRowIndex());
+	textEdit->caret->SetCharacterIndex(textEdit->textAreaSelected->selected->GetStartCharacterIndex());
 	textEdit->flagSelection = 0;
 }

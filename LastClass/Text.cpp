@@ -121,8 +121,8 @@ Long Text::MaxWidth(CDC* cPaintDc) {
 	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
 	Long width = 0;
 	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
-		if (width < Long(((Row*)smartPointer->Current())->GetRowWidth(((Row*)smartPointer->Current())->GetLength(), cPaintDc))) {
-			width = Long(((Row*)smartPointer->Current())->GetRowWidth(((Row*)smartPointer->Current())->GetLength(), cPaintDc));
+		if (width < Long(((Row*)smartPointer->Current())->GetRowWidth(cPaintDc, ((Row*)smartPointer->Current())->GetLength()))) {
+			width = Long(((Row*)smartPointer->Current())->GetRowWidth(cPaintDc, ((Row*)smartPointer->Current())->GetLength()));
 		}
 	}
 	return width;
