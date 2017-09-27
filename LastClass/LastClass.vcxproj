@@ -76,6 +76,7 @@
     <ClInclude Include="FigureComposite.h" />
     <ClInclude Include="FigureFactory.h" />
     <ClInclude Include="Finder.h" />
+    <ClInclude Include="FontSet.h" />
     <ClInclude Include="Generalization.h" />
     <ClInclude Include="HistoryText.h" />
     <ClInclude Include="HomeKey.h" />
@@ -120,6 +121,7 @@
     <ClInclude Include="Template.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TextAreaSelected.h" />
+    <ClInclude Include="TextAreaSelectedProcess.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TextComposite.h" />
     <ClInclude Include="TextEdit.h" />
@@ -185,6 +187,7 @@
     <ClCompile Include="FigureComposite.cpp" />
     <ClCompile Include="FigureFactory.cpp" />
     <ClCompile Include="Finder.cpp" />
+    <ClCompile Include="FontSet.cpp" />
     <ClCompile Include="Generalization.cpp" />
     <ClCompile Include="HistoryText.cpp" />
     <ClCompile Include="HomeKey.cpp" />
@@ -226,6 +229,7 @@
     <ClCompile Include="Template.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextAreaSelected.cpp" />
+    <ClCompile Include="TextAreaSelectedProcess.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextComposite.cpp" />
     <ClCompile Include="TextEdit.cpp" />
