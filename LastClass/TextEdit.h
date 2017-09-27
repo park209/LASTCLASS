@@ -14,14 +14,14 @@ class Caret;
 class KeyBoard;
 class HistoryText;
 class TextAreaSelected;
+class FontSet;
 class TextEdit : public CWnd { // CWnd 상속으로 바꿔야함
 public:
 	TextEdit(Figure *figure);
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
-	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
-	afx_msg Long OnComposition(WPARAM wParam, LPARAM lParam);
+
 	afx_msg void OnKillFocus(CWnd *pNewWnd);
 
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
@@ -29,6 +29,8 @@ protected:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 
+	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg Long OnComposition(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg LRESULT OnIMENotify(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
@@ -49,7 +51,7 @@ public:
 	KeyBoard *keyBoard;
 	HistoryText *historyText;
 	TextAreaSelected *textAreaSelected;
-	Figure *figure;
+	FontSet *fontSet;
 	Long flagInsert; //flag
 	Long flagSelection;
 	Long rowHeight; //figure에서 저장을 해줘야 하기때문에 삭제가능
@@ -57,6 +59,7 @@ public:
 	Long selectedY; //보류
 	CString copyBuffer;
 	Long flagBuffer; //flag
+	Figure *figure;
 private:
 	Long koreanEnglish; //flag
 	Long currentX;

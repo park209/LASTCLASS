@@ -1,5 +1,4 @@
 //TextComponent.cpp
-
 #include"TextComponent.h"
 
 TextComponent::TextComponent() {

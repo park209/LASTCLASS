@@ -13,4 +13,4 @@ public:
 	void DeleteArea(TextEdit *textEdit);
 };
 
-#endif //_DELETETEXTAREA_H
+#endif // _DELETETEXTAREA_H
