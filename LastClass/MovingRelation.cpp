@@ -132,17 +132,11 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 		if (x + width < currentX) {
 			relationX = x + width - 1;
 		}
-		else if (x > currentX) {
-			relationX = x -1;
-		}
-		else if (x > currentX) {
-			relationX = x + 1;
+		else if (relation->GetX() > currentX) {
+			relationX = relation->GetX();
 		}
 		if (y + height < currentY) {
 			relationY = y + height - 1;
-		}
-		else if (y > currentY) {
-			relationY =y - 1;
 		}
 		else if (y > currentY) {
 			relationY = y + 1;
@@ -176,28 +170,23 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 			Long height = figures->GetHeight();
 			Long relationX = currentX;
 			Long relationY = currentY;
-			if (x + width < currentX) {
-				relationX = x + width - 1;
+			if (relation->GetX() + relation->GetWidth() < currentX) {
+				relationX = relation->GetX() + relation->GetWidth() - 1;
 			}
-			else if (x > currentX) {
-				relationX = x + 1;
+			else if (relation->GetX() + relation->GetWidth() > currentX) {
+				relationX = relation->GetX() + relation->GetWidth()- 1;
 			}
 			if (y + height < currentY) {
 				relationY = y + height - 1;
 			}
 			else if (y > currentY) {
-				relationY = y + 1;
+				relationY = y +1;
 			}
 
 
-			CRect rect(x, y, x + width, y + height);
-			Finder finder;
-			CPoint startLine(relation->GetX(), relation->GetY());
-			CPoint endLine(relationX, relationY);
-			CPoint cross = finder.GetCrossPoint(startLine, endLine, rect);
 
 			if (relation->GetLength() > 0) {
-				lineStart.x = relation->GetAt(relation->GetLength() -1).x;
+				lineStart.x = relation->GetAt(relation->GetLength() - 1).x;
 				lineStart.y = relation->GetAt(relation->GetLength() - 1).y;
 			}
 			else {
@@ -205,8 +194,8 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 				lineStart.x = relation->GetX();
 				lineStart.y = relation->GetY();
 			}
-			lineEnd.x = cross.x ;
-			lineEnd.y = cross.y ;
+			lineEnd.x = relationX;
+			lineEnd.y = relationY;
 		}
 	}
 	cPaintDC->MoveTo(lineStart.x, lineStart.y);
