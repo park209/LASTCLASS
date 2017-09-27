@@ -20,6 +20,10 @@ public:
 	//virtual void Accept(Visitor& visitor) = 0;// , CDC *cPaintDc) = 0;
 	virtual Figure* Clone() const = 0;
 	void ReplaceString(string content);
+	void SetX(Long x);
+	void SetY(Long y);
+	void SetMinimumWidth(Long minimumWidth);
+	void SetMinimumHight(Long minimumHight);
 	Figure* Move(Long distanceX, Long distanceY);
 	Figure* EndPointMove(Long distanceX, Long distanceY);
 
@@ -30,7 +34,8 @@ public:
 	Long GetWidth() const;
 	Long GetHeight() const;
 	string& GetContent() const;
-	Long GetStringHeight() const;
+	Long GetMinimumHight() const;
+	Long GetMinimumWidth() const;
 
 protected:
 	Long x;
@@ -38,7 +43,8 @@ protected:
 	Long width;
 	Long height;
 	string content;
-	Long stringHeight;
+	Long minimumWidth;
+	Long minimumHight;
 };
 
 inline Long Figure::GetX() const {
@@ -57,8 +63,12 @@ inline string& Figure::GetContent() const {
 	return const_cast<string&>(this->content);
 }
 
-inline Long Figure::GetStringHeight() const {
-	return this->stringHeight;
+inline Long Figure::GetMinimumWidth() const {
+	return this->minimumWidth;
+}
+
+inline Long Figure::GetMinimumHight() const {
+	return this->minimumHight;
 }
 
 #endif //_FIGURE_H

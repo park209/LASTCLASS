@@ -9,7 +9,8 @@ Figure::Figure() {
 	this->width = 0;
 	this->height = 0;
 	this->content = "";
-	this->stringHeight = 18;
+	this->minimumHight = 18;
+	this->minimumWidth = 120;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height) {
@@ -18,7 +19,8 @@ Figure::Figure(Long x, Long y, Long width, Long height) {
 	this->width = width;
 	this->height = height;
 	this->content = "";
-	this->stringHeight = 18;
+	this->minimumWidth = 120;
+	this->minimumHight = 25;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height, string content) {
@@ -27,7 +29,8 @@ Figure::Figure(Long x, Long y, Long width, Long height, string content) {
 	this->width = width;
 	this->height = height;
 	this->content = content;
-	this->stringHeight = 18; // 입력받을 문자열에 맞게 값 줘야하는데
+	this->minimumWidth = 120; //여기도
+	this->minimumHight = 18; // 입력받을 문자열에 맞게 값 줘야하는데
 }
 
 Figure::Figure(const Figure& source) {
@@ -35,7 +38,25 @@ Figure::Figure(const Figure& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
-	this->stringHeight = source.stringHeight;
+	this->minimumWidth = source.minimumWidth;
+	this->minimumHight = source.minimumHight;
+}
+void Figure::ReplaceString(string content) {
+	this->content = content;
+}
+void Figure::SetX(Long x) {
+	this->x = x;
+}
+
+void Figure::SetY(Long y) {
+	this->y = y;
+}
+void Figure::SetMinimumWidth(Long minimumWidth) {
+	this->minimumWidth = minimumWidth;
+}
+
+void Figure::SetMinimumHight(Long minimumHight) {
+	this->minimumHight = minimumHight;
 }
 Figure* Figure::Move(Long distanceX, Long distanceY) {
 	this->x = this->x + distanceX;
@@ -66,15 +87,11 @@ Figure& Figure::operator = (const Figure& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
-	this->stringHeight = source.stringHeight;
+	this->minimumWidth = source.minimumWidth;
+	this->minimumHight = source.minimumHight;
 
 	return *this;
 }
 
 Figure::~Figure() {
-}
-
-
-void Figure::ReplaceString(string content) {
-	this->content = content;
 }

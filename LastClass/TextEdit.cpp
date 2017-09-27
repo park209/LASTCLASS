@@ -19,6 +19,12 @@
 #include "WriteKoreanText.h"
 #include "DoubleClickTextArea.h"
 #include "FontSet.h"
+#include "Selection.h"
+#include "FigureComposite.h"
+#include "Diagram.h"
+#include "Class.h"
+#include "Finder.h"
+#include "EditResizer.h"
 
 //#include <iostream>
 
@@ -85,10 +91,9 @@ void TextEdit::OnPaint() {
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
-
 	if (this->flagSelection == 0) {
-		dc.FillSolidRect(CRect(5, 5, figure->GetWidth() - 5, figure->GetHeight() - 5), RGB(255, 255, 255));
-
+		EditResizer editResizer;
+		editResizer.ResizeEdit(this,&dc);
 		this->text->Accept(writingVisitor, &dc);//받았던거 출력
 		this->caret->MoveToIndex(this, &dc);
 	}
@@ -123,6 +128,7 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 			this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex(), singleByteCharacter.Clone());
 		}
 		this->caret->MoveForwardCharacterIndex();
+
 	}
 
 	CWnd::HideCaret();
@@ -263,7 +269,6 @@ void TextEdit::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->koreanEnglish = 1;
-
 	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 	if (keyAction != 0) {
 		keyAction->KeyPress(this);
@@ -275,6 +280,7 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		::DestroyCaret();
 
 		CWnd::Invalidate();
+		
 	}
 }
 
@@ -291,13 +297,18 @@ LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {
 }
 
 void TextEdit::OnKillFocus(CWnd *pNewWnd) {
-	CWnd::OnKillFocus(pNewWnd);
+	string content(this->text->MakeText());
+	this->figure->ReplaceString(content);
+	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)GetParentFrame();//
 
+	classDiagramForm->selection->SelectByPoint(classDiagramForm->diagram,this->figure->GetX(),this->figure->GetY());
+	EditResizer editResizer;
+	editResizer.ResizeClass(this);
+	classDiagramForm->selection->DeleteAllItems();
+	CWnd::OnKillFocus(pNewWnd);
 	CWnd::HideCaret();
 	::DestroyCaret();
 
-	string content(this->text->MakeText());
-	this->figure->ReplaceString(content);
 
 	if (this->caret != NULL) {
 		delete this->caret;
@@ -320,12 +331,12 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 }
 
 void TextEdit::OnClose() {
-	CWnd::HideCaret();
-	::DestroyCaret();
-
 	string content(this->text->MakeText());
 	this->figure->ReplaceString(content);
-
+	EditResizer editResizer;
+	editResizer.ResizeClass(this);
+	CWnd::HideCaret();
+	::DestroyCaret();
 	if (this->caret != NULL) {
 		delete this->caret;
 	}

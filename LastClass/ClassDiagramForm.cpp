@@ -416,7 +416,7 @@ void ClassDiagramForm::OnPaint() {
 	this->diagram->Accept(drawingVisitor, &dc);
 
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-	cFont.CreateFont(24, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
@@ -494,6 +494,7 @@ void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	CFrameWnd::OnSetFocus(pOldWnd);
 
 	CWnd::SetFocus();
+
 	Invalidate();
 }
 
@@ -539,7 +540,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		this->textEdit = new TextEdit(figure);
 
 		if (dynamic_cast<MemoBox*>(figure)) {
-			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE | WS_BORDER, CRect(
 				figure->GetX(),
 				figure->GetY() + 20,
 				figure->GetX() + figure->GetWidth(),
@@ -547,7 +548,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			OnKillFocus(NULL);
 		}
 		else {
-			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE | WS_BORDER, CRect(
 				figure->GetX(),
 				figure->GetY(),
 				figure->GetX() + figure->GetWidth(),
@@ -641,9 +642,6 @@ void ClassDiagramForm::OnClose() {
 	}
 	if (this->mouseLButton != NULL) {
 		delete this->mouseLButton;
-	}
-	if (this->textEdit != NULL) {
-		delete this->textEdit;
 	}
 
 	//6.3. 윈도우를 닫는다.
