@@ -130,6 +130,7 @@
     <ClInclude Include="WriteKoreanText.h" />
     <ClInclude Include="WriteKoreanTextProcess.h" />
     <ClInclude Include="WritingVisitor.h" />
+    <ClInclude Include="MovingLine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aggregation.cpp" />
@@ -202,6 +203,7 @@
     <ClCompile Include="MinusKey.cpp" />
     <ClCompile Include="MouseLButton.cpp" />
     <ClCompile Include="MouseLButtonAction.cpp" />
+    <ClCompile Include="MovingLine.cpp" />
     <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="MovingRelation.cpp" />
     <ClCompile Include="MovingVisitor.cpp" />

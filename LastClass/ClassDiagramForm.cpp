@@ -606,12 +606,14 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	else if (index == 2) {
 		SetCursor(LoadCursor(NULL, IDC_CROSS));
 	}
-	else if (index == 3) {
+	else if (index == 3 || index==5) {
 		SetCursor(LoadCursor(NULL, IDC_HELP));
 	}
 	else if (index == 4) {
 		SetCursor(LoadCursor(NULL, IDC_SIZEALL));
 	}
+
+
 }
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.

@@ -1,5 +1,5 @@
 //SelectionState.cpp
-
+#include "MovingLine.h"
 #include "Diagram.h"
 #include "Class.h"
 #include "DefaultState.h"
@@ -93,6 +93,9 @@ void SelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 		}
 		if (index == 4) {
 			this->ChangeState(mouseLButton, MovingObject::Instance());
+		}
+		if (index == 5) {
+			this->ChangeState(mouseLButton, MovingLine::Instance());
 		}
 		if (index == -1) {
 			this->ChangeDefault(mouseLButton);

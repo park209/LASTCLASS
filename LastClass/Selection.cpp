@@ -3,6 +3,7 @@
 #include "Relation.h"
 #include "Finder.h"
 #include "SelfRelation.h"
+#include "Class.h"
 Selection::Selection(Long capacity):FigureComposite(capacity) {
 	this->x = 0;
 	this->y = 0;
@@ -229,6 +230,7 @@ Long Selection::SelectByPoint(Long x, Long y) {
 				}
 			}
 		}
+			
 		if (dynamic_cast<FigureComposite*>(this->GetAt(i))) {
 			composite = static_cast<FigureComposite*>(this->GetAt(i));
 
@@ -286,18 +288,62 @@ Long Selection::SelectByPoint(Long x, Long y) {
 				rect.bottom = composite->GetY() + composite->GetHeight() + 3;
 				ret = finder.FindRectangleByPoint(rect, x, y);
 			}//1여기에 템플릿일때 if() 이거하고/2 템플릿일때 작은 사각형 누르기 하고/3 확대하기 
-
+			CPoint attributeStartPoint(0, 0);
+			CPoint attributeEndPoint(0, 0);
+			CPoint methodStartPoint(0, 0);
+			CPoint methodEndPoint(0, 0);
+			CPoint receptionStartPoint(0, 0);
+			CPoint receptionEndPoint(0, 0);
+			if (dynamic_cast<Class*>(composite)) {
+				Class *object = static_cast<Class*>(composite);
+				if (object->GetAttributePosition() != -1) {
+					attributeStartPoint.x = object->GetAt(object->GetAttributePosition() - 1)->GetX();
+					attributeStartPoint.y = object->GetAt(object->GetAttributePosition() - 1)->GetY();
+					attributeEndPoint.x = object->GetAt(object->GetAttributePosition() - 1)->GetX() + object->GetAt(object->GetAttributePosition() - 1)->GetWidth();
+					attributeEndPoint.y = object->GetAt(object->GetAttributePosition() - 1)->GetY();
+				}
+				if (object->GetMethodPosition() != -1) {
+					methodStartPoint.x = object->GetAt(object->GetMethodPosition() - 1)->GetX();
+					methodStartPoint.y = object->GetAt(object->GetMethodPosition() - 1)->GetY();
+					methodEndPoint.x = object->GetAt(object->GetMethodPosition() - 1)->GetX() + object->GetAt(object->GetMethodPosition() - 1)->GetWidth();
+					methodEndPoint.y = object->GetAt(object->GetMethodPosition() - 1)->GetY();
+				}
+				if (object->GetReceptionPosition() != -1) {
+					receptionStartPoint.x = object->GetAt(object->GetReceptionPosition() - 1)->GetX();
+					receptionStartPoint.y = object->GetAt(object->GetReceptionPosition() - 1)->GetY();
+					receptionEndPoint.x = object->GetAt(object->GetReceptionPosition() - 1)->GetX() + object->GetAt(object->GetReceptionPosition() - 1)->GetWidth();
+					receptionEndPoint.y = object->GetAt(object->GetReceptionPosition() - 1)->GetY();
+				}
+			}
 			if (ret == true) {
 				index = 3;
 			}
 			else {
-				rect.left = composite->GetX();
-				rect.top = composite->GetY();
-				rect.right = composite->GetX() + composite->GetWidth();
-				rect.bottom = composite->GetY() + composite->GetHeight();
-				ret = finder.FindRectangleByPoint(rect, x, y);
+				rect.left = x - 8;
+				rect.top = y - 8;
+				rect.right = x + 8;
+				rect.bottom = y + 8;
+				if (ret != true) {
+					ret = finder.FindLineByArea(attributeStartPoint, attributeEndPoint,rect);
+				}
+				if (ret != true) {
+					ret = finder.FindLineByArea(methodStartPoint, methodEndPoint, rect);
+				}
+				if (ret != true) {
+					ret = finder.FindLineByArea(receptionStartPoint, receptionEndPoint, rect);
+				}
 				if (ret == true) {
-					index = 4;
+					index = 5;
+				}
+				else {
+					rect.left = composite->GetX();
+					rect.top = composite->GetY();
+					rect.right = composite->GetX() + composite->GetWidth();
+					rect.bottom = composite->GetY() + composite->GetHeight();
+					ret = finder.FindRectangleByPoint(rect, x, y);
+					if (ret == true) {
+						index = 4;
+					}
 				}
 			}
 		}
