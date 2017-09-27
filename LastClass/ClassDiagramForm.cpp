@@ -47,7 +47,7 @@ using namespace std;
 BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
-	ON_WM_CHAR()
+	ON_WM_KEYDOWN()
 	ON_WM_SETFOCUS()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONDBLCLK()
@@ -434,54 +434,56 @@ void ClassDiagramForm::OnPaint() {
 	this->selection->Accept(drawingVisitor, &dc);
 }
 
-void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
+void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	Class *object = static_cast<Class*>(this->selection->GetAt(0));
 	this->mouseLButton->ChangeState(nChar);
-	if (nChar == 100) { // D 선택항목 지우기
+	if (nChar == VK_DELETE) { // D 선택항목 지우기   Delete키
 		while (this->selection->GetLength() != 0) {
 			this->selection->Remove(this->diagram, this->selection->GetAt(this->selection->GetLength() - 1));
 		}
 	}
-	if (nChar == 118) { // V 템플릿기호 만들기
+	if (nChar == 65){ // 템플릿기호 만들기  A키
 		if (object->GetTempletePosition() == -1) {
-			object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25, "");
+			object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25);
 		}
 	}
-	if (nChar == 102) { // F 템플릿기호 지우기
+	if (nChar == 83) { // 템플릿기호 지우기	S키
 		if (object->GetTempletePosition() != -1) {
 			object->RemoveTemplate();
 		}
 	}
 
-	if (nChar == 104) { //H 리셉션칸 추가
+	if (nChar == 68) { // 리셉션칸 추가	D키
 		if (object->GetReceptionPosition() == -1) {
 			object->AddReception(this->diagram);
 		}
 	}
-	if (nChar == 103) { // G 리셉션칸 지우기
+	if (nChar == 70) { // 리셉션칸 지우기 F키
 		if (object->GetReceptionPosition() != -1) {
 			object->RemoveReception();
 		}
 	}
-	if (nChar == 117) { // U  
-		if (object->GetAttributePosition() != 1) {
-			object->RemoveAttribute();
-		}
-	}
-	if (nChar == 105) {//i메소드삭제
-		if (object->GetMethodPosition() != -1) {
-			object->RemoveMethod();
-		}
-	}
-	if (nChar == 111) {//o
+
+	if (nChar == 71) {// 	Attribute추가 G키
 		if (object->GetAttributePosition() == -1) {
 			object->AddAttribute(this->diagram);
 		}
 	}
-	if (nChar == 112) {//p
+	if (nChar == 72) { // Attribute 지우기     H키
+		if (object->GetAttributePosition() != 1) {
+			object->RemoveAttribute();
+		}
+	}
+
+	if (nChar == 74) {//메소드 추가	J키
 		if (object->GetMethodPosition() == -1) {
 			object->AddMethod(this->diagram);
+		}
+	}
+	if (nChar == 75) {//메소드삭제  K키
+		if (object->GetMethodPosition() != -1) {
+			object->RemoveMethod();
 		}
 	}
 
@@ -532,7 +534,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 
-	this->selection->DeleteAllItems();
+	//this->selection->DeleteAllItems();
 
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {

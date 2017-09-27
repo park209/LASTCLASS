@@ -5,7 +5,6 @@
 #include "Selection.h"
 #include "SelectionState.h"
 #include "DrawingClass.h"
-#include "DrawingRelation.h"
 #include "DrawingMemoBox.h"
 #include "DrawingGeneralization.h" 
 #include "DrawingAggregation.h"
@@ -48,7 +47,7 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	if (object == 49) {
 		this->ChangeState(mouseLButton, DrawingClass::Instance(), 49);
 	}
-	if (object == 101) {
+	if (object == 81) {
 		this->ChangeState(mouseLButton, DrawingMemoBox::Instance(), 101);
 	}
 	if (object == 50) {
@@ -66,8 +65,8 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	if (object == 57) {
 		this->ChangeState(mouseLButton, DrawingComposition::Instance(), 57);
 	}
-	if (object == 113) {
-		this->ChangeState(mouseLButton, DrawingCompositions::Instance(), 113);
+	if (object == 48) {
+		this->ChangeState(mouseLButton, DrawingCompositions::Instance(), 48);
 	}
 	if (object == 52) {
 		this->ChangeState(mouseLButton, DrawingDependency::Instance(), 52);
@@ -75,7 +74,7 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	if (object == 54) {
 		this->ChangeState(mouseLButton, DrawingDirectedAssociation::Instance(), 54);
 	}
-	if (object == 114) {
+	if (object == 87) {
 		this->ChangeState(mouseLButton, DrawingMemoLine::Instance(), 114);
 	}
 	if (object == 51) {

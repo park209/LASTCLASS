@@ -501,7 +501,7 @@ Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야�
 }
 
 
-Long Class::AddTemplate(Long x, Long y, Long width, Long height, string content) { //중복생성 안되게 막아야함
+Long Class::AddTemplate(Long x, Long y, Long width, Long height) { //중복생성 안되게 막아야함
 	
 	Template object(x, y, width, height, content);
 
