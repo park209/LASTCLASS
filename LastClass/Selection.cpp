@@ -302,7 +302,7 @@ Long Selection::SelectByPoint(Long x, Long y) {
 					attributeEndPoint.x = object->GetAt(object->GetAttributePosition() - 1)->GetX() + object->GetAt(object->GetAttributePosition() - 1)->GetWidth();
 					attributeEndPoint.y = object->GetAt(object->GetAttributePosition() - 1)->GetY();
 				}
-				if (object->GetAttributePosition() != -1) {
+				if (object->GetMethodPosition() != -1) {
 					methodStartPoint.x = object->GetAt(object->GetMethodPosition() - 1)->GetX();
 					methodStartPoint.y = object->GetAt(object->GetMethodPosition() - 1)->GetY();
 					methodEndPoint.x = object->GetAt(object->GetMethodPosition() - 1)->GetX() + object->GetAt(object->GetMethodPosition() - 1)->GetWidth();
@@ -319,10 +319,10 @@ Long Selection::SelectByPoint(Long x, Long y) {
 				index = 3;
 			}
 			else {
-				rect.left = x - 4;
-				rect.top = y - 4;
-				rect.right = x + 4;
-				rect.bottom = y + 4;
+				rect.left = x - 6;
+				rect.top = y - 6;
+				rect.right = x + 6;
+				rect.bottom = y + 6;
 				if (ret != true) {
 					ret = finder.FindLineByArea(attributeStartPoint, attributeEndPoint,rect);
 				}
