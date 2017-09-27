@@ -207,7 +207,6 @@ void Finder::FindRelationEndPoints(Diagram *diagram, FigureComposite *figureComp
 
 Figure* Finder::GetParents(Diagram *diagram, Figure *figure) {
 	Long i = 0;
-	Long index;
 	Figure *object = 0;
 	Long j;
 	FigureComposite *figures = 0;

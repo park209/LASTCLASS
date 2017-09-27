@@ -50,7 +50,7 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 				figure->Move(distanceX, distanceY);
 				j++;
 			}
-
+			k = 0;
 			while (k < diagram->GetLength()) {
 				figureComposite = static_cast<FigureComposite*>(diagram->GetAt(k));
 				l = 0;

@@ -10,7 +10,7 @@
 //#include "SmartPointer.h"
 
 typedef signed long int Long;
-
+class Diagram;
 class FigureComposite : public Figure {
 public:
 
@@ -18,6 +18,12 @@ public:
 	FigureComposite(const FigureComposite& source);
 	ArrayIterator<Figure*>* CreateIterator() const;
 	FigureComposite& operator = (const FigureComposite& source);
+
+	Figure* ModifyComponetsToRightDirection(Diagram *diagram, Long distanceX);
+	Figure* ModifyComponetsToDownDirection(Diagram *diagram, Long distanceY);
+	Figure* ModifyComponetsToLeftDirection(Diagram *diagram, Long distanceX);
+	Figure* ModifyComponetsToUpDirection(Diagram *diagram, Long distanceX);
+
 
 
 	virtual ~FigureComposite() = 0;
