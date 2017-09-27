@@ -80,7 +80,8 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		}
 		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlEnterKey;
-		}break;
+		}
+		break;
 	case VK_HOME:
 		this->keyAction = new HomeKey;
 		break;
@@ -99,36 +100,45 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 	case  VK_OEM_PLUS:
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new PlusKey;
-		}break;
+		}
+		break;
 	case VK_OEM_MINUS:
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new MinusKey;
-		}break;
+		}
+		break;
 	case 67:
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlCopyKey;
-		}break;
+		}
+		break;
 	case 0x41:
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlAllKey;
-		}break;
+		}
+		break;
 	case 0x56:
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlPasteKey;
-		}break;
+		}
+		break;
 	case 88:
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlCutKey;
-		}break;
+		}
+		break;
 	case 90:
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlUndoTextKey;
-		}break;
+		}
+		break;
 	case 89:
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlRedoTextKey;
-		}break;
-	default:break;
+		}
+		break;
+	default:
+		break;
 	}
 	return this->keyAction;
 }

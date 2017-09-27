@@ -1,7 +1,8 @@
-
+//SelectionState.h
 
 #ifndef _SELECTIONSTATE_H
 #define _SELECTIONSTATE_H
+
 #include "MouseLButtonAction.h"
 
 
