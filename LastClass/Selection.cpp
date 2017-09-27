@@ -229,44 +229,6 @@ Long Selection::SelectByPoint(Long x, Long y) {
 				}
 			}
 		}
-			/*if (dynamic_cast<SelfRelation*>(this->GetAt(i))) {
-				selfRelation = static_cast<SelfRelation*>(this->GetAt(i));
-
-				lineStart.x = selfRelation->GetX();
-				lineStart.y = selfRelation->GetY();
-				lineEnd.x = selfRelation->GetX();
-				lineEnd.y = selfRelation->GetY() - 30;
-				if (ret == false) {
-					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
-				}
-
-				lineStart.x = selfRelation->GetX();
-				lineStart.y = selfRelation->GetY() - 30;
-				lineEnd.x = selfRelation->GetX() + 60;
-				lineEnd.y = selfRelation->GetY() - 30;
-				if (ret == false) {
-					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
-				}
-
-				lineStart.x = selfRelation->GetX() + 60;
-				lineStart.y = selfRelation->GetY() - 30;
-				lineEnd.x = selfRelation->GetX() + 60;
-				lineEnd.y = selfRelation->GetY() + 30;
-				if (ret == false) {
-					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
-				}
-
-				lineStart.x = selfRelation->GetX() + 60;
-				lineStart.y = selfRelation->GetY() + 30;
-				lineEnd.x = selfRelation->GetX() + 30;
-				lineEnd.y = selfRelation->GetY() + 30;
-				if (ret == false) {
-					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
-				}
-				if (ret == true) {
-					index = 1;
-				}
-			}*/
 		if (dynamic_cast<FigureComposite*>(this->GetAt(i))) {
 			composite = static_cast<FigureComposite*>(this->GetAt(i));
 

@@ -428,10 +428,11 @@ void ClassDiagramForm::OnPaint() {
 	cFont.DeleteObject();
 
 	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
-
+	//if(this->startX != this->currentX && this->startY != this->currentY){
 		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
 	}
 	this->selection->Accept(drawingVisitor, &dc);
+	
 }
 
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -573,28 +574,10 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 
-	if (this->startX != this->currentX || this->startY != this->currentY) {
+	//if (this->startX != this->currentX || this->startY != this->currentY) {
 		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-	}
-/*
-	Figure *figure = 0;
-	if (this->startX != this->currentX || this->startY != this->currentY) {
-		figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-		if (dynamic_cast<ClassButton*>(this->drawingController->buttonState)) {
-			SmartPointer<Figure*> iterator = static_cast<Class*>(figure)->CreateIterator();
-			for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
-				if (dynamic_cast<ClassName*>(iterator->Current())) {
-					this->textEdit = new TextEdit(iterator->Current());
-					this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-						iterator->Current()->GetX(),
-						iterator->Current()->GetY(),
-						iterator->Current()->GetX() + iterator->Current()->GetWidth(),
-						iterator->Current()->GetY() + iterator->Current()->GetHeight()), this, 10000, NULL);
-					OnKillFocus(NULL);
-				}
-			}
-		}
-	}*/
+//	}
+
 
 	this->startX = 0;
 	this->startY = 0;
@@ -607,6 +590,8 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
+	
+	
 	if (nFlags == MK_LBUTTON) {
 		this->currentX = point.x;
 		this->currentY = point.y;
