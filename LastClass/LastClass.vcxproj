@@ -65,7 +65,6 @@
     <ClInclude Include="DrawingMemoBox.h" />
     <ClInclude Include="DrawingMemoLine.h" />
     <ClInclude Include="DrawingRealization.h" />
-    <ClInclude Include="DrawingRelation.h" />
     <ClInclude Include="DrawingRelationPoint.h" />
     <ClInclude Include="DrawingResize.h" />
     <ClInclude Include="DrawingResizing.h" />
@@ -177,7 +176,6 @@
     <ClCompile Include="DrawingMemoBox.cpp" />
     <ClCompile Include="DrawingMemoLine.cpp" />
     <ClCompile Include="DrawingRealization.cpp" />
-    <ClCompile Include="DrawingRelation.cpp" />
     <ClCompile Include="DrawingRelationPoint.cpp" />
     <ClCompile Include="DrawingResizing.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
