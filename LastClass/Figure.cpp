@@ -82,3 +82,19 @@ Figure::~Figure() {
 void Figure::ReplaceString(string content) {
 	this->content = content;
 }
+
+void Figure::SetX(Long x) {
+	this->x = x;
+}
+
+void Figure::SetY(Long y) {
+	this->y = y;
+}
+
+void Figure::SetWidth(Long width) {
+	this->width = width;
+}
+
+void Figure::SetHeight(Long height) {
+	this->height = height;
+}

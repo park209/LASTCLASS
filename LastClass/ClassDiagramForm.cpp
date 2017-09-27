@@ -624,6 +624,9 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	else if (index == 4) {
 		SetCursor(LoadCursor(NULL, IDC_SIZEALL));
 	}
+	else if (index == 5) {
+		SetCursor(LoadCursor(NULL, IDC_HELP));
+	}
 }
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
@@ -642,9 +645,9 @@ void ClassDiagramForm::OnClose() {
 	if (this->mouseLButton != NULL) {
 		delete this->mouseLButton;
 	}
-	if (this->textEdit != NULL) {
+	/*if (this->textEdit != NULL) {
 		delete this->textEdit;
-	}
+	}*/
 
 	//6.3. 윈도우를 닫는다.
 	CFrameWnd::OnClose(); // 오버라이딩 코드재사용
