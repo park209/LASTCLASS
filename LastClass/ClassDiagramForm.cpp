@@ -464,17 +464,17 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 			object->RemoveReception();
 		}
 	}
-	if (nChar == 117) { // U  
+	if (nChar == 117) { // U  속성칸 지우기
 		if (object->GetAttributePosition() != 1) {
 			object->RemoveAttribute();
 		}
 	}
-	if (nChar == 105) {//i메소드삭제
+	if (nChar == 105) {// i 메소드삭제
 		if (object->GetMethodPosition() != -1) {
 			object->RemoveMethod();
 		}
 	}
-	if (nChar == 111) {//o
+	if (nChar == 111) {// o 속성 더하기
 		if (object->GetAttributePosition() == -1) {
 			object->AddAttribute(this->diagram);
 		}
@@ -612,19 +612,20 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	}
 	Long index;
 	index = this->selection->SelectByPoint(point.x, point.y);
-	if (index == 1){
-		SetCursor(LoadCursor(NULL,IDC_HAND));
+	if (index == 1) {
+		SetCursor(LoadCursor(NULL, IDC_HAND));
 	}
 	else if (index == 2) {
 		SetCursor(LoadCursor(NULL, IDC_CROSS));
 	}
-	else if (index == 3) {
+	else if (index == 3 || index == 5) {
 		SetCursor(LoadCursor(NULL, IDC_HELP));
 	}
 	else if (index == 4) {
 		SetCursor(LoadCursor(NULL, IDC_SIZEALL));
 	}
 }
+
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
 	//this->Save();
@@ -642,9 +643,9 @@ void ClassDiagramForm::OnClose() {
 	if (this->mouseLButton != NULL) {
 		delete this->mouseLButton;
 	}
-	if (this->textEdit != NULL) {
-		delete this->textEdit;
-	}
+	//if (this->textEdit != NULL) { // 종료시에 뻑남
+	//	delete this->textEdit;
+	//}
 
 	//6.3. 윈도우를 닫는다.
 	CFrameWnd::OnClose(); // 오버라이딩 코드재사용

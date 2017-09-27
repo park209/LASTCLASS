@@ -23,6 +23,8 @@
 #include "MovingRelation.h"
 #include "DrawingRelationPoint.h"
 #include "DrawingResizing.h"
+#include "MovingLine.h"
+
 SelectionState* SelectionState::instance = 0;
 
 MouseLButtonAction* SelectionState::Instance() {
@@ -32,8 +34,8 @@ MouseLButtonAction* SelectionState::Instance() {
 	return instance;
 }
 void SelectionState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
-	
 }
+
 void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
 	Long index;
 		UINT object = mouseLButton->GetButtonState();
@@ -82,6 +84,7 @@ void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagr
 		this->ChangeDefault(mouseLButton);
 	}
 }
+
 void SelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
 	Long index = selection->SelectByPoint(currentX, currentY);
 	if (index == 1) {
@@ -95,5 +98,8 @@ void SelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 	}
 	if (index == 4) {
 		this->ChangeState(mouseLButton, MovingObject::Instance());
+	}
+	if (index == 5) {
+		this->ChangeState(mouseLButton, MovingLine::Instance());
 	}
 }

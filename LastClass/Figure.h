@@ -25,6 +25,11 @@ public:
 
 	Figure* Modify(Long x, Long y, Long width, Long height);
 
+	void SetX(Long x);
+	void SetY(Long y);
+	void SetWidth(Long width);
+	void SetHeight(Long height);
+
 	Long GetX() const;
 	Long GetY() const;
 	Long GetWidth() const;

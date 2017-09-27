@@ -1,23 +1,21 @@
-//MovingObject.h
+//MovingLine.h
 
-#ifndef _MOVINGOBJECT_H
-#define _MOVINGOBJECT_H
+#ifndef _MOVINGLINE_H
+#define _MOVINGLINE_H
 
 #include "MouseLButtonAction.h"
 
-class MovingObject :public MouseLButtonAction {
+
+class MovingLine :public MouseLButtonAction {
 public:
 	static MouseLButtonAction* Instance();
 
 	virtual void MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY);
 	virtual void MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY);
 	virtual void MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPatinDC);
-
 protected:
 	//DrawingClass();
 private:
-	static MovingObject* instance;
+	static MovingLine* instance;
 };
-
-#endif // !_MOVINGOBJECT_H
-
+#endif // !_MOVINGLINE_H

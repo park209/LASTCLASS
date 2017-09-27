@@ -185,6 +185,7 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, 
 
 	this->ChangeState(mouseLButton, SelectionState::Instance());
 }
+
 void MovingObject::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	selection->DeleteAllItems();
 	selection->SelectByPoint(diagram, currentX, currentY);
