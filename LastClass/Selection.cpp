@@ -319,10 +319,10 @@ Long Selection::SelectByPoint(Long x, Long y) {
 				index = 3;
 			}
 			else {
-				rect.left = x - 6;
-				rect.top = y - 6;
-				rect.right = x + 6;
-				rect.bottom = y + 6;
+				rect.left = x - 8;
+				rect.top = y - 8;
+				rect.right = x + 8;
+				rect.bottom = y + 8;
 				if (ret != true) {
 					ret = finder.FindLineByArea(attributeStartPoint, attributeEndPoint,rect);
 				}
