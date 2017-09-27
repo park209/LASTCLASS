@@ -9,7 +9,7 @@ Figure::Figure() {
 	this->width = 0;
 	this->height = 0;
 	this->content = "";
-	this->minimumHight = 18;
+	this->minimumHeight = 25;
 	this->minimumWidth = 120;
 }
 
@@ -20,7 +20,7 @@ Figure::Figure(Long x, Long y, Long width, Long height) {
 	this->height = height;
 	this->content = "";
 	this->minimumWidth = 120;
-	this->minimumHight = 25;
+	this->minimumHeight = 25;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height, string content) {
@@ -30,7 +30,7 @@ Figure::Figure(Long x, Long y, Long width, Long height, string content) {
 	this->height = height;
 	this->content = content;
 	this->minimumWidth = 120; //여기도
-	this->minimumHight = 18; // 입력받을 문자열에 맞게 값 줘야하는데
+	this->minimumHeight = 25; // 입력받을 문자열에 맞게 값 줘야하는데
 }
 
 Figure::Figure(const Figure& source) {
@@ -39,7 +39,7 @@ Figure::Figure(const Figure& source) {
 	this->width = source.width;
 	this->height = source.height;
 	this->minimumWidth = source.minimumWidth;
-	this->minimumHight = source.minimumHight;
+	this->minimumHeight = source.minimumHeight;
 }
 void Figure::ReplaceString(string content) {
 	this->content = content;
@@ -47,16 +47,20 @@ void Figure::ReplaceString(string content) {
 void Figure::SetX(Long x) {
 	this->x = x;
 }
-
 void Figure::SetY(Long y) {
 	this->y = y;
+}
+void Figure::SetWidth(Long width) {
+	this->width = width;
+}
+void Figure::SetHeight(Long height) {
+	this->height = height;
 }
 void Figure::SetMinimumWidth(Long minimumWidth) {
 	this->minimumWidth = minimumWidth;
 }
-
-void Figure::SetMinimumHight(Long minimumHight) {
-	this->minimumHight = minimumHight;
+void Figure::SetMinimumHeight(Long minimumHeight) {
+	this->minimumHeight = minimumHeight;
 }
 Figure* Figure::Move(Long distanceX, Long distanceY) {
 	this->x = this->x + distanceX;
@@ -88,7 +92,7 @@ Figure& Figure::operator = (const Figure& source) {
 	this->width = source.width;
 	this->height = source.height;
 	this->minimumWidth = source.minimumWidth;
-	this->minimumHight = source.minimumHight;
+	this->minimumHeight = source.minimumHeight;
 
 	return *this;
 }

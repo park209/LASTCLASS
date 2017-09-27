@@ -20,10 +20,6 @@
 #include "DoubleClickTextArea.h"
 #include "FontSet.h"
 #include "Selection.h"
-#include "FigureComposite.h"
-#include "Diagram.h"
-#include "Class.h"
-#include "Finder.h"
 #include "EditResizer.h"
 
 //#include <iostream>
@@ -90,14 +86,14 @@ void TextEdit::OnPaint() {
 	cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 	SetFont(&cFont, TRUE);
-	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
+	CFont *oldFont = dc.SelectObject(&cFont);	// 폰트 시작
 	if (this->flagSelection == 0) {
 		EditResizer editResizer;
 		editResizer.ResizeEdit(this,&dc);
-		this->text->Accept(writingVisitor, &dc);//받았던거 출력
+		this->text->Accept(writingVisitor, &dc);// 받았던거 출력
 		this->caret->MoveToIndex(this, &dc);
 	}
-	else if (this->flagSelection == 1) { // flagSelection이 눌려있으면
+	else if (this->flagSelection == 1) {		// flagSelection이 눌려있으면
 		this->textAreaSelected->SelectTextArea(this, &dc);
 	}
 
@@ -107,14 +103,11 @@ void TextEdit::OnPaint() {
 
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN &&
-		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10  && GetKeyState(VK_CONTROL) >= 0) {
+		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10 && GetKeyState(VK_CONTROL) >= 0) {
 
 		if (flagSelection == 1) {
-			DeleteTextArea *deleteArea = new DeleteTextArea();
+			DeleteTextArea *deleteArea = DeleteTextArea::Instance();
 			deleteArea->DeleteArea(this);
-			if (deleteArea != 0) {
-				delete deleteArea;
-			}
 		}
 		char nCharacter = nChar;
 		SingleByteCharacter singleByteCharacter(nCharacter);
@@ -128,7 +121,6 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 			this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex(), singleByteCharacter.Clone());
 		}
 		this->caret->MoveForwardCharacterIndex();
-
 	}
 
 	CWnd::HideCaret();
@@ -141,19 +133,14 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	HIMC hIMC = ImmGetContext(GetSafeHwnd());
 
 	if (flagSelection == 1) {
-		DeleteTextArea *deleteArea = new DeleteTextArea();
+		DeleteTextArea *deleteArea = DeleteTextArea::Instance();
 		deleteArea->DeleteArea(this);
-		if (deleteArea != 0) {
-			delete deleteArea;
-		}
 	}
-	WriteKoreanText *writeHanguel = new WriteKoreanText();
+	WriteKoreanText *writeHanguel = WriteKoreanText::Instance();
 	writeHanguel->WriteHanguel(wParam, lParam, hIMC, this);
-	if (writeHanguel != 0) {
-		delete writeHanguel;
-	}
+
 	ImmReleaseContext(GetSafeHwnd(), hIMC);
-	
+
 	CWnd::HideCaret();
 	::DestroyCaret();
 
@@ -257,12 +244,9 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 void TextEdit::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
 
-	DoubleClickTextArea *DoubleClick = new DoubleClickTextArea();
+	DoubleClickTextArea *DoubleClick = DoubleClickTextArea::Instance();
 	DoubleClick->FindDoubleClickAreaIndex(this);
-	if (DoubleClick != 0) {
-		delete DoubleClick;
-	}
-	
+
 	::DestroyCaret();
 	Invalidate();
 }
@@ -280,7 +264,6 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		::DestroyCaret();
 
 		CWnd::Invalidate();
-		
 	}
 }
 
@@ -299,7 +282,7 @@ LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {
 void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 	string content(this->text->MakeText());
 	this->figure->ReplaceString(content);
-	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)GetParentFrame();//
+	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)GetParentFrame();
 
 	classDiagramForm->selection->SelectByPoint(classDiagramForm->diagram,this->figure->GetX(),this->figure->GetY());
 	EditResizer editResizer;
@@ -333,8 +316,10 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 void TextEdit::OnClose() {
 	string content(this->text->MakeText());
 	this->figure->ReplaceString(content);
+
 	EditResizer editResizer;
 	editResizer.ResizeClass(this);
+
 	CWnd::HideCaret();
 	::DestroyCaret();
 	if (this->caret != NULL) {

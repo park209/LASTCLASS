@@ -45,30 +45,30 @@ void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 	//cFont->DeleteObject();
 }
 void WritingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { //접힌부분아래로 적히게
-	RECT rt = { memoBox->GetX() + 5 , memoBox->GetY() + 25, memoBox->GetX() + 5 + memoBox->GetWidth(), memoBox->GetY() + 5 + memoBox->GetHeight() };
+	RECT rt = { memoBox->GetX() + 6 , memoBox->GetY() + 25, memoBox->GetX() + 6 + memoBox->GetWidth(), memoBox->GetY() + 6 + memoBox->GetHeight() };
 	cPaintDc->DrawText((CString)memoBox->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 }
 void WritingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 }
 void WritingVisitor::Visit(Template *object, CDC *cPaintDc) {
-	RECT rt = { object->GetX() + 5 , object->GetY() + 5, object->GetX() + 5 + object->GetWidth(), object->GetY() + 5 + object->GetHeight() };
+	RECT rt = { object->GetX() + 6 , object->GetY() + 6, object->GetX() + 6 + object->GetWidth(), object->GetY() + 6 + object->GetHeight() };
 	cPaintDc->DrawText((CString)object->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 
 }
 void WritingVisitor::Visit(ClassName* className, CDC* cPaintDc) {
-	RECT rt = { className->GetX() + 5 , className->GetY() + 5, className->GetX() + 5 + className->GetWidth(), className->GetY() + 5 + className->GetHeight() };
-	cPaintDc->DrawText((CString)className->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP | DT_CENTER);
+	RECT rt = { className->GetX() + 6 , className->GetY() + 6, className->GetX() + 6 + className->GetWidth(), className->GetY() + 6 + className->GetHeight() };
+	cPaintDc->DrawText((CString)className->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 }
 void WritingVisitor::Visit(Attribute* attribute, CDC* cPaintDc) {
-	RECT rt = { attribute->GetX() + 5 , attribute->GetY() + 5, attribute->GetX() + 5 + attribute->GetWidth(), attribute->GetY() + 5 + attribute->GetHeight() };
+	RECT rt = { attribute->GetX() + 6 , attribute->GetY() + 6, attribute->GetX() + 6 + attribute->GetWidth(), attribute->GetY() + 6 + attribute->GetHeight() };
 	cPaintDc->DrawText((CString)attribute->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 }
 void WritingVisitor::Visit(Method* method, CDC* cPaintDc) {
-	RECT rt = { method->GetX() + 5 , method->GetY() + 5, method->GetX() + 5 + method->GetWidth(), method->GetY() + 5 + method->GetHeight() };
+	RECT rt = { method->GetX() + 6 , method->GetY() + 6, method->GetX() + 6 + method->GetWidth(), method->GetY() + 6 + method->GetHeight() };
 	cPaintDc->DrawText((CString)method->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 }
 void WritingVisitor::Visit(Reception* reception, CDC* cPaintDc) {
-	RECT rt = { reception->GetX() + 5 , reception->GetY() + 5, reception->GetX() + 5 + reception->GetWidth(), reception->GetY() + 5 + reception->GetHeight() };
+	RECT rt = { reception->GetX() + 6 , reception->GetY() + 6, reception->GetX() + 6 + reception->GetWidth(), reception->GetY() + 6 + reception->GetHeight() };
 	cPaintDc->DrawText((CString)reception->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 }
 void WritingVisitor::Visit(Line *line, CDC* cPaintDc) {

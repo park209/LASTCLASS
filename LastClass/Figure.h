@@ -22,8 +22,10 @@ public:
 	void ReplaceString(string content);
 	void SetX(Long x);
 	void SetY(Long y);
+	void SetWidth(Long width);
+	void SetHeight(Long height);
 	void SetMinimumWidth(Long minimumWidth);
-	void SetMinimumHight(Long minimumHight);
+	void SetMinimumHeight(Long minimumHeight);
 	Figure* Move(Long distanceX, Long distanceY);
 	Figure* EndPointMove(Long distanceX, Long distanceY);
 
@@ -34,7 +36,7 @@ public:
 	Long GetWidth() const;
 	Long GetHeight() const;
 	string& GetContent() const;
-	Long GetMinimumHight() const;
+	Long GetMinimumHeight() const;
 	Long GetMinimumWidth() const;
 
 protected:
@@ -44,7 +46,7 @@ protected:
 	Long height;
 	string content;
 	Long minimumWidth;
-	Long minimumHight;
+	Long minimumHeight;
 };
 
 inline Long Figure::GetX() const {
@@ -67,8 +69,8 @@ inline Long Figure::GetMinimumWidth() const {
 	return this->minimumWidth;
 }
 
-inline Long Figure::GetMinimumHight() const {
-	return this->minimumHight;
+inline Long Figure::GetMinimumHeight() const {
+	return this->minimumHeight;
 }
 
 #endif //_FIGURE_H

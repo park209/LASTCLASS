@@ -147,7 +147,7 @@ Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long d
 			editPosition = 0;
 		}
 
-		stringHeight = this->GetAt(editPosition)->GetMinimumHight();
+		stringHeight = this->GetAt(editPosition)->GetMinimumHeight();
 		limitY = this->GetAt(editPosition)->GetY() + stringHeight;
 
 		if (this->y + this->height + distanceY < limitY) {
@@ -234,7 +234,7 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 		else {
 			editPosition = 0;
 		}
-		stringHeight = this->GetAt(editPosition)->GetMinimumHight();
+		stringHeight = this->GetAt(editPosition)->GetMinimumHeight();
 
 		if (this->GetAt(editPosition)->GetHeight() - stringHeight < distanceY) {
 			distanceY = this->GetAt(editPosition)->GetHeight() - stringHeight;

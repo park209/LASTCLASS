@@ -1,16 +1,16 @@
-//EditResizier.cpp
+//EditResizer.cpp
 
 #include "EditResizer.h"
 #include "ClassDiagramForm.h"
+#include "TextEdit.h"
 #include "Text.h"
 #include "Row.h"
-#include "TextEdit.h"
-#include "Selection.h"
+#include "Figure.h"
 #include "FigureComposite.h"
 #include "Diagram.h"
 #include "Class.h"
 #include "Finder.h"
-#include "Figure.h"
+#include "Selection.h"
 
 EditResizer::EditResizer() {
 
@@ -22,23 +22,45 @@ EditResizer::~EditResizer() {
 
 }
 void EditResizer::ResizeEdit(TextEdit *textEdit, CDC *cdc) {
-	
-	if ((textEdit->text->MaxWidth(cdc) + 9 > textEdit->figure->GetWidth())==true ||
-		(textEdit->GetRowHeight()*textEdit->text->GetLength() > textEdit->figure->GetHeight())==true) {
 
-		cdc->FillSolidRect(CRect(5, 0, textEdit->text->MaxWidth(cdc) + textEdit->rowHeight,
-			textEdit->figure->GetHeight()*textEdit->text->GetLength()), RGB(255, 255, 255));
-		textEdit->MoveWindow(textEdit->figure->GetX(), textEdit->figure->GetY(),
-			textEdit->text->MaxWidth(cdc) + 9, textEdit->figure->GetHeight());
+	if (textEdit->text->MaxWidth(cdc) + 9 > textEdit->figure->GetWidth()) {								//글너비가 클래스를 넘어가는데
+
+		if (textEdit->GetRowHeight()*textEdit->text->GetLength() > textEdit->figure->GetHeight()) {		//글높이가 클래스를 넘어가면 둘다O
+
+			cdc->FillSolidRect(CRect(0, 0, textEdit->text->MaxWidth(cdc) + textEdit->rowHeight,
+											textEdit->GetRowHeight()*textEdit->text->GetLength()), RGB(255, 255, 255));
+
+			textEdit->MoveWindow(textEdit->figure->GetX(), textEdit->figure->GetY(),
+									textEdit->text->MaxWidth(cdc) + 9, textEdit->GetRowHeight()*textEdit->text->GetLength() + 5);
+		}
+		else {																							//글높이가 클래스를 안넘어가면 너비만
+			cdc->FillSolidRect(CRect(0, 0, textEdit->text->MaxWidth(cdc) + textEdit->rowHeight,
+											textEdit->figure->GetHeight()), RGB(255, 255, 255));
+
+			textEdit->MoveWindow(textEdit->figure->GetX(), textEdit->figure->GetY(),
+									textEdit->text->MaxWidth(cdc) + 9, textEdit->figure->GetHeight());
+		}
 	}
-	else {
-		cdc->FillSolidRect(CRect(5, 0, textEdit->figure->GetWidth() + 5,
-			textEdit->figure->GetHeight()), RGB(255, 255, 255));
-		textEdit->MoveWindow(textEdit->figure->GetX(), textEdit->figure->GetY(),
-			textEdit->figure->GetWidth(), textEdit->figure->GetHeight());
+	else if (textEdit->text->MaxWidth(cdc) + 9 <= textEdit->figure->GetWidth())	{						//글너비가 클래스를 안넘어가는데
+
+		if (textEdit->GetRowHeight()*textEdit->text->GetLength() > textEdit->figure->GetHeight()) {		//글높이가 클래스를 넘어가면 높이만
+
+			cdc->FillSolidRect(CRect(0, 0, textEdit->figure->GetWidth() + 5,
+											textEdit->GetRowHeight()*textEdit->text->GetLength()), RGB(255, 255, 255));
+
+			textEdit->MoveWindow(textEdit->figure->GetX(), textEdit->figure->GetY(),
+									textEdit->figure->GetWidth(), textEdit->GetRowHeight()*textEdit->text->GetLength() + 5);
+		}
+		else {																							//글높이가 클래스를 넘어가면 둘다X
+			cdc->FillSolidRect(CRect(0, 0, textEdit->figure->GetWidth() + 5,
+											textEdit->figure->GetHeight()), RGB(255, 255, 255));
+
+			textEdit->MoveWindow(textEdit->figure->GetX(), textEdit->figure->GetY(),
+									textEdit->figure->GetWidth(), textEdit->figure->GetHeight());
+		}
 	}
-	
 }
+
 void EditResizer::ResizeClass(TextEdit *textEdit) {
 	CDC * cdc = textEdit->GetDC();
 	RECT rt;
