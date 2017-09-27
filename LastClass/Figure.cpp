@@ -9,7 +9,8 @@ Figure::Figure() {
 	this->width = 0;
 	this->height = 0;
 	this->content = "";
-	this->stringHeight = 18;
+	this->stringHeight = 18; // 현재 글자 크기에 따라서 값을 줘야하나
+	this->stringWidth = 0;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height) {
@@ -19,6 +20,7 @@ Figure::Figure(Long x, Long y, Long width, Long height) {
 	this->height = height;
 	this->content = "";
 	this->stringHeight = 18;
+	this->stringWidth = 0;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height, string content) {
@@ -28,6 +30,7 @@ Figure::Figure(Long x, Long y, Long width, Long height, string content) {
 	this->height = height;
 	this->content = content;
 	this->stringHeight = 18; // 입력받을 문자열에 맞게 값 줘야하는데
+	this->stringWidth = 0;
 }
 
 Figure::Figure(const Figure& source) {
@@ -36,6 +39,7 @@ Figure::Figure(const Figure& source) {
 	this->width = source.width;
 	this->height = source.height;
 	this->stringHeight = source.stringHeight;
+	this->stringWidth = source.stringWidth;
 }
 Figure* Figure::Move(Long distanceX, Long distanceY) {
 	this->x = this->x + distanceX;
