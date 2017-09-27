@@ -28,8 +28,8 @@ void DeleteTextAreaSelected::DeleteSingleLineSelected(TextEdit* textEdit) {
 }
 
 void DeleteTextAreaSelected::DeleteFirstMultiLineSelected(TextEdit* textEdit) {
-	while (textEdit->textAreaSelected->selected->GetStartCharacterIndex() < 
-			textEdit->text->GetAt(textEdit->textAreaSelected->selected->GetStartRowIndex())->GetLength()) {//첫줄
+	while (textEdit->textAreaSelected->selected->GetStartCharacterIndex() <
+		textEdit->text->GetAt(textEdit->textAreaSelected->selected->GetStartRowIndex())->GetLength()) {//첫줄
 		textEdit->text->GetAt(textEdit->textAreaSelected->selected->GetStartRowIndex())->Remove(textEdit->textAreaSelected->selected->GetStartCharacterIndex());
 	}
 }

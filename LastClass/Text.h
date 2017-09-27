@@ -8,7 +8,6 @@
 #include <string>
 
 typedef signed long int Long;
-
 using namespace std;
 
 class Row;
@@ -23,15 +22,15 @@ public:
 	Long Add(Row *row);
 	virtual Long Add(TextComponent *textComponent);
 	virtual Long Remove(Long index);
+	virtual Long Insert(Long index, TextComponent *textComponent);
+	virtual TextComponent* Clone() const;
 
 	string MakeText();
-
-	virtual Long Insert(Long index, TextComponent *textComponent);
 	void SprayString(string str);
+
 	Long MaxWidth(CDC* cPaintDc);
 	Row* GetAt(Long index);
 	
-	virtual TextComponent* Clone() const;
 	void Accept(Visitor& visitor, CDC* cPaintDc);
 
 	Text& operator = (const Text& source);

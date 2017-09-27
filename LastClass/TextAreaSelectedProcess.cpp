@@ -18,7 +18,7 @@ TextAreaSelectedProcess::~TextAreaSelectedProcess() {
 }
 
 void TextAreaSelectedProcess::GetRange(TextEdit* textEdit) {
-	if (textEdit->selectedY == textEdit->caret->GetRowIndex()) {				// 한줄에서 끝나는거면
+	if (textEdit->selectedY == textEdit->caret->GetRowIndex()) {            // 한줄에서 끝나는거면
 		if (textEdit->selectedX < textEdit->caret->GetCharacterIndex()) {
 			this->startCharacterIndex = textEdit->selectedX;
 			this->startRowIndex = textEdit->selectedY;
@@ -32,7 +32,7 @@ void TextAreaSelectedProcess::GetRange(TextEdit* textEdit) {
 			this->endRowIndex = textEdit->selectedY;
 		}
 	}
-	else {																		// 여러줄 선택이면
+	else {                                                      // 여러줄 선택이면
 		if (textEdit->selectedY < textEdit->caret->GetRowIndex()) {
 			this->startCharacterIndex = textEdit->selectedX;
 			this->startRowIndex = textEdit->selectedY;
@@ -61,7 +61,7 @@ void TextAreaSelectedProcess::SingleLineSelected(TextEdit *textEdit, CPaintDC *d
 	//*rt = { 0, 0, x + width +5, textEdit->rowHeight + 5 };
 
 	*rt = { x + 5, startRowIndex * textEdit->rowHeight + 5, x + width, startRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
-}	//메모리버퍼 사용안할때 사용할 rt
+}   //메모리버퍼 사용안할때 사용할 rt
 
 void TextAreaSelectedProcess::FirstMultiLineSelected(TextEdit *textEdit, CPaintDC *dc, CString *cstr, RECT *rt) {
 	Long i = startCharacterIndex;
@@ -77,10 +77,10 @@ void TextAreaSelectedProcess::FirstMultiLineSelected(TextEdit *textEdit, CPaintD
 
 	//*rt = { 0, 0, x + width + 5, textEdit->rowHeight + 5 };
 
-	*rt = { x+5, this->startRowIndex * textEdit->rowHeight + 5, x + width, this->startRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
-}	//메모리버퍼 사용안할때 사용할 rt
+	*rt = { x + 5, this->startRowIndex * textEdit->rowHeight + 5, x + width, this->startRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
+}   //메모리버퍼 사용안할때 사용할 rt
 
-void TextAreaSelectedProcess::MiddleMultiLineSelected( TextEdit *textEdit, CPaintDC *dc, CString *cstr, RECT *rt) {
+void TextAreaSelectedProcess::MiddleMultiLineSelected(TextEdit *textEdit, CPaintDC *dc, CString *cstr, RECT *rt) {
 	Long i = this->startRowIndex + 1;
 
 	while (i < this->endRowIndex) {
@@ -89,21 +89,21 @@ void TextAreaSelectedProcess::MiddleMultiLineSelected( TextEdit *textEdit, CPain
 		i++;
 	}
 	//*rt = { 0, 0, textEdit->GetFigure()->GetX() + textEdit->GetFigure()->GetWidth(),
-	//	(this->endRowIndex - 1) * textEdit->rowHeight + textEdit->rowHeight + 5 };
+	//   (this->endRowIndex - 1) * textEdit->rowHeight + textEdit->rowHeight + 5 };
 
 	*rt = { 5, (this->startRowIndex + 1) * textEdit->rowHeight + 5, textEdit->GetFigure()->GetX() + textEdit->GetFigure()->GetWidth(),
 		(this->endRowIndex - 1) * textEdit->rowHeight + textEdit->rowHeight + 5 };
-}	//메모리버퍼 사용안할때 사용할 rt
+}   //메모리버퍼 사용안할때 사용할 rt
 
-void TextAreaSelectedProcess::EndMultiLineSelected( TextEdit *textEdit, CPaintDC *dc, CString *cstr, RECT *rt) {
+void TextAreaSelectedProcess::EndMultiLineSelected(TextEdit *textEdit, CPaintDC *dc, CString *cstr, RECT *rt) {
 	Long i = 0;
 
 	while (i < this->endCharacterIndex) { // 끝줄
 		*cstr += textEdit->text->GetAt(this->endRowIndex)->GetAt(i)->MakeCString();
 		i++;
 	}
-	Long width  = textEdit->text->GetAt(this->endRowIndex)->GetRowWidth(dc, this->endCharacterIndex-1);
+	Long width = textEdit->text->GetAt(this->endRowIndex)->GetRowWidth(dc, this->endCharacterIndex - 1);
 	//*rt = { 0, 0, width +5, this->endRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
 
-	*rt = { 5, this->endRowIndex * textEdit->rowHeight+5, width+5, this->endRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
-}	//메모리버퍼 사용안할때 사용할 rt
+	*rt = { 5, this->endRowIndex * textEdit->rowHeight + 5, width + 5, this->endRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
+}   //메모리버퍼 사용안할때 사용할 rt

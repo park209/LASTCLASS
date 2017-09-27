@@ -1,11 +1,8 @@
-//MutipleSelectionState.h
-
-#ifndef _MULTIPLESELECTIONSTATE_H
-#define _MULTIPLESELECTIONSTATE_H
-
+#ifndef _DRAWINGRELATIONPOINT_H
+#define _DRAWINGRELATIONPOINT_H
 #include "MouseLButtonAction.h"
 
-class MultipleSelectionState :public MouseLButtonAction {
+class DrawingRelationPoint :public MouseLButtonAction {
 public:
 	static MouseLButtonAction* Instance();
 
@@ -17,7 +14,7 @@ public:
 protected:
 	//DrawingClass();
 private:
-	static MultipleSelectionState* instance;
+	static DrawingRelationPoint* instance;
 };
+#endif // !_DRAWINGRELATIONPOINT_H
 
-#endif // !_MULTIPLESELECTIONSTATE_H

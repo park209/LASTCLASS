@@ -27,7 +27,7 @@ public:
 private:
 	friend class  MouseLButtonAction;
 	
-	void ChangeState(MouseLButtonAction *mouseLButtonAction,UINT nChar=0);
+	void ChangeState(MouseLButtonAction *mouseLButtonAction, UINT nChar = 0);
 
 private:
 	MouseLButtonAction *state;

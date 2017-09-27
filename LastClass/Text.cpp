@@ -43,7 +43,6 @@ Text::~Text() {
 
 Text::Text(const Text& source) {
 	this->textComponents = source.textComponents;
-
 	Long i = 0;
 	while (i < source.length) {
 		this->textComponents.Modify(i, (const_cast<Text&>(source)).textComponents[i]->Clone());
@@ -167,7 +166,6 @@ TextComponent* Text::Clone() const {
 void Text::Accept(Visitor& visitor, CDC* cPaintDc) {
 	visitor.Visit(this, cPaintDc);
 }
-
 
 Row* Text::operator [] (Long index) {
 	return static_cast<Row*>(this->textComponents[index]);

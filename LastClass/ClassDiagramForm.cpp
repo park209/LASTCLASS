@@ -571,27 +571,26 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentY = point.y;
 
 	if (this->startX != this->currentX || this->startY != this->currentY) {
-		//figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 	}
-/*
+	/*
 	Figure *figure = 0;
 	if (this->startX != this->currentX || this->startY != this->currentY) {
-		figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-		if (dynamic_cast<ClassButton*>(this->drawingController->buttonState)) {
-			SmartPointer<Figure*> iterator = static_cast<Class*>(figure)->CreateIterator();
-			for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
-				if (dynamic_cast<ClassName*>(iterator->Current())) {
-					this->textEdit = new TextEdit(iterator->Current());
-					this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-						iterator->Current()->GetX(),
-						iterator->Current()->GetY(),
-						iterator->Current()->GetX() + iterator->Current()->GetWidth(),
-						iterator->Current()->GetY() + iterator->Current()->GetHeight()), this, 10000, NULL);
-					OnKillFocus(NULL);
-				}
-			}
-		}
+	figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
+	if (dynamic_cast<ClassButton*>(this->drawingController->buttonState)) {
+	SmartPointer<Figure*> iterator = static_cast<Class*>(figure)->CreateIterator();
+	for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
+	if (dynamic_cast<ClassName*>(iterator->Current())) {
+	this->textEdit = new TextEdit(iterator->Current());
+	this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+	iterator->Current()->GetX(),
+	iterator->Current()->GetY(),
+	iterator->Current()->GetX() + iterator->Current()->GetWidth(),
+	iterator->Current()->GetY() + iterator->Current()->GetHeight()), this, 10000, NULL);
+	OnKillFocus(NULL);
+	}
+	}
+	}
 	}*/
 
 	this->startX = 0;
@@ -608,11 +607,22 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	if (nFlags == MK_LBUTTON) {
 		this->currentX = point.x;
 		this->currentY = point.y;
-		
+
 		Invalidate();
 	}
-	if (selection->SelectByPoint(point.x, point.y)) {
-		SetCursor(LoadCursor(NULL, IDC_HAND));
+	Long index;
+	index = this->selection->SelectByPoint(point.x, point.y);
+	if (index == 1){
+		SetCursor(LoadCursor(NULL,IDC_HAND));
+	}
+	else if (index == 2) {
+		SetCursor(LoadCursor(NULL, IDC_CROSS));
+	}
+	else if (index == 3) {
+		SetCursor(LoadCursor(NULL, IDC_HELP));
+	}
+	else if (index == 4) {
+		SetCursor(LoadCursor(NULL, IDC_SIZEALL));
 	}
 }
 void ClassDiagramForm::OnClose() {
@@ -631,6 +641,9 @@ void ClassDiagramForm::OnClose() {
 	}
 	if (this->mouseLButton != NULL) {
 		delete this->mouseLButton;
+	}
+	if (this->textEdit != NULL) {
+		delete this->textEdit;
 	}
 
 	//6.3. 윈도우를 닫는다.

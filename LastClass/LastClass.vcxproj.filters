@@ -29,13 +29,7 @@
     <ClInclude Include="Array.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="ArrayIterator.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="ClassDiagramApp.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="ClassDiagramForm.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="Figure.h">
@@ -50,19 +44,10 @@
     <ClInclude Include="Finder.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="Iterator.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="MovingVisitor.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="Selection.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="SmartPointer.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="Visitor.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="CMemoryDC.h">
@@ -347,18 +332,24 @@
     <ClInclude Include="DoubleClickTextAreaProcess.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
+    <ClInclude Include="ClassDiagramForm.h" />
+    <ClInclude Include="ArrayIterator.h" />
+    <ClInclude Include="Iterator.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="SmartPointer.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="FontSet.h" />
     <ClInclude Include="TextAreaSelectedProcess.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ArrayIterator.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
     <ClCompile Include="ClassDiagramApp.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="ClassDiagramForm.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="Figure.cpp">
@@ -377,9 +368,6 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="Selection.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="Visitor.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="MovingObject.cpp">
@@ -658,6 +646,12 @@
     <ClCompile Include="DoubleClickTextAreaProcess.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
+    <ClCompile Include="ClassDiagramForm.cpp" />
+    <ClCompile Include="ArrayIterator.cpp" />
+    <ClCompile Include="Visitor.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="FontSet.cpp" />
     <ClCompile Include="TextAreaSelectedProcess.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>

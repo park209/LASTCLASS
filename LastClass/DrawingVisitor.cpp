@@ -39,7 +39,7 @@ DrawingVisitor::~DrawingVisitor() {
 }
 void DrawingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY) {
 }
-void DrawingVisitor::Visit(Class *object, CDC* cPaintDc) {
+void DrawingVisitor::Visit(Class *object, CDC* cPaintDc) { //template
 	Long x = object->GetX();
 	Long y = object->GetY();
 	Long width = object->GetWidth();

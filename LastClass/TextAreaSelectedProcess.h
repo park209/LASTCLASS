@@ -16,11 +16,11 @@ public:
 	~TextAreaSelectedProcess();
 
 public:
-	void GetRange( TextEdit* textEdit);
-	void SingleLineSelected( TextEdit *textEdit, CPaintDC *dc, CString *cstr, RECT *rt);
-	void FirstMultiLineSelected( TextEdit *textEdit, CPaintDC *dc, CString *cstr, RECT *rt);
-	void MiddleMultiLineSelected( TextEdit *textEdit, CPaintDC *dc, CString *cstr, RECT *rt);
-	void EndMultiLineSelected( TextEdit *textEdit, CPaintDC *dc, CString *cstr, RECT *rt);
+	void GetRange(TextEdit* textEdit);
+	void SingleLineSelected(TextEdit *textEdit, CPaintDC *dc, CString *cstr, RECT *rt);
+	void FirstMultiLineSelected(TextEdit *textEdit, CPaintDC *dc, CString *cstr, RECT *rt);
+	void MiddleMultiLineSelected(TextEdit *textEdit, CPaintDC *dc, CString *cstr, RECT *rt);
+	void EndMultiLineSelected(TextEdit *textEdit, CPaintDC *dc, CString *cstr, RECT *rt);
 
 	Long GetStartCharacterIndex() const;
 	Long GetStartRowIndex() const;
