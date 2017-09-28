@@ -11,6 +11,7 @@ Figure::Figure() {
 	this->content = "";
 	this->stringHeight = 18; // 현재 글자 크기에 따라서 값을 줘야하나
 	this->stringWidth = 0;
+	this->fontSize = 25;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height) {
@@ -21,6 +22,7 @@ Figure::Figure(Long x, Long y, Long width, Long height) {
 	this->content = "";
 	this->stringHeight = 18;
 	this->stringWidth = 0;
+	this->fontSize = 25;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height, string content) {
@@ -31,6 +33,7 @@ Figure::Figure(Long x, Long y, Long width, Long height, string content) {
 	this->content = content;
 	this->stringHeight = 18; // 입력받을 문자열에 맞게 값 줘야하는데
 	this->stringWidth = 0;
+	this->fontSize = 25;
 }
 
 Figure::Figure(const Figure& source) {
@@ -40,8 +43,9 @@ Figure::Figure(const Figure& source) {
 	this->height = source.height;
 	this->stringHeight = source.stringHeight;
 	this->stringWidth = source.stringWidth;
+	this->fontSize = source.fontSize;
 }
-Figure* Figure::Move(Long distanceX, Long distanceY) {
+Figure* Figure::Move(Long distanceX , Long distanceY) {
 	this->x = this->x + distanceX;
 	this->y = this->y + distanceY;
 	if (dynamic_cast<Relation*>(this)) {
@@ -49,6 +53,18 @@ Figure* Figure::Move(Long distanceX, Long distanceY) {
 		this->height = this->height - distanceY;
 	}
 	return this;
+}
+Long Figure::GetRowCount(string object) {
+	Long count = 0;
+	Long i = 0;
+	while (object[i] != '\0') {
+		if (object[i] == '\n') {
+			count++;
+		}
+		i++;
+	}
+	count++; // 한줄이 생략되기때문에 증가해줌.
+	return count;
 }
 Figure *Figure::EndPointMove(Long distanceX, Long distanceY) {
 	this->width = this->width + distanceX;
@@ -71,7 +87,7 @@ Figure& Figure::operator = (const Figure& source) {
 	this->width = source.width;
 	this->height = source.height;
 	this->stringHeight = source.stringHeight;
-
+	this->fontSize = source.fontSize;
 	return *this;
 }
 
@@ -79,8 +95,9 @@ Figure::~Figure() {
 }
 
 
-void Figure::ReplaceString(string content) {
+void Figure::ReplaceString(string content , Long fontSize) {
 	this->content = content;
+	this->fontSize = fontSize;
 }
 
 void Figure::SetX(Long x) {

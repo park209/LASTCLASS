@@ -25,6 +25,8 @@ public:
 	Long Load();
 	Long Save();
 private:
+	CScrollBar m_scrollbarHorz;
+	CScrollBar m_scrollbarVert;
 	Long startX;
 	Long startY;
 	Long currentX;

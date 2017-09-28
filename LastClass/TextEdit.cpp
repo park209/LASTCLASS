@@ -301,7 +301,7 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 	CWnd::HideCaret();
 	::DestroyCaret();
 	string content(this->text->MakeText());
-	this->figure->ReplaceString(content);
+	this->figure->ReplaceString(content , this->rowHeight);
 
 	if (this->caret != NULL) {
 		delete this->caret;
@@ -329,7 +329,7 @@ void TextEdit::OnClose() {
 	::DestroyCaret();
 
 	string content(this->text->MakeText());
-	this->figure->ReplaceString(content);
+	this->figure->ReplaceString(content , this->rowHeight);
 
 	if (this->caret != NULL) {
 		delete this->caret;

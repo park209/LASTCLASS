@@ -107,6 +107,7 @@ Long ClassDiagramForm::Load() {
 			i = 0;
 			while (position != -1 && i < length) {
 				fLine >> lineX >> lineY >> lineWidth >> lineHeight >> type >> relationLength;
+
 				figure = factory.Create(lineX, lineY, lineWidth, lineHeight, type);
 				index = figureComposite->Add(figure);
 				if (dynamic_cast<Relation*>(figureComposite->GetAt(index))) {
@@ -138,6 +139,8 @@ Long ClassDiagramForm::Save() {
 	Long k;
 	Long i = 0;
 	Long j;
+	Long rowLength;
+	Long fontSize;
 	ofstream fClass;
 	ofstream fLine; // 읽을때는 ofstream
 
@@ -162,10 +165,11 @@ Long ClassDiagramForm::Save() {
 
 			else if (dynamic_cast<MemoBox*>(this->diagram->GetAt(i))) {
 				object = static_cast<FigureComposite*>(this->diagram->GetAt(i));
+				fontSize = object->GetFontSize();
+				rowLength = object->GetRowCount(object->GetContent());
 				fClass << object->GetLength() << " " << object->GetX() << " " << object->GetY()
-					<< " " << object->GetWidth() << " " << object->GetHeight() << " " << 1 << endl;
+					<< " " << object->GetWidth() << " " << object->GetHeight() << " " << 1 << " " << fontSize << " " << rowLength << endl;
 			}
-
 			j = 0;
 			while (j < object->GetLength()) {
 				Figure *figure;
@@ -178,14 +182,19 @@ Long ClassDiagramForm::Save() {
 
 				else if (dynamic_cast<Template*>(object->GetAt(j))) {
 					figure = object->GetAt(j);
+					fontSize = object->GetFontSize();
+					rowLength = object->GetRowCount(object->GetContent());
 					fLine << figure->GetX() << " " << figure->GetY() << " " <<
-						figure->GetWidth() << " " << figure->GetHeight() << " " << 3 << " " << 0 << endl;
+						figure->GetWidth() << " " << figure->GetHeight() << " " << 3 << " " << fontSize << " " << rowLength << endl;
+					fLine << object->GetContent() << endl;
 				}
 
 				else if (dynamic_cast<Generalization*>(object->GetAt(j))) {
 					Relation *relation = static_cast<Relation*>(object->GetAt(j));
+					fontSize = object->GetFontSize();
+					rowLength = object->GetRowCount(object->GetContent());
 					fLine << relation->GetX() << " " << relation->GetY() << " " <<
-						relation->GetWidth() << " " << relation->GetHeight() << " " << 4 << " " << relation->GetLength() << endl;
+						relation->GetWidth() << " " << relation->GetHeight() << " " << 4 << " " << relation->GetLength() <<endl;
 					k = 0;
 					while (k < relation->GetLength()) {
 						cPoint = relation->GetAt(k);
@@ -302,27 +311,39 @@ Long ClassDiagramForm::Save() {
 				}
 				else if (dynamic_cast<ClassName*>(object->GetAt(j))) {
 					figure = static_cast<ClassName*>(object->GetAt(j));
+					fontSize = object->GetFontSize();
+					rowLength = object->GetRowCount(object->GetContent());
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
 						<< figure->GetHeight() << " " << 14 <<
-						" " << 0 << endl;
+						" " << fontSize <<" "<<rowLength<< endl;
+					fLine << object->GetContent() << endl;
 				}
 				else if (dynamic_cast<Attribute*>(object->GetAt(j))) {
 					figure = static_cast<Attribute*>(object->GetAt(j));
+					fontSize = object->GetFontSize();
+					rowLength = object->GetRowCount(object->GetContent());
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
 						<< figure->GetHeight() << " " << 15 <<
-						" " << 0 << endl;
+						" " << fontSize << " " << rowLength << endl;
+					fLine << object->GetContent() << endl;
 				}
 				else if (dynamic_cast<Method*>(object->GetAt(j))) {
 					figure = static_cast<Method*>(object->GetAt(j));
+					fontSize = object->GetFontSize();
+					rowLength = object->GetRowCount(object->GetContent());
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
 						<< figure->GetHeight() << " " << 16 <<
-						" " << 0 << endl;
+						" " << fontSize << " " << rowLength << endl;
+					fLine << object->GetContent() << endl;
 				}
 				else if (dynamic_cast<Reception*>(object->GetAt(j))) {
 					figure = static_cast<Reception*>(object->GetAt(j));
+					fontSize = object->GetFontSize();
+					rowLength = object->GetRowCount(object->GetContent());
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
 						<< figure->GetHeight() << " " << 17 <<
-						" " << 0 << endl;
+						" " << fontSize << " " << rowLength << endl;
+					fLine << object->GetContent() << endl;
 				}
 				else if (dynamic_cast<SelfGeneralization*>(object->GetAt(j))) {
 					figure = static_cast<SelfRelation*>(object->GetAt(j));
@@ -398,7 +419,26 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	//this->text = new Text;
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
+	//this->m_scrollbarHorz.Create(
+	//this->m_scrollbarHorz.ShowScrollBar();
+	//this->m_scrollbarVert.SetScrollRange(0, 100);
+	//this->m_scrollbarVert.SetScrollPos(50);
+	CRect cRect;
+	this->GetClientRect(&cRect);
 
+	
+	this->m_scrollbarVert.Create(SBS_VERT, CRect(cRect.right-20, cRect.top+30, cRect.right, cRect.bottom - 20) , this, 1);
+	SCROLLINFO  scrinfo;
+	scrinfo.cbSize = sizeof(scrinfo);
+	scrinfo.fMask = SIF_ALL;
+	scrinfo.nMin = 0;          // 최소값
+	scrinfo.nMax = cRect.bottom - 20;      // 최대값
+	scrinfo.nPage = 150;      // 페이지단위 증가값
+	scrinfo.nTrackPos = 0;  // 트랙바가 움직일때의 위치값
+	scrinfo.nPos = 0;        // 위치
+	this->m_scrollbarVert.SetScrollInfo(&scrinfo);
+	//this->m_scrollbarVert.
+	this->m_scrollbarVert.ShowScrollBar(SB_BOTH);
 
 	//1.2. 적재한다
 	//this->Load();

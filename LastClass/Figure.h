@@ -19,17 +19,18 @@ public:
 
 	//virtual void Accept(Visitor& visitor) = 0;// , CDC *cPaintDc) = 0;
 	virtual Figure* Clone() const = 0;
-	void ReplaceString(string content);
+	void ReplaceString(string content , Long fontSize);
 	Figure* Move(Long distanceX, Long distanceY);
 	Figure* EndPointMove(Long distanceX, Long distanceY);
-
+	Long GetRowCount(string object);
 	Figure* Modify(Long x, Long y, Long width, Long height);
+
 
 	void SetX(Long x);
 	void SetY(Long y);
 	void SetWidth(Long width);
 	void SetHeight(Long height);
-
+	Long GetFontSize() const;
 	Long GetX() const;
 	Long GetY() const;
 	Long GetWidth() const;
@@ -44,6 +45,7 @@ protected:
 	Long width;
 	Long height;
 	string content;
+	Long fontSize;
 	Long stringHeight;
 	Long stringWidth;
 };
@@ -71,5 +73,7 @@ inline Long Figure::GetStringHeight() const {
 inline Long Figure::GetStringWidth() const {
 	return this->stringWidth;
 }
-
+inline Long Figure::GetFontSize()const {
+	return this->fontSize;
+}
 #endif //_FIGURE_H
