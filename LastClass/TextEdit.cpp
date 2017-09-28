@@ -58,8 +58,7 @@ TextEdit::TextEdit(Figure *figure) {
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CWnd::OnCreate(lpCreateStruct); //override
-	 CWnd::SetFocus();
-
+	CWnd::SetFocus();
 	this->text = new Text;
 	this->caret = new Caret;
 	this->keyBoard = new KeyBoard;
@@ -158,7 +157,6 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 
 	CPaintDC dc(this);
-
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
 	UINT elapseTime = 0;
@@ -198,6 +196,10 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	CWnd::HideCaret();
 	::DestroyCaret();
 
+	
+	SetCapture();
+
+
 	KillTimer(1);
 	Invalidate();
 }
@@ -216,7 +218,9 @@ void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 	::DestroyCaret();
 
 	KillTimer(1);
-	Invalidate();
+		ReleaseCapture();
+		Invalidate();
+	
 }
 
 void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
@@ -224,11 +228,12 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 	//SetCursor(LoadCursor(NULL, IDC_IBEAM));
 
 	if (nFlags == MK_LBUTTON) {
+		
 		SetCursor(LoadCursor(NULL, IDC_IBEAM));
 		CFont cFont;
 		CPaintDC dc(this);
 		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str()); 
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 		this->SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);// 폰트 시작
 
@@ -237,8 +242,8 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 			this->selectedX = this->caret->GetCharacterIndex(); // 최초 한번 selectedX, Y 를
 			this->selectedY = this->caret->GetRowIndex();
 		}
-		this->caret->MoveToPoint(this, &dc, point); // 새로운 위치로 캐럿 이동한다
-
+			this->caret->MoveToPoint(this, &dc, point); // 새로운 위치로 캐럿 이동한다
+	
 		dc.SelectObject(oldFont);
 		cFont.DeleteObject(); // 폰트 끝
 
@@ -295,7 +300,6 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 
 	CWnd::HideCaret();
 	::DestroyCaret();
-
 	string content(this->text->MakeText());
 	this->figure->ReplaceString(content);
 
@@ -314,6 +318,7 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 	if (this->textAreaSelected != NULL) {
 		delete this->textAreaSelected;
 	}
+
 	if (this != NULL) {
 		delete this;
 	}
@@ -345,3 +350,4 @@ void TextEdit::OnClose() {
 		delete this;
 	}
 }
+	
