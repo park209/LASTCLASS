@@ -287,6 +287,7 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 	classDiagramForm->selection->SelectByPoint(classDiagramForm->diagram,this->figure->GetX(),this->figure->GetY());
 	EditResizer editResizer;
 	editResizer.ResizeClass(this);
+	this->figure->SetMinimumHeight(this->GetRowHeight()*this->text->GetLength() + 10);
 	classDiagramForm->selection->DeleteAllItems();
 	CWnd::OnKillFocus(pNewWnd);
 	CWnd::HideCaret();
@@ -319,7 +320,7 @@ void TextEdit::OnClose() {
 
 	EditResizer editResizer;
 	editResizer.ResizeClass(this);
-
+	this->figure->SetMinimumHeight(this->GetRowHeight()*this->text->GetLength() + 10);
 	CWnd::HideCaret();
 	::DestroyCaret();
 	if (this->caret != NULL) {

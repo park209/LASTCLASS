@@ -12,7 +12,7 @@ public:
 	EditResizer(const EditResizer& source);
 	~EditResizer();
 public:
-	void ResizeEdit(TextEdit *textEdit,CDC *cdc);
+	void ResizeEdit(TextEdit *textEdit, CDC *cdc);
 	void ResizeClass(TextEdit *textEdit);
 };
 

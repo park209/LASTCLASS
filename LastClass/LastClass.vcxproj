@@ -71,6 +71,7 @@
     <ClInclude Include="DrawingResizing.h" />
     <ClInclude Include="DrawingVisitor.h" />
     <ClInclude Include="EditResizer.h" />
+    <ClInclude Include="EditResizerProcess.h" />
     <ClInclude Include="EndKey.h" />
     <ClInclude Include="EnterKey.h" />
     <ClInclude Include="EscapeKey.h" />
@@ -186,6 +187,7 @@
     <ClCompile Include="DrawingVisitor.cpp" />
     <ClCompile Include="DrawningResize.cpp" />
     <ClCompile Include="EditResizer.cpp" />
+    <ClCompile Include="EditResizerProcess.cpp" />
     <ClCompile Include="EndKey.cpp" />
     <ClCompile Include="EnterKey.cpp" />
     <ClCompile Include="EscapeKey.cpp" />
