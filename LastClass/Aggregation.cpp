@@ -10,7 +10,7 @@ Aggregation::Aggregation(Long x, Long y, Long width, Long height): Relation(x,y,
 	CPoint startPoint{ x, y };
 	CPoint endPoint{ x + width, y + height };
 
-	this->rollNamePoints[0] = startPoint.x 
+	//this->rollNamePoints[0] = 
 
 }
 

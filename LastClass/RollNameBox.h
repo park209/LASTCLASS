@@ -14,7 +14,11 @@ public:
 	RollNameBox(const RollNameBox& source);
 	~RollNameBox();
 public:
-	Array<CPoint> GetRollNameBoxPoints(CPoint startPoint, CPoint endPoint);
+	CPoint GetFirstRollNamePoint(CPoint startPoint, CPoint endPoint);
+	CPoint GetSeocndRollNamePoint(CPoint startPoint, CPoint endPoint);
+	CPoint GetThirdRollNamePoint(CPoint startPoint, CPoint endPoint);
+	CPoint GetFourthRollNamePoint(CPoint startPoint, CPoint endPoint);
+	CPoint GetFifthRollNamePoint(CPoint startPoint, CPoint endPoint);
 private:
 	static RollNameBox* instance;
 };

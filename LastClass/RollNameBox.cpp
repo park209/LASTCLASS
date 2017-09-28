@@ -20,9 +20,34 @@ RollNameBox::RollNameBox(const RollNameBox& source) {
 RollNameBox::~RollNameBox() {
 }
 
-Array<CPoint> RollNameBox::GetRollNameBoxPoints(CPoint startPoint, CPoint endPoint) {
-	Array<CPoint> cPoints;
+CPoint RollNameBox::GetFirstRollNamePoint(CPoint startPoint, CPoint endPoint) {
+	CPoint cPoint;
 
 
-	return cPoints;
+	return cPoint;
+}
+
+CPoint RollNameBox::GetSeocndRollNamePoint(CPoint startPoint, CPoint endPoint) {
+	CPoint cPoint;
+
+
+	return cPoint;
+}
+CPoint RollNameBox::GetThirdRollNamePoint(CPoint startPoint, CPoint endPoint) {
+	CPoint cPoint;
+
+
+	return cPoint;
+}
+CPoint RollNameBox::GetFourthRollNamePoint(CPoint startPoint, CPoint endPoint) {
+	CPoint cPoint;
+
+
+	return cPoint;
+}
+CPoint RollNameBox::GetFifthRollNamePoint(CPoint startPoint, CPoint endPoint) {
+	CPoint cPoint;
+
+
+	return cPoint;
 }
