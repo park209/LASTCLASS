@@ -5,14 +5,6 @@
 #include "DoubleClickTextAreaProcess.h"
 #include "Caret.h"
 
-DoubleClickTextArea* DoubleClickTextArea::instance = 0;
-
-DoubleClickTextArea* DoubleClickTextArea::Instance() {
-	if (instance == 0) {
-		instance = new DoubleClickTextArea;
-	}
-	return instance;
-}
 DoubleClickTextArea::DoubleClickTextArea() {
 }
 DoubleClickTextArea::DoubleClickTextArea(const DoubleClickTextArea& source) {

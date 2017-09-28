@@ -65,13 +65,10 @@
     <ClInclude Include="DrawingMemoBox.h" />
     <ClInclude Include="DrawingMemoLine.h" />
     <ClInclude Include="DrawingRealization.h" />
-    <ClInclude Include="DrawingRelation.h" />
     <ClInclude Include="DrawingRelationPoint.h" />
     <ClInclude Include="DrawingResize.h" />
     <ClInclude Include="DrawingResizing.h" />
     <ClInclude Include="DrawingVisitor.h" />
-    <ClInclude Include="EditResizer.h" />
-    <ClInclude Include="EditResizerProcess.h" />
     <ClInclude Include="EndKey.h" />
     <ClInclude Include="EnterKey.h" />
     <ClInclude Include="EscapeKey.h" />
@@ -95,7 +92,6 @@
     <ClInclude Include="MinusKey.h" />
     <ClInclude Include="MouseLButton.h" />
     <ClInclude Include="MouseLButtonAction.h" />
-    <ClInclude Include="MovingLine.h" />
     <ClInclude Include="MovingLineProcess.h" />
     <ClInclude Include="MovingObject.h" />
     <ClInclude Include="MovingRelation.h" />
@@ -135,6 +131,7 @@
     <ClInclude Include="WriteKoreanText.h" />
     <ClInclude Include="WriteKoreanTextProcess.h" />
     <ClInclude Include="WritingVisitor.h" />
+    <ClInclude Include="MovingLine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aggregation.cpp" />
@@ -181,13 +178,10 @@
     <ClCompile Include="DrawingMemoBox.cpp" />
     <ClCompile Include="DrawingMemoLine.cpp" />
     <ClCompile Include="DrawingRealization.cpp" />
-    <ClCompile Include="DrawingRelation.cpp" />
     <ClCompile Include="DrawingRelationPoint.cpp" />
     <ClCompile Include="DrawingResizing.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
     <ClCompile Include="DrawningResize.cpp" />
-    <ClCompile Include="EditResizer.cpp" />
-    <ClCompile Include="EditResizerProcess.cpp" />
     <ClCompile Include="EndKey.cpp" />
     <ClCompile Include="EnterKey.cpp" />
     <ClCompile Include="EscapeKey.cpp" />

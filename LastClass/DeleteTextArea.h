@@ -6,15 +6,11 @@
 class TextEdit;
 class DeleteTextArea {
 public:
-public:
-	static DeleteTextArea* Instance();
 	DeleteTextArea();
 	DeleteTextArea(const DeleteTextArea& source);
 	~DeleteTextArea();
 public:
 	void DeleteArea(TextEdit *textEdit);
-private:
-	static DeleteTextArea* instance;
 };
 
 #endif // _DELETETEXTAREA_H

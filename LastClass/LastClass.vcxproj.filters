@@ -206,9 +206,6 @@
     <ClInclude Include="DrawingRealization.h">
       <Filter>Relationship</Filter>
     </ClInclude>
-    <ClInclude Include="DrawingRelation.h">
-      <Filter>Relationship</Filter>
-    </ClInclude>
     <ClInclude Include="Realization.h">
       <Filter>Relationship</Filter>
     </ClInclude>
@@ -332,6 +329,8 @@
     <ClInclude Include="DoubleClickTextAreaProcess.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
+    <ClInclude Include="ClassDiagramForm.h" />
+    <ClInclude Include="ArrayIterator.h" />
     <ClInclude Include="Iterator.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
@@ -341,39 +340,15 @@
     <ClInclude Include="Visitor.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
+    <ClInclude Include="FontSet.h" />
     <ClInclude Include="TextAreaSelectedProcess.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
-    <ClInclude Include="ClassDiagramForm.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="EditResizer.h">
-      <Filter>TextEdit</Filter>
-    </ClInclude>
-    <ClInclude Include="MovingLine.h">
-      <Filter>Diagram</Filter>
-    </ClInclude>
-    <ClInclude Include="MovingLineProcess.h">
-      <Filter>Diagram</Filter>
-    </ClInclude>
-    <ClInclude Include="MovingRelation.h">
-      <Filter>Relationship</Filter>
-    </ClInclude>
-    <ClInclude Include="FontSet.h">
-      <Filter>TextEdit</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawingResizing.h">
-      <Filter>Diagram</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawingRelationPoint.h">
-      <Filter>Relationship</Filter>
-    </ClInclude>
-    <ClInclude Include="ArrayIterator.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="EditResizerProcess.h">
-      <Filter>TextEdit</Filter>
-    </ClInclude>
+    <ClInclude Include="DrawingRelationPoint.h" />
+    <ClInclude Include="DrawingResizing.h" />
+    <ClInclude Include="MovingRelation.h" />
+    <ClInclude Include="MovingLine.h" />
+    <ClInclude Include="MovingLineProcess.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -550,9 +525,6 @@
     <ClCompile Include="DrawingRealization.cpp">
       <Filter>Relationship</Filter>
     </ClCompile>
-    <ClCompile Include="DrawingRelation.cpp">
-      <Filter>Relationship</Filter>
-    </ClCompile>
     <ClCompile Include="DrawningResize.cpp">
       <Filter>Relationship</Filter>
     </ClCompile>
@@ -673,9 +645,12 @@
     <ClCompile Include="DoubleClickTextAreaProcess.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
+    <ClCompile Include="ClassDiagramForm.cpp" />
+    <ClCompile Include="ArrayIterator.cpp" />
     <ClCompile Include="Visitor.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
+    <ClCompile Include="FontSet.cpp" />
     <ClCompile Include="TextAreaSelectedProcess.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
@@ -693,21 +668,6 @@
     </ClCompile>
     <ClCompile Include="MovingLineProcess.cpp">
       <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="ClassDiagramForm.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="EditResizer.cpp">
-      <Filter>TextEdit</Filter>
-    </ClCompile>
-    <ClCompile Include="FontSet.cpp">
-      <Filter>TextEdit</Filter>
-    </ClCompile>
-    <ClCompile Include="ArrayIterator.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="EditResizerProcess.cpp">
-      <Filter>TextEdit</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
