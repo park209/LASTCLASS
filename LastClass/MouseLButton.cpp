@@ -17,7 +17,7 @@ void MouseLButton::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, 
 void MouseLButton::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
 	this->state->MouseLButtonDown(this, diagram, selection, startX, startY, currentX, currentY);
 }
-void MouseLButton::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC){
+void MouseLButton::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *cPaintDC){
 	this->state->MouseLButtonDrag(this, diagram, selection, startX, startY, currentX, currentY, cPaintDC);
 }
 void MouseLButton::ChangeState(UINT nChar) {

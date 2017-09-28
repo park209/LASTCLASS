@@ -64,11 +64,12 @@ void DrawingRelationPoint::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *d
 void DrawingRelationPoint::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 
 }
-void DrawingRelationPoint::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void DrawingRelationPoint::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *cPaintDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDC->SelectObject(&pen);
-	cPaintDC->SetBkMode(TRANSPARENT);
+	cPaintDC->SelectObject(&pen);
+
 	bool ret = false;
 	Relation *relation = static_cast<Relation*>(selection->GetAt(0));
 	Finder finder;

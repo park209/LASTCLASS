@@ -207,6 +207,7 @@
     <ClCompile Include="MouseLButton.cpp" />
     <ClCompile Include="MouseLButtonAction.cpp" />
     <ClCompile Include="MovingLine.cpp" />
+    <ClCompile Include="MovingLineProcess.cpp" />
     <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="MovingRelation.cpp" />
     <ClCompile Include="MovingVisitor.cpp" />

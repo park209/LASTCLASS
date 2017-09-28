@@ -333,7 +333,6 @@
       <Filter>TextEdit</Filter>
     </ClInclude>
     <ClInclude Include="ClassDiagramForm.h" />
-    <ClInclude Include="ArrayIterator.h" />
     <ClInclude Include="Iterator.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
@@ -347,11 +346,24 @@
     <ClInclude Include="TextAreaSelectedProcess.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
-    <ClInclude Include="DrawingRelationPoint.h" />
-    <ClInclude Include="DrawingResizing.h" />
-    <ClInclude Include="MovingRelation.h" />
-    <ClInclude Include="MovingLine.h" />
-    <ClInclude Include="MovingLineProcess.h" />
+    <ClInclude Include="DrawingResizing.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawingRelationPoint.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingRelation.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrayIterator.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingLine.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingLineProcess.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -652,7 +664,6 @@
       <Filter>TextEdit</Filter>
     </ClCompile>
     <ClCompile Include="ClassDiagramForm.cpp" />
-    <ClCompile Include="ArrayIterator.cpp" />
     <ClCompile Include="Visitor.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
@@ -670,6 +681,12 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="MovingLine.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingLineProcess.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrayIterator.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>

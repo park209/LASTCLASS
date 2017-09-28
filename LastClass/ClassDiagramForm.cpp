@@ -412,26 +412,49 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 void ClassDiagramForm::OnPaint() {
 	CPaintDC dc(this);
 
-	DrawingVisitor drawingVisitor;
-	this->diagram->Accept(drawingVisitor, &dc);
-
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-	cFont.CreateFont(24, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
 	SetFont(&cFont, TRUE);
-	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
+	CFont *oldFont = dc.SelectObject(&cFont);
 
-	WritingVisitor writingVisitor;
-	this->diagram->Accept(writingVisitor, &dc);
+	CDC memDC;
+	CBitmap *pOldBitmap;
+	CBitmap bitmap;
 
+	CRect rect;
+	GetWindowRect(rect);
+
+	memDC.CreateCompatibleDC(&dc);
+	bitmap.CreateCompatibleBitmap(&dc, rect.Width(), rect.Height());
+	pOldBitmap = memDC.SelectObject(&bitmap);
+	memDC.SelectObject(bitmap);
+	memDC.SelectObject(cFont);
+
+	memDC.FillSolidRect(CRect(0, 0, rect.Width(), rect.Height()), RGB(255, 255, 255));
+
+	/*if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
+		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
+	}*/
+	if (this->startX != this->currentX && this->startY != this->currentY) { // dragFlag 로 바꿔야하는지 확인
+		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
+	}
+	else {
+		DrawingVisitor drawingVisitor;
+		this->diagram->Accept(drawingVisitor, &memDC);
+		WritingVisitor writingVisitor;
+		this->diagram->Accept(writingVisitor, &memDC);
+		this->selection->Accept(drawingVisitor, &memDC); // selectionFlag 추가 확인
+	}
+
+	dc.BitBlt(0, 0, rect.Width(), rect.Height(), &memDC, 0, 0, SRCCOPY);
+
+	memDC.SelectObject(pOldBitmap);
+	bitmap.DeleteObject();
+	memDC.SelectObject(oldFont);
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject();
-
-	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
-
-		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
-	}
-	this->selection->Accept(drawingVisitor, &dc);
+	memDC.DeleteDC();
 }
 
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -485,13 +508,13 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		}
 	}
 
-
 	Invalidate();
 }
 
 
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	CFrameWnd::OnSetFocus(pOldWnd);
+	this->textEdit = 0;
 
 	CWnd::SetFocus();
 	Invalidate();
@@ -610,7 +633,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 
 		Invalidate();
 	}
-	Long index;
+	/*Long index;
 	index = this->selection->SelectByPoint(point.x, point.y);
 	if (index == 1) {
 		SetCursor(LoadCursor(NULL, IDC_HAND));
@@ -623,7 +646,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	}
 	else if (index == 4) {
 		SetCursor(LoadCursor(NULL, IDC_SIZEALL));
-	}
+	}*/
 }
 
 void ClassDiagramForm::OnClose() {
@@ -643,9 +666,9 @@ void ClassDiagramForm::OnClose() {
 	if (this->mouseLButton != NULL) {
 		delete this->mouseLButton;
 	}
-	//if (this->textEdit != NULL) { // 종료시에 뻑남
-	//	delete this->textEdit;
-	//}
+	if (this->textEdit != NULL) {
+		delete this->textEdit;
+	}
 
 	//6.3. 윈도우를 닫는다.
 	CFrameWnd::OnClose(); // 오버라이딩 코드재사용

@@ -79,7 +79,7 @@ void DrawingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) {
 }
 void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 	Long i = 0;
-	while (i < selection->GetLength()) {
+	while (i < selection->GetLength()) { /////////////////////////////////////////////// 밖에서 물어보고 없으면 안들어와야 할듯
 		if (dynamic_cast<Class*>(selection->GetAt(i))) {
 			Class *object = static_cast<Class*>(selection->GetAt(i));
 			if (object->GetTempletePosition() == -1) {

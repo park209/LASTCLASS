@@ -6,6 +6,8 @@
 #include "SelectionState.h"
 #include "Relation.h"
 #include "Diagram.h"
+#include "WritingVisitor.h"
+
 MovingObject* MovingObject::instance = 0;
 
 MouseLButtonAction* MovingObject::Instance() {
@@ -194,13 +196,20 @@ void MovingObject::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	}
 }
 
-void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *cPaintDC) {
 
 	CPen pen;
-	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDC->SelectObject(&pen);
-	cPaintDC->SetBkMode(TRANSPARENT);
+	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
+	cPaintDC->SelectObject(pen);
 
+	//cPaintDC->FillSolidRect(CRect(0, 0, 2000, 2000), RGB(255, 255, 255));
+
+	DrawingVisitor drawingVisitor;
+	diagram->Accept(drawingVisitor, cPaintDC);
+	WritingVisitor writingVisitor;
+	diagram->Accept(writingVisitor, cPaintDC);
+	//this->selection->Accept(drawingVisitor, cPaintDC);
 
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;
@@ -288,8 +297,7 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram
 			cPaintDC->LineTo(currentX, currentY);
 		}
 	}*/
-
-
+	
 	cPaintDC->SelectObject(oldPen);
 	pen.DeleteObject();
 

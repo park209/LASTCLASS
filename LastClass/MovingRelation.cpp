@@ -143,73 +143,72 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram
 void MovingRelation::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 
 }
-void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *cPaintDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDC->SelectObject(&pen);
-	cPaintDC->SetBkMode(TRANSPARENT);
+	cPaintDC->SelectObject(pen);
+	//cPaintDC->SetBkMode(TRANSPARENT);
 	bool ret = false;
+
 	//if (dynamic_cast<Relation*>(selection->GetAt(0))) {
-		Relation *relation = static_cast<Relation*>(selection->GetAt(0));
-		Finder finder;
+	Relation *relation = static_cast<Relation*>(selection->GetAt(0));
+	Finder finder;
 
-		CPoint lineStart(relation->GetX(), relation->GetY());
-		Long index = 0;
-		CPoint lineEnd;
+	CPoint lineStart(relation->GetX(), relation->GetY());
+	Long index = 0;
+	CPoint lineEnd;
 
-		while (index < relation->GetLength() && ret == false) {
-			CRect rect(relation->GetAt(index).x - 10, relation->GetAt(index).y - 10, relation->GetAt(index).x + 10, relation->GetAt(index).y + 10);
-			ret = finder.FindRectangleByPoint(rect, startX, startY);
-			index++;
-		}
+	while (index < relation->GetLength() && ret == false) {
+		CRect rect(relation->GetAt(index).x - 10, relation->GetAt(index).y - 10, relation->GetAt(index).x + 10, relation->GetAt(index).y + 10);
+		ret = finder.FindRectangleByPoint(rect, startX, startY);
+		index++;
+	}
 
-		if (ret == true && relation->GetLength() == 1) {
-			lineEnd.x = relation->GetX() + relation->GetWidth();
-			lineEnd.y = relation->GetY() + relation->GetHeight();
-		}
+	if (ret == true && relation->GetLength() == 1) {
+		lineEnd.x = relation->GetX() + relation->GetWidth();
+		lineEnd.y = relation->GetY() + relation->GetHeight();
+	}
 
-		else if (ret == true && index == 1 && index < relation->GetLength()) {
-			lineEnd.x = relation->GetAt(index).x;
-			lineEnd.y = relation->GetAt(index).y;
-		}
-		else if (ret == true && index == relation->GetLength()) {
-			lineStart.x = relation->GetAt(index - 2).x;
-			lineStart.y = relation->GetAt(index - 2).y;
-			lineEnd.x = relation->GetX() + relation->GetWidth();
-			lineEnd.y = relation->GetY() + relation->GetHeight();
-		}
+	else if (ret == true && index == 1 && index < relation->GetLength()) {
+		lineEnd.x = relation->GetAt(index).x;
+		lineEnd.y = relation->GetAt(index).y;
+	}
+	else if (ret == true && index == relation->GetLength()) {
+		lineStart.x = relation->GetAt(index - 2).x;
+		lineStart.y = relation->GetAt(index - 2).y;
+		lineEnd.x = relation->GetX() + relation->GetWidth();
+		lineEnd.y = relation->GetY() + relation->GetHeight();
+	}
 
-		else if (ret == true) {
-			lineStart.x = relation->GetAt(index - 2).x;
-			lineStart.y = relation->GetAt(index - 2).y;
-			lineEnd.x = relation->GetAt(index).x;
-			lineEnd.y = relation->GetAt(index).y;
-		}
+	else if (ret == true) {
+		lineStart.x = relation->GetAt(index - 2).x;
+		lineStart.y = relation->GetAt(index - 2).y;
+		lineEnd.x = relation->GetAt(index).x;
+		lineEnd.y = relation->GetAt(index).y;
+	}
 
-		index = 0;
-		while (index < relation->GetLength() && ret == false) {
-			lineEnd.x = relation->GetAt(index).x;
-			lineEnd.y = relation->GetAt(index).y;
-			ret = finder.FindLineByPoint(lineStart, lineEnd, startX, startY);
-			if (ret == false) {
-				lineStart.x = lineEnd.x;
-				lineStart.y = lineEnd.y;
-			}
-			index++;
-		}
+	index = 0;
+	while (index < relation->GetLength() && ret == false) {
+		lineEnd.x = relation->GetAt(index).x;
+		lineEnd.y = relation->GetAt(index).y;
+		ret = finder.FindLineByPoint(lineStart, lineEnd, startX, startY);
 		if (ret == false) {
-			lineEnd.x = relation->GetWidth() + relation->GetX();
-			lineEnd.y = relation->GetHeight() + relation->GetY();
-			ret = finder.FindLineByPoint(lineStart, lineEnd, startX, startY);
+			lineStart.x = lineEnd.x;
+			lineStart.y = lineEnd.y;
 		}
-		if (ret == true) {
-			cPaintDC->MoveTo(lineStart.x, lineStart.y);
-			cPaintDC->LineTo(currentX, currentY);
-			cPaintDC->MoveTo(lineEnd.x, lineEnd.y);
-			cPaintDC->LineTo(currentX, currentY);
-		}
+		index++;
+	}
+	if (ret == false) {
+		lineEnd.x = relation->GetWidth() + relation->GetX();
+		lineEnd.y = relation->GetHeight() + relation->GetY();
+		ret = finder.FindLineByPoint(lineStart, lineEnd, startX, startY);
+	}
+	if (ret == true) {
+		cPaintDC->MoveTo(lineStart.x, lineStart.y);
+		cPaintDC->LineTo(currentX, currentY);
+		cPaintDC->MoveTo(lineEnd.x, lineEnd.y);
+		cPaintDC->LineTo(currentX, currentY);
+	}
 	//}
-	cPaintDC->SelectObject(oldPen);
-	pen.DeleteObject();
-
 }
