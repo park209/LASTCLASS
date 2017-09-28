@@ -206,9 +206,6 @@
     <ClInclude Include="DrawingRealization.h">
       <Filter>Relationship</Filter>
     </ClInclude>
-    <ClInclude Include="DrawingRelation.h">
-      <Filter>Relationship</Filter>
-    </ClInclude>
     <ClInclude Include="Realization.h">
       <Filter>Relationship</Filter>
     </ClInclude>
@@ -351,6 +348,7 @@
     <ClInclude Include="DrawingResizing.h" />
     <ClInclude Include="MovingRelation.h" />
     <ClInclude Include="MovingLine.h" />
+    <ClInclude Include="MovingLineProcess.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -527,9 +525,6 @@
     <ClCompile Include="DrawingRealization.cpp">
       <Filter>Relationship</Filter>
     </ClCompile>
-    <ClCompile Include="DrawingRelation.cpp">
-      <Filter>Relationship</Filter>
-    </ClCompile>
     <ClCompile Include="DrawningResize.cpp">
       <Filter>Relationship</Filter>
     </ClCompile>
@@ -669,6 +664,9 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="MovingLine.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingLineProcess.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>

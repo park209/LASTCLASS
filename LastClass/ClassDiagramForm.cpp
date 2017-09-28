@@ -535,7 +535,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 
-	//this->selection->DeleteAllItems();
+	
 
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {
@@ -574,9 +574,9 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 
-	//if (this->startX != this->currentX || this->startY != this->currentY) {
+
 		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-//	}
+
 
 
 	this->startX = 0;
@@ -590,7 +590,6 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
-	
 	
 	if (nFlags == MK_LBUTTON) {
 		this->currentX = point.x;
@@ -612,8 +611,6 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	else if (index == 4) {
 		SetCursor(LoadCursor(NULL, IDC_SIZEALL));
 	}
-
-
 }
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
