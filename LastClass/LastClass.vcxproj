@@ -80,6 +80,7 @@
     <ClInclude Include="Generalization.h" />
     <ClInclude Include="HistoryText.h" />
     <ClInclude Include="HomeKey.h" />
+    <ClInclude Include="HorizontalScroll.h" />
     <ClInclude Include="InsertKey.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="KeyAction.h" />
@@ -104,6 +105,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="Row.h" />
+    <ClInclude Include="Scroll.h" />
     <ClInclude Include="Selection.h" />
     <ClInclude Include="SelectionState.h" />
     <ClInclude Include="SelfAggregation.h" />
@@ -127,6 +129,7 @@
     <ClInclude Include="TextComposite.h" />
     <ClInclude Include="TextEdit.h" />
     <ClInclude Include="UpArrowKey.h" />
+    <ClInclude Include="VerticalScrollBar.h" />
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="WriteKoreanText.h" />
     <ClInclude Include="WriteKoreanTextProcess.h" />
@@ -193,6 +196,7 @@
     <ClCompile Include="Generalization.cpp" />
     <ClCompile Include="HistoryText.cpp" />
     <ClCompile Include="HomeKey.cpp" />
+    <ClCompile Include="HorizontalScroll.cpp" />
     <ClCompile Include="InsertKey.cpp" />
     <ClCompile Include="KeyAction.cpp" />
     <ClCompile Include="KeyBoard.cpp" />
@@ -216,6 +220,7 @@
     <ClCompile Include="Relation.cpp" />
     <ClCompile Include="RightArrowKey.cpp" />
     <ClCompile Include="Row.cpp" />
+    <ClCompile Include="Scroll.cpp" />
     <ClCompile Include="Selection.cpp" />
     <ClCompile Include="SelectionState.cpp" />
     <ClCompile Include="SelfAggregation.cpp" />
@@ -238,6 +243,7 @@
     <ClCompile Include="TextComposite.cpp" />
     <ClCompile Include="TextEdit.cpp" />
     <ClCompile Include="UpArrowKey.cpp" />
+    <ClCompile Include="VerticalScrollBar.cpp" />
     <ClCompile Include="Visitor.cpp" />
     <ClCompile Include="WriteKoreanText.cpp" />
     <ClCompile Include="WriteKoreanTextProcess.cpp" />

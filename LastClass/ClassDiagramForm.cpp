@@ -38,6 +38,9 @@
 #include "WritingVisitor.h"
 #include "MovingVisitor.h"
 #include "MouseLButton.h"
+#include "Scroll.h"
+#include "VerticalScrollBar.h"
+#include "HorizontalScroll.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
@@ -54,6 +57,7 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 	ON_WM_CLOSE()
+	ON_WM_VSCROLL()
 END_MESSAGE_MAP()
 
 ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
@@ -62,6 +66,8 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->textEdit = NULL;
 	this->selection = NULL;
 	this->mouseLButton = NULL;
+	this->verticalScrollBar = NULL;
+	this->horizontalScroll = NULL;
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
@@ -419,26 +425,9 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	//this->text = new Text;
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
-	//this->m_scrollbarHorz.Create(
-	//this->m_scrollbarHorz.ShowScrollBar();
-	//this->m_scrollbarVert.SetScrollRange(0, 100);
-	//this->m_scrollbarVert.SetScrollPos(50);
-	CRect cRect;
-	this->GetClientRect(&cRect);
-
+	this->verticalScrollBar = new VerticalScrollBar(this);
+	this->horizontalScroll = new HorizontalScroll(this);
 	
-	this->m_scrollbarVert.Create(SBS_VERT, CRect(cRect.right-20, cRect.top+30, cRect.right, cRect.bottom - 20) , this, 1);
-	SCROLLINFO  scrinfo;
-	scrinfo.cbSize = sizeof(scrinfo);
-	scrinfo.fMask = SIF_ALL;
-	scrinfo.nMin = 0;          // 최소값
-	scrinfo.nMax = cRect.bottom - 20;      // 최대값
-	scrinfo.nPage = 150;      // 페이지단위 증가값
-	scrinfo.nTrackPos = 0;  // 트랙바가 움직일때의 위치값
-	scrinfo.nPos = 0;        // 위치
-	this->m_scrollbarVert.SetScrollInfo(&scrinfo);
-	//this->m_scrollbarVert.
-	this->m_scrollbarVert.ShowScrollBar(SB_BOTH);
 
 	//1.2. 적재한다
 	//this->Load();
@@ -538,7 +527,9 @@ void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	CWnd::SetFocus();
 	Invalidate();
 }
-
+void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+	this->verticalScrollBar->ScrollAction(nSBCode,nPos,pScrollBar);
+}
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();

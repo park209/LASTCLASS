@@ -12,6 +12,7 @@ class Text;
 class TextEdit;
 class Selection;
 class MouseLButton;
+class Scroll;
 class ClassDiagramForm : public CFrameWnd { //CFrameWnd 에 상속관계 표기
 public:
 	Diagram *diagram;
@@ -19,6 +20,8 @@ public:
 	TextEdit *textEdit;
 	Selection *selection;
 	MouseLButton *mouseLButton;
+	Scroll *verticalScrollBar;
+	Scroll *horizontalScroll;
 public:
 	ClassDiagramForm();
 public:
@@ -40,6 +43,7 @@ protected:
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnVScroll(UINT nSBCode,UINT nPos,CScrollBar* pScrollBar);
 	afx_msg void OnClose();
 	DECLARE_MESSAGE_MAP()
 };
