@@ -6,6 +6,7 @@
 #include "KeyAction.h"
 
 class TextEdit;
+class ClassDiagramForm;
 class LeftArrowKey : public KeyAction {
 public:
 	LeftArrowKey();
@@ -13,6 +14,7 @@ public:
 	virtual ~LeftArrowKey();
 
 	void KeyPress(TextEdit *textEdit);
+	void KeyPress(ClassDiagramForm *classDiagramForm);
 };
 
 #endif // _LEFTARROWKEY_H

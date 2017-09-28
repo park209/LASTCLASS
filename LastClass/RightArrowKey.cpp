@@ -5,6 +5,7 @@
 #include "Text.h"
 #include "Row.h"
 #include "Caret.h"
+#include "ClassDiagramForm.h"
 
 RightArrowKey::RightArrowKey() {
 }
@@ -38,4 +39,7 @@ void RightArrowKey::KeyPress(TextEdit *textEdit) {
 		textEdit->caret->SetCharacterIndex(0);
 		textEdit->caret->MoveForwardRowIndex();
 	}
+}
+
+void RightArrowKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 }

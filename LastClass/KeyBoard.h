@@ -7,6 +7,7 @@
 
 class KeyAction;
 class TextEdit;
+class ClassDiagramForm;
 class KeyBoard {
 public:
 	KeyBoard();
@@ -16,6 +17,7 @@ public:
 	KeyBoard& operator = (const KeyBoard& source);
 
 	KeyAction* KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT nFlags);
+	KeyAction* KeyDown(ClassDiagramForm *classDiagramForm, UINT nChar, UINT nRepCnt, UINT nFlags);
 public:
 	KeyAction *keyAction;
 };

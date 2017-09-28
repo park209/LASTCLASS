@@ -8,6 +8,7 @@
 #include "SingleByteCharacter.h"
 #include "HistoryText.h"
 #include "DeleteTextArea.h"
+#include "ClassDiagramForm.h"
 
 TabKey::TabKey() {
 }
@@ -35,4 +36,7 @@ void TabKey::KeyPress(TextEdit *textEdit) {
 		textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Insert(textEdit->caret->GetCharacterIndex(), tab.Clone());
 	}
 	textEdit->caret->MoveForwardCharacterIndex();
+}
+
+void TabKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 }

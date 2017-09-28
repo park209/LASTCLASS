@@ -7,6 +7,7 @@
 #include "Caret.h"
 #include "Character.h"
 #include "FontSet.h"
+#include "ClassDiagramForm.h"
 
 DownArrowKey::DownArrowKey() {
 }
@@ -52,4 +53,7 @@ void DownArrowKey::KeyPress(TextEdit *textEdit) {
 	}
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject(); // ÆùÆ®
+}
+
+void DownArrowKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 }
