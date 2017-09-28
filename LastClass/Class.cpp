@@ -81,11 +81,11 @@ void Class::Initialize() {
 	this->figures.Store(this->length, line1.Clone());
 	this->length++;
 
-	Attribute attribute(this->x, this->y + 50, this->width , ((this->y + 50 + this->y+this->height) / 2) - (this->y + 50), "");
+	Attribute attribute(this->x, this->y + 50, this->width, ((this->y + 50 + this->y + this->height) / 2) - (this->y + 50), "");
 	this->attributePosition = this->figures.Store(this->length, attribute.Clone());
 	this->length++;
 
-	Line line2(this->x, (this->y + 50 + this->y + this->height) / 2,this->width , 0);
+	Line line2(this->x, (this->y + 50 + this->y + this->height) / 2, this->width, 0);
 	this->figures.Store(this->length, line2.Clone());
 	this->length++;
 
@@ -747,4 +747,14 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 	
 		smartPointer->Next();
 	}
+}
+
+Long Class::SetMinimumWidth() {
+	SmartPointer<Figure*> iterator(this->CreateIterator());
+	for (iterator->First();!iterator->IsDone();iterator->Next()) {
+		if (iterator->Current()->GetMinimumWidth() > this->minimumWidth) {
+			this->minimumWidth = iterator->Current()->GetMinimumWidth() + 9;
+		}
+	}
+	return this->minimumWidth;
 }

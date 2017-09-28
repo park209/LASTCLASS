@@ -19,6 +19,8 @@
 #include "WriteKoreanText.h"
 #include "DoubleClickTextArea.h"
 #include "FontSet.h"
+#include "Selection.h"
+#include "EditResizer.h"
 
 //#include <iostream>
 
@@ -86,13 +88,15 @@ void TextEdit::OnPaint() {
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 
 	if (this->flagSelection == 0) {
-		dc.FillSolidRect(CRect(5, 5, figure->GetWidth() - 5, figure->GetHeight() - 5), RGB(255, 255, 255));
+		EditResizer editResizer;
+		editResizer.ResizeEdit(this, &dc);
 
 		this->text->Accept(writingVisitor, &dc);//받았던거 출력
 		this->caret->MoveToIndex(this, &dc);
 	}
 	else if (this->flagSelection == 1) { // flagSelection이 눌려있으면
-		this->textAreaSelected->SelectTextArea(this, &dc);
+		DeleteTextArea *deleteArea = DeleteTextArea::Instance();
+		deleteArea->DeleteArea(this);
 	}
 
 	dc.SelectObject(oldFont);
@@ -101,14 +105,11 @@ void TextEdit::OnPaint() {
 
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN &&
-		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10  && GetKeyState(VK_CONTROL) >= 0) {
+		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10 && GetKeyState(VK_CONTROL) >= 0) {
 
 		if (flagSelection == 1) {
-			DeleteTextArea *deleteArea = new DeleteTextArea();
+			DeleteTextArea *deleteArea = DeleteTextArea::Instance();
 			deleteArea->DeleteArea(this);
-			if (deleteArea != 0) {
-				delete deleteArea;
-			}
 		}
 		char nCharacter = nChar;
 		SingleByteCharacter singleByteCharacter(nCharacter);
@@ -134,19 +135,14 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	HIMC hIMC = ImmGetContext(GetSafeHwnd());
 
 	if (flagSelection == 1) {
-		DeleteTextArea *deleteArea = new DeleteTextArea();
+		DeleteTextArea *deleteArea = DeleteTextArea::Instance();
 		deleteArea->DeleteArea(this);
-		if (deleteArea != 0) {
-			delete deleteArea;
-		}
 	}
-	WriteKoreanText *writeHanguel = new WriteKoreanText();
+	WriteKoreanText *writeHanguel = WriteKoreanText::Instance();
 	writeHanguel->WriteHanguel(wParam, lParam, hIMC, this);
-	if (writeHanguel != 0) {
-		delete writeHanguel;
-	}
+
 	ImmReleaseContext(GetSafeHwnd(), hIMC);
-	
+
 	CWnd::HideCaret();
 	::DestroyCaret();
 
@@ -218,9 +214,9 @@ void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 	::DestroyCaret();
 
 	KillTimer(1);
-		ReleaseCapture();
-		Invalidate();
-	
+	ReleaseCapture();
+	Invalidate();
+
 }
 
 void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
@@ -256,12 +252,9 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 void TextEdit::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
 
-	DoubleClickTextArea *DoubleClick = new DoubleClickTextArea();
+	DoubleClickTextArea *DoubleClick = DoubleClickTextArea::Instance();
 	DoubleClick->FindDoubleClickAreaIndex(this);
-	if (DoubleClick != 0) {
-		delete DoubleClick;
-	}
-	
+
 	::DestroyCaret();
 	Invalidate();
 }
@@ -296,12 +289,21 @@ LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {
 }
 
 void TextEdit::OnKillFocus(CWnd *pNewWnd) {
-	CWnd::OnKillFocus(pNewWnd);
-
 	CWnd::HideCaret();
 	::DestroyCaret();
+
 	string content(this->text->MakeText());
 	this->figure->ReplaceString(content);
+	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)GetParentFrame();
+
+	classDiagramForm->selection->SelectByPoint(classDiagramForm->diagram, this->figure->GetX(), this->figure->GetY());
+	EditResizer editResizer;
+	editResizer.ResizeClass(this);
+	this->figure->SetMinimumHeight(this->GetRowHeight()*this->text->GetLength() + 10);
+	classDiagramForm->selection->DeleteAllItems();
+
+	CWnd::OnKillFocus(pNewWnd);
+
 
 	if (this->caret != NULL) {
 		delete this->caret;
@@ -331,6 +333,10 @@ void TextEdit::OnClose() {
 	string content(this->text->MakeText());
 	this->figure->ReplaceString(content);
 
+	EditResizer editResizer;
+	editResizer.ResizeClass(this);
+	this->figure->SetMinimumHeight(this->GetRowHeight()*this->text->GetLength() + 10);
+
 	if (this->caret != NULL) {
 		delete this->caret;
 	}
@@ -350,4 +356,3 @@ void TextEdit::OnClose() {
 		delete this;
 	}
 }
-	
