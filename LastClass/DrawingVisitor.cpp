@@ -30,6 +30,8 @@
 #include "SelfComposition.h"
 #include "SelfCompositions.h"
 
+#include "DrawRollNameBoxes.h"
+
 #include <iostream>
 using namespace std;
 
@@ -266,8 +268,8 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() - 5,
 					selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() + 5,
 					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() + 5);
-				while (j < dynamic_cast<Relation*>(selection->GetAt(i))->GetLength()) {
-					CPoint cPoint = dynamic_cast<Relation*>(selection->GetAt(i))->GetAt(j);
+				while (j < static_cast<Relation*>(selection->GetAt(i))->GetLength()) {
+					CPoint cPoint = static_cast<Relation*>(selection->GetAt(i))->GetAt(j);
 					cPaintDc->Rectangle(cPoint.x - 5,
 						cPoint.y - 5,
 						cPoint.x + 5,
@@ -275,7 +277,22 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 					j++;
 				}
 			}
+			DrawRollNameBoxes *drawRollNameBoxes = DrawRollNameBoxes::Instance();
+			CPoint cPoint;
+			Relation* relationLine = static_cast<Relation*>(selection->GetAt(i));
+
+			if (relationLine->GetLength() > 0) { // ²ªÀÎ¼±ÀÌ ÀÖÀ¸¸é
+				drawRollNameBoxes->DrawFirstRollNameBox(relationLine, cPaintDc);
+				drawRollNameBoxes->DrawSecondRollNameBox(relationLine, cPaintDc);
+				drawRollNameBoxes->DrawThirdRollNameBox(relationLine, cPaintDc);
+				drawRollNameBoxes->DrawFourthRollNameBox(relationLine, cPaintDc);
+				drawRollNameBoxes->DrawFifthRollNameBox(relationLine, cPaintDc);
+			}
+			else { // ²ªÀÎ¼±ÀÌ ¾øÀ¸¸é
+				drawRollNameBoxes->DrawBoxesWithoutCurvedLine(relationLine, cPaintDc);
+			}
 		}
+
 		if (dynamic_cast<SelfRelation*>(selection->GetAt(i))) {
 			SelfRelation *selfRelation = static_cast<SelfRelation*>(selection->GetAt(i));
 			Long x;
@@ -626,6 +643,7 @@ void DrawingVisitor::Visit(Aggregation *aggregation, CDC* cPaintDc) {
 
 	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // À­Á¡
 	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
+
 
 	cPaintDc->SelectObject(&white);
 	cPaintDc->Polygon(pts2, 4);

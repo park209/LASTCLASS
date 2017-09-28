@@ -6,6 +6,7 @@
 #include "Array.h"
 #include "afxwin.h"
 
+class Relation;
 class RollNameBox {
 public:
 	static RollNameBox* Instance();
@@ -15,7 +16,7 @@ public:
 	~RollNameBox();
 public:
 	CPoint GetFirstRollNamePoint(CPoint startPoint, CPoint endPoint);
-	CPoint GetSeocndRollNamePoint(CPoint startPoint, CPoint endPoint);
+	CPoint GetSecondRollNamePoint(CPoint startPoint, CPoint endPoint);
 	CPoint GetThirdRollNamePoint(CPoint startPoint, CPoint endPoint);
 	CPoint GetFourthRollNamePoint(CPoint startPoint, CPoint endPoint);
 	CPoint GetFifthRollNamePoint(CPoint startPoint, CPoint endPoint);
