@@ -1,8 +1,8 @@
-#ifndef _DRAWINGRELATIONPOINT_H
-#define _DRAWINGRELATIONPOINT_H
+#ifndef _DRAWNGRELATION_H
+#define _DRAWNGRELATION_H
 #include "MouseLButtonAction.h"
 
-class DrawingRelationPoint :public MouseLButtonAction {
+class DrawingRelation :public MouseLButtonAction {
 public:
 	static MouseLButtonAction* Instance();
 
@@ -10,10 +10,12 @@ public:
 	virtual void MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY);
 	virtual void MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPatinDC);
 
+
 protected:
 	//DrawingClass();
 private:
-	static DrawingRelationPoint* instance;
+	static DrawingRelation* instance;
 };
-#endif // !_DRAWINGRELATIONPOINT_H
+
+#endif // !_DRAWNGRELATION_H
 

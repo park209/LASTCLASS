@@ -8,6 +8,7 @@
 #include "Method.h"
 #include "Reception.h"
 #include "Template.h"
+#include "ClassDiagramForm.h"
 #include <afxwin.h>
 
 WritingVisitor::WritingVisitor() {
@@ -28,15 +29,15 @@ void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 	CBitmap bitmap;
 
 	memDC.CreateCompatibleDC(cPaintDc); // memDC 호환되는걸 만듦
-	bitmap.CreateCompatibleBitmap(cPaintDc, textWidth + 5, text->GetLength() * fontHeight + 5); // 호환되는 비트맵 만듦
+	bitmap.CreateCompatibleBitmap(cPaintDc, textWidth, text->GetLength() * fontHeight); // 호환되는 비트맵 만듦
 	pOldBitmap = memDC.SelectObject(&bitmap); // memDC 에 bitmap 을 연결
-	memDC.FillSolidRect(CRect(0, 0, textWidth + 5, text->GetLength() * fontHeight + 5), RGB(255, 255, 255));
+	memDC.FillSolidRect(CRect(0, 0, textWidth, text->GetLength() * fontHeight), RGB(255, 255, 255));
 	memDC.SelectObject(cFont);
 
-	RECT rt = { 0 , 0, textWidth + 5, text->GetLength() * fontHeight + 5 };
+	RECT rt = { 0 , 0, textWidth, text->GetLength() * fontHeight};
 	memDC.DrawText((CString)text->MakeText().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 
-	cPaintDc->BitBlt(5, 5, textWidth, text->GetLength() * fontHeight, &memDC, 0, 0, SRCCOPY); // bitblt memDC 에 있는걸 dc로 뿌려준다
+	cPaintDc->BitBlt(0, 0, textWidth, text->GetLength() * fontHeight, &memDC, 0, 0, SRCCOPY); // bitblt memDC 에 있는걸 dc로 뿌려준다
 
 	memDC.SelectObject(pOldBitmap);
 	bitmap.DeleteObject();
@@ -45,30 +46,30 @@ void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 	//cFont->DeleteObject();
 }
 void WritingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { //접힌부분아래로 적히게
-	RECT rt = { memoBox->GetX() + 5 , memoBox->GetY() + 25, memoBox->GetX() + 5 + memoBox->GetWidth(), memoBox->GetY() + 5 + memoBox->GetHeight() };
+	RECT rt = { memoBox->GetX() + GabX , memoBox->GetY() + MemoGab, memoBox->GetX() + memoBox->GetWidth() - GabX, memoBox->GetY() + memoBox->GetHeight() - GabY };
 	cPaintDc->DrawText((CString)memoBox->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 }
 void WritingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 }
 void WritingVisitor::Visit(Template *object, CDC *cPaintDc) {
-	RECT rt = { object->GetX() + 5 , object->GetY() + 5, object->GetX() + 5 + object->GetWidth(), object->GetY() + 5 + object->GetHeight() };
+	RECT rt = { object->GetX() + GabX , object->GetY() + GabY, object->GetX() + object->GetWidth() - GabX, object->GetY() + object->GetHeight() - GabY };
 	cPaintDc->DrawText((CString)object->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 
 }
 void WritingVisitor::Visit(ClassName* className, CDC* cPaintDc) {
-	RECT rt = { className->GetX() + 5 , className->GetY() + 5, className->GetX() + 5 + className->GetWidth(), className->GetY() + 5 + className->GetHeight() };
-	cPaintDc->DrawText((CString)className->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP | DT_CENTER);
+	RECT rt = { className->GetX() + GabX , className->GetY() + GabY, className->GetX() + className->GetWidth() - GabX, className->GetY() + className->GetHeight() - GabY };
+	cPaintDc->DrawText((CString)className->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 }
 void WritingVisitor::Visit(Attribute* attribute, CDC* cPaintDc) {
-	RECT rt = { attribute->GetX() + 5 , attribute->GetY() + 5, attribute->GetX() + 5 + attribute->GetWidth(), attribute->GetY() + 5 + attribute->GetHeight() };
+	RECT rt = { attribute->GetX() + GabX , attribute->GetY() + GabY, attribute->GetX() + attribute->GetWidth() - GabX, attribute->GetY() + attribute->GetHeight() - GabY };
 	cPaintDc->DrawText((CString)attribute->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 }
 void WritingVisitor::Visit(Method* method, CDC* cPaintDc) {
-	RECT rt = { method->GetX() + 5 , method->GetY() + 5, method->GetX() + 5 + method->GetWidth(), method->GetY() + 5 + method->GetHeight() };
+	RECT rt = { method->GetX() + GabX , method->GetY() + GabY, method->GetX() + method->GetWidth() - GabX, method->GetY() + method->GetHeight() - GabY };
 	cPaintDc->DrawText((CString)method->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 }
 void WritingVisitor::Visit(Reception* reception, CDC* cPaintDc) {
-	RECT rt = { reception->GetX() + 5 , reception->GetY() + 5, reception->GetX() + 5 + reception->GetWidth(), reception->GetY() + 5 + reception->GetHeight() };
+	RECT rt = { reception->GetX() + GabX , reception->GetY() + GabY, reception->GetX() + reception->GetWidth() - GabX, reception->GetY() + reception->GetHeight() - GabX };
 	cPaintDc->DrawText((CString)reception->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 }
 void WritingVisitor::Visit(Line *line, CDC* cPaintDc) {

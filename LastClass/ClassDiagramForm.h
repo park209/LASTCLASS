@@ -7,6 +7,8 @@
 
 typedef signed long int Long;
 
+enum gab { GabX = 6, GabY = 2, MemoGab = 20 };
+
 class Diagram; //전방선언
 class Text;
 class TextEdit;
@@ -32,7 +34,7 @@ private:
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
-	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);

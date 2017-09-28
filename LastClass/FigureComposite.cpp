@@ -59,8 +59,8 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 	double modifiedDistance;
 	Long modifiedRelationX;
 
-	if (this->GetWidth() + distanceX < 120) {
-		distanceX = 120 - this->GetWidth();
+	if (this->GetWidth() + distanceX < this->minimumWidth) {
+		distanceX = this->minimumWidth - this->GetWidth();
 	}
 
 	finder.FindRelationEndPoints(diagram, this, figures, &length);
@@ -130,7 +130,7 @@ Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long d
 	double modifiedDistance;
 	Long modifiedRelationY;
 	Long editPosition;
-	Long stringHeight;
+	Long minimumHeight;
 	Long limitY;
 	if (dynamic_cast<Class*>(this)) {
 		Class *object = static_cast<Class*>(this);
@@ -147,8 +147,8 @@ Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long d
 			editPosition = 0;
 		}
 
-		stringHeight = this->GetAt(editPosition)->GetStringHeight();
-		limitY = this->GetAt(editPosition)->GetY() + stringHeight;
+		minimumHeight = this->GetAt(editPosition)->GetMinimumHeight();
+		limitY = this->GetAt(editPosition)->GetY() + minimumHeight;
 
 		if (this->y + this->height + distanceY < limitY) {
 			distanceY = limitY - this->y - this->height;
@@ -217,7 +217,7 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 	double modifiedDistance;
 	Long modifiedRelationY;
 	Long editPosition;
-	Long stringHeight;
+	Long minimumHeight;
 
 
 	if (dynamic_cast<Class*>(this)) {
@@ -234,10 +234,10 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 		else {
 			editPosition = 0;
 		}
-		stringHeight = this->GetAt(editPosition)->GetStringHeight();
+		minimumHeight = this->GetAt(editPosition)->GetMinimumHeight();
 
-		if (this->GetAt(editPosition)->GetHeight() - stringHeight < distanceY) {
-			distanceY = this->GetAt(editPosition)->GetHeight() - stringHeight;
+		if (this->GetAt(editPosition)->GetHeight() - minimumHeight < distanceY) {
+			distanceY = this->GetAt(editPosition)->GetHeight() - minimumHeight;
 		}
 
 		this->GetAt(editPosition)->Modify(this->GetAt(editPosition)->GetX(), this->GetAt(editPosition)->GetY() + distanceY, this->GetAt(editPosition)->GetWidth(),
@@ -325,8 +325,8 @@ Figure* FigureComposite::ModifyComponetsToLeftDirection(Diagram *diagram, Long d
 	double modifiedDistance;
 	Long modifiedRelationX;
 
-	if (distanceX > 0 && this->GetWidth() - distanceX < 120) {
-		distanceX = this->GetWidth() - 120;
+	if (distanceX > 0 && this->GetWidth() - distanceX < this->minimumWidth) {
+		distanceX = this->GetWidth() - this->minimumWidth;
 	}
 
 	finder.FindRelationEndPoints(diagram, this, figures, &length);

@@ -3,6 +3,7 @@
 #include "MouseLButton.h"
 #include "MouseLButtonAction.h"
 #include "DrawingClass.h"
+#include "DrawingRelation.h"
 #include "DefaultState.h"
 
 
