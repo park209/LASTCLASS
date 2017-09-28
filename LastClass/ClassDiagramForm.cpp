@@ -41,13 +41,13 @@
 #include <math.h>
 #include <iostream>
 #include <fstream>
-
 using namespace std;
+
 
 BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
-	ON_WM_CHAR()
+	ON_WM_KEYDOWN()
 	ON_WM_SETFOCUS()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONDBLCLK()
@@ -395,7 +395,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
 										 //1.1. 다이어그램을 준비한다
 	this->diagram = new Diagram();
-	this->text = new Text;
+	//this->text = new Text;
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
 
@@ -415,7 +415,7 @@ void ClassDiagramForm::OnPaint() {
 	DrawingVisitor drawingVisitor;
 	this->diagram->Accept(drawingVisitor, &dc);
 
-	CFont cFont;//CreateFont에 값25을 textEdit의 rowHight로 바꿔야함
+	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
 	SetFont(&cFont, TRUE);
@@ -428,60 +428,63 @@ void ClassDiagramForm::OnPaint() {
 	cFont.DeleteObject();
 
 	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
-
+	//if(this->startX != this->currentX && this->startY != this->currentY){
 		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
 	}
 	this->selection->Accept(drawingVisitor, &dc);
+	
 }
 
-void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
+void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	Class *object = static_cast<Class*>(this->selection->GetAt(0));
 	this->mouseLButton->ChangeState(nChar);
-	if (nChar == 100) { // D 선택항목 지우기
+	if (nChar == VK_DELETE) { // D 선택항목 지우기   Delete키
 		while (this->selection->GetLength() != 0) {
 			this->selection->Remove(this->diagram, this->selection->GetAt(this->selection->GetLength() - 1));
 		}
 	}
-	if (nChar == 118) { // V 템플릿기호 만들기
+	if (nChar == 65){ // 템플릿기호 만들기  A키
 		if (object->GetTempletePosition() == -1) {
-			object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25, "");
+			object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25);
 		}
 	}
-	if (nChar == 102) { // F 템플릿기호 지우기
+	if (nChar == 83) { // 템플릿기호 지우기	S키
 		if (object->GetTempletePosition() != -1) {
 			object->RemoveTemplate();
 		}
 	}
 
-	if (nChar == 104) { //H 리셉션칸 추가
+	if (nChar == 68) { // 리셉션칸 추가	D키
 		if (object->GetReceptionPosition() == -1) {
 			object->AddReception(this->diagram);
 		}
 	}
-	if (nChar == 103) { // G 리셉션칸 지우기
+	if (nChar == 70) { // 리셉션칸 지우기 F키
 		if (object->GetReceptionPosition() != -1) {
 			object->RemoveReception();
 		}
 	}
-	if (nChar == 117) { // U  
-		if (object->GetAttributePosition() != 1) {
-			object->RemoveAttribute();
-		}
-	}
-	if (nChar == 105) {//i메소드삭제
-		if (object->GetMethodPosition() != -1) {
-			object->RemoveMethod();
-		}
-	}
-	if (nChar == 111) {//o
+
+	if (nChar == 71) {// 	Attribute추가 G키
 		if (object->GetAttributePosition() == -1) {
 			object->AddAttribute(this->diagram);
 		}
 	}
-	if (nChar == 112) {//p
+	if (nChar == 72) { // Attribute 지우기     H키
+		if (object->GetAttributePosition() != 1) {
+			object->RemoveAttribute();
+		}
+	}
+
+	if (nChar == 74) {//메소드 추가	J키
 		if (object->GetMethodPosition() == -1) {
 			object->AddMethod(this->diagram);
+		}
+	}
+	if (nChar == 75) {//메소드삭제  K키
+		if (object->GetMethodPosition() != -1) {
+			object->RemoveMethod();
 		}
 	}
 
@@ -492,9 +495,7 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	CFrameWnd::OnSetFocus(pOldWnd);
-
 	CWnd::SetFocus();
-
 	Invalidate();
 }
 
@@ -502,7 +503,7 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
 	UINT elapseTime = 0;
-
+	this->SetFocus();
 	SetTimer(1, 1, NULL);
 	while (elapseTime < dblclkTime) {
 		PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
@@ -533,22 +534,23 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 
-	//this->selection->DeleteAllItems();
+	
+
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {
 
 		this->textEdit = new TextEdit(figure);
-
+		
 		if (dynamic_cast<MemoBox*>(figure)) {
-			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE | WS_BORDER, CRect(
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX(),
-				figure->GetY()+20, //메모박스 접힌부분 피해서 작성
+				figure->GetY() + 20,
 				figure->GetX() + figure->GetWidth(),
 				figure->GetY() + figure->GetHeight()), this, 10000, NULL);
 			OnKillFocus(NULL);
 		}
 		else {
-			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE | WS_BORDER, CRect(
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX(),
 				figure->GetY(),
 				figure->GetX() + figure->GetWidth(),
@@ -571,28 +573,10 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 
-	if (this->startX != this->currentX || this->startY != this->currentY) {
+
 		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-	}
-	/*
-	Figure *figure = 0;
-	if (this->startX != this->currentX || this->startY != this->currentY) {
-	figure = this->drawingController->AddToArray(this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-	if (dynamic_cast<ClassButton*>(this->drawingController->buttonState)) {
-	SmartPointer<Figure*> iterator = static_cast<Class*>(figure)->CreateIterator();
-	for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
-	if (dynamic_cast<ClassName*>(iterator->Current())) {
-	this->textEdit = new TextEdit(iterator->Current());
-	this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-	iterator->Current()->GetX(),
-	iterator->Current()->GetY(),
-	iterator->Current()->GetX() + iterator->Current()->GetWidth(),
-	iterator->Current()->GetY() + iterator->Current()->GetHeight()), this, 10000, NULL);
-	OnKillFocus(NULL);
-	}
-	}
-	}
-	}*/
+
+
 
 	this->startX = 0;
 	this->startY = 0;
@@ -605,10 +589,11 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
+	
 	if (nFlags == MK_LBUTTON) {
 		this->currentX = point.x;
 		this->currentY = point.y;
-
+		
 		Invalidate();
 	}
 	Long index;
@@ -619,7 +604,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	else if (index == 2) {
 		SetCursor(LoadCursor(NULL, IDC_CROSS));
 	}
-	else if (index == 3) {
+	else if (index == 3 || index==5) {
 		SetCursor(LoadCursor(NULL, IDC_HELP));
 	}
 	else if (index == 4) {
@@ -634,9 +619,9 @@ void ClassDiagramForm::OnClose() {
 	if (this->diagram != NULL) {
 		delete this->diagram;
 	}
-	if (this->text != NULL) {
-		delete this->text;
-	}
+	//if (this->text != NULL) {
+	//	delete this->text;
+	//}
 	if (this->selection != NULL) {
 		delete this->selection;
 	}
