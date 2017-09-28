@@ -349,6 +349,7 @@
     <ClInclude Include="MovingRelation.h" />
     <ClInclude Include="MovingLine.h" />
     <ClInclude Include="MovingLineProcess.h" />
+    <ClInclude Include="RollNameBox.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -667,6 +668,9 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="MovingLineProcess.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="RollNameBox.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>

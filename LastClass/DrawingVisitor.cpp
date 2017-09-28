@@ -1,5 +1,5 @@
 //DrawingVisitor.cpp
-
+#include "RollNameBox.h"
 #include "DrawingVisitor.h"
 #include "Diagram.h"
 #include "Class.h"
@@ -275,6 +275,28 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 					j++;
 				}
 			}
+			//고치기 2017 09 28 점 추가할때 같이 바뀌기
+			CPen pen;
+			pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
+			CPen *oldPen = cPaintDc->SelectObject(&pen);
+			cPaintDc->SetBkMode(TRANSPARENT);
+			RollNameBox *boxPoint = RollNameBox::Instance();
+			CPoint startPoint{ selection->GetAt(i)->GetX(), selection->GetAt(i)->GetY() };
+			CPoint endPoint{ selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth(), selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() };
+			CPoint cPoint;
+			cPoint = boxPoint->GetFirstRollNamePoint(startPoint, endPoint);
+			cPaintDc->Rectangle(cPoint.x - 15, cPoint.y - 10, cPoint.x + 15, cPoint.y + 10);
+			cPoint = boxPoint->GetSecondRollNamePoint(startPoint, endPoint);
+			cPaintDc->Rectangle(cPoint.x - 40, cPoint.y - 10, cPoint.x + 40, cPoint.y + 10);
+			cPoint = boxPoint->GetThirdRollNamePoint(startPoint, endPoint);
+			cPaintDc->Rectangle(cPoint.x - 15, cPoint.y - 10, cPoint.x + 15, cPoint.y + 10);
+			cPoint = boxPoint->GetFourthRollNamePoint(startPoint, endPoint);
+			cPaintDc->Rectangle(cPoint.x - 15, cPoint.y - 10, cPoint.x + 15, cPoint.y + 10);
+			cPoint = boxPoint->GetFifthRollNamePoint(startPoint, endPoint);
+			cPaintDc->Rectangle(cPoint.x - 15, cPoint.y - 10, cPoint.x + 15, cPoint.y + 10);
+			cPaintDc->SelectObject(oldPen);
+			pen.DeleteObject();
+
 		}
 		if (dynamic_cast<SelfRelation*>(selection->GetAt(i))) {
 			SelfRelation *selfRelation = static_cast<SelfRelation*>(selection->GetAt(i));
@@ -300,6 +322,7 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 			x1 = selfRelation->GetX() + 65;
 			y1 = selfRelation->GetY() + 35;
 			cPaintDc->Rectangle(x, y, x1, y1);
+
 		}
 		i++;
 	}
@@ -631,6 +654,8 @@ void DrawingVisitor::Visit(Aggregation *aggregation, CDC* cPaintDc) {
 	cPaintDc->Polygon(pts2, 4);
 	cPaintDc->SelectObject(oldBrush);
 	myBrush.DeleteObject();
+	
+	
 }
 void DrawingVisitor::Visit(Aggregations *aggregations, CDC* cPaintDc) {
 

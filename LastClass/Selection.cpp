@@ -638,6 +638,8 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 	return index;
 }
 
+
+
 void Selection :: Accept(Diagram *diagram,Visitor& visitor, Long distanceX, Long distanceY) {
 	visitor.Visit(diagram,this, distanceX,distanceY);
 }

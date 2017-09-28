@@ -33,10 +33,18 @@ public:
 	Long GetCapacity() const;
 	Long GetLength() const;
 
+	//text
+	Long MoveText(Long index, CPoint cPoint);
+	Long ModifyText(Long index, string text);
+
 protected:
 	Long capacity;
 	Long length;
 	Array<CPoint> points;
+
+	
+	Array<CPoint> rollNamePoints[5];
+	Array<string> rollNames[5];
 };
 inline Long Relation::GetCapacity() const {
 	return this->capacity;

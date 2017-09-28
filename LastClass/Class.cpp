@@ -155,148 +155,7 @@ Long Class::Add(Long x, Long y, Long width, Long height) {
 
 
 
-Long Class::AddGeneralization(Long x, Long y, Long width, Long height) {
-	Long index;
-	Generalization object(x, y, width, height);
 
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddRealization(Long x, Long y, Long width, Long height) {
-	Long index;
-	Realization object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddDependency(Long x, Long y, Long width, Long height) {
-	Long index;
-	Dependency object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddAssociation(Long x, Long y, Long width, Long height) {
-	Long index;
-	Association object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddDirectedAssociation(Long x, Long y, Long width, Long height) {
-	Long index;
-	DirectedAssociation object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddAggregation(Long x, Long y, Long width, Long height) {
-	Long index;
-	Aggregation object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddAggregations(Long x, Long y, Long width, Long height) {
-	Long index;
-	Aggregations object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddComposition(Long x, Long y, Long width, Long height) {
-	Long index;
-	Composition object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-Long Class::AddCompositions(Long x, Long y, Long width, Long height) {
-	Long index;
-	Compositions object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
 Long Class::AddAttribute(Diagram *diagram) {
 
 	Line line(this->x, this->y + this->figures.GetAt(0)->GetHeight(), this->width,0);
@@ -504,6 +363,7 @@ Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야�
 Long Class::AddTemplate(Long x, Long y, Long width, Long height) { //중복생성 안되게 막아야함
 	
 	Template object(x, y, width, height, content);
+	
 
 	if (this->length < this->capacity) {
 		this->templetePosition = this->figures.Store(this->length, object.Clone());
@@ -513,7 +373,15 @@ Long Class::AddTemplate(Long x, Long y, Long width, Long height) { //중복생�
 		this->capacity++;
 	}
 	this->length++;
-
+	Long i = 0;
+	while (i < this->length) {
+		if (this->GetTempletePosition() != -1) {
+			if (dynamic_cast<SelfRelation*>(this->GetAt(i))) {
+				this->GetAt(i)->Move(0, -15);
+			}
+		}
+		i++;
+	}
 	return this->templetePosition;
 }
 

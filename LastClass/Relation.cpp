@@ -149,3 +149,10 @@ void Relation::MergePoints(Long selectIndex,CPoint cPoint) {
 		}
 	}
 }
+//
+//Long Relation::MoveText(Long index, CPoint cPoint) {
+//
+//}
+//Long Relation::ModifyText(Long index, string text) {
+//
+//}

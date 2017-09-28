@@ -6,7 +6,7 @@
 #include "Finder.h"
 #include "Aggregation.h"
 #include "SelfAggregation.h"
-
+#include "RollNameBox.h"
 
 DrawingAggregation* DrawingAggregation::instance = 0;
 
@@ -44,19 +44,28 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *dia
 		CPoint cross2 = finder.GetCrossPoint(lineStart, lineEnd, rect);
 
 		Aggregation object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+		
+		
 		index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
 
+	
 	}
 
 	if (selection->GetLength() == 2 && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
-		SelfAggregation selfAggregation(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
+	
+		SelfAggregation  selfAggregation(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
+		if (object->GetTempletePosition() != -1) {
+			selfAggregation.Move(0, -15);
+		}
 		index = object->Add(selfAggregation.Clone());
 		figure = object->GetAt(index);
 	}
 	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
+
+	
 }
 void DrawingAggregation::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	selection->DeleteAllItems();
@@ -109,5 +118,6 @@ void DrawingAggregation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *d
 	cPaintDC->Polygon(pts2, 4);
 	cPaintDC->SelectObject(oldBrush);
 	myBrush.DeleteObject();
+
 
 }
