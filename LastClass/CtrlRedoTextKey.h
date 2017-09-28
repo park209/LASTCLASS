@@ -6,6 +6,7 @@
 #include "KeyAction.h"
 
 class TextEdit;
+class ClassDiagramForm;
 class CtrlRedoTextKey : public KeyAction {
 public:
 	CtrlRedoTextKey();
@@ -13,6 +14,7 @@ public:
 	virtual ~CtrlRedoTextKey();
 
 	void KeyPress(TextEdit *textEdit);
+	void KeyPress(ClassDiagramForm *classDiagramForm);
 };
 
 #endif // _CTRLREDOTEXTKEY_H

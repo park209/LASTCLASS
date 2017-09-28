@@ -6,6 +6,7 @@
 #include "KeyAction.h"
 
 class TextEdit;
+class ClassDIagrmForm;
 class EnterKey : public KeyAction {
 public:
 	EnterKey();
@@ -13,6 +14,7 @@ public:
 	virtual ~EnterKey();
 
 	void KeyPress(TextEdit *textEdit);
+	void KeyPress(ClassDiagramForm *classDiagramForm);
 };
 
 #endif // _ENTERKEY_H

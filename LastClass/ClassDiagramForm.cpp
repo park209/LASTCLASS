@@ -38,9 +38,8 @@
 #include "WritingVisitor.h"
 #include "MovingVisitor.h"
 #include "MouseLButton.h"
-#include "Scroll.h"
-#include "VerticalScrollBar.h"
-#include "HorizontalScroll.h"
+#include "KeyBoard.h"
+#include "KeyAction.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
@@ -57,7 +56,6 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 	ON_WM_CLOSE()
-	ON_WM_VSCROLL()
 END_MESSAGE_MAP()
 
 ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
@@ -66,8 +64,7 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->textEdit = NULL;
 	this->selection = NULL;
 	this->mouseLButton = NULL;
-	this->verticalScrollBar = NULL;
-	this->horizontalScroll = NULL;
+	this->keyBoard = NULL;
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
@@ -113,7 +110,6 @@ Long ClassDiagramForm::Load() {
 			i = 0;
 			while (position != -1 && i < length) {
 				fLine >> lineX >> lineY >> lineWidth >> lineHeight >> type >> relationLength;
-
 				figure = factory.Create(lineX, lineY, lineWidth, lineHeight, type);
 				index = figureComposite->Add(figure);
 				if (dynamic_cast<Relation*>(figureComposite->GetAt(index))) {
@@ -145,8 +141,6 @@ Long ClassDiagramForm::Save() {
 	Long k;
 	Long i = 0;
 	Long j;
-	Long rowLength;
-	Long fontSize;
 	ofstream fClass;
 	ofstream fLine; // 읽을때는 ofstream
 
@@ -171,11 +165,10 @@ Long ClassDiagramForm::Save() {
 
 			else if (dynamic_cast<MemoBox*>(this->diagram->GetAt(i))) {
 				object = static_cast<FigureComposite*>(this->diagram->GetAt(i));
-				fontSize = object->GetFontSize();
-				rowLength = object->GetRowCount(object->GetContent());
 				fClass << object->GetLength() << " " << object->GetX() << " " << object->GetY()
-					<< " " << object->GetWidth() << " " << object->GetHeight() << " " << 1 << " " << fontSize << " " << rowLength << endl;
+					<< " " << object->GetWidth() << " " << object->GetHeight() << " " << 1 << endl;
 			}
+
 			j = 0;
 			while (j < object->GetLength()) {
 				Figure *figure;
@@ -188,19 +181,14 @@ Long ClassDiagramForm::Save() {
 
 				else if (dynamic_cast<Template*>(object->GetAt(j))) {
 					figure = object->GetAt(j);
-					fontSize = object->GetFontSize();
-					rowLength = object->GetRowCount(object->GetContent());
 					fLine << figure->GetX() << " " << figure->GetY() << " " <<
-						figure->GetWidth() << " " << figure->GetHeight() << " " << 3 << " " << fontSize << " " << rowLength << endl;
-					fLine << object->GetContent() << endl;
+						figure->GetWidth() << " " << figure->GetHeight() << " " << 3 << " " << 0 << endl;
 				}
 
 				else if (dynamic_cast<Generalization*>(object->GetAt(j))) {
 					Relation *relation = static_cast<Relation*>(object->GetAt(j));
-					fontSize = object->GetFontSize();
-					rowLength = object->GetRowCount(object->GetContent());
 					fLine << relation->GetX() << " " << relation->GetY() << " " <<
-						relation->GetWidth() << " " << relation->GetHeight() << " " << 4 << " " << relation->GetLength() <<endl;
+						relation->GetWidth() << " " << relation->GetHeight() << " " << 4 << " " << relation->GetLength() << endl;
 					k = 0;
 					while (k < relation->GetLength()) {
 						cPoint = relation->GetAt(k);
@@ -317,39 +305,27 @@ Long ClassDiagramForm::Save() {
 				}
 				else if (dynamic_cast<ClassName*>(object->GetAt(j))) {
 					figure = static_cast<ClassName*>(object->GetAt(j));
-					fontSize = object->GetFontSize();
-					rowLength = object->GetRowCount(object->GetContent());
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
 						<< figure->GetHeight() << " " << 14 <<
-						" " << fontSize <<" "<<rowLength<< endl;
-					fLine << object->GetContent() << endl;
+						" " << 0 << endl;
 				}
 				else if (dynamic_cast<Attribute*>(object->GetAt(j))) {
 					figure = static_cast<Attribute*>(object->GetAt(j));
-					fontSize = object->GetFontSize();
-					rowLength = object->GetRowCount(object->GetContent());
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
 						<< figure->GetHeight() << " " << 15 <<
-						" " << fontSize << " " << rowLength << endl;
-					fLine << object->GetContent() << endl;
+						" " << 0 << endl;
 				}
 				else if (dynamic_cast<Method*>(object->GetAt(j))) {
 					figure = static_cast<Method*>(object->GetAt(j));
-					fontSize = object->GetFontSize();
-					rowLength = object->GetRowCount(object->GetContent());
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
 						<< figure->GetHeight() << " " << 16 <<
-						" " << fontSize << " " << rowLength << endl;
-					fLine << object->GetContent() << endl;
+						" " << 0 << endl;
 				}
 				else if (dynamic_cast<Reception*>(object->GetAt(j))) {
 					figure = static_cast<Reception*>(object->GetAt(j));
-					fontSize = object->GetFontSize();
-					rowLength = object->GetRowCount(object->GetContent());
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
 						<< figure->GetHeight() << " " << 17 <<
-						" " << fontSize << " " << rowLength << endl;
-					fLine << object->GetContent() << endl;
+						" " << 0 << endl;
 				}
 				else if (dynamic_cast<SelfGeneralization*>(object->GetAt(j))) {
 					figure = static_cast<SelfRelation*>(object->GetAt(j));
@@ -425,9 +401,8 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	//this->text = new Text;
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
-	this->verticalScrollBar = new VerticalScrollBar(this);
-	this->horizontalScroll = new HorizontalScroll(this);
-	
+	this->keyBoard = new KeyBoard;
+
 
 	//1.2. 적재한다
 	//this->Load();
@@ -464,60 +439,14 @@ void ClassDiagramForm::OnPaint() {
 	
 }
 
+
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
-
-	Class *object = static_cast<Class*>(this->selection->GetAt(0));
 	this->mouseLButton->ChangeState(nChar);
-	if (nChar == VK_DELETE) { // D 선택항목 지우기   Delete키
-		while (this->selection->GetLength() != 0) {
-			this->selection->Remove(this->diagram, this->selection->GetAt(this->selection->GetLength() - 1));
-		}
-	}
-	if (nChar == 65){ // 템플릿기호 만들기  A키
-		if (object->GetTempletePosition() == -1) {
-			object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25);
-		}
-	}
-	if (nChar == 83) { // 템플릿기호 지우기	S키
-		if (object->GetTempletePosition() != -1) {
-			object->RemoveTemplate();
-		}
-	}
+	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 
-	if (nChar == 68) { // 리셉션칸 추가	D키
-		if (object->GetReceptionPosition() == -1) {
-			object->AddReception(this->diagram);
-		}
+	if (keyAction != 0) {
+		keyAction->KeyPress(this);
 	}
-	if (nChar == 70) { // 리셉션칸 지우기 F키
-		if (object->GetReceptionPosition() != -1) {
-			object->RemoveReception();
-		}
-	}
-
-	if (nChar == 71) {// 	Attribute추가 G키
-		if (object->GetAttributePosition() == -1) {
-			object->AddAttribute(this->diagram);
-		}
-	}
-	if (nChar == 72) { // Attribute 지우기     H키
-		if (object->GetAttributePosition() != 1) {
-			object->RemoveAttribute();
-		}
-	}
-
-	if (nChar == 74) {//메소드 추가	J키
-		if (object->GetMethodPosition() == -1) {
-			object->AddMethod(this->diagram);
-		}
-	}
-	if (nChar == 75) {//메소드삭제  K키
-		if (object->GetMethodPosition() != -1) {
-			object->RemoveMethod();
-		}
-	}
-
-
 	Invalidate();
 }
 
@@ -527,9 +456,7 @@ void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	CWnd::SetFocus();
 	Invalidate();
 }
-void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
-	this->verticalScrollBar->ScrollAction(nSBCode,nPos,pScrollBar);
-}
+
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
@@ -658,6 +585,9 @@ void ClassDiagramForm::OnClose() {
 	}
 	if (this->mouseLButton != NULL) {
 		delete this->mouseLButton;
+	}
+	if (this->keyBoard != NULL) {
+		delete this->keyBoard;
 	}
 
 	//6.3. 윈도우를 닫는다.

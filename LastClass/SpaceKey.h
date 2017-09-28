@@ -6,6 +6,7 @@
 #include "KeyAction.h"
 
 class TextEdit;
+class ClassDiagremForm;
 class SpaceKey : public KeyAction {
 public:
 	SpaceKey();
@@ -13,6 +14,7 @@ public:
 	virtual ~SpaceKey();
 
 	void KeyPress(TextEdit *textEdit);
+	void KeyPress(ClassDiagramForm *classDiagramForm);
 };
 
 #endif // _SPACEKEY_H

@@ -4,6 +4,7 @@
 #include "TextEdit.h"
 #include "Text.h"
 #include "Row.h"
+#include "ClassDiagramForm.h"
 
 InsertKey::InsertKey() {
 }
@@ -21,4 +22,7 @@ void InsertKey::KeyPress(TextEdit *textEdit) {
 	else {
 		textEdit->flagInsert = 1;
 	}
+}
+
+void InsertKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 }
