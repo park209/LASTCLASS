@@ -395,7 +395,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
 										 //1.1. 다이어그램을 준비한다
 	this->diagram = new Diagram();
-	this->text = new Text;
+	//this->text = new Text;
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
 
@@ -495,7 +495,6 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	CFrameWnd::OnSetFocus(pOldWnd);
-
 	CWnd::SetFocus();
 	Invalidate();
 }
@@ -504,7 +503,7 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
 	UINT elapseTime = 0;
-
+	this->SetFocus();
 	SetTimer(1, 1, NULL);
 	while (elapseTime < dblclkTime) {
 		PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
@@ -541,7 +540,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	if (figure != NULL) {
 
 		this->textEdit = new TextEdit(figure);
-
+		
 		if (dynamic_cast<MemoBox*>(figure)) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX(),
@@ -623,9 +622,9 @@ void ClassDiagramForm::OnClose() {
 	if (this->diagram != NULL) {
 		delete this->diagram;
 	}
-	if (this->text != NULL) {
-		delete this->text;
-	}
+	//if (this->text != NULL) {
+	//	delete this->text;
+	//}
 	if (this->selection != NULL) {
 		delete this->selection;
 	}
