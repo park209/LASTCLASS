@@ -181,6 +181,7 @@
     <ClCompile Include="DrawingMemoBox.cpp" />
     <ClCompile Include="DrawingMemoLine.cpp" />
     <ClCompile Include="DrawingRealization.cpp" />
+    <ClCompile Include="DrawingRelation.cpp" />
     <ClCompile Include="DrawingRelationPoint.cpp" />
     <ClCompile Include="DrawingResizing.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />

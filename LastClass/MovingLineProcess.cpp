@@ -123,7 +123,7 @@ void MovingLineProcess::MoveUpReception(Class *selectedClass, Long  startX, Long
 					SetHeight(currentY - selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY());
 				if (selectedClass->GetAt(selectedClass->GetAttributePosition())->GetHeight() < 25) {
 					selectedClass->GetAt(selectedClass->GetAttributePosition())->SetHeight(25);
-					distanceY = selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() + selectedClass->GetAt(selectedClass->GetAttributePosition())
+					distanceY = selectedClass->GetY() + selectedClass->GetAt(selectedClass->GetAttributePosition() - 1)
 						->GetHeight() - startPoint.y;
 				}
 			}

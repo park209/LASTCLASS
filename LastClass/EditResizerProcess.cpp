@@ -64,8 +64,7 @@ void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
 		textEdit->figure->GetWidth(), textEdit->figure->GetHeight());
 }
 
-void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit) {
-	CDC * cdc = textEdit->GetDC();
+void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit, CDC *cdc) {
 	RECT rt;
 	textEdit->GetClientRect(&rt);
 

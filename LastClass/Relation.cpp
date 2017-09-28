@@ -91,12 +91,12 @@ void Relation::MergePoints(Long selectIndex,CPoint cPoint) {
 	Long index = -1;
 	bool ret;
 	Finder finder;
-	CRect cRect1(cPoint.x - 10, cPoint.y - 10, cPoint.x + 10, cPoint.y + 10);
+	CRect cRect1(cPoint.x - 5, cPoint.y - 5, cPoint.x + 5, cPoint.y + 5);
 	CPoint compare;
 	compare.x = this->x;
 	compare.y = this->y;
 
-	CRect cRect(compare.x - 10, compare.y - 10, compare.x  +10, compare.y + 10);
+	CRect cRect(compare.x - 5, compare.y - 5, compare.x  +5, compare.y + 5);
 	ret = finder.FindRectangleByArea(cRect1, cRect);
 	if (ret == true) {
 		index = 0;
@@ -105,7 +105,7 @@ void Relation::MergePoints(Long selectIndex,CPoint cPoint) {
 	while (i < this->length && index == -1) {
 		compare.x = this->GetAt(i).x;
 		compare.y = this->GetAt(i).y;
-		CRect cRect2(compare.x - 10, compare.y - 10, compare.x + 10, compare.y + 10);
+		CRect cRect2(compare.x - 5, compare.y - 5, compare.x + 5, compare.y + 5);
 		ret = finder.FindRectangleByArea(cRect1, cRect2);
 		if (ret == true) {
 			index = i+1;
@@ -115,7 +115,7 @@ void Relation::MergePoints(Long selectIndex,CPoint cPoint) {
 	if (index == -1) {
 		compare.x = this->x + this->width;
 		compare.y = this->y + this->height;
-		CRect cRect3(compare.x - 10, compare.y -10, compare.x +10, compare.y + 10);
+		CRect cRect3(compare.x - 5, compare.y - 5, compare.x + 5, compare.y + 5);
 		ret = finder.FindRectangleByArea(cRect1, cRect3);
 		if (ret == true)
 		{
@@ -131,9 +131,7 @@ void Relation::MergePoints(Long selectIndex,CPoint cPoint) {
 			Long i = 0;
 			Long count = startIndex - currentIndex;
 			while (i < count) {
-				this->points.Delete(currentIndex+1);
-				this->length--;
-				this->capacity--;
+				this->Remove(currentIndex+1);
 				i++;
 			}
 		}
@@ -141,9 +139,7 @@ void Relation::MergePoints(Long selectIndex,CPoint cPoint) {
 			Long i = 0;
 			Long count = currentIndex - startIndex;
 			while (i < count) {
-				this->points.Delete(startIndex);
-				this->length--;
-				this->capacity--;
+				this->Remove(startIndex);
 				i++;
 			}
 		}

@@ -45,7 +45,7 @@ void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 	//cFont->DeleteObject();
 }
 void WritingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { //접힌부분아래로 적히게
-	RECT rt = { memoBox->GetX() + 6 , memoBox->GetY() + 5, memoBox->GetX() + 6 + memoBox->GetWidth(), memoBox->GetY() + 6 + memoBox->GetHeight() };
+	RECT rt = { memoBox->GetX() + 6 , memoBox->GetY() + 25, memoBox->GetX() + 6 + memoBox->GetWidth(), memoBox->GetY() + 6 + memoBox->GetHeight() };
 	cPaintDc->DrawText((CString)memoBox->GetContent().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 }
 void WritingVisitor::Visit(Selection *selection, CDC *cPaintDc) {

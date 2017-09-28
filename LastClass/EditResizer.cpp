@@ -47,8 +47,12 @@ void EditResizer::ResizeEdit(TextEdit *textEdit, CDC *cdc) {
 	}
 }
 
-void EditResizer::ResizeClass(TextEdit *textEdit) {
+void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
 	EditResizerProcess resizer;
-	resizer.ResizeClassWidth(textEdit);
-	resizer.ResizeClassHeight(textEdit);
+	if (textEdit->text->MaxWidth(cdc) + 9 > textEdit->figure->GetWidth()) {
+		resizer.ResizeClassWidth(textEdit,cdc);
+	}
+	if (textEdit->GetRowHeight()*textEdit->text->GetLength() > textEdit->figure->GetHeight()) {
+		resizer.ResizeClassHeight(textEdit);
+	}
 }

@@ -13,7 +13,7 @@ public:
 	~EditResizer();
 public:
 	void ResizeEdit(TextEdit *textEdit, CDC *cdc);
-	void ResizeClass(TextEdit *textEdit);
+	void ResizeClass(TextEdit *textEdit, CDC *cdc);
 };
 
 #endif // !_EDITRESIZER_H

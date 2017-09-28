@@ -17,7 +17,7 @@ public:
 	void ResizeEditAll(TextEdit *textEdit, CDC *cdc);
 	void RewindEdit(TextEdit *textEdit, CDC *cdc);
 
-	void ResizeClassWidth(TextEdit *textEdit);
+	void ResizeClassWidth(TextEdit *textEdit, CDC *cdc);
 	void ResizeClassHeight(TextEdit *textEdit);
 };
 
