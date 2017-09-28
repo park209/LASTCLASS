@@ -70,6 +70,7 @@
     <ClInclude Include="DrawingResize.h" />
     <ClInclude Include="DrawingResizing.h" />
     <ClInclude Include="DrawingVisitor.h" />
+    <ClInclude Include="RollNameBox.h" />
     <ClInclude Include="EndKey.h" />
     <ClInclude Include="EnterKey.h" />
     <ClInclude Include="EscapeKey.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="DrawingResizing.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
     <ClCompile Include="DrawningResize.cpp" />
+    <ClCompile Include="RollNameBox.cpp" />
     <ClCompile Include="EndKey.cpp" />
     <ClCompile Include="EnterKey.cpp" />
     <ClCompile Include="EscapeKey.cpp" />

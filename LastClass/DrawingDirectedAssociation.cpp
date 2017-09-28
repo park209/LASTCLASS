@@ -63,7 +63,7 @@ void DrawingDirectedAssociation::MouseLButtonDown(MouseLButton *mouseLButton, Di
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingDirectedAssociation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void DrawingDirectedAssociation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *cPaintDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);

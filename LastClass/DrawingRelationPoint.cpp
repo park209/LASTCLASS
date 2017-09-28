@@ -68,7 +68,7 @@ void DrawingRelationPoint::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram 
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDC->SelectObject(&pen);
-	cPaintDC->SelectObject(&pen);
+	cPaintDC->SelectObject(pen);
 
 	bool ret = false;
 	Relation *relation = static_cast<Relation*>(selection->GetAt(0));

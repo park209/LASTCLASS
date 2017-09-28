@@ -72,6 +72,7 @@ Class::~Class() {
 		i++;
 	}
 }
+
 void Class::Initialize() {
 	ClassName className(this->x, this->y, this->width, 50, "");
 	this->figures.Store(this->length, className.Clone());
@@ -92,12 +93,13 @@ void Class::Initialize() {
 	Method method(this->x, (this->y + 50 + this->y+this->height) / 2,this->width, ((this->y + 50 + this->y + this->height) / 2) - (this->y + 50), "");
 	this->methodPosition = this->figures.Store(this->length, method.Clone());
 	this->length++;
-
 }
+
 Figure* Class::Move(Long distanceX, Long distanceY){
 	Figure::Move(distanceX, distanceY);
 	return this;
 }
+
 Class& Class::operator = (const Class& source) {
 	this->figures = source.figures;
 	Long i = 0;
@@ -153,150 +155,6 @@ Long Class::Add(Long x, Long y, Long width, Long height) {
 	return index;
 }
 
-
-
-Long Class::AddGeneralization(Long x, Long y, Long width, Long height) {
-	Long index;
-	Generalization object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddRealization(Long x, Long y, Long width, Long height) {
-	Long index;
-	Realization object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddDependency(Long x, Long y, Long width, Long height) {
-	Long index;
-	Dependency object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddAssociation(Long x, Long y, Long width, Long height) {
-	Long index;
-	Association object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddDirectedAssociation(Long x, Long y, Long width, Long height) {
-	Long index;
-	DirectedAssociation object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddAggregation(Long x, Long y, Long width, Long height) {
-	Long index;
-	Aggregation object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddAggregations(Long x, Long y, Long width, Long height) {
-	Long index;
-	Aggregations object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddComposition(Long x, Long y, Long width, Long height) {
-	Long index;
-	Composition object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-Long Class::AddCompositions(Long x, Long y, Long width, Long height) {
-	Long index;
-	Compositions object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
 Long Class::AddAttribute(Diagram *diagram) {
 
 	Line line(this->x, this->y + this->figures.GetAt(0)->GetHeight(), this->width,0);

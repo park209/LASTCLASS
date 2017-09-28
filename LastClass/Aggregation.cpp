@@ -7,6 +7,11 @@ Aggregation::Aggregation(Long capacity):Relation(capacity) {
 }
 
 Aggregation::Aggregation(Long x, Long y, Long width, Long height): Relation(x,y,width,height){
+	CPoint startPoint{ x, y };
+	CPoint endPoint{ x + width, y + height };
+
+	this->rollNamePoints[0] = startPoint.x 
+
 }
 
 Aggregation::~Aggregation() {

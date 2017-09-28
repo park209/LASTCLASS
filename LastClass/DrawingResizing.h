@@ -15,5 +15,6 @@ protected:
 private:
 	static DrawingResizing* instance;
 };
+
 #endif // !_DRAWINGRESIZING_H
 

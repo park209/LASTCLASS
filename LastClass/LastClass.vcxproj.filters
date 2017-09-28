@@ -364,6 +364,7 @@
     <ClInclude Include="MovingLineProcess.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
+    <ClInclude Include="RollNameBox.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -689,5 +690,6 @@
     <ClCompile Include="ArrayIterator.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
+    <ClCompile Include="RollNameBox.cpp" />
   </ItemGroup>
 </Project>

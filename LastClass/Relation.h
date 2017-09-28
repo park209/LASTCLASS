@@ -37,6 +37,9 @@ protected:
 	Long capacity;
 	Long length;
 	Array<CPoint> points;
+
+	Array<string> rollNames;
+	Array<CPoint> rollNamePoints;
 };
 inline Long Relation::GetCapacity() const {
 	return this->capacity;

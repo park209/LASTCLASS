@@ -1,12 +1,13 @@
 //Relation.cpp
+
 #include "Relation.h"
 #include "Finder.h"
-Relation::Relation(Long capacity):Figure(), points(capacity){
+
+Relation::Relation(Long capacity):Figure(), points(capacity), rollNames(5), rollNamePoints(5) {
 	//this->points;
 	this->capacity = capacity;
 	this->length = 0;
 }
-
 
 Relation::Relation(const Relation& source) :Figure(source), points(source.points) {
 	Long i = 0;

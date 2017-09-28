@@ -433,10 +433,7 @@ void ClassDiagramForm::OnPaint() {
 
 	memDC.FillSolidRect(CRect(0, 0, rect.Width(), rect.Height()), RGB(255, 255, 255));
 
-	/*if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
-		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
-	}*/
-	if (this->startX != this->currentX && this->startY != this->currentY) { // dragFlag 로 바꿔야하는지 확인
+	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
 		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
 	}
 	else {

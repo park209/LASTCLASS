@@ -25,7 +25,7 @@ void DrawingAggregations::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *di
 
 	selection->SelectByPoint(diagram, currentX, currentY);
 
-	if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {
+	if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) { // 두개 선택되고, 클래스이고
 
 		CPoint lineStart(startX, startY);
 		CPoint lineEnd(currentX, currentY);
@@ -63,7 +63,7 @@ void DrawingAggregations::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingAggregations::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void DrawingAggregations::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *cPaintDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);
