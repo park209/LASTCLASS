@@ -6,6 +6,7 @@
 #include "Row.h"
 #include "Caret.h"
 #include "HistoryText.h"
+#include "ClassDiagramForm.h"
 
 CtrlUndoTextKey::CtrlUndoTextKey() {
 }
@@ -28,4 +29,7 @@ void CtrlUndoTextKey::KeyPress(TextEdit *textEdit) {
 		delete textEdit->caret;
 		textEdit->caret = caret_;
 	}
+}
+
+void CtrlUndoTextKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 }

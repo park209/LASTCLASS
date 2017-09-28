@@ -6,6 +6,7 @@
 #include "KeyAction.h"
 
 class TextEdit;
+class CLassDiagramForam;
 class HomeKey : public KeyAction {
 public:
 	HomeKey();
@@ -13,6 +14,7 @@ public:
 	virtual ~HomeKey();
 
 	void KeyPress(TextEdit *textEdit);
+	void KeyPress(ClassDiagramForm *classDiagramForm);
 };
 
 #endif // _HOMEKEY_H

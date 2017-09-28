@@ -8,6 +8,7 @@
 #include "SingleByteCharacter.h"
 #include "DoubleByteCharacter.h"
 #include "DeleteTextArea.h"
+#include "ClassDiagramForm.h"
 
 CtrlCutKey::CtrlCutKey() {
 }
@@ -36,4 +37,7 @@ void CtrlCutKey::KeyPress(TextEdit *textEdit) {
 			delete deleteArea;
 		}
 	}
+}
+
+void CtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 }

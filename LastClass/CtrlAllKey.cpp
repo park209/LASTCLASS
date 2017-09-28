@@ -5,6 +5,7 @@
 #include "Text.h"
 #include "Row.h"
 #include "Caret.h"
+#include "ClassDiagramForm.h"
 
 CtrlAllKey::CtrlAllKey() {
 }
@@ -19,4 +20,7 @@ void CtrlAllKey::KeyPress(TextEdit *textEdit) {
 	textEdit->caret->SetRowIndex(textEdit->text->GetLength() - 1);
 
 	textEdit->flagSelection = 1;
+}
+
+void CtrlAllKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 }

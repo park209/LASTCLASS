@@ -38,6 +38,8 @@
 #include "WritingVisitor.h"
 #include "MovingVisitor.h"
 #include "MouseLButton.h"
+#include "KeyBoard.h"
+#include "KeyAction.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
@@ -62,6 +64,7 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->textEdit = NULL;
 	this->selection = NULL;
 	this->mouseLButton = NULL;
+	this->keyBoard = NULL;
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
@@ -398,6 +401,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	//this->text = new Text;
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
+	this->keyBoard = new KeyBoard;
 
 
 	//1.2. 적재한다
@@ -435,60 +439,14 @@ void ClassDiagramForm::OnPaint() {
 	
 }
 
+
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
-
-	Class *object = static_cast<Class*>(this->selection->GetAt(0));
 	this->mouseLButton->ChangeState(nChar);
-	if (nChar == VK_DELETE) { // D 선택항목 지우기   Delete키
-		while (this->selection->GetLength() != 0) {
-			this->selection->Remove(this->diagram, this->selection->GetAt(this->selection->GetLength() - 1));
-		}
-	}
-	if (nChar == 65){ // 템플릿기호 만들기  A키
-		if (object->GetTempletePosition() == -1) {
-			object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25);
-		}
-	}
-	if (nChar == 83) { // 템플릿기호 지우기	S키
-		if (object->GetTempletePosition() != -1) {
-			object->RemoveTemplate();
-		}
-	}
+	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 
-	if (nChar == 68) { // 리셉션칸 추가	D키
-		if (object->GetReceptionPosition() == -1) {
-			object->AddReception(this->diagram);
-		}
+	if (keyAction != 0) {
+		keyAction->KeyPress(this);
 	}
-	if (nChar == 70) { // 리셉션칸 지우기 F키
-		if (object->GetReceptionPosition() != -1) {
-			object->RemoveReception();
-		}
-	}
-
-	if (nChar == 71) {// 	Attribute추가 G키
-		if (object->GetAttributePosition() == -1) {
-			object->AddAttribute(this->diagram);
-		}
-	}
-	if (nChar == 72) { // Attribute 지우기     H키
-		if (object->GetAttributePosition() != 1) {
-			object->RemoveAttribute();
-		}
-	}
-
-	if (nChar == 74) {//메소드 추가	J키
-		if (object->GetMethodPosition() == -1) {
-			object->AddMethod(this->diagram);
-		}
-	}
-	if (nChar == 75) {//메소드삭제  K키
-		if (object->GetMethodPosition() != -1) {
-			object->RemoveMethod();
-		}
-	}
-
-
 	Invalidate();
 }
 
@@ -627,6 +585,9 @@ void ClassDiagramForm::OnClose() {
 	}
 	if (this->mouseLButton != NULL) {
 		delete this->mouseLButton;
+	}
+	if (this->keyBoard != NULL) {
+		delete this->keyBoard;
 	}
 
 	//6.3. 윈도우를 닫는다.
