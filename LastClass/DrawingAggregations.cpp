@@ -25,7 +25,7 @@ void DrawingAggregations::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *di
 
 	selection->SelectByPoint(diagram, currentX, currentY);
 
-	if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) { // 두개 선택되고, 클래스이고
+	if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {
 
 		CPoint lineStart(startX, startY);
 		CPoint lineEnd(currentX, currentY);
@@ -52,6 +52,9 @@ void DrawingAggregations::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *di
 	if (selection->GetLength() == 2 && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
 		SelfAggregations selfAggregations(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
+		if (object->GetTempletePosition() != -1) {
+			selfAggregations.Move(0, -15);
+		}
 		index = object->Add(selfAggregations.Clone());
 		figure = object->GetAt(index);
 	}

@@ -2,18 +2,16 @@
 
 #include "Relation.h"
 #include "Finder.h"
+#include "RollNameBox.h"
 
-Relation::Relation(Long capacity):Figure(), points(capacity){//, rollNames(5), rollNamePoints(5) {
-	//this->points;
+Relation::Relation(Long capacity):Figure(), points(capacity) {
 	this->capacity = capacity;
 	this->length = 0;
 	this->rollNamePoints = new Array<CPoint>(5);
-	//rollNamePoints = { 0, };
 	this->rollNames = new Array<string>(5);
-	//rollNames = { 0, };
 }
 
-Relation::Relation(const Relation& source) :Figure(source), points(source.points) {//, rollNames(source.rollNames), rollNamePoints(source.rollNamePoints) {
+Relation::Relation(const Relation& source) :Figure(source), points(source.points) {
 	Long i = 0;
 	while (i < source.length) {
 		this->points.Modify(i, const_cast<Relation&>(source).points[i]);
@@ -27,7 +25,19 @@ Relation::Relation(const Relation& source) :Figure(source), points(source.points
 Relation::Relation(Long x, Long y, Long width, Long height) :Figure(x,y,width,height), points(10) {
 	this->capacity = 10;
 	this->length = 0;
+	/*this->rollNamePoints = new Array<CPoint>(5);
+	this->rollNames = new Array<string>(5);
+	CPoint startPoint{ x, y };
+	CPoint endPoint{ x + width, y + height };
+
+	RollNameBox *rollNameBox = RollNameBox::Instance();
+	this->rollNamePoints->Modify(0, rollNameBox->GetFirstRollNamePoint(startPoint, endPoint));
+	this->rollNamePoints->Modify(1, rollNameBox->GetSecondRollNamePoint(startPoint, endPoint));
+	this->rollNamePoints->Modify(2, rollNameBox->GetThirdRollNamePoint(startPoint, endPoint));
+	this->rollNamePoints->Modify(3, rollNameBox->GetFourthRollNamePoint(startPoint, endPoint));
+	this->rollNamePoints->Modify(4, rollNameBox->GetFifthRollNamePoint(startPoint, endPoint));*/
 }
+
 Relation& Relation::operator=(const Relation& source) {
 	this->x = source.x;
 	this->y = source.y;

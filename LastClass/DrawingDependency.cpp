@@ -52,6 +52,9 @@ void DrawingDependency::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diag
 	if (selection->GetLength() == 2 && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
 		SelfDependency selfDependency(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
+		if (object->GetTempletePosition() != -1) {
+			selfDependency.Move(0, -15);
+		}
 		index = object->Add(selfDependency.Clone());
 		figure = object->GetAt(index);
 	}

@@ -43,20 +43,29 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *dia
 		rect.bottom = selection->GetAt(1)->GetY() + selection->GetAt(1)->GetHeight();
 		CPoint cross2 = finder.GetCrossPoint(lineStart, lineEnd, rect);
 
-		Aggregation object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y); // 생성자, 시작점/끝점
+		Aggregation object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+		
+		
 		index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
 
+	
 	}
 
 	if (selection->GetLength() == 2 && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
-		SelfAggregation selfAggregation(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
+	
+		SelfAggregation  selfAggregation(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
+		if (object->GetTempletePosition() != -1) {
+			selfAggregation.Move(0, -15);
+		}
 		index = object->Add(selfAggregation.Clone());
 		figure = object->GetAt(index);
 	}
 	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
+
+	
 }
 void DrawingAggregation::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	selection->DeleteAllItems();
@@ -105,24 +114,10 @@ void DrawingAggregation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *d
 	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (currentX - startX) / distance); // 윗점
 	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - currentY) / distance);
 
-	RollNameBox *boxPoint = RollNameBox::Instance();
-	CPoint startPoint{ startX, startY };
-	CPoint endPoint{ currentX, currentY };
-	CPoint cPoint;
-	cPoint = boxPoint->GetFirstRollNamePoint(startPoint, endPoint);
-	cPaintDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
-	cPoint = boxPoint->GetSecondRollNamePoint(startPoint, endPoint);
-	cPaintDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
-	cPoint = boxPoint->GetThirdRollNamePoint(startPoint, endPoint);
-	cPaintDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
-	cPoint = boxPoint->GetFourthRollNamePoint(startPoint, endPoint);
-	cPaintDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
-	cPoint = boxPoint->GetFifthRollNamePoint(startPoint, endPoint);
-	cPaintDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
-
 	cPaintDC->SelectObject(&white);
 	cPaintDC->Polygon(pts2, 4);
 	cPaintDC->SelectObject(oldBrush);
 	myBrush.DeleteObject();
+
 
 }
