@@ -38,6 +38,8 @@
 #include "WritingVisitor.h"
 #include "MovingVisitor.h"
 #include "MouseLButton.h"
+#include "HistoryGraphic.h"
+
 #include <math.h>
 #include <iostream>
 #include <fstream>
@@ -62,6 +64,7 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->textEdit = NULL;
 	this->selection = NULL;
 	this->mouseLButton = NULL;
+	this->historyGraphic = NULL;
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
@@ -398,6 +401,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->text = new Text;
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
+	this->historyGraphic = new HistoryGraphic;
 
 
 	//1.2. 적재한다
@@ -421,12 +425,14 @@ void ClassDiagramForm::OnPaint() {
 	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
 		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
 	}
+	
+		DrawingVisitor drawingVisitor;
+		this->diagram->Accept(drawingVisitor, &dc);
+		WritingVisitor writingVisitor;
+		this->diagram->Accept(writingVisitor, &dc);
+		this->selection->Accept(drawingVisitor, &dc); // selectionFlag 추가 확인
+	
 
-	DrawingVisitor drawingVisitor;
-	this->diagram->Accept(drawingVisitor, &dc);
-	WritingVisitor writingVisitor;
-	this->diagram->Accept(writingVisitor, &dc);
-	this->selection->Accept(drawingVisitor, &dc); // selectionFlag 추가 확인
 
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject();
@@ -454,13 +460,16 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	if (nChar == 104) { //H 리셉션칸 추가
 		if (object->GetReceptionPosition() == -1) {
+
+			this->historyGraphic->PushUndo(this->diagram);
 			object->AddReception(this->diagram);
 		}
 	}
 	if (nChar == 103) { // G 리셉션칸 지우기
-		if (object->GetReceptionPosition() != -1) {
+		this->diagram = this->historyGraphic->PopUndoGraphic();
+		/*if (object->GetReceptionPosition() != -1) {
 			object->RemoveReception();
-		}
+		}*/
 	}
 	if (nChar == 117) { // U  속성칸 지우기
 		if (object->GetAttributePosition() != 1) {
@@ -573,7 +582,6 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			i++;
 		}
 		if (index > 0) {
-			//Figure *newFigure = static_cast<Figure*>(relation);
 			this->textEdit = new TextEdit(relation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				left + 1,
@@ -712,6 +720,9 @@ void ClassDiagramForm::OnClose() {
 	}
 	if (this->textEdit != NULL) {
 		delete this->textEdit;
+	}
+	if (this->historyGraphic != NULL) {
+		delete this->historyGraphic;
 	}
 
 	//6.3. 윈도우를 닫는다.

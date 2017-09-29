@@ -10,8 +10,6 @@ typedef signed long int Long;
 
 class Text;
 class Figure;
-class Relation;
-class SelfRelation;
 class Caret;
 class KeyBoard;
 class HistoryText;

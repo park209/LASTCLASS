@@ -3,6 +3,7 @@
 #include "Finder.h"
 #include "Selection.h"
 #include "Diagram.h"
+#include "RollNameBox.h"
 
 DrawingRelationPoint* DrawingRelationPoint::instance = 0;
 
@@ -57,6 +58,41 @@ void DrawingRelationPoint::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *d
 		}
 		if (squareFace == true) {
 			relation->Add(startCPoint, currentCPoint);
+			RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
+			CPoint cPoint1;
+			CPoint cPoint2;
+			CPoint cPoint3;
+			CPoint cPoint4;
+			CPoint cPoint5;
+			CPoint startPoint{ relation->GetX(), relation->GetY() };
+			CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+			cPoint4 = rollNameBoxesPoint ->GetFourthRollNamePoint(startPoint, endPoint);
+			relation->rollNamePoints->Modify(0, cPoint1);
+			relation->rollNamePoints->Modify(3, cPoint4);
+			CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+				relation->GetAt(relation->GetLength() - 1).y };
+			CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+			relation->rollNamePoints->Modify(2, cPoint3);
+			relation->rollNamePoints->Modify(4, cPoint5);
+			
+			if (relation->GetLength() % 2 > 0) {
+				CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+					relation->GetAt((relation->GetLength() - 1) / 2).y };
+				cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
+				relation->rollNamePoints->Modify(1, cPoint2);
+				
+			}
+			else {
+				CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+					relation->GetAt((relation->GetLength() - 1) / 2).y };
+				CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
+					relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
+				cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
+				relation->rollNamePoints->Modify(1, cPoint2);
+			}
 
 		}
 	}

@@ -364,6 +364,7 @@
     <ClInclude Include="RollNameBox.h" />
     <ClInclude Include="DrawRollNameBoxes.h" />
     <ClInclude Include="TextEdit.h" />
+    <ClInclude Include="HistoryGraphic.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -689,5 +690,8 @@
     <ClCompile Include="RollNameBox.cpp" />
     <ClCompile Include="DrawRollNameBoxes.cpp" />
     <ClCompile Include="TextEdit.cpp" />
+    <ClCompile Include="HistoryGraphic.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
