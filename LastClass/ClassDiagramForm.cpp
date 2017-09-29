@@ -6,6 +6,7 @@
 #include "Class.h"
 #include "MemoBox.h"
 #include "Selection.h"
+#include "Text.h"
 #include "Template.h"
 #include "ClassName.h"
 #include "Method.h"
@@ -63,6 +64,7 @@ END_MESSAGE_MAP()
 
 ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->diagram = NULL;
+	this->text = NULL;
 	this->textEdit = NULL;
 	this->selection = NULL;
 	this->mouseLButton = NULL;
@@ -423,6 +425,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
 										 //1.1. 다이어그램을 준비한다
 	this->diagram = new Diagram();
+	//this->text = new Text;
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
 	this->verticalScrollBar = new VerticalScrollBar(this);
@@ -525,17 +528,18 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 		if (dynamic_cast<MemoBox*>(figure)) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				figure->GetX() + GabX,
-				figure->GetY() + GabY + MemoGab,
-				figure->GetX() + figure->GetWidth() - GabX,
-				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
+				figure->GetX(),
+				figure->GetY() + 20,
+				figure->GetX() + figure->GetWidth(),
+				figure->GetY() + figure->GetHeight()), this, 10000, NULL);
+			OnKillFocus(NULL);
 		}
 		else {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				figure->GetX() + GabX,
-				figure->GetY() + GabY,
-				figure->GetX() + figure->GetWidth() - GabX,
-				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
+				figure->GetX(),
+				figure->GetY(),
+				figure->GetX() + figure->GetWidth(),
+				figure->GetY() + figure->GetHeight()), this, 10000, NULL);
 			OnKillFocus(NULL);
 		}
 	}
@@ -600,6 +604,9 @@ void ClassDiagramForm::OnClose() {
 	if (this->diagram != NULL) {
 		delete this->diagram;
 	}
+	//if (this->text != NULL) {
+	//	delete this->text;
+	//}
 	if (this->selection != NULL) {
 		delete this->selection;
 	}
