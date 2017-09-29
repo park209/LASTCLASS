@@ -148,10 +148,10 @@ void Diagram::Accept(Visitor& visitor, CDC *cPaintDc) {
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 	while (!smartPointer->IsDone()) {
 		if (dynamic_cast<Class*>(smartPointer->Current())) {
-			dynamic_cast<Class*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<Class*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		if(dynamic_cast<MemoBox*>(smartPointer->Current())){
-			dynamic_cast<MemoBox*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<MemoBox*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		smartPointer->Next();
 	}

@@ -392,6 +392,30 @@
     <ClInclude Include="DrawingResizing.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
+    <ClInclude Include="Scroll.h" />
+    <ClInclude Include="VerticalScrollBar.h" />
+    <ClInclude Include="ScrollAction.h" />
+    <ClInclude Include="OnVScrollLineDown.h" />
+    <ClInclude Include="VScrollCreator.h" />
+    <ClInclude Include="HScrollCreator.h" />
+    <ClInclude Include="OnVScrollLineUp.h" />
+    <ClInclude Include="OnVScrollPageDown.h" />
+    <ClInclude Include="OnVScrollPageUp.h" />
+    <ClInclude Include="OnVScrollBottom.h" />
+    <ClInclude Include="OnVScrollTop.h" />
+    <ClInclude Include="OnVScrollEndScroll.h" />
+    <ClInclude Include="OnVScrollThumbPosition.h" />
+    <ClInclude Include="OnVScrollThumbTrack.h" />
+    <ClInclude Include="HorizontalScrollBar.h" />
+    <ClInclude Include="OnHScrollLineRight.h" />
+    <ClInclude Include="OnHScrollLineLeft.h" />
+    <ClInclude Include="OnHScrollPageRight.h" />
+    <ClInclude Include="OnHScrollPageLeft.h" />
+    <ClInclude Include="OnHScrollRight.h" />
+    <ClInclude Include="OnHScrollLeft.h" />
+    <ClInclude Include="OnHScrollEnd.h" />
+    <ClInclude Include="OnHScrollThumbPosition.h" />
+    <ClInclude Include="OnHScrollThumbTrack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -744,6 +768,78 @@
     </ClCompile>
     <ClCompile Include="FontSet.cpp">
       <Filter>TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="Scroll.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="VerticalScrollBar.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="ScrollAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollLineDown.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="VScrollCreator.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="HScrollCreator.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollLineUp.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollPageDown.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollPageUp.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollBottom.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollTop.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollEndScroll.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollThumbPosition.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollThumbTrack.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHScrollLineRight.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="HorizontalScrollBar.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHScrollLineLeft.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHScrollPageRight.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHScrollPageLeft.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHScrollRight.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHScrollLeft.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHScrollEnd.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHScrollThumbPosition.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHScrollThumbTrack.cpp">
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
