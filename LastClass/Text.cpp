@@ -1,5 +1,5 @@
 //Text.cpp 
-#pragma warning(disable:4996)
+
 #include "Text.h"
 #include "Row.h"
 #include "SingleByteCharacter.h"
@@ -9,34 +9,6 @@
 Text::Text(Long capacity) : TextComposite(capacity) {
 	this->capacity = capacity;
 	this->length = 0;
-
-	logFont.lfHeight = 25;
-
-	logFont.lfWidth = 0;
-
-	logFont.lfEscapement = 0;
-
-	logFont.lfOrientation = 0;
-
-	logFont.lfWeight = FW_BOLD;
-
-	logFont.lfItalic = FALSE;
-
-	logFont.lfUnderline = FALSE;
-
-	logFont.lfStrikeOut = FALSE;
-
-	logFont.lfCharSet = DEFAULT_CHARSET;
-
-	logFont.lfOutPrecision = OUT_CHARACTER_PRECIS;
-
-	logFont.lfClipPrecision = CLIP_CHARACTER_PRECIS;
-
-	logFont.lfQuality = DEFAULT_QUALITY;
-
-	logFont.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-
-	strcpy(logFont.lfFaceName, _T("¸¼Àº °íµñ"));
 }
 Text::~Text() {
 }
