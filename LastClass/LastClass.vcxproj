@@ -65,10 +65,13 @@
     <ClInclude Include="DrawingMemoBox.h" />
     <ClInclude Include="DrawingMemoLine.h" />
     <ClInclude Include="DrawingRealization.h" />
+    <ClInclude Include="DrawingRelation.h" />
     <ClInclude Include="DrawingRelationPoint.h" />
     <ClInclude Include="DrawingResize.h" />
     <ClInclude Include="DrawingResizing.h" />
     <ClInclude Include="DrawingVisitor.h" />
+    <ClInclude Include="DrawRollNameBoxes.h" />
+    <ClInclude Include="HistoryGraphic.h" />
     <ClInclude Include="RollNameBox.h" />
     <ClInclude Include="EndKey.h" />
     <ClInclude Include="EnterKey.h" />
@@ -179,10 +182,12 @@
     <ClCompile Include="DrawingMemoBox.cpp" />
     <ClCompile Include="DrawingMemoLine.cpp" />
     <ClCompile Include="DrawingRealization.cpp" />
+    <ClCompile Include="DrawingRelation.cpp" />
     <ClCompile Include="DrawingRelationPoint.cpp" />
     <ClCompile Include="DrawingResizing.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
     <ClCompile Include="DrawningResize.cpp" />
+    <ClCompile Include="DrawRollNameBoxes.cpp" />
     <ClCompile Include="EndKey.cpp" />
     <ClCompile Include="EnterKey.cpp" />
     <ClCompile Include="EscapeKey.cpp" />
@@ -192,6 +197,7 @@
     <ClCompile Include="Finder.cpp" />
     <ClCompile Include="FontSet.cpp" />
     <ClCompile Include="Generalization.cpp" />
+    <ClCompile Include="HistoryGraphic.cpp" />
     <ClCompile Include="HistoryText.cpp" />
     <ClCompile Include="HomeKey.cpp" />
     <ClCompile Include="InsertKey.cpp" />

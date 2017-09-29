@@ -10,6 +10,7 @@ typedef signed long int Long;
 
 class Text;
 class Figure;
+class Relation;
 class Caret;
 class KeyBoard;
 class HistoryText;
@@ -18,6 +19,7 @@ class FontSet;
 class TextEdit : public CWnd { // CWnd 상속으로 바꿔야함
 public:
 	TextEdit(Figure *figure);
+	TextEdit(Relation *relation, Long rollNameBoxIndex);
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
@@ -60,6 +62,8 @@ public:
 	CString copyBuffer;
 	Long flagBuffer; //flag
 	Figure *figure;
+	Relation *relation;
+	Long rollNameBoxIndex;
 private:
 	Long koreanEnglish; //flag
 	Long currentX;

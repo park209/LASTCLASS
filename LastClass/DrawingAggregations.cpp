@@ -66,7 +66,7 @@ void DrawingAggregations::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingAggregations::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void DrawingAggregations::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *cPaintDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);

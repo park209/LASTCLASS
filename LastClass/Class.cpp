@@ -72,6 +72,7 @@ Class::~Class() {
 		i++;
 	}
 }
+
 void Class::Initialize() {
 	ClassName className(this->x, this->y, this->width, 50, "");
 	this->figures.Store(this->length, className.Clone());
@@ -92,12 +93,13 @@ void Class::Initialize() {
 	Method method(this->x, (this->y + 50 + this->y+this->height) / 2,this->width, ((this->y + 50 + this->y + this->height) / 2) - (this->y + 50), "");
 	this->methodPosition = this->figures.Store(this->length, method.Clone());
 	this->length++;
-
 }
+
 Figure* Class::Move(Long distanceX, Long distanceY){
 	Figure::Move(distanceX, distanceY);
 	return this;
 }
+
 Class& Class::operator = (const Class& source) {
 	this->figures = source.figures;
 	Long i = 0;
@@ -152,9 +154,6 @@ Long Class::Add(Long x, Long y, Long width, Long height) {
 
 	return index;
 }
-
-
-
 
 Long Class::AddAttribute(Diagram *diagram) {
 
@@ -360,10 +359,10 @@ Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야�
 }
 
 
-Long Class::AddTemplate(Long x, Long y, Long width, Long height) { //중복생성 안되게 막아야함
+Long Class::AddTemplate(Long x, Long y, Long width, Long height, string content) { //중복생성 안되게 막아야함
 	
 	Template object(x, y, width, height, content);
-	
+
 
 	if (this->length < this->capacity) {
 		this->templetePosition = this->figures.Store(this->length, object.Clone());

@@ -10,6 +10,7 @@ Attribute::Attribute(Long x, Long y, Long width, Long height, string content) : 
 }
 Attribute::Attribute(const Attribute& source) : Figure(source) {
 }
+
 Attribute& Attribute::operator = (const Attribute& source) {
 	this->x = source.x;
 	this->y = source.y;

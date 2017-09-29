@@ -6,6 +6,7 @@
 #include "Array.h"
 #include "afxwin.h"
 
+class Relation;
 class RollNameBox {
 public:
 	static RollNameBox* Instance();
@@ -20,11 +21,11 @@ public:
 	CPoint GetFourthRollNamePoint(CPoint startPoint, CPoint endPoint);
 	CPoint GetFifthRollNamePoint(CPoint startPoint, CPoint endPoint);
 
-	CPoint GetFirstSelfRollNamePoint(CPoint startPoint, CPoint endPoint);
-	CPoint GetSecondSelfRollNamePoint(CPoint startPoint, CPoint endPoint);
-	CPoint GetThirdSelfRollNamePoint(CPoint startPoint, CPoint endPoint);
-	CPoint GetFourthSelfRollNamePoint(CPoint startPoint, CPoint endPoint);
-	CPoint GetFifthSelfRollNamePoint(CPoint startPoint, CPoint endPoint);
+	CPoint GetSelfRelationFirstRollNamePoint(CPoint startPoint, CPoint endPoint);
+	CPoint GetSelfRelationSecondRollNamePoint(CPoint startPoint, CPoint endPoint);
+	CPoint GetSelfRelationThirdRollNamePoint(CPoint startPoint, CPoint endPoint);
+	CPoint GetSelfRelationFourthRollNamePoint(CPoint startPoint, CPoint endPoint);
+	CPoint GetSelfRelationFifthRollNamePoint(CPoint startPoint, CPoint endPoint);
 private:
 	static RollNameBox* instance;
 };

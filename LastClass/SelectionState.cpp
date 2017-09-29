@@ -1,5 +1,5 @@
 //SelectionState.cpp
-#include "MovingLine.h"
+
 #include "Diagram.h"
 #include "Class.h"
 #include "DefaultState.h"
@@ -7,6 +7,7 @@
 #include "Selection.h"
 #include "SelectionState.h"
 #include "DrawingClass.h"
+#include "DrawingRelation.h"
 #include "DrawingMemoBox.h"
 #include "DrawingGeneralization.h" 
 #include "DrawingAggregation.h"
@@ -22,6 +23,8 @@
 #include "MovingRelation.h"
 #include "DrawingRelationPoint.h"
 #include "DrawingResizing.h"
+#include "MovingLine.h"
+
 SelectionState* SelectionState::instance = 0;
 
 MouseLButtonAction* SelectionState::Instance() {
@@ -31,9 +34,10 @@ MouseLButtonAction* SelectionState::Instance() {
 	return instance;
 }
 void SelectionState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
-	
 }
+
 void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
+	Long index;
 		UINT object = mouseLButton->GetButtonState();
 		if (object == 49) {
 			this->ChangeState(mouseLButton, DrawingClass::Instance(), 49);
@@ -71,35 +75,31 @@ void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagr
 		if (object == 51) {
 			this->ChangeState(mouseLButton, DrawingRealization::Instance(), 51);
 		}
+	index=	selection->SelectByPoint(currentX, currentY);
+	if (index == -1) {
 		selection->DeleteAllItems();
-		selection->SelectByPoint(diagram, startX, startY);
+		selection->SelectByPoint(diagram, currentX, currentY);
+	}
 	if (selection->GetLength() == 0) {
-
 		this->ChangeDefault(mouseLButton);
 	}
-
 }
-void SelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
-	if (startX != currentX && startY != currentY) {
-		Long index = selection->SelectByPoint(startX, startY);
-		if (index == 1) {
-			this->ChangeState(mouseLButton, MovingRelation::Instance());
-		}
-		if (index == 2) {
-			this->ChangeState(mouseLButton, DrawingRelationPoint::Instance());
-		}
-		if (index == 3) {
-			this->ChangeState(mouseLButton, DrawingResizing::Instance());
-		}
-		if (index == 4) {
-			this->ChangeState(mouseLButton, MovingObject::Instance());
-		}
-		if (index == 5) {
-			this->ChangeState(mouseLButton, MovingLine::Instance());
-		}
-		if (index == -1) {
-			this->ChangeDefault(mouseLButton);
-		}
-	}
 
+void SelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *cPaintDC) {
+	Long index = selection->SelectByPoint(currentX, currentY);
+	if (index == 1) {
+		this->ChangeState(mouseLButton, MovingRelation::Instance());
+	}
+	if (index == 2) {
+		this->ChangeState(mouseLButton, DrawingRelationPoint::Instance());
+	}
+	if (index == 3) {
+		this->ChangeState(mouseLButton, DrawingResizing::Instance());
+	}
+	if (index == 4) {
+		this->ChangeState(mouseLButton, MovingObject::Instance());
+	}
+	if (index == 5) {
+		this->ChangeState(mouseLButton, MovingLine::Instance());
+	}
 }

@@ -12,6 +12,7 @@ class Text;
 class TextEdit;
 class Selection;
 class MouseLButton;
+class HistoryGraphic;
 class ClassDiagramForm : public CFrameWnd { //CFrameWnd 에 상속관계 표기
 public:
 	Diagram *diagram;
@@ -19,6 +20,7 @@ public:
 	TextEdit *textEdit;
 	Selection *selection;
 	MouseLButton *mouseLButton;
+	HistoryGraphic *historyGraphic;
 public:
 	ClassDiagramForm();
 public:
@@ -32,7 +34,7 @@ private:
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
-	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);

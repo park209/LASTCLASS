@@ -45,7 +45,6 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *dia
 
 		Aggregation object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 		
-		
 		index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
 
@@ -72,7 +71,7 @@ void DrawingAggregation::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *d
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingAggregation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void DrawingAggregation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *cPaintDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);

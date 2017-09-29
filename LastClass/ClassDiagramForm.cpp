@@ -38,16 +38,18 @@
 #include "WritingVisitor.h"
 #include "MovingVisitor.h"
 #include "MouseLButton.h"
+#include "HistoryGraphic.h"
+
 #include <math.h>
 #include <iostream>
 #include <fstream>
-using namespace std;
 
+using namespace std;
 
 BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
-	ON_WM_KEYDOWN()
+	ON_WM_CHAR()
 	ON_WM_SETFOCUS()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONDBLCLK()
@@ -62,6 +64,7 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->textEdit = NULL;
 	this->selection = NULL;
 	this->mouseLButton = NULL;
+	this->historyGraphic = NULL;
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
@@ -395,9 +398,10 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
 										 //1.1. 다이어그램을 준비한다
 	this->diagram = new Diagram();
-	//this->text = new Text;
+	this->text = new Text;
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
+	this->historyGraphic = new HistoryGraphic;
 
 
 	//1.2. 적재한다
@@ -412,82 +416,81 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 void ClassDiagramForm::OnPaint() {
 	CPaintDC dc(this);
 
-	DrawingVisitor drawingVisitor;
-	this->diagram->Accept(drawingVisitor, &dc);
-
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
 	SetFont(&cFont, TRUE);
-	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
+	CFont *oldFont = dc.SelectObject(&cFont);
 
-	WritingVisitor writingVisitor;
-	this->diagram->Accept(writingVisitor, &dc);
+	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
+		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
+	}
+	
+		DrawingVisitor drawingVisitor;
+		this->diagram->Accept(drawingVisitor, &dc);
+		WritingVisitor writingVisitor;
+		this->diagram->Accept(writingVisitor, &dc);
+		this->selection->Accept(drawingVisitor, &dc); // selectionFlag 추가 확인
+	
+
 
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject();
-
-	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
-	//if(this->startX != this->currentX && this->startY != this->currentY){
-		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
-	}
-	this->selection->Accept(drawingVisitor, &dc);
-	
 }
 
-void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
+void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	Class *object = static_cast<Class*>(this->selection->GetAt(0));
 	this->mouseLButton->ChangeState(nChar);
-	if (nChar == VK_DELETE) { // D 선택항목 지우기   Delete키
+	if (nChar == 100) { // D 선택항목 지우기
 		while (this->selection->GetLength() != 0) {
 			this->selection->Remove(this->diagram, this->selection->GetAt(this->selection->GetLength() - 1));
 		}
 	}
-	if (nChar == 65){ // 템플릿기호 만들기  A키
+	if (nChar == 118) { // V 템플릿기호 만들기
 		if (object->GetTempletePosition() == -1) {
-			object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25);
+			object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25, "");
 		}
 	}
-	if (nChar == 83) { // 템플릿기호 지우기	S키
+	if (nChar == 102) { // F 템플릿기호 지우기
 		if (object->GetTempletePosition() != -1) {
 			object->RemoveTemplate();
 		}
 	}
 
-	if (nChar == 68) { // 리셉션칸 추가	D키
+	if (nChar == 104) { //H 리셉션칸 추가
 		if (object->GetReceptionPosition() == -1) {
+
+			this->historyGraphic->PushUndo(this->diagram);
 			object->AddReception(this->diagram);
 		}
 	}
-	if (nChar == 70) { // 리셉션칸 지우기 F키
-		if (object->GetReceptionPosition() != -1) {
+	if (nChar == 103) { // G 리셉션칸 지우기
+		this->diagram = this->historyGraphic->PopUndoGraphic();
+		/*if (object->GetReceptionPosition() != -1) {
 			object->RemoveReception();
-		}
+		}*/
 	}
-
-	if (nChar == 71) {// 	Attribute추가 G키
-		if (object->GetAttributePosition() == -1) {
-			object->AddAttribute(this->diagram);
-		}
-	}
-	if (nChar == 72) { // Attribute 지우기     H키
+	if (nChar == 117) { // U  속성칸 지우기
 		if (object->GetAttributePosition() != 1) {
 			object->RemoveAttribute();
 		}
 	}
-
-	if (nChar == 74) {//메소드 추가	J키
-		if (object->GetMethodPosition() == -1) {
-			object->AddMethod(this->diagram);
-		}
-	}
-	if (nChar == 75) {//메소드삭제  K키
+	if (nChar == 105) {// i 메소드삭제
 		if (object->GetMethodPosition() != -1) {
 			object->RemoveMethod();
 		}
 	}
-
+	if (nChar == 111) {// o 속성 더하기
+		if (object->GetAttributePosition() == -1) {
+			object->AddAttribute(this->diagram);
+		}
+	}
+	if (nChar == 112) {//p
+		if (object->GetMethodPosition() == -1) {
+			object->AddMethod(this->diagram);
+		}
+	}
 
 	Invalidate();
 }
@@ -495,6 +498,8 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	CFrameWnd::OnSetFocus(pOldWnd);
+	this->textEdit = 0;
+
 	CWnd::SetFocus();
 	Invalidate();
 }
@@ -503,7 +508,7 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
 	UINT elapseTime = 0;
-	this->SetFocus();
+
 	SetTimer(1, 1, NULL);
 	while (elapseTime < dblclkTime) {
 		PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
@@ -534,13 +539,10 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 
-	
-
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {
-
 		this->textEdit = new TextEdit(figure);
-		
+
 		if (dynamic_cast<MemoBox*>(figure)) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX(),
@@ -558,6 +560,95 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			OnKillFocus(NULL);
 		}
 	}
+
+	//선택된 relationLine 이 있으면
+	if (this->selection->GetLength() == 1 && dynamic_cast<Relation*>(this->selection->GetAt(0))) {
+		// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
+		Long i = 0;
+		Long index = 0;
+		Relation *relation = static_cast<Relation*>(this->selection->GetAt(0));
+		Long right;
+		Long left;
+		Long top;
+		Long bottom;
+		while (i < 5 && index == 0) {
+			right = relation->rollNamePoints->GetAt(i).x + 20;
+			left = relation->rollNamePoints->GetAt(i).x - 20;
+			top = relation->rollNamePoints->GetAt(i).y - 10;
+			bottom = relation->rollNamePoints->GetAt(i).y + 10;
+			if (startX < right && startX > left && startY > top && startY < bottom) {
+				index++;
+			}
+			i++;
+		}
+		if (index > 0) {
+			this->textEdit = new TextEdit(relation, i - 1);
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+				left,
+				top,
+				right,
+				bottom), this, 10000, NULL);
+			OnKillFocus(NULL);
+		}
+	}
+	if (this->selection->GetLength() == 1 && dynamic_cast<SelfRelation*>(this->selection->GetAt(0))) {
+		// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
+		Long i = 0;
+		Long index = 0;
+		SelfRelation *selfRelation = static_cast<SelfRelation*>(this->selection->GetAt(0));
+		Long right;
+		Long left;
+		Long top;
+		Long bottom;
+		while (i < 5 && index == 0) {
+			if (i == 0) {
+				right = selfRelation->rollNamePoints->GetAt(i).x + 20;
+				left = selfRelation->rollNamePoints->GetAt(i).x - 10;
+				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+			}
+			else if (i == 1) {
+				right = selfRelation->rollNamePoints->GetAt(i).x + 30;
+				left = selfRelation->rollNamePoints->GetAt(i).x - 30;
+				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+			}
+			else if (i == 2) {
+				right = selfRelation->rollNamePoints->GetAt(i).x + 10;
+				left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+			}
+			else if (i == 3) {
+				right = selfRelation->rollNamePoints->GetAt(i).x + 10;
+				left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+			}
+			else if (i == 4) {
+				right = selfRelation->rollNamePoints->GetAt(i).x + 10;
+				left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+			}
+
+			if (startX < right && startX > left && startY > top && startY < bottom) {
+				index++;
+			}
+			i++;
+		}
+		// 확인해서 있으면 그 index 기억해두고 그 박스 사이즈로 textEdit 연다 (textEdit 생성자 따로 만들어야할듯)
+
+		/*if (index > 0) {
+			this->textEdit = new TextEdit(SelfRelation, i - 1);
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+				left,
+				top,
+				right,
+				bottom), this, 10000, NULL);
+			OnKillFocus(NULL);
+		}*/
+	}
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
@@ -573,10 +664,9 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 
-
+	if (this->startX != this->currentX || this->startY != this->currentY) {
 		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-
-
+	}
 
 	this->startX = 0;
 	this->startY = 0;
@@ -589,28 +679,28 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
-	
 	if (nFlags == MK_LBUTTON) {
 		this->currentX = point.x;
 		this->currentY = point.y;
-		
+
 		Invalidate();
 	}
-	Long index;
+	/*Long index;
 	index = this->selection->SelectByPoint(point.x, point.y);
-	if (index == 1){
-		SetCursor(LoadCursor(NULL,IDC_HAND));
+	if (index == 1) {
+		SetCursor(LoadCursor(NULL, IDC_HAND));
 	}
 	else if (index == 2) {
 		SetCursor(LoadCursor(NULL, IDC_CROSS));
 	}
-	else if (index == 3 || index==5) {
+	else if (index == 3 || index == 5) {
 		SetCursor(LoadCursor(NULL, IDC_HELP));
 	}
 	else if (index == 4) {
 		SetCursor(LoadCursor(NULL, IDC_SIZEALL));
-	}
+	}*/
 }
+
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
 	//this->Save();
@@ -619,14 +709,20 @@ void ClassDiagramForm::OnClose() {
 	if (this->diagram != NULL) {
 		delete this->diagram;
 	}
-	//if (this->text != NULL) {
-	//	delete this->text;
-	//}
+	if (this->text != NULL) {
+		delete this->text;
+	}
 	if (this->selection != NULL) {
 		delete this->selection;
 	}
 	if (this->mouseLButton != NULL) {
 		delete this->mouseLButton;
+	}
+	if (this->textEdit != NULL) {
+		delete this->textEdit;
+	}
+	if (this->historyGraphic != NULL) {
+		delete this->historyGraphic;
 	}
 
 	//6.3. 윈도우를 닫는다.

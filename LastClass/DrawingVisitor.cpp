@@ -1,5 +1,5 @@
 //DrawingVisitor.cpp
-#include "RollNameBox.h"
+
 #include "DrawingVisitor.h"
 #include "Diagram.h"
 #include "Class.h"
@@ -29,6 +29,8 @@
 #include "SelfDirectedAssociation.h"
 #include "SelfComposition.h"
 #include "SelfCompositions.h"
+
+#include "DrawRollNameBoxes.h"
 
 #include <iostream>
 using namespace std;
@@ -79,7 +81,7 @@ void DrawingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) {
 }
 void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 	Long i = 0;
-	while (i < selection->GetLength()) {
+	while (i < selection->GetLength()) { /////////////////////////////////////////////// 밖에서 물어보고 없으면 안들어와야 할듯
 		if (dynamic_cast<Class*>(selection->GetAt(i))) {
 			Class *object = static_cast<Class*>(selection->GetAt(i));
 			if (object->GetTempletePosition() == -1) {
@@ -244,60 +246,53 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 		//상태패턴이던 뭐든 적용해야함
 		if (dynamic_cast<Relation*>(selection->GetAt(i))) {
 			if (static_cast<Relation*>(selection->GetAt(i))->GetLength() == 0) {
-				cPaintDc->Rectangle(selection->GetAt(i)->GetX() - 7,
-					selection->GetAt(i)->GetY() - 7,
-					selection->GetAt(i)->GetX() + 7,
-					selection->GetAt(i)->GetY() + 7);
-				cPaintDc->Rectangle(selection->GetAt(i)->GetX() + (selection->GetAt(i)->GetWidth() / 2) - 7,
-					selection->GetAt(i)->GetY() + (selection->GetAt(i)->GetHeight() / 2) - 7,
-					selection->GetAt(i)->GetX() + (selection->GetAt(i)->GetWidth() / 2) + 7,
-					selection->GetAt(i)->GetY() + (selection->GetAt(i)->GetHeight() / 2) + 7);
-				cPaintDc->Rectangle(selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() - 7,
-					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() - 7,
-					selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() + 7,
-					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() + 7);
+				cPaintDc->Rectangle(selection->GetAt(i)->GetX() - 5,
+					selection->GetAt(i)->GetY() - 5,
+					selection->GetAt(i)->GetX() + 5,
+					selection->GetAt(i)->GetY() + 5);
+				cPaintDc->Rectangle(selection->GetAt(i)->GetX() + (selection->GetAt(i)->GetWidth() / 2) - 5,
+					selection->GetAt(i)->GetY() + (selection->GetAt(i)->GetHeight() / 2) - 5,
+					selection->GetAt(i)->GetX() + (selection->GetAt(i)->GetWidth() / 2) + 5,
+					selection->GetAt(i)->GetY() + (selection->GetAt(i)->GetHeight() / 2) + 5);
+				cPaintDc->Rectangle(selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() - 5,
+					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() - 5,
+					selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() + 5,
+					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() + 5);
 			}
 			else {
-				cPaintDc->Rectangle(selection->GetAt(i)->GetX() - 7,
-					selection->GetAt(i)->GetY() - 7,
-					selection->GetAt(i)->GetX() + 7,
-					selection->GetAt(i)->GetY() + 7);
-				cPaintDc->Rectangle(selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() - 7,
-					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() - 7,
-					selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() + 7,
-					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() + 7);
-				while (j < dynamic_cast<Relation*>(selection->GetAt(i))->GetLength()) {
-					CPoint cPoint = dynamic_cast<Relation*>(selection->GetAt(i))->GetAt(j);
-					cPaintDc->Rectangle(cPoint.x - 7,
-						cPoint.y - 7,
-						cPoint.x + 7,
-						cPoint.y + 7);
+				cPaintDc->Rectangle(selection->GetAt(i)->GetX() - 5,
+					selection->GetAt(i)->GetY() - 5,
+					selection->GetAt(i)->GetX() + 5,
+					selection->GetAt(i)->GetY() + 5);
+				cPaintDc->Rectangle(selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() - 5,
+					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() - 5,
+					selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() + 5,
+					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() + 5);
+				while (j < static_cast<Relation*>(selection->GetAt(i))->GetLength()) {
+					CPoint cPoint = static_cast<Relation*>(selection->GetAt(i))->GetAt(j);
+					cPaintDc->Rectangle(cPoint.x - 5,
+						cPoint.y - 5,
+						cPoint.x + 5,
+						cPoint.y + 5);
 					j++;
 				}
 			}
-			//고치기 2017 09 28 점 추가할때 같이 바뀌기
-			CPen pen;
-			pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-			CPen *oldPen = cPaintDc->SelectObject(&pen);
-			cPaintDc->SetBkMode(TRANSPARENT);
-			RollNameBox *boxPoint = RollNameBox::Instance();
-			CPoint startPoint{ selection->GetAt(i)->GetX(), selection->GetAt(i)->GetY() };
-			CPoint endPoint{ selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth(), selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() };
+			DrawRollNameBoxes *drawRollNameBoxes = DrawRollNameBoxes::Instance();
 			CPoint cPoint;
-			cPoint = boxPoint->GetFirstRollNamePoint(startPoint, endPoint);
-			cPaintDc->Rectangle(cPoint.x - 15, cPoint.y - 10, cPoint.x + 15, cPoint.y + 10);
-			cPoint = boxPoint->GetSecondRollNamePoint(startPoint, endPoint);
-			cPaintDc->Rectangle(cPoint.x - 40, cPoint.y - 10, cPoint.x + 40, cPoint.y + 10);
-			cPoint = boxPoint->GetThirdRollNamePoint(startPoint, endPoint);
-			cPaintDc->Rectangle(cPoint.x - 15, cPoint.y - 10, cPoint.x + 15, cPoint.y + 10);
-			cPoint = boxPoint->GetFourthRollNamePoint(startPoint, endPoint);
-			cPaintDc->Rectangle(cPoint.x - 15, cPoint.y - 10, cPoint.x + 15, cPoint.y + 10);
-			cPoint = boxPoint->GetFifthRollNamePoint(startPoint, endPoint);
-			cPaintDc->Rectangle(cPoint.x - 15, cPoint.y - 10, cPoint.x + 15, cPoint.y + 10);
-			cPaintDc->SelectObject(oldPen);
-			pen.DeleteObject();
+			Relation* relationLine = static_cast<Relation*>(selection->GetAt(i));
 
+			if (relationLine->GetLength() > 0) { // 꺾인선이 있으면
+				drawRollNameBoxes->DrawFirstRollNameBox(relationLine, cPaintDc);
+				drawRollNameBoxes->DrawSecondRollNameBox(relationLine, cPaintDc);
+				drawRollNameBoxes->DrawThirdRollNameBox(relationLine, cPaintDc);
+				drawRollNameBoxes->DrawFourthRollNameBox(relationLine, cPaintDc);
+				drawRollNameBoxes->DrawFifthRollNameBox(relationLine, cPaintDc);
+			}
+			else { // 꺾인선이 없으면
+				drawRollNameBoxes->DrawBoxesWithoutCurvedLine(relationLine, cPaintDc);
+			}
 		}
+
 		if (dynamic_cast<SelfRelation*>(selection->GetAt(i))) {
 			SelfRelation *selfRelation = static_cast<SelfRelation*>(selection->GetAt(i));
 			Long x;
@@ -306,23 +301,27 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 			Long y1;
 
 			x = selfRelation->GetX() - 5;
-			y = selfRelation->GetY() - 35;
+			y = selfRelation->GetY() - 45;
 			x1 = selfRelation->GetX() + 5;
-			y1 = selfRelation->GetY() - 25;
+			y1 = selfRelation->GetY() - 35;
 			cPaintDc->Rectangle(x, y, x1, y1);
 
-			x = selfRelation->GetX() + 55;
-			y = selfRelation->GetY() - 35;
-			x1 = selfRelation->GetX() + 65;
-			y1 = selfRelation->GetY() - 25;
+			x = selfRelation->GetX() + 75;
+			y = selfRelation->GetY() - 45;
+			x1 = selfRelation->GetX() + 85;
+			y1 = selfRelation->GetY() - 35;
 			cPaintDc->Rectangle(x, y, x1, y1);
 
-			x = selfRelation->GetX() + 55;
-			y = selfRelation->GetY() + 25;
-			x1 = selfRelation->GetX() + 65;
-			y1 = selfRelation->GetY() + 35;
+			x = selfRelation->GetX() + 75;
+			y = selfRelation->GetY() + 35;
+			x1 = selfRelation->GetX() + 85;
+			y1 = selfRelation->GetY() + 45;
 			cPaintDc->Rectangle(x, y, x1, y1);
 
+			DrawRollNameBoxes *drawRollNameBoxes = DrawRollNameBoxes::Instance();
+			CPoint cPoint;
+			SelfRelation* selfRelationLine = static_cast<SelfRelation*>(selection->GetAt(i));
+			drawRollNameBoxes->DrawSelfRelationRollNameBox(selfRelationLine, cPaintDc);
 		}
 		i++;
 	}
@@ -650,12 +649,11 @@ void DrawingVisitor::Visit(Aggregation *aggregation, CDC* cPaintDc) {
 	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
 	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
 
+
 	cPaintDc->SelectObject(&white);
 	cPaintDc->Polygon(pts2, 4);
 	cPaintDc->SelectObject(oldBrush);
 	myBrush.DeleteObject();
-	
-	
 }
 void DrawingVisitor::Visit(Aggregations *aggregations, CDC* cPaintDc) {
 
@@ -951,16 +949,16 @@ void DrawingVisitor::Visit(MemoLine *memoLine, CDC *cPaintDc) {
 void DrawingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *cPaintDc) {
 
 	cPaintDc->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY());
-	cPaintDc->LineTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 30);
+	cPaintDc->LineTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 40);
 
-	cPaintDc->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 30);
-	cPaintDc->LineTo(selfGeneralization->GetX() + 60, selfGeneralization->GetY() - 30);
+	cPaintDc->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 40);
+	cPaintDc->LineTo(selfGeneralization->GetX() + 80, selfGeneralization->GetY() - 40);
 
-	cPaintDc->MoveTo(selfGeneralization->GetX() + 60, selfGeneralization->GetY() - 30);
-	cPaintDc->LineTo(selfGeneralization->GetX() + 60, selfGeneralization->GetY() + 30);
+	cPaintDc->MoveTo(selfGeneralization->GetX() + 80, selfGeneralization->GetY() - 40);
+	cPaintDc->LineTo(selfGeneralization->GetX() + 80, selfGeneralization->GetY() + 40);
 
-	cPaintDc->MoveTo(selfGeneralization->GetX() + 60, selfGeneralization->GetY() + 30);
-	cPaintDc->LineTo(selfGeneralization->GetX() + 30, selfGeneralization->GetY() + 30);
+	cPaintDc->MoveTo(selfGeneralization->GetX() + 80, selfGeneralization->GetY() + 40);
+	cPaintDc->LineTo(selfGeneralization->GetX() + 30, selfGeneralization->GetY() + 40);
 
 	CBrush white(RGB(255, 255, 255));
 	CBrush myBrush;
@@ -968,9 +966,9 @@ void DrawingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *cPaintDc
 	CBrush *oldBrush = cPaintDc->SelectObject(&myBrush);
 
 	Long startX = selfGeneralization->GetX() + 60;
-	Long startY = selfGeneralization->GetY() + 30;
+	Long startY = selfGeneralization->GetY() + 40;
 	Long endX = selfGeneralization->GetX() + 30;
-	Long endY = selfGeneralization->GetY() + 30;
+	Long endY = selfGeneralization->GetY() + 40;
 
 	double degree = atan2(endX - startX, startY - endY); // 기울기
 
@@ -1003,21 +1001,21 @@ void DrawingVisitor::Visit(SelfDependency *selfDependency, CDC *cPaintDc) {
 	cPaintDc->SetBkMode(TRANSPARENT);
 
 	cPaintDc->MoveTo(selfDependency->GetX(), selfDependency->GetY());
-	cPaintDc->LineTo(selfDependency->GetX(), selfDependency->GetY() - 30);
+	cPaintDc->LineTo(selfDependency->GetX(), selfDependency->GetY() - 40);
 
-	cPaintDc->MoveTo(selfDependency->GetX(), selfDependency->GetY() - 30);
-	cPaintDc->LineTo(selfDependency->GetX() + 60, selfDependency->GetY() - 30);
+	cPaintDc->MoveTo(selfDependency->GetX(), selfDependency->GetY() - 40);
+	cPaintDc->LineTo(selfDependency->GetX() + 80, selfDependency->GetY() - 40);
 
-	cPaintDc->MoveTo(selfDependency->GetX() + 60, selfDependency->GetY() - 30);
-	cPaintDc->LineTo(selfDependency->GetX() + 60, selfDependency->GetY() + 30);
+	cPaintDc->MoveTo(selfDependency->GetX() + 80, selfDependency->GetY() - 40);
+	cPaintDc->LineTo(selfDependency->GetX() + 80, selfDependency->GetY() + 40);
 
-	cPaintDc->MoveTo(selfDependency->GetX() + 60, selfDependency->GetY() + 30);
-	cPaintDc->LineTo(selfDependency->GetX() + 30, selfDependency->GetY() + 30);
+	cPaintDc->MoveTo(selfDependency->GetX() + 80, selfDependency->GetY() + 40);
+	cPaintDc->LineTo(selfDependency->GetX() + 30, selfDependency->GetY() + 40);
 
 	Long startX = selfDependency->GetX() + 60;
-	Long startY = selfDependency->GetY() + 30;
+	Long startY = selfDependency->GetY() + 40;
 	Long endX = selfDependency->GetX() + 30;
-	Long endY = selfDependency->GetY() + 30;
+	Long endY = selfDependency->GetY() + 40;
 
 	cPaintDc->SelectObject(oldPen);
 	pen.DeleteObject();
@@ -1054,16 +1052,16 @@ void DrawingVisitor::Visit(SelfAggregation *selfAggregation, CDC *cPaintDc) {
 	CBrush *oldBrush = cPaintDc->SelectObject(&myBrush);
 
 	cPaintDc->MoveTo(selfAggregation->GetX(), selfAggregation->GetY());
-	cPaintDc->LineTo(selfAggregation->GetX(), selfAggregation->GetY() - 30);
+	cPaintDc->LineTo(selfAggregation->GetX(), selfAggregation->GetY() - 40);
 
-	cPaintDc->MoveTo(selfAggregation->GetX(), selfAggregation->GetY() - 30);
-	cPaintDc->LineTo(selfAggregation->GetX() + 60, selfAggregation->GetY() - 30);
+	cPaintDc->MoveTo(selfAggregation->GetX(), selfAggregation->GetY() - 40);
+	cPaintDc->LineTo(selfAggregation->GetX() + 80, selfAggregation->GetY() - 40);
 
-	cPaintDc->MoveTo(selfAggregation->GetX() + 60, selfAggregation->GetY() - 30);
-	cPaintDc->LineTo(selfAggregation->GetX() + 60, selfAggregation->GetY() + 30);
+	cPaintDc->MoveTo(selfAggregation->GetX() + 80, selfAggregation->GetY() - 40);
+	cPaintDc->LineTo(selfAggregation->GetX() + 80, selfAggregation->GetY() + 40);
 
-	cPaintDc->MoveTo(selfAggregation->GetX() + 60, selfAggregation->GetY() + 30);
-	cPaintDc->LineTo(selfAggregation->GetX() + 30, selfAggregation->GetY() + 30);
+	cPaintDc->MoveTo(selfAggregation->GetX() + 80, selfAggregation->GetY() + 40);
+	cPaintDc->LineTo(selfAggregation->GetX() + 30, selfAggregation->GetY() + 40);
 
 	Long startX = selfAggregation->GetX();
 	Long startY = selfAggregation->GetY();
@@ -1122,21 +1120,21 @@ void DrawingVisitor::Visit(SelfAggregations *selfAggregations, CDC *cPaintDc) {
 	CBrush *oldBrush = cPaintDc->SelectObject(&myBrush);
 
 	cPaintDc->MoveTo(selfAggregations->GetX(), selfAggregations->GetY());
-	cPaintDc->LineTo(selfAggregations->GetX(), selfAggregations->GetY() - 30);
+	cPaintDc->LineTo(selfAggregations->GetX(), selfAggregations->GetY() - 40);
 
-	cPaintDc->MoveTo(selfAggregations->GetX(), selfAggregations->GetY() - 30);
-	cPaintDc->LineTo(selfAggregations->GetX() + 60, selfAggregations->GetY() - 30);
+	cPaintDc->MoveTo(selfAggregations->GetX(), selfAggregations->GetY() - 40);
+	cPaintDc->LineTo(selfAggregations->GetX() + 80, selfAggregations->GetY() - 40);
 
-	cPaintDc->MoveTo(selfAggregations->GetX() + 60, selfAggregations->GetY() - 30);
-	cPaintDc->LineTo(selfAggregations->GetX() + 60, selfAggregations->GetY() + 30);
+	cPaintDc->MoveTo(selfAggregations->GetX() + 80, selfAggregations->GetY() - 40);
+	cPaintDc->LineTo(selfAggregations->GetX() + 80, selfAggregations->GetY() + 40);
 
-	cPaintDc->MoveTo(selfAggregations->GetX() + 60, selfAggregations->GetY() + 30);
-	cPaintDc->LineTo(selfAggregations->GetX() + 30, selfAggregations->GetY() + 30);
+	cPaintDc->MoveTo(selfAggregations->GetX() + 80, selfAggregations->GetY() + 40);
+	cPaintDc->LineTo(selfAggregations->GetX() + 30, selfAggregations->GetY() + 40);
 
 	Long startX = selfAggregations->GetX() + 60;
-	Long startY = selfAggregations->GetY() + 30;
+	Long startY = selfAggregations->GetY() + 40;
 	Long endX = selfAggregations->GetX() + 30;
-	Long endY = selfAggregations->GetY() + 30;
+	Long endY = selfAggregations->GetY() + 40;
 
 	double degree = atan2(endX - startX, startY - endY); // 기울기
 
@@ -1202,21 +1200,21 @@ void DrawingVisitor::Visit(SelfAggregations *selfAggregations, CDC *cPaintDc) {
 void DrawingVisitor::Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *cPaintDc) {
 
 	cPaintDc->MoveTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY());
-	cPaintDc->LineTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 30);
+	cPaintDc->LineTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 40);
 
-	cPaintDc->MoveTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 30);
-	cPaintDc->LineTo(selfDirectedAssociation->GetX() + 60, selfDirectedAssociation->GetY() - 30);
+	cPaintDc->MoveTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 40);
+	cPaintDc->LineTo(selfDirectedAssociation->GetX() + 80, selfDirectedAssociation->GetY() - 40);
 
-	cPaintDc->MoveTo(selfDirectedAssociation->GetX() + 60, selfDirectedAssociation->GetY() - 30);
-	cPaintDc->LineTo(selfDirectedAssociation->GetX() + 60, selfDirectedAssociation->GetY() + 30);
+	cPaintDc->MoveTo(selfDirectedAssociation->GetX() + 80, selfDirectedAssociation->GetY() - 40);
+	cPaintDc->LineTo(selfDirectedAssociation->GetX() + 80, selfDirectedAssociation->GetY() + 40);
 
-	cPaintDc->MoveTo(selfDirectedAssociation->GetX() + 60, selfDirectedAssociation->GetY() + 30);
-	cPaintDc->LineTo(selfDirectedAssociation->GetX() + 30, selfDirectedAssociation->GetY() + 30);
+	cPaintDc->MoveTo(selfDirectedAssociation->GetX() + 80, selfDirectedAssociation->GetY() + 40);
+	cPaintDc->LineTo(selfDirectedAssociation->GetX() + 30, selfDirectedAssociation->GetY() + 40);
 
 	Long startX = selfDirectedAssociation->GetX() + 60;
-	Long startY = selfDirectedAssociation->GetY() + 30;
+	Long startY = selfDirectedAssociation->GetY() + 40;
 	Long endX = selfDirectedAssociation->GetX() + 30;
-	Long endY = selfDirectedAssociation->GetY() + 30;
+	Long endY = selfDirectedAssociation->GetY() + 40;
 
 	cPaintDc->MoveTo(startX, startY);
 	cPaintDc->LineTo(endX, endY);
@@ -1253,16 +1251,16 @@ void DrawingVisitor::Visit(SelfComposition *selfComposition, CDC *cPaintDc) {
 	CBrush *oldBrush = cPaintDc->SelectObject(&myBrush);
 
 	cPaintDc->MoveTo(selfComposition->GetX(), selfComposition->GetY());
-	cPaintDc->LineTo(selfComposition->GetX(), selfComposition->GetY() - 30);
+	cPaintDc->LineTo(selfComposition->GetX(), selfComposition->GetY() - 40);
 
-	cPaintDc->MoveTo(selfComposition->GetX(), selfComposition->GetY() - 30);
-	cPaintDc->LineTo(selfComposition->GetX() + 60, selfComposition->GetY() - 30);
+	cPaintDc->MoveTo(selfComposition->GetX(), selfComposition->GetY() - 40);
+	cPaintDc->LineTo(selfComposition->GetX() + 80, selfComposition->GetY() - 40);
 
-	cPaintDc->MoveTo(selfComposition->GetX() + 60, selfComposition->GetY() - 30);
-	cPaintDc->LineTo(selfComposition->GetX() + 60, selfComposition->GetY() + 30);
+	cPaintDc->MoveTo(selfComposition->GetX() + 80, selfComposition->GetY() - 40);
+	cPaintDc->LineTo(selfComposition->GetX() + 80, selfComposition->GetY() + 40);
 
-	cPaintDc->MoveTo(selfComposition->GetX() + 60, selfComposition->GetY() + 30);
-	cPaintDc->LineTo(selfComposition->GetX() + 30, selfComposition->GetY() + 30);
+	cPaintDc->MoveTo(selfComposition->GetX() + 80, selfComposition->GetY() + 40);
+	cPaintDc->LineTo(selfComposition->GetX() + 30, selfComposition->GetY() + 40);
 
 	Long startX = selfComposition->GetX();
 	Long startY = selfComposition->GetY();
@@ -1305,21 +1303,21 @@ void DrawingVisitor::Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) {
 	CBrush *oldBrush = cPaintDc->SelectObject(&myBrush);
 
 	cPaintDc->MoveTo(selfCompositions->GetX(), selfCompositions->GetY());
-	cPaintDc->LineTo(selfCompositions->GetX(), selfCompositions->GetY() - 30);
+	cPaintDc->LineTo(selfCompositions->GetX(), selfCompositions->GetY() - 40);
 
-	cPaintDc->MoveTo(selfCompositions->GetX(), selfCompositions->GetY() - 30);
-	cPaintDc->LineTo(selfCompositions->GetX() + 60, selfCompositions->GetY() - 30);
+	cPaintDc->MoveTo(selfCompositions->GetX(), selfCompositions->GetY() - 40);
+	cPaintDc->LineTo(selfCompositions->GetX() + 80, selfCompositions->GetY() - 40);
 
-	cPaintDc->MoveTo(selfCompositions->GetX() + 60, selfCompositions->GetY() - 30);
-	cPaintDc->LineTo(selfCompositions->GetX() + 60, selfCompositions->GetY() + 30);
+	cPaintDc->MoveTo(selfCompositions->GetX() + 80, selfCompositions->GetY() - 40);
+	cPaintDc->LineTo(selfCompositions->GetX() + 80, selfCompositions->GetY() + 40);
 
-	cPaintDc->MoveTo(selfCompositions->GetX() + 60, selfCompositions->GetY() + 30);
-	cPaintDc->LineTo(selfCompositions->GetX() + 30, selfCompositions->GetY() + 30);
+	cPaintDc->MoveTo(selfCompositions->GetX() + 80, selfCompositions->GetY() + 40);
+	cPaintDc->LineTo(selfCompositions->GetX() + 30, selfCompositions->GetY() + 40);
 
 	Long startX = selfCompositions->GetX() + 60;
-	Long startY = selfCompositions->GetY() + 30;
+	Long startY = selfCompositions->GetY() + 40;
 	Long endX = selfCompositions->GetX() + 30;
-	Long endY = selfCompositions->GetY() + 30;
+	Long endY = selfCompositions->GetY() + 40;
 	double degree = atan2(endX - startX, startY - endY); // 기울기
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));

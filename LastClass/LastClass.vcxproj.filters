@@ -350,6 +350,9 @@
     <ClInclude Include="MovingLine.h" />
     <ClInclude Include="MovingLineProcess.h" />
     <ClInclude Include="RollNameBox.h" />
+    <ClInclude Include="DrawRollNameBoxes.h" />
+    <ClInclude Include="DrawingRelation.h" />
+    <ClInclude Include="HistoryGraphic.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -671,6 +674,15 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="RollNameBox.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawRollNameBoxes.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingRelation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="HistoryGraphic.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>

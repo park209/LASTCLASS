@@ -19,6 +19,7 @@
 #include "WriteKoreanText.h"
 #include "DoubleClickTextArea.h"
 #include "FontSet.h"
+#include "Relation.h"
 
 //#include <iostream>
 
@@ -47,6 +48,26 @@ TextEdit::TextEdit(Figure *figure) {
 	this->textAreaSelected = NULL;
 	this->fontSet = NULL;
 	this->figure = figure;
+	this->relation = NULL;
+	this->rowHeight = 25; // 폰트 사이즈
+	this->koreanEnglish = 0;
+	this->flagBuffer = 0;
+	this->flagInsert = 0;
+	this->flagSelection = 0;
+	this->currentX = 0;
+	this->copyBuffer = "";
+}
+
+TextEdit::TextEdit(Relation *relation, Long rollNameBoxIndex) {
+	this->text = NULL;
+	this->caret = NULL;
+	this->keyBoard = NULL;
+	this->historyText = NULL;
+	this->textAreaSelected = NULL;
+	this->fontSet = NULL;
+	this->figure = NULL;
+	this->relation = relation;
+	this->rollNameBoxIndex = rollNameBoxIndex;
 	this->rowHeight = 25; // 폰트 사이즈
 	this->koreanEnglish = 0;
 	this->flagBuffer = 0;
@@ -58,7 +79,8 @@ TextEdit::TextEdit(Figure *figure) {
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CWnd::OnCreate(lpCreateStruct); //override
-	CWnd::SetFocus();
+	 CWnd::SetFocus();
+
 	this->text = new Text;
 	this->caret = new Caret;
 	this->keyBoard = new KeyBoard;
@@ -66,7 +88,12 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->textAreaSelected = new TextAreaSelected;
 	this->fontSet = new FontSet;
 
-	this->text->SprayString(this->figure->GetContent()); // 넘겨받아온거 자료구조로 뿌려줌 ㅇㅇㅇㅇㅇ
+	if (figure != NULL) {
+		this->text->SprayString(this->figure->GetContent()); // 넘겨받아온거 자료구조로 뿌려줌 ㅇㅇㅇㅇㅇ
+	}
+	else if (relation != NULL) {
+		this->text->SprayString(this->relation->rollNames->GetAt(this->rollNameBoxIndex));
+	}
 
 	CWnd::HideCaret();
 	::DestroyCaret();
@@ -85,9 +112,13 @@ void TextEdit::OnPaint() {
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 
-	if (this->flagSelection == 0) {
-		dc.FillSolidRect(CRect(5, 5, figure->GetWidth() - 5, figure->GetHeight() - 5), RGB(255, 255, 255));
-
+	if (this->flagSelection == 0) { // figure 너비 or rollNameBox 너비
+		if (figure != NULL) {
+			dc.FillSolidRect(CRect(5, 5, figure->GetWidth() - 5, figure->GetHeight() - 5), RGB(255, 255, 255));
+		}
+		else if (relation != NULL) {
+			dc.FillSolidRect(CRect(1, 1, 40 - 1, 20 - 1), RGB(255, 255, 255));
+		}
 		this->text->Accept(writingVisitor, &dc);//받았던거 출력
 		this->caret->MoveToIndex(this, &dc);
 	}
@@ -104,22 +135,32 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10  && GetKeyState(VK_CONTROL) >= 0) {
 
 		if (flagSelection == 1) {
-			DeleteTextArea *deleteArea = new DeleteTextArea();
+			DeleteTextArea *deleteArea = DeleteTextArea::Instance();
 			deleteArea->DeleteArea(this);
-			if (deleteArea != 0) {
-				delete deleteArea;
-			}
 		}
 		char nCharacter = nChar;
 		SingleByteCharacter singleByteCharacter(nCharacter);
-		if (this->caret->GetCharacterIndex() == this->text->GetAt(this->caret->GetRowIndex())->GetLength()) {
-			this->text->GetAt(this->caret->GetRowIndex())->Add(singleByteCharacter.Clone());
+		if (figure != NULL) {
+			if (this->caret->GetCharacterIndex() == this->text->GetAt(this->caret->GetRowIndex())->GetLength()) {
+				this->text->GetAt(this->caret->GetRowIndex())->Add(singleByteCharacter.Clone());
+			}
+			else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 0) {
+				this->text->GetAt(this->caret->GetRowIndex())->Insert(this->caret->GetCharacterIndex(), singleByteCharacter.Clone());
+			}
+			else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 1) {
+				this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex(), singleByteCharacter.Clone());
+			}
 		}
-		else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 0) {
-			this->text->GetAt(this->caret->GetRowIndex())->Insert(this->caret->GetCharacterIndex(), singleByteCharacter.Clone());
-		}
-		else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 1) {
-			this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex(), singleByteCharacter.Clone());
+		else if (relation != NULL) {
+			if (this->caret->GetCharacterIndex() == this->text->GetAt(this->caret->GetRowIndex())->GetLength()) {
+				this->text->GetAt(this->caret->GetRowIndex())->Add(singleByteCharacter.Clone());
+			}
+			else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 0) {
+				this->text->GetAt(this->caret->GetRowIndex())->Insert(this->caret->GetCharacterIndex(), singleByteCharacter.Clone());
+			}
+			else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 1) {
+				this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex(), singleByteCharacter.Clone());
+			}
 		}
 		this->caret->MoveForwardCharacterIndex();
 	}
@@ -134,17 +175,12 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	HIMC hIMC = ImmGetContext(GetSafeHwnd());
 
 	if (flagSelection == 1) {
-		DeleteTextArea *deleteArea = new DeleteTextArea();
+		DeleteTextArea *deleteArea = DeleteTextArea::Instance();
 		deleteArea->DeleteArea(this);
-		if (deleteArea != 0) {
-			delete deleteArea;
-		}
 	}
-	WriteKoreanText *writeHanguel = new WriteKoreanText();
+	WriteKoreanText *writeHanguel = WriteKoreanText::Instance();
 	writeHanguel->WriteHanguel(wParam, lParam, hIMC, this);
-	if (writeHanguel != 0) {
-		delete writeHanguel;
-	}
+	
 	ImmReleaseContext(GetSafeHwnd(), hIMC);
 	
 	CWnd::HideCaret();
@@ -157,6 +193,7 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 
 	CPaintDC dc(this);
+
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
 	UINT elapseTime = 0;
@@ -196,10 +233,6 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	CWnd::HideCaret();
 	::DestroyCaret();
 
-	
-	SetCapture();
-
-
 	KillTimer(1);
 	Invalidate();
 }
@@ -218,9 +251,7 @@ void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 	::DestroyCaret();
 
 	KillTimer(1);
-		ReleaseCapture();
-		Invalidate();
-	
+	Invalidate();
 }
 
 void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
@@ -228,12 +259,11 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 	//SetCursor(LoadCursor(NULL, IDC_IBEAM));
 
 	if (nFlags == MK_LBUTTON) {
-		
-		SetCursor(LoadCursor(NULL, IDC_IBEAM));
+		//SetCursor(LoadCursor(NULL, IDC_IBEAM));
 		CFont cFont;
 		CPaintDC dc(this);
 		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str()); 
 		this->SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);// 폰트 시작
 
@@ -242,8 +272,8 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 			this->selectedX = this->caret->GetCharacterIndex(); // 최초 한번 selectedX, Y 를
 			this->selectedY = this->caret->GetRowIndex();
 		}
-			this->caret->MoveToPoint(this, &dc, point); // 새로운 위치로 캐럿 이동한다
-	
+		this->caret->MoveToPoint(this, &dc, point); // 새로운 위치로 캐럿 이동한다
+
 		dc.SelectObject(oldFont);
 		cFont.DeleteObject(); // 폰트 끝
 
@@ -256,11 +286,8 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 void TextEdit::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
 
-	DoubleClickTextArea *DoubleClick = new DoubleClickTextArea();
+	DoubleClickTextArea *DoubleClick = DoubleClickTextArea::Instance();
 	DoubleClick->FindDoubleClickAreaIndex(this);
-	if (DoubleClick != 0) {
-		delete DoubleClick;
-	}
 	
 	::DestroyCaret();
 	Invalidate();
@@ -296,12 +323,15 @@ LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {
 }
 
 void TextEdit::OnKillFocus(CWnd *pNewWnd) {
-	CWnd::OnKillFocus(pNewWnd);
+	if (figure != NULL) {
+		string content(this->text->MakeText());
+		this->figure->ReplaceString(content);
+	}
+	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)GetParentFrame();
 
+	CWnd::OnKillFocus(pNewWnd);
 	CWnd::HideCaret();
 	::DestroyCaret();
-	string content(this->text->MakeText());
-	this->figure->ReplaceString(content);
 
 	if (this->caret != NULL) {
 		delete this->caret;
@@ -318,7 +348,6 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 	if (this->textAreaSelected != NULL) {
 		delete this->textAreaSelected;
 	}
-
 	if (this != NULL) {
 		delete this;
 	}
@@ -328,8 +357,10 @@ void TextEdit::OnClose() {
 	CWnd::HideCaret();
 	::DestroyCaret();
 
-	string content(this->text->MakeText());
-	this->figure->ReplaceString(content);
+	if (figure != NULL) {
+		string content(this->text->MakeText());
+		this->figure->ReplaceString(content);
+	}
 
 	if (this->caret != NULL) {
 		delete this->caret;
@@ -350,4 +381,3 @@ void TextEdit::OnClose() {
 		delete this;
 	}
 }
-	

@@ -5,21 +5,14 @@
 #include "RollNameBox.h"
 
 Aggregation::Aggregation(Long capacity):Relation(capacity) {
+	this->rollNamePoints = new Array<CPoint>(5);
+	this->rollNames = new Array<string>(5);
 }
 
-Aggregation::Aggregation(Long x, Long y, Long width, Long height) : Relation(x, y, width, height) {
-	CPoint startPoint{ x, y };
-	CPoint endPoint{ x + width, y + height };
-	RollNameBox *boxPoint = RollNameBox::Instance();
-	this->rollNamePoints->Modify(0, boxPoint->GetFirstRollNamePoint(startPoint, endPoint));
-	this->rollNamePoints->Modify(1, boxPoint->GetSecondRollNamePoint(startPoint, endPoint));
-	this->rollNamePoints->Modify(2, boxPoint->GetThirdRollNamePoint(startPoint, endPoint));
-	this->rollNamePoints->Modify(3, boxPoint->GetFourthRollNamePoint(startPoint, endPoint));
-	this->rollNamePoints->Modify(4, boxPoint->GetFifthRollNamePoint(startPoint, endPoint));
+Aggregation::Aggregation(Long x, Long y, Long width, Long height): Relation(x,y,width,height) {
 }
 
 Aggregation::~Aggregation() {
-
 }
 
 Aggregation::Aggregation(const Aggregation& source):Relation(source){
@@ -34,7 +27,7 @@ Aggregation& Aggregation::operator=(const Aggregation& source) {
 }
 
 void Aggregation::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this,cPaintDc);//, cPaintDc);
+	visitor.Visit(this,cPaintDc);
 }
 
 Figure* Aggregation::Clone() const {

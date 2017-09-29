@@ -22,11 +22,10 @@ public:
 	Figure* Move(Long distanceX, Long distanceY);
 	void Initialize();
 
-	
 	Long AddAttribute(Diagram *diagram);
 	Long AddMethod(Diagram *diagram);
 	Long AddReception(Diagram *diagram);
-	Long AddTemplate(Long x, Long y, Long width, Long height);
+	Long AddTemplate(Long x, Long y, Long width, Long height, string content);
 
 	Long RemoveAttribute();
 	Long RemoveMethod();
