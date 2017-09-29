@@ -8,10 +8,12 @@
 #include "Figure.h"
 #include "FigureComposite.h"
 #include "Diagram.h"
-#include "Class.h"
 #include "Finder.h"
 #include "Selection.h"
 #include "Relation.h"
+#include "FigureComposite.h"
+#include "MemoBox.h"
+#include "Class.h"
 
 using namespace std;
 
@@ -44,8 +46,12 @@ void EditResizerProcess::ResizeEditAll(TextEdit *textEdit, CDC *cdc) {
 }
 
 void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
+	Long gabY_ = GabY * 2;
+	if (dynamic_cast<MemoBox*>(textEdit->figure)) {
+		gabY_ += MemoGab;
+	}
 	textEdit->SetWindowPos(&textEdit->wndTop,0, 0,
-		textEdit->GetCriteriaWidth() - GabX *2, textEdit->GetCriteriaHeight() - GabY*2, SWP_FRAMECHANGED | SWP_NOMOVE);
+		textEdit->GetCriteriaWidth() - GabX *2, textEdit->GetCriteriaHeight() - gabY_, SWP_FRAMECHANGED | SWP_NOMOVE);
 }
 
 void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit, CDC *cdc) {
@@ -53,10 +59,8 @@ void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit, CDC *cdc) {
 	textEdit->GetClientRect(&rt);
 
 	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParentFrame();
-	Class *object = static_cast<Class*>(classDiagramForm->selection->GetAt(0));
+	FigureComposite *object = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
 
-	//textEdit->figure->SetMinimumWidth(rt.right +GabX*2);
-	//object->SetMinimumWidth();
 	Long distanceX = object->GetMinimumWidth() - object->GetWidth();
 	
 	object->ModifyComponetsToRightDirection(classDiagramForm->diagram, distanceX);
@@ -66,7 +70,13 @@ void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 	CDC * cdc = textEdit->GetDC();
 	RECT rt;
 	textEdit->GetClientRect(&rt);
-	Long distanceY = rt.bottom + GabY * 2 - textEdit->figure->GetHeight();
+	
+	Long gabY_ = GabY * 2;
+	if (dynamic_cast<MemoBox*>(textEdit->figure)) {
+		gabY_ += MemoGab;
+	}
+
+	Long distanceY = rt.bottom + gabY_ - textEdit->figure->GetHeight();
 
 	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParentFrame();
 	FigureComposite *composite = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
@@ -105,8 +115,11 @@ void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 			iterator__->Current()->Move(0, distanceY);
 		}
 	}
-	textEdit->figure->Modify(textEdit->figure->GetX(), textEdit->figure->GetY(), textEdit->figure->GetWidth(), 
-		textEdit->figure->GetHeight() + distanceY);
+
+	if (dynamic_cast<Class*>(composite)) {
+		textEdit->figure->Modify(textEdit->figure->GetX(), textEdit->figure->GetY(), textEdit->figure->GetWidth(),
+			textEdit->figure->GetHeight() + distanceY);
+	}
 	composite->Modify(composite->GetX(), composite->GetY(), composite->GetWidth(), composite->GetHeight() + distanceY);
 
 	textEdit->ReleaseDC(cdc);

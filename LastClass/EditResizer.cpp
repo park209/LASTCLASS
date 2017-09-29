@@ -12,6 +12,7 @@
 #include "Class.h"
 #include "Finder.h"
 #include "Selection.h"
+#include "MemoBox.h"
 
 EditResizer::EditResizer() {
 
@@ -27,16 +28,20 @@ void EditResizer::ResizeEdit(TextEdit *textEdit, CDC *cdc) {
 	EditResizerProcess resizer;
 	RECT rt;
 	textEdit->GetClientRect(&rt);
+	Long gabY_ = GabY*2;
+	if (dynamic_cast<MemoBox*>(textEdit->figure)) {
+		gabY_ += MemoGab;
+	}
 
 	if (textEdit->text->MaxWidth(cdc) + GabX * 2  > textEdit->GetCriteriaWidth()) {			//글너비가 클래스를 넘어가는데
-		if (textEdit->GetRowHeight()*textEdit->text->GetLength() + GabY * 2 > textEdit->GetCriteriaHeight()) {
+		if (textEdit->GetRowHeight()*textEdit->text->GetLength() + gabY_ > textEdit->GetCriteriaHeight()) {
 			resizer.ResizeEditAll(textEdit, cdc);											//글높이가 클래스를 넘어가면 둘다O
 		}
 		else {																				//글높이가 클래스를 안넘어가면 너비만
 			resizer.ResizeEditWidth(textEdit, cdc);
 		}
 	}																						//글너비가 클래스를 안넘어가는데
-	else if (textEdit->GetRowHeight()*textEdit->text->GetLength() + GabY * 2 > textEdit->GetCriteriaHeight()) {
+	else if (textEdit->GetRowHeight()*textEdit->text->GetLength() + gabY_ > textEdit->GetCriteriaHeight()) {
 		resizer.ResizeEditHeight(textEdit, cdc);
 	}
 	else {																					//글높이가 클래스를 넘어가면 둘다X
@@ -49,17 +54,25 @@ void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
 	RECT rt;
 	textEdit->GetClientRect(&rt);
 	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParentFrame();
-	Class *object = static_cast<Class*>(classDiagramForm->selection->GetAt(0));
+	Long gabY_ = GabY * 2;
 
-	textEdit->figure->SetMinimumWidth(textEdit->text->MaxWidth(cdc) + GabX * 2);
-	object->SetMinimumWidth();
+	if(dynamic_cast<Class*>(classDiagramForm->selection->GetAt(0))){
+		textEdit->figure->SetMinimumWidth(textEdit->text->MaxWidth(cdc) + GabX * 2);
+		static_cast<Class*>(classDiagramForm->selection->GetAt(0))->SetMinimumWidth();
+	}
+	else {
+		gabY_ += MemoGab;
+		if (textEdit->text->MaxWidth(cdc) + GabX * 2 > 120) {
+			textEdit->figure->SetMinimumWidth(textEdit->text->MaxWidth(cdc) + GabX * 2);
+		}
+	}
 
-	textEdit->figure->SetMinimumHeight(textEdit->GetRowHeight()*textEdit->text->GetLength() + GabY * 2);
+	textEdit->figure->SetMinimumHeight(textEdit->GetRowHeight()*textEdit->text->GetLength() + gabY_);
 
 	if (rt.right + GabX*2 > textEdit->GetCriteriaWidth() ) {
 		resizer.ResizeClassWidth(textEdit,cdc);
 	}
-	if (rt.bottom + GabY*2 > textEdit->GetCriteriaHeight()) {
+	if (rt.bottom + gabY_ > textEdit->GetCriteriaHeight()) {
 		resizer.ResizeClassHeight(textEdit);
 	}
 }

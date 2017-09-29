@@ -10,7 +10,7 @@ Figure::Figure() {
 	this->height = 0;
 	this->content = "";
 	this->minimumWidth = 120;
-	this->minimumHeight = 25;
+	this->minimumHeight = 49;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height) {
@@ -20,7 +20,7 @@ Figure::Figure(Long x, Long y, Long width, Long height) {
 	this->height = height;
 	this->content = "";
 	this->minimumWidth = 120;
-	this->minimumHeight = 25;
+	this->minimumHeight = 49;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height, string content) {
@@ -30,7 +30,7 @@ Figure::Figure(Long x, Long y, Long width, Long height, string content) {
 	this->height = height;
 	this->content = content;
 	this->minimumWidth = 120; //여기도
-	this->minimumHeight = 25; // 입력받을 문자열에 맞게 값 줘야하는데
+	this->minimumHeight = 49; // 입력받을 문자열에 맞게 값 줘야하는데
 }
 
 Figure::Figure(const Figure& source) {

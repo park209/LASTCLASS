@@ -498,7 +498,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		if (dynamic_cast<MemoBox*>(figure)) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX() + GabX,
-				figure->GetY() + 20 + GabY,
+				figure->GetY() + GabY + MemoGab,
 				figure->GetX() + figure->GetWidth() - GabX,
 				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
 		}

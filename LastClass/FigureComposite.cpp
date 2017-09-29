@@ -157,6 +157,11 @@ Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long d
 		this->GetAt(editPosition)->Modify(this->GetAt(editPosition)->GetX(), this->GetAt(editPosition)->GetY(), this->GetAt(editPosition)->GetWidth(),
 			this->GetAt(editPosition)->GetHeight() + distanceY);
 	}
+
+	else if(this->height + distanceY < this->minimumHeight){
+		distanceY = this->minimumHeight - this->height;
+	}
+
 	finder.FindRelationEndPoints(diagram, this, figures, &length);
 
 	while (i < length) {
@@ -243,6 +248,11 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 		this->GetAt(editPosition)->Modify(this->GetAt(editPosition)->GetX(), this->GetAt(editPosition)->GetY() + distanceY, this->GetAt(editPosition)->GetWidth(),
 			this->GetAt(editPosition)->GetHeight() - distanceY);
 	}
+	
+	else if(distanceY > 0 && this->height - distanceY < this->minimumHeight){
+		distanceY = this->height - this->minimumHeight;
+	}
+
 	finder.FindRelationEndPoints(diagram, this, figures, &length);
 
 	while (i < length) {
