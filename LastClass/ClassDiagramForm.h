@@ -13,6 +13,7 @@ class Diagram; //전방선언
 class TextEdit;
 class Selection;
 class MouseLButton;
+class Scroll;
 class KeyBoard;
 class ClassDiagramForm : public CFrameWnd { //CFrameWnd 에 상속관계 표기
 public:
@@ -21,6 +22,8 @@ public:
 	Selection *selection;
 	MouseLButton *mouseLButton;
 	KeyBoard *keyBoard;
+	Scroll *verticalScrollBar;
+	Scroll *horizontalScroll;
 public:
 	ClassDiagramForm();
 public:
@@ -41,6 +44,7 @@ protected:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnClose();
+	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	DECLARE_MESSAGE_MAP()
 };
 #endif // _CLASSDIAGRAM_H
