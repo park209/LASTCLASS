@@ -59,8 +59,9 @@ Long Figure::GetRowCount(string object) {
 	return count;
 }
 
-void Figure::ReplaceString(string content) {
+void Figure::ReplaceString(string content, Long fontSize) {
 	this->content = content;
+	this->fontSize = fontSize;
 }
 void Figure::SetX(Long x) {
 	this->x = x;

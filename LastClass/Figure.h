@@ -20,7 +20,7 @@ public:
 	//virtual void Accept(Visitor& visitor) = 0;// , CDC *cPaintDc) = 0;
 	virtual Figure* Clone() const = 0;
 	Long GetRowCount(string object);
-	void ReplaceString(string content);
+	void ReplaceString(string content, Long fontSize);
 	void SetX(Long x);
 	void SetY(Long y);
 	void SetWidth(Long width);

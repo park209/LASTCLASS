@@ -322,7 +322,7 @@ LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {
 
 void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 	string content(this->text->MakeText());
-	this->figure->ReplaceString(content);
+	this->figure->ReplaceString(content, this->rowHeight);
 	CWnd::OnKillFocus(pNewWnd);
 	CWnd::HideCaret();
 	::DestroyCaret();
@@ -350,7 +350,7 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 
 void TextEdit::OnClose() {
 	string content(this->text->MakeText());
-	this->figure->ReplaceString(content);
+	this->figure->ReplaceString(content, this->rowHeight);
 
 	CWnd::HideCaret();
 	::DestroyCaret();
