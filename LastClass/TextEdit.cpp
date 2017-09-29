@@ -21,6 +21,7 @@
 #include "FontSet.h"
 #include "Selection.h"
 #include "EditResizer.h"
+#include "Class.h"
 
 //#include <iostream>
 
@@ -85,6 +86,7 @@ void TextEdit::OnPaint() {
 	WritingVisitor writingVisitor;
 	RECT rt;
 	this->GetClientRect(&rt);
+	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)this->GetParentFrame();
 	CFont cFont;
 	cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
@@ -92,11 +94,8 @@ void TextEdit::OnPaint() {
 	CFont *oldFont = dc.SelectObject(&cFont);	// 폰트 시작
 	if (this->flagSelection == 0) {
 		dc.FillSolidRect(CRect(0, 0, rt.right, rt.bottom), RGB(255, 255, 255));
-		EditResizer editResizer;
-		editResizer.ResizeEdit(this,&dc);
 		this->text->Accept(writingVisitor, &dc);// 받았던거 출력
 		this->caret->MoveToIndex(this, &dc);
-		editResizer.ResizeClass(this, &dc);
 	}
 	else if (this->flagSelection == 1) {		// flagSelection이 눌려있으면
 		this->textAreaSelected->SelectTextArea(this, &dc);
@@ -128,18 +127,22 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		this->caret->MoveForwardCharacterIndex();
 	}
 	
+	CDC *dc = GetDC();
+	CFont cFont;
+	cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+	SetFont(&cFont, TRUE);
+	dc->SelectObject(cFont);
+	EditResizer editResizer;
+	editResizer.ResizeEdit(this, dc);
+	editResizer.ResizeClass(this, dc);
+	GetParentFrame()->Invalidate();
+	cFont.DeleteObject(); // 폰트
+
 	CWnd::HideCaret();
 	::DestroyCaret();
-	CPaintDC dc(this);
-	//Invalidate();
-
-	EditResizer editResizer;
-	editResizer.ResizeEdit(this, &dc);
-	editResizer.ResizeClass(this,&dc);
 
 	Invalidate();
-	GetParentFrame()->Invalidate();
-
 }
 
 Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
@@ -153,6 +156,18 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	writeHanguel->WriteHanguel(wParam, lParam, hIMC, this);
 
 	ImmReleaseContext(GetSafeHwnd(), hIMC);
+
+	CDC *dc = GetDC();
+	CFont cFont;
+	cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+	SetFont(&cFont, TRUE);
+	dc->SelectObject(cFont);
+	EditResizer editResizer;
+	editResizer.ResizeEdit(this, dc);
+	editResizer.ResizeClass(this, dc);
+	GetParentFrame()->Invalidate();
+	cFont.DeleteObject(); // 폰트
 
 	CWnd::HideCaret();
 	::DestroyCaret();
@@ -273,6 +288,19 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->koreanEnglish = 0;
 
 	if (nChar != VK_RETURN && nChar != VK_ESCAPE) {
+
+		CDC *dc = GetDC();
+		CFont cFont;
+		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+		SetFont(&cFont, TRUE);
+		dc->SelectObject(cFont);
+		EditResizer editResizer;
+		editResizer.ResizeEdit(this, dc);
+		editResizer.ResizeClass(this, dc);
+		GetParentFrame()->Invalidate();
+		cFont.DeleteObject(); // 폰트
+
 		CWnd::HideCaret();
 		::DestroyCaret();
 
@@ -293,16 +321,8 @@ LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {
 }
 
 void TextEdit::OnKillFocus(CWnd *pNewWnd) {
-	////CPaintDC dc(this);
 	string content(this->text->MakeText());
 	this->figure->ReplaceString(content);
-	//ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)GetParentFrame();
-
-	//classDiagramForm->selection->SelectByPoint(classDiagramForm->diagram,this->figure->GetX(),this->figure->GetY());
-	//EditResizer editResizer;
-	////editResizer.ResizeClass(this,&dc);
-	//this->figure->SetMinimumHeight(this->GetRowHeight()*this->text->GetLength() + 10);
-	//classDiagramForm->selection->DeleteAllItems();
 	CWnd::OnKillFocus(pNewWnd);
 	CWnd::HideCaret();
 	::DestroyCaret();
@@ -331,10 +351,7 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 void TextEdit::OnClose() {
 	string content(this->text->MakeText());
 	this->figure->ReplaceString(content);
-	////CPaintDC dc(this);
-	//EditResizer editResizer;
- //   //editResizer.ResizeClass(this,&dc);
-	//this->figure->SetMinimumHeight(this->GetRowHeight()*this->text->GetLength() + 10);
+
 	CWnd::HideCaret();
 	::DestroyCaret();
 	if (this->caret != NULL) {

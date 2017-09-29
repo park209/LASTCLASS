@@ -27,68 +27,46 @@ EditResizerProcess::~EditResizerProcess() {
 void EditResizerProcess::ResizeEditWidth(TextEdit *textEdit, CDC *cdc) {
 	RECT rt;
 	textEdit->GetClientRect(&rt);
-	//cdc->FillSolidRect(CRect(0, 0, rt.right, rt.bottom), RGB(255, 255, 255));
-	
-	textEdit->SetWindowPos(&textEdit->wndTop, textEdit->figure->GetX() + GabX, textEdit->figure->GetY() + GabY,
-		textEdit->text->MaxWidth(cdc) + GabX, textEdit->figure->GetHeight() - GabY, SWP_FRAMECHANGED | SWP_NOMOVE);
+	textEdit->SetWindowPos(&textEdit->wndTop, 0, 0,
+		textEdit->text->MaxWidth(cdc) , rt.bottom, SWP_FRAMECHANGED | SWP_NOMOVE);
 }
 
 void EditResizerProcess::ResizeEditHeight(TextEdit *textEdit, CDC *cdc) {
 	RECT rt;
 	textEdit->GetClientRect(&rt);
-	//cdc->FillSolidRect(CRect(0, 0, rt.right, rt.bottom), RGB(255, 255, 255));
-
-	textEdit->SetWindowPos(&textEdit->wndTop, textEdit->figure->GetX() + GabX, textEdit->figure->GetY() + GabY,
-		textEdit->figure->GetWidth() - GabX, textEdit->GetRowHeight()*textEdit->text->GetLength() + GabY, SWP_FRAMECHANGED | SWP_NOMOVE);
+	textEdit->SetWindowPos(&textEdit->wndTop, 0, 0,
+		rt.right, textEdit->GetRowHeight()*textEdit->text->GetLength(), SWP_FRAMECHANGED | SWP_NOMOVE);
 }
 
 void EditResizerProcess::ResizeEditAll(TextEdit *textEdit, CDC *cdc) {
-	RECT rt;
-	textEdit->GetClientRect(&rt);
-	//cdc->FillSolidRect(CRect(0, 0, rt.right, rt.bottom), RGB(255, 255, 255));
-
-	textEdit->SetWindowPos(&textEdit->wndTop, textEdit->figure->GetX() + GabX, textEdit->figure->GetY() + GabY,
-		textEdit->text->MaxWidth(cdc) + GabX, textEdit->GetRowHeight()*textEdit->text->GetLength() + GabY, SWP_FRAMECHANGED | SWP_NOMOVE);
+	textEdit->SetWindowPos(&textEdit->wndTop, 0, 0,
+		textEdit->text->MaxWidth(cdc), textEdit->GetRowHeight()*textEdit->text->GetLength() , SWP_FRAMECHANGED | SWP_NOMOVE);
 }
 
 void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
-	RECT rt;
-	textEdit->GetClientRect(&rt);
-	//cdc->FillSolidRect(CRect(0, 0, rt.right, rt.bottom), RGB(255, 255, 255));
-
-	textEdit->SetWindowPos(&textEdit->wndTopMost, textEdit->figure->GetX() + GabX, textEdit->figure->GetY() + GabY,
-		textEdit->text->GetWidth() - GabX, textEdit->figure->GetHeight() - GabY, SWP_FRAMECHANGED | SWP_NOMOVE);
+	textEdit->SetWindowPos(&textEdit->wndTop,0, 0,
+		textEdit->GetCriteriaWidth() - GabX *2, textEdit->GetCriteriaHeight() - GabY*2, SWP_FRAMECHANGED | SWP_NOMOVE);
 }
 
 void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit, CDC *cdc) {
 	RECT rt;
 	textEdit->GetClientRect(&rt);
-	Long width;
+
 	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParentFrame();
-	if(rt.right + GabX * 2 <= textEdit->figure->GetMinimumWidth()) {
-		width = textEdit->text->MaxWidth(cdc) - textEdit->figure->GetMinimumWidth() + GabX * 2;
-	}
-	else {
-		textEdit->figure->SetMinimumWidth(rt.right + GabX * 2);
-		width = textEdit->figure->GetMinimumWidth() - classDiagramForm->selection->GetAt(0)->GetWidth() + GabX * 2;
-	}
+	Class *object = static_cast<Class*>(classDiagramForm->selection->GetAt(0));
+
+	//textEdit->figure->SetMinimumWidth(rt.right +GabX*2);
+	//object->SetMinimumWidth();
+	Long distanceX = object->GetMinimumWidth() - object->GetWidth();
 	
-	
-	//Long width = classDiagramForm->selection->GetAt(0)->GetWidth();
-	//if (textEdit->figure->GetMinimumWidth() > textEdit->GetCriteriaWidth()/*width - GabX*/) {
-		static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0))->
-			ModifyComponetsToRightDirection(classDiagramForm->diagram, width/*textEdit->figure->GetMinimumWidth() - width + GabX*2*/);
-		static_cast<Class*>(classDiagramForm->selection->GetAt(0))->SetMinimumWidth();
-	//}
-	textEdit->ReleaseDC(cdc);
+	object->ModifyComponetsToRightDirection(classDiagramForm->diagram, distanceX);
 }
 
 void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 	CDC * cdc = textEdit->GetDC();
 	RECT rt;
 	textEdit->GetClientRect(&rt);
-
-	Long distanceY = rt.bottom - textEdit->figure->GetHeight();
+	Long distanceY = rt.bottom + GabY * 2 - textEdit->figure->GetHeight();
 
 	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParentFrame();
 	FigureComposite *composite = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
@@ -130,4 +108,6 @@ void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 	textEdit->figure->Modify(textEdit->figure->GetX(), textEdit->figure->GetY(), textEdit->figure->GetWidth(), 
 		textEdit->figure->GetHeight() + distanceY);
 	composite->Modify(composite->GetX(), composite->GetY(), composite->GetWidth(), composite->GetHeight() + distanceY);
+
+	textEdit->ReleaseDC(cdc);
 }

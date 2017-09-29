@@ -748,10 +748,12 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 }
 
 Long Class::SetMinimumWidth() {
+	this->minimumWidth = 120;
+
 	SmartPointer<Figure*> iterator(this->CreateIterator());
 	for (iterator->First();!iterator->IsDone();iterator->Next()) {
 		if (iterator->Current()->GetMinimumWidth() > this->minimumWidth) {
-			this->minimumWidth = iterator->Current()->GetMinimumWidth() + 9;
+			this->minimumWidth = iterator->Current()->GetMinimumWidth();
 		}
 	}
 	return this->minimumWidth;

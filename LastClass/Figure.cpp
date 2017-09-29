@@ -9,8 +9,8 @@ Figure::Figure() {
 	this->width = 0;
 	this->height = 0;
 	this->content = "";
-	this->minimumHeight = 25;
 	this->minimumWidth = 120;
+	this->minimumHeight = 25;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height) {
