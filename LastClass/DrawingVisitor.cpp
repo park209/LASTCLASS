@@ -1,5 +1,5 @@
 //DrawingVisitor.cpp
-
+#include "ClassDiagramForm.h"
 #include "DrawingVisitor.h"
 #include "Diagram.h"
 #include "Class.h"
@@ -29,8 +29,9 @@
 #include "SelfDirectedAssociation.h"
 #include "SelfComposition.h"
 #include "SelfCompositions.h"
-
 #include <iostream>
+#include "Scroll.h"
+#include "VerticalScrollBar.h"
 using namespace std;
 
 DrawingVisitor::DrawingVisitor() {
@@ -40,11 +41,13 @@ DrawingVisitor::~DrawingVisitor() {
 void DrawingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY) {
 }
 void DrawingVisitor::Visit(Class *object, CDC* cPaintDc) { //template
+	//ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)(CFrameWnd::FindWindow(NULL, "classDiagram"));
+	//Long vPos = classDiagramForm->verticalScrollBar->GetScrollPos();
 	Long x = object->GetX();
 	Long y = object->GetY();
 	Long width = object->GetWidth();
 	Long height = object->GetHeight();
-
+	
 	cPaintDc->Rectangle(x, y, x + width, y + height);
 }
 void DrawingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) {

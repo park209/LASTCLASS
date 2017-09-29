@@ -39,9 +39,12 @@
 #include "MouseLButton.h"
 #include "Scroll.h"
 #include "VerticalScrollBar.h"
-#include "HorizontalScroll.h"
+#include "HorizontalScrollBar.h"
 #include "KeyBoard.h"
 #include "KeyAction.h"
+#include "VScrollCreator.h"
+#include "ScrollAction.h"
+#include "HScrollCreator.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
@@ -59,6 +62,7 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
 	ON_WM_LBUTTONUP()
 	ON_WM_CLOSE()
 	ON_WM_VSCROLL()
+	ON_WM_HSCROLL()
 END_MESSAGE_MAP()
 
 ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
@@ -426,7 +430,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
 	this->verticalScrollBar = new VerticalScrollBar(this);
-	this->horizontalScroll = new HorizontalScroll(this);
+	this->horizontalScroll = new HorizontalScrollBar(this);
 	this->keyBoard = new KeyBoard;
 
 	//1.2. 적재한다
@@ -439,11 +443,14 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 }
 
 void ClassDiagramForm::OnPaint() {
+
+	//SCROLLINFO vScrinfo;
+	//this->SetScrollInfo(SB_VERT,&vScrinfo);
+
 	CPaintDC dc(this);
 
 	DrawingVisitor drawingVisitor;
 	this->diagram->Accept(drawingVisitor, &dc);
-
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
@@ -457,7 +464,6 @@ void ClassDiagramForm::OnPaint() {
 	cFont.DeleteObject();
 
 	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
-		//if(this->startX != this->currentX && this->startY != this->currentY){
 		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
 	}
 	this->selection->Accept(drawingVisitor, &dc);
@@ -469,8 +475,16 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 	if (keyAction != 0) {
 		keyAction->KeyPress(this);
+
+		Invalidate();
 	}
-	Invalidate();
+	if (nChar == VK_END) {
+		this->verticalScrollBar->OnVScrollBottom();
+	}
+	if (nChar == VK_HOME) {
+		this->verticalScrollBar->OnVScrollTop();
+	}
+	//Invalidate();
 }
 
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
@@ -479,7 +493,20 @@ void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	Invalidate();
 }
 void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
-	this->verticalScrollBar->ScrollAction(nSBCode, nPos, pScrollBar);
+	VScrollCreator vaction;
+	ScrollAction *action = vaction.CreatorAction(nSBCode, nPos, pScrollBar);
+	if (action != 0) {
+		action->ScrollScreen(this->verticalScrollBar);
+	}
+	
+}
+void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+	HScrollCreator haction;
+	ScrollAction *action = haction.CreatorAction(nSBCode, nPos, pScrollBar);
+	if (action != 0) {
+		action->ScrollScreen(this->horizontalScroll);
+	}
+
 }
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	MSG msg;
@@ -560,7 +587,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 
 
 	this->startX = 0;
-	this->startY = 0;
+	 this->startY = 0;
 	this->currentX = 0;
 	this->currentY = 0;
 

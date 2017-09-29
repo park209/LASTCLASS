@@ -88,7 +88,8 @@
     <ClInclude Include="HistoryText.h" />
     <ClInclude Include="HKey.h" />
     <ClInclude Include="HomeKey.h" />
-    <ClInclude Include="HorizontalScroll.h" />
+    <ClInclude Include="HorizontalScrollBar.h" />
+    <ClInclude Include="HScrollCreator.h" />
     <ClInclude Include="InsertKey.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="JKey.h" />
@@ -109,6 +110,24 @@
     <ClInclude Include="MovingRelation.h" />
     <ClInclude Include="MovingVisitor.h" />
     <ClInclude Include="MultipleSelectionState.h" />
+    <ClInclude Include="OnHScrollEnd.h" />
+    <ClInclude Include="OnHScrollLeft.h" />
+    <ClInclude Include="OnHScrollLineLeft.h" />
+    <ClInclude Include="OnHScrollLineRight.h" />
+    <ClInclude Include="OnHScrollPageLeft.h" />
+    <ClInclude Include="OnHScrollPageRight.h" />
+    <ClInclude Include="OnHScrollRight.h" />
+    <ClInclude Include="OnHScrollThumbPosition.h" />
+    <ClInclude Include="OnHScrollThumbTrack.h" />
+    <ClInclude Include="OnVScrollBottom.h" />
+    <ClInclude Include="OnVScrollEndScroll.h" />
+    <ClInclude Include="OnVScrollLineDown.h" />
+    <ClInclude Include="OnVScrollLineUp.h" />
+    <ClInclude Include="OnVScrollPageDown.h" />
+    <ClInclude Include="OnVScrollPageUp.h" />
+    <ClInclude Include="OnVScrollThumbPosition.h" />
+    <ClInclude Include="OnVScrollThumbTrack.h" />
+    <ClInclude Include="OnVScrollTop.h" />
     <ClInclude Include="PlusKey.h" />
     <ClInclude Include="Realization.h" />
     <ClInclude Include="Reception.h" />
@@ -117,6 +136,8 @@
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="Scroll.h" />
+    <ClInclude Include="ScrollAction.h" />
+    <ClInclude Include="VScrollCreator.h" />
     <ClInclude Include="Selection.h" />
     <ClInclude Include="SelectionState.h" />
     <ClInclude Include="SelfAggregation.h" />
@@ -215,7 +236,8 @@
     <ClCompile Include="HistoryText.cpp" />
     <ClCompile Include="HKey.cpp" />
     <ClCompile Include="HomeKey.cpp" />
-    <ClCompile Include="HorizontalScroll.cpp" />
+    <ClCompile Include="HorizontalScrollBar.cpp" />
+    <ClCompile Include="HScrollCreator.cpp" />
     <ClCompile Include="InsertKey.cpp" />
     <ClCompile Include="JKey.cpp" />
     <ClCompile Include="KeyAction.cpp" />
@@ -235,6 +257,23 @@
     <ClCompile Include="MovingRelation.cpp" />
     <ClCompile Include="MovingVisitor.cpp" />
     <ClCompile Include="MultipleSelectionState.cpp" />
+    <ClCompile Include="OnHScrollEnd.cpp" />
+    <ClCompile Include="OnHScrollLeft.cpp" />
+    <ClCompile Include="OnHScrollLineLeft.cpp" />
+    <ClCompile Include="OnHScrollLineRight.cpp" />
+    <ClCompile Include="OnHScrollPageLeft.cpp" />
+    <ClCompile Include="OnHScrollPageRight.cpp" />
+    <ClCompile Include="OnHScrollRight.cpp" />
+    <ClCompile Include="OnHScrollThumbPosition.cpp" />
+    <ClCompile Include="OnHScrollThumbTrack.cpp" />
+    <ClCompile Include="OnVScrollBottom.cpp" />
+    <ClCompile Include="OnVScrollEndScroll.cpp" />
+    <ClCompile Include="OnVScrollLineDown.cpp" />
+    <ClCompile Include="OnVScrollLineUp.cpp" />
+    <ClCompile Include="OnVScrollPageDown.cpp" />
+    <ClCompile Include="OnVScrollPageUp.cpp" />
+    <ClCompile Include="OnVScrollThumbTrack.cpp" />
+    <ClCompile Include="OnVScrollTop.cpp" />
     <ClCompile Include="PlusKey.cpp" />
     <ClCompile Include="Realization.cpp" />
     <ClCompile Include="Reception.cpp" />
@@ -242,6 +281,8 @@
     <ClCompile Include="RightArrowKey.cpp" />
     <ClCompile Include="Row.cpp" />
     <ClCompile Include="Scroll.cpp" />
+    <ClCompile Include="ScrollAction.cpp" />
+    <ClCompile Include="VScrollCreator.cpp" />
     <ClCompile Include="Selection.cpp" />
     <ClCompile Include="SelectionState.cpp" />
     <ClCompile Include="SelfAggregation.cpp" />
@@ -270,6 +311,7 @@
     <ClCompile Include="WriteKoreanText.cpp" />
     <ClCompile Include="WriteKoreanTextProcess.cpp" />
     <ClCompile Include="WritingVisitor.cpp" />
+    <ClCompile Include="OnVScrollThumbPosition.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
