@@ -6,8 +6,8 @@
 class TextEdit;
 class DeleteTextArea {
 public:
-public:
 	static DeleteTextArea* Instance();
+public:
 	DeleteTextArea();
 	DeleteTextArea(const DeleteTextArea& source);
 	~DeleteTextArea();

@@ -17,7 +17,7 @@ class TextAreaSelected;
 class FontSet;
 class TextEdit : public CWnd { // CWnd 상속으로 바꿔야함
 public:
-	TextEdit(Figure *figure);
+	TextEdit(Figure *figure, Long rollNameBoxIndex = -1);
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
@@ -62,6 +62,7 @@ public:
 	CString copyBuffer;
 	Long flagBuffer; //flag
 	Figure *figure;
+	Long rollNameBoxIndex;
 private:
 	Long koreanEnglish; //flag
 	Long currentX;

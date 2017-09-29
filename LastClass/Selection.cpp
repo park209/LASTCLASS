@@ -5,6 +5,7 @@
 #include "SelfRelation.h"
 #include "Class.h"
 #include "Template.h"
+#include "HistoryGraphic.h"
 Selection::Selection(Long capacity):FigureComposite(capacity) {
 	this->x = 0;
 	this->y = 0;
@@ -211,7 +212,7 @@ Long Selection::SelectByPoint(Long x, Long y) {
 			if (finder.FindRectangleByPoint(rect1, x, y)) {
 				index = 1;
 			}
-			if (index== -1) {
+			if (index == -1) {
 				CPoint lineStart(relation->GetX(), relation->GetY());
 				while (j < relation->GetLength() && squareFace == false) {
 					lineEnd.x = relation->GetAt(j).x;
@@ -572,6 +573,18 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 				if (ret == false) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
 				}
+				//여기 부터 바깥 사각박스 찾기
+				Long l = 0;
+				while (l < 5 && ret == false) {
+					rect.left = relation->rollNamePoints->GetAt(l).x - 20;
+					rect.right = relation->rollNamePoints->GetAt(l).x + 20;
+					rect.top = relation->rollNamePoints->GetAt(l).y - 10;
+					rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
+					if (ret == false) {
+						ret = finder.FindRectangleByPoint(rect, x, y);
+					}
+					l++;
+				}
 				if (ret == true) {
 					if (this->length < this->capacity) {
 						this->figures.Store(this->length, relation);
@@ -590,33 +603,69 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 				lineStart.x = selfRelation->GetX();
 				lineStart.y = selfRelation->GetY();
 				lineEnd.x = selfRelation->GetX();
-				lineEnd.y= selfRelation->GetY() - 30;
+				lineEnd.y = selfRelation->GetY() - 40;
 				if (ret == false) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
 				}
-				
+
 				lineStart.x = selfRelation->GetX();
-				lineStart.y = selfRelation->GetY() - 30;
-				lineEnd.x = selfRelation->GetX() + 60;
-				lineEnd.y = selfRelation->GetY() - 30;
+				lineStart.y = selfRelation->GetY() - 40;
+				lineEnd.x = selfRelation->GetX() + 80;
+				lineEnd.y = selfRelation->GetY() - 40;
 				if (ret == false) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
 				}
-		
-				lineStart.x = selfRelation->GetX() + 60;
-				lineStart.y = selfRelation->GetY() - 30;
-				lineEnd.x = selfRelation->GetX() + 60;
-				lineEnd.y = selfRelation->GetY() + 30;
+
+				lineStart.x = selfRelation->GetX() + 80;
+				lineStart.y = selfRelation->GetY() - 40;
+				lineEnd.x = selfRelation->GetX() + 80;
+				lineEnd.y = selfRelation->GetY() + 40;
 				if (ret == false) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
 				}
-			
-				lineStart.x = selfRelation->GetX() + 60;
-				lineStart.y = selfRelation->GetY() + 30;
+
+				lineStart.x = selfRelation->GetX() + 80;
+				lineStart.y = selfRelation->GetY() + 40;
 				lineEnd.x = selfRelation->GetX() + 30;
-				lineEnd.y = selfRelation->GetY() + 30;
+				lineEnd.y = selfRelation->GetY() + 40;
 				if (ret == false) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+				}
+				//여기 부터 바깥 사각박스 찾기
+				rect.left = selfRelation->rollNamePoints->GetAt(0).x - 10;
+				rect.right = selfRelation->rollNamePoints->GetAt(0).x + 20;
+				rect.top = selfRelation->rollNamePoints->GetAt(0).y - 10;
+				rect.bottom = selfRelation->rollNamePoints->GetAt(0).y + 10;
+				if (ret == false) {
+					ret = finder.FindRectangleByPoint(rect, x, y);
+				}
+				rect.left = selfRelation->rollNamePoints->GetAt(1).x - 30;
+				rect.right = selfRelation->rollNamePoints->GetAt(1).x + 30;
+				rect.top = selfRelation->rollNamePoints->GetAt(1).y - 10;
+				rect.bottom = selfRelation->rollNamePoints->GetAt(1).y + 10;
+				if (ret == false) {
+					ret = finder.FindRectangleByPoint(rect, x, y);
+				}
+				rect.left = selfRelation->rollNamePoints->GetAt(2).x - 20;
+				rect.right = selfRelation->rollNamePoints->GetAt(2).x + 10;
+				rect.top = selfRelation->rollNamePoints->GetAt(2).y - 10;
+				rect.bottom = selfRelation->rollNamePoints->GetAt(2).y + 10;
+				if (ret == false) {
+					ret = finder.FindRectangleByPoint(rect, x, y);
+				}
+				rect.left = selfRelation->rollNamePoints->GetAt(3).x - 20;
+				rect.right = selfRelation->rollNamePoints->GetAt(3).x + 10;
+				rect.top = selfRelation->rollNamePoints->GetAt(3).y - 10;
+				rect.bottom = selfRelation->rollNamePoints->GetAt(3).y + 10;
+				if (ret == false) {
+					ret = finder.FindRectangleByPoint(rect, x, y);
+				}
+				rect.left = selfRelation->rollNamePoints->GetAt(4).x - 20;
+				rect.right = selfRelation->rollNamePoints->GetAt(4).x + 10;
+				rect.top = selfRelation->rollNamePoints->GetAt(4).y - 10;
+				rect.bottom = selfRelation->rollNamePoints->GetAt(4).y + 10;
+				if (ret == false) {
+					ret = finder.FindRectangleByPoint(rect, x, y);
 				}
 				if (ret == true) {
 					if (this->length < this->capacity) {
