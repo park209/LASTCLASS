@@ -7,6 +7,7 @@
 #include "afxwin.h"
 
 class Relation;
+class SelfRelation;
 class DrawRollNameBoxes {
 public:
 	static DrawRollNameBoxes* Instance();
@@ -21,6 +22,9 @@ public:
 	void DrawFourthRollNameBox(Relation *relationLine, CDC *cPaintDc);
 	void DrawFifthRollNameBox(Relation *relationLine, CDC *cPaintDc);
 	void DrawBoxesWithoutCurvedLine(Relation *relationLine, CDC *cPaintDc);
+
+	void DrawSelfRelationRollNameBox(SelfRelation *SelfRelationLine, CDC *cPaintDc);
+
 private:
 	static DrawRollNameBoxes* instance;
 };

@@ -591,31 +591,31 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 				lineStart.x = selfRelation->GetX();
 				lineStart.y = selfRelation->GetY();
 				lineEnd.x = selfRelation->GetX();
-				lineEnd.y = selfRelation->GetY() - 30;
+				lineEnd.y = selfRelation->GetY() - 40;
 				if (ret == false) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
 				}
 
 				lineStart.x = selfRelation->GetX();
-				lineStart.y = selfRelation->GetY() - 30;
-				lineEnd.x = selfRelation->GetX() + 60;
-				lineEnd.y = selfRelation->GetY() - 30;
+				lineStart.y = selfRelation->GetY() - 40;
+				lineEnd.x = selfRelation->GetX() + 80;
+				lineEnd.y = selfRelation->GetY() - 40;
 				if (ret == false) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
 				}
 
-				lineStart.x = selfRelation->GetX() + 60;
-				lineStart.y = selfRelation->GetY() - 30;
-				lineEnd.x = selfRelation->GetX() + 60;
-				lineEnd.y = selfRelation->GetY() + 30;
+				lineStart.x = selfRelation->GetX() + 80;
+				lineStart.y = selfRelation->GetY() - 40;
+				lineEnd.x = selfRelation->GetX() + 80;
+				lineEnd.y = selfRelation->GetY() + 40;
 				if (ret == false) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
 				}
 
-				lineStart.x = selfRelation->GetX() + 60;
-				lineStart.y = selfRelation->GetY() + 30;
+				lineStart.x = selfRelation->GetX() + 80;
+				lineStart.y = selfRelation->GetY() + 40;
 				lineEnd.x = selfRelation->GetX() + 30;
-				lineEnd.y = selfRelation->GetY() + 30;
+				lineEnd.y = selfRelation->GetY() + 40;
 				if (ret == false) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
 				}

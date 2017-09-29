@@ -418,40 +418,18 @@ void ClassDiagramForm::OnPaint() {
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont);
 
-	CDC memDC;
-	CBitmap *pOldBitmap;
-	CBitmap bitmap;
-
-	CRect rect;
-	GetWindowRect(rect);
-
-	memDC.CreateCompatibleDC(&dc);
-	bitmap.CreateCompatibleBitmap(&dc, rect.Width(), rect.Height());
-	pOldBitmap = memDC.SelectObject(&bitmap);
-	memDC.SelectObject(bitmap);
-	memDC.SelectObject(cFont);
-
-	memDC.FillSolidRect(CRect(0, 0, rect.Width(), rect.Height()), RGB(255, 255, 255));
-
 	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
 		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
 	}
-	else {
-		DrawingVisitor drawingVisitor;
-		this->diagram->Accept(drawingVisitor, &dc);
-		WritingVisitor writingVisitor;
-		this->diagram->Accept(writingVisitor, &dc);
-		this->selection->Accept(drawingVisitor, &dc); // selectionFlag 추가 확인
-	}
 
-	//dc.BitBlt(0, 0, rect.Width(), rect.Height(), &memDC, 0, 0, SRCCOPY);
+	DrawingVisitor drawingVisitor;
+	this->diagram->Accept(drawingVisitor, &dc);
+	WritingVisitor writingVisitor;
+	this->diagram->Accept(writingVisitor, &dc);
+	this->selection->Accept(drawingVisitor, &dc); // selectionFlag 추가 확인
 
-	memDC.SelectObject(pOldBitmap);
-	bitmap.DeleteObject();
-	memDC.SelectObject(oldFont);
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject();
-	memDC.DeleteDC();
 }
 
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -580,27 +558,89 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		Long i = 0;
 		Long index = 0;
 		Relation *relation = static_cast<Relation*>(this->selection->GetAt(0));
+		Long right;
+		Long left;
+		Long top;
+		Long bottom;
 		while (i < 5 && index == 0) {
-			Long right = relation->rollNamePoints->GetAt(i).x + 20;
-			Long left = relation->rollNamePoints->GetAt(i).x - 20;
-			Long up = relation->rollNamePoints->GetAt(i).y - 10;
-			Long bottom = relation->rollNamePoints->GetAt(i).y + 10;
-			if (startX < right && startX > left && startY < up && startY > bottom) {
+			right = relation->rollNamePoints->GetAt(i).x + 20;
+			left = relation->rollNamePoints->GetAt(i).x - 20;
+			top = relation->rollNamePoints->GetAt(i).y - 10;
+			bottom = relation->rollNamePoints->GetAt(i).y + 10;
+			if (startX < right && startX > left && startY > top && startY < bottom) {
 				index++;
 			}
 			i++;
 		}
 		if (index > 0) {
-			this->textEdit = new TextEdit(figure);
+			//Figure *newFigure = static_cast<Figure*>(relation);
+			this->textEdit = new TextEdit(relation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				relation->GetAt(index - 1).x - 20,
-				relation->GetAt(index - 1).y - 10,
-				relation->GetAt(index - 1).x + 20,
-				relation->GetAt(index - 1).y + 10), this, 10000, NULL);
+				left + 1,
+				top + 1,
+				right - 1,
+				bottom - 1), this, 10000, NULL);
 			OnKillFocus(NULL);
 		}
 	}
+	if (this->selection->GetLength() == 1 && dynamic_cast<SelfRelation*>(this->selection->GetAt(0))) {
+		// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
+		Long i = 0;
+		Long index = 0;
+		SelfRelation *selfRelation = static_cast<SelfRelation*>(this->selection->GetAt(0));
+		Long right;
+		Long left;
+		Long top;
+		Long bottom;
+		while (i < 5 && index == 0) {
+			if (i == 0) {
+				right = selfRelation->rollNamePoints->GetAt(i).x + 20;
+				left = selfRelation->rollNamePoints->GetAt(i).x - 10;
+				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+			}
+			else if (i == 1) {
+				right = selfRelation->rollNamePoints->GetAt(i).x + 30;
+				left = selfRelation->rollNamePoints->GetAt(i).x - 30;
+				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+			}
+			else if (i == 2) {
+				right = selfRelation->rollNamePoints->GetAt(i).x + 10;
+				left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+			}
+			else if (i == 3) {
+				right = selfRelation->rollNamePoints->GetAt(i).x + 10;
+				left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+			}
+			else if (i == 4) {
+				right = selfRelation->rollNamePoints->GetAt(i).x + 10;
+				left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+			}
+
+			if (startX < right && startX > left && startY > top && startY < bottom) {
+				index++;
+			}
+			i++;
+		}
 		// 확인해서 있으면 그 index 기억해두고 그 박스 사이즈로 textEdit 연다 (textEdit 생성자 따로 만들어야할듯)
+
+		if (index > 0) {
+			this->textEdit = new TextEdit(selfRelation, i - 1);
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+				left,
+				top,
+				right,
+				bottom), this, 10000, NULL);
+			OnKillFocus(NULL);
+		}
+	}
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {

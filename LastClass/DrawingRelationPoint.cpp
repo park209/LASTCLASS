@@ -57,6 +57,7 @@ void DrawingRelationPoint::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *d
 		}
 		if (squareFace == true) {
 			relation->Add(startCPoint, currentCPoint);
+
 		}
 	}
 	this->ChangeDefault(mouseLButton);

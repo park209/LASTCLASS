@@ -30,9 +30,11 @@ public:
 	Long Add(const CPoint& startCPoint , const CPoint& currentCPoint);
 	Long Remove(Long index);
 	void MergePoints(Long selectIndex,CPoint cPoint);
+
+	void ReplaceString(string rollNameText, Long rollNameBoxIndex);
+
 	Long GetCapacity() const;
 	Long GetLength() const;
-
 public:
 	Array<string>* rollNames;
 	Array<CPoint>* rollNamePoints;

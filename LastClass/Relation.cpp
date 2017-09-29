@@ -7,8 +7,6 @@
 Relation::Relation(Long capacity):Figure(), points(capacity) {
 	this->capacity = capacity;
 	this->length = 0;
-	this->rollNamePoints = new Array<CPoint>(5);
-	this->rollNames = new Array<string>(5);
 }
 
 Relation::Relation(const Relation& source) :Figure(source), points(source.points) {
@@ -19,23 +17,24 @@ Relation::Relation(const Relation& source) :Figure(source), points(source.points
 	}
 	this->capacity = source.capacity;
 	this->length = source.length;
-
+	this->rollNamePoints = source.rollNamePoints;
+	this->rollNames = source.rollNames;
 }
 
 Relation::Relation(Long x, Long y, Long width, Long height) :Figure(x,y,width,height), points(10) {
 	this->capacity = 10;
 	this->length = 0;
-	/*this->rollNamePoints = new Array<CPoint>(5);
+	this->rollNamePoints = new Array<CPoint>(5);
 	this->rollNames = new Array<string>(5);
 	CPoint startPoint{ x, y };
 	CPoint endPoint{ x + width, y + height };
 
 	RollNameBox *rollNameBox = RollNameBox::Instance();
-	this->rollNamePoints->Modify(0, rollNameBox->GetFirstRollNamePoint(startPoint, endPoint));
-	this->rollNamePoints->Modify(1, rollNameBox->GetSecondRollNamePoint(startPoint, endPoint));
-	this->rollNamePoints->Modify(2, rollNameBox->GetThirdRollNamePoint(startPoint, endPoint));
-	this->rollNamePoints->Modify(3, rollNameBox->GetFourthRollNamePoint(startPoint, endPoint));
-	this->rollNamePoints->Modify(4, rollNameBox->GetFifthRollNamePoint(startPoint, endPoint));*/
+	this->rollNamePoints->Store(0, rollNameBox->GetFirstRollNamePoint(startPoint, endPoint));
+	this->rollNamePoints->Store(1, rollNameBox->GetSecondRollNamePoint(startPoint, endPoint));
+	this->rollNamePoints->Store(2, rollNameBox->GetThirdRollNamePoint(startPoint, endPoint));
+	this->rollNamePoints->Store(3, rollNameBox->GetFourthRollNamePoint(startPoint, endPoint));
+	this->rollNamePoints->Store(4, rollNameBox->GetFifthRollNamePoint(startPoint, endPoint));
 }
 
 Relation& Relation::operator=(const Relation& source) {
@@ -160,4 +159,8 @@ void Relation::MergePoints(Long selectIndex,CPoint cPoint) {
 			}
 		}
 	}
+}
+
+void Relation::ReplaceString(string rollNameText, Long rollNameBoxIndex) {
+	this->rollNames->Modify(rollNameBoxIndex, rollNameText);
 }

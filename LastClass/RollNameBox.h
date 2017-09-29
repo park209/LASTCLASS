@@ -20,6 +20,12 @@ public:
 	CPoint GetThirdRollNamePoint(CPoint startPoint, CPoint endPoint);
 	CPoint GetFourthRollNamePoint(CPoint startPoint, CPoint endPoint);
 	CPoint GetFifthRollNamePoint(CPoint startPoint, CPoint endPoint);
+
+	CPoint GetSelfRelationFirstRollNamePoint(CPoint startPoint, CPoint endPoint);
+	CPoint GetSelfRelationSecondRollNamePoint(CPoint startPoint, CPoint endPoint);
+	CPoint GetSelfRelationThirdRollNamePoint(CPoint startPoint, CPoint endPoint);
+	CPoint GetSelfRelationFourthRollNamePoint(CPoint startPoint, CPoint endPoint);
+	CPoint GetSelfRelationFifthRollNamePoint(CPoint startPoint, CPoint endPoint);
 private:
 	static RollNameBox* instance;
 };
