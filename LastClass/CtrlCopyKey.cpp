@@ -2,6 +2,7 @@
 
 #include "CtrlCopyKey.h"
 #include "TextEdit.h"
+#include "ClassDiagramForm.h"
 
 CtrlCopyKey::CtrlCopyKey() {
 }
@@ -22,4 +23,7 @@ void CtrlCopyKey::KeyPress(TextEdit *textEdit) {
 	if (::SetClipboardData(uniFormat, h) == NULL) {
 	}
 	CloseClipboard();
+}
+
+void CtrlCopyKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 }

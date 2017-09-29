@@ -6,6 +6,7 @@
 #include "KeyAction.h"
 
 class TextEdit;
+class ClassDiagramForm;
 class CtrlEnterKey : public KeyAction {
 public:
 	CtrlEnterKey();
@@ -13,6 +14,8 @@ public:
 	virtual ~CtrlEnterKey();
 
 	void KeyPress(TextEdit *textEdit);
+	void KeyPress(ClassDiagramForm *classDiagramForm);
 };
+
 
 #endif // _CTRLENTERKEY_H

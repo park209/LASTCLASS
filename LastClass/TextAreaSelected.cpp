@@ -2,6 +2,7 @@
 
 #include "TextAreaSelected.h"
 #include "TextAreaSelectedProcess.h"
+#include "ClassDiagramForm.h"
 #include "TextEdit.h"
 #include "Caret.h"
 #include "Text.h"
@@ -37,7 +38,7 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 	bitmap.CreateCompatibleBitmap(dc, textEdit->GetFigure()->GetWidth(), textEdit->GetFigure()->GetHeight());
 	pOldBitmap = memDC.SelectObject(&bitmap);
 
-	memDC.FillSolidRect(CRect(1, 1, textEdit->GetFigure()->GetWidth(), textEdit->GetFigure()->GetHeight()), RGB(255, 255, 255));
+	memDC.FillSolidRect(CRect(0, 0, textEdit->GetFigure()->GetWidth(), textEdit->GetFigure()->GetHeight()), RGB(255, 255, 255));
 	memDC.SelectObject(cFont);
 
 	WritingVisitor writingVisitor;
@@ -69,13 +70,13 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 		memDC.DrawText(BottomCstr, &rt, DT_NOCLIP | DT_EXPANDTABS);
 	}
 
-	dc->BitBlt(0, 0, textEdit->GetFigure()->GetWidth() - 5, textEdit->GetFigure()->GetHeight() - 5, &memDC, 0, 0, SRCCOPY);
+	dc->BitBlt(0, 0, textEdit->GetFigure()->GetWidth() - GabX, textEdit->GetFigure()->GetHeight() - GabY, &memDC, 0, 0, SRCCOPY);
 
 	textEdit->copyBuffer = TopCstr + middleCstr + BottomCstr;
 
 	memDC.SelectObject(pOldBitmap);
 	bitmap.DeleteObject();
-	memDC.SelectObject(cFont);
+	//memDC.SelectObject(cFont);
 	dc->SelectObject(oldFont);
 	cFont.DeleteObject(); // ÆùÆ®
 	memDC.DeleteDC();

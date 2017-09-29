@@ -13,7 +13,6 @@ DoubleClickTextArea* DoubleClickTextArea::Instance() {
 	}
 	return instance;
 }
-
 DoubleClickTextArea::DoubleClickTextArea() {
 }
 DoubleClickTextArea::DoubleClickTextArea(const DoubleClickTextArea& source) {
