@@ -24,6 +24,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="KeyAction\ClassDiagram">
+      <UniqueIdentifier>{cacda3ed-fc94-4b44-886b-6f547b468a0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="KeyAction\TextEdit">
+      <UniqueIdentifier>{16d80ff2-a657-44a1-b3e9-565cde0ae1cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h">
@@ -55,78 +61,6 @@
     </ClInclude>
     <ClInclude Include="MovingObject.h">
       <Filter>ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="UpArrowKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="BackSpaceKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlAllKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlCopyKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlCutKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlEnterKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlPasteKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlRedoTextKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlUndoTextKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="DeleteKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="DownArrowKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="EndKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="EnterKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="EscapeKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="HomeKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="InsertKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyAction.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyBoard.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="LeftArrowKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="MinusKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="PlusKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="RightArrowKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="SpaceKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="TabKey.h">
-      <Filter>KeyAction</Filter>
     </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>TextEdit</Filter>
@@ -341,33 +275,6 @@
     <ClInclude Include="TextAreaSelectedProcess.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
-    <ClInclude Include="AKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="DKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="FKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="GKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="HKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="JKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="KKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="SKey.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="DeleteSelectedOne.h">
-      <Filter>KeyAction</Filter>
-    </ClInclude>
     <ClInclude Include="ArrayIterator.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
@@ -391,6 +298,111 @@
     </ClInclude>
     <ClInclude Include="DrawingResizing.h">
       <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="EditResizerProcess.h">
+      <Filter>TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="EditResizer.h">
+      <Filter>TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="BackSpaceKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlAllKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlCopyKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlCutKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlEnterKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlPasteKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlRedoTextKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlUndoTextKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="UpArrowKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="TabKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="RightArrowKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="PlusKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="MinusKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="LeftArrowKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="InsertKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="HomeKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="EscapeKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="DownArrowKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="EndKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="EnterKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyAction.h">
+      <Filter>KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyBoard.h">
+      <Filter>KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="SKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="AKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteSelectedOne.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="DKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="FKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="GKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="HKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="JKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="KKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -417,78 +429,6 @@
     </ClCompile>
     <ClCompile Include="MovingObject.cpp">
       <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="BackSpaceKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlAllKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlCopyKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlCutKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlEnterKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlPasteKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlRedoKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlUndoTextKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="DeleteKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="DownArrowKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="EndKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="EnterKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="EscapeKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="HomeKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="InsertKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyAction.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyBoard.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="LeftArrowKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="MinusKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="PlusKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="RightArrowKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="SpaceKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="TabKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="UpArrowKey.cpp">
-      <Filter>KeyAction</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>TextEdit</Filter>
@@ -709,33 +649,6 @@
     <ClCompile Include="MovingLineProcess.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="SKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="KKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="JKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="HKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="GKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="FKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="DKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="AKey.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="DeleteSelectedOne.cpp">
-      <Filter>KeyAction</Filter>
-    </ClCompile>
     <ClCompile Include="ArrayIterator.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
@@ -744,6 +657,111 @@
     </ClCompile>
     <ClCompile Include="FontSet.cpp">
       <Filter>TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="EditResizer.cpp">
+      <Filter>TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="EditResizerProcess.cpp">
+      <Filter>TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="BackSpaceKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlAllKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlCopyKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlCutKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlEnterKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlPasteKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlRedoKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlUndoTextKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="UpArrowKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="TabKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="RightArrowKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="PlusKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="MinusKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="LeftArrowKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="HomeKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="InsertKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="DownArrowKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="EndKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="EnterKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="EscapeKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyAction.cpp">
+      <Filter>KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyBoard.cpp">
+      <Filter>KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="AKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteSelectedOne.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="FKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="HKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="JKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="KKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

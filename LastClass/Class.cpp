@@ -431,7 +431,7 @@ Long Class::AddMethod(Diagram *diagram) {
 	}
 	return this->methodPosition;
 }
-Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야함
+Long Class::AddReception(Diagram *diagram) {
 
 	Line line(this->x, this->y + this->height, this->width, 0);
 
@@ -501,9 +501,9 @@ Long Class::AddReception(Diagram *diagram) {	//중복생성 안되게 막아야�
 }
 
 
-Long Class::AddTemplate(Long x, Long y, Long width, Long height, string content) { //중복생성 안되게 막아야함
+Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
 
-	Template object(x, y, width, height, content);
+	Template object(x, y, width, height);
 
 	if (this->length < this->capacity) {
 		this->templetePosition = this->figures.Store(this->length, object.Clone());
@@ -687,7 +687,7 @@ void Class::Accept(Visitor& visitor, CDC *cPaintDc) {
 
 
 		else if (dynamic_cast<Association*>(smartPointer->Current())) {
-			static_cast<Association*>(smartPointer->Current())->Accept(visitor, cPaintDc); //, cPaintDc
+			static_cast<Association*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 
 

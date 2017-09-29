@@ -6,7 +6,6 @@
 #include "Class.h"
 #include "MemoBox.h"
 #include "Selection.h"
-#include "Text.h"
 #include "Template.h"
 #include "ClassName.h"
 #include "Method.h"
@@ -60,7 +59,6 @@ END_MESSAGE_MAP()
 
 ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->diagram = NULL;
-	this->text = NULL;
 	this->textEdit = NULL;
 	this->selection = NULL;
 	this->mouseLButton = NULL;
@@ -398,7 +396,6 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
 										 //1.1. 다이어그램을 준비한다
 	this->diagram = new Diagram();
-	//this->text = new Text;
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
 	this->keyBoard = new KeyBoard;
@@ -432,7 +429,6 @@ void ClassDiagramForm::OnPaint() {
 	cFont.DeleteObject();
 
 	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
-	//if(this->startX != this->currentX && this->startY != this->currentY){
 		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
 	}
 	this->selection->Accept(drawingVisitor, &dc);
@@ -501,18 +497,17 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		
 		if (dynamic_cast<MemoBox*>(figure)) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				figure->GetX(),
-				figure->GetY() + 20,
-				figure->GetX() + figure->GetWidth(),
-				figure->GetY() + figure->GetHeight()), this, 10000, NULL);
-			OnKillFocus(NULL);
+				figure->GetX() + GabX,
+				figure->GetY() + 20 + GabY,
+				figure->GetX() + figure->GetWidth() - GabX,
+				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
 		}
 		else {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				figure->GetX(),
-				figure->GetY(),
-				figure->GetX() + figure->GetWidth(),
-				figure->GetY() + figure->GetHeight()), this, 10000, NULL);
+				figure->GetX() + GabX,
+				figure->GetY() + GabY,
+				figure->GetX() + figure->GetWidth() - GabX,
+				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
 			OnKillFocus(NULL);
 		}
 	}
@@ -531,10 +526,8 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 
-
-		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-
-
+	this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection,
+															this->startX, this->startY, this->currentX, this->currentY);
 
 	this->startX = 0;
 	this->startY = 0;
@@ -577,9 +570,6 @@ void ClassDiagramForm::OnClose() {
 	if (this->diagram != NULL) {
 		delete this->diagram;
 	}
-	//if (this->text != NULL) {
-	//	delete this->text;
-	//}
 	if (this->selection != NULL) {
 		delete this->selection;
 	}

@@ -7,7 +7,6 @@
 #include "Selection.h"
 #include "SelectionState.h"
 #include "DrawingClass.h"
-#include "DrawingRelation.h"
 #include "DrawingMemoBox.h"
 #include "DrawingGeneralization.h" 
 #include "DrawingAggregation.h"
