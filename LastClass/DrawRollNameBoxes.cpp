@@ -37,7 +37,7 @@ void DrawRollNameBoxes::DrawSecondRollNameBox(Relation *relationLine, CDC *cPain
 	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 	CPoint cPoint;
 
-	if (relationLine->GetLength() & 2 > 0) {
+	if (relationLine->GetLength() % 2 > 0) {
 		CPoint startPoint2{ relationLine->GetAt((relationLine->GetLength() - 1) / 2).x,
 			relationLine->GetAt((relationLine->GetLength() - 1) / 2).y };
 		cPoint = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
