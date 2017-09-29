@@ -24,6 +24,16 @@
 #include "CtrlUndoTextKey.h"
 #include "CtrlRedoTextKey.h"
 #include "CtrlCutKey.h"
+#include "ClassDiagramForm.h"
+#include "DeleteSelectedOne.h"
+#include "AKey.h"
+#include "SKey.h"
+#include "DKey.h"
+#include "FKey.h"
+#include "GKey.h"
+#include "HKey.h"
+#include "JKey.h"
+#include "KKey.h"
 
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
@@ -136,6 +146,45 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlRedoTextKey;
 		}
+		break;
+	default:
+		break;
+	}
+	return this->keyAction;
+}
+
+KeyAction* KeyBoard::KeyDown(ClassDiagramForm *classDiagramForm, UINT nChar, UINT nRepCnt, UINT nFlags) {
+	if (this->keyAction != 0) {
+		delete this->keyAction;
+		this->keyAction = 0;
+	}
+	switch (nChar) {
+	case VK_DELETE:
+		this->keyAction = new DeleteSelectedOne;
+		break;
+	case 65: // 백스페이스
+		this->keyAction = new AKey;
+		break;
+	case 83:
+		this->keyAction = new SKey;
+		break;
+	case 68:
+		this->keyAction = new DKey;
+		break;
+	case 70:
+		this->keyAction = new FKey;
+		break;
+	case 71:
+		this->keyAction = new GKey;
+		break;
+	case 72:
+		this->keyAction = new HKey;
+		break;
+	case 74: 
+			this->keyAction = new JKey;
+		break;
+	case 75:
+		this->keyAction = new KKey;
 		break;
 	default:
 		break;

@@ -6,6 +6,7 @@
 #include "KeyAction.h"
 
 class TextEdit;
+class ClassDiagramForm;
 class CtrlCutKey : public KeyAction {
 public:
 	CtrlCutKey();
@@ -13,6 +14,7 @@ public:
 	virtual ~CtrlCutKey();
 
 	void KeyPress(TextEdit *textEdit);
+	void KeyPress(ClassDiagramForm *classDiagramForm);
 };
 
 #endif // _CTRLCUTKEY_H

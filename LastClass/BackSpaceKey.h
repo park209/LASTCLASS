@@ -6,6 +6,7 @@
 #include "KeyAction.h"
 
 class TextEdit;
+class ClassDiagramForm;
 class BackSpaceKey : public KeyAction {
 public:
 	BackSpaceKey();
@@ -13,6 +14,7 @@ public:
 	virtual ~BackSpaceKey();
 
 	void KeyPress(TextEdit *textEdit);
+	void KeyPress(ClassDiagramForm *classDiagramForm);
 };
 
 #endif // _BACKSPACEKEY_H

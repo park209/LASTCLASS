@@ -6,6 +6,7 @@
 #include "KeyAction.h"
 
 class TextEdit;
+class ClassDiagramForm;
 class  PlusKey : public KeyAction {
 public:
 	PlusKey();
@@ -13,6 +14,7 @@ public:
 	virtual ~PlusKey();
 
 	void KeyPress(TextEdit *textEdit);
+	void KeyPress(ClassDiagramForm *classDiagramForm);
 };
 
 #endif // _LEFTARROWKEY_H

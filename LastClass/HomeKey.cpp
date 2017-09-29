@@ -5,6 +5,7 @@
 #include "Text.h"
 #include "Row.h"
 #include "Caret.h"
+#include "ClassDiagramForm.h"
 
 HomeKey::HomeKey() {
 }
@@ -26,4 +27,7 @@ void HomeKey::KeyPress(TextEdit *textEdit) {
 		}
 	}
 	textEdit->caret->SetCharacterIndex(0);
+}
+
+void HomeKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 }

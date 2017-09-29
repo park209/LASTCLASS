@@ -6,6 +6,7 @@
 #include "KeyAction.h"
 
 class TextEdit;
+class ClassDiagramForm;
 class DeleteKey : public KeyAction {
 public:
 	DeleteKey();
@@ -13,6 +14,7 @@ public:
 	virtual ~DeleteKey();
 
 	void KeyPress(TextEdit *textEdit);
+	void KeyPress(ClassDiagramForm *classDiagramForm);
 };
 
 #endif // _DELETEKEY_H

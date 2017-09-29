@@ -14,6 +14,7 @@ class Text;
 class TextEdit;
 class Selection;
 class MouseLButton;
+class KeyBoard;
 class ClassDiagramForm : public CFrameWnd { //CFrameWnd 에 상속관계 표기
 public:
 	Diagram *diagram;
@@ -21,6 +22,7 @@ public:
 	TextEdit *textEdit;
 	Selection *selection;
 	MouseLButton *mouseLButton;
+	KeyBoard *keyBoard;
 public:
 	ClassDiagramForm();
 public:

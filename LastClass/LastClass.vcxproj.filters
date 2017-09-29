@@ -206,9 +206,6 @@
     <ClInclude Include="DrawingRealization.h">
       <Filter>Relationship</Filter>
     </ClInclude>
-    <ClInclude Include="DrawingRelation.h">
-      <Filter>Relationship</Filter>
-    </ClInclude>
     <ClInclude Include="Realization.h">
       <Filter>Relationship</Filter>
     </ClInclude>
@@ -344,35 +341,56 @@
     <ClInclude Include="TextAreaSelectedProcess.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
-    <ClInclude Include="ClassDiagramForm.h">
-      <Filter>ClassDiagram</Filter>
+    <ClInclude Include="AKey.h">
+      <Filter>KeyAction</Filter>
     </ClInclude>
-    <ClInclude Include="EditResizer.h">
-      <Filter>TextEdit</Filter>
+    <ClInclude Include="DKey.h">
+      <Filter>KeyAction</Filter>
     </ClInclude>
-    <ClInclude Include="MovingLine.h">
-      <Filter>Diagram</Filter>
+    <ClInclude Include="FKey.h">
+      <Filter>KeyAction</Filter>
     </ClInclude>
-    <ClInclude Include="MovingLineProcess.h">
-      <Filter>Diagram</Filter>
+    <ClInclude Include="GKey.h">
+      <Filter>KeyAction</Filter>
     </ClInclude>
-    <ClInclude Include="MovingRelation.h">
-      <Filter>Relationship</Filter>
+    <ClInclude Include="HKey.h">
+      <Filter>KeyAction</Filter>
     </ClInclude>
-    <ClInclude Include="FontSet.h">
-      <Filter>TextEdit</Filter>
+    <ClInclude Include="JKey.h">
+      <Filter>KeyAction</Filter>
     </ClInclude>
-    <ClInclude Include="DrawingResizing.h">
-      <Filter>Diagram</Filter>
+    <ClInclude Include="KKey.h">
+      <Filter>KeyAction</Filter>
     </ClInclude>
-    <ClInclude Include="DrawingRelationPoint.h">
-      <Filter>Relationship</Filter>
+    <ClInclude Include="SKey.h">
+      <Filter>KeyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteSelectedOne.h">
+      <Filter>KeyAction</Filter>
     </ClInclude>
     <ClInclude Include="ArrayIterator.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="EditResizerProcess.h">
+    <ClInclude Include="ClassDiagramForm.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="FontSet.h">
       <Filter>TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingRelation.h">
+      <Filter>Relationship</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawingRelationPoint.h">
+      <Filter>Relationship</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingLineProcess.h">
+      <Filter>Diagram</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingLine.h">
+      <Filter>Diagram</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawingResizing.h">
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -550,9 +568,6 @@
     <ClCompile Include="DrawingRealization.cpp">
       <Filter>Relationship</Filter>
     </ClCompile>
-    <ClCompile Include="DrawingRelation.cpp">
-      <Filter>Relationship</Filter>
-    </ClCompile>
     <ClCompile Include="DrawningResize.cpp">
       <Filter>Relationship</Filter>
     </ClCompile>
@@ -694,19 +709,40 @@
     <ClCompile Include="MovingLineProcess.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="ClassDiagramForm.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="SKey.cpp">
+      <Filter>KeyAction</Filter>
     </ClCompile>
-    <ClCompile Include="EditResizer.cpp">
-      <Filter>TextEdit</Filter>
+    <ClCompile Include="KKey.cpp">
+      <Filter>KeyAction</Filter>
     </ClCompile>
-    <ClCompile Include="FontSet.cpp">
-      <Filter>TextEdit</Filter>
+    <ClCompile Include="JKey.cpp">
+      <Filter>KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="HKey.cpp">
+      <Filter>KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="GKey.cpp">
+      <Filter>KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="FKey.cpp">
+      <Filter>KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="DKey.cpp">
+      <Filter>KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="AKey.cpp">
+      <Filter>KeyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteSelectedOne.cpp">
+      <Filter>KeyAction</Filter>
     </ClCompile>
     <ClCompile Include="ArrayIterator.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="EditResizerProcess.cpp">
+    <ClCompile Include="ClassDiagramForm.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="FontSet.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
   </ItemGroup>

@@ -6,6 +6,7 @@
 #include "KeyAction.h"
 
 class TextEdit;
+class ClassDiagramForm;
 class DownArrowKey : public KeyAction {
 public:
 	DownArrowKey();
@@ -13,6 +14,7 @@ public:
 	virtual ~DownArrowKey();
 
 	void KeyPress(TextEdit *textEdit);
+	void KeyPress(ClassDiagramForm *classDiagramForm);
 };
 
 #endif // _DOWNARROWKEY_H

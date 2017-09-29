@@ -6,6 +6,7 @@
 #include "KeyAction.h"
 
 class TextEdit;
+class CLassDIagrmForm;
 class CtrlCopyKey : public KeyAction {
 public:
 	CtrlCopyKey();
@@ -13,6 +14,7 @@ public:
 	virtual ~CtrlCopyKey();
 
 	void KeyPress(TextEdit *textEdit);
+	void KeyPress(ClassDiagramForm *classDiagramForm);
 };
 
 #endif // _CTRLCOPYKEY_H

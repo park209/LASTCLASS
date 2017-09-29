@@ -8,6 +8,7 @@
 #include "Caret.h"
 #include "KeyBoard.h"
 #include <afxwin.h>
+#include "ClassDiagramForm.h"
 
 EndKey::EndKey() {
 }
@@ -29,4 +30,7 @@ void EndKey::KeyPress(TextEdit *textEdit) {
 		}
 	}
 	textEdit->caret->SetCharacterIndex(textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength());
+}
+
+void EndKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 }
