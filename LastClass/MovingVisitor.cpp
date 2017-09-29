@@ -1,5 +1,5 @@
 //MovingVisitor.cpp
-#include "SelfRelation.h"
+
 #include"MovingVisitor.h"
 #include "Diagram.h"
 #include "Class.h"
@@ -18,7 +18,7 @@
 #include "Compositions.h"
 #include "MemoLine.h"
 #include <iostream>
-#include "RollNameBox.h"
+
 using namespace std;
 
 MovingVisitor::MovingVisitor() {
@@ -32,11 +32,7 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 	Long k = 0;
 	Long l = 0;
 	Figure *figure;
-	CPoint cPoint1;
-	CPoint cPoint2;
-	CPoint cPoint3;
-	CPoint cPoint4;
-	CPoint cPoint5;
+
 	while (i < length) {
 		figure = selection->GetAt(i);
 
@@ -52,40 +48,6 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 			while (j < figureComposite->GetLength()) { // 형변환 한게 관리하면 배열 렝스까지
 				figure = figureComposite->GetAt(j);
 				figure->Move(distanceX, distanceY);
-				if (dynamic_cast<Relation*>(figure)) {
-					RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
-					Relation *relation = static_cast<Relation*>(figure);
-					CPoint startPoint(figure->GetX(), figure->GetY());
-					CPoint endPoint(figure->GetX() + figure->GetWidth(), figure->GetY() + figure->GetHeight());
-					cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-					cPoint4 = rollNameBoxesPoint ->GetFourthRollNamePoint(startPoint, endPoint);
-					cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
-					cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-					relation->rollNamePoints->Modify(0, cPoint1);
-					relation->rollNamePoints->Modify(3, cPoint4);
-					relation->rollNamePoints->Modify(2, cPoint3);
-					relation->rollNamePoints->Modify(4, cPoint5);
-					if (relation->GetLength() == 0) {
-						cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
-						relation->rollNamePoints->Modify(1, cPoint2);
-					}
-				
-				}
-				else if (dynamic_cast<SelfRelation*>(figure)) {
-					SelfRelation *selfRelation = static_cast<SelfRelation*>(figure);
-					CPoint cPoint1(selfRelation->rollNamePoints->GetAt(0).x + distanceX, selfRelation->rollNamePoints->GetAt(0).y + distanceY);
-					CPoint cPoint2(selfRelation->rollNamePoints->GetAt(1).x + distanceX, selfRelation->rollNamePoints->GetAt(1).y + distanceY);
-					CPoint cPoint3(selfRelation->rollNamePoints->GetAt(2).x + distanceX, selfRelation->rollNamePoints->GetAt(2).y + distanceY);
-					CPoint cPoint4(selfRelation->rollNamePoints->GetAt(3).x + distanceX, selfRelation->rollNamePoints->GetAt(3).y + distanceY);
-					CPoint cPoint5(selfRelation->rollNamePoints->GetAt(4).x + distanceX, selfRelation->rollNamePoints->GetAt(4).y + distanceY);
-					selfRelation->rollNamePoints->Modify(0, cPoint1);
-					selfRelation->rollNamePoints->Modify(1, cPoint2);
-					selfRelation->rollNamePoints->Modify(2, cPoint3);
-					selfRelation->rollNamePoints->Modify(3, cPoint4);
-					selfRelation->rollNamePoints->Modify(4, cPoint5);
-				}
-				
-				
 				j++;
 			}
 			k = 0;
@@ -99,24 +61,8 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 						Long relationEndY = figure->GetY() + figure->GetHeight();
 						if (startX <= relationEndX &&  relationEndX <= endX &&
 							startY <= relationEndY &&  relationEndY <= endY) {
+
 							figure->EndPointMove(distanceX, distanceY);
-							
-							RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
-							Relation *relation = static_cast<Relation*>(figure);
-							CPoint startPoint(figure->GetX(), figure->GetY());
-							CPoint endPoint(figure->GetX() + figure->GetWidth(), figure->GetY() + figure->GetHeight());
-							cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-							cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-							cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
-							cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-							relation->rollNamePoints->Modify(0, cPoint1);
-							relation->rollNamePoints->Modify(3, cPoint4);
-							relation->rollNamePoints->Modify(2, cPoint3);
-							relation->rollNamePoints->Modify(4, cPoint5);
-							if (relation->GetLength() == 0) {
-								cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
-								relation->rollNamePoints->Modify(1, cPoint2);
-							}
 						}
 					}
 					l++;

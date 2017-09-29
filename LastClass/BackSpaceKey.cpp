@@ -11,6 +11,7 @@
 #include "SingleByteCharacter.h"
 #include "DoubleByteCharacter.h"
 #include "DeleteTextArea.h"
+#include "ClassDiagramForm.h"
 
 BackSpaceKey::BackSpaceKey() {
 }
@@ -54,4 +55,6 @@ void BackSpaceKey::KeyPress(TextEdit *textEdit) {
 			}
 		}
 	}
+}
+void BackSpaceKey::KeyPress(ClassDiagramForm *classDIagramForm) {
 }

@@ -4,6 +4,7 @@
 #include "TextEdit.h"
 #include "Text.h"
 #include "Row.h"
+#include "ClassDiagramForm.h"
 
 EscapeKey::EscapeKey() {
 }
@@ -13,4 +14,7 @@ EscapeKey::~EscapeKey() {
 }
 void EscapeKey::KeyPress(TextEdit *textEdit) {
 	textEdit->OnClose();
+}
+
+void EscapeKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 }

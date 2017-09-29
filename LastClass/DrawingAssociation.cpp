@@ -52,9 +52,6 @@ void DrawingAssociation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *dia
 	if (selection->GetLength() == 2 && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
 		SelfAssociation selfAssociation(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
-		if (object->GetTempletePosition() != -1) {
-			selfAssociation.Move(0, -15);
-		}
 		index = object->Add(selfAssociation.Clone());
 		figure = object->GetAt(index);
 	}
@@ -66,7 +63,7 @@ void DrawingAssociation::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *d
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingAssociation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *cPaintDC) {
+void DrawingAssociation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);

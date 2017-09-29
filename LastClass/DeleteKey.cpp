@@ -10,6 +10,7 @@
 #include "SingleByteCharacter.h"
 #include "DoubleByteCharacter.h"
 #include "DeleteTextArea.h"
+#include "ClassDiagramForm.h"
 
 DeleteKey::DeleteKey() {
 }
@@ -46,3 +47,5 @@ void DeleteKey::KeyPress(TextEdit *textEdit) {
 	}
 }
 
+void DeleteKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+}

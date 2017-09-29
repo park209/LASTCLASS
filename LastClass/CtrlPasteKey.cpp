@@ -10,6 +10,7 @@
 #include "TextAreaSelected.h"
 #include "HistoryText.h"
 #include "DeleteTextArea.h"
+#include "ClassDiagramForm.h"
 
 CtrlPasteKey::CtrlPasteKey() {
 }
@@ -117,4 +118,7 @@ void CtrlPasteKey::KeyPress(TextEdit *textEdit) {
 			textEdit->caret->SetCharacterIndex(j);
 		}
 	}
+}
+
+void CtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 }

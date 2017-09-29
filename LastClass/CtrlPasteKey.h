@@ -7,6 +7,7 @@
 #include "KeyAction.h"
 
 class TextEdit;
+class ClassDIagramForm;
 class CtrlPasteKey : public KeyAction {
 public:
 	CtrlPasteKey();
@@ -14,6 +15,7 @@ public:
 	virtual ~CtrlPasteKey();
 
 	void KeyPress(TextEdit *textEdit);
+	void KeyPress(ClassDiagramForm *classDiagramForm);
 };
 
 #endif // _CTRLPASTEKEY_H

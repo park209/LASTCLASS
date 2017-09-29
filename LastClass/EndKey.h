@@ -6,6 +6,7 @@
 #include "KeyAction.h"
 
 class TextEdit;
+class ClassDIagramForm;
 class EndKey : public KeyAction {
 public:
 	EndKey();
@@ -13,6 +14,7 @@ public:
 	virtual ~EndKey();
 
 	void KeyPress(TextEdit *textEdit);
+	void KeyPress(ClassDiagramForm *classDiagramForm);
 };
 
 #endif // _ENDKEY_H
