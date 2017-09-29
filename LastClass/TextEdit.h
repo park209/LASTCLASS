@@ -45,6 +45,8 @@ public:
 	Long GetKoreanEnglish() const;
 	Long GetFlagBuffer() const;
 	CString GetCopyBuffer() const;
+	Long GetCriteriaWidth() const;
+	Long GetCriteriaHeight() const;
 public:
 	Text *text;
 	Caret *caret;
@@ -63,6 +65,8 @@ public:
 private:
 	Long koreanEnglish; //flag
 	Long currentX;
+	Long criteriaWidth;
+	Long criteriaHeight;
 };
 
 inline Long TextEdit::GetFlagInsert() const {
@@ -88,6 +92,12 @@ inline Long TextEdit::GetSelectedX() const {
 }
 inline Long TextEdit::GetSelectedY() const {
 	return this->selectedY;
+}
+inline Long TextEdit::GetCriteriaWidth() const {
+	return this->criteriaWidth;
+}
+inline Long TextEdit::GetCriteriaHeight() const {
+	return this->criteriaHeight;
 }
 
 #endif // _TEXTEDIT_H
