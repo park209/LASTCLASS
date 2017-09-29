@@ -4,14 +4,6 @@
 #include "TextEdit.h"
 #include "WriteKoreanTextProcess.h"
 
-WriteKoreanText* WriteKoreanText::instance = 0;
-
-WriteKoreanText* WriteKoreanText::Instance() {
-	if (instance == 0) {
-		instance = new WriteKoreanText;
-	}
-	return instance;
-}
 WriteKoreanText::WriteKoreanText() {
 }
 WriteKoreanText::WriteKoreanText(const WriteKoreanText& source) {

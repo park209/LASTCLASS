@@ -60,7 +60,7 @@ void TextAreaSelectedProcess::SingleLineSelected(TextEdit *textEdit, CPaintDC *d
 
 	//*rt = { 0, 0, x + width +5, textEdit->rowHeight + 5 };
 
-	*rt = { x, startRowIndex * textEdit->rowHeight, x + width, startRowIndex * textEdit->rowHeight + textEdit->rowHeight };
+	*rt = { x + 5, startRowIndex * textEdit->rowHeight + 5, x + width, startRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
 }   //메모리버퍼 사용안할때 사용할 rt
 
 void TextAreaSelectedProcess::FirstMultiLineSelected(TextEdit *textEdit, CPaintDC *dc, CString *cstr, RECT *rt) {
@@ -77,7 +77,7 @@ void TextAreaSelectedProcess::FirstMultiLineSelected(TextEdit *textEdit, CPaintD
 
 	//*rt = { 0, 0, x + width + 5, textEdit->rowHeight + 5 };
 
-	*rt = { x, this->startRowIndex * textEdit->rowHeight, x + width, this->startRowIndex * textEdit->rowHeight + textEdit->rowHeight };
+	*rt = { x + 5, this->startRowIndex * textEdit->rowHeight + 5, x + width, this->startRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
 }   //메모리버퍼 사용안할때 사용할 rt
 
 void TextAreaSelectedProcess::MiddleMultiLineSelected(TextEdit *textEdit, CPaintDC *dc, CString *cstr, RECT *rt) {
@@ -91,8 +91,8 @@ void TextAreaSelectedProcess::MiddleMultiLineSelected(TextEdit *textEdit, CPaint
 	//*rt = { 0, 0, textEdit->GetFigure()->GetX() + textEdit->GetFigure()->GetWidth(),
 	//   (this->endRowIndex - 1) * textEdit->rowHeight + textEdit->rowHeight + 5 };
 
-	*rt = { 0, (this->startRowIndex + 1) * textEdit->rowHeight, textEdit->GetFigure()->GetX() + textEdit->GetFigure()->GetWidth(),
-		(this->endRowIndex - 1) * textEdit->rowHeight + textEdit->rowHeight };
+	*rt = { 5, (this->startRowIndex + 1) * textEdit->rowHeight + 5, textEdit->GetFigure()->GetX() + textEdit->GetFigure()->GetWidth(),
+		(this->endRowIndex - 1) * textEdit->rowHeight + textEdit->rowHeight + 5 };
 }   //메모리버퍼 사용안할때 사용할 rt
 
 void TextAreaSelectedProcess::EndMultiLineSelected(TextEdit *textEdit, CPaintDC *dc, CString *cstr, RECT *rt) {
@@ -105,5 +105,5 @@ void TextAreaSelectedProcess::EndMultiLineSelected(TextEdit *textEdit, CPaintDC 
 	Long width = textEdit->text->GetAt(this->endRowIndex)->GetRowWidth(dc, this->endCharacterIndex - 1);
 	//*rt = { 0, 0, width +5, this->endRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
 
-	*rt = { 5, this->endRowIndex * textEdit->rowHeight, width, this->endRowIndex * textEdit->rowHeight + textEdit->rowHeight };
+	*rt = { 5, this->endRowIndex * textEdit->rowHeight + 5, width + 5, this->endRowIndex * textEdit->rowHeight + textEdit->rowHeight + 5 };
 }   //메모리버퍼 사용안할때 사용할 rt

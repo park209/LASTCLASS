@@ -97,7 +97,13 @@ void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, 
 		endPoint.y = selectedClass->GetAt(selectedClass->GetAttributePosition() - 1)->GetY();
 		ret = finder.FindLineByArea(startPoint, endPoint, rect);
 		if (ret == true) {
-
+			if (currentY < selectedClass->GetAt(0)->GetY() + 25) {
+				distanceY = selectedClass->GetAt(0)->GetY() + 25 - startPoint.y;
+			}
+			else if (currentY > selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() + selectedClass->GetAt(selectedClass->GetAttributePosition())->GetHeight()) {
+				distanceY = selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() + selectedClass->GetAt(selectedClass->GetAttributePosition())->GetHeight()
+					- selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() - 25;
+			}
 			cPaintDC->MoveTo(startPoint.x, startPoint.y + distanceY);
 			cPaintDC->LineTo(endPoint.x, endPoint.y + distanceY);
 		}
@@ -109,6 +115,24 @@ void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, 
 		endPoint.y = selectedClass->GetAt(selectedClass->GetMethodPosition() - 1)->GetY();
 		ret = finder.FindLineByArea(startPoint, endPoint, rect);
 		if (ret == true) {
+			if (distanceY < 0) { // 올릴 떄
+				if (selectedClass->GetAttributePosition() != -1) { // 속성 있으면
+					if (currentY < selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() + 25) {
+						distanceY = selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() + 25 - startPoint.y;
+					}
+				}
+				else { // 속성 없으면 클래스네임
+					if (currentY < selectedClass->GetAt(0)->GetY() + 25) {
+						distanceY = selectedClass->GetAt(0)->GetY() + 25 - startPoint.y;
+					}
+				}
+			}
+			else { // 내릴 때
+				if (currentY > selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY() + selectedClass->GetAt(selectedClass->GetMethodPosition())->GetHeight()) {
+					distanceY = selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY() + selectedClass->GetAt(selectedClass->GetMethodPosition())->GetHeight()
+						- selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY() - 25;
+				}
+			}
 			cPaintDC->MoveTo(startPoint.x, startPoint.y + distanceY);
 			cPaintDC->LineTo(endPoint.x, endPoint.y + distanceY);
 		}
@@ -120,6 +144,29 @@ void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, 
 		endPoint.y = selectedClass->GetAt(selectedClass->GetReceptionPosition() - 1)->GetY();
 		ret = finder.FindLineByArea(startPoint, endPoint, rect);
 		if (ret == true) {
+			if (distanceY < 0) { // 올릴 때
+				if (selectedClass->GetMethodPosition() != -1) { // method exist
+					if (currentY < selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY() + 25) {
+						distanceY = selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY() + 25 - startPoint.y;
+					}
+				}
+				else if (selectedClass->GetAttributePosition() != -1) { // 속성 있으면
+					if (currentY < selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() + 25) {
+						distanceY = selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() + 25 - startPoint.y;
+					}
+				}
+				else { // 속성 없으면 클래스네임
+					if (currentY < selectedClass->GetAt(0)->GetY() + 25) {
+						distanceY = selectedClass->GetAt(0)->GetY() + 25 - startPoint.y;
+					}
+				}
+			}
+			else { // 내릴 때
+				if (currentY > selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY() + selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetHeight()) {
+					distanceY = selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY() + selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetHeight()
+						- selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY() - 25;
+				}
+			}
 			cPaintDC->MoveTo(startPoint.x, startPoint.y + distanceY);
 			cPaintDC->LineTo(endPoint.x, endPoint.y + distanceY);
 		}

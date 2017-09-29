@@ -9,8 +9,8 @@ Figure::Figure() {
 	this->width = 0;
 	this->height = 0;
 	this->content = "";
-	this->minimumWidth = 120;
-	this->minimumHeight = 49;
+	this->stringHeight = 18; // 현재 글자 크기에 따라서 값을 줘야하나
+	this->stringWidth = 0;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height) {
@@ -19,8 +19,8 @@ Figure::Figure(Long x, Long y, Long width, Long height) {
 	this->width = width;
 	this->height = height;
 	this->content = "";
-	this->minimumWidth = 120;
-	this->minimumHeight = 49;
+	this->stringHeight = 18;
+	this->stringWidth = 0;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height, string content) {
@@ -29,8 +29,8 @@ Figure::Figure(Long x, Long y, Long width, Long height, string content) {
 	this->width = width;
 	this->height = height;
 	this->content = content;
-	this->minimumWidth = 120; //여기도
-	this->minimumHeight = 49; // 입력받을 문자열에 맞게 값 줘야하는데
+	this->stringHeight = 18; // 입력받을 문자열에 맞게 값 줘야하는데
+	this->stringWidth = 0;
 }
 
 Figure::Figure(const Figure& source) {
@@ -38,29 +38,8 @@ Figure::Figure(const Figure& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
-	this->minimumWidth = source.minimumWidth;
-	this->minimumHeight = source.minimumHeight;
-}
-void Figure::ReplaceString(string content) {
-	this->content = content;
-}
-void Figure::SetX(Long x) {
-	this->x = x;
-}
-void Figure::SetY(Long y) {
-	this->y = y;
-}
-void Figure::SetWidth(Long width) {
-	this->width = width;
-}
-void Figure::SetHeight(Long height) {
-	this->height = height;
-}
-void Figure::SetMinimumWidth(Long minimumWidth) {
-	this->minimumWidth = minimumWidth;
-}
-void Figure::SetMinimumHeight(Long minimumHeight) {
-	this->minimumHeight = minimumHeight;
+	this->stringHeight = source.stringHeight;
+	this->stringWidth = source.stringWidth;
 }
 Figure* Figure::Move(Long distanceX, Long distanceY) {
 	this->x = this->x + distanceX;
@@ -91,11 +70,31 @@ Figure& Figure::operator = (const Figure& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
-	this->minimumWidth = source.minimumWidth;
-	this->minimumHeight = source.minimumHeight;
+	this->stringHeight = source.stringHeight;
 
 	return *this;
 }
 
 Figure::~Figure() {
+}
+
+
+void Figure::ReplaceString(string content) {
+	this->content = content;
+}
+
+void Figure::SetX(Long x) {
+	this->x = x;
+}
+
+void Figure::SetY(Long y) {
+	this->y = y;
+}
+
+void Figure::SetWidth(Long width) {
+	this->width = width;
+}
+
+void Figure::SetHeight(Long height) {
+	this->height = height;
 }

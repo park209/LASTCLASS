@@ -7,9 +7,8 @@
 
 typedef signed long int Long;
 
-enum gab { GabX = 6, GabY = 2, MemoGab = 20 };
-
 class Diagram; //전방선언
+class Text;
 class TextEdit;
 class Selection;
 class MouseLButton;
@@ -17,6 +16,7 @@ class KeyBoard;
 class ClassDiagramForm : public CFrameWnd { //CFrameWnd 에 상속관계 표기
 public:
 	Diagram *diagram;
+	Text *text;
 	TextEdit *textEdit;
 	Selection *selection;
 	MouseLButton *mouseLButton;

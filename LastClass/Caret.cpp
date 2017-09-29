@@ -24,8 +24,8 @@ Caret::~Caret() {
 }
 
 void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
-	Long pointX = 0;													 //가로
-	Long pointY = this->rowIndex * textEdit->GetRowHeight();         //세로
+	Long pointX = 5;													 //가로
+	Long pointY = this->rowIndex * textEdit->GetRowHeight() + 5;         //세로
 	CString str;
 	Long column = 0;
 	Long tabWidth = 0;
@@ -53,16 +53,16 @@ void Caret::MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point) {
 	this->characterIndex = 0;
 	this->rowIndex = 0;
 
-	Long height = 0;
-	while (y > 0 && height <= y && this->rowIndex < textEdit->text->GetLength()) {
+	Long height = 5;
+	while (y > 5 && height <= y && this->rowIndex < textEdit->text->GetLength()) {
 		height += textEdit->GetRowHeight();
 		this->rowIndex++;
 	}
-	if (y > 0 && textEdit->text->GetLength() > 0) {
+	if (y > 5 && textEdit->text->GetLength() > 0) {
 		this->rowIndex--;
 	}
-	Long width = 0;
-	while (this->characterIndex < textEdit->text->GetAt(this->rowIndex)->GetLength() && x > 0 && width <= x) {
+	Long width = 5;
+	while (this->characterIndex < textEdit->text->GetAt(this->rowIndex)->GetLength() && x > 5 && width <= x) {
 		str = textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex)->MakeCString();
 		width += cPaintDc->GetTextExtent(str).cx;
 		this->characterIndex++; // -1 안하면 다음꺼
@@ -70,7 +70,7 @@ void Caret::MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point) {
 	if (this->characterIndex > 0) {
 		str = textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex - 1)->MakeCString();
 		Long textWidth = cPaintDc->GetTextExtent(str).cx;
-		if (x > 0 && x < width - textWidth / 2) {
+		if (x > 5 && x < width - textWidth / 2) {
 			this->characterIndex--;
 		}
 	}

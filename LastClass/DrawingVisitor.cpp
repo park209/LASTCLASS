@@ -244,34 +244,34 @@ void DrawingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 		//상태패턴이던 뭐든 적용해야함
 		if (dynamic_cast<Relation*>(selection->GetAt(i))) {
 			if (static_cast<Relation*>(selection->GetAt(i))->GetLength() == 0) {
-				cPaintDc->Rectangle(selection->GetAt(i)->GetX() - 5,
-					selection->GetAt(i)->GetY() - 5,
-					selection->GetAt(i)->GetX() + 5,
-					selection->GetAt(i)->GetY() + 5);
-				cPaintDc->Rectangle(selection->GetAt(i)->GetX() + (selection->GetAt(i)->GetWidth() / 2) - 5,
-					selection->GetAt(i)->GetY() + (selection->GetAt(i)->GetHeight() / 2) - 5,
-					selection->GetAt(i)->GetX() + (selection->GetAt(i)->GetWidth() / 2) + 5,
-					selection->GetAt(i)->GetY() + (selection->GetAt(i)->GetHeight() / 2) + 5);
-				cPaintDc->Rectangle(selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() - 5,
-					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() - 5,
-					selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() + 5,
-					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() + 5);
+				cPaintDc->Rectangle(selection->GetAt(i)->GetX() - 7,
+					selection->GetAt(i)->GetY() - 7,
+					selection->GetAt(i)->GetX() + 7,
+					selection->GetAt(i)->GetY() + 7);
+				cPaintDc->Rectangle(selection->GetAt(i)->GetX() + (selection->GetAt(i)->GetWidth() / 2) - 7,
+					selection->GetAt(i)->GetY() + (selection->GetAt(i)->GetHeight() / 2) - 7,
+					selection->GetAt(i)->GetX() + (selection->GetAt(i)->GetWidth() / 2) + 7,
+					selection->GetAt(i)->GetY() + (selection->GetAt(i)->GetHeight() / 2) + 7);
+				cPaintDc->Rectangle(selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() - 7,
+					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() - 7,
+					selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() + 7,
+					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() + 7);
 			}
 			else {
-				cPaintDc->Rectangle(selection->GetAt(i)->GetX() - 5,
-					selection->GetAt(i)->GetY() - 5,
-					selection->GetAt(i)->GetX() + 5,
-					selection->GetAt(i)->GetY() + 5);
-				cPaintDc->Rectangle(selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() - 5,
-					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() - 5,
-					selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() + 5,
-					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() + 5);
+				cPaintDc->Rectangle(selection->GetAt(i)->GetX() - 7,
+					selection->GetAt(i)->GetY() - 7,
+					selection->GetAt(i)->GetX() + 7,
+					selection->GetAt(i)->GetY() + 7);
+				cPaintDc->Rectangle(selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() - 7,
+					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() - 7,
+					selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() + 7,
+					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() + 7);
 				while (j < dynamic_cast<Relation*>(selection->GetAt(i))->GetLength()) {
 					CPoint cPoint = dynamic_cast<Relation*>(selection->GetAt(i))->GetAt(j);
-					cPaintDc->Rectangle(cPoint.x - 5,
-						cPoint.y - 5,
-						cPoint.x + 5,
-						cPoint.y + 5);
+					cPaintDc->Rectangle(cPoint.x - 7,
+						cPoint.y - 7,
+						cPoint.x + 7,
+						cPoint.y + 7);
 					j++;
 				}
 			}

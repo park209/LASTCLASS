@@ -41,8 +41,6 @@ public:
 	Long RemoveMethod();
 	Long RemoveReception();
 	Long RemoveTemplate();
-
-	Long SetMinimumWidth();
 	
 
 
