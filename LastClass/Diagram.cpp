@@ -144,7 +144,6 @@ Figure* Diagram::Clone() const {
 
 
 void Diagram::Accept(Visitor& visitor, CDC *cPaintDc) {
-	
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 	while (!smartPointer->IsDone()) {
 		if (dynamic_cast<Class*>(smartPointer->Current())) {

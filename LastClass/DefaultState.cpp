@@ -30,14 +30,14 @@ MouseLButtonAction* DefaultState::Instance() {
 	}
 	return instance;
 }
-void DefaultState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
-	
-		Finder finder;
-		CRect area(startX, startY, currentX, currentY);
-		selection->DeleteAllItems();
-		selection->SelectByArea(diagram, area);
-	
-	if (selection->GetLength() ==1 ) {
+void DefaultState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+
+	Finder finder;
+	CRect area(startX, startY, currentX, currentY);
+	selection->DeleteAllItems();
+	selection->SelectByArea(diagram, area);
+
+	if (selection->GetLength() == 1) {
 		this->ChangeState(mouseLButton, SelectionState::Instance());
 	}
 	if (selection->GetLength() > 1) {
@@ -93,7 +93,7 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 		else {
 			selection->DeleteAllItems();
 			selection->SelectByPoint(diagram, startX, startY);
-			if (selection->GetLength() ==1 ) {
+			if (selection->GetLength() == 1) {
 				this->ChangeState(mouseLButton, SelectionState::Instance());
 			}
 		}
@@ -105,7 +105,7 @@ void DefaultState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = cPaintDC->SelectObject(&pen);
 	cPaintDC->SetBkMode(TRANSPARENT);
-	
+
 	cPaintDC->MoveTo(startX, startY);
 	cPaintDC->LineTo(currentX, startY);
 	cPaintDC->MoveTo(startX, startY);
