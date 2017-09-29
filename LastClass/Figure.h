@@ -19,6 +19,7 @@ public:
 
 	//virtual void Accept(Visitor& visitor) = 0;// , CDC *cPaintDc) = 0;
 	virtual Figure* Clone() const = 0;
+	Long GetRowCount(string object);
 	void ReplaceString(string content);
 	void SetX(Long x);
 	void SetY(Long y);
@@ -38,6 +39,7 @@ public:
 	string& GetContent() const;
 	Long GetMinimumHeight() const;
 	Long GetMinimumWidth() const;
+	Long GetFontSize() const;
 
 protected:
 	Long x;
@@ -47,6 +49,7 @@ protected:
 	string content;
 	Long minimumWidth;
 	Long minimumHeight;
+	Long fontSize;
 };
 
 inline Long Figure::GetX() const {
@@ -71,6 +74,9 @@ inline Long Figure::GetMinimumWidth() const {
 
 inline Long Figure::GetMinimumHeight() const {
 	return this->minimumHeight;
+}
+inline Long Figure::GetFontSize()const {
+	return this->fontSize;
 }
 
 #endif //_FIGURE_H

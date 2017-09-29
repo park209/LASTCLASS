@@ -404,6 +404,15 @@
     <ClInclude Include="KKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
+    <ClInclude Include="HorizontalScroll.h">
+      <Filter>MouseAction</Filter>
+    </ClInclude>
+    <ClInclude Include="VerticalScrollBar.h">
+      <Filter>MouseAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Scroll.h">
+      <Filter>MouseAction</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -762,6 +771,15 @@
     </ClCompile>
     <ClCompile Include="SKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="HorizontalScroll.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Scroll.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="VerticalScrollBar.cpp">
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
