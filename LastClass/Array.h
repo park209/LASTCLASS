@@ -9,7 +9,7 @@ template <typename T>
 
 class Array {
 public:
-	Array(Long capacity = 100); // default parameter && default value?!
+	Array(Long capacity = 100); // default parameter && default value
 	Array(const Array& source); // 복사생성자
 	~Array();
 	Long Store(Long index, T object);

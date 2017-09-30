@@ -479,6 +479,18 @@
     <ClInclude Include="VerticalScrollBar.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
+    <ClInclude Include="HistoryGraphic.h">
+      <Filter>TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawingRelation.h">
+      <Filter>Relationship</Filter>
+    </ClInclude>
+    <ClInclude Include="RollNameBox.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawRollNameBoxes.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -908,6 +920,18 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="OnVScrollThumbPosition.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="HistoryGraphic.cpp">
+      <Filter>TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingRelation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawRollNameBoxes.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="RollNameBox.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>

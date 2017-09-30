@@ -10,6 +10,14 @@
 #include "HistoryText.h"
 #include "Caret.h"
 
+DeleteTextArea* DeleteTextArea::instance = 0;
+
+DeleteTextArea* DeleteTextArea::Instance() {
+	if (instance == 0) {
+		instance = new DeleteTextArea;
+	}
+	return instance;
+}
 DeleteTextArea::DeleteTextArea() {
 }
 DeleteTextArea::DeleteTextArea(const DeleteTextArea& source) {
