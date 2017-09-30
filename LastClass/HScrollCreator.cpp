@@ -1,3 +1,5 @@
+//HScrollCreator.cpp
+
 #include "HScrollCreator.h"
 #include "OnHScrollLineRight.h"
 #include "OnHScrollLineLeft.h"

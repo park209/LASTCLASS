@@ -37,6 +37,7 @@
 #include "WritingVisitor.h"
 #include "MovingVisitor.h"
 #include "MouseLButton.h"
+#include "HistoryGraphic.h"
 #include "Scroll.h"
 #include "VerticalScrollBar.h"
 #include "HorizontalScrollBar.h"
@@ -73,6 +74,7 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->verticalScrollBar = NULL;
 	this->horizontalScroll = NULL;
 	this->keyBoard = NULL;
+	this->historyGraphic = NULL;
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
@@ -429,6 +431,8 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->diagram = new Diagram();
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
+	this->historyGraphic = new HistoryGraphic;
+
 	this->verticalScrollBar = new VerticalScrollBar(this);
 	this->horizontalScroll = new HorizontalScrollBar(this);
 	this->keyBoard = new KeyBoard;
@@ -556,6 +560,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 				figure->GetY() + GabY + MemoGab,
 				figure->GetX() + figure->GetWidth() - GabX,
 				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
+			OnKillFocus(NULL);
 		}
 		else {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
@@ -563,6 +568,94 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 				figure->GetY() + GabY,
 				figure->GetX() + figure->GetWidth() - GabX,
 				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
+		}
+	}
+
+	//선택된 relationLine 이 있으면
+	if (this->selection->GetLength() == 1 && dynamic_cast<Relation*>(this->selection->GetAt(0))) {
+		// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
+		Long i = 0;
+		Long index = 0;
+		Relation *relation = static_cast<Relation*>(this->selection->GetAt(0));
+		Long right;
+		Long left;
+		Long top;
+		Long bottom;
+		while (i < 5 && index == 0) {
+			right = relation->rollNamePoints->GetAt(i).x + 20;
+			left = relation->rollNamePoints->GetAt(i).x - 20;
+			top = relation->rollNamePoints->GetAt(i).y - 10;
+			bottom = relation->rollNamePoints->GetAt(i).y + 10;
+			if (startX < right && startX > left && startY > top && startY < bottom) {
+				index++;
+			}
+			i++;
+		}
+		if (index > 0) {
+			this->textEdit = new TextEdit(relation, i - 1);
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+				left + 1,
+				top + 1,
+				right - 1,
+				bottom - 1), this, 10000, NULL);
+			OnKillFocus(NULL);
+		}
+	}
+	if (this->selection->GetLength() == 1 && dynamic_cast<SelfRelation*>(this->selection->GetAt(0))) {
+		// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
+		Long i = 0;
+		Long index = 0;
+		SelfRelation *selfRelation = static_cast<SelfRelation*>(this->selection->GetAt(0));
+		Long right;
+		Long left;
+		Long top;
+		Long bottom;
+		while (i < 5 && index == 0) {
+			if (i == 0) {
+				right = selfRelation->rollNamePoints->GetAt(i).x + 20;
+				left = selfRelation->rollNamePoints->GetAt(i).x - 10;
+				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+			}
+			else if (i == 1) {
+				right = selfRelation->rollNamePoints->GetAt(i).x + 30;
+				left = selfRelation->rollNamePoints->GetAt(i).x - 30;
+				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+			}
+			else if (i == 2) {
+				right = selfRelation->rollNamePoints->GetAt(i).x + 10;
+				left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+			}
+			else if (i == 3) {
+				right = selfRelation->rollNamePoints->GetAt(i).x + 10;
+				left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+			}
+			else if (i == 4) {
+				right = selfRelation->rollNamePoints->GetAt(i).x + 10;
+				left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+			}
+
+			if (startX < right && startX > left && startY > top && startY < bottom) {
+				index++;
+			}
+			i++;
+		}
+		// 확인해서 있으면 그 index 기억해두고 그 박스 사이즈로 textEdit 연다 (textEdit 생성자 따로 만들어야할듯)
+
+		if (index > 0) {
+			this->textEdit = new TextEdit(selfRelation, i - 1);
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+				left,
+				top,
+				right,
+				bottom), this, 10000, NULL);
 			OnKillFocus(NULL);
 		}
 	}
@@ -604,7 +697,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 
 		Invalidate();
 	}
-	Long index;
+	/*Long index;
 	index = this->selection->SelectByPoint(point.x, point.y);
 	if (index == 1) {
 		SetCursor(LoadCursor(NULL, IDC_HAND));
@@ -617,7 +710,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	}
 	else if (index == 4) {
 		SetCursor(LoadCursor(NULL, IDC_SIZEALL));
-	}
+	}*/
 }
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
@@ -635,6 +728,9 @@ void ClassDiagramForm::OnClose() {
 	}
 	if (this->keyBoard != NULL) {
 		delete this->keyBoard;
+	}
+	if (this->historyGraphic != NULL) {
+		delete this->historyGraphic;
 	}
 	//6.3. 윈도우를 닫는다.
 	CFrameWnd::OnClose(); // 오버라이딩 코드재사용

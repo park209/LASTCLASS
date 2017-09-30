@@ -1,5 +1,3 @@
-
-
 //Diagram.h
 
 #ifndef _DIAGRAM_H

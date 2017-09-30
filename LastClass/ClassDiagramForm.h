@@ -15,6 +15,7 @@ class Selection;
 class MouseLButton;
 class Scroll;
 class KeyBoard;
+class HistoryGraphic;
 class ClassDiagramForm : public CFrameWnd { //CFrameWnd 에 상속관계 표기
 public:
 	Diagram *diagram;
@@ -24,6 +25,7 @@ public:
 	KeyBoard *keyBoard;
 	Scroll *verticalScrollBar;
 	Scroll *horizontalScroll;
+	HistoryGraphic *historyGraphic;
 public:
 	ClassDiagramForm();
 public:

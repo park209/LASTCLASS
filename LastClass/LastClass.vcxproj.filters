@@ -479,6 +479,18 @@
     <ClInclude Include="VerticalScrollBar.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
+    <ClInclude Include="HistoryGraphic.h">
+      <Filter>TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawingRelation.h">
+      <Filter>Relationship</Filter>
+    </ClInclude>
+    <ClInclude Include="RollNameBox.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawRollNameBoxes.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -718,12 +730,6 @@
     <ClCompile Include="MovingRelation.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="MovingLine.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="MovingLineProcess.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
     <ClCompile Include="ArrayIterator.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
@@ -838,77 +844,95 @@
     <ClCompile Include="SKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="Scroll.cpp">
+    <ClCompile Include="HistoryGraphic.cpp">
+      <Filter>TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingRelation.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="VerticalScrollBar.cpp">
+    <ClCompile Include="DrawRollNameBoxes.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="RollNameBox.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="HorizontalScrollBar.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="HScrollCreator.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="OnHScrollEnd.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="OnHScrollLeft.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="OnHScrollLineLeft.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="OnHScrollLineRight.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="OnHScrollPageLeft.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="OnHScrollPageRight.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="OnHScrollRight.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="OnHScrollThumbPosition.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="OnHScrollThumbTrack.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="OnVScrollBottom.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="OnVScrollEndScroll.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="OnVScrollLineDown.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="OnVScrollLineUp.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="OnVScrollPageDown.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="OnVScrollPageUp.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="OnVScrollThumbTrack.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="OnVScrollTop.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="ScrollAction.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="VScrollCreator.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="OnVScrollThumbPosition.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollThumbTrack.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollTop.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="VScrollCreator.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="Scroll.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="ScrollAction.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="VerticalScrollBar.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingLineProcess.cpp">
+      <Filter>Diagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingLine.cpp">
+      <Filter>Diagram</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

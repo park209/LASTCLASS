@@ -1,3 +1,5 @@
+//VerticalScrollBar.cpp
+
 #include "VerticalScrollBar.h"
 #include "ClassDiagramForm.h"
 VerticalScrollBar::VerticalScrollBar(ClassDiagramForm *classDiagramForm) :Scroll(classDiagramForm){
@@ -23,10 +25,10 @@ void VerticalScrollBar::OnVScrollLineDown() {
 	SCROLLINFO vScrinfo;
 	this->scrollBar->GetScrollInfo(&vScrinfo);
 
-	if ((vScrinfo.nPos + vScrinfo.nPage) < vScrinfo.nMax) {
+	if ((vScrinfo.nPos + (int)vScrinfo.nPage) < vScrinfo.nMax) {
 		Long height = 50;
 		vScrinfo.nPos += height;
-		if (vScrinfo.nPos + vScrinfo.nPage > vScrinfo.nMax) {
+		if (vScrinfo.nPos + (int)vScrinfo.nPage > vScrinfo.nMax) {
 			vScrinfo.nPos = vScrinfo.nMax - height;
 		}
 	}

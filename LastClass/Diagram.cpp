@@ -4,6 +4,7 @@
 #include "Class.h"
 #include "MemoBox.h"
 #include "SmartPointer.h"
+#include "Template.h"
 
 Diagram::Diagram(Long capacity) {
 	this->capacity = capacity;
@@ -106,9 +107,27 @@ Figure* Diagram::FindItem(Long x, Long y) {
 	while (!smartPointer->IsDone() && index != 0) {
 		endX = smartPointer->Current()->GetX() + smartPointer->Current()->GetWidth();
 		endY = smartPointer->Current()->GetY() + smartPointer->Current()->GetHeight();
-		if (smartPointer->Current()->GetX() <= x && endX >= x && smartPointer->Current()->GetY() <= y && endY >= y) {
-			figure = smartPointer->Current();
-			index = 0;
+		if (dynamic_cast<Class*>(smartPointer->Current())) {
+			if (static_cast<Class*>(smartPointer->Current())->GetTempletePosition() == -1) {
+				if (smartPointer->Current()->GetX() <= x && endX >= x && smartPointer->Current()->GetY() <= y && endY >= y) {
+					figure = smartPointer->Current();
+					index = 0;
+				}
+			}
+			else {
+				Template* objcet = dynamic_cast<Template*>(static_cast<Class*>(smartPointer->Current())->GetAt(static_cast<Class*>(smartPointer->Current())->GetTempletePosition()));
+				if (smartPointer->Current()->GetX() <= x&&objcet->GetX() + objcet->GetHeight() >= x&&
+					objcet->GetY() <= y&&smartPointer->Current()->GetY() + smartPointer->Current()->GetHeight() >= y) {
+					figure = smartPointer->Current();
+					index = 0;
+				}
+			}
+		}
+		else {
+			if (smartPointer->Current()->GetX() <= x && endX >= x && smartPointer->Current()->GetY() <= y && endY >= y) {
+				figure = smartPointer->Current();
+				index = 0;
+			}
 		}
 		smartPointer->Next();
 	}
@@ -142,15 +161,15 @@ Figure* Diagram::Clone() const {
 	return new Diagram(*this);
 }
 
-
 void Diagram::Accept(Visitor& visitor, CDC *cPaintDc) {
+
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 	while (!smartPointer->IsDone()) {
 		if (dynamic_cast<Class*>(smartPointer->Current())) {
-			static_cast<Class*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			dynamic_cast<Class*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
-		if(dynamic_cast<MemoBox*>(smartPointer->Current())){
-			static_cast<MemoBox*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+		if (dynamic_cast<MemoBox*>(smartPointer->Current())) {
+			dynamic_cast<MemoBox*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		smartPointer->Next();
 	}
