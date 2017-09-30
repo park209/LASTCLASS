@@ -469,7 +469,7 @@ void ClassDiagramForm::OnPaint() {
 	this->diagram->Accept(writingVisitor, &memDC);
 	this->selection->Accept(drawingVisitor, &memDC); // selectionFlag 추가 확인
 	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
-		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, (CPaintDC*)&memDC);
+		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
 	}
 
 	memDC.SelectObject(oldFont);
@@ -481,14 +481,16 @@ void ClassDiagramForm::OnPaint() {
 	memDC.DeleteDC();
 }
 
-
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->mouseLButton->ChangeState(nChar);
-	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
+	KeyAction *keyAction = NULL;
+	if (this->selection->GetLength() > 0) {
+	keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
+	}
 	if (keyAction != 0) {
 		keyAction->KeyPress(this);
 
-		Invalidate();
+		Invalidate(false);
 	}
 	if (nChar == VK_END) {
 		this->verticalScrollBar->OnVScrollBottom();
@@ -502,7 +504,7 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	CFrameWnd::OnSetFocus(pOldWnd);
 	CWnd::SetFocus();
-	Invalidate();
+	Invalidate(false);
 }
 void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
 	Long nPos;
@@ -563,7 +565,7 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 
 	KillTimer(1);
 
-	Invalidate();
+	Invalidate(false);
 }
 
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
@@ -690,6 +692,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			OnKillFocus(NULL);
 		}
 	}
+	Invalidate(false);
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
@@ -721,8 +724,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentY = 0;
 
 	KillTimer(1);
-
-	Invalidate();
+	Invalidate(false);
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
@@ -736,7 +738,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 		this->currentY = point.y + verticalNPos;
 		//CRect rect;
 		//this->GetClientRect(&rect);
-		Invalidate();
+		Invalidate(false);
 	}
 	/*Long index;
 	index = this->selection->SelectByPoint(point.x, point.y);

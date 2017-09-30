@@ -593,7 +593,7 @@ Long Class::RemoveMethod() {
 Long Class::RemoveReception() {
 	if (this->receptionPosition != -1) {
 		if (this->methodPosition != -1) {
-			this->figures.GetAt(this->methodPosition)->Modify(this->x, this->figures.GetAt(this->methodPosition)->GetY(), this->width, this->figures.GetAt(this->methodPosition)->GetHeight() + this->figures.GetAt(this->receptionPosition)->GetHeight());
+		this->figures.GetAt(this->methodPosition)->Modify(this->x, this->figures.GetAt(this->methodPosition)->GetY(), this->width, this->figures.GetAt(this->methodPosition)->GetHeight() + this->figures.GetAt(this->receptionPosition)->GetHeight());
 		}
 		else if (this->attributePosition != -1) {
 			this->figures.GetAt(this->attributePosition)->Modify(this->x, this->figures.GetAt(this->attributePosition)->GetY(), this->width, this->figures.GetAt(attributePosition)->GetHeight() + this->figures.GetAt(this->receptionPosition)->GetHeight());
