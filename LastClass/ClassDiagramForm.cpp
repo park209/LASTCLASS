@@ -414,28 +414,40 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 }
 
 void ClassDiagramForm::OnPaint() {
-	CPaintDC dc(this);
 
+	CDC *pDCc = this->GetDC();
+	CRect rect;
+	this->GetClientRect(&rect);
+	CDC memDC;
+	CBitmap *pOldBitmap;
+	CBitmap bitmap;
+	memDC.CreateCompatibleDC(pDCc);
+	bitmap.CreateCompatibleBitmap(pDCc, rect.right, rect.bottom);
+	pOldBitmap = memDC.SelectObject(&bitmap);
+	memDC.FillSolidRect(CRect(0, 0, rect.right, rect.bottom), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
 	SetFont(&cFont, TRUE);
-	CFont *oldFont = dc.SelectObject(&cFont);
+	CFont *oldFont = memDC.SelectObject(&cFont);
 
+	DrawingVisitor drawingVisitor;
+	this->diagram->Accept(drawingVisitor,&memDC);
+	WritingVisitor writingVisitor;
+	this->diagram->Accept(writingVisitor, &memDC);
+	this->selection->Accept(drawingVisitor, &memDC); // selectionFlag 추가 확인
 	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
-		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
+		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
 	}
-	
-		DrawingVisitor drawingVisitor;
-		this->diagram->Accept(drawingVisitor, &dc);
-		WritingVisitor writingVisitor;
-		this->diagram->Accept(writingVisitor, &dc);
-		this->selection->Accept(drawingVisitor, &dc); // selectionFlag 추가 확인
-	
 
-
-	dc.SelectObject(oldFont);
+	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
+
+	pDCc->BitBlt(0, 0, rect.right, rect.bottom, &memDC, 0, 0, SRCCOPY);
+	memDC.SelectObject(pOldBitmap);
+	bitmap.DeleteObject();
+	memDC.DeleteDC();
+	this->ReleaseDC(pDCc);
 }
 
 void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -492,7 +504,7 @@ void ClassDiagramForm::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		}
 	}
 
-	Invalidate();
+	Invalidate(false);
 }
 
 
@@ -529,7 +541,7 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 
 	KillTimer(1);
 
-	Invalidate();
+	Invalidate(false);
 }
 
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
@@ -675,7 +687,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 
 	KillTimer(1);
 
-	Invalidate();
+	Invalidate(false);
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
@@ -683,7 +695,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 		this->currentX = point.x;
 		this->currentY = point.y;
 
-		Invalidate();
+		Invalidate(false);
 	}
 	/*Long index;
 	index = this->selection->SelectByPoint(point.x, point.y);

@@ -117,4 +117,7 @@ void DefaultState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram
 	cPaintDC->LineTo(currentX, currentY);
 	cPaintDC->MoveTo(startX, currentY);
 	cPaintDC->LineTo(currentX, currentY);
+
+	cPaintDC->SelectObject(oldPen);
+	pen.DeleteObject();
 }
