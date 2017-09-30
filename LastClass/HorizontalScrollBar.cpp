@@ -13,8 +13,8 @@ HorizontalScrollBar::HorizontalScrollBar(ClassDiagramForm *classDiagramForm) :Sc
 	scrinfo.cbSize = sizeof(scrinfo);
 	scrinfo.fMask = SIF_ALL;
 	scrinfo.nMin = 0;          // 최소값
-	scrinfo.nMax = cRect.right - 20;      // 최대값
-	scrinfo.nPage = 100;      // 페이지단위 증가값
+	scrinfo.nMax = 10000;// cRect.right - 20;      // 최대값
+	scrinfo.nPage = cRect.right; // 5;  //100;      // 페이지단위 증가값
 	scrinfo.nTrackPos = 0;  // 트랙바가 움직일때의 위치값
 	scrinfo.nPos = 0;        // 위치
 	this->scrollBar->SetScrollInfo(&scrinfo);

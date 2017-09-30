@@ -62,6 +62,7 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 	ON_WM_CLOSE()
+	ON_WM_SIZE()
 	ON_WM_VSCROLL()
 	ON_WM_HSCROLL()
 END_MESSAGE_MAP()
@@ -432,7 +433,6 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
 	this->historyGraphic = new HistoryGraphic;
-
 	this->verticalScrollBar = new VerticalScrollBar(this);
 	this->horizontalScroll = new HorizontalScrollBar(this);
 	this->keyBoard = new KeyBoard;
@@ -449,7 +449,14 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 void ClassDiagramForm::OnPaint() {
 
 	CPaintDC dc(this);
-
+	CRect cRect;
+	this->GetClientRect(&cRect);
+	CString a;
+	CString b;
+	a.Format("%d,%d,%d,%d", cRect.top, cRect.left, cRect.bottom, cRect.right);
+	b.Format("%d,%d", this->verticalScrollBar->GetScrollPos(), this->horizontalScroll->GetScrollPos());
+	dc.TextOut(300, 300, a);
+	dc.TextOut(200, 200, b);
 	DrawingVisitor drawingVisitor;
 	this->diagram->Accept(drawingVisitor, &dc);
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
@@ -492,6 +499,21 @@ void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	CFrameWnd::OnSetFocus(pOldWnd);
 	CWnd::SetFocus();
 	Invalidate();
+}
+void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
+	Long nPos;
+	if (this->verticalScrollBar != 0) {
+		nPos = this->verticalScrollBar->GetScrollPos();
+		delete this->verticalScrollBar;
+		this->verticalScrollBar = new VerticalScrollBar(this);
+		this->verticalScrollBar->SetScrollPos(nPos);
+	}
+	if (this->horizontalScroll != 0) {
+		nPos = this->horizontalScroll->GetScrollPos();
+		delete this->horizontalScroll;
+		this->horizontalScroll = new HorizontalScrollBar(this);
+		this->horizontalScroll->SetScrollPos(nPos);
+	}
 }
 void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
 	VScrollCreator vaction;
@@ -691,7 +713,8 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	if (nFlags == MK_LBUTTON) {
 		this->currentX = point.x;
 		this->currentY = point.y;
-
+		//CRect rect;
+		//this->GetClientRect(&rect);
 		Invalidate();
 	}
 	/*Long index;

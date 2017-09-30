@@ -77,6 +77,9 @@ Scroll& Scroll::operator=(const Scroll& source) {
 	this->scrollBar = source.scrollBar;
 	return *this;
 }
+Long Scroll::SetScrollPos(Long nPos) {
+	return this->scrollBar->SetScrollPos(nPos);
+}
 Long Scroll::GetScrollPos() {
 	return this->scrollBar->GetScrollPos();
 }
