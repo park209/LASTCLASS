@@ -4,7 +4,8 @@
 #include "Array.h"
 #include <afxwin.h>
 #include "Figure.h"
-typedef signed long int Long; 
+
+typedef signed long int Long;
 
 class SelfRelation :public Figure {
 

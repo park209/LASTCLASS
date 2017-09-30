@@ -8,6 +8,7 @@
 #include "Character.h"
 #include "HistoryText.h"
 #include "DeleteTextArea.h"
+#include "ClassDiagramForm.h"
 
 CtrlEnterKey::CtrlEnterKey() {
 }
@@ -43,4 +44,7 @@ void CtrlEnterKey::KeyPress(TextEdit *textEdit) {
 
 	}
 	textEdit->caret->SetCharacterIndex(0);
+}
+
+void CtrlEnterKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 }

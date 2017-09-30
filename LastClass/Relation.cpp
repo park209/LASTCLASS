@@ -4,12 +4,12 @@
 #include "Finder.h"
 #include "RollNameBox.h"
 
-Relation::Relation(Long capacity):Figure(), points(capacity) {
+Relation::Relation(Long capacity) :Figure(), points(capacity) {
 	this->capacity = capacity;
 	this->length = 0;
 }
 
-Relation::Relation(const Relation& source) :Figure(source), points(source.points) {
+Relation::Relation(const Relation& source) : Figure(source), points(source.points) {
 	Long i = 0;
 	while (i < source.length) {
 		this->points.Modify(i, const_cast<Relation&>(source).points[i]);
@@ -21,7 +21,7 @@ Relation::Relation(const Relation& source) :Figure(source), points(source.points
 	this->rollNames = source.rollNames;
 }
 
-Relation::Relation(Long x, Long y, Long width, Long height) :Figure(x,y,width,height), points(10) {
+Relation::Relation(Long x, Long y, Long width, Long height) :Figure(x, y, width, height), points(10) {
 	this->capacity = 10;
 	this->length = 0;
 	this->rollNamePoints = new Array<CPoint>(5);
@@ -54,7 +54,7 @@ Relation::~Relation() {
 }
 
 Long Relation::Move(Long index, CPoint cPoint) {
-		return this->points.Modify(index, cPoint);
+	return this->points.Modify(index, cPoint);
 }
 
 CPoint Relation::GetAt(Long index) {
@@ -64,7 +64,7 @@ CPoint Relation::GetAt(Long index) {
 Long Relation::Add(const CPoint& startCPoint, const CPoint& currentCPoint) {
 	Long index;
 	Finder finder;
-	if (this->length == 0 ) { // 관계선이 없으면
+	if (this->length == 0) { // 관계선이 없으면
 		index = this->points.Store(this->length, currentCPoint); //store 로 저장한다
 	}
 	else { // 선이 있으면
@@ -102,7 +102,7 @@ Long Relation::Remove(Long index) {
 	this->capacity--;
 	return this->points.Delete(index);
 }
-void Relation::MergePoints(Long selectIndex,CPoint cPoint) {
+void Relation::MergePoints(Long selectIndex, CPoint cPoint) {
 	Long index = -1;
 	bool ret;
 	Finder finder;
@@ -111,7 +111,7 @@ void Relation::MergePoints(Long selectIndex,CPoint cPoint) {
 	compare.x = this->x;
 	compare.y = this->y;
 
-	CRect cRect(compare.x - 5, compare.y - 5, compare.x  +5, compare.y + 5);
+	CRect cRect(compare.x - 5, compare.y - 5, compare.x + 5, compare.y + 5);
 	ret = finder.FindRectangleByArea(cRect1, cRect);
 	if (ret == true) {
 		index = 0;
@@ -123,7 +123,7 @@ void Relation::MergePoints(Long selectIndex,CPoint cPoint) {
 		CRect cRect2(compare.x - 5, compare.y - 5, compare.x + 5, compare.y + 5);
 		ret = finder.FindRectangleByArea(cRect1, cRect2);
 		if (ret == true) {
-			index = i+1;
+			index = i + 1;
 		}
 		i++;
 	}
@@ -134,7 +134,7 @@ void Relation::MergePoints(Long selectIndex,CPoint cPoint) {
 		ret = finder.FindRectangleByArea(cRect1, cRect3);
 		if (ret == true)
 		{
-			index = this->length+1;
+			index = this->length + 1;
 
 		}
 	}
@@ -146,7 +146,7 @@ void Relation::MergePoints(Long selectIndex,CPoint cPoint) {
 			Long i = 0;
 			Long count = startIndex - currentIndex;
 			while (i < count) {
-				this->Remove(currentIndex+1);
+				this->Remove(currentIndex + 1);
 				i++;
 			}
 		}
@@ -159,4 +159,8 @@ void Relation::MergePoints(Long selectIndex,CPoint cPoint) {
 			}
 		}
 	}
+}
+
+void Relation::ReplaceString(string rollNameText, Long rollNameBoxIndex) {
+	this->rollNames->Modify(rollNameBoxIndex, rollNameText);
 }

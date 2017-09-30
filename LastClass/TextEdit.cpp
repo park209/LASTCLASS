@@ -19,7 +19,11 @@
 #include "WriteKoreanText.h"
 #include "DoubleClickTextArea.h"
 #include "FontSet.h"
+#include "Selection.h"
+#include "EditResizer.h"
+#include "Class.h"
 #include "Relation.h"
+#include "SelfRelation.h"
 
 //#include <iostream>
 
@@ -40,7 +44,7 @@ BEGIN_MESSAGE_MAP(TextEdit, CWnd)
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
-TextEdit::TextEdit(Figure *figure) {
+TextEdit::TextEdit(Figure *figure, Long rollNameBoxIndex) {
 	this->text = NULL;
 	this->caret = NULL;
 	this->keyBoard = NULL;
@@ -48,25 +52,6 @@ TextEdit::TextEdit(Figure *figure) {
 	this->textAreaSelected = NULL;
 	this->fontSet = NULL;
 	this->figure = figure;
-	this->relation = NULL;
-	this->rowHeight = 25; // 폰트 사이즈
-	this->koreanEnglish = 0;
-	this->flagBuffer = 0;
-	this->flagInsert = 0;
-	this->flagSelection = 0;
-	this->currentX = 0;
-	this->copyBuffer = "";
-}
-
-TextEdit::TextEdit(Relation *relation, Long rollNameBoxIndex) {
-	this->text = NULL;
-	this->caret = NULL;
-	this->keyBoard = NULL;
-	this->historyText = NULL;
-	this->textAreaSelected = NULL;
-	this->fontSet = NULL;
-	this->figure = NULL;
-	this->relation = relation;
 	this->rollNameBoxIndex = rollNameBoxIndex;
 	this->rowHeight = 25; // 폰트 사이즈
 	this->koreanEnglish = 0;
@@ -75,11 +60,13 @@ TextEdit::TextEdit(Relation *relation, Long rollNameBoxIndex) {
 	this->flagSelection = 0;
 	this->currentX = 0;
 	this->copyBuffer = "";
+	this->criteriaWidth = figure->GetWidth();
+	this->criteriaHeight = figure->GetHeight();
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CWnd::OnCreate(lpCreateStruct); //override
-	 CWnd::SetFocus();
+	CWnd::SetFocus();
 
 	this->text = new Text;
 	this->caret = new Caret;
@@ -88,11 +75,14 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->textAreaSelected = new TextAreaSelected;
 	this->fontSet = new FontSet;
 
-	if (figure != NULL) {
+	if (this->rollNameBoxIndex == -1) {
 		this->text->SprayString(this->figure->GetContent()); // 넘겨받아온거 자료구조로 뿌려줌 ㅇㅇㅇㅇㅇ
 	}
-	else if (relation != NULL) {
-		this->text->SprayString(this->relation->rollNames->GetAt(this->rollNameBoxIndex));
+	else if (dynamic_cast<Relation*>(this->figure)) {
+		this->text->SprayString(static_cast<Relation*>(this->figure)->rollNames->GetAt(this->rollNameBoxIndex));
+	}
+	else if (dynamic_cast<SelfRelation*>(this->figure)) {
+		this->text->SprayString(static_cast<SelfRelation*>(this->figure)->rollNames->GetAt(this->rollNameBoxIndex));
 	}
 
 	CWnd::HideCaret();
@@ -105,34 +95,65 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 void TextEdit::OnPaint() {
 	CPaintDC dc(this);
 	WritingVisitor writingVisitor;
-
+	RECT rt;
+	this->GetClientRect(&rt);
+	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)this->GetParentFrame();
 	CFont cFont;
-	cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
-	SetFont(&cFont, TRUE);
-	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
+	if (this->rollNameBoxIndex == -1) {
+		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+		SetFont(&cFont, TRUE);
+		CFont *oldFont = dc.SelectObject(&cFont);	// 폰트 시작
+		if (this->flagSelection == 0) {
+			dc.FillSolidRect(CRect(0, 0, rt.right, rt.bottom), RGB(255, 255, 255));
+			this->text->Accept(writingVisitor, &dc);// 받았던거 출력
+			this->caret->MoveToIndex(this, &dc);
+		}
+		else if (this->flagSelection == 1) {		// flagSelection이 눌려있으면
+			this->textAreaSelected->SelectTextArea(this, &dc);
+		}
+		dc.SelectObject(oldFont);
+	}
+	else if (dynamic_cast<Relation*>(this->figure)) {
+		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
+		SetFont(&cFont, TRUE);
+		CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 
-	if (this->flagSelection == 0) { // figure 너비 or rollNameBox 너비
-		if (figure != NULL) {
+		if (this->flagSelection == 0) { // figure 너비 or rollNameBox 너비
+
+			dc.FillSolidRect(CRect(1, 1, 39, 19), RGB(255, 255, 255));
+			this->text->Accept(writingVisitor, &dc);//받았던거 출력
+			this->caret->MoveToIndex(this, &dc);
+		}
+		else if (this->flagSelection == 1) { // flagSelection이 눌려있으면
+			this->textAreaSelected->SelectTextArea(this, &dc);
+		}
+		dc.SelectObject(oldFont);
+	}
+	else if (dynamic_cast<SelfRelation*>(this->figure)) {
+		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+		SetFont(&cFont, TRUE);
+		CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
+
+		if (this->flagSelection == 0) { // figure 너비 or rollNameBox 너비
+
 			dc.FillSolidRect(CRect(5, 5, figure->GetWidth() - 5, figure->GetHeight() - 5), RGB(255, 255, 255));
+			this->text->Accept(writingVisitor, &dc);//받았던거 출력
+			this->caret->MoveToIndex(this, &dc);
 		}
-		else if (relation != NULL) {
-			dc.FillSolidRect(CRect(1, 1, 40 - 1, 20 - 1), RGB(255, 255, 255));
+		else if (this->flagSelection == 1) { // flagSelection이 눌려있으면
+			this->textAreaSelected->SelectTextArea(this, &dc);
 		}
-		this->text->Accept(writingVisitor, &dc);//받았던거 출력
-		this->caret->MoveToIndex(this, &dc);
+		dc.SelectObject(oldFont);
 	}
-	else if (this->flagSelection == 1) { // flagSelection이 눌려있으면
-		this->textAreaSelected->SelectTextArea(this, &dc);
-	}
-
-	dc.SelectObject(oldFont);
 	cFont.DeleteObject(); // 폰트
 }
 
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN &&
-		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10  && GetKeyState(VK_CONTROL) >= 0) {
+		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10 && GetKeyState(VK_CONTROL) >= 0) {
 
 		if (flagSelection == 1) {
 			DeleteTextArea *deleteArea = DeleteTextArea::Instance();
@@ -140,30 +161,29 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		}
 		char nCharacter = nChar;
 		SingleByteCharacter singleByteCharacter(nCharacter);
-		if (figure != NULL) {
-			if (this->caret->GetCharacterIndex() == this->text->GetAt(this->caret->GetRowIndex())->GetLength()) {
-				this->text->GetAt(this->caret->GetRowIndex())->Add(singleByteCharacter.Clone());
-			}
-			else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 0) {
-				this->text->GetAt(this->caret->GetRowIndex())->Insert(this->caret->GetCharacterIndex(), singleByteCharacter.Clone());
-			}
-			else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 1) {
-				this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex(), singleByteCharacter.Clone());
-			}
+		if (this->caret->GetCharacterIndex() == this->text->GetAt(this->caret->GetRowIndex())->GetLength()) {
+			this->text->GetAt(this->caret->GetRowIndex())->Add(singleByteCharacter.Clone());
 		}
-		else if (relation != NULL) {
-			if (this->caret->GetCharacterIndex() == this->text->GetAt(this->caret->GetRowIndex())->GetLength()) {
-				this->text->GetAt(this->caret->GetRowIndex())->Add(singleByteCharacter.Clone());
-			}
-			else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 0) {
-				this->text->GetAt(this->caret->GetRowIndex())->Insert(this->caret->GetCharacterIndex(), singleByteCharacter.Clone());
-			}
-			else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 1) {
-				this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex(), singleByteCharacter.Clone());
-			}
+		else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 0) {
+			this->text->GetAt(this->caret->GetRowIndex())->Insert(this->caret->GetCharacterIndex(), singleByteCharacter.Clone());
+		}
+		else if (this->caret->GetCharacterIndex() < this->text->GetAt(this->caret->GetRowIndex())->GetLength() && this->flagInsert == 1) {
+			this->text->GetAt(this->caret->GetRowIndex())->Modify(this->caret->GetCharacterIndex(), singleByteCharacter.Clone());
 		}
 		this->caret->MoveForwardCharacterIndex();
 	}
+	
+	CDC *dc = GetDC();
+	CFont cFont;
+	cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+	SetFont(&cFont, TRUE);
+	dc->SelectObject(cFont);
+	EditResizer editResizer;
+	editResizer.ResizeEdit(this, dc);
+	editResizer.ResizeClass(this, dc);
+	GetParentFrame()->Invalidate();
+	cFont.DeleteObject(); // 폰트
 
 	CWnd::HideCaret();
 	::DestroyCaret();
@@ -180,9 +200,21 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	}
 	WriteKoreanText *writeHanguel = WriteKoreanText::Instance();
 	writeHanguel->WriteHanguel(wParam, lParam, hIMC, this);
-	
+
 	ImmReleaseContext(GetSafeHwnd(), hIMC);
-	
+
+	CDC *dc = GetDC();
+	CFont cFont;
+	cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+	SetFont(&cFont, TRUE);
+	dc->SelectObject(cFont);
+	EditResizer editResizer;
+	editResizer.ResizeEdit(this, dc);
+	editResizer.ResizeClass(this, dc);
+	GetParentFrame()->Invalidate();
+	cFont.DeleteObject(); // 폰트
+
 	CWnd::HideCaret();
 	::DestroyCaret();
 
@@ -288,14 +320,13 @@ void TextEdit::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 	DoubleClickTextArea *DoubleClick = DoubleClickTextArea::Instance();
 	DoubleClick->FindDoubleClickAreaIndex(this);
-	
+
 	::DestroyCaret();
 	Invalidate();
 }
 
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->koreanEnglish = 1;
-
 	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 	if (keyAction != 0) {
 		keyAction->KeyPress(this);
@@ -303,6 +334,19 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->koreanEnglish = 0;
 
 	if (nChar != VK_RETURN && nChar != VK_ESCAPE) {
+
+		CDC *dc = GetDC();
+		CFont cFont;
+		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+		SetFont(&cFont, TRUE);
+		dc->SelectObject(cFont);
+		EditResizer editResizer;
+		editResizer.ResizeEdit(this, dc);
+		editResizer.ResizeClass(this, dc);
+		GetParentFrame()->Invalidate();
+		cFont.DeleteObject(); // 폰트
+
 		CWnd::HideCaret();
 		::DestroyCaret();
 
@@ -323,15 +367,28 @@ LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {
 }
 
 void TextEdit::OnKillFocus(CWnd *pNewWnd) {
-	if (figure != NULL) {
+	if (this->rollNameBoxIndex == -1) {
 		string content(this->text->MakeText());
-		this->figure->ReplaceString(content);
+		this->figure->ReplaceString(content, this->rowHeight);
 	}
-	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)GetParentFrame();
+	else if (dynamic_cast<Relation*>(this->figure)) {
+		// relation에 string 배열에 저장하는거 만들고
+		string rollNameText(this->text->MakeText());
+		static_cast<Relation*>(this->figure)->ReplaceString(rollNameText, this->rollNameBoxIndex);
+		// visitor 도 만들어야할듯
+	}
+	else if (dynamic_cast<SelfRelation*>(this->figure)) {
+		// selfRelation 에서 string 배열에 저장하고
+		string rollNameText(this->text->MakeText());
+		static_cast<Relation*>(this->figure)->ReplaceString(rollNameText, this->rollNameBoxIndex);
+		// visitor 만들어서 밖에 뿌려줘야함
+	}
 
+	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)GetParentFrame();
 	CWnd::OnKillFocus(pNewWnd);
 	CWnd::HideCaret();
 	::DestroyCaret();
+
 
 	if (this->caret != NULL) {
 		delete this->caret;
@@ -357,9 +414,21 @@ void TextEdit::OnClose() {
 	CWnd::HideCaret();
 	::DestroyCaret();
 
-	if (figure != NULL) {
+	if (this->rollNameBoxIndex == -1) {
 		string content(this->text->MakeText());
-		this->figure->ReplaceString(content);
+		this->figure->ReplaceString(content, this->rowHeight);
+	}
+	else if (dynamic_cast<Relation*>(this->figure)) {
+		// relation에 string 배열에 저장하는거 만들고
+		string rollNameText(this->text->MakeText());
+		static_cast<Relation*>(this->figure)->ReplaceString(rollNameText, this->rollNameBoxIndex);
+		// visitor 도 만들어야할듯
+	}
+	else if (dynamic_cast<SelfRelation*>(this->figure)) {
+		// selfRelation 에서 string 배열에 저장하고
+		string rollNameText(this->text->MakeText());
+		static_cast<Relation*>(this->figure)->ReplaceString(rollNameText, this->rollNameBoxIndex);
+		// visitor 만들어서 밖에 뿌려줘야함
 	}
 
 	if (this->caret != NULL) {

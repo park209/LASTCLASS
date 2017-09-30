@@ -9,7 +9,7 @@
 #include "HistoryText.h"
 #include "TextAreaSelected.h"
 #include "DeleteTextArea.h"
-
+#include "ClassDiagramForm.h"
 SpaceKey::SpaceKey() {
 }
 
@@ -30,4 +30,7 @@ void SpaceKey::KeyPress(TextEdit *textEdit) {
 	SingleByteCharacter spaceText(' ');
 	textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Insert(textEdit->caret->GetCharacterIndex(), spaceText.Clone());
 	textEdit->caret->MoveForwardCharacterIndex();
+}
+
+void SpaceKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 }

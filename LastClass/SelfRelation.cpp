@@ -1,15 +1,15 @@
 //SelfRelation.cpp
 #include "RollNameBox.h"
 #include "SelfRelation.h"
-SelfRelation::SelfRelation() :Figure() {
 
+SelfRelation::SelfRelation() :Figure() {
 }
 
-SelfRelation::SelfRelation(Long x, Long y, Long width, Long height):Figure(x,y,width,height) {
-	
+SelfRelation::SelfRelation(Long x, Long y, Long width, Long height) : Figure(x, y, width, height) {
+
 	this->rollNamePoints = new Array<CPoint>(5);
 	this->rollNames = new Array<string>(5);
-	
+
 	CPoint startPoint1And4{ x, y };
 	CPoint endPoint1And4{ x , y - 40 };
 
@@ -17,7 +17,7 @@ SelfRelation::SelfRelation(Long x, Long y, Long width, Long height):Figure(x,y,w
 	CPoint endPoint2{ x + 80,  y - 40 };
 
 	CPoint startPoint3And5{ x + 80, y + 40 };
-	CPoint endPoint3And5{x + 30,  y + 40 };
+	CPoint endPoint3And5{ x + 30,  y + 40 };
 
 	RollNameBox *rollNameBox = RollNameBox::Instance();
 	this->rollNamePoints->Store(0, rollNameBox->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4));
@@ -33,7 +33,6 @@ SelfRelation::SelfRelation(const SelfRelation& source) : Figure(source) {
 }
 
 SelfRelation::~SelfRelation() {
-
 }
 
 SelfRelation& SelfRelation::operator=(const SelfRelation& source) {

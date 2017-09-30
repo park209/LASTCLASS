@@ -6,6 +6,7 @@
 #include "KeyAction.h"
 
 class TextEdit;
+class ClassDiagramForm;
 class CtrlAllKey : public KeyAction {
 public:
 	CtrlAllKey();
@@ -13,6 +14,7 @@ public:
 	virtual ~CtrlAllKey();
 
 	void KeyPress(TextEdit *textEdit);
+	void KeyPress(ClassDiagramForm *classDiagramForm);
 };
 
 #endif //_CTRLALLKEY_H

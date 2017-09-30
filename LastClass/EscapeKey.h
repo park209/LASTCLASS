@@ -6,6 +6,7 @@
 #include "KeyAction.h"
 
 class TextEdit;
+class ClassDIagrmForm;
 class EscapeKey : public KeyAction {
 public:
 	EscapeKey();
@@ -13,6 +14,7 @@ public:
 	virtual ~EscapeKey();
 
 	void KeyPress(TextEdit *textEdit);
+	void KeyPress(ClassDiagramForm *classDiagramForm);
 };
 
 #endif // _ESCAPEKEY_H
