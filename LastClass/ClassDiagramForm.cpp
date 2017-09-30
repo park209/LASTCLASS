@@ -38,7 +38,6 @@
 #include "MovingVisitor.h"
 #include "MouseLButton.h"
 #include "HistoryGraphic.h"
-
 #include "Scroll.h"
 #include "VerticalScrollBar.h"
 #include "HorizontalScrollBar.h"

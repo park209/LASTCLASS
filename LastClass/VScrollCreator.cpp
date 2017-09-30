@@ -1,3 +1,5 @@
+//VScrollCreator.cpp
+
 #include "VScrollCreator.h"
 #include "OnVScrollLineDown.h"
 #include "OnVScrollLineUP.h"
@@ -8,7 +10,7 @@
 #include "OnVScrollEndScroll.h"
 #include "OnVScrollThumbPosition.h"
 #include "OnVScrollThumbTrack.h"
-//#incl
+
 VScrollCreator::VScrollCreator() {
 	this->scrollAction = NULL;
 }
