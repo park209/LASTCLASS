@@ -10,6 +10,8 @@
 #include "Template.h"
 #include "ClassDiagramForm.h"
 #include <afxwin.h>
+#include"SelfRelation.h"
+#include "Relation.h"
 
 WritingVisitor::WritingVisitor() {
 }
@@ -56,6 +58,7 @@ void WritingVisitor::Visit(Template *object, CDC *cPaintDc) {
 	cPaintDc->DrawText((CString)object->GetContent().c_str(), &rt, DT_EXPANDTABS);
 
 }
+
 void WritingVisitor::Visit(ClassName* className, CDC* cPaintDc) {
 	RECT rt = { className->GetX() + GabX , className->GetY() + GabY, className->GetX() + className->GetWidth() - GabX, className->GetY() + className->GetHeight() - GabY };
 	cPaintDc->DrawText((CString)className->GetContent().c_str(), &rt, DT_EXPANDTABS);
@@ -72,6 +75,53 @@ void WritingVisitor::Visit(Reception* reception, CDC* cPaintDc) {
 	RECT rt = { reception->GetX() + GabX , reception->GetY() + GabY, reception->GetX() + reception->GetWidth() - GabX, reception->GetY() + reception->GetHeight() - GabX };
 	cPaintDc->DrawText((CString)reception->GetContent().c_str(), &rt, DT_EXPANDTABS);
 }
+void  WritingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
+	Long i = 0;
+	CFont font;
+	font.CreatePointFont(100, "¸¼Àº °íµñ", cPaintDc);
+	//font.CreateFont(10, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// ±Û²Ã ¼³Á¤
+	//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "¸¼Àº °íµñ");
+	CFont*  oldFont;
+	oldFont = cPaintDc->SelectObject(&font);
+	while (i < 5) {
+		if (i == 0) {
+			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x-10 + GabX , selfRelation->rollNamePoints->GetAt(i).y-10 + GabY, 
+				selfRelation->rollNamePoints->GetAt(i).x + 20 - GabX,  selfRelation->rollNamePoints->GetAt(i).y + 10 - GabX };
+			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+		}
+		else if (i == 1){
+			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 30 + GabX , selfRelation->rollNamePoints->GetAt(i).y - 10 + GabY,
+				selfRelation->rollNamePoints->GetAt(i).x + 30 - GabX,  selfRelation->rollNamePoints->GetAt(i).y + 10 - GabX };
+			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+		}
+		else {
+			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 + GabX , selfRelation->rollNamePoints->GetAt(i).y - 10 + GabY,
+				selfRelation->rollNamePoints->GetAt(i).x + 10 - GabX,  selfRelation->rollNamePoints->GetAt(i).y + 10 - GabX };
+			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+		}
+		i++;
+	}
+	cPaintDc->SelectObject(&oldFont);
+	font.DeleteObject();
+}
+void  WritingVisitor::Visit(Relation *relation, CDC *pDC) {
+	Long i = 0;
+	while (i < 5) {
+		if (i == 1) {
+			RECT rt = { relation->rollNamePoints->GetAt(i).x - 40 + GabX , relation->rollNamePoints->GetAt(i).y - 10 + GabY,
+				relation->rollNamePoints->GetAt(i).x + 40 - GabX,  relation->rollNamePoints->GetAt(i).y + 10 - GabX };
+			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+		}
+		else {
+			RECT rt = { relation->rollNamePoints->GetAt(i).x - 20 + GabX , relation->rollNamePoints->GetAt(i).y - 10 + GabY,
+				relation->rollNamePoints->GetAt(i).x + 20 - GabX,  relation->rollNamePoints->GetAt(i).y + 10 - GabX };
+			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+		}
+
+		i++;
+	}
+}
+
 void WritingVisitor::Visit(Line *line, CDC* cPaintDc) {
 }
 void WritingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {

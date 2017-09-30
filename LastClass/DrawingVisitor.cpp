@@ -1382,5 +1382,9 @@ void DrawingVisitor::Visit(SelfCompositions *selfCompositions, CDC *pDC) {
 	pDC->SelectObject(oldBrush);
 	myBrush.DeleteObject();
 }
+void DrawingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
+}
+void DrawingVisitor::Visit(Relation *relation, CDC *cPaintDc) {
+}
 void DrawingVisitor::Visit(Text* text, CDC* pDC) {
 }
