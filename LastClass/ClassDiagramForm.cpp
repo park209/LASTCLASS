@@ -444,9 +444,6 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 void ClassDiagramForm::OnPaint() {
 
-	//SCROLLINFO vScrinfo;
-	//this->SetScrollInfo(SB_VERT,&vScrinfo);
-
 	CPaintDC dc(this);
 
 	DrawingVisitor drawingVisitor;
