@@ -66,18 +66,18 @@ void DrawingDependency::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *di
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingDependency::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void DrawingDependency::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);
 	}
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDC->SelectObject(&pen);
-	cPaintDC->SetBkMode(TRANSPARENT);
-	cPaintDC->MoveTo(startX, startY);
-	cPaintDC->LineTo(currentX, currentY);
-	cPaintDC->SelectObject(oldPen);
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
+	pDC->MoveTo(startX, startY);
+	pDC->LineTo(currentX, currentY);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
 
 	double degree = atan2(currentX - startX, startY - currentY); // 기울기
@@ -100,10 +100,10 @@ void DrawingDependency::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *di
 	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
 	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
-	cPaintDC->MoveTo(pts[0].x, pts[0].y);
-	cPaintDC->LineTo(pts[1].x, pts[1].y);
+	pDC->MoveTo(pts[0].x, pts[0].y);
+	pDC->LineTo(pts[1].x, pts[1].y);
 
-	cPaintDC->MoveTo(pts[0].x, pts[0].y);
-	cPaintDC->LineTo(pts[2].x, pts[2].y);
+	pDC->MoveTo(pts[0].x, pts[0].y);
+	pDC->LineTo(pts[2].x, pts[2].y);
 
 }

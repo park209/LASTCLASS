@@ -105,11 +105,11 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram
 void MovingRelation::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 
 }
-void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDC->SelectObject(&pen);
-	cPaintDC->SetBkMode(TRANSPARENT);
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
 
 	Relation *relation = static_cast<Relation*>(selection->GetAt(0));
 	bool startLine = false;
@@ -198,9 +198,9 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 			lineEnd.y = relationY;
 		}
 	}
-	cPaintDC->MoveTo(lineStart.x, lineStart.y);
-	cPaintDC->LineTo(lineEnd.x, lineEnd.y);
-	cPaintDC->SelectObject(oldPen);
+	pDC->MoveTo(lineStart.x, lineStart.y);
+	pDC->LineTo(lineEnd.x, lineEnd.y);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
 
 }

@@ -68,18 +68,18 @@ void DrawingGeneralization::MouseLButtonDown(MouseLButton *mouseLButton, Diagram
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingGeneralization::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void DrawingGeneralization::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);
 	}
-	cPaintDC->MoveTo(startX, startY);
-	cPaintDC->LineTo(currentX, currentY);
+	pDC->MoveTo(startX, startY);
+	pDC->LineTo(currentX, currentY);
 
 	CBrush white(RGB(255, 255, 255));
 	CBrush myBrush;
 	myBrush.CreateSolidBrush(RGB(255, 255, 255));
-	CBrush *oldBrush = cPaintDC->SelectObject(&myBrush);
+	CBrush *oldBrush = pDC->SelectObject(&myBrush);
 
 	double degree = atan2(currentX - startX, startY - currentY); // 기울기
 
@@ -101,11 +101,11 @@ void DrawingGeneralization::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram
 	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
 	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
-	cPaintDC->SelectObject(&white);
+	pDC->SelectObject(&white);
 	if (startX != currentX && startY != currentY) {
-		cPaintDC->Polygon(pts, 3);
+		pDC->Polygon(pts, 3);
 	}
-	cPaintDC->SelectObject(oldBrush);
+	pDC->SelectObject(oldBrush);
 	myBrush.DeleteObject();
 
 }

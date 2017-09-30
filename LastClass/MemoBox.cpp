@@ -90,12 +90,12 @@ Long MemoBox::Add(Figure *figure) {
 	return  index;
 }
 
-void MemoBox::Accept (Visitor& visitor, CDC *cPaintDc) { 
-	visitor.Visit(this, cPaintDc);
+void MemoBox::Accept (Visitor& visitor, CDC *pDC) {
+	visitor.Visit(this, pDC);
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 	while (!smartPointer->IsDone()) {
 		if (dynamic_cast<MemoLine*>(smartPointer->Current())) {
-			dynamic_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, cPaintDc);  //, CPointDc
+			dynamic_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, pDC); 
 		}
 		smartPointer->Next();
 	}

@@ -25,8 +25,8 @@ Association& Association::operator=(const Association& source) {
 	return *this;
 }
 
-void Association::Accept(Visitor& visitor, CDC *cPaintDc) { //, CDC *cPaintDc
-	visitor.Visit(this, cPaintDc);
+void Association::Accept(Visitor& visitor, CDC *pDC) {
+	visitor.Visit(this, pDC);
 }
 
 Figure* Association::Clone() const {

@@ -161,15 +161,15 @@ Figure* Diagram::Clone() const {
 	return new Diagram(*this);
 }
 
-void Diagram::Accept(Visitor& visitor, CDC *cPaintDc) {
+void Diagram::Accept(Visitor& visitor, CDC *pDC) {
 
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 	while (!smartPointer->IsDone()) {
 		if (dynamic_cast<Class*>(smartPointer->Current())) {
-			dynamic_cast<Class*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			dynamic_cast<Class*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
 		if (dynamic_cast<MemoBox*>(smartPointer->Current())) {
-			dynamic_cast<MemoBox*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			dynamic_cast<MemoBox*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
 		smartPointer->Next();
 	}

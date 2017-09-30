@@ -25,8 +25,8 @@ MemoLine& MemoLine::operator=(const MemoLine& source) {
 	return *this;
 }
 
-void MemoLine::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);
+void MemoLine::Accept(Visitor& visitor, CDC *pDC) {
+	visitor.Visit(this, pDC);
 }
 
 

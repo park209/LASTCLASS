@@ -691,6 +691,6 @@ void Selection :: Accept(Diagram *diagram,Visitor& visitor, Long distanceX, Long
 	visitor.Visit(diagram,this, distanceX,distanceY);
 }
 
-void Selection::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);
+void Selection::Accept(Visitor& visitor, CDC *pDC) {
+	visitor.Visit(this, pDC);
 }

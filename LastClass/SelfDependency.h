@@ -15,7 +15,7 @@ public:
 
 	virtual ~SelfDependency();
 	Figure* Clone() const;
-	void Accept(Visitor& visitor, CDC *cPaintDc);
+	void Accept(Visitor& visitor, CDC *pDC);
 
 };
 #endif // !_SELFDEPENDENCY_H

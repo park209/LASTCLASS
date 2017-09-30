@@ -25,8 +25,8 @@ Dependency& Dependency::operator=(const Dependency& source) {
 	return *this;
 }
 
-void Dependency::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);
+void Dependency::Accept(Visitor& visitor, CDC *pDC) {
+	visitor.Visit(this, pDC);
 }
 
 
