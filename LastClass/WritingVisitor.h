@@ -40,6 +40,9 @@ public:
 	void Visit(SelfComposition *selfComposition, CDC *pDC);
 	void Visit(SelfCompositions *selfCompositions, CDC *pDC);
 
+	void Visit(SelfRelation *selfRelation, CDC *pDC);
+	void Visit(Relation *relation, CDC *pDC);
+
 	void Visit(Text* text, CDC* pDC);
 };
 

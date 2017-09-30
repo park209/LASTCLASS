@@ -104,18 +104,18 @@ void  WritingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
 	cPaintDc->SelectObject(&oldFont);
 	font.DeleteObject();
 }
-void  WritingVisitor::Visit(Relation *relation, CDC *cPaintDc) {
+void  WritingVisitor::Visit(Relation *relation, CDC *pDC) {
 	Long i = 0;
 	while (i < 5) {
 		if (i == 1) {
 			RECT rt = { relation->rollNamePoints->GetAt(i).x - 40 + GabX , relation->rollNamePoints->GetAt(i).y - 10 + GabY,
 				relation->rollNamePoints->GetAt(i).x + 40 - GabX,  relation->rollNamePoints->GetAt(i).y + 10 - GabX };
-			cPaintDc->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 		}
 		else {
 			RECT rt = { relation->rollNamePoints->GetAt(i).x - 20 + GabX , relation->rollNamePoints->GetAt(i).y - 10 + GabY,
 				relation->rollNamePoints->GetAt(i).x + 20 - GabX,  relation->rollNamePoints->GetAt(i).y + 10 - GabX };
-			cPaintDc->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 		}
 
 		i++;
