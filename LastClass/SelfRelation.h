@@ -4,7 +4,7 @@
 #include "Array.h"
 #include <afxwin.h>
 #include "Figure.h"
-
+#include "WritingVisitor.h"
 typedef signed long int Long;
 
 class SelfRelation :public Figure {
@@ -15,7 +15,7 @@ public:
 	SelfRelation(const SelfRelation& source);
 	virtual ~SelfRelation() = 0;
 	SelfRelation& operator =(const SelfRelation& source);
-
+	void Accept(Visitor& visitor, CDC *cPaintDc);
 	Figure* Clone()const = 0;
 public:
 	Array<string>* rollNames;
