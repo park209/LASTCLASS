@@ -18,7 +18,7 @@ public:
 	virtual ~MemoLine();
 
 	MemoLine& operator = (const MemoLine&  source);
-	void Accept(Visitor& visitor, CDC *cPaintDc);
+	void Accept(Visitor& visitor, CDC *pDC);
 	Figure* Clone() const;
 
 };

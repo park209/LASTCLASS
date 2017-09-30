@@ -53,7 +53,7 @@ public:
 
 
 	virtual Figure* Clone() const;
-	void Accept(Visitor& visitor, CDC *cPaintDc);
+	void Accept(Visitor& visitor, CDC *pDC);
 
 	Long GetAttributePosition()const;
 	Long GetMethodPosition()const;

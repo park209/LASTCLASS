@@ -27,6 +27,6 @@ Figure* SelfAggregations::Clone() const {
 	return new SelfAggregations(*this);
 }
 
-void SelfAggregations::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);
+void SelfAggregations::Accept(Visitor& visitor, CDC *pDC) {
+	visitor.Visit(this, pDC);
 }

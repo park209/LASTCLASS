@@ -29,20 +29,20 @@ EditResizerProcess::~EditResizerProcess() {
 void EditResizerProcess::ResizeEditWidth(TextEdit *textEdit, CDC *cdc) {
 	RECT rt;
 	textEdit->GetClientRect(&rt);
-	textEdit->SetWindowPos(&textEdit->wndTop, 0, 0,
-		textEdit->text->MaxWidth(cdc) , rt.bottom, SWP_FRAMECHANGED | SWP_NOMOVE);
+	textEdit->SetWindowPos(&textEdit->wndTopMost, 0, 0,
+		textEdit->text->MaxWidth(cdc) , rt.bottom, SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 }
 
 void EditResizerProcess::ResizeEditHeight(TextEdit *textEdit, CDC *cdc) {
 	RECT rt;
 	textEdit->GetClientRect(&rt);
-	textEdit->SetWindowPos(&textEdit->wndTop, 0, 0,
-		rt.right, textEdit->GetRowHeight()*textEdit->text->GetLength(), SWP_FRAMECHANGED | SWP_NOMOVE);
+	textEdit->SetWindowPos(&textEdit->wndTopMost, 0, 0,
+		rt.right, textEdit->GetRowHeight()*textEdit->text->GetLength(), SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 }
 
 void EditResizerProcess::ResizeEditAll(TextEdit *textEdit, CDC *cdc) {
-	textEdit->SetWindowPos(&textEdit->wndTop, 0, 0,
-		textEdit->text->MaxWidth(cdc), textEdit->GetRowHeight()*textEdit->text->GetLength() , SWP_FRAMECHANGED | SWP_NOMOVE);
+	textEdit->SetWindowPos(&textEdit->wndTopMost, 0, 0,
+		textEdit->text->MaxWidth(cdc), textEdit->GetRowHeight()*textEdit->text->GetLength() , SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 }
 
 void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
@@ -50,8 +50,8 @@ void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
 	if (dynamic_cast<MemoBox*>(textEdit->figure)) {
 		gabY_ += MemoGab;
 	}
-	textEdit->SetWindowPos(&textEdit->wndTop,0, 0,
-		textEdit->GetCriteriaWidth() - GabX *2, textEdit->GetCriteriaHeight() - gabY_, SWP_FRAMECHANGED | SWP_NOMOVE);
+	textEdit->SetWindowPos(&textEdit->wndTopMost,0, 0,
+		textEdit->GetCriteriaWidth() - GabX *2, textEdit->GetCriteriaHeight() - gabY_, SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 }
 
 void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit, CDC *cdc) {

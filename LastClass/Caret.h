@@ -14,8 +14,8 @@ public:
 	Caret(const Caret& source);
 	~Caret();
 
-	void MoveToIndex(TextEdit *textEdit, CPaintDC *cPaintDc);
-	void MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point);
+	void MoveToIndex(TextEdit *textEdit, CDC *cPaintDc);
+	void MoveToPoint(TextEdit *textEdit, CDC *cPaintDc, CPoint point);
 	void MoveForwardRowIndex(Long index = 1);
 	void MoveBackwardRowIndex(Long index = 1);
 	void MoveForwardCharacterIndex(Long index = 1);

@@ -25,8 +25,8 @@ Composition& Composition::operator=(const Composition& source) {
 	return *this;
 }
 
-void Composition::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);
+void Composition::Accept(Visitor& visitor, CDC *pDC) {
+	visitor.Visit(this, pDC);
 }
 
 
