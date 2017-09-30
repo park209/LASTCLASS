@@ -9,7 +9,15 @@ public:
 	VerticalScrollBar(ClassDiagramForm *classDiagramForm);
 	VerticalScrollBar(const VerticalScrollBar& source);
 	VerticalScrollBar& operator= (const VerticalScrollBar& source);
-	void ScrollAction(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	void OnVScrollLineDown();
+	void OnVScrollLineUp();
+	void OnVScrollPageDown();
+	void OnVScrollPageUp();
+	void OnVScrollBottom();
+	void OnVScrollTop();
+	void OnVScrollEndScroll();
+	void OnVScrollThumPosition();
+	void OnVScrollThumbTrack();
 	virtual ~VerticalScrollBar();
 };
 #endif // !_VRETICALSCROLLBAR_H

@@ -13,10 +13,60 @@ Scroll::~Scroll() {
 		delete this->scrollBar;
 	}
 }
-void Scroll::ScrollAction(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+void Scroll::OnVScrollLineDown() {
 
 }
+void Scroll::OnVScrollLineUp() {
 
+}
+void Scroll::OnVScrollPageDown() {
+
+}
+void Scroll::OnVScrollPageUp() {
+
+}
+void Scroll::OnVScrollBottom() {
+
+}
+void Scroll::OnVScrollTop() {
+
+}
+void Scroll::OnVScrollEndScroll() {
+
+}
+void Scroll::OnVScrollThumPosition() {
+
+}
+void Scroll::OnVScrollThumbTrack() {
+
+}
+void Scroll::OnHScrollLineRight() {
+
+}
+void Scroll::OnHScrollLineLeft() {
+
+}
+void Scroll::OnHScrollPageRight() {
+
+}
+void Scroll::OnHScrollPageLeft() {
+
+}
+void Scroll::OnHScrollRight() {
+
+}
+void Scroll::OnHScrollLeft() {
+
+}
+void Scroll::OnHScrollEnd() {
+
+}
+void Scroll::OnHScrollThumbPosition() {
+
+}
+void Scroll::OnHScrollThumbTrack() {
+
+}
 Scroll& Scroll::operator=(const Scroll& source) {
 	if (this->scrollBar != NULL) {
 		delete this->scrollBar;
@@ -24,4 +74,7 @@ Scroll& Scroll::operator=(const Scroll& source) {
 	this->classDiagramForm = source.classDiagramForm;
 	this->scrollBar = source.scrollBar;
 	return *this;
+}
+Long Scroll::GetScrollPos() {
+	return this->scrollBar->GetScrollPos();
 }

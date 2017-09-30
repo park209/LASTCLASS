@@ -19,25 +19,27 @@ public:
 
 	//virtual void Accept(Visitor& visitor) = 0;// , CDC *cPaintDc) = 0;
 	virtual Figure* Clone() const = 0;
-	void ReplaceString(string content , Long fontSize);
-	Figure* Move(Long distanceX, Long distanceY);
-	Figure* EndPointMove(Long distanceX, Long distanceY);
 	Long GetRowCount(string object);
-	Figure* Modify(Long x, Long y, Long width, Long height);
-
-
+	void ReplaceString(string content, Long fontSize);
 	void SetX(Long x);
 	void SetY(Long y);
 	void SetWidth(Long width);
 	void SetHeight(Long height);
-	Long GetFontSize() const;
+	void SetMinimumWidth(Long minimumWidth);
+	void SetMinimumHeight(Long minimumHeight);
+	Figure* Move(Long distanceX, Long distanceY);
+	Figure* EndPointMove(Long distanceX, Long distanceY);
+
+	Figure* Modify(Long x, Long y, Long width, Long height);
+
 	Long GetX() const;
 	Long GetY() const;
 	Long GetWidth() const;
 	Long GetHeight() const;
 	string& GetContent() const;
-	Long GetStringHeight() const;
-	Long GetStringWidth() const;
+	Long GetMinimumHeight() const;
+	Long GetMinimumWidth() const;
+	Long GetFontSize() const;
 
 protected:
 	Long x;
@@ -45,9 +47,9 @@ protected:
 	Long width;
 	Long height;
 	string content;
+	Long minimumWidth;
+	Long minimumHeight;
 	Long fontSize;
-	Long stringHeight;
-	Long stringWidth;
 };
 
 inline Long Figure::GetX() const {
@@ -66,14 +68,15 @@ inline string& Figure::GetContent() const {
 	return const_cast<string&>(this->content);
 }
 
-inline Long Figure::GetStringHeight() const {
-	return this->stringHeight;
+inline Long Figure::GetMinimumWidth() const {
+	return this->minimumWidth;
 }
 
-inline Long Figure::GetStringWidth() const {
-	return this->stringWidth;
+inline Long Figure::GetMinimumHeight() const {
+	return this->minimumHeight;
 }
 inline Long Figure::GetFontSize()const {
 	return this->fontSize;
 }
+
 #endif //_FIGURE_H
