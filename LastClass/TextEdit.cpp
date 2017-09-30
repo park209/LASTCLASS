@@ -265,6 +265,8 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	CWnd::HideCaret();
 	::DestroyCaret();
 
+	SetCapture();
+
 	KillTimer(1);
 	Invalidate();
 }
@@ -283,6 +285,9 @@ void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 	::DestroyCaret();
 
 	KillTimer(1);
+
+	ReleaseCapture();
+
 	Invalidate();
 }
 
