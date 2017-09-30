@@ -76,7 +76,7 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CPaintDC *dc) {
 
 	memDC.SelectObject(pOldBitmap);
 	bitmap.DeleteObject();
-	memDC.SelectObject(cFont);
+	//memDC.SelectObject(cFont);
 	dc->SelectObject(oldFont);
 	cFont.DeleteObject(); // ÆùÆ®
 	memDC.DeleteDC();

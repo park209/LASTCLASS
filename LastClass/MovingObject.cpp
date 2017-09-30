@@ -6,8 +6,6 @@
 #include "SelectionState.h"
 #include "Relation.h"
 #include "Diagram.h"
-#include "WritingVisitor.h"
-
 MovingObject* MovingObject::instance = 0;
 
 MouseLButtonAction* MovingObject::Instance() {
@@ -60,9 +58,11 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, 
 		}
 		this->ChangeState(mouseLButton, SelectionState::Instance());
 	}
+
+
+
 	this->ChangeState(mouseLButton, SelectionState::Instance());
 }
-
 void MovingObject::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	selection->DeleteAllItems();
 	selection->SelectByPoint(diagram, currentX, currentY);
@@ -71,19 +71,19 @@ void MovingObject::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	}
 }
 
-void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *cPaintDC) {
+void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+
+	CPen pen;
+	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
+	CPen *oldPen = cPaintDC->SelectObject(&pen);
+	cPaintDC->SetBkMode(TRANSPARENT);
+
 
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;
 	Long i = 0;
 	Long j = 0;
 	Figure *figure ;
-
-	CPen pen;
-	CPen *oldPen = cPaintDC->SelectObject(&pen);
-	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	cPaintDC->SelectObject(pen);
-	cPaintDC->SetBkMode(TRANSPARENT);
 
 	figure = selection->GetAt(i);
 	if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
@@ -102,6 +102,10 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram
 			j++;
 		}
 	}
+
+
+	
+
 
 	cPaintDC->SelectObject(oldPen);
 	pen.DeleteObject();

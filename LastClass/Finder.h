@@ -16,6 +16,7 @@ public:
 	~Finder();
 	Finder& operator=(const Finder& source);
 
+	
 	bool FindRectangleByArea(CRect object, CRect area);
 	bool FindRectangleByPoint(CRect object, Long x, Long y);
 	bool FindLineByArea(const CPoint& lineStart, const CPoint& lineEnd, CRect area);
@@ -24,6 +25,7 @@ public:
 	void FindRelationEndPoints(Diagram *diagram, FigureComposite *figureComposite, Figure *(*figures), Long *length);
 	Figure* GetParents(Diagram *diagram, Figure *figure);
 	Long FindQuadrant(Long x, Long y, Long left, Long top, Long right, Long bottom);
+
 };
 
 bool IsLineCross(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End);
