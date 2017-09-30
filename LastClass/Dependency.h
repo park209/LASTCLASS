@@ -17,7 +17,7 @@ public:
 	virtual ~Dependency();
 
 	Dependency& operator = (const Dependency&  source);
-	void Accept(Visitor& visitor, CDC *cPaintDc);
+	void Accept(Visitor& visitor, CDC *pDC);
 	Figure* Clone() const;
 
 };

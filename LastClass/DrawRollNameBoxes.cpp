@@ -24,28 +24,28 @@ DrawRollNameBoxes::~DrawRollNameBoxes() {
 }
 
 
-void DrawRollNameBoxes::DrawFirstRollNameBox(Relation *relationLine, CDC *cPaintDc) {
+void DrawRollNameBoxes::DrawFirstRollNameBox(Relation *relationLine, CDC *pDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDc->SelectObject(&pen);
-	cPaintDc->SetBkMode(TRANSPARENT);
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
 	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 	CPoint cPoint;
 
 	CPoint startPoint{ relationLine->GetX(), relationLine->GetY() };
 	CPoint endPoint{ relationLine->GetAt(0).x, relationLine->GetAt(0).y };
 	cPoint = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-	cPaintDc->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
+	pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 
-	cPaintDc->SelectObject(oldPen);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
 }
 
-void DrawRollNameBoxes::DrawSecondRollNameBox(Relation *relationLine, CDC *cPaintDc) {
+void DrawRollNameBoxes::DrawSecondRollNameBox(Relation *relationLine, CDC *pDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDc->SelectObject(&pen);
-	cPaintDc->SetBkMode(TRANSPARENT);
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
 	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 	CPoint cPoint;
 
@@ -53,7 +53,7 @@ void DrawRollNameBoxes::DrawSecondRollNameBox(Relation *relationLine, CDC *cPain
 		CPoint startPoint2{ relationLine->GetAt((relationLine->GetLength() - 1) / 2).x,
 			relationLine->GetAt((relationLine->GetLength() - 1) / 2).y };
 		cPoint = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
-		cPaintDc->Rectangle(cPoint.x - 40, cPoint.y - 10, cPoint.x + 40, cPoint.y + 10);
+		pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 	}
 	else {
 		CPoint startPoint2{ relationLine->GetAt((relationLine->GetLength() - 1) / 2).x,
@@ -61,17 +61,17 @@ void DrawRollNameBoxes::DrawSecondRollNameBox(Relation *relationLine, CDC *cPain
 		CPoint endPoint2{ relationLine->GetAt((relationLine->GetLength() - 1) / 2 + 1).x,
 			relationLine->GetAt((relationLine->GetLength() - 1) / 2 + 1).y };
 		cPoint = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
-		cPaintDc->Rectangle(cPoint.x - 40, cPoint.y - 10, cPoint.x + 40, cPoint.y + 10);
+		pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 	}
-	cPaintDc->SelectObject(oldPen);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
 }
 
-void DrawRollNameBoxes::DrawThirdRollNameBox(Relation *relationLine, CDC *cPaintDc) {
+void DrawRollNameBoxes::DrawThirdRollNameBox(Relation *relationLine, CDC *pDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDc->SelectObject(&pen);
-	cPaintDc->SetBkMode(TRANSPARENT);
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
 	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 	CPoint cPoint;
 
@@ -79,34 +79,34 @@ void DrawRollNameBoxes::DrawThirdRollNameBox(Relation *relationLine, CDC *cPaint
 		relationLine->GetAt(relationLine->GetLength() - 1).y };
 	CPoint endPoint3{ relationLine->GetX() + relationLine->GetWidth() , relationLine->GetY() + relationLine->GetHeight() };
 	cPoint = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
-	cPaintDc->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
+	pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 
-	cPaintDc->SelectObject(oldPen);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
 }
 
-void DrawRollNameBoxes::DrawFourthRollNameBox(Relation *relationLine, CDC *cPaintDc) {
+void DrawRollNameBoxes::DrawFourthRollNameBox(Relation *relationLine, CDC *pDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDc->SelectObject(&pen);
-	cPaintDc->SetBkMode(TRANSPARENT);
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
 	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 	CPoint cPoint;
 
 	CPoint startPoint{ relationLine->GetX(), relationLine->GetY() };
 	CPoint endPoint{ relationLine->GetAt(0).x, relationLine->GetAt(0).y };
 	cPoint = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-	cPaintDc->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
+	pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 
-	cPaintDc->SelectObject(oldPen);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
 }
 
-void DrawRollNameBoxes::DrawFifthRollNameBox(Relation *relationLine, CDC *cPaintDc) {
+void DrawRollNameBoxes::DrawFifthRollNameBox(Relation *relationLine, CDC *pDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDc->SelectObject(&pen);
-	cPaintDc->SetBkMode(TRANSPARENT);
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
 	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 	CPoint cPoint;
 
@@ -115,42 +115,42 @@ void DrawRollNameBoxes::DrawFifthRollNameBox(Relation *relationLine, CDC *cPaint
 	CPoint endPoint3{ relationLine->GetX() + relationLine->GetWidth() , relationLine->GetY() + relationLine->GetHeight() };
 
 	cPoint = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
-	cPaintDc->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
+	pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 
-	cPaintDc->SelectObject(oldPen);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
 }
 
-void DrawRollNameBoxes::DrawBoxesWithoutCurvedLine(Relation *relationLine, CDC *cPaintDc) {
+void DrawRollNameBoxes::DrawBoxesWithoutCurvedLine(Relation *relationLine, CDC *pDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDc->SelectObject(&pen);
-	cPaintDc->SetBkMode(TRANSPARENT);
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
 	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 	CPoint cPoint;
 
 	CPoint startPoint{ relationLine->GetX(), relationLine->GetY() };
 	CPoint endPoint{ relationLine->GetX() + relationLine->GetWidth(),  relationLine->GetY() + relationLine->GetHeight() };
 	cPoint = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-	cPaintDc->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
+	pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 	cPoint = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
-	cPaintDc->Rectangle(cPoint.x - 40, cPoint.y - 10, cPoint.x + 40, cPoint.y + 10);
+	pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 	cPoint = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
-	cPaintDc->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
+	pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 	cPoint = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-	cPaintDc->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
+	pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 	cPoint = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-	cPaintDc->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
+	pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 
-	cPaintDc->SelectObject(oldPen);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
 }
 
-void DrawRollNameBoxes::DrawSelfRelationRollNameBox(SelfRelation *SelfRelationLine, CDC *cPaintDc) {
+void DrawRollNameBoxes::DrawSelfRelationRollNameBox(SelfRelation *SelfRelationLine, CDC *pDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDc->SelectObject(&pen);
-	cPaintDc->SetBkMode(TRANSPARENT);
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
 	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 	CPoint cPoint;
 
@@ -164,16 +164,16 @@ void DrawRollNameBoxes::DrawSelfRelationRollNameBox(SelfRelation *SelfRelationLi
 	CPoint endPoint3And5{ SelfRelationLine->GetX() + 30,  SelfRelationLine->GetY() + 40 };
 
 	cPoint = rollNameBoxesPoint->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4);
-	cPaintDc->Rectangle(cPoint.x - 10, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
+	pDC->Rectangle(cPoint.x - 10, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 	cPoint = rollNameBoxesPoint->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2);
-	cPaintDc->Rectangle(cPoint.x - 30, cPoint.y - 10, cPoint.x + 30, cPoint.y + 10);
+	pDC->Rectangle(cPoint.x - 30, cPoint.y - 10, cPoint.x + 30, cPoint.y + 10);
 	cPoint = rollNameBoxesPoint->GetSelfRelationThirdRollNamePoint(startPoint3And5, endPoint3And5);
-	cPaintDc->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 10, cPoint.y + 10);
+	pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 10, cPoint.y + 10);
 	cPoint = rollNameBoxesPoint->GetSelfRelationFourthRollNamePoint(startPoint1And4, endPoint1And4);
-	cPaintDc->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 10, cPoint.y + 10);
+	pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 10, cPoint.y + 10);
 	cPoint = rollNameBoxesPoint->GetSelfRelationFifthRollNamePoint(startPoint3And5, endPoint3And5);
-	cPaintDc->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 10, cPoint.y + 10);
+	pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 10, cPoint.y + 10);
 
-	cPaintDc->SelectObject(oldPen);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
 }

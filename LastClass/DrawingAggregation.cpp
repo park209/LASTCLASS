@@ -71,18 +71,18 @@ void DrawingAggregation::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *d
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingAggregation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void DrawingAggregation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);
 	}
-	cPaintDC->MoveTo(startX, startY);
-	cPaintDC->LineTo(currentX, currentY);
+	pDC->MoveTo(startX, startY);
+	pDC->LineTo(currentX, currentY);
 
 	CBrush white(RGB(255, 255, 255));
 	CBrush myBrush;
 	myBrush.CreateSolidBrush(RGB(255, 255, 255));
-	CBrush *oldBrush = cPaintDC->SelectObject(&myBrush);
+	CBrush *oldBrush = pDC->SelectObject(&myBrush);
 
 	double degree = atan2(currentX - startX, startY - currentY); // ±â¿ï±â
 
@@ -113,9 +113,9 @@ void DrawingAggregation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *d
 	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (currentX - startX) / distance); // À­Á¡
 	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - currentY) / distance);
 
-	cPaintDC->SelectObject(&white);
-	cPaintDC->Polygon(pts2, 4);
-	cPaintDC->SelectObject(oldBrush);
+	pDC->SelectObject(&white);
+	pDC->Polygon(pts2, 4);
+	pDC->SelectObject(oldBrush);
 	myBrush.DeleteObject();
 
 

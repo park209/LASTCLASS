@@ -24,7 +24,7 @@ public:
 	Figure* operator[](Long index);
 
 
-	void Accept(Visitor& visitor, CDC *cPaintDc);//CDC* CPointDc
+	void Accept(Visitor& visitor, CDC *pDC);
 };
 
 #endif // !_MEMOBOX_H

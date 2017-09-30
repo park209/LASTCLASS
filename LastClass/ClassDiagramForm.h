@@ -7,7 +7,7 @@
 
 typedef signed long int Long;
 
-enum gab { GabX = 6, GabY = 2, MemoGab = 20 };
+enum gab { GabX = 8, GabY = 2, MemoGab = 20 };
 
 class Diagram; //전방선언
 class TextEdit;

@@ -27,6 +27,6 @@ Figure* SelfDependency::Clone() const {
 	return new SelfDependency(*this);
 }
 
-void SelfDependency::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);//, cPaintDc);
+void SelfDependency::Accept(Visitor& visitor, CDC *pDC) {
+	visitor.Visit(this, pDC);
 }

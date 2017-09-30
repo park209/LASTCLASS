@@ -447,31 +447,38 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 }
 
 void ClassDiagramForm::OnPaint() {
-
-	//SCROLLINFO vScrinfo;
-	//this->SetScrollInfo(SB_VERT,&vScrinfo);
-
 	CPaintDC dc(this);
-
-	DrawingVisitor drawingVisitor;
-	this->diagram->Accept(drawingVisitor, &dc);
+	CRect rect;
+	this->GetClientRect(&rect);
+	CDC memDC;
+	CBitmap *pOldBitmap;
+	CBitmap bitmap;
+	memDC.CreateCompatibleDC(&dc);
+	bitmap.CreateCompatibleBitmap(&dc, rect.right, rect.bottom);
+	pOldBitmap = memDC.SelectObject(&bitmap);
+	memDC.FillSolidRect(CRect(0, 0, rect.right, rect.bottom), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
 	SetFont(&cFont, TRUE);
-	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
+	CFont *oldFont = memDC.SelectObject(&cFont);
 
+	DrawingVisitor drawingVisitor;
+	this->diagram->Accept(drawingVisitor, &memDC);
 	WritingVisitor writingVisitor;
-	this->diagram->Accept(writingVisitor, &dc);
+	this->diagram->Accept(writingVisitor, &memDC);
+	this->selection->Accept(drawingVisitor, &memDC); // selectionFlag 추가 확인
+	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
+		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
+	}
 
-	dc.SelectObject(oldFont);
+	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
 
-	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
-		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
-	}
-	this->selection->Accept(drawingVisitor, &dc);
-
+	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, 0, 0, SRCCOPY);
+	memDC.SelectObject(pOldBitmap);
+	bitmap.DeleteObject();
+	memDC.DeleteDC();
 }
 
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -480,7 +487,7 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (keyAction != 0) {
 		keyAction->KeyPress(this);
 
-		Invalidate();
+		Invalidate(false);
 	}
 	if (nChar == VK_END) {
 		this->verticalScrollBar->OnVScrollBottom();
@@ -494,7 +501,7 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	CFrameWnd::OnSetFocus(pOldWnd);
 	CWnd::SetFocus();
-	Invalidate();
+	Invalidate(false);
 }
 void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
 	VScrollCreator vaction;
@@ -537,11 +544,10 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 
 	KillTimer(1);
 
-	Invalidate();
+	Invalidate(false);
 }
 
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
-	CPaintDC dc(this);
 	this->startX = point.x;
 	this->startY = point.y;
 	this->currentX = point.x;
@@ -560,15 +566,19 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 				figure->GetY() + GabY + MemoGab,
 				figure->GetX() + figure->GetWidth() - GabX,
 				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
-			OnKillFocus(NULL);
+			//OnKillFocus(NULL);
 		}
 		else {
-			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+			this->textEdit->Create(NULL, "textEdit", WS_CLIPCHILDREN | WS_VISIBLE, CRect(
 				figure->GetX() + GabX,
 				figure->GetY() + GabY,
 				figure->GetX() + figure->GetWidth() - GabX,
 				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
+
+			//OnKillFocus(NULL);
 		}
+
+		OnKillFocus(NULL);
 	}
 
 	//선택된 relationLine 이 있으면
@@ -695,7 +705,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 
 	KillTimer(1);
 
-	Invalidate();
+	Invalidate(false);
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
@@ -704,7 +714,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 		this->currentX = point.x;
 		this->currentY = point.y;
 
-		Invalidate();
+		Invalidate(false);
 	}
 	/*Long index;
 	index = this->selection->SelectByPoint(point.x, point.y);
