@@ -5,7 +5,7 @@
 
 
 #include "Figure.h"
-#include "DrawingVisitor.h"
+#include "WritingVisitor.h"
 #include "Array.h"
 #include <afxwin.h>
 typedef signed long int Long;
@@ -32,6 +32,7 @@ public:
 	void MergePoints(Long selectIndex, CPoint cPoint);
 
 	void ReplaceString(string rollNameText, Long rollNameBoxIndex);
+	void Accept(Visitor& visitor, CDC *cPaintDc);
 
 	Long GetCapacity() const;
 	Long GetLength() const;

@@ -1384,3 +1384,10 @@ void DrawingVisitor::Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) {
 }
 void DrawingVisitor::Visit(Text* text, CDC* cPaintDc) {
 }
+
+void DrawingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
+
+}
+void DrawingVisitor::Visit(Relation *relation, CDC *cPaintDc) {
+
+}

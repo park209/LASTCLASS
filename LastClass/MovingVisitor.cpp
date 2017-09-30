@@ -202,3 +202,7 @@ void MovingVisitor::Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) {
 }
 void MovingVisitor::Visit(Text* text, CDC* cPaintDc) {
 }
+void MovingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
+}
+void MovingVisitor::Visit(Relation *relation, CDC *cPaintDc) {
+}

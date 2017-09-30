@@ -5,7 +5,8 @@
 #include "MemoBox.h"
 #include "SmartPointer.h"
 #include "Template.h"
-
+#include "Relation.h"
+#include "SelfRelation.h"
 Diagram::Diagram(Long capacity) {
 	this->capacity = capacity;
 	this->length = 0;
@@ -162,14 +163,23 @@ Figure* Diagram::Clone() const {
 }
 
 void Diagram::Accept(Visitor& visitor, CDC *cPaintDc) {
-
+	Long  i = 0;
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 	while (!smartPointer->IsDone()) {
 		if (dynamic_cast<Class*>(smartPointer->Current())) {
-			dynamic_cast<Class*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<Class*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			while (i < static_cast<Class*>(smartPointer->Current())->GetLength()) {
+				if (dynamic_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
+					static_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(visitor, cPaintDc);
+				}
+				if (dynamic_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
+					static_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(visitor, cPaintDc);
+				}
+					i++;
+			}
 		}
 		if (dynamic_cast<MemoBox*>(smartPointer->Current())) {
-			dynamic_cast<MemoBox*>(smartPointer->Current())->Accept(visitor, cPaintDc);
+			static_cast<MemoBox*>(smartPointer->Current())->Accept(visitor, cPaintDc);
 		}
 		smartPointer->Next();
 	}

@@ -42,3 +42,6 @@ SelfRelation& SelfRelation::operator=(const SelfRelation& source) {
 	this->height = source.height;
 	return *this;
 }
+void SelfRelation::Accept(Visitor& visitor, CDC *cPaintDc) {
+	visitor.Visit(this, cPaintDc);//, cPaintDc);
+}

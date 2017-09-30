@@ -40,7 +40,8 @@ class SelfComposition;
 class SelfCompositions;
 //SubForm Control Class
 class Text;
-
+class Relation;
+class SelfRelation;
 class Visitor{
 public:
 	virtual ~Visitor();
@@ -75,6 +76,9 @@ public:
 	virtual void Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *cPaintDc) = 0;
 	virtual void Visit(SelfComposition *selfComposition, CDC *cPaintDc) = 0;
 	virtual void Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) = 0;
+
+	virtual void Visit(SelfRelation *selfRelation, CDC *cPaintDc) = 0;
+	virtual void Visit(Relation *relation, CDC *cPaintDc) = 0;
 
 	virtual void Visit(Text* text, CDC *cPaintDc) = 0;
 protected:
