@@ -451,12 +451,6 @@ void ClassDiagramForm::OnPaint() {
 	CPaintDC dc(this);
 	CRect cRect;
 	this->GetClientRect(&cRect);
-	CString a;
-	CString b;
-	a.Format("%d,%d,%d,%d", cRect.top, cRect.left, cRect.bottom, cRect.right);
-	b.Format("%d,%d", this->verticalScrollBar->GetScrollPos(), this->horizontalScroll->GetScrollPos());
-	dc.TextOut(300, 300, a);
-	dc.TextOut(200, 200, b);
 	DrawingVisitor drawingVisitor;
 	this->diagram->Accept(drawingVisitor, &dc);
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
@@ -544,12 +538,15 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 		}
 		elapseTime++;
 	}
+	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
+	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
 
-	this->startX = point.x;
-	this->startY = point.y;
-	this->currentX = point.x;
-	this->currentY = point.y;
 
+	this->startX = point.x  +  horizontalNPos;
+	this->startY = point.y +verticalNPos;
+	this->currentX = point.x + horizontalNPos;
+	this->currentY = point.y + verticalNPos;
+	
 
 	this->mouseLButton->MouseLButtonDown(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 
@@ -561,10 +558,15 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
-	this->startX = point.x;
-	this->startY = point.y;
-	this->currentX = point.x;
-	this->currentY = point.y;
+
+	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
+	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
+
+
+	this->startX = point.x + horizontalNPos;
+	this->startY = point.y + verticalNPos;
+	this->currentX = point.x + horizontalNPos;
+	this->currentY = point.y + verticalNPos;
 
 
 
@@ -690,8 +692,13 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
 		return;
 	}
-	this->currentX = point.x;
-	this->currentY = point.y;
+
+
+	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
+	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
+
+	this->currentX = point.x + horizontalNPos;
+	this->currentY = point.y + verticalNPos;
 
 
 	this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
@@ -711,8 +718,12 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 
 	if (nFlags == MK_LBUTTON) {
-		this->currentX = point.x;
-		this->currentY = point.y;
+
+		Long verticalNPos = this->verticalScrollBar->GetScrollPos();
+		Long horizontalNPos = this->horizontalScroll->GetScrollPos();
+
+		this->currentX = point.x + horizontalNPos; 
+		this->currentY = point.y + verticalNPos;
 		//CRect rect;
 		//this->GetClientRect(&rect);
 		Invalidate();

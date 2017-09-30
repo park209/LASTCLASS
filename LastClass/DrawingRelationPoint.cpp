@@ -30,6 +30,14 @@ void DrawingRelationPoint::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *d
 	currentCPoint.x = currentX;
 	currentCPoint.y = currentY;
 
+	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
+	CPoint cPoint1;
+	CPoint cPoint2;
+	CPoint cPoint3;
+	CPoint cPoint4;
+	CPoint cPoint5;
+
+
 	while (index < relation->GetLength() && point == false) {
 		CRect rect(relation->GetAt(index).x - 10, relation->GetAt(index).y - 10, relation->GetAt(index).x + 10, relation->GetAt(index).y + 10);
 		point = finder.FindRectangleByPoint(rect, startX, startY);
@@ -38,7 +46,76 @@ void DrawingRelationPoint::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *d
 	if (point == true) {
 		CPoint point(currentX, currentY);
 		relation->MergePoints(index, point);
+		//병합에  맞게 텍스트 위치 이동
+
+		CPoint startPoint{ relation->GetX(), relation->GetY() };
+		CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+		cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+		cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+		relation->rollNamePoints->Modify(0, cPoint1);
+		relation->rollNamePoints->Modify(3, cPoint4);
+		CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+			relation->GetAt(relation->GetLength() - 1).y };
+		CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+		cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+		cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+		relation->rollNamePoints->Modify(2, cPoint3);
+		relation->rollNamePoints->Modify(4, cPoint5);
+
+		if (relation->GetLength() % 2 > 0) {
+			CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+				relation->GetAt((relation->GetLength() - 1) / 2).y };
+			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
+			relation->rollNamePoints->Modify(1, cPoint2);
+
+		}
+		else {
+			CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+				relation->GetAt((relation->GetLength() - 1) / 2).y };
+			CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
+				relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
+			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
+			relation->rollNamePoints->Modify(1, cPoint2);
+		}
+
+
 		relation->Move(index - 1, point);
+		//이동에 맞게 텍스트 위치 이동
+		if (index == 1) {//처음 포인트이동
+			CPoint startPoint{ relation->GetX(), relation->GetY() };
+			CPoint endPoint{ currentX, currentY };
+			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+			cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+			relation->rollNamePoints->Modify(0, cPoint1);
+			relation->rollNamePoints->Modify(3, cPoint4);
+		}
+		if (index == relation->GetLength()) {//마지막 포인트 이동
+			CPoint startPoint3{ currentX, currentY };
+			CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+			relation->rollNamePoints->Modify(2, cPoint3);
+			relation->rollNamePoints->Modify(4, cPoint5);
+		}
+		if (relation->GetLength() % 2 == 0) {//짝수
+			if (index == relation->GetLength() / 2 || index == relation->GetLength() / 2 + 1) {//중간거 영향 주는거
+				CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+					relation->GetAt((relation->GetLength() - 1) / 2).y };
+				CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
+					relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
+				cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
+				relation->rollNamePoints->Modify(1, cPoint2);
+			}
+		}
+		else {//홀수
+			if (index == relation->GetLength() / 2 + 1) {//중간거 영향 주는거
+				CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+					relation->GetAt((relation->GetLength() - 1) / 2).y };
+				cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
+				relation->rollNamePoints->Modify(1, cPoint2);
+			}
+		}
+
 	}
 	if (point == false && startLine == false) {
 		Long j = 0;
@@ -57,12 +134,7 @@ void DrawingRelationPoint::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *d
 		}
 		if (squareFace == true) {
 			relation->Add(startCPoint, currentCPoint);
-			RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
-			CPoint cPoint1;
-			CPoint cPoint2;
-			CPoint cPoint3;
-			CPoint cPoint4;
-			CPoint cPoint5;
+
 			CPoint startPoint{ relation->GetX(), relation->GetY() };
 			CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
 			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
@@ -176,7 +248,7 @@ void DrawingRelationPoint::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram 
 		i++;
 	}
 	if (vertex == false) {
-		CRect rect(relation->GetX() + relation->GetWidth()- 10, relation->GetY() + relation->GetHeight() - 10, relation->GetX() + relation->GetWidth() + 10, relation->GetY() + relation->GetHeight() + 10);
+		CRect rect(relation->GetX() + relation->GetWidth() - 10, relation->GetY() + relation->GetHeight() - 10, relation->GetX() + relation->GetWidth() + 10, relation->GetY() + relation->GetHeight() + 10);
 		vertex = finder.FindRectangleByPoint(rect, currentX, currentY);
 	}
 	if (vertex == true) {
@@ -188,7 +260,7 @@ void DrawingRelationPoint::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram 
 			lineStart.x = relation->GetAt(i - 1).x;
 			lineStart.y = relation->GetAt(i - 1).y;
 		}
-		else if (i > relation->GetLength()  ) {
+		else if (i > relation->GetLength()) {
 			lineEnd.x = relation->GetX() + relation->GetWidth();
 			lineEnd.y = relation->GetY() + relation->GetHeight();
 		}
