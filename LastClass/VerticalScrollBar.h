@@ -1,4 +1,5 @@
 //VerticalScrollBar.h
+
 #ifndef _VRETICALSCROLLBAR_H
 #define _VRETICALSCROLLBAR_H
 

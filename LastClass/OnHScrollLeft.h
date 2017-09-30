@@ -1,3 +1,5 @@
+//OnHScrollLeft.h
+
 #ifndef _ONHSCROLLLEFT_H
 #define _ONHSCROLLLEFT_H
 #include "ScrollAction.h"

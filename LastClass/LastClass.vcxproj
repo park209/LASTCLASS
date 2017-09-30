@@ -68,10 +68,12 @@
     <ClInclude Include="DrawingMemoBox.h" />
     <ClInclude Include="DrawingMemoLine.h" />
     <ClInclude Include="DrawingRealization.h" />
+    <ClInclude Include="DrawingRelation.h" />
     <ClInclude Include="DrawingRelationPoint.h" />
     <ClInclude Include="DrawingResize.h" />
     <ClInclude Include="DrawingResizing.h" />
     <ClInclude Include="DrawingVisitor.h" />
+    <ClInclude Include="DrawRollNameBoxes.h" />
     <ClInclude Include="EditResizer.h" />
     <ClInclude Include="EditResizerProcess.h" />
     <ClInclude Include="EndKey.h" />
@@ -85,6 +87,7 @@
     <ClInclude Include="FontSet.h" />
     <ClInclude Include="Generalization.h" />
     <ClInclude Include="GKey.h" />
+    <ClInclude Include="HistoryGraphic.h" />
     <ClInclude Include="HistoryText.h" />
     <ClInclude Include="HKey.h" />
     <ClInclude Include="HomeKey.h" />
@@ -134,6 +137,7 @@
     <ClInclude Include="Relation.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RightArrowKey.h" />
+    <ClInclude Include="RollNameBox.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="Scroll.h" />
     <ClInclude Include="ScrollAction.h" />
@@ -216,10 +220,12 @@
     <ClCompile Include="DrawingMemoBox.cpp" />
     <ClCompile Include="DrawingMemoLine.cpp" />
     <ClCompile Include="DrawingRealization.cpp" />
+    <ClCompile Include="DrawingRelation.cpp" />
     <ClCompile Include="DrawingRelationPoint.cpp" />
     <ClCompile Include="DrawingResizing.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
     <ClCompile Include="DrawningResize.cpp" />
+    <ClCompile Include="DrawRollNameBoxes.cpp" />
     <ClCompile Include="EditResizer.cpp" />
     <ClCompile Include="EditResizerProcess.cpp" />
     <ClCompile Include="EndKey.cpp" />
@@ -233,6 +239,7 @@
     <ClCompile Include="FontSet.cpp" />
     <ClCompile Include="Generalization.cpp" />
     <ClCompile Include="GKey.cpp" />
+    <ClCompile Include="HistoryGraphic.cpp" />
     <ClCompile Include="HistoryText.cpp" />
     <ClCompile Include="HKey.cpp" />
     <ClCompile Include="HomeKey.cpp" />
@@ -279,6 +286,7 @@
     <ClCompile Include="Reception.cpp" />
     <ClCompile Include="Relation.cpp" />
     <ClCompile Include="RightArrowKey.cpp" />
+    <ClCompile Include="RollNameBox.cpp" />
     <ClCompile Include="Row.cpp" />
     <ClCompile Include="Scroll.cpp" />
     <ClCompile Include="ScrollAction.cpp" />

@@ -1,3 +1,5 @@
+//OnHScrollPageRight.cpp
+
 #include "OnHScrollPageRight.h"
 #include "VerticalScrollBar.h"
 

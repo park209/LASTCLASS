@@ -513,7 +513,15 @@ Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
 		this->capacity++;
 	}
 	this->length++;
-
+	Long i = 0;
+	while (i < this->length) {
+		if (this->GetTempletePosition() != -1) {
+			if (dynamic_cast<SelfRelation*>(this->GetAt(i))) {
+				this->GetAt(i)->Move(0, -15);
+			}
+		}
+		i++;
+	}
 	return this->templetePosition;
 }
 

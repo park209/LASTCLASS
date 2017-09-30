@@ -1,9 +1,11 @@
 //SelfRelation.h
 #ifndef _SELFRELATION_H
 #define _SELFRELATION_H
-
+#include "Array.h"
+#include <afxwin.h>
 #include "Figure.h"
-typedef signed long int Long; 
+
+typedef signed long int Long;
 
 class SelfRelation :public Figure {
 
@@ -15,7 +17,9 @@ public:
 	SelfRelation& operator =(const SelfRelation& source);
 
 	Figure* Clone()const = 0;
-
+public:
+	Array<string>* rollNames;
+	Array<CPoint>* rollNamePoints;
 };
 #endif // !_SELFRELATION_H
 

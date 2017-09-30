@@ -1,3 +1,5 @@
+//HScrollCreator.h
+
 #ifndef _HSCROLLCREATOR_H
 #define _HSCROLLCREATOR_H
 

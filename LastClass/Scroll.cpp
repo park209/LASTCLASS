@@ -1,3 +1,5 @@
+//Scroll.cpp
+
 #include "Scroll.h"
 #include "ClassDiagramForm.h"
 Scroll::Scroll(ClassDiagramForm *classDiagramForm) {

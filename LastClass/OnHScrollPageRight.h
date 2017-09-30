@@ -1,3 +1,5 @@
+//OnHScrollPageRight.h
+
 #ifndef _ONHSCROLLPAGERIGHT_H
 #define _ONHSCROLLPAGERIGHT_H
 #include "ScrollAction.h"

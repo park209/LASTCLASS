@@ -27,12 +27,17 @@ public:
 	//선 점구하는거
 	Long Move(Long index, CPoint cPoint);
 	CPoint GetAt(Long index);
-	Long Add(const CPoint& stratCPoint , const CPoint& currentCPoint);
+	Long Add(const CPoint& startCPoint, const CPoint& currentCPoint);
 	Long Remove(Long index);
-	void MergePoints(Long selectIndex,CPoint cPoint);
+	void MergePoints(Long selectIndex, CPoint cPoint);
+
+	void ReplaceString(string rollNameText, Long rollNameBoxIndex);
+
 	Long GetCapacity() const;
 	Long GetLength() const;
-
+public:
+	Array<string>* rollNames;
+	Array<CPoint>* rollNamePoints;
 protected:
 	Long capacity;
 	Long length;
