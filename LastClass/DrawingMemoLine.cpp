@@ -56,7 +56,7 @@ void DrawingMemoLine::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diag
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingMemoLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void DrawingMemoLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);
@@ -64,11 +64,11 @@ void DrawingMemoLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diag
 
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDC->SelectObject(&pen);
-	cPaintDC->SetBkMode(TRANSPARENT);
-	cPaintDC->MoveTo(startX, startY);
-	cPaintDC->LineTo(currentX, currentY);
-	cPaintDC->SelectObject(oldPen);
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
+	pDC->MoveTo(startX, startY);
+	pDC->LineTo(currentX, currentY);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
 
 }

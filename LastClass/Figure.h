@@ -17,7 +17,6 @@ public:
 	Figure& operator = (const Figure& source);
 	virtual ~Figure() = 0;
 
-	//virtual void Accept(Visitor& visitor) = 0;// , CDC *cPaintDc) = 0;
 	virtual Figure* Clone() const = 0;
 	Long GetRowCount(string object);
 	void ReplaceString(string content, Long fontSize);

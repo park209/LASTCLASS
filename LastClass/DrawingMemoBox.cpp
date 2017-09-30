@@ -27,12 +27,12 @@ void DrawingMemoBox::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram
 void DrawingMemoBox::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 
 }
-void DrawingMemoBox::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void DrawingMemoBox::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDC->SelectObject(&pen);
-	cPaintDC->SetBkMode(TRANSPARENT);
-	cPaintDC->Rectangle(startX, startY, currentX, currentY);
-	cPaintDC->SelectObject(oldPen);
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
+	pDC->Rectangle(startX, startY, currentX, currentY);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
 }

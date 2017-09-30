@@ -79,7 +79,7 @@ void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagr
 	}
 
 }
-void SelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void SelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	if (startX != currentX && startY != currentY) {
 		Long index = selection->SelectByPoint(startX, startY);
 		if (index == 1) {

@@ -27,6 +27,6 @@ Figure* SelfAssociation::Clone() const {
 	return new SelfAssociation(*this);
 }
 
-void SelfAssociation::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);//, cPaintDc);
+void SelfAssociation::Accept(Visitor& visitor, CDC *pDC) {
+	visitor.Visit(this, pDC);
 }

@@ -1,3 +1,5 @@
+//DrawingRelationPoint.cpp
+
 #include "DrawingRelationPoint.h"
 #include "Relation.h"
 #include "Finder.h"
@@ -179,11 +181,11 @@ void DrawingRelationPoint::MouseLButtonDown(MouseLButton *mouseLButton, Diagram 
 		this->ChangeDefault(mouseLButton);
 	}
 }
-void DrawingRelationPoint::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void DrawingRelationPoint::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDC->SelectObject(&pen);
-	cPaintDC->SetBkMode(TRANSPARENT);
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
 	bool ret = false;
 	bool vertex = false;
 	Relation *relation = static_cast<Relation*>(selection->GetAt(0));
@@ -271,9 +273,9 @@ void DrawingRelationPoint::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram 
 
 	}
 	if (ret == true) {
-		cPaintDC->MoveTo(lineStart.x, lineStart.y);
-		cPaintDC->LineTo(currentX, currentY);
-		cPaintDC->MoveTo(lineEnd.x, lineEnd.y);
-		cPaintDC->LineTo(currentX, currentY);
+		pDC->MoveTo(lineStart.x, lineStart.y);
+		pDC->LineTo(currentX, currentY);
+		pDC->MoveTo(lineEnd.x, lineEnd.y);
+		pDC->LineTo(currentX, currentY);
 	}
 }

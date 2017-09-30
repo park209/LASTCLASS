@@ -90,7 +90,7 @@ string Row::PrintRowString() {
 	return tempString;
 }
 
-Long Row::GetRowWidth(CDC* cPaintDc, Long to, Long from) {
+Long Row::GetRowWidth(CDC* pDC, Long to, Long from) {
 	CString str;
 	Long x = 0;
 	Long column = 0;
@@ -115,7 +115,7 @@ Long Row::GetRowWidth(CDC* cPaintDc, Long to, Long from) {
 		else { // 1바이트문자면 1칸
 			column += 1;
 		}
-		x += cPaintDc->GetTextExtent(str).cx;
+		x += pDC->GetTextExtent(str).cx;
 		i++;
 	}
 	return x;

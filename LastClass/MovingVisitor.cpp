@@ -40,7 +40,6 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 	while (i < length) {
 		figure = selection->GetAt(i);
 
-
 		if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
 			Long startX = figure->GetX();
 			Long startY = figure->GetY();
@@ -146,59 +145,63 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 		i++;
 	}
 }
-void MovingVisitor::Visit(Class *object, CDC* cPaintDc) {
+void MovingVisitor::Visit(Class *object, CDC* pDC) {
 }
-void MovingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) {
+void MovingVisitor::Visit(MemoBox *memoBox, CDC *pDC) {
 }
-void MovingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
+void MovingVisitor::Visit(Selection *selection, CDC *pDC) {
 }
-void MovingVisitor::Visit(Template *object, CDC *cPaintDc) {
+void MovingVisitor::Visit(Template *object, CDC *pDC) {
 }
-void MovingVisitor::Visit(ClassName* className, CDC* cPaintDc) {
+void MovingVisitor::Visit(ClassName* className, CDC* pDC) {
 }
-void MovingVisitor::Visit(Attribute* attribute, CDC* cPaintDc) {;
+void MovingVisitor::Visit(Attribute* attribute, CDC* pDC) {;
 }
-void MovingVisitor::Visit(Method* method, CDC* cPaintDc) {
+void MovingVisitor::Visit(Method* method, CDC* pDC) {
 }
-void MovingVisitor::Visit(Reception* reception, CDC* cPaintDc) {
+void MovingVisitor::Visit(Reception* reception, CDC* pDC) {
 }
-void MovingVisitor::Visit(Line *line, CDC* cPaintDc) {
+void MovingVisitor::Visit(Line *line, CDC* pDC) {
 }
-void MovingVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
+void MovingVisitor::Visit(Generalization *generalization, CDC* pDC) {
 }
-void MovingVisitor::Visit(Realization *realization, CDC* cPaintDc) {
+void MovingVisitor::Visit(Realization *realization, CDC* pDC) {
 }
-void MovingVisitor::Visit(Dependency *dependency, CDC* cPaintDc) {
+void MovingVisitor::Visit(Dependency *dependency, CDC* pDC) {
 }
-void MovingVisitor::Visit(Association *association, CDC* cPaintDc) {
+void MovingVisitor::Visit(Association *association, CDC* pDC) {
 }
-void MovingVisitor::Visit(DirectedAssociation *directedAssociation, CDC* cPaintDc) {
+void MovingVisitor::Visit(DirectedAssociation *directedAssociation, CDC* pDC) {
 }
-void MovingVisitor::Visit(Aggregation *aggregation, CDC* cPaintDc) {
+void MovingVisitor::Visit(Aggregation *aggregation, CDC* pDC) {
 }
-void MovingVisitor::Visit(Aggregations *aggregations, CDC* cPaintDc) {
+void MovingVisitor::Visit(Aggregations *aggregations, CDC* pDC) {
 }
-void MovingVisitor::Visit(Composition *composition, CDC* cPaintDc) {
+void MovingVisitor::Visit(Composition *composition, CDC* pDC) {
 }
-void MovingVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
+void MovingVisitor::Visit(Compositions *compositions, CDC* pDC) {
 }
-void MovingVisitor::Visit(MemoLine *memoLine, CDC *cPaintDc) {
+void MovingVisitor::Visit(MemoLine *memoLine, CDC *pDC) {
 }
-void MovingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *cPaintDc) {
+void MovingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *pDC) {
 }
-void MovingVisitor::Visit(SelfDependency *selfDependency, CDC *cPaintDc) {
+void MovingVisitor::Visit(SelfDependency *selfDependency, CDC *pDC) {
 }
-void MovingVisitor::Visit(SelfAggregation *selfAggregation, CDC *cPaintDc) {
+void MovingVisitor::Visit(SelfAggregation *selfAggregation, CDC *pDC) {
 }
-void MovingVisitor::Visit(SelfAssociation *selfAssociation, CDC *cPaintDc) {
+void MovingVisitor::Visit(SelfAssociation *selfAssociation, CDC *pDC) {
 }
-void MovingVisitor::Visit(SelfAggregations *selfAggregations, CDC *cPaintDc) {
+void MovingVisitor::Visit(SelfAggregations *selfAggregations, CDC *pDC) {
 }
-void MovingVisitor::Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *cPaintDc) {
+void MovingVisitor::Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *pDC) {
 }
-void MovingVisitor::Visit(SelfComposition *selfComposition, CDC *cPaintDc) {
+void MovingVisitor::Visit(SelfComposition *selfComposition, CDC *pDC) {
 }
-void MovingVisitor::Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) {
+void MovingVisitor::Visit(SelfCompositions *selfCompositions, CDC *pDC) {
 }
-void MovingVisitor::Visit(Text* text, CDC* cPaintDc) {
+void MovingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
+}
+void MovingVisitor::Visit(Relation *relation, CDC *cPaintDc) {
+}
+void MovingVisitor::Visit(Text* text, CDC* pDC) {
 }

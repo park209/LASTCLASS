@@ -116,12 +116,12 @@ void Text::SprayString(string str) {
 	}
 }
 
-Long Text::MaxWidth(CDC* cPaintDc) {
+Long Text::MaxWidth(CDC* pDC) {
 	SmartPointer<TextComponent*> smartPointer(this->CreateIterator());
 	Long width = 0;
 	for (smartPointer->First(); !smartPointer->IsDone(); smartPointer->Next()) {
-		if (width < Long(((Row*)smartPointer->Current())->GetRowWidth(cPaintDc, ((Row*)smartPointer->Current())->GetLength()))) {
-			width = Long(((Row*)smartPointer->Current())->GetRowWidth(cPaintDc, ((Row*)smartPointer->Current())->GetLength()));
+		if (width < Long(((Row*)smartPointer->Current())->GetRowWidth(pDC, ((Row*)smartPointer->Current())->GetLength()))) {
+			width = Long(((Row*)smartPointer->Current())->GetRowWidth(pDC, ((Row*)smartPointer->Current())->GetLength()));
 		}
 	}
 	return width;
@@ -135,8 +135,8 @@ TextComponent* Text::Clone() const {
 	return new Text(*this);
 }
 
-void Text::Accept(Visitor& visitor, CDC* cPaintDc) {
-	visitor.Visit(this, cPaintDc);
+void Text::Accept(Visitor& visitor, CDC* pDC) {
+	visitor.Visit(this, pDC);
 }
 
 Row* Text::operator [] (Long index) {

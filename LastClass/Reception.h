@@ -21,7 +21,7 @@ public:
 	Reception& operator = (const Reception& source);
 
 	Figure* Clone() const;
-	void Accept(Visitor& visitor, CDC *cPaintDc);
+	void Accept(Visitor& visitor, CDC *pDC);
 };
 
 #endif // !_RECEPTION_H

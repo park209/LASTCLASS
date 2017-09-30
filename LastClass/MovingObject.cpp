@@ -71,13 +71,12 @@ void MovingObject::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	}
 }
 
-void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDC->SelectObject(&pen);
-	cPaintDC->SetBkMode(TRANSPARENT);
-
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
 
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;
@@ -88,26 +87,22 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram
 	figure = selection->GetAt(i);
 	if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
 												  // 해당 클래스나 메모 이동
-		cPaintDC->Rectangle(figure->GetX() + distanceX, figure->GetY() + distanceY, figure->GetX() + figure->GetWidth() + distanceX,
+		pDC->Rectangle(figure->GetX() + distanceX, figure->GetY() + distanceY, figure->GetX() + figure->GetWidth() + distanceX,
 			figure->GetY() + figure->GetHeight() + distanceY);
 		FigureComposite *figureComposite = static_cast<FigureComposite*>(figure); // 형변환
 
 		while (j < figureComposite->GetLength()) { // 형변환 한게 관리하면 배열 렝스까지
 			figure = figureComposite->GetAt(j);
 			if (dynamic_cast<Line*>(figure)) {
-				cPaintDC->MoveTo(figure->GetX() + distanceX, figure->GetY() + distanceY);
-				cPaintDC->LineTo(figure->GetX() + figure->GetWidth() + distanceX,
+				pDC->MoveTo(figure->GetX() + distanceX, figure->GetY() + distanceY);
+				pDC->LineTo(figure->GetX() + figure->GetWidth() + distanceX,
 					figure->GetY() + figure->GetHeight() + distanceY);
 			}
 			j++;
 		}
 	}
 
-
-	
-
-
-	cPaintDC->SelectObject(oldPen);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
 
 }

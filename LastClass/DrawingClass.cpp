@@ -5,8 +5,6 @@
 #include "DefaultState.h"
 #include "Selection.h"
 #include "Finder.h"
-#include "ClassDiagramForm.h" //юс╫ц
-
 
 DrawingClass* DrawingClass::instance = 0;
 
@@ -49,35 +47,12 @@ void DrawingClass::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 
 	
 }
-void DrawingClass::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
-
-	//ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)(CFrameWnd::FindWindow(NULL, "classDiagram"));
-
-	//CRect rect;
-	//classDiagramForm->GetClientRect(&rect);
-	//CDC *cDc = classDiagramForm->GetDC();
-	//CDC memDc;
-	//CBitmap *pOldBitmap;
-	//CBitmap bmp;
-
-	//memDc.CreateCompatibleDC(cDc);
-	//bmp.CreateCompatibleBitmap(cDc, rect.Width(), rect.Height());
-	//pOldBitmap = memDc.SelectObject(&bmp);
-	//memDc.PatBlt(0, 0, rect.Width(), rect.Height(), WHITENESS);
-	//
-	////LoadImage
-	//memDc.Rectangle(startX, startY, currentX, currentY);
-	//cDc->BitBlt(0, 0, rect.Width(), rect.Height(), &memDc, 0, 0, SRCCOPY);
-
-	//memDc.SelectObject(pOldBitmap);
-	//memDc.DeleteDC();
-
-
+void DrawingClass::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDC->SelectObject(&pen);
-	cPaintDC->SetBkMode(TRANSPARENT);
-	cPaintDC->Rectangle(startX, startY, currentX, currentY);
-	cPaintDC->SelectObject(oldPen);
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
+	pDC->Rectangle(startX, startY, currentX, currentY);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
 }
