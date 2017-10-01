@@ -14,6 +14,7 @@
 #include "FigureComposite.h"
 #include "MemoBox.h"
 #include "Class.h"
+#include "ClassName.h"
 
 using namespace std;
 
@@ -47,16 +48,14 @@ void EditResizerProcess::ResizeEditAll(TextEdit *textEdit, CDC *cdc) {
 
 void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
 	Long gabY_ = GabY * 2;
-	if (dynamic_cast<MemoBox*>(textEdit->figure)) {
+	if (dynamic_cast<MemoBox*>(textEdit->figure) || dynamic_cast<ClassName*>(textEdit->figure)) {
 		gabY_ += MemoGab;
 	}
 	textEdit->SetWindowPos(&textEdit->wndTopMost,0, 0,
 		textEdit->GetCriteriaWidth() - GabX *2, textEdit->GetCriteriaHeight() - gabY_, SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 }
 
-void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit, CDC *cdc) {
-	RECT rt;
-	textEdit->GetClientRect(&rt);
+void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit) {
 
 	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParentFrame();
 	FigureComposite *object = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
@@ -67,12 +66,11 @@ void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit, CDC *cdc) {
 }
 
 void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
-	CDC * cdc = textEdit->GetDC();
 	RECT rt;
 	textEdit->GetClientRect(&rt);
 	
 	Long gabY_ = GabY * 2;
-	if (dynamic_cast<MemoBox*>(textEdit->figure)) {
+	if (dynamic_cast<MemoBox*>(textEdit->figure) || dynamic_cast<ClassName*>(textEdit->figure)) {
 		gabY_ += MemoGab;
 	}
 
@@ -121,6 +119,22 @@ void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 			textEdit->figure->GetHeight() + distanceY);
 	}
 	composite->Modify(composite->GetX(), composite->GetY(), composite->GetWidth(), composite->GetHeight() + distanceY);
+}
 
-	textEdit->ReleaseDC(cdc);
+void EditResizerProcess::ResizeEditWidthToLeft(TextEdit *textEdit, CDC *cdc) {
+	RECT rt;
+	textEdit->GetClientRect(&rt); //최대화 상태에서만 정상적인 rect를 출력. 최소화X
+	
+	textEdit->SetWindowPos(&textEdit->wndTopMost,
+		textEdit->figure->GetX() + GabX - (textEdit->text->MaxWidth(cdc) - rt.right) - CaretWidth,
+		textEdit->figure->GetY() + GabY,
+		rt.right + (textEdit->text->MaxWidth(cdc) - rt.right),
+		rt.bottom, SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
+}
+
+void EditResizerProcess::ResizeTemplateWidth(TextEdit *textEdit) {
+	RECT rt;
+	textEdit->GetWindowRect(&rt);
+	
+	textEdit->figure->Modify(rt.left - GabX, textEdit->figure->GetY(), rt.right - rt.left + GabX*2, textEdit->figure->GetHeight());
 }

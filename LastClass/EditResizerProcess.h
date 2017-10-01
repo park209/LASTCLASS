@@ -17,8 +17,11 @@ public:
 	void ResizeEditAll(TextEdit *textEdit, CDC *cdc);
 	void RewindEdit(TextEdit *textEdit, CDC *cdc);
 
-	void ResizeClassWidth(TextEdit *textEdit, CDC *cdc);
+	void ResizeClassWidth(TextEdit *textEdit);
 	void ResizeClassHeight(TextEdit *textEdit);
+
+	void ResizeEditWidthToLeft(TextEdit *textEdit, CDC *cdc);
+	void ResizeTemplateWidth(TextEdit *textEdit);
 };
 
 #endif // _EDITRESIZERPROCESS_H
