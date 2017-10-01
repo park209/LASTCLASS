@@ -15,7 +15,7 @@ public:
 	TextAreaSelected(const TextAreaSelected& source);
 	~TextAreaSelected();
 
-	void SelectTextArea(TextEdit *textEdit, CPaintDC *dc);
+	void SelectTextArea(TextEdit *textEdit, CDC *pDC);
 public:
 	TextAreaSelectedProcess *selected;
 };
