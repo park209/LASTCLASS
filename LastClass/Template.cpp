@@ -32,6 +32,6 @@ Figure* Template::Clone() const {
 	return new Template(*this);
 }
 
-void Template::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);
+void Template::Accept(Visitor& visitor, CDC *pDC) {
+	visitor.Visit(this, pDC);
 }

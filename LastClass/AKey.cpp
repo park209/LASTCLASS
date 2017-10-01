@@ -18,7 +18,7 @@ AKey::~AKey() {
 void AKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 	Class *object = static_cast<Class*>(classDiagramForm->selection->GetAt(0));
 	if (object->GetTempletePosition() == -1) {
-		object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 15, 80, 25);
+		object->AddTemplate(object->GetX() + object->GetWidth() - 70, object->GetY() - 23, 80, 25);
 	}
 }
 

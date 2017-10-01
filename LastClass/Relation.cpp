@@ -164,3 +164,7 @@ void Relation::MergePoints(Long selectIndex, CPoint cPoint) {
 void Relation::ReplaceString(string rollNameText, Long rollNameBoxIndex) {
 	this->rollNames->Modify(rollNameBoxIndex, rollNameText);
 }
+
+void Relation::Accept(Visitor& visitor, CDC *cPaintDc) {
+	visitor.Visit(this, cPaintDc);//, cPaintDc);
+}

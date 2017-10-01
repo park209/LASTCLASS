@@ -1,3 +1,5 @@
+//Scroll.h
+
 #ifndef _SCROLL_H
 #define _SCROLL_H
 #include <afxwin.h>
@@ -29,6 +31,7 @@ public:
 	virtual void OnHScrollThumbPosition();
 	virtual void OnHScrollThumbTrack();
 	Scroll& operator = (const Scroll& source);
+	Long SetScrollPos(Long nPos);
 	Long GetScrollPos();
 protected:
 	ClassDiagramForm *classDiagramForm;

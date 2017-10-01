@@ -19,7 +19,7 @@ public:
 	virtual ~Association();
 
 	Association& operator = (const Association&  source);
-	void Accept(Visitor& visitor, CDC *cPaintDc); //, CDC *cPaintDc
+	void Accept(Visitor& visitor, CDC *pDC);
 	Figure* Clone() const;
 
 };

@@ -576,10 +576,19 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 				//여기 부터 바깥 사각박스 찾기
 				Long l = 0;
 				while (l < 5 && ret == false) {
-					rect.left = relation->rollNamePoints->GetAt(l).x - 20;
-					rect.right = relation->rollNamePoints->GetAt(l).x + 20;
-					rect.top = relation->rollNamePoints->GetAt(l).y - 10;
-					rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
+					if (l == 1) {
+						rect.left = relation->rollNamePoints->GetAt(l).x - 40;
+						rect.right = relation->rollNamePoints->GetAt(l).x + 40;
+						rect.top = relation->rollNamePoints->GetAt(l).y - 10;
+						rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
+					}
+					else {
+						rect.left = relation->rollNamePoints->GetAt(l).x - 20;
+						rect.right = relation->rollNamePoints->GetAt(l).x + 20;
+						rect.top = relation->rollNamePoints->GetAt(l).y - 10;
+						rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
+					}
+					
 					if (ret == false) {
 						ret = finder.FindRectangleByPoint(rect, x, y);
 					}
@@ -691,6 +700,6 @@ void Selection :: Accept(Diagram *diagram,Visitor& visitor, Long distanceX, Long
 	visitor.Visit(diagram,this, distanceX,distanceY);
 }
 
-void Selection::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);
+void Selection::Accept(Visitor& visitor, CDC *pDC) {
+	visitor.Visit(this, pDC);
 }

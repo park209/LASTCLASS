@@ -1,3 +1,5 @@
+//OnHScrollThumbTrack.h
+
 #ifndef _ONHSCROLLTHUMBTRACK_H
 #define _ONHSCROLLTHUMBTRACK_H
 #include "ScrollAction.h"

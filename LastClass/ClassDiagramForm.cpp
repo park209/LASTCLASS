@@ -38,7 +38,6 @@
 #include "MovingVisitor.h"
 #include "MouseLButton.h"
 #include "HistoryGraphic.h"
-
 #include "Scroll.h"
 #include "VerticalScrollBar.h"
 #include "HorizontalScrollBar.h"
@@ -63,6 +62,7 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 	ON_WM_CLOSE()
+	ON_WM_SIZE()
 	ON_WM_VSCROLL()
 	ON_WM_HSCROLL()
 END_MESSAGE_MAP()
@@ -433,7 +433,6 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
 	this->historyGraphic = new HistoryGraphic;
-
 	this->verticalScrollBar = new VerticalScrollBar(this);
 	this->horizontalScroll = new HorizontalScrollBar(this);
 	this->keyBoard = new KeyBoard;
@@ -448,40 +447,50 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 }
 
 void ClassDiagramForm::OnPaint() {
-
-	//SCROLLINFO vScrinfo;
-	//this->SetScrollInfo(SB_VERT,&vScrinfo);
-
 	CPaintDC dc(this);
-
-	DrawingVisitor drawingVisitor;
-	this->diagram->Accept(drawingVisitor, &dc);
+	CRect rect;
+	this->GetClientRect(&rect);
+	CDC memDC;
+	CBitmap *pOldBitmap;
+	CBitmap bitmap;
+	memDC.CreateCompatibleDC(&dc);
+	bitmap.CreateCompatibleBitmap(&dc, rect.right, rect.bottom);
+	pOldBitmap = memDC.SelectObject(&bitmap);
+	memDC.FillSolidRect(CRect(0, 0, rect.right, rect.bottom), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
 	SetFont(&cFont, TRUE);
-	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
+	CFont *oldFont = memDC.SelectObject(&cFont);
 
+	DrawingVisitor drawingVisitor;
+	this->diagram->Accept(drawingVisitor, &memDC);
 	WritingVisitor writingVisitor;
-	this->diagram->Accept(writingVisitor, &dc);
+	this->diagram->Accept(writingVisitor, &memDC);
+	this->selection->Accept(drawingVisitor, &memDC); // selectionFlag 추가 확인
+	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
+		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
+	}
 
-	dc.SelectObject(oldFont);
+	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
 
-	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
-		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &dc);
-	}
-	this->selection->Accept(drawingVisitor, &dc);
-
+	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, 0, 0, SRCCOPY);
+	memDC.SelectObject(pOldBitmap);
+	bitmap.DeleteObject();
+	memDC.DeleteDC();
 }
 
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->mouseLButton->ChangeState(nChar);
-	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
+	KeyAction *keyAction = NULL;
+	if (this->selection->GetLength() > 0) {
+	keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
+	}
 	if (keyAction != 0) {
 		keyAction->KeyPress(this);
 
-		Invalidate();
+		Invalidate(false);
 	}
 	if (nChar == VK_END) {
 		this->verticalScrollBar->OnVScrollBottom();
@@ -495,7 +504,22 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	CFrameWnd::OnSetFocus(pOldWnd);
 	CWnd::SetFocus();
-	Invalidate();
+	Invalidate(false);
+}
+void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
+	Long nPos;
+	if (this->verticalScrollBar != 0) {
+		nPos = this->verticalScrollBar->GetScrollPos();
+		delete this->verticalScrollBar;
+		this->verticalScrollBar = new VerticalScrollBar(this);
+		this->verticalScrollBar->SetScrollPos(nPos);
+	}
+	if (this->horizontalScroll != 0) {
+		nPos = this->horizontalScroll->GetScrollPos();
+		delete this->horizontalScroll;
+		this->horizontalScroll = new HorizontalScrollBar(this);
+		this->horizontalScroll->SetScrollPos(nPos);
+	}
 }
 void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
 	VScrollCreator vaction;
@@ -526,27 +550,35 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 		}
 		elapseTime++;
 	}
+	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
+	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
 
-	this->startX = point.x;
-	this->startY = point.y;
-	this->currentX = point.x;
-	this->currentY = point.y;
 
+	this->startX = point.x  +  horizontalNPos;
+	this->startY = point.y +verticalNPos;
+	this->currentX = point.x + horizontalNPos;
+	this->currentY = point.y + verticalNPos;
+	
 
 	this->mouseLButton->MouseLButtonDown(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 
 
 	KillTimer(1);
 
-	Invalidate();
+	Invalidate(false);
 }
 
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
-	this->startX = point.x;
-	this->startY = point.y;
-	this->currentX = point.x;
-	this->currentY = point.y;
+
+	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
+	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
+
+
+	this->startX = point.x + horizontalNPos;
+	this->startY = point.y + verticalNPos;
+	this->currentX = point.x + horizontalNPos;
+	this->currentY = point.y + verticalNPos;
 
 
 
@@ -660,6 +692,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			OnKillFocus(NULL);
 		}
 	}
+	Invalidate(false);
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
@@ -672,8 +705,13 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
 		return;
 	}
-	this->currentX = point.x;
-	this->currentY = point.y;
+
+
+	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
+	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
+
+	this->currentX = point.x + horizontalNPos;
+	this->currentY = point.y + verticalNPos;
 
 
 	this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
@@ -686,17 +724,21 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentY = 0;
 
 	KillTimer(1);
-
-	Invalidate();
+	Invalidate(false);
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 
 	if (nFlags == MK_LBUTTON) {
-		this->currentX = point.x;
-		this->currentY = point.y;
 
-		Invalidate();
+		Long verticalNPos = this->verticalScrollBar->GetScrollPos();
+		Long horizontalNPos = this->horizontalScroll->GetScrollPos();
+
+		this->currentX = point.x + horizontalNPos; 
+		this->currentY = point.y + verticalNPos;
+		//CRect rect;
+		//this->GetClientRect(&rect);
+		Invalidate(false);
 	}
 	/*Long index;
 	index = this->selection->SelectByPoint(point.x, point.y);

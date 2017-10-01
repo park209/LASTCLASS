@@ -1,3 +1,5 @@
+//OnHScrollLineRight.h
+
 #ifndef _ONHSCROLLLINERIGHT_H
 #define _ONHSCROLLLINERIGHT_H
 #include "ScrollAction.h"

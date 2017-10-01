@@ -15,7 +15,7 @@ public:
 	virtual ~Compositions();
 
 	Compositions& operator = (const Compositions&  source);
-	void Accept(Visitor& visitor, CDC *cPaintDc);
+	void Accept(Visitor& visitor, CDC *pDC);
 	Figure* Clone() const;
 
 };

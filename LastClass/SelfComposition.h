@@ -15,7 +15,7 @@ public:
 
 	virtual ~SelfComposition();
 	Figure* Clone() const;
-	void Accept(Visitor& visitor, CDC *cPaintDc);
+	void Accept(Visitor& visitor, CDC *pDC);
 
 };
 #endif // !_SELFCOMPOSITION_H
