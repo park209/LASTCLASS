@@ -37,7 +37,7 @@ void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 	//memDC.SelectObject(cFont);
 
 	RECT rt = { 0 , 0, textWidth, text->GetLength() * fontHeight};
-	cPaintDc->DrawText((CString)text->MakeText().c_str(), &rt, DT_EXPANDTABS);
+	cPaintDc->DrawText((CString)text->MakeText().c_str(), &rt, DT_EXPANDTABS | DT_NOCLIP);
 
 	//cPaintDc->BitBlt(0, 0, textWidth, text->GetLength() * fontHeight, &memDC, 0, 0, SRCCOPY); // bitblt memDC 에 있는걸 dc로 뿌려준다
 
