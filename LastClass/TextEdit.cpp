@@ -85,7 +85,7 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 		this->text->SprayString(static_cast<SelfRelation*>(this->figure)->rollNames->GetAt(this->rollNameBoxIndex));
 	}
 
-	CWnd::Invalidate();
+	Invalidate(false);
 	return 0;
 }
 
@@ -110,13 +110,20 @@ void TextEdit::OnPaint() {
 		SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);	// 폰트 시작
 		CFont *m_oldFont = memDC.SelectObject(&cFont);
-		if (this->flagSelection == 0) {
-			this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
-			this->caret->MoveToIndex(this, &dc);
+		//if (this->flagSelection == 0) {
+		//	this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
+		//	this->caret->MoveToIndex(this, &dc);
+		//}
+		//else if (this->flagSelection == 1) {		// flagSelection이 눌려있으면
+		//	this->textAreaSelected->SelectTextArea(this, &dc);
+		//}
+		/////////////////////////////////////////////////////
+		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
+		this->caret->MoveToIndex(this, &dc);
+		if (this->flagSelection == 1) {		// flagSelection이 눌려있으면
+			this->textAreaSelected->SelectTextArea(this, &memDC);
 		}
-		else if (this->flagSelection == 1) {		// flagSelection이 눌려있으면
-			this->textAreaSelected->SelectTextArea(this, &dc);
-		}
+		///////////////////////////////////////////////////////
 		dc.SelectObject(oldFont);
 		memDC.SelectObject(m_oldFont);
 	}
@@ -196,12 +203,14 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	editResizer.ResizeEdit(this, dc);
 	editResizer.ResizeClass(this, dc);
 	GetParentFrame()->Invalidate(false);
-	GetParentFrame()->RedrawWindow();
+
+	//GetParentFrame()->RedrawWindow();
+
 	cFont.DeleteObject(); // 폰트
 
 	CWnd::HideCaret();
 
-	//Invalidate(false);
+	Invalidate(false);
 }
 
 Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
@@ -362,7 +371,7 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 		CWnd::HideCaret();
 
-		CWnd::Invalidate(false);
+		Invalidate(false);
 	}
 }
 
