@@ -103,29 +103,20 @@ void TextEdit::OnPaint() {
 	memDC.FillSolidRect(CRect(0, 0, rt.right, rt.bottom), RGB(255, 255, 255));
 	WritingVisitor writingVisitor;
 	CFont cFont;
+	CFont *oldFont = 0;
+	CFont *m_oldFont = 0;
 
 	if (this->rollNameBoxIndex == -1) {
 		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 		SetFont(&cFont, TRUE);
-		CFont *oldFont = dc.SelectObject(&cFont);	// 폰트 시작
+		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
 		CFont *m_oldFont = memDC.SelectObject(&cFont);
-		//if (this->flagSelection == 0) {
-		//	this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
-		//	this->caret->MoveToIndex(this, &dc);
-		//}
-		//else if (this->flagSelection == 1) {		// flagSelection이 눌려있으면
-		//	this->textAreaSelected->SelectTextArea(this, &dc);
-		//}
-		/////////////////////////////////////////////////////
+
 		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
-		this->caret->MoveToIndex(this, &dc);
-		if (this->flagSelection == 1) {		// flagSelection이 눌려있으면
+		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
 			this->textAreaSelected->SelectTextArea(this, &memDC);
 		}
-		///////////////////////////////////////////////////////
-		dc.SelectObject(oldFont);
-		memDC.SelectObject(m_oldFont);
 	}
 	else if (dynamic_cast<Relation*>(this->figure)) {
 		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
@@ -134,38 +125,30 @@ void TextEdit::OnPaint() {
 		CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 		CFont *m_oldFont = memDC.SelectObject(&cFont);
 
-		if (this->flagSelection == 0) { // figure 너비 or rollNameBox 너비
-			this->text->Accept(writingVisitor, &memDC);//받았던거 출력
-			this->caret->MoveToIndex(this, &dc);
+		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
+		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
+			this->textAreaSelected->SelectTextArea(this, &memDC);
 		}
-		else if (this->flagSelection == 1) { // flagSelection이 눌려있으면
-			this->textAreaSelected->SelectTextArea(this, &dc);
-		}
-		dc.SelectObject(oldFont);
-		memDC.SelectObject(m_oldFont);
-
 	}
 	else if (dynamic_cast<SelfRelation*>(this->figure)) {
-		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 		CFont *m_oldFont = memDC.SelectObject(&cFont);
 
-		if (this->flagSelection == 0) { // figure 너비 or rollNameBox 너비
-			this->text->Accept(writingVisitor, &memDC);//받았던거 출력
-			this->caret->MoveToIndex(this, &dc);
+		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
+		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
+			this->textAreaSelected->SelectTextArea(this, &memDC);
 		}
-		else if (this->flagSelection == 1) { // flagSelection이 눌려있으면
-			this->textAreaSelected->SelectTextArea(this, &dc);
-		}
-		dc.SelectObject(oldFont);
-		memDC.SelectObject(m_oldFont);
-
 	}
-	cFont.DeleteObject(); // 폰트
-
 	dc.BitBlt(0, 0, rt.right, rt.bottom, &memDC, 0, 0, SRCCOPY);
+
+	this->caret->MoveToIndex(this, &dc);
+
+	dc.SelectObject(oldFont);
+	memDC.SelectObject(m_oldFont);
+	cFont.DeleteObject(); // 폰트
 	memDC.SelectObject(pOldBitmap);
 	bitmap.DeleteObject();
 	memDC.DeleteDC();
@@ -283,7 +266,7 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject(); // 폰트 끝
 
-	CWnd::HideCaret();
+	//CWnd::HideCaret();
 
 	SetCapture();
 
@@ -301,7 +284,7 @@ void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 		return;
 	}
 
-	CWnd::HideCaret();
+	//CWnd::HideCaret();
 
 	KillTimer(1);
 

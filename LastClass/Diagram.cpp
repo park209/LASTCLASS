@@ -109,7 +109,7 @@ Figure* Diagram::FindItem(Long x, Long y) {
 		endX = smartPointer->Current()->GetX() + smartPointer->Current()->GetWidth();
 		endY = smartPointer->Current()->GetY() + smartPointer->Current()->GetHeight();
 		if (dynamic_cast<Class*>(smartPointer->Current())) {
-			if (static_cast<Class*>(smartPointer->Current())->GetTempletePosition() == -1) {
+			if (dynamic_cast<Class*>(smartPointer->Current())->GetTempletePosition() == -1) {
 				if (smartPointer->Current()->GetX() <= x && endX >= x && smartPointer->Current()->GetY() <= y && endY >= y) {
 					figure = smartPointer->Current();
 					index = 0;
