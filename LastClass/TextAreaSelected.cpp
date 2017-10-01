@@ -23,7 +23,7 @@ TextAreaSelected::~TextAreaSelected() {
 	}
 }
 void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CDC *pDC) {
-
+	
 	CString TopCstr;
 	CString middleCstr;
 	CString BottomCstr;
@@ -50,7 +50,7 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CDC *pDC) {
 		pDC->DrawText(BottomCstr, &rt, DT_NOCLIP | DT_EXPANDTABS);
 	}
 
-
+	
 	textEdit->copyBuffer = TopCstr + middleCstr + BottomCstr;
 
 }

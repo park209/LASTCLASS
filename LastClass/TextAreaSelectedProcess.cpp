@@ -84,7 +84,7 @@ void TextAreaSelectedProcess::MiddleMultiLineSelected(TextEdit *textEdit, CDC *p
 		*cstr += "\r\n";
 		i++;
 	}
-
+	
 	*rt = { 0, (this->startRowIndex + 1) * textEdit->rowHeight, textEdit->GetFigure()->GetX() + textEdit->GetFigure()->GetWidth(),
 		(this->endRowIndex - 1) * textEdit->rowHeight + textEdit->rowHeight };
 }   //메모리버퍼 사용안할때 사용할 rt
@@ -97,6 +97,6 @@ void TextAreaSelectedProcess::EndMultiLineSelected(TextEdit *textEdit, CDC *pDC,
 		i++;
 	}
 	Long width = textEdit->text->GetAt(this->endRowIndex)->GetRowWidth(pDC, this->endCharacterIndex - 1);
-
+	
 	*rt = { 0, this->endRowIndex * textEdit->rowHeight, width, this->endRowIndex * textEdit->rowHeight + textEdit->rowHeight };
 }   //메모리버퍼 사용안할때 사용할 rt
