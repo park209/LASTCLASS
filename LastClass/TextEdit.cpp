@@ -62,6 +62,7 @@ TextEdit::TextEdit(Figure *figure, Long rollNameBoxIndex) {
 	this->copyBuffer = "";
 	this->criteriaWidth = figure->GetWidth();
 	this->criteriaHeight = figure->GetHeight();
+	this->criteriaX = figure->GetX();
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -388,7 +389,6 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 		// visitor 만들어서 밖에 뿌려줘야함
 	}
 
-	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)GetParentFrame();
 	CWnd::OnKillFocus(pNewWnd);
 	CWnd::HideCaret();
 	::DestroyCaret();
