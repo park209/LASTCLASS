@@ -472,10 +472,12 @@ void ClassDiagramForm::OnPaint() {
 		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
 	}
 
+	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
+	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
+
 	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
-
-	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, 0, 0, SRCCOPY);
+	dc.BitBlt(0, 0, rect.right - 20, rect.bottom - 20, &memDC, horizontalNPos, verticalNPos, SRCCOPY);
 	memDC.SelectObject(pOldBitmap);
 	bitmap.DeleteObject();
 	memDC.DeleteDC();

@@ -36,7 +36,7 @@ void VerticalScrollBar::OnVScrollLineDown() {
 	this->scrollBar->SetScrollInfo(&vScrinfo);
 	CRect rect;
 	this->classDiagramForm->GetClientRect(&rect);
-	this->classDiagramForm->ScrollWindow(0, -50, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
+	//this->classDiagramForm->ScrollWindow(0, -50, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
 }
 void VerticalScrollBar::OnVScrollLineUp() {
 
