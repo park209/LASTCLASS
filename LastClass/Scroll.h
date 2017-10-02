@@ -31,6 +31,7 @@ public:
 	virtual void OnHScrollThumbPosition();
 	virtual void OnHScrollThumbTrack();
 	Scroll& operator = (const Scroll& source);
+	Long GetMaxPos();
 	Long SetScrollPos(Long nPos);
 	Long GetScrollPos();
 protected:

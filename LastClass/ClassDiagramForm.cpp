@@ -492,16 +492,67 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	}
 	if (keyAction != 0) {
 		keyAction->KeyPress(this);
-
 		Invalidate(false);
 	}
+	CRect rect;
+	this->GetClientRect(&rect);
+	rect.right -= 20;
+	rect.bottom -= 20;
+	Long nPos = this->verticalScrollBar->GetScrollPos();
 	if (nChar == VK_END) {
-		this->verticalScrollBar->OnVScrollBottom();
+		if (this->verticalScrollBar->GetMaxPos() > this->verticalScrollBar->GetScrollPos()) {
+			this->verticalScrollBar->OnVScrollBottom();
+			Invalidate(false);
+		}
+		
 	}
 	if (nChar == VK_HOME) {
-		this->verticalScrollBar->OnVScrollTop();
+		if (this->verticalScrollBar->GetScrollPos() >  0) {
+			this->verticalScrollBar->OnVScrollTop();
+			Invalidate(false);
+		}
 	}
-	//Invalidate();
+	if (nChar == VK_PRIOR) {
+
+		if (this->verticalScrollBar->GetScrollPos() >  0) {
+			this->verticalScrollBar->OnVScrollPageUp();
+			Invalidate(false);
+		}
+	}
+	if (nChar == VK_NEXT) {
+
+		if (this->verticalScrollBar->GetMaxPos() > this->verticalScrollBar->GetScrollPos()) {
+			this->verticalScrollBar->OnVScrollPageDown();
+			Invalidate(false);
+		}
+	}
+	if (nChar == VK_UP) {
+
+		if (this->verticalScrollBar->GetScrollPos() > 0) {
+			this->verticalScrollBar->OnVScrollLineUp();
+			Invalidate(false);
+		}
+	}
+	if (nChar == VK_DOWN) {
+
+		if (this->verticalScrollBar->GetMaxPos() > this->verticalScrollBar->GetScrollPos()) {
+			this->verticalScrollBar->OnVScrollLineDown();
+			Invalidate(false);
+		}
+	}
+	if (nChar == VK_LEFT) {
+		if (this->horizontalScroll->GetScrollPos() > 0) {
+			this->horizontalScroll->OnHScrollLineLeft();
+			Invalidate(false);
+		}
+	}
+	if (nChar == VK_RIGHT) {
+
+		if (this->horizontalScroll->GetMaxPos() > this->verticalScrollBar->GetScrollPos()) {
+			this->horizontalScroll->OnHScrollLineRight();
+			Invalidate(false);
+		}
+	}
 }
 
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {

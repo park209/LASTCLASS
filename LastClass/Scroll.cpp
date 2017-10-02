@@ -83,3 +83,9 @@ Long Scroll::SetScrollPos(Long nPos) {
 Long Scroll::GetScrollPos() {
 	return this->scrollBar->GetScrollPos();
 }
+Long Scroll::GetMaxPos() {
+	SCROLLINFO scrollInfo;
+	 this->scrollBar->GetScrollInfo(&scrollInfo);
+	Long maxPos = scrollInfo.nMax - scrollInfo.nPage;
+	return maxPos;
+}

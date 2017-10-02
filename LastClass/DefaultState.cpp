@@ -83,6 +83,7 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	if (object == 51) {
 		this->ChangeState(mouseLButton, DrawingRealization::Instance(), 51);
 	}
+	//키보드 전략패턴을 적용해야할듯
 	if (mouseLButton->GetButtonState() == 0) {
 
 		Long index = selection->SelectByPoint(startX, startY);
