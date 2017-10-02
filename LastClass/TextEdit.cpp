@@ -389,7 +389,6 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 		// visitor 만들어서 밖에 뿌려줘야함
 	}
 
-	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)GetParentFrame();
 	CWnd::OnKillFocus(pNewWnd);
 	CWnd::HideCaret();
 	::DestroyCaret();
