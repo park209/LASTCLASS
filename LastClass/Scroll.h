@@ -30,7 +30,10 @@ public:
 	virtual void OnHScrollEnd();
 	virtual void OnHScrollThumbPosition();
 	virtual void OnHScrollThumbTrack();
+	virtual void OnMouseWheelUp();
+	virtual void OnMouseWheelDown();
 	Scroll& operator = (const Scroll& source);
+	Long GetMaxPos();
 	Long SetScrollPos(Long nPos);
 	Long GetScrollPos();
 protected:

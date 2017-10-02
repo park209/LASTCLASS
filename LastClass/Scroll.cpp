@@ -69,6 +69,12 @@ void Scroll::OnHScrollThumbPosition() {
 void Scroll::OnHScrollThumbTrack() {
 
 }
+void Scroll::OnMouseWheelUp() {
+
+}
+void Scroll::OnMouseWheelDown() {
+
+}
 Scroll& Scroll::operator=(const Scroll& source) {
 	if (this->scrollBar != NULL) {
 		delete this->scrollBar;
@@ -82,4 +88,10 @@ Long Scroll::SetScrollPos(Long nPos) {
 }
 Long Scroll::GetScrollPos() {
 	return this->scrollBar->GetScrollPos();
+}
+Long Scroll::GetMaxPos() {
+	SCROLLINFO scrollInfo;
+	 this->scrollBar->GetScrollInfo(&scrollInfo);
+	Long maxPos = scrollInfo.nMax - scrollInfo.nPage;
+	return maxPos;
 }

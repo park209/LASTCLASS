@@ -13,7 +13,7 @@ HorizontalScrollBar::HorizontalScrollBar(ClassDiagramForm *classDiagramForm) :Sc
 	scrinfo.cbSize = sizeof(scrinfo);
 	scrinfo.fMask = SIF_ALL;
 	scrinfo.nMin = 0;          // 최소값
-	scrinfo.nMax = 10000;// cRect.right - 20;      // 최대값
+	scrinfo.nMax = 4000;// cRect.right - 20;      // 최대값
 	scrinfo.nPage = cRect.right; // 5;  //100;      // 페이지단위 증가값
 	scrinfo.nTrackPos = 0;  // 트랙바가 움직일때의 위치값
 	scrinfo.nPos = 0;        // 위치
@@ -41,7 +41,7 @@ void HorizontalScrollBar::OnHScrollLineRight() {
 	this->scrollBar->SetScrollInfo(&vScrinfo);
 	CRect rect;
 	this->classDiagramForm->GetClientRect(&rect);
-	this->classDiagramForm->ScrollWindow(-50, 0, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
+//	this->classDiagramForm->ScrollWindow(-50, 0, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
 }
 void HorizontalScrollBar::OnHScrollLineLeft() {
 
@@ -59,7 +59,7 @@ void HorizontalScrollBar::OnHScrollLineLeft() {
 	this->scrollBar->SetScrollInfo(&vScrinfo);
 	CRect rect;
 	this->classDiagramForm->GetClientRect(&rect);
-	this->classDiagramForm->ScrollWindow(50, 0, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
+	//this->classDiagramForm->ScrollWindow(50, 0, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
 }
 void HorizontalScrollBar::OnHScrollPageRight() {
 	SCROLLINFO vScrinfo;
@@ -75,7 +75,7 @@ void HorizontalScrollBar::OnHScrollPageRight() {
 	this->scrollBar->SetScrollInfo(&vScrinfo);
 	CRect rect;
 	this->classDiagramForm->GetClientRect(&rect);
-	this->classDiagramForm->ScrollWindow(-100, 0, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
+	//this->classDiagramForm->ScrollWindow(-100, 0, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
 }
 void HorizontalScrollBar::OnHScrollPageLeft() {
 	SCROLLINFO vScrinfo;
@@ -91,7 +91,7 @@ void HorizontalScrollBar::OnHScrollPageLeft() {
 	this->scrollBar->SetScrollInfo(&vScrinfo);
 	CRect rect;
 	this->classDiagramForm->GetClientRect(&rect);
-	this->classDiagramForm->ScrollWindow(100, 0, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
+	//this->classDiagramForm->ScrollWindow(100, 0, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
 }
 void HorizontalScrollBar::OnHScrollRight() {
 	SCROLLINFO vScrinfo;
@@ -107,7 +107,7 @@ void HorizontalScrollBar::OnHScrollRight() {
 	this->scrollBar->SetScrollInfo(&vScrinfo);
 	CRect rect;
 	this->classDiagramForm->GetClientRect(&rect);
-	this->classDiagramForm->ScrollWindow(100, 0, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
+//	this->classDiagramForm->ScrollWindow(100, 0, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
 }									// 값 수정해야함.
 void HorizontalScrollBar::OnHScrollLeft() {
 	SCROLLINFO vScrinfo;
@@ -118,7 +118,7 @@ void HorizontalScrollBar::OnHScrollLeft() {
 	this->scrollBar->SetScrollInfo(&vScrinfo);
 	CRect rect;
 	this->classDiagramForm->GetClientRect(&rect);
-	this->classDiagramForm->ScrollWindow(-rect.left, 0, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
+	//this->classDiagramForm->ScrollWindow(-rect.left, 0, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
 }											//값 수정해야함.
 void HorizontalScrollBar::OnHScrollEnd() {
 	
@@ -131,7 +131,7 @@ void HorizontalScrollBar::OnHScrollThumbPosition() {
 	this->scrollBar->SetScrollInfo(&vScrinfo);
 	CRect rect;
 	this->classDiagramForm->GetClientRect(&rect);
-	this->classDiagramForm->ScrollWindow(vScrinfo.nPos, 0, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
+	//this->classDiagramForm->ScrollWindow(vScrinfo.nPos, 0, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
 }
 void HorizontalScrollBar::OnHScrollThumbTrack() {
 	SCROLLINFO vScrinfo;
@@ -141,7 +141,7 @@ void HorizontalScrollBar::OnHScrollThumbTrack() {
 	this->scrollBar->SetScrollInfo(&vScrinfo);
 	CRect rect;
 	this->classDiagramForm->GetClientRect(&rect);
-	this->classDiagramForm->ScrollWindow(vScrinfo.nPos, 0, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
+	//this->classDiagramForm->ScrollWindow(vScrinfo.nPos, 0, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
 }
 HorizontalScrollBar::~HorizontalScrollBar() {
 

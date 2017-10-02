@@ -55,7 +55,9 @@ Long Figure::GetRowCount(string object) {
 		}
 		i++;
 	}
-	count++; // 한줄이 생략되기때문에 증가해줌.
+	if (i != 0) {
+		count++; // 한줄이 생략되기때문에 증가해줌.
+	}
 	return count;
 }
 
