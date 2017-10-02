@@ -454,9 +454,9 @@ void ClassDiagramForm::OnPaint() {
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
 	memDC.CreateCompatibleDC(&dc);
-	bitmap.CreateCompatibleBitmap(&dc, rect.right, rect.bottom);
+	bitmap.CreateCompatibleBitmap(&dc, 4000, 2000);
 	pOldBitmap = memDC.SelectObject(&bitmap);
-	memDC.FillSolidRect(CRect(0, 0, rect.right, rect.bottom), RGB(255, 255, 255));
+	memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
@@ -477,7 +477,8 @@ void ClassDiagramForm::OnPaint() {
 
 	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
-	dc.BitBlt(0, 0, rect.right - 20, rect.bottom - 20, &memDC, horizontalNPos, verticalNPos, SRCCOPY);
+	//dc.BitBlt()
+	dc.BitBlt(0, 0, rect.right - 20, rect.bottom - 20, &memDC,horizontalNPos, verticalNPos, SRCCOPY);
 	memDC.SelectObject(pOldBitmap);
 	bitmap.DeleteObject();
 	memDC.DeleteDC();
@@ -529,6 +530,12 @@ void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 	if (action != 0) {
 		action->ScrollScreen(this->verticalScrollBar);
 	}
+	CRect rect;
+	this->GetClientRect(&rect);
+	rect.right -= 20;
+	rect.bottom -= 20;
+	this->SetFocus();
+	InvalidateRect(rect);
 	
 }
 void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
@@ -537,13 +544,18 @@ void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 	if (action != 0) {
 		action->ScrollScreen(this->horizontalScroll);
 	}
-
+	CRect rect;
+	this->GetClientRect(&rect);
+	rect.right -= 20;
+	rect.bottom -= 20;
+	this->SetFocus();
+	InvalidateRect(rect);
 }
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
 	UINT elapseTime = 0;
-	this->SetFocus();
+   this->SetFocus();
 	SetTimer(1, 1, NULL);
 	while (elapseTime < dblclkTime) {
 		PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
@@ -591,18 +603,18 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 		if (dynamic_cast<MemoBox*>(figure) || dynamic_cast<ClassName*>(figure)) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				figure->GetX() + GabX,
-				figure->GetY() + GabY + MemoGab,
-				figure->GetX() + figure->GetWidth() - GabX,
-				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
+				figure->GetX() + GabX - horizontalNPos,
+				figure->GetY() + GabY + MemoGab - verticalNPos,
+				figure->GetX() + figure->GetWidth() - GabX - horizontalNPos,
+				figure->GetY() + figure->GetHeight() - GabY - verticalNPos), this, 10000, NULL);
 			OnKillFocus(NULL);
 		}
 		else {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				figure->GetX() + GabX,
-				figure->GetY() + GabY,
-				figure->GetX() + figure->GetWidth() - GabX,
-				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
+				figure->GetX() + GabX - horizontalNPos,
+				figure->GetY() + GabY - verticalNPos,
+				figure->GetX() + figure->GetWidth() - GabX - horizontalNPos,
+				figure->GetY() + figure->GetHeight() - GabY - verticalNPos), this, 10000, NULL);
 		}
 	}
 
