@@ -65,6 +65,7 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
 	ON_WM_SIZE()
 	ON_WM_VSCROLL()
 	ON_WM_HSCROLL()
+	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
 ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
@@ -601,6 +602,20 @@ void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 	rect.bottom -= 20;
 	this->SetFocus();
 	InvalidateRect(rect);
+}
+BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt){
+
+	if (zDelta <= 0) { //마우스 휠 다운
+		this->verticalScrollBar->OnMouseWheelDown();
+		Invalidate(false);
+	}
+	else {  //마우스 휠 업
+
+		this->verticalScrollBar->OnMouseWheelUp();
+		Invalidate(false);
+	}	
+
+	return  CWnd::OnMouseWheel(nFlags, zDelta, pt);
 }
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	MSG msg;

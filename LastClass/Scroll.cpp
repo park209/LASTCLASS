@@ -69,6 +69,12 @@ void Scroll::OnHScrollThumbPosition() {
 void Scroll::OnHScrollThumbTrack() {
 
 }
+void Scroll::OnMouseWheelUp() {
+
+}
+void Scroll::OnMouseWheelDown() {
+
+}
 Scroll& Scroll::operator=(const Scroll& source) {
 	if (this->scrollBar != NULL) {
 		delete this->scrollBar;

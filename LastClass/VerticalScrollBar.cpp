@@ -142,10 +142,41 @@ void VerticalScrollBar::OnVScrollThumbTrack() {
 	this->classDiagramForm->GetClientRect(&rect);
 	//this->classDiagramForm->ScrollWindow(0, vScrinfo.nPos, CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20), CRect(rect.left, rect.top, rect.right - 20, rect.bottom - 20));
 }
+void VerticalScrollBar::OnMouseWheelDown() {
+	SCROLLINFO vScrinfo;
+	this->scrollBar->GetScrollInfo(&vScrinfo);
+
+	if ((vScrinfo.nPos + (int)vScrinfo.nPage) < vScrinfo.nMax) {
+		Long height = 25;
+		vScrinfo.nPos += height;
+		if (vScrinfo.nPos + (int)vScrinfo.nPage > vScrinfo.nMax) {
+			vScrinfo.nPos = vScrinfo.nMax - height;
+		}
+	}
+
+	this->scrollBar->SetScrollInfo(&vScrinfo);
+	CRect rect;
+	this->classDiagramForm->GetClientRect(&rect);
+}
+void VerticalScrollBar::OnMouseWheelUp() {
+	SCROLLINFO vScrinfo;
+	this->scrollBar->GetScrollInfo(&vScrinfo);
+
+	if (vScrinfo.nPos > vScrinfo.nMin) {
+		Long height = 25;
+		vScrinfo.nPos -= height;
+		if (vScrinfo.nPos < vScrinfo.nMin) {
+			vScrinfo.nPos = vScrinfo.nMin;
+		}
+	}
+
+	this->scrollBar->SetScrollInfo(&vScrinfo);
+}
 VerticalScrollBar& VerticalScrollBar::operator=(const VerticalScrollBar& source) {
 	Scroll::operator=(source);
 	return *this;
 }
 VerticalScrollBar::~VerticalScrollBar() {
 
+	
 }
