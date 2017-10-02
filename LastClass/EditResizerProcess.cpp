@@ -15,6 +15,7 @@
 #include "MemoBox.h"
 #include "Class.h"
 #include "ClassName.h"
+#include "Template.h"
 
 using namespace std;
 
@@ -53,6 +54,14 @@ void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
 	}
 	textEdit->SetWindowPos(&textEdit->wndTopMost,0, 0,
 		textEdit->GetCriteriaWidth() - GabX *2, textEdit->GetCriteriaHeight() - gabY_, SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
+	if (dynamic_cast<Template*>(textEdit->figure)) {
+		textEdit->SetWindowPos(&textEdit->wndTopMost,
+			textEdit->GetCriteriaX()+GabX,
+			textEdit->figure->GetY() + GabY,
+			textEdit->GetCriteriaWidth() - GabX * 2,
+			textEdit->GetCriteriaHeight() - gabY_,
+			SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
+	}
 }
 
 void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit) {
@@ -128,13 +137,23 @@ void EditResizerProcess::ResizeEditWidthToLeft(TextEdit *textEdit, CDC *cdc) {
 	textEdit->SetWindowPos(&textEdit->wndTopMost,
 		textEdit->figure->GetX() + GabX - (textEdit->text->MaxWidth(cdc) - rt.right) - CaretWidth,
 		textEdit->figure->GetY() + GabY,
-		rt.right + (textEdit->text->MaxWidth(cdc) - rt.right),
+		rt.right + (textEdit->text->MaxWidth(cdc) - rt.right) + CaretWidth,
 		rt.bottom, SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 }
 
 void EditResizerProcess::ResizeTemplateWidth(TextEdit *textEdit) {
+	//RECT rt;
+	//textEdit->GetWindowRect(&rt);
+	//
+	//textEdit->figure->Modify(rt.left - GabX,
+	//	textEdit->figure->GetY(),
+	//	rt.right - rt.left + GabX*2,
+	//	textEdit->figure->GetHeight());
 	RECT rt;
-	textEdit->GetWindowRect(&rt);
-	
-	textEdit->figure->Modify(rt.left - GabX, textEdit->figure->GetY(), rt.right - rt.left + GabX*2, textEdit->figure->GetHeight());
+	textEdit->GetClientRect(&rt);
+
+	textEdit->figure->Modify(textEdit->figure->GetX() - (rt.right + GabX*2 + CaretWidth - textEdit->figure->GetWidth()),
+		textEdit->figure->GetY(),
+		rt.right + GabX*2 + CaretWidth,
+		textEdit->figure->GetHeight());
 }

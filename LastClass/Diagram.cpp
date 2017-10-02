@@ -117,9 +117,9 @@ Figure* Diagram::FindItem(Long x, Long y) {
 			}
 			else {
 				Template* objcet = dynamic_cast<Template*>(static_cast<Class*>(smartPointer->Current())->GetAt(static_cast<Class*>(smartPointer->Current())->GetTempletePosition()));
-				if (smartPointer->Current()->GetX() <= x&&objcet->GetX() + objcet->GetHeight() >= x&&
-					objcet->GetY() <= y&&smartPointer->Current()->GetY() + smartPointer->Current()->GetHeight() >= y) {
-					figure = smartPointer->Current();
+				if (objcet->GetX() <= x && objcet->GetX() + objcet->GetWidth() >= x &&
+					objcet->GetY() <= y && objcet->GetY() + objcet->GetHeight() >= y) {
+					figure = objcet;
 					index = 0;
 				}
 			}

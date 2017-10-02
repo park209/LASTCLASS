@@ -51,7 +51,8 @@ void EditResizer::ResizeEdit(TextEdit *textEdit, CDC *cdc) {
 		else if (textEdit->GetRowHeight()*textEdit->text->GetLength() + gabY_ > textEdit->GetCriteriaHeight()) {
 			resizer.ResizeEditHeight(textEdit, cdc);
 		}
-		else {																					//글높이가 클래스를 넘어가면 둘다X
+		else {
+																					//글높이가 클래스를 넘어가면 둘다X
 			resizer.RewindEdit(textEdit, cdc);
 		}
 	}
