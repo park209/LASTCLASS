@@ -329,8 +329,8 @@ void DrawingVisitor::Visit(Selection *selection, CDC *pDC) {
 		}
 		i++;
 	}
-
 }
+
 void DrawingVisitor::Visit(Template *object, CDC *pDC) {
 	Long x = object->GetX();
 	Long y = object->GetY();;

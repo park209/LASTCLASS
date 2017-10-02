@@ -377,36 +377,6 @@
     <ClInclude Include="KeyBoard.h">
       <Filter>KeyAction</Filter>
     </ClInclude>
-    <ClInclude Include="SKey.h">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="AKey.h">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="DeleteKey.h">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="DeleteSelectedOne.h">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="DKey.h">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="FKey.h">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="GKey.h">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="HKey.h">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="JKey.h">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="KKey.h">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="HorizontalScrollBar.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
@@ -479,9 +449,6 @@
     <ClInclude Include="VerticalScrollBar.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
-    <ClInclude Include="HistoryGraphic.h">
-      <Filter>TextEdit</Filter>
-    </ClInclude>
     <ClInclude Include="DrawingRelation.h">
       <Filter>Relationship</Filter>
     </ClInclude>
@@ -491,24 +458,38 @@
     <ClInclude Include="DrawRollNameBoxes.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="AggregationButton.h" />
-    <ClInclude Include="AggregationsButton.h" />
-    <ClInclude Include="AssociationButton.h" />
-    <ClInclude Include="ButtonState.h" />
-    <ClInclude Include="ClassButton.h" />
-    <ClInclude Include="CompositionButton.h" />
-    <ClInclude Include="CompositionsButton.h" />
-    <ClInclude Include="DependencyButton.h" />
-    <ClInclude Include="DirectAssociationButton.h" />
-    <ClInclude Include="DrawingController.h" />
-    <ClInclude Include="FlagSet.h" />
-    <ClInclude Include="GeneralizationButton.h" />
-    <ClInclude Include="MemoBoxButton.h" />
-    <ClInclude Include="MemoLineButton.h" />
-    <ClInclude Include="RealizationButton.h" />
-    <ClInclude Include="ReceptionButton.h" />
-    <ClInclude Include="TemplateButton.h" />
-    <ClInclude Include="Unclicked.h" />
+    <ClInclude Include="HistoryGraphic.h" />
+    <ClInclude Include="DeleteKey.h">
+      <Filter>KeyAction\TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="AddTemplateKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteGraphicKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="AddReceptionKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoveReceptionKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="AddAttributeKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoveAttributeKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="AddMethodKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoveMethodKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoveTemplateKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCtrlUndoKey.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -545,9 +526,6 @@
       <Filter>TextEdit</Filter>
     </ClCompile>
     <ClCompile Include="TextComposite.cpp">
-      <Filter>TextEdit</Filter>
-    </ClCompile>
-    <ClCompile Include="TextEdit.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
     <ClCompile Include="WritingVisitor.cpp">
@@ -739,9 +717,6 @@
     <ClCompile Include="TextAreaSelectedProcess.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
-    <ClCompile Include="DrawingRelationPoint.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
     <ClCompile Include="DrawingResizing.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
@@ -832,42 +807,6 @@
     <ClCompile Include="KeyBoard.cpp">
       <Filter>KeyAction</Filter>
     </ClCompile>
-    <ClCompile Include="AKey.cpp">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="DeleteKey.cpp">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="DeleteSelectedOne.cpp">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="DKey.cpp">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="FKey.cpp">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="GKey.cpp">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="HKey.cpp">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="JKey.cpp">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="KKey.cpp">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="SKey.cpp">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="HistoryGraphic.cpp">
-      <Filter>TextEdit</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawingRelation.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
     <ClCompile Include="DrawRollNameBoxes.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
@@ -952,58 +891,45 @@
     <ClCompile Include="MovingLine.cpp">
       <Filter>Diagram</Filter>
     </ClCompile>
-    <ClCompile Include="AggregationButton.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="HistoryGraphic.cpp" />
+    <ClCompile Include="DrawingRelation.cpp">
+      <Filter>Relationship</Filter>
     </ClCompile>
-    <ClCompile Include="AggregationsButton.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="DrawingRelationPoint.cpp">
+      <Filter>Relationship</Filter>
     </ClCompile>
-    <ClCompile Include="AssociationButton.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="DeleteKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
     </ClCompile>
-    <ClCompile Include="ButtonState.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="TextEdit.cpp" />
+    <ClCompile Include="AddTemplateKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="ClassButton.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="DeleteGraphicKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="CompositionButton.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="AddReceptionKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="CompositionsButton.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="RemoveReceptionKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="DependencyButton.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="AddAttributeKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="DirectAssociationButton.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="RemoveAttributeKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="DrawingController.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="AddMethodKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="FlagSet.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="RemoveMethodKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="GeneralizationButton.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="RemoveTemplateKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="MemoBoxButton.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="MemoLineButton.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="RealizationButton.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="ReceptionButton.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="TemplateButton.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="Unclicked.cpp">
+    <ClCompile Include="GraphicCtrlUndoKey.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>

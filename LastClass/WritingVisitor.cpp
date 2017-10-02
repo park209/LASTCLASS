@@ -66,17 +66,17 @@ void  WritingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
 		if (i == 0) {
 			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 10 , selfRelation->rollNamePoints->GetAt(i).y - 10,
 				selfRelation->rollNamePoints->GetAt(i).x + 20,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
-			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 		}
 		else if (i == 1) {
 			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 30  , selfRelation->rollNamePoints->GetAt(i).y - 10,
 				selfRelation->rollNamePoints->GetAt(i).x + 30,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
-			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 		}
 		else {
 			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 , selfRelation->rollNamePoints->GetAt(i).y - 10,
 				selfRelation->rollNamePoints->GetAt(i).x + 10,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
-			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 		}
 		i++;
 	}
@@ -94,12 +94,12 @@ void  WritingVisitor::Visit(Relation *relation, CDC *pDC) {
 		if (i == 1) {
 			RECT rt = { relation->rollNamePoints->GetAt(i).x - 40, relation->rollNamePoints->GetAt(i).y - 10 ,
 				relation->rollNamePoints->GetAt(i).x + 40,  relation->rollNamePoints->GetAt(i).y + 10 };
-			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 		}
 		else {
 			RECT rt = { relation->rollNamePoints->GetAt(i).x - 20, relation->rollNamePoints->GetAt(i).y - 10,
 				relation->rollNamePoints->GetAt(i).x + 20,  relation->rollNamePoints->GetAt(i).y + 10 - GabX };
-			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 		}
 		i++;
 	}

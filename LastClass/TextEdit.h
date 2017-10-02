@@ -45,6 +45,7 @@ public:
 	Long GetKoreanEnglish() const;
 	Long GetFlagBuffer() const;
 	CString GetCopyBuffer() const;
+	Long GetCriteriaX() const;
 	Long GetCriteriaWidth() const;
 	Long GetCriteriaHeight() const;
 public:
@@ -66,6 +67,7 @@ public:
 private:
 	Long koreanEnglish; //flag
 	Long currentX;
+	Long criteriaX;
 	Long criteriaWidth;
 	Long criteriaHeight;
 };
@@ -99,6 +101,9 @@ inline Long TextEdit::GetCriteriaWidth() const {
 }
 inline Long TextEdit::GetCriteriaHeight() const {
 	return this->criteriaHeight;
+}
+inline Long TextEdit::GetCriteriaX() const {
+	return this->criteriaX;
 }
 
 #endif // _TEXTEDIT_H

@@ -62,6 +62,7 @@ TextEdit::TextEdit(Figure *figure, Long rollNameBoxIndex) {
 	this->copyBuffer = "";
 	this->criteriaWidth = figure->GetWidth();
 	this->criteriaHeight = figure->GetHeight();
+	this->criteriaX = figure->GetX();
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -107,13 +108,11 @@ void TextEdit::OnPaint() {
 	CFont *m_oldFont = 0;
 
 	if (this->rollNameBoxIndex == -1) {
-		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
-		CFont *m_oldFont = memDC.SelectObject(&cFont);
 		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 		SetFont(&cFont, TRUE);
-		dc.SelectObject(cFont);
-		memDC.SelectObject(cFont);
+		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
+		CFont *m_oldFont = memDC.SelectObject(&cFont);
 
 		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
 		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
@@ -121,13 +120,11 @@ void TextEdit::OnPaint() {
 		}
 	}
 	else if (dynamic_cast<Relation*>(this->figure)) {
-		CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
-		CFont *m_oldFont = memDC.SelectObject(&cFont);
 		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		SetFont(&cFont, TRUE);
-		dc.SelectObject(cFont);
-		memDC.SelectObject(cFont);
+		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
+		CFont *m_oldFont = memDC.SelectObject(&cFont);
 
 		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
 		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
@@ -135,13 +132,11 @@ void TextEdit::OnPaint() {
 		}
 	}
 	else if (dynamic_cast<SelfRelation*>(this->figure)) {
-		CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
-		CFont *m_oldFont = memDC.SelectObject(&cFont);
 		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		SetFont(&cFont, TRUE);
-		dc.SelectObject(cFont);
-		memDC.SelectObject(cFont);
+		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
+		CFont *m_oldFont = memDC.SelectObject(&cFont);
 
 		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
 		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
@@ -391,7 +386,6 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 		static_cast<SelfRelation*>(this->figure)->ReplaceString(rollNameText, this->rollNameBoxIndex);
 	}
 
-	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)GetParentFrame();
 	CWnd::OnKillFocus(pNewWnd);
 	CWnd::HideCaret();
 	::DestroyCaret();

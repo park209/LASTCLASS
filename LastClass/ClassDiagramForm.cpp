@@ -484,13 +484,10 @@ void ClassDiagramForm::OnPaint() {
 
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->mouseLButton->ChangeState(nChar);
-	KeyAction *keyAction = NULL;
-	if (this->selection->GetLength() > 0) {
-	keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
-	}
+
+	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 	if (keyAction != 0) {
 		keyAction->KeyPress(this);
-
 		Invalidate(false);
 	}
 	if (nChar == VK_END) {
@@ -602,11 +599,12 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 				figure->GetY() + GabY,
 				figure->GetX() + figure->GetWidth() - GabX,
 				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
+			OnKillFocus(NULL);
 		}
 	}
 
 	//선택된 relationLine 이 있으면
-	if (this->selection->GetLength() == 1 && dynamic_cast<Relation*>(this->selection->GetAt(0))&& !dynamic_cast<MemoLine*>(this->selection->GetAt(0))) {
+	if (this->selection->GetLength() == 1 && dynamic_cast<Relation*>(this->selection->GetAt(0)) && !dynamic_cast<MemoLine*>(this->selection->GetAt(0))) {
 		// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
 		Long i = 0;
 		Long index = 0;
