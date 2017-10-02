@@ -28,6 +28,7 @@ public:
 	Long Move(Long index, CPoint cPoint);
 	CPoint GetAt(Long index);
 	Long Add(const CPoint& startCPoint, const CPoint& currentCPoint);
+	Long Add(const CPoint& cPoint);
 	Long Remove(Long index);
 	void MergePoints(Long selectIndex, CPoint cPoint);
 

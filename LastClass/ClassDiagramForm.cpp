@@ -96,23 +96,120 @@ Long ClassDiagramForm::Load() {
 	Long lineWidth;
 	Long lineHeight;
 	Long index;
-	ifstream fClass;
-	ifstream fLine;
+	//ifstream fClass;
+	//ifstream fLine;
 	Long type;
 	Long relationLength;
 	Long relationEndX;
 	Long relationEndY;
 	FigureFactory factory;
 	Figure *figure;
-
-	fClass.open("ClassSave.txt");
-	fLine.open("LineSave.txt");
+	ifstream fTest;
+	Long j;
+	Long l;
+	Long rowLength;
+	Long relationRowLength1;
+	Long relationRowLength2;
+	Long relationRowLength3;
+	Long relationRowLength4;
+	Long relationRowLength5;
+	Long fontSize;
+	string temp1;
+	string temp2;
+	//fClass.open("ClassSave.txt");
+	//fLine.open("LineSave.txt");
+	fTest.open("text.txt");
 	//종류 구별을 위한 마지막 칸 
 	// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 6 = Dependency(의존), 7 = Association(연관화),
 	// 8 = DirectedAssociation(직접연관),  9 = Aggregation(집합), 10 = Aggregations(집합연관), 11 =  Composition(합성), 12 = Compositions(복합연관), 13 = MemoLine
 	// 14 = ClassName , 15 = Attribute , 16 = Method , 17 = Reception
 
-	if (fClass.is_open() && fLine.is_open()) {
+	if (fTest.is_open()) {  //(fClass.is_open() && fLine.is_open()) {
+		fTest >> length >> x >> y >> width >> height >> type; //복합객체
+		while (!fTest.eof()) {
+			figure = factory.Create(x, y, width, height, type);
+			position = this->diagram->Add(figure);
+			FigureComposite *figureComposite = static_cast<FigureComposite*>(this->diagram->GetAt(position));
+			if (type == 7) {   //메모박스이면
+				fTest >> fontSize >> rowLength; 
+				j = 0;
+				temp2.clear();
+				while (j < rowLength) {
+					fTest >> temp1;
+					//getline(fTest, temp1);
+					temp2.append(temp1);
+					temp2.append("\n");
+					j++;
+				}
+				if( rowLength != 0){
+				Long k = temp2.find_last_of('\n');
+				temp2.replace(k, 1, "\0");
+				figureComposite->ReplaceString(temp2, fontSize);
+				}
+			}
+			i = 0;
+			while (position != -1 && i < length) {
+				fTest >> x >> y >> width >> height >> type;    //말단객체
+				figure = factory.Create(x, y, width, height, type);
+				j = 0;
+				if (type < 7 && type != 2){
+					fTest >> fontSize >> rowLength ;
+					temp2.clear();
+
+					while (j < rowLength) {
+						fTest >> temp1;
+						//getline(fTest, temp1);
+						temp2.append(temp1);
+						temp2.append("\n");
+						j++;
+					}
+					if (rowLength != 0) {
+						Long k = temp2.find_last_of('\n');
+						temp2.replace(k, 1, "\0");
+						figure->ReplaceString(temp2, fontSize);
+					}
+					figureComposite->Add(figure);
+				}
+				l = 0;
+				if (type >= 8 && type <= 17) {
+					fTest >> relationLength;
+					Long cPointX;
+					Long cPointY;
+					CPoint cPoint;
+					index = figureComposite->Add(figure);
+					Relation *relation = static_cast<Relation*>(figureComposite->GetAt(index));
+					j = 0;
+					while (j < relationLength) {
+						fTest >> cPointX >> cPointY;
+						cPoint.x = cPointX;
+						cPoint.y = cPointY;
+						relation->Add(cPoint);
+						j++;
+					}
+					if (type != 8) {
+						while (l < 5) {
+							temp2.clear();
+							fTest >> temp2;
+							if (temp2 != "") {
+								relation->rollNames->Modify(l, temp2);
+							}
+							fTest >> cPointX >> cPointY;
+							cPoint.x = cPointX;
+							cPoint.y = cPointY;
+							relation->rollNamePoints->Modify(l, cPoint);
+							l++;
+						}
+					}
+				}
+				if(type == 2) {
+					figureComposite->Add(figure);
+				}
+				i++;
+			}
+
+			fTest >> length >> x >> y >> width >> height >> type;
+		}
+		/*
 		fClass >> length >> x >> y >> width >> height >> type;
 		while (!fClass.eof()) {
 			figure = factory.Create(x, y, width, height, type);
@@ -141,12 +238,16 @@ Long ClassDiagramForm::Load() {
 					}
 				}
 				i++;
+
 			}
 			fClass >> length >> x >> y >> width >> height >> type;
-		}
-		fClass.close();
-		fLine.close();
+			*/
+
 	}
+	fTest.close();
+		//fClass.close();
+		//fLine.close();
+	
 	return this->diagram->GetLength();
 }
 
@@ -154,14 +255,20 @@ Long ClassDiagramForm::Save() {
 	Long k;
 	Long i = 0;
 	Long j;
+	Long l;
 	Long rowLength;
 	Long fontSize;
-	ofstream fClass;
-	ofstream fLine; // 읽을때는 ofstream
-
-	fClass.open("ClassSave.txt");
-	fLine.open("LineSave.txt");
-	if (fClass.is_open() && fLine.is_open()) {
+	FigureComposite *object = 0;
+	Figure *figure = 0;
+	CPoint cPoint;
+	string saveText;
+	//ofstream fClass;
+	//ofstream fLine; // 읽을때는 ofstream
+	ofstream fTest;
+	//fClass.open("ClassSave.txt");
+	//fLine.open("LineSave.txt");
+	fTest.open("text.txt");
+	if (fTest.is_open()){//(fClass.is_open() && fLine.is_open()) {
 		while (i < this->diagram->GetLength()) {
 			//종류 구별을 위한 마지막 칸 
 			// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 
@@ -171,12 +278,257 @@ Long ClassDiagramForm::Save() {
 			// 14 = ClassName , 15 = Attribute , 16 = Method , 17 = Reception , 18 =SelfGeneralization ,
 			//19 = SelfDependency , 20 = SelfAssociation , 21 = SelfDirectedAssociation
 			// 22 = SelfAggregation , 23 = SelfAggregations , 24 =SelfComposition , 25 = SelfCompositions
-			FigureComposite *object = 0;
+			j = 0;
+			k = 0;
+			l = 0;
 			if (dynamic_cast<Class*>(this->diagram->GetAt(i))) {
 				object = static_cast<FigureComposite*>(this->diagram->GetAt(i));
-				fClass << object->GetLength() << " " << object->GetX() << " " << object->GetY()
+				fTest << object->GetLength() << " " << object->GetX() << " " << object->GetY()
 					<< " " << object->GetWidth() << " " << object->GetHeight() << " " << 0 << endl;
+				while (j < object->GetLength())
+				{
+					if (dynamic_cast<ClassName*>(object->GetAt(j))) {
+						figure = static_cast<ClassName*>(object->GetAt(j));
+						fontSize = figure->GetFontSize();
+						rowLength = figure->GetRowCount(figure->GetContent());
+						fTest << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
+							<< figure->GetHeight() << " " << 1 << endl;
+						fTest << fontSize << " " << rowLength << endl;
+						fTest << figure->GetContent() << endl;
+					}
+					else if (dynamic_cast<Line*>(object->GetAt(j))) {
+						figure = object->GetAt(j);
+						fTest << figure->GetX() << " " << figure->GetY() << " " <<
+							figure->GetWidth() << " " << figure->GetHeight() << " " << 2 << endl;
+					}
+					else if (dynamic_cast<Attribute*>(object->GetAt(j))) {
+						figure = static_cast<Attribute*>(object->GetAt(j));
+						fontSize = figure->GetFontSize();
+						rowLength = figure->GetRowCount(figure->GetContent());
+						fTest << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
+							<< figure->GetHeight() << " " << 3 << endl;
+						fTest << fontSize << " " << rowLength << endl;
+						fTest << figure->GetContent() << endl;
+					}
+					else if (dynamic_cast<Method*>(object->GetAt(j))) {
+						figure = static_cast<Method*>(object->GetAt(j));
+						fontSize = figure->GetFontSize();
+						rowLength = figure->GetRowCount(figure->GetContent());
+						fTest << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
+							<< figure->GetHeight() << " " << 4 << endl;
+						fTest << fontSize << " " << rowLength << endl;
+						fTest << figure->GetContent() << endl;
+					}
+					else if (dynamic_cast<Reception*>(object->GetAt(j))) {
+						figure = static_cast<Reception*>(object->GetAt(j));
+						fontSize = figure->GetFontSize();
+						rowLength = figure->GetRowCount(figure->GetContent());
+						fTest << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
+							<< figure->GetHeight() << " " << 5 << endl;
+						fTest << fontSize << " " << rowLength << endl;
+						fTest << figure->GetContent() << endl;
+					}
+					else if (dynamic_cast<Template*>(object->GetAt(j))) {
+						figure = object->GetAt(j);
+						fontSize = figure->GetFontSize();
+						rowLength = figure->GetRowCount(figure->GetContent());
+						fTest << figure->GetX() << " " << figure->GetY() << " " <<
+						figure->GetWidth() << " " << figure->GetHeight() << " " << 6 << endl;
+						fTest << fontSize << " " << rowLength << endl;
+						fTest << figure->GetContent() << endl;
+					}
+					else if (dynamic_cast<MemoLine*>(object->GetAt(j))) {
+						Relation *relation = static_cast<Relation*>(object->GetAt(j));
+						fTest << relation->GetX() << " " << relation->GetY() << " " <<
+							relation->GetWidth() << " " << relation->GetHeight() << " " << 8 << endl;
+						fTest << relation->GetLength() << endl;
+						k = 0;
+						while (k < relation->GetLength()) {
+							cPoint = relation->GetAt(k);
+							fTest << cPoint.x << " " << cPoint.y << endl;
+							k++;
+						}
+					}
+					else if (dynamic_cast<Generalization*>(object->GetAt(j))) {
+						Relation *relation = static_cast<Relation*>(object->GetAt(j));
+						fTest << relation->GetX() << " " << relation->GetY() << " " <<
+							relation->GetWidth() << " " << relation->GetHeight() << " " << 9 << endl;
+						fTest << relation->GetLength() << endl;
+						while (k < relation->GetLength()) {
+							cPoint = relation->GetAt(k);
+							fTest << cPoint.x << " " << cPoint.y << endl;
+							k++;
+						}
+						while (l < 5) {
+							fTest << relation->rollNames->GetAt(l) << endl;;
+							fTest << relation->rollNamePoints->GetAt(l).x << " " << relation->rollNamePoints->GetAt(l).y << endl;
+							l++;
+						}
+					}
+					else if (dynamic_cast<Realization*>(object->GetAt(j))) {
+						Relation *relation = static_cast<Relation*>(object->GetAt(j));
+						fTest << relation->GetX() << " " << relation->GetY() << " " <<
+							relation->GetWidth() << " " << relation->GetHeight() << " " << 10 << endl;
+						fTest << relation->GetLength() << endl;
+						while (k < relation->GetLength()) {
+							cPoint = relation->GetAt(k);
+							fTest << cPoint.x << " " << cPoint.y << endl;
+							k++;
+						}
+						while (l < 5) {
+							fTest << relation->rollNames->GetAt(l) << endl;;
+							fTest << relation->rollNamePoints->GetAt(l).x << " " << relation->rollNamePoints->GetAt(l).y << endl;
+							l++;
+						}
+					}
+					else if (dynamic_cast<Dependency*>(object->GetAt(j))) {
+						Relation *relation = static_cast<Relation*>(object->GetAt(j));
+						fTest << relation->GetX() << " " << relation->GetY() << " " <<
+							relation->GetWidth() << " " << relation->GetHeight() << " " << 11 << endl;
+						fTest << relation->GetLength() << endl;
+						while (k < relation->GetLength()) {
+							cPoint = relation->GetAt(k);
+							fTest << cPoint.x << " " << cPoint.y << endl;
+							k++;
+						}
+						while (l < 5) {
+							fTest << relation->rollNames->GetAt(l) << endl;;
+							fTest << relation->rollNamePoints->GetAt(l).x << " " << relation->rollNamePoints->GetAt(l).y << endl;
+							l++;
+						}
+					}
+					else if (dynamic_cast<Association*>(object->GetAt(j))) {
+						Relation *relation = static_cast<Relation*>(object->GetAt(j));
+						fTest << relation->GetX() << " " << relation->GetY() << " " <<
+							relation->GetWidth() << " " << relation->GetHeight() << " " << 12 << endl;
+						fTest << relation->GetLength() << endl;
+						while (k < relation->GetLength()) {
+							cPoint = relation->GetAt(k);
+							fTest << cPoint.x << " " << cPoint.y << endl;
+							k++;
+						}
+						while (l < 5) {
+							fTest << relation->rollNames->GetAt(l) << endl;;
+							fTest << relation->rollNamePoints->GetAt(l).x << " " << relation->rollNamePoints->GetAt(l).y << endl;
+							l++;
+						}
+					}
+					else if (dynamic_cast<DirectedAssociation*>(object->GetAt(j))) {
+						Relation *relation = static_cast<Relation*>(object->GetAt(j));
+						fTest << relation->GetX() << " " << relation->GetY() << " " <<
+							relation->GetWidth() << " " << relation->GetHeight() << " " << 13 << endl;
+						fTest << relation->GetLength() << endl;
+						while (k < relation->GetLength()) {
+							cPoint = relation->GetAt(k);
+							fTest << cPoint.x << " " << cPoint.y << endl;
+							k++;
+						}
+						while (l < 5) {
+							fTest << relation->rollNames->GetAt(l) << endl;;
+							fTest << relation->rollNamePoints->GetAt(l).x << " " << relation->rollNamePoints->GetAt(l).y << endl;
+							l++;
+						}
+					}
+					else if (dynamic_cast<Aggregation*>(object->GetAt(j))) {
+						Relation *relation = static_cast<Relation*>(object->GetAt(j));
+						fTest << relation->GetX() << " " << relation->GetY() << " " <<
+							relation->GetWidth() << " " << relation->GetHeight() << " " << 14 << endl;
+						fTest << relation->GetLength() << endl;
+						while (k < relation->GetLength()) {
+							cPoint = relation->GetAt(k);
+							fTest << cPoint.x << " " << cPoint.y << endl;
+							k++;
+						}
+						while (l < 5) {
+							fTest << relation->rollNames->GetAt(l) << endl;;
+							fTest << relation->rollNamePoints->GetAt(l).x << " " << relation->rollNamePoints->GetAt(l).y << endl;
+							l++;
+						}
+					}
+					else if (dynamic_cast<Aggregations*>(object->GetAt(j))) {
+						Relation *relation = static_cast<Relation*>(object->GetAt(j));
+						fTest << relation->GetX() << " " << relation->GetY() << " " <<
+							relation->GetWidth() << " " << relation->GetHeight() << " " << 15 << endl;
+						fTest << relation->GetLength() << endl;
+						while (k < relation->GetLength()) {
+							cPoint = relation->GetAt(k);
+							fTest << cPoint.x << " " << cPoint.y << endl;
+							k++;
+						}
+						while (l < 5) {
+							fTest << relation->rollNames->GetAt(l) << endl;;
+							fTest << relation->rollNamePoints->GetAt(l).x << " " << relation->rollNamePoints->GetAt(l).y << endl;
+							l++;
+						}
+					}
+
+					else if (dynamic_cast<Composition*>(object->GetAt(j))) {
+						Relation *relation = static_cast<Relation*>(object->GetAt(j));
+						fTest << relation->GetX() << " " << relation->GetY() << " " <<
+							relation->GetWidth() << " " << relation->GetHeight() << " " << 16 << endl;
+						fTest << relation->GetLength() << endl;
+						while (k < relation->GetLength()) {
+							cPoint = relation->GetAt(k);
+							fTest << cPoint.x << " " << cPoint.y << endl;
+							k++;
+						}
+						while (l < 5) {
+							fTest << relation->rollNames->GetAt(l) << endl;;
+							fTest << relation->rollNamePoints->GetAt(l).x << " " << relation->rollNamePoints->GetAt(l).y << endl;
+							l++;
+						}
+					}
+					else if (dynamic_cast<Compositions*>(object->GetAt(j))) {
+						Relation *relation = static_cast<Relation*>(object->GetAt(j));
+						fTest << relation->GetX() << " " << relation->GetY() << " " <<
+							relation->GetWidth() << " " << relation->GetHeight() << " " << 17 << endl;
+						fTest << relation->GetLength() << endl;
+						while (k < relation->GetLength()) {
+							cPoint = relation->GetAt(k);
+							fTest << cPoint.x << " " << cPoint.y << endl;
+							k++;
+						}
+						while (l < 5) {
+							fTest << relation->rollNames->GetAt(l) << endl;;
+							fTest << relation->rollNamePoints->GetAt(l).x << " " << relation->rollNamePoints->GetAt(l).y << endl;
+							l++;
+						}
+					}
+					j++;
+				}
 			}
+			else if (dynamic_cast<MemoBox*>(this->diagram->GetAt(i))) {
+				object = static_cast<FigureComposite*>(this->diagram->GetAt(i));
+				fontSize = object->GetFontSize();
+				rowLength = object->GetRowCount(object->GetContent());
+				fTest << object->GetLength() << " " << object->GetX() << " " << object->GetY()
+				<< " " << object->GetWidth() << " " << object->GetHeight() << " " << 7 << endl;;
+				fTest << fontSize << " " << rowLength <<  endl; 
+				fTest << object->GetContent() << endl;
+				while (j < object->GetLength() ) {
+					Relation *relation = static_cast<Relation*>(object->GetAt(j));
+					fTest << relation->GetX() << " " << relation->GetY() << " " <<
+						relation->GetWidth() << " " << relation->GetHeight() << " " << 8 << endl;
+					fTest << relation->GetLength() << endl;
+				
+					while (k < relation->GetLength()) {
+						cPoint = relation->GetAt(k);
+						fTest << cPoint.x << " " << cPoint.y << endl;
+						k++;
+					}
+					j++;
+				}
+			}
+
+			
+			
+			
+
+
+
+
+
+			/*
 
 			else if (dynamic_cast<MemoBox*>(this->diagram->GetAt(i))) {
 				object = static_cast<FigureComposite*>(this->diagram->GetAt(i));
@@ -189,20 +541,6 @@ Long ClassDiagramForm::Save() {
 			while (j < object->GetLength()) {
 				Figure *figure;
 				CPoint cPoint;
-				if (dynamic_cast<Line*>(object->GetAt(j))) {
-					figure = object->GetAt(j);
-					fLine << figure->GetX() << " " << figure->GetY() << " " <<
-						figure->GetWidth() << " " << figure->GetHeight() << " " << 2 << " " << 0 << endl;
-				}
-
-				else if (dynamic_cast<Template*>(object->GetAt(j))) {
-					figure = object->GetAt(j);
-					fontSize = object->GetFontSize();
-					rowLength = object->GetRowCount(object->GetContent());
-					fLine << figure->GetX() << " " << figure->GetY() << " " <<
-						figure->GetWidth() << " " << figure->GetHeight() << " " << 3 << " " << fontSize << " " << rowLength << endl;
-					fLine << object->GetContent() << endl;
-				}
 
 				else if (dynamic_cast<Generalization*>(object->GetAt(j))) {
 					Relation *relation = static_cast<Relation*>(object->GetAt(j));
@@ -324,42 +662,7 @@ Long ClassDiagramForm::Save() {
 						k++;
 					}
 				}
-				else if (dynamic_cast<ClassName*>(object->GetAt(j))) {
-					figure = static_cast<ClassName*>(object->GetAt(j));
-					fontSize = object->GetFontSize();
-					rowLength = object->GetRowCount(object->GetContent());
-					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-						<< figure->GetHeight() << " " << 14 <<
-						" " << fontSize << " " << rowLength << endl;
-					fLine << object->GetContent() << endl;
-				}
-				else if (dynamic_cast<Attribute*>(object->GetAt(j))) {
-					figure = static_cast<Attribute*>(object->GetAt(j));
-					fontSize = object->GetFontSize();
-					rowLength = object->GetRowCount(object->GetContent());
-					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-						<< figure->GetHeight() << " " << 15 <<
-						" " << fontSize << " " << rowLength << endl;
-					fLine << object->GetContent() << endl;
-				}
-				else if (dynamic_cast<Method*>(object->GetAt(j))) {
-					figure = static_cast<Method*>(object->GetAt(j));
-					fontSize = object->GetFontSize();
-					rowLength = object->GetRowCount(object->GetContent());
-					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-						<< figure->GetHeight() << " " << 16 <<
-						" " << fontSize << " " << rowLength << endl;
-					fLine << object->GetContent() << endl;
-				}
-				else if (dynamic_cast<Reception*>(object->GetAt(j))) {
-					figure = static_cast<Reception*>(object->GetAt(j));
-					fontSize = object->GetFontSize();
-					rowLength = object->GetRowCount(object->GetContent());
-					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-						<< figure->GetHeight() << " " << 17 <<
-						" " << fontSize << " " << rowLength << endl;
-					fLine << object->GetContent() << endl;
-				}
+				
 				else if (dynamic_cast<SelfGeneralization*>(object->GetAt(j))) {
 					figure = static_cast<SelfRelation*>(object->GetAt(j));
 					fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
@@ -417,11 +720,14 @@ Long ClassDiagramForm::Save() {
 
 				}
 				j++;
+				
 			}
+			*/
 			i++;
 		}
-		fClass.close();
-		fLine.close();
+		//fClass.close();
+		//fLine.close();
+		fTest.close();
 	}
 	return this->diagram->GetLength();
 }
@@ -439,7 +745,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->keyBoard = new KeyBoard;
 
 	//1.2. 적재한다
-	//this->Load();
+	this->Load();
 
 	//1.3. 윈도우를 갱신한다
 	Invalidate();
@@ -837,7 +1143,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 }
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
-	//this->Save();
+	this->Save();
 
 	//6.2. 다이어그램을 지운다.
 	if (this->diagram != NULL) {
