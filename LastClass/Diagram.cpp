@@ -19,19 +19,7 @@ Diagram::Diagram(Long capacity) {
 Diagram::~Diagram() {
 }
 
-Diagram::Diagram(const Diagram& source) {
-	this->figures = source.figures;
-	Long i = 0;
-	while (i < this->length) {
-		this->figures.Modify(i, (const_cast<Diagram&>(source)).figures[i]->Clone());
-		i++;
-	}
-	this->capacity = source.capacity;
-	this->length = source.length;
-	this->x = source.x;
-	this->y = source.y;
-	this->width = source.width;
-	this->length = source.length;
+Diagram::Diagram(const Diagram& source) : FigureComposite(source) {
 }
 
 Diagram& Diagram::operator = (const Diagram& source) {
@@ -163,11 +151,11 @@ Figure* Diagram::Clone() const {
 }
 
 void Diagram::Accept(Visitor& visitor, CDC *pDC) {
-	Long  i = 0;
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 	while (!smartPointer->IsDone()) {
 		if (dynamic_cast<Class*>(smartPointer->Current())) {
 			static_cast<Class*>(smartPointer->Current())->Accept(visitor, pDC);
+			Long  i = 0;
 			while (i < static_cast<Class*>(smartPointer->Current())->GetLength()) {
 				if (dynamic_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
 					static_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(visitor, pDC);

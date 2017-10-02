@@ -92,8 +92,6 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 					selfRelation->rollNamePoints->Modify(3, cPoint4);
 					selfRelation->rollNamePoints->Modify(4, cPoint5);
 				}
-
-
 				j++;
 			}
 			k = 0;

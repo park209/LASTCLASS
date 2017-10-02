@@ -3,6 +3,15 @@
 #include "HistoryGraphic.h"
 #include "Diagram.h"
 
+HistoryGraphic* HistoryGraphic::instance = 0;
+
+HistoryGraphic* HistoryGraphic::Instance() {
+	if (instance == 0) {
+		instance = new HistoryGraphic;
+	}
+	return instance;
+}
+
 HistoryGraphic::HistoryGraphic() {
 	this->undoGraphicArray = new Array<Diagram*>(0);
 	this->redoGraphicArray = new Array<Diagram*>(0);

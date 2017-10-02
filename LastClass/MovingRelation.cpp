@@ -3,7 +3,7 @@
 #include "Finder.h"
 #include "Selection.h"
 #include "Diagram.h"
-
+#include "RollNameBox.h"
 MovingRelation* MovingRelation::instance = 0;
 
 MouseLButtonAction* MovingRelation::Instance() {
@@ -14,31 +14,88 @@ MouseLButtonAction* MovingRelation::Instance() {
 }
 
 void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
-		Relation *relation = static_cast<Relation*>(selection->GetAt(0));
-		bool point = false;
-		bool startLine = false;
-		bool squareFace = false;
-		bool endLine = false;
-		CPoint lineStart(relation->GetX(), relation->GetY());
-		CPoint lineEnd;
-		Long index = 0;
+	Relation *relation = static_cast<Relation*>(selection->GetAt(0));
+	bool point = false;
+	bool startLine = false;
+	bool squareFace = false;
+	bool endLine = false;
+	CPoint lineStart(relation->GetX(), relation->GetY());
+	CPoint lineEnd;
+	Long index = 0;
+	Finder finder;
+	CPoint startCPoint;
+	CPoint currentCPoint;
+	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
+	CPoint cPoint1;
+	CPoint cPoint2;
+	CPoint cPoint3;
+	CPoint cPoint4;
+	CPoint cPoint5;
+	startCPoint.x = startX;
+	startCPoint.y = startY;
+	currentCPoint.x = currentX;
+	currentCPoint.y = currentY;
+
+	CRect object(relation->GetX() - 10, relation->GetY() - 10, relation->GetX() + 10, relation->GetY() + 10);
+	startLine = finder.FindRectangleByPoint(object, startX, startY);
+	if (startLine == true) {
+
+		Figure *figure = finder.GetParents(diagram, relation);
+		Long x = figure->GetX();
+		Long y = figure->GetY();
+		Long width = figure->GetWidth();
+		Long height = figure->GetHeight();
+		Long relationX = currentX;
+		Long relationY = currentY;
+		if (x + width < currentX) {
+			relationX = x + width - 1;
+		}
+		else if (x > currentX) {
+			relationX = x + 1;
+		}
+		if (y + height < currentY) {
+			relationY = y + height - 1;
+		}
+		else if (y > currentY) {
+			relationY = y + 1;
+		}
+
+		CRect rect(x, y, x + width, y + height);
 		Finder finder;
-		CPoint startCPoint;
-		CPoint currentCPoint;
-		startCPoint.x = startX;
-		startCPoint.y = startY;
-		currentCPoint.x = currentX;
-		currentCPoint.y = currentY;
+		CPoint startLine(relationX, relationY);
+		CPoint endLine(relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight());
+		CPoint cross = finder.GetCrossPoint(startLine, endLine, rect);
+		relation->Modify(cross.x, cross.y, relation->GetWidth() + relation->GetX() - cross.x, relation->GetHeight() + relation->GetY() - cross.y);
 
-		CRect object(relation->GetX() - 10, relation->GetY() - 10, relation->GetX() + 10, relation->GetY() + 10);
-		startLine = finder.FindRectangleByPoint(object, startX, startY);
-		if (startLine == true) {
 
-			Figure *figure = finder.GetParents(diagram, relation);
-			Long x = figure->GetX();
-			Long y = figure->GetY();
-			Long width = figure->GetWidth();
-			Long height = figure->GetHeight();
+		CPoint startPoint{ relation->GetX(), relation->GetY() };
+		CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+		cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+		cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+		cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+		cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+		cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+		relation->rollNamePoints->Modify(0, cPoint1);
+		relation->rollNamePoints->Modify(1, cPoint2);
+		relation->rollNamePoints->Modify(2, cPoint3);
+		relation->rollNamePoints->Modify(3, cPoint4);
+		relation->rollNamePoints->Modify(4, cPoint5);
+	}
+	else { // 끝점찾기
+		Long i = 0;
+		FigureComposite *figures = 0;
+		while (i < diagram->GetLength() && endLine != true) {
+			figures = static_cast<FigureComposite*>(diagram->GetAt(i));
+			CRect object(figures->GetX(), figures->GetY(), figures->GetX() + figures->GetWidth(), figures->GetY() + figures->GetHeight());
+			endLine = finder.FindRectangleByPoint(object, relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight());
+			i++;
+		}
+		if (endLine == true) {
+			//끝점 변경하는 로직.
+			Long x = figures->GetX();
+			Long y = figures->GetY();
+			Long width = figures->GetWidth();
+			Long height = figures->GetHeight();
 			Long relationX = currentX;
 			Long relationY = currentY;
 			if (x + width < currentX) {
@@ -56,50 +113,25 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram
 
 			CRect rect(x, y, x + width, y + height);
 			Finder finder;
-			CPoint startLine(relationX, relationY);
-			CPoint endLine(relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight());
+			CPoint startLine(relation->GetX(), relation->GetY());
+			CPoint endLine(relationX, relationY);
 			CPoint cross = finder.GetCrossPoint(startLine, endLine, rect);
-			relation->Modify(cross.x, cross.y, relation->GetWidth() + relation->GetX() - cross.x, relation->GetHeight() + relation->GetY() - cross.y);
-			
-		}
-		else { // 끝점찾기
-			Long i = 0;
-			FigureComposite *figures = 0;
-			while (i < diagram->GetLength() && endLine != true) {
-				figures = static_cast<FigureComposite*>(diagram->GetAt(i));
-				CRect object(figures->GetX(), figures->GetY(), figures->GetX() + figures->GetWidth(), figures->GetY() + figures->GetHeight());
-				endLine = finder.FindRectangleByPoint(object, relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight());
-				i++;
-			}
-			if (endLine == true) {
-				//끝점 변경하는 로직.
-				Long x = figures->GetX();
-				Long y = figures->GetY();
-				Long width = figures->GetWidth();
-				Long height = figures->GetHeight();
-				Long relationX = currentX;
-				Long relationY = currentY;
-				if (x + width < currentX) {
-					relationX = x + width - 1;
-				}
-				else if (x > currentX) {
-					relationX = x + 1;
-				}
-				if (y + height < currentY) {
-					relationY = y + height - 1;
-				}
-				else if (y > currentY) {
-					relationY = y + 1;
-				}
+			relation->Modify(relation->GetX(), relation->GetY(), cross.x - relation->GetX(), cross.y - relation->GetY());
 
-				CRect rect(x, y, x + width, y + height);
-				Finder finder;
-				CPoint startLine(relation->GetX(), relation->GetY());
-				CPoint endLine(relationX , relationY);
-				CPoint cross = finder.GetCrossPoint(startLine, endLine, rect);
-				relation->Modify(relation->GetX() , relation->GetY() , cross.x - relation->GetX()  , cross.y -relation->GetY());
-			}
+			CPoint startPoint{ relation->GetX(), relation->GetY() };
+			CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+			cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+			relation->rollNamePoints->Modify(0, cPoint1);
+			relation->rollNamePoints->Modify(1, cPoint2);
+			relation->rollNamePoints->Modify(2, cPoint3);
+			relation->rollNamePoints->Modify(3, cPoint4);
+			relation->rollNamePoints->Modify(4, cPoint5);
 		}
+	}
 	this->ChangeDefault(mouseLButton);
 }
 void MovingRelation::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
@@ -147,7 +179,7 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 			lineEnd.x = relation->GetAt(0).x;
 			lineEnd.y = relation->GetAt(0).y;
 		}
-		else{
+		else {
 			lineEnd.x = relation->GetX() + relation->GetWidth();
 			lineEnd.y = relation->GetY() + relation->GetHeight();
 		}
@@ -174,13 +206,13 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 				relationX = relation->GetX() + relation->GetWidth() - 1;
 			}
 			else if (relation->GetX() + relation->GetWidth() > currentX) {
-				relationX = relation->GetX() + relation->GetWidth()- 1;
+				relationX = relation->GetX() + relation->GetWidth() - 1;
 			}
 			if (y + height < currentY) {
 				relationY = y + height - 1;
 			}
 			else if (y > currentY) {
-				relationY = y +1;
+				relationY = y + 1;
 			}
 
 
