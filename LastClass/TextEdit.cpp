@@ -62,6 +62,7 @@ TextEdit::TextEdit(Figure *figure, Long rollNameBoxIndex) {
 	this->copyBuffer = "";
 	this->criteriaWidth = figure->GetWidth();
 	this->criteriaHeight = figure->GetHeight();
+	this->criteriaX = figure->GetX();
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -122,7 +123,7 @@ void TextEdit::OnPaint() {
 		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		SetFont(&cFont, TRUE);
-		CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
+		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
 		CFont *m_oldFont = memDC.SelectObject(&cFont);
 
 		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
@@ -134,7 +135,7 @@ void TextEdit::OnPaint() {
 		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		SetFont(&cFont, TRUE);
-		CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
+		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
 		CFont *m_oldFont = memDC.SelectObject(&cFont);
 
 		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
@@ -142,6 +143,7 @@ void TextEdit::OnPaint() {
 			this->textAreaSelected->SelectTextArea(this, &memDC);
 		}
 	}
+
 	dc.BitBlt(0, 0, rt.right, rt.bottom, &memDC, 0, 0, SRCCOPY);
 
 	this->caret->MoveToIndex(this, &dc);
@@ -376,19 +378,14 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 		this->figure->ReplaceString(content, this->rowHeight);
 	}
 	else if (dynamic_cast<Relation*>(this->figure)) {
-		// relation에 string 배열에 저장하는거 만들고
 		string rollNameText(this->text->MakeText());
 		static_cast<Relation*>(this->figure)->ReplaceString(rollNameText, this->rollNameBoxIndex);
-		// visitor 도 만들어야할듯
 	}
 	else if (dynamic_cast<SelfRelation*>(this->figure)) {
-		// selfRelation 에서 string 배열에 저장하고
 		string rollNameText(this->text->MakeText());
-		static_cast<Relation*>(this->figure)->ReplaceString(rollNameText, this->rollNameBoxIndex);
-		// visitor 만들어서 밖에 뿌려줘야함
+		static_cast<SelfRelation*>(this->figure)->ReplaceString(rollNameText, this->rollNameBoxIndex);
 	}
 
-	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)GetParentFrame();
 	CWnd::OnKillFocus(pNewWnd);
 	CWnd::HideCaret();
 	::DestroyCaret();
@@ -423,16 +420,12 @@ void TextEdit::OnClose() {
 		this->figure->ReplaceString(content, this->rowHeight);
 	}
 	else if (dynamic_cast<Relation*>(this->figure)) {
-		// relation에 string 배열에 저장하는거 만들고
 		string rollNameText(this->text->MakeText());
 		static_cast<Relation*>(this->figure)->ReplaceString(rollNameText, this->rollNameBoxIndex);
-		// visitor 도 만들어야할듯
 	}
 	else if (dynamic_cast<SelfRelation*>(this->figure)) {
-		// selfRelation 에서 string 배열에 저장하고
 		string rollNameText(this->text->MakeText());
-		static_cast<Relation*>(this->figure)->ReplaceString(rollNameText, this->rollNameBoxIndex);
-		// visitor 만들어서 밖에 뿌려줘야함
+		static_cast<SelfRelation*>(this->figure)->ReplaceString(rollNameText, this->rollNameBoxIndex);
 	}
 
 	if (this->caret != NULL) {
