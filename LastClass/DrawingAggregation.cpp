@@ -47,8 +47,6 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *dia
 
 		index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
-
-
 	}
 
 	if (selection->GetLength() == 2 && selection->GetAt(0) == selection->GetAt(1)) {
@@ -63,9 +61,8 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *dia
 	}
 	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
-
-
 }
+
 void DrawingAggregation::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	selection->DeleteAllItems();
 	selection->SelectByPoint(diagram, currentX, currentY);

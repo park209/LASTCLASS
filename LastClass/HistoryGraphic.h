@@ -11,6 +11,8 @@ class Diagram;
 
 class HistoryGraphic {
 public:
+	static HistoryGraphic* Instance();
+
 	HistoryGraphic();
 	HistoryGraphic(const HistoryGraphic& source);
 	~HistoryGraphic();
@@ -21,18 +23,12 @@ public:
 	void PushRedo(Diagram *diagram);
 	Diagram* PopRedoGraphic();
 
-	Diagram* GetUndoArray() const;
-	Diagram* GetRedoArray() const;
 public:
 	Array<Diagram*>*undoGraphicArray;
 	Array<Diagram*>*redoGraphicArray;
+
+	static HistoryGraphic* instance;
 };
 
-inline Diagram* HistoryGraphic::GetUndoArray() const {
-	// 필요하면 배열 전체 나중에
-}
-inline Diagram* HistoryGraphic::GetRedoArray() const {
-	// 필요하면 배열 전체 나중에
-}
 
 #endif //!_HISTORYGRAPHIC_H

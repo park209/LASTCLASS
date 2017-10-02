@@ -476,6 +476,7 @@ void ClassDiagramForm::OnPaint() {
 	cFont.DeleteObject();
 
 	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, 0, 0, SRCCOPY);
+
 	memDC.SelectObject(pOldBitmap);
 	bitmap.DeleteObject();
 	memDC.DeleteDC();
@@ -483,13 +484,10 @@ void ClassDiagramForm::OnPaint() {
 
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->mouseLButton->ChangeState(nChar);
-	KeyAction *keyAction = NULL;
-	if (this->selection->GetLength() > 0) {
-	keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
-	}
+
+	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 	if (keyAction != 0) {
 		keyAction->KeyPress(this);
-
 		Invalidate(false);
 	}
 	if (nChar == VK_END) {
@@ -606,7 +604,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	}
 
 	//선택된 relationLine 이 있으면
-	if (this->selection->GetLength() == 1 && dynamic_cast<Relation*>(this->selection->GetAt(0))) {
+	if (this->selection->GetLength() == 1 && dynamic_cast<Relation*>(this->selection->GetAt(0)) && !dynamic_cast<MemoLine*>(this->selection->GetAt(0))) {
 		// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
 		Long i = 0;
 		Long index = 0;
@@ -616,10 +614,18 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		Long top;
 		Long bottom;
 		while (i < 5 && index == 0) {
-			right = relation->rollNamePoints->GetAt(i).x + 20;
-			left = relation->rollNamePoints->GetAt(i).x - 20;
-			top = relation->rollNamePoints->GetAt(i).y - 10;
-			bottom = relation->rollNamePoints->GetAt(i).y + 10;
+			if (i != 1) {
+				right = relation->rollNamePoints->GetAt(i).x + 20;
+				left = relation->rollNamePoints->GetAt(i).x - 20;
+				top = relation->rollNamePoints->GetAt(i).y - 10;
+				bottom = relation->rollNamePoints->GetAt(i).y + 10;
+			}
+			else if (i == 1) {
+				right = relation->rollNamePoints->GetAt(i).x + 40;
+				left = relation->rollNamePoints->GetAt(i).x - 40;
+				top = relation->rollNamePoints->GetAt(i).y - 10;
+				bottom = relation->rollNamePoints->GetAt(i).y + 10;
+			}
 			if (startX < right && startX > left && startY > top && startY < bottom) {
 				index++;
 			}
@@ -686,10 +692,10 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		if (index > 0) {
 			this->textEdit = new TextEdit(selfRelation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				left,
-				top,
-				right,
-				bottom), this, 10000, NULL);
+				left + 1,
+				top + 1,
+				right - 1,
+				bottom - 1), this, 10000, NULL);
 			OnKillFocus(NULL);
 		}
 	}

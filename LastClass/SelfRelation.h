@@ -15,6 +15,7 @@ public:
 	SelfRelation(const SelfRelation& source);
 	virtual ~SelfRelation() = 0;
 	SelfRelation& operator =(const SelfRelation& source);
+	void ReplaceString(string rollNameText, Long rollNameBoxIndex);
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 	Figure* Clone()const = 0;
 public:
