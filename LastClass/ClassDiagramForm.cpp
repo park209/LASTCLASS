@@ -62,6 +62,7 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 	ON_WM_CLOSE()
+	ON_WM_SIZE()
 	ON_WM_VSCROLL()
 	ON_WM_HSCROLL()
 END_MESSAGE_MAP()
@@ -432,7 +433,6 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
 	this->historyGraphic = new HistoryGraphic;
-
 	this->verticalScrollBar = new VerticalScrollBar(this);
 	this->horizontalScroll = new HorizontalScrollBar(this);
 	this->keyBoard = new KeyBoard;
@@ -476,6 +476,7 @@ void ClassDiagramForm::OnPaint() {
 	cFont.DeleteObject();
 
 	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, 0, 0, SRCCOPY);
+
 	memDC.SelectObject(pOldBitmap);
 	bitmap.DeleteObject();
 	memDC.DeleteDC();
@@ -483,7 +484,10 @@ void ClassDiagramForm::OnPaint() {
 
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->mouseLButton->ChangeState(nChar);
-	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
+	KeyAction *keyAction = NULL;
+	if (this->selection->GetLength() > 0) {
+	keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
+	}
 	if (keyAction != 0) {
 		keyAction->KeyPress(this);
 
@@ -502,6 +506,21 @@ void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	CFrameWnd::OnSetFocus(pOldWnd);
 	CWnd::SetFocus();
 	Invalidate(false);
+}
+void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
+	Long nPos;
+	if (this->verticalScrollBar != 0) {
+		nPos = this->verticalScrollBar->GetScrollPos();
+		delete this->verticalScrollBar;
+		this->verticalScrollBar = new VerticalScrollBar(this);
+		this->verticalScrollBar->SetScrollPos(nPos);
+	}
+	if (this->horizontalScroll != 0) {
+		nPos = this->horizontalScroll->GetScrollPos();
+		delete this->horizontalScroll;
+		this->horizontalScroll = new HorizontalScrollBar(this);
+		this->horizontalScroll->SetScrollPos(nPos);
+	}
 }
 void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
 	VScrollCreator vaction;
@@ -532,12 +551,15 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 		}
 		elapseTime++;
 	}
+	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
+	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
 
-	this->startX = point.x;
-	this->startY = point.y;
-	this->currentX = point.x;
-	this->currentY = point.y;
 
+	this->startX = point.x  +  horizontalNPos;
+	this->startY = point.y +verticalNPos;
+	this->currentX = point.x + horizontalNPos;
+	this->currentY = point.y + verticalNPos;
+	
 
 	this->mouseLButton->MouseLButtonDown(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 
@@ -548,10 +570,16 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
-	this->startX = point.x;
-	this->startY = point.y;
-	this->currentX = point.x;
-	this->currentY = point.y;
+	CPaintDC dc(this);
+
+	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
+	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
+
+
+	this->startX = point.x + horizontalNPos;
+	this->startY = point.y + verticalNPos;
+	this->currentX = point.x + horizontalNPos;
+	this->currentY = point.y + verticalNPos;
 
 
 
@@ -560,29 +588,25 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 		this->textEdit = new TextEdit(figure);
 
-		if (dynamic_cast<MemoBox*>(figure)) {
+		if (dynamic_cast<MemoBox*>(figure) || dynamic_cast<ClassName*>(figure)) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX() + GabX,
 				figure->GetY() + GabY + MemoGab,
 				figure->GetX() + figure->GetWidth() - GabX,
 				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
-			//OnKillFocus(NULL);
+			OnKillFocus(NULL);
 		}
 		else {
-			this->textEdit->Create(NULL, "textEdit", WS_CLIPCHILDREN | WS_VISIBLE, CRect(
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX() + GabX,
 				figure->GetY() + GabY,
 				figure->GetX() + figure->GetWidth() - GabX,
 				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
-
-			//OnKillFocus(NULL);
 		}
-
-		OnKillFocus(NULL);
 	}
 
 	//선택된 relationLine 이 있으면
-	if (this->selection->GetLength() == 1 && dynamic_cast<Relation*>(this->selection->GetAt(0))) {
+	if (this->selection->GetLength() == 1 && dynamic_cast<Relation*>(this->selection->GetAt(0))&& !dynamic_cast<MemoLine*>(this->selection->GetAt(0))) {
 		// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
 		Long i = 0;
 		Long index = 0;
@@ -592,19 +616,18 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		Long top;
 		Long bottom;
 		while (i < 5 && index == 0) {
-			if (i == 1) {
-				right = relation->rollNamePoints->GetAt(i).x + 40;
-				left = relation->rollNamePoints->GetAt(i).x - 40;
-				top = relation->rollNamePoints->GetAt(i).y - 10;
-				bottom = relation->rollNamePoints->GetAt(i).y + 10;
-			}
-			else {
+			if (i != 1) {
 				right = relation->rollNamePoints->GetAt(i).x + 20;
 				left = relation->rollNamePoints->GetAt(i).x - 20;
 				top = relation->rollNamePoints->GetAt(i).y - 10;
 				bottom = relation->rollNamePoints->GetAt(i).y + 10;
 			}
-	
+			else if (i == 1) {
+				right = relation->rollNamePoints->GetAt(i).x + 40;
+				left = relation->rollNamePoints->GetAt(i).x - 40;
+				top = relation->rollNamePoints->GetAt(i).y - 10;
+				bottom = relation->rollNamePoints->GetAt(i).y + 10;
+			}
 			if (startX < right && startX > left && startY > top && startY < bottom) {
 				index++;
 			}
@@ -671,13 +694,14 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		if (index > 0) {
 			this->textEdit = new TextEdit(selfRelation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				left,
-				top,
-				right,
-				bottom), this, 10000, NULL);
+				left + 1,
+				top + 1,
+				right - 1,
+				bottom - 1), this, 10000, NULL);
 			OnKillFocus(NULL);
 		}
 	}
+	Invalidate(false);
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
@@ -690,8 +714,13 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
 		return;
 	}
-	this->currentX = point.x;
-	this->currentY = point.y;
+
+
+	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
+	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
+
+	this->currentX = point.x + horizontalNPos;
+	this->currentY = point.y + verticalNPos;
 
 
 	this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
@@ -704,16 +733,20 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentY = 0;
 
 	KillTimer(1);
-
 	Invalidate(false);
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 
 	if (nFlags == MK_LBUTTON) {
-		this->currentX = point.x;
-		this->currentY = point.y;
 
+		Long verticalNPos = this->verticalScrollBar->GetScrollPos();
+		Long horizontalNPos = this->horizontalScroll->GetScrollPos();
+
+		this->currentX = point.x + horizontalNPos; 
+		this->currentY = point.y + verticalNPos;
+		//CRect rect;
+		//this->GetClientRect(&rect);
 		Invalidate(false);
 	}
 	/*Long index;

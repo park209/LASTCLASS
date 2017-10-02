@@ -3,7 +3,7 @@
 #include "Finder.h"
 #include "Selection.h"
 #include "Diagram.h"
-
+#include "RollNameBox.h"
 MovingRelation* MovingRelation::instance = 0;
 
 MouseLButtonAction* MovingRelation::Instance() {
@@ -25,6 +25,12 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram
 		Finder finder;
 		CPoint startCPoint;
 		CPoint currentCPoint;
+		RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
+		CPoint cPoint1;
+		CPoint cPoint2;
+		CPoint cPoint3;
+		CPoint cPoint4;
+		CPoint cPoint5;
 		startCPoint.x = startX;
 		startCPoint.y = startY;
 		currentCPoint.x = currentX;
@@ -61,6 +67,19 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram
 			CPoint cross = finder.GetCrossPoint(startLine, endLine, rect);
 			relation->Modify(cross.x, cross.y, relation->GetWidth() + relation->GetX() - cross.x, relation->GetHeight() + relation->GetY() - cross.y);
 			
+
+			CPoint startPoint{ relation->GetX(), relation->GetY() };
+			CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+			cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+			relation->rollNamePoints->Modify(0, cPoint1);
+			relation->rollNamePoints->Modify(1, cPoint2);
+			relation->rollNamePoints->Modify(2, cPoint3);
+			relation->rollNamePoints->Modify(3, cPoint4);
+			relation->rollNamePoints->Modify(4, cPoint5);
 		}
 		else { // 끝점찾기
 			Long i = 0;
@@ -98,6 +117,19 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram
 				CPoint endLine(relationX , relationY);
 				CPoint cross = finder.GetCrossPoint(startLine, endLine, rect);
 				relation->Modify(relation->GetX() , relation->GetY() , cross.x - relation->GetX()  , cross.y -relation->GetY());
+
+				CPoint startPoint{ relation->GetX(), relation->GetY() };
+				CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+				cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+				cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+				cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+				cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+				cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+				relation->rollNamePoints->Modify(0, cPoint1);
+				relation->rollNamePoints->Modify(1, cPoint2);
+				relation->rollNamePoints->Modify(2, cPoint3);
+				relation->rollNamePoints->Modify(3, cPoint4);
+				relation->rollNamePoints->Modify(4, cPoint5);
 			}
 		}
 	this->ChangeDefault(mouseLButton);

@@ -20,22 +20,29 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aggregation.h" />
+    <ClInclude Include="AggregationButton.h" />
     <ClInclude Include="Aggregations.h" />
+    <ClInclude Include="AggregationsButton.h" />
     <ClInclude Include="AKey.h" />
     <ClInclude Include="Array.h" />
     <ClInclude Include="ArrayIterator.h" />
     <ClInclude Include="Association.h" />
+    <ClInclude Include="AssociationButton.h" />
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="BackSpaceKey.h" />
+    <ClInclude Include="ButtonState.h" />
     <ClInclude Include="Caret.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Class.h" />
+    <ClInclude Include="ClassButton.h" />
     <ClInclude Include="ClassDiagramApp.h" />
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="ClassName.h" />
     <ClInclude Include="CMemoryDC.h" />
     <ClInclude Include="Composition.h" />
+    <ClInclude Include="CompositionButton.h" />
     <ClInclude Include="Compositions.h" />
+    <ClInclude Include="CompositionsButton.h" />
     <ClInclude Include="CtrlAllKey.h" />
     <ClInclude Include="CtrlCopyKey.h" />
     <ClInclude Include="CtrlCutKey.h" />
@@ -49,7 +56,9 @@
     <ClInclude Include="DeleteTextArea.h" />
     <ClInclude Include="DeleteTextAreaSelected.h" />
     <ClInclude Include="Dependency.h" />
+    <ClInclude Include="DependencyButton.h" />
     <ClInclude Include="Diagram.h" />
+    <ClInclude Include="DirectAssociationButton.h" />
     <ClInclude Include="DirectedAssociation.h" />
     <ClInclude Include="DKey.h" />
     <ClInclude Include="DoubleByteCharacter.h" />
@@ -62,6 +71,7 @@
     <ClInclude Include="DrawingClass.h" />
     <ClInclude Include="DrawingComposition.h" />
     <ClInclude Include="DrawingCompositions.h" />
+    <ClInclude Include="DrawingController.h" />
     <ClInclude Include="DrawingDependency.h" />
     <ClInclude Include="DrawingDirectedAssociation.h" />
     <ClInclude Include="DrawingGeneralization.h" />
@@ -84,8 +94,10 @@
     <ClInclude Include="FigureFactory.h" />
     <ClInclude Include="Finder.h" />
     <ClInclude Include="FKey.h" />
+    <ClInclude Include="FlagSet.h" />
     <ClInclude Include="FontSet.h" />
     <ClInclude Include="Generalization.h" />
+    <ClInclude Include="GeneralizationButton.h" />
     <ClInclude Include="GKey.h" />
     <ClInclude Include="HistoryGraphic.h" />
     <ClInclude Include="HistoryText.h" />
@@ -102,7 +114,9 @@
     <ClInclude Include="LeftArrowKey.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="MemoBox.h" />
+    <ClInclude Include="MemoBoxButton.h" />
     <ClInclude Include="MemoLine.h" />
+    <ClInclude Include="MemoLineButton.h" />
     <ClInclude Include="Method.h" />
     <ClInclude Include="MinusKey.h" />
     <ClInclude Include="MouseLButton.h" />
@@ -133,7 +147,9 @@
     <ClInclude Include="OnVScrollTop.h" />
     <ClInclude Include="PlusKey.h" />
     <ClInclude Include="Realization.h" />
+    <ClInclude Include="RealizationButton.h" />
     <ClInclude Include="Reception.h" />
+    <ClInclude Include="ReceptionButton.h" />
     <ClInclude Include="Relation.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RightArrowKey.h" />
@@ -141,6 +157,8 @@
     <ClInclude Include="Row.h" />
     <ClInclude Include="Scroll.h" />
     <ClInclude Include="ScrollAction.h" />
+    <ClInclude Include="TemplateButton.h" />
+    <ClInclude Include="Unclicked.h" />
     <ClInclude Include="VScrollCreator.h" />
     <ClInclude Include="Selection.h" />
     <ClInclude Include="SelectionState.h" />
@@ -174,20 +192,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aggregation.cpp" />
+    <ClCompile Include="AggregationButton.cpp" />
     <ClCompile Include="Aggregations.cpp" />
+    <ClCompile Include="AggregationsButton.cpp" />
     <ClCompile Include="AKey.cpp" />
     <ClCompile Include="ArrayIterator.cpp" />
     <ClCompile Include="Association.cpp" />
+    <ClCompile Include="AssociationButton.cpp" />
     <ClCompile Include="Attribute.cpp" />
     <ClCompile Include="BackSpaceKey.cpp" />
+    <ClCompile Include="ButtonState.cpp" />
     <ClCompile Include="Caret.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Class.cpp" />
+    <ClCompile Include="ClassButton.cpp" />
     <ClCompile Include="ClassDiagramApp.cpp" />
     <ClCompile Include="ClassDiagramForm.cpp" />
     <ClCompile Include="ClassName.cpp" />
     <ClCompile Include="Composition.cpp" />
+    <ClCompile Include="CompositionButton.cpp" />
     <ClCompile Include="Compositions.cpp" />
+    <ClCompile Include="CompositionsButton.cpp" />
     <ClCompile Include="CtrlAllKey.cpp" />
     <ClCompile Include="CtrlCopyKey.cpp" />
     <ClCompile Include="CtrlCutKey.cpp" />
@@ -201,7 +226,9 @@
     <ClCompile Include="DeleteTextArea.cpp" />
     <ClCompile Include="DeleteTextAreaSelected.cpp" />
     <ClCompile Include="Dependency.cpp" />
+    <ClCompile Include="DependencyButton.cpp" />
     <ClCompile Include="Diagram.cpp" />
+    <ClCompile Include="DirectAssociationButton.cpp" />
     <ClCompile Include="DirectedAssociation.cpp" />
     <ClCompile Include="DKey.cpp" />
     <ClCompile Include="DoubleByteCharacter.cpp" />
@@ -214,6 +241,7 @@
     <ClCompile Include="DrawingClass.cpp" />
     <ClCompile Include="DrawingComposition.cpp" />
     <ClCompile Include="DrawingCompositions.cpp" />
+    <ClCompile Include="DrawingController.cpp" />
     <ClCompile Include="DrawingDependency.cpp" />
     <ClCompile Include="DrawingDirectedAssociation.cpp" />
     <ClCompile Include="DrawingGeneralization.cpp" />
@@ -236,8 +264,10 @@
     <ClCompile Include="FigureFactory.cpp" />
     <ClCompile Include="Finder.cpp" />
     <ClCompile Include="FKey.cpp" />
+    <ClCompile Include="FlagSet.cpp" />
     <ClCompile Include="FontSet.cpp" />
     <ClCompile Include="Generalization.cpp" />
+    <ClCompile Include="GeneralizationButton.cpp" />
     <ClCompile Include="GKey.cpp" />
     <ClCompile Include="HistoryGraphic.cpp" />
     <ClCompile Include="HistoryText.cpp" />
@@ -253,7 +283,9 @@
     <ClCompile Include="LeftArrowKey.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="MemoBox.cpp" />
+    <ClCompile Include="MemoBoxButton.cpp" />
     <ClCompile Include="MemoLine.cpp" />
+    <ClCompile Include="MemoLineButton.cpp" />
     <ClCompile Include="Method.cpp" />
     <ClCompile Include="MinusKey.cpp" />
     <ClCompile Include="MouseLButton.cpp" />
@@ -283,13 +315,17 @@
     <ClCompile Include="OnVScrollTop.cpp" />
     <ClCompile Include="PlusKey.cpp" />
     <ClCompile Include="Realization.cpp" />
+    <ClCompile Include="RealizationButton.cpp" />
     <ClCompile Include="Reception.cpp" />
+    <ClCompile Include="ReceptionButton.cpp" />
     <ClCompile Include="Relation.cpp" />
     <ClCompile Include="RightArrowKey.cpp" />
     <ClCompile Include="RollNameBox.cpp" />
     <ClCompile Include="Row.cpp" />
     <ClCompile Include="Scroll.cpp" />
     <ClCompile Include="ScrollAction.cpp" />
+    <ClCompile Include="TemplateButton.cpp" />
+    <ClCompile Include="Unclicked.cpp" />
     <ClCompile Include="VScrollCreator.cpp" />
     <ClCompile Include="Selection.cpp" />
     <ClCompile Include="SelectionState.cpp" />

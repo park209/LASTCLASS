@@ -14,6 +14,8 @@
 #include "Selection.h"
 #include "MemoBox.h"
 #include "Relation.h"
+#include "ClassName.h"
+#include "Template.h"
 
 EditResizer::EditResizer() {
 
@@ -31,7 +33,7 @@ void EditResizer::ResizeEdit(TextEdit *textEdit, CDC *cdc) {
 		RECT rt;
 		textEdit->GetClientRect(&rt);
 		Long gabY_ = GabY * 2;
-		if (dynamic_cast<MemoBox*>(textEdit->figure)) {
+		if (dynamic_cast<MemoBox*>(textEdit->figure) || dynamic_cast<ClassName*>(textEdit->figure)) {
 			gabY_ += MemoGab;
 		}
 
@@ -39,8 +41,11 @@ void EditResizer::ResizeEdit(TextEdit *textEdit, CDC *cdc) {
 			if (textEdit->GetRowHeight()*textEdit->text->GetLength() + gabY_ > textEdit->GetCriteriaHeight()) {
 				resizer.ResizeEditAll(textEdit, cdc);											//글높이가 클래스를 넘어가면 둘다O
 			}
-			else {																				//글높이가 클래스를 안넘어가면 너비만
+			else if (!dynamic_cast<Template*>(textEdit->figure)){								//글높이가 클래스를 안넘어가면 너비만
 				resizer.ResizeEditWidth(textEdit, cdc);
+			}
+			else {																				//템플릿이면 템플릿너비만
+				resizer.ResizeEditWidthToLeft(textEdit, cdc);
 			}
 		}																						//글너비가 클래스를 안넘어가는데
 		else if (textEdit->GetRowHeight()*textEdit->text->GetLength() + gabY_ > textEdit->GetCriteriaHeight()) {
@@ -53,10 +58,10 @@ void EditResizer::ResizeEdit(TextEdit *textEdit, CDC *cdc) {
 }
 
 void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
-	if (!dynamic_cast<Relation*>(textEdit->figure)) {
-		EditResizerProcess resizer;
-		RECT rt;
-		textEdit->GetClientRect(&rt);
+	EditResizerProcess resizer;
+	RECT rt;
+	textEdit->GetClientRect(&rt);
+	if (!dynamic_cast<Relation*>(textEdit->figure) && !dynamic_cast<Template*>(textEdit->figure)) {
 		ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParentFrame();
 		Long gabY_ = GabY * 2;
 
@@ -74,10 +79,15 @@ void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
 		textEdit->figure->SetMinimumHeight(textEdit->GetRowHeight()*textEdit->text->GetLength() + gabY_);
 
 		if (rt.right + GabX * 2 > textEdit->GetCriteriaWidth()) {
-			resizer.ResizeClassWidth(textEdit, cdc);
+			resizer.ResizeClassWidth(textEdit);
 		}
 		if (rt.bottom + gabY_ > textEdit->GetCriteriaHeight()) {
 			resizer.ResizeClassHeight(textEdit);
+		}
+	}
+	else if (dynamic_cast<Template*>(textEdit->figure)) {
+		if ( rt.right + GabX*2 + CaretWidth > textEdit->GetCriteriaWidth()) {
+			resizer.ResizeTemplateWidth(textEdit);
 		}
 	}
 }

@@ -28,6 +28,8 @@ SelfRelation::SelfRelation(Long x, Long y, Long width, Long height) : Figure(x, 
 }
 
 SelfRelation::SelfRelation(const SelfRelation& source) : Figure(source) {
+	//this->capacity = source.capacity;
+	//this->length = source.length;
 	this->rollNamePoints = source.rollNamePoints;
 	this->rollNames = source.rollNames;
 }
@@ -42,6 +44,11 @@ SelfRelation& SelfRelation::operator=(const SelfRelation& source) {
 	this->height = source.height;
 	return *this;
 }
+
+void SelfRelation::ReplaceString(string rollNameText, Long rollNameBoxIndex) {
+	this->rollNames->Modify(rollNameBoxIndex, rollNameText);
+}
+
 void SelfRelation::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);//, cPaintDc);
+	visitor.Visit(this, cPaintDc);
 }

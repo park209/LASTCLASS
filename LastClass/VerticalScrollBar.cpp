@@ -11,8 +11,8 @@ VerticalScrollBar::VerticalScrollBar(ClassDiagramForm *classDiagramForm) :Scroll
 	scrinfo.cbSize = sizeof(scrinfo);
 	scrinfo.fMask = SIF_ALL;
 	scrinfo.nMin = 0;          // 최소값
-	scrinfo.nMax = cRect.bottom - 20;      // 최대값
-	scrinfo.nPage = 100;      // 페이지단위 증가값
+	scrinfo.nMax = 5000;// cRect.bottom - 20;      // 최대값
+	scrinfo.nPage = cRect.bottom;//100;      // 페이지단위 증가값
 	scrinfo.nPos = 0;//(scrinfo.nMax- scrinfo.nPage)/2;         위치
 	this->scrollBar->SetScrollInfo(&scrinfo);
 	this->scrollBar->ShowScrollBar(SB_BOTH);

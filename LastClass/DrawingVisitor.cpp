@@ -283,16 +283,17 @@ void DrawingVisitor::Visit(Selection *selection, CDC *pDC) {
 			DrawRollNameBoxes *drawRollNameBoxes = DrawRollNameBoxes::Instance();
 			CPoint cPoint;
 			Relation* relationLine = static_cast<Relation*>(selection->GetAt(i));
-
-			if (relationLine->GetLength() > 0) { // 꺾인선이 있으면
-				drawRollNameBoxes->DrawFirstRollNameBox(relationLine, pDC);
-				drawRollNameBoxes->DrawSecondRollNameBox(relationLine, pDC);
-				drawRollNameBoxes->DrawThirdRollNameBox(relationLine, pDC);
-				drawRollNameBoxes->DrawFourthRollNameBox(relationLine, pDC);
-				drawRollNameBoxes->DrawFifthRollNameBox(relationLine, pDC);
-			}
-			else { // 꺾인선이 없으면
-				drawRollNameBoxes->DrawBoxesWithoutCurvedLine(relationLine, pDC);
+			if (!dynamic_cast<MemoLine*>(relationLine)) {
+				if (relationLine->GetLength() > 0) { // 꺾인선이 있으면
+					drawRollNameBoxes->DrawFirstRollNameBox(relationLine, pDC);
+					drawRollNameBoxes->DrawSecondRollNameBox(relationLine, pDC);
+					drawRollNameBoxes->DrawThirdRollNameBox(relationLine, pDC);
+					drawRollNameBoxes->DrawFourthRollNameBox(relationLine, pDC);
+					drawRollNameBoxes->DrawFifthRollNameBox(relationLine, pDC);
+				}
+				else { // 꺾인선이 없으면
+					drawRollNameBoxes->DrawBoxesWithoutCurvedLine(relationLine, pDC);
+				}
 			}
 		}
 
@@ -332,7 +333,7 @@ void DrawingVisitor::Visit(Selection *selection, CDC *pDC) {
 }
 void DrawingVisitor::Visit(Template *object, CDC *pDC) {
 	Long x = object->GetX();
-	Long  y = object->GetY();;
+	Long y = object->GetY();;
 	Long width = object->GetWidth();
 	Long height = object->GetHeight();
 

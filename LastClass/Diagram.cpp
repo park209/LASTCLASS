@@ -109,7 +109,7 @@ Figure* Diagram::FindItem(Long x, Long y) {
 		endX = smartPointer->Current()->GetX() + smartPointer->Current()->GetWidth();
 		endY = smartPointer->Current()->GetY() + smartPointer->Current()->GetHeight();
 		if (dynamic_cast<Class*>(smartPointer->Current())) {
-			if (static_cast<Class*>(smartPointer->Current())->GetTempletePosition() == -1) {
+			if (dynamic_cast<Class*>(smartPointer->Current())->GetTempletePosition() == -1) {
 				if (smartPointer->Current()->GetX() <= x && endX >= x && smartPointer->Current()->GetY() <= y && endY >= y) {
 					figure = smartPointer->Current();
 					index = 0;
@@ -163,11 +163,11 @@ Figure* Diagram::Clone() const {
 }
 
 void Diagram::Accept(Visitor& visitor, CDC *pDC) {
-	Long  i = 0;
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 	while (!smartPointer->IsDone()) {
 		if (dynamic_cast<Class*>(smartPointer->Current())) {
 			static_cast<Class*>(smartPointer->Current())->Accept(visitor, pDC);
+			Long  i = 0;
 			while (i < static_cast<Class*>(smartPointer->Current())->GetLength()) {
 				if (dynamic_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
 					static_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(visitor, pDC);
@@ -175,7 +175,7 @@ void Diagram::Accept(Visitor& visitor, CDC *pDC) {
 				if (dynamic_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
 					static_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(visitor, pDC);
 				}
-					i++;
+				i++;
 			}
 		}
 		if (dynamic_cast<MemoBox*>(smartPointer->Current())) {

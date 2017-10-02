@@ -10,6 +10,8 @@
 #include  "ClassName.h"
 #include "Attribute.h"
 #include "Method.h"
+#include"SelfRelation.h"
+#include"RollNameBox.h"
 
 
 FigureComposite::FigureComposite(Long capacity) : figures(capacity) {
@@ -58,7 +60,12 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 	double modifiedWidth;
 	double modifiedDistance;
 	Long modifiedRelationX;
-
+	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
+	CPoint cPoint1;
+	CPoint cPoint2;
+	CPoint cPoint3;
+	CPoint cPoint4;
+	CPoint cPoint5;
 	if (this->GetWidth() + distanceX < this->minimumWidth) {
 		distanceX = this->minimumWidth - this->GetWidth();
 	}
@@ -67,6 +74,7 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 	while (i < length) {
 		Quadrant = finder.FindQuadrant(figures[i]->GetX() + figures[i]->GetWidth(), figures[i]->GetY() + figures[i]->GetHeight(),
 			this->GetX(), this->GetY(), this->GetX() + this->GetWidth(), this->GetY() + this->GetHeight());
+		Relation *relation = static_cast<Relation*>(figures[i]);
 		if (Quadrant == 1 || Quadrant == 3) {
 			classWidth = static_cast<double>(this->width);
 			distanceToRelationX = static_cast<double>(figures[i]->GetX() + figures[i]->GetWidth()) - static_cast<double>(this->x);
@@ -78,7 +86,21 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 		}
 		else if (Quadrant == 2) {
 			figures[i]->EndPointMove(distanceX, 0);
+
 		}
+		//관계선 에디트 이동
+		CPoint startPoint{ relation->GetX(), relation->GetY() };
+		CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+		cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+		cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+		cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+		cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+		cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+		relation->rollNamePoints->Modify(0, cPoint1);
+		relation->rollNamePoints->Modify(1, cPoint2);
+		relation->rollNamePoints->Modify(2, cPoint3);
+		relation->rollNamePoints->Modify(3, cPoint4);
+		relation->rollNamePoints->Modify(4, cPoint5);
 		i++;
 	}
 
@@ -87,6 +109,7 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 
 	while (i < this->GetLength()) {
 		if (dynamic_cast<Relation*>(this->GetAt(i))) {
+			Relation *relation = static_cast<Relation*>(this->GetAt(i));
 			Quadrant = finder.FindQuadrant(this->GetAt(i)->GetX(), this->GetAt(i)->GetY(),
 				this->GetX(), this->GetY(), this->GetX() + this->GetWidth(), this->GetY() + this->GetHeight());
 			if (Quadrant == 1 || Quadrant == 3) {
@@ -101,12 +124,50 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 			else if (Quadrant == 2) {
 				this->GetAt(i)->Move(distanceX, 0);
 			}
+			//관계선 에디트 이동
+			CPoint startPoint{ relation->GetX(), relation->GetY() };
+			CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+			cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+			relation->rollNamePoints->Modify(0, cPoint1);
+			relation->rollNamePoints->Modify(1, cPoint2);
+			relation->rollNamePoints->Modify(2, cPoint3);
+			relation->rollNamePoints->Modify(3, cPoint4);
+			relation->rollNamePoints->Modify(4, cPoint5);
 		}
-		else if (dynamic_cast<Template*>(this->GetAt(i)) || dynamic_cast<SelfRelation*>(this->GetAt(i))) {
+		else if (dynamic_cast<Template*>(this->GetAt(i))) {
 			this->GetAt(i)->Move(distanceX, 0);
+		}
+		else if (dynamic_cast<SelfRelation*>(this->GetAt(i))) {
+			this->GetAt(i)->Move(distanceX, 0);
+			SelfRelation *selfRelation = static_cast<SelfRelation*>(this->GetAt(i));
+			//자기자신 에디트 이동
+			CPoint startPoint1And4{ selfRelation->GetX(), selfRelation->GetY() };
+			CPoint endPoint1And4{ selfRelation->GetX() ,  selfRelation->GetY() - 40 };
+
+			CPoint startPoint2{ selfRelation->GetX(), selfRelation->GetY() - 40 };
+			CPoint endPoint2{ selfRelation->GetX() + 80,  selfRelation->GetY() - 40 };
+
+			CPoint startPoint3And5{ selfRelation->GetX() + 80, selfRelation->GetY() + 40 };
+			CPoint endPoint3And5{ selfRelation->GetX() + 30,  selfRelation->GetY() + 40 };
+			cPoint1 = rollNameBoxesPoint->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4);
+			cPoint2 = rollNameBoxesPoint->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2);
+			cPoint3 = rollNameBoxesPoint->GetSelfRelationThirdRollNamePoint(startPoint3And5, endPoint3And5);
+			cPoint4 = rollNameBoxesPoint->GetSelfRelationFourthRollNamePoint(startPoint1And4, endPoint1And4);
+			cPoint5 = rollNameBoxesPoint->GetSelfRelationFifthRollNamePoint(startPoint3And5, endPoint3And5);
+			selfRelation->rollNamePoints->Modify(0, cPoint1);
+			selfRelation->rollNamePoints->Modify(1, cPoint2);
+			selfRelation->rollNamePoints->Modify(2, cPoint3);
+			selfRelation->rollNamePoints->Modify(3, cPoint4);
+			selfRelation->rollNamePoints->Modify(4, cPoint5);
+
 		}
 		else { // Line 이랑 에딧영역
 			this->GetAt(i)->Modify(this->GetAt(i)->GetX(), this->GetAt(i)->GetY(), this->GetAt(i)->GetWidth() + distanceX, this->GetAt(i)->GetHeight());
+
 		}
 		i++;
 	}
@@ -132,6 +193,12 @@ Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long d
 	Long editPosition;
 	Long minimumHeight;
 	Long limitY;
+	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
+	CPoint cPoint1;
+	CPoint cPoint2;
+	CPoint cPoint3;
+	CPoint cPoint4;
+	CPoint cPoint5;
 	if (dynamic_cast<Class*>(this)) {
 		Class *object = static_cast<Class*>(this);
 		if (object->GetReceptionPosition() != -1) {
@@ -158,7 +225,7 @@ Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long d
 			this->GetAt(editPosition)->GetHeight() + distanceY);
 	}
 
-	else if(this->height + distanceY < this->minimumHeight){
+	else if (this->height + distanceY < this->minimumHeight) {
 		distanceY = this->minimumHeight - this->height;
 	}
 
@@ -167,6 +234,7 @@ Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long d
 	while (i < length) {
 		Quadrant = finder.FindQuadrant(figures[i]->GetX() + figures[i]->GetWidth(), figures[i]->GetY() + figures[i]->GetHeight(),
 			this->GetX(), this->GetY(), this->GetX() + this->GetWidth(), this->GetY() + this->GetHeight());
+		Relation *relation = static_cast<Relation*>(figures[i]);
 		if (Quadrant == 2 || Quadrant == 4) {
 			classHeight = static_cast<double>(this->height);
 			distanceToRelationY = static_cast<double>(figures[i]->GetY() + figures[i]->GetHeight()) - static_cast<double>(this->y);
@@ -179,6 +247,19 @@ Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long d
 		else if (Quadrant == 3) {
 			figures[i]->EndPointMove(0, distanceY);
 		}
+		//관계선 에디트 이동
+		CPoint startPoint{ relation->GetX(), relation->GetY() };
+		CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+		cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+		cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+		cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+		cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+		cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+		relation->rollNamePoints->Modify(0, cPoint1);
+		relation->rollNamePoints->Modify(1, cPoint2);
+		relation->rollNamePoints->Modify(2, cPoint3);
+		relation->rollNamePoints->Modify(3, cPoint4);
+		relation->rollNamePoints->Modify(4, cPoint5);
 		i++;
 	}
 
@@ -189,6 +270,7 @@ Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long d
 		if (dynamic_cast<Relation*>(this->GetAt(i))) {
 			Quadrant = finder.FindQuadrant(this->GetAt(i)->GetX(), this->GetAt(i)->GetY(),
 				this->GetX(), this->GetY(), this->GetX() + this->GetWidth(), this->GetY() + this->GetHeight());
+			Relation *relation = static_cast<Relation*>(this->GetAt(i));
 			if (Quadrant == 2 || Quadrant == 4) {
 				classHeight = static_cast<double>(this->height);
 				distanceToRelationY = static_cast<double>(this->GetAt(i)->GetY()) - static_cast<double>(this->y);
@@ -201,6 +283,19 @@ Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long d
 			else if (Quadrant == 3) {
 				this->GetAt(i)->Move(0, distanceY);
 			}
+			//관계선 에디트 이동
+			CPoint startPoint{ relation->GetX(), relation->GetY() };
+			CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+			cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+			relation->rollNamePoints->Modify(0, cPoint1);
+			relation->rollNamePoints->Modify(1, cPoint2);
+			relation->rollNamePoints->Modify(2, cPoint3);
+			relation->rollNamePoints->Modify(3, cPoint4);
+			relation->rollNamePoints->Modify(4, cPoint5);
 		}
 		i++;
 	}
@@ -223,7 +318,12 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 	Long modifiedRelationY;
 	Long editPosition;
 	Long minimumHeight;
-
+	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
+	CPoint cPoint1;
+	CPoint cPoint2;
+	CPoint cPoint3;
+	CPoint cPoint4;
+	CPoint cPoint5;
 
 	if (dynamic_cast<Class*>(this)) {
 		Class *object = static_cast<Class*>(this);
@@ -248,8 +348,8 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 		this->GetAt(editPosition)->Modify(this->GetAt(editPosition)->GetX(), this->GetAt(editPosition)->GetY() + distanceY, this->GetAt(editPosition)->GetWidth(),
 			this->GetAt(editPosition)->GetHeight() - distanceY);
 	}
-	
-	else if(distanceY > 0 && this->height - distanceY < this->minimumHeight){
+
+	else if (distanceY > 0 && this->height - distanceY < this->minimumHeight) {
 		distanceY = this->height - this->minimumHeight;
 	}
 
@@ -258,6 +358,7 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 	while (i < length) {
 		Quadrant = finder.FindQuadrant(figures[i]->GetX() + figures[i]->GetWidth(), figures[i]->GetY() + figures[i]->GetHeight(),
 			this->GetX(), this->GetY(), this->GetX() + this->GetWidth(), this->GetY() + this->GetHeight());
+		Relation *relation = static_cast<Relation*>(figures[i]);
 		if (Quadrant == 2 || Quadrant == 4) {
 			classHeight = static_cast<double>(this->height);
 			distanceToRelationY = static_cast<double>(this->y) + static_cast<double>(this->GetHeight()) - static_cast<double>(figures[i]->GetY() + figures[i]->GetHeight());
@@ -270,6 +371,19 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 		else if (Quadrant == 1) {
 			figures[i]->EndPointMove(0, distanceY);
 		}
+		//관계선 에디트 이동
+		CPoint startPoint{ relation->GetX(), relation->GetY() };
+		CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+		cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+		cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+		cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+		cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+		cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+		relation->rollNamePoints->Modify(0, cPoint1);
+		relation->rollNamePoints->Modify(1, cPoint2);
+		relation->rollNamePoints->Modify(2, cPoint3);
+		relation->rollNamePoints->Modify(3, cPoint4);
+		relation->rollNamePoints->Modify(4, cPoint5);
 		i++;
 	}
 
@@ -280,6 +394,7 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 		if (dynamic_cast<Relation*>(this->GetAt(i))) {
 			Quadrant = finder.FindQuadrant(this->GetAt(i)->GetX(), this->GetAt(i)->GetY(),
 				this->GetX(), this->GetY(), this->GetX() + this->GetWidth(), this->GetY() + this->GetHeight());
+			Relation *relation = static_cast<Relation*>(this->GetAt(i));
 			if (Quadrant == 2 || Quadrant == 4) {
 				classHeight = static_cast<double>(this->height);
 				distanceToRelationY = static_cast<double>(this->y) + static_cast<double>(this->GetHeight()) - static_cast<double>(this->GetAt(i)->GetY());
@@ -292,11 +407,47 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 			else if (Quadrant == 1) {
 				this->GetAt(i)->Move(0, distanceY);
 			}
+			//관계선 에디트 이동
+			CPoint startPoint{ relation->GetX(), relation->GetY() };
+			CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+			cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+			relation->rollNamePoints->Modify(0, cPoint1);
+			relation->rollNamePoints->Modify(1, cPoint2);
+			relation->rollNamePoints->Modify(2, cPoint3);
+			relation->rollNamePoints->Modify(3, cPoint4);
+			relation->rollNamePoints->Modify(4, cPoint5);
+		}
+		else if (dynamic_cast<SelfRelation*>(this->GetAt(i))) {
+			this->GetAt(i)->Move(0, distanceY);
+			SelfRelation *selfRelation = static_cast<SelfRelation*>(this->GetAt(i));
+			//자기자신 에디트 이동
+			CPoint startPoint1And4{ selfRelation->GetX(), selfRelation->GetY() };
+			CPoint endPoint1And4{ selfRelation->GetX() ,  selfRelation->GetY() - 40 };
+
+			CPoint startPoint2{ selfRelation->GetX(), selfRelation->GetY() - 40 };
+			CPoint endPoint2{ selfRelation->GetX() + 80,  selfRelation->GetY() - 40 };
+
+			CPoint startPoint3And5{ selfRelation->GetX() + 80, selfRelation->GetY() + 40 };
+			CPoint endPoint3And5{ selfRelation->GetX() + 30,  selfRelation->GetY() + 40 };
+			cPoint1 = rollNameBoxesPoint->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4);
+			cPoint2 = rollNameBoxesPoint->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2);
+			cPoint3 = rollNameBoxesPoint->GetSelfRelationThirdRollNamePoint(startPoint3And5, endPoint3And5);
+			cPoint4 = rollNameBoxesPoint->GetSelfRelationFourthRollNamePoint(startPoint1And4, endPoint1And4);
+			cPoint5 = rollNameBoxesPoint->GetSelfRelationFifthRollNamePoint(startPoint3And5, endPoint3And5);
+			selfRelation->rollNamePoints->Modify(0, cPoint1);
+			selfRelation->rollNamePoints->Modify(1, cPoint2);
+			selfRelation->rollNamePoints->Modify(2, cPoint3);
+			selfRelation->rollNamePoints->Modify(3, cPoint4);
+			selfRelation->rollNamePoints->Modify(4, cPoint5);
+
 		}
 		if (dynamic_cast<Class*>(this)) {
 			Class *object = static_cast<Class*>(this);
-			if (dynamic_cast<Line*>(this->GetAt(i)) || dynamic_cast<ClassName*>(this->GetAt(i)) || dynamic_cast<Template*>(this->GetAt(i)) ||
-				dynamic_cast<SelfRelation*>(this->GetAt(i))) {
+			if (dynamic_cast<Line*>(this->GetAt(i)) || dynamic_cast<ClassName*>(this->GetAt(i)) || dynamic_cast<Template*>(this->GetAt(i))) {
 				this->GetAt(i)->Move(0, distanceY);
 			}
 
@@ -334,7 +485,12 @@ Figure* FigureComposite::ModifyComponetsToLeftDirection(Diagram *diagram, Long d
 	double modifiedWidth;
 	double modifiedDistance;
 	Long modifiedRelationX;
-
+	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
+	CPoint cPoint1;
+	CPoint cPoint2;
+	CPoint cPoint3;
+	CPoint cPoint4;
+	CPoint cPoint5;
 	if (distanceX > 0 && this->GetWidth() - distanceX < this->minimumWidth) {
 		distanceX = this->GetWidth() - this->minimumWidth;
 	}
@@ -343,6 +499,7 @@ Figure* FigureComposite::ModifyComponetsToLeftDirection(Diagram *diagram, Long d
 	while (i < length) {
 		Quadrant = finder.FindQuadrant(figures[i]->GetX() + figures[i]->GetWidth(), figures[i]->GetY() + figures[i]->GetHeight(),
 			this->GetX(), this->GetY(), this->GetX() + this->GetWidth(), this->GetY() + this->GetHeight());
+		Relation *relation = static_cast<Relation*>(figures[i]);
 		if (Quadrant == 1 || Quadrant == 3) {
 			classWidth = static_cast<double>(this->width);
 			distanceToRelationX = static_cast<double>(this->x + this->width) - static_cast<double>(figures[i]->GetX() + figures[i]->GetWidth());
@@ -355,6 +512,19 @@ Figure* FigureComposite::ModifyComponetsToLeftDirection(Diagram *diagram, Long d
 		else if (Quadrant == 4) {
 			figures[i]->EndPointMove(distanceX, 0);
 		}
+		//관계선 에디트 이동
+		CPoint startPoint{ relation->GetX(), relation->GetY() };
+		CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+		cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+		cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+		cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+		cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+		cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+		relation->rollNamePoints->Modify(0, cPoint1);
+		relation->rollNamePoints->Modify(1, cPoint2);
+		relation->rollNamePoints->Modify(2, cPoint3);
+		relation->rollNamePoints->Modify(3, cPoint4);
+		relation->rollNamePoints->Modify(4, cPoint5);
 		i++;
 	}
 
@@ -365,6 +535,7 @@ Figure* FigureComposite::ModifyComponetsToLeftDirection(Diagram *diagram, Long d
 		if (dynamic_cast<Relation*>(this->GetAt(i))) {
 			Quadrant = finder.FindQuadrant(this->GetAt(i)->GetX(), this->GetAt(i)->GetY(),
 				this->GetX(), this->GetY(), this->GetX() + this->GetWidth(), this->GetY() + this->GetHeight());
+			Relation *relation = static_cast<Relation*>(this->GetAt(i));
 			if (Quadrant == 1 || Quadrant == 3) {
 				classWidth = static_cast<double>(this->width);
 				distanceToRelationX = static_cast<double>(this->x + this->width) - static_cast<double>(this->GetAt(i)->GetX());
@@ -377,6 +548,19 @@ Figure* FigureComposite::ModifyComponetsToLeftDirection(Diagram *diagram, Long d
 			else if (Quadrant == 4) {
 				this->GetAt(i)->Move(distanceX, 0);
 			}
+			//관계선 에디트 이동
+			CPoint startPoint{ relation->GetX(), relation->GetY() };
+			CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+			cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+			relation->rollNamePoints->Modify(0, cPoint1);
+			relation->rollNamePoints->Modify(1, cPoint2);
+			relation->rollNamePoints->Modify(2, cPoint3);
+			relation->rollNamePoints->Modify(3, cPoint4);
+			relation->rollNamePoints->Modify(4, cPoint5);
 		}
 		else if (dynamic_cast<Template*>(this->GetAt(i)) || dynamic_cast<SelfRelation*>(this->GetAt(i))) {
 		}
