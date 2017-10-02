@@ -599,6 +599,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 				figure->GetY() + GabY,
 				figure->GetX() + figure->GetWidth() - GabX,
 				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
+			OnKillFocus(NULL);
 		}
 	}
 

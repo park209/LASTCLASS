@@ -7,6 +7,7 @@
 #include "Template.h"
 #include "Relation.h"
 #include "SelfRelation.h"
+
 Diagram::Diagram(Long capacity) {
 	this->capacity = capacity;
 	this->length = 0;
@@ -96,24 +97,14 @@ Figure* Diagram::FindItem(Long x, Long y) {
 	while (!smartPointer->IsDone() && index != 0) {
 		endX = smartPointer->Current()->GetX() + smartPointer->Current()->GetWidth();
 		endY = smartPointer->Current()->GetY() + smartPointer->Current()->GetHeight();
-		if (dynamic_cast<Class*>(smartPointer->Current())) {
-			if (dynamic_cast<Class*>(smartPointer->Current())->GetTempletePosition() == -1) {
-				if (smartPointer->Current()->GetX() <= x && endX >= x && smartPointer->Current()->GetY() <= y && endY >= y) {
-					figure = smartPointer->Current();
-					index = 0;
-				}
-			}
-			else {
-				Template* objcet = dynamic_cast<Template*>(static_cast<Class*>(smartPointer->Current())->GetAt(static_cast<Class*>(smartPointer->Current())->GetTempletePosition()));
-				if (smartPointer->Current()->GetX() <= x&&objcet->GetX() + objcet->GetHeight() >= x&&
-					objcet->GetY() <= y&&smartPointer->Current()->GetY() + smartPointer->Current()->GetHeight() >= y) {
-					figure = smartPointer->Current();
-					index = 0;
-				}
-			}
+		if (smartPointer->Current()->GetX() <= x && endX >= x && smartPointer->Current()->GetY() <= y && endY >= y) {
+			figure = smartPointer->Current();
+			index = 0;
 		}
-		else {
-			if (smartPointer->Current()->GetX() <= x && endX >= x && smartPointer->Current()->GetY() <= y && endY >= y) {
+		else if (dynamic_cast<Class*>(smartPointer->Current()) && static_cast<Class*>(smartPointer->Current())->GetTempletePosition() != -1) {
+			Template* objcet = static_cast<Template*>(static_cast<Class*>(smartPointer->Current())->GetAt(static_cast<Class*>(smartPointer->Current())->GetTempletePosition()));
+			if (objcet->GetX() <= x && objcet->GetX() + objcet->GetWidth() >= x &&
+				objcet->GetY() <= y && objcet->GetY() + objcet->GetHeight() >= y) {
 				figure = smartPointer->Current();
 				index = 0;
 			}
@@ -121,10 +112,10 @@ Figure* Diagram::FindItem(Long x, Long y) {
 		smartPointer->Next();
 	}
 	if (index == 0) {
-		SmartPointer<Figure*> smartPointer_(static_cast<Class*>(figure)->CreateIterator()); //클래스 배열 반복자
+		SmartPointer<Figure*> smartPointer_(static_cast<FigureComposite*>(figure)->CreateIterator()); //클래스 배열 반복자
 		for (smartPointer_->First(); !smartPointer_->IsDone(); smartPointer_->Next()) {
 			if (smartPointer_->Current()->GetX() <= x && smartPointer_->Current()->GetX() + smartPointer_->Current()->GetWidth() >= x
-				&& smartPointer_->Current()->GetY() <= y   && smartPointer_->Current()->GetY() + smartPointer_->Current()->GetHeight() >= y) {
+				&& smartPointer_->Current()->GetY() <= y && smartPointer_->Current()->GetY() + smartPointer_->Current()->GetHeight() >= y) {
 				figure = smartPointer_->Current();
 			}
 		}
@@ -132,7 +123,44 @@ Figure* Diagram::FindItem(Long x, Long y) {
 	return figure;
 }
 
+//Figure* Diagram::FindItem(Long x, Long y) {
+//	SmartPointer<Figure*> smartPointer(this->CreateIterator());//다이어그램 배열 반복자
+//	Figure *figure = 0;
+//	Long endX;
+//	Long endY;
+//	Long index = -1;
+//	smartPointer->First();
+//	while (!smartPointer->IsDone() && index != 0) {
+//		endX = smartPointer->Current()->GetX() + smartPointer->Current()->GetWidth();
+//		endY = smartPointer->Current()->GetY() + smartPointer->Current()->GetHeight();
+//		if (dynamic_cast<Class*>(smartPointer->Current())) {
+//			if (dynamic_cast<Class*>(smartPointer->Current())->GetTempletePosition() == -1) {
+//				if (smartPointer->Current()->GetX() <= x && endX >= x && smartPointer->Current()->GetY() <= y && endY >= y) {
+//					figure = smartPointer->Current();
+//					index = 0;
+//				}
+//			}
+//			else {
+//				Template* objcet = dynamic_cast<Template*>(static_cast<Class*>(smartPointer->Current())->GetAt(static_cast<Class*>(smartPointer->Current())->GetTempletePosition()));
+//				if (smartPointer->Current()->GetX() <= x && objcet->GetX() + objcet->GetWidth() >= x &&
+//					objcet->GetY() <= y && smartPointer->Current()->GetY() + smartPointer->Current()->GetHeight() >= y) {
+//					figure = smartPointer->Current();
+//					index = 0;
+//				}
 
+//		smartPointer->Next();
+//	}
+//	if (index == 0) {
+//		SmartPointer<Figure*> smartPointer_(static_cast<Class*>(figure)->CreateIterator()); //클래스 배열 반복자
+//		for (smartPointer_->First(); !smartPointer_->IsDone(); smartPointer_->Next()) {
+//			if (smartPointer_->Current()->GetX() <= x && smartPointer_->Current()->GetX() + smartPointer_->Current()->GetWidth() >= x
+//				&& smartPointer_->Current()->GetY() <= y   && smartPointer_->Current()->GetY() + smartPointer_->Current()->GetHeight() >= y) {
+//				figure = smartPointer_->Current();
+//			}
+//		}
+//	}
+//	return figure;
+//}
 
 Long Diagram::Remove(Long index) {
 

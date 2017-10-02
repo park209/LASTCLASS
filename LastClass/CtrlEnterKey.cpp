@@ -9,6 +9,7 @@
 #include "HistoryText.h"
 #include "DeleteTextArea.h"
 #include "ClassDiagramForm.h"
+#include "Template.h"
 
 CtrlEnterKey::CtrlEnterKey() {
 }
@@ -26,24 +27,26 @@ void CtrlEnterKey::KeyPress(TextEdit *textEdit) {
 		}
 	}
 	Row row;
-	if (textEdit->caret->GetCharacterIndex() == 0) {
-		textEdit->text->Insert(textEdit->caret->GetRowIndex(), row.Clone());
-		textEdit->caret->MoveForwardRowIndex();
-		textEdit->caret->SetCharacterIndex(textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength());
-	}
-	else {
-		textEdit->text->Insert(textEdit->caret->GetRowIndex() + 1, row.Clone());
-		textEdit->caret->MoveForwardRowIndex();
-		Long j = 0;
-		while (textEdit->caret->GetCharacterIndex() < textEdit->text->GetAt(textEdit->caret->GetRowIndex() - 1)->GetLength()) {
-			Character *character = textEdit->text->GetAt(textEdit->caret->GetRowIndex() - 1)->GetAt(textEdit->caret->GetCharacterIndex());
-			textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Add(character->Clone());
-			textEdit->text->GetAt(textEdit->caret->GetRowIndex() - 1)->Remove(textEdit->caret->GetCharacterIndex());
+	if (!dynamic_cast<Template*>(textEdit->figure)) {
+		if (textEdit->caret->GetCharacterIndex() == 0) {
+			textEdit->text->Insert(textEdit->caret->GetRowIndex(), row.Clone());
+			textEdit->caret->MoveForwardRowIndex();
+			textEdit->caret->SetCharacterIndex(textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength());
 		}
-		textEdit->caret->SetCharacterIndex(textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength());
+		else {
+			textEdit->text->Insert(textEdit->caret->GetRowIndex() + 1, row.Clone());
+			textEdit->caret->MoveForwardRowIndex();
+			Long j = 0;
+			while (textEdit->caret->GetCharacterIndex() < textEdit->text->GetAt(textEdit->caret->GetRowIndex() - 1)->GetLength()) {
+				Character *character = textEdit->text->GetAt(textEdit->caret->GetRowIndex() - 1)->GetAt(textEdit->caret->GetCharacterIndex());
+				textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Add(character->Clone());
+				textEdit->text->GetAt(textEdit->caret->GetRowIndex() - 1)->Remove(textEdit->caret->GetCharacterIndex());
+			}
+			textEdit->caret->SetCharacterIndex(textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength());
 
+		}
+		textEdit->caret->SetCharacterIndex(0);
 	}
-	textEdit->caret->SetCharacterIndex(0);
 }
 
 void CtrlEnterKey::KeyPress(ClassDiagramForm *classDiagramForm) {

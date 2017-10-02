@@ -62,6 +62,7 @@ TextEdit::TextEdit(Figure *figure, Long rollNameBoxIndex) {
 	this->copyBuffer = "";
 	this->criteriaWidth = figure->GetWidth();
 	this->criteriaHeight = figure->GetHeight();
+	this->criteriaX = figure->GetX();
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -385,7 +386,6 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 		static_cast<SelfRelation*>(this->figure)->ReplaceString(rollNameText, this->rollNameBoxIndex);
 	}
 
-	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)GetParentFrame();
 	CWnd::OnKillFocus(pNewWnd);
 	CWnd::HideCaret();
 	::DestroyCaret();

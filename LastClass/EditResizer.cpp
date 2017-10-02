@@ -37,7 +37,7 @@ void EditResizer::ResizeEdit(TextEdit *textEdit, CDC *cdc) {
 			gabY_ += MemoGab;
 		}
 
-		if (textEdit->text->MaxWidth(cdc) + GabX * 2 > textEdit->GetCriteriaWidth()) {			//글너비가 클래스를 넘어가는데
+		if (textEdit->text->MaxWidth(cdc) + GabX * 2 + CaretWidth > textEdit->GetCriteriaWidth()) {			//글너비가 클래스를 넘어가는데
 			if (textEdit->GetRowHeight()*textEdit->text->GetLength() + gabY_ > textEdit->GetCriteriaHeight()) {
 				resizer.ResizeEditAll(textEdit, cdc);											//글높이가 클래스를 넘어가면 둘다O
 			}
@@ -51,7 +51,8 @@ void EditResizer::ResizeEdit(TextEdit *textEdit, CDC *cdc) {
 		else if (textEdit->GetRowHeight()*textEdit->text->GetLength() + gabY_ > textEdit->GetCriteriaHeight()) {
 			resizer.ResizeEditHeight(textEdit, cdc);
 		}
-		else {																					//글높이가 클래스를 넘어가면 둘다X
+		else {
+																					//글높이가 클래스를 넘어가면 둘다X
 			resizer.RewindEdit(textEdit, cdc);
 		}
 	}
