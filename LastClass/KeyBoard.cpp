@@ -36,6 +36,7 @@
 #include "RemoveMethodKey.h"
 #include "RemoveTemplateKey.h"
 #include "GraphicCtrlUndoKey.h"
+#include "GraphicCtrlRedoKey.h"
 
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
@@ -163,6 +164,14 @@ KeyAction* KeyBoard::KeyDown(ClassDiagramForm *classDiagramForm, UINT nChar, UIN
 	switch (nChar) {
 	case VK_DELETE:
 		this->keyAction = new DeleteGraphicKey;
+		break;
+	case 0x59: // y
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			//this->keyAction = new ;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new GraphicCtrlRedoKey;
+		}
 		break;
 	case 0x41: // a
 		this->keyAction = new AddTemplateKey;

@@ -16,11 +16,11 @@ void GraphicCtrlUndoKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 	if (classDiagramForm->historyGraphic->undoGraphicArray->GetLength() > 0) {
 		Diagram *diagram_ = classDiagramForm->historyGraphic->PopUndoGraphic();
 
-		/*Diagram *tempDiagram = new Diagram(*(textEdit->text));
-		textEdit->historyText->PushRedo(tempText, tempCaret);
+		Diagram *tempDiagram = new Diagram(*(classDiagramForm->diagram));
+		classDiagramForm->historyGraphic->PushRedo(tempDiagram);
 
-		delete[] textEdit->text;
-		textEdit->text = text_;*/
+		delete classDiagramForm->diagram;
+		classDiagramForm->diagram = diagram_;
 	}
 }
 

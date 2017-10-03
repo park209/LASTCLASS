@@ -457,7 +457,7 @@ void ClassDiagramForm::OnPaint() {
 	bitmap.CreateCompatibleBitmap(&dc, rect.right, rect.bottom);
 	pOldBitmap = memDC.SelectObject(&bitmap);
 	memDC.FillSolidRect(CRect(0, 0, rect.right, rect.bottom), RGB(255, 255, 255));
-	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
+	CFont cFont;//CreateFont에 값 25를 textEdit의 rowHight로 바꿔야함
 	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
 	SetFont(&cFont, TRUE);
@@ -471,12 +471,10 @@ void ClassDiagramForm::OnPaint() {
 	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
 		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
 	}
+	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, 0, 0, SRCCOPY);
 
 	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
-
-	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, 0, 0, SRCCOPY);
-
 	memDC.SelectObject(pOldBitmap);
 	bitmap.DeleteObject();
 	memDC.DeleteDC();

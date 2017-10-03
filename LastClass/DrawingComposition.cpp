@@ -53,7 +53,13 @@ void DrawingComposition::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *dia
 		Class *object = static_cast<Class*>(selection->GetAt(0));
 		SelfComposition selfComposition(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
 		if (object->GetTempletePosition() != -1) {
-			selfComposition.Move(0, -15);
+			selfComposition.Move(0, -17);
+			Long k = 0;
+			while (k < 5) {
+				CPoint cPoint(selfComposition.rollNamePoints->GetAt(k).x, selfComposition.rollNamePoints->GetAt(k).y - 17);
+				selfComposition.rollNamePoints->Modify(k, cPoint);
+				k++;
+			}
 		}
 		index = object->Add(selfComposition.Clone());
 		figure = object->GetAt(index);
