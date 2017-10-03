@@ -19,6 +19,8 @@ public:
 	void OnVScrollEndScroll();
 	void OnVScrollThumPosition();
 	void OnVScrollThumbTrack();
+	void OnMouseWheelUp();
+	void OnMouseWheelDown();
 	virtual ~VerticalScrollBar();
 };
 #endif // !_VRETICALSCROLLBAR_H

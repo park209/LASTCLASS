@@ -19,7 +19,9 @@ DeleteGraphicKey::~DeleteGraphicKey() {
 void DeleteGraphicKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 	if (classDiagramForm->selection->GetLength() > 0) {
 		classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram);
-		classDiagramForm->selection->Remove(classDiagramForm->diagram, classDiagramForm->selection->GetAt(classDiagramForm->selection->GetLength() - 1));
+		while (classDiagramForm->selection->GetLength() != 0) {
+			classDiagramForm->selection->Remove(classDiagramForm->diagram, classDiagramForm->selection->GetAt(classDiagramForm->selection->GetLength() - 1));
+		}
 	}
 }
 
