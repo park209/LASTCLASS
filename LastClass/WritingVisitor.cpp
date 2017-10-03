@@ -28,6 +28,60 @@ void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 	RECT rt = { 0 , 0, textWidth, text->GetLength() * fontHeight };
 	cPaintDc->DrawText((CString)text->MakeText().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
 }
+
+void  WritingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
+	CFont font;
+	font.CreateFont(13, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
+	CFont*  oldFont;
+	oldFont = cPaintDc->SelectObject(&font);
+	Long i = 0;
+	while (i < 5) {
+		if (i == 0) {
+			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 10 , selfRelation->rollNamePoints->GetAt(i).y - 10,
+				selfRelation->rollNamePoints->GetAt(i).x + 20,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
+			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+		}
+		else if (i == 1) {
+			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 30  , selfRelation->rollNamePoints->GetAt(i).y - 10,
+				selfRelation->rollNamePoints->GetAt(i).x + 30,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
+			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+		}
+		else {
+			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 , selfRelation->rollNamePoints->GetAt(i).y - 10,
+				selfRelation->rollNamePoints->GetAt(i).x + 10,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
+			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+		}
+		i++;
+	}
+	cPaintDc->SelectObject(&oldFont);
+	font.DeleteObject();
+}
+
+void  WritingVisitor::Visit(Relation *relation, CDC *pDC) {
+	CFont font;
+	font.CreateFont(13, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
+	CFont*  oldFont;
+	oldFont = pDC->SelectObject(&font);
+	Long i = 0;
+	while (i < 5) {
+		if (i == 1) {
+			RECT rt = { relation->rollNamePoints->GetAt(i).x - 40, relation->rollNamePoints->GetAt(i).y - 10 ,
+				relation->rollNamePoints->GetAt(i).x + 40,  relation->rollNamePoints->GetAt(i).y + 10 };
+			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+		}
+		else {
+			RECT rt = { relation->rollNamePoints->GetAt(i).x - 20, relation->rollNamePoints->GetAt(i).y - 10,
+				relation->rollNamePoints->GetAt(i).x + 20,  relation->rollNamePoints->GetAt(i).y + 10 - GabX };
+			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+		}
+		i++;
+	}
+	pDC->SelectObject(&oldFont);
+	font.DeleteObject();
+}
+
 void WritingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { //접힌부분아래로 적히게
 	RECT rt = { memoBox->GetX() + GabX , memoBox->GetY() + MemoGab, memoBox->GetX() + memoBox->GetWidth() - GabX, memoBox->GetY() + memoBox->GetHeight() - GabY };
 	cPaintDc->DrawText((CString)memoBox->GetContent().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
@@ -54,57 +108,6 @@ void WritingVisitor::Visit(Method* method, CDC* cPaintDc) {
 void WritingVisitor::Visit(Reception* reception, CDC* cPaintDc) {
 	RECT rt = { reception->GetX() + GabX , reception->GetY() + GabY, reception->GetX() + reception->GetWidth() - GabX, reception->GetY() + reception->GetHeight() - GabX };
 	cPaintDc->DrawText((CString)reception->GetContent().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
-}
-void  WritingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
-	Long i = 0;
-	CFont font;
-	font.CreateFont(13, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
-	CFont*  oldFont;
-	oldFont = cPaintDc->SelectObject(&font);
-	while (i < 5) {
-		if (i == 0) {
-			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 10 , selfRelation->rollNamePoints->GetAt(i).y - 10,
-				selfRelation->rollNamePoints->GetAt(i).x + 20,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
-			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
-		}
-		else if (i == 1) {
-			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 30  , selfRelation->rollNamePoints->GetAt(i).y - 10,
-				selfRelation->rollNamePoints->GetAt(i).x + 30,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
-			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
-		}
-		else {
-			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 , selfRelation->rollNamePoints->GetAt(i).y - 10,
-				selfRelation->rollNamePoints->GetAt(i).x + 10,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
-			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
-		}
-		i++;
-	}
-	cPaintDc->SelectObject(&oldFont);
-	font.DeleteObject();
-}
-void  WritingVisitor::Visit(Relation *relation, CDC *pDC) {
-	Long i = 0;
-	CFont font;
-	font.CreateFont(13, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
-	CFont*  oldFont;
-	oldFont = pDC->SelectObject(&font);
-	while (i < 5) {
-		if (i == 1) {
-			RECT rt = { relation->rollNamePoints->GetAt(i).x - 40, relation->rollNamePoints->GetAt(i).y - 10 ,
-				relation->rollNamePoints->GetAt(i).x + 40,  relation->rollNamePoints->GetAt(i).y + 10 };
-			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
-		}
-		else {
-			RECT rt = { relation->rollNamePoints->GetAt(i).x - 20, relation->rollNamePoints->GetAt(i).y - 10,
-				relation->rollNamePoints->GetAt(i).x + 20,  relation->rollNamePoints->GetAt(i).y + 10 - GabX };
-			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
-		}
-		i++;
-	}
-	pDC->SelectObject(&oldFont);
-	font.DeleteObject();
 }
 
 void WritingVisitor::Visit(Line *line, CDC* cPaintDc) {

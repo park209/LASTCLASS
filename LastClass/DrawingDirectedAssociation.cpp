@@ -53,7 +53,13 @@ void DrawingDirectedAssociation::MouseLButtonUp(MouseLButton *mouseLButton, Diag
 		Class *object = static_cast<Class*>(selection->GetAt(0));
 		SelfDirectedAssociation selfDirectedAssociation(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
 		if (object->GetTempletePosition() != -1) {
-			selfDirectedAssociation.Move(0, -15);
+			selfDirectedAssociation.Move(0, -17);
+			Long k = 0;
+			while (k < 5) {
+				CPoint cPoint(selfDirectedAssociation.rollNamePoints->GetAt(k).x, selfDirectedAssociation.rollNamePoints->GetAt(k).y - 17);
+				selfDirectedAssociation.rollNamePoints->Modify(k, cPoint);
+				k++;
+			}
 		}
 		index = object->Add(selfDirectedAssociation.Clone());
 		figure = object->GetAt(index);

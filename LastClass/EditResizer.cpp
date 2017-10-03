@@ -16,6 +16,7 @@
 #include "Relation.h"
 #include "ClassName.h"
 #include "Template.h"
+#include "SelfRelation.h"
 
 EditResizer::EditResizer() {
 
@@ -28,7 +29,7 @@ EditResizer::~EditResizer() {
 }
 
 void EditResizer::ResizeEdit(TextEdit *textEdit, CDC *cdc) {
-	if (!dynamic_cast<Relation*>(textEdit->figure)) {
+	if (!dynamic_cast<Relation*>(textEdit->figure) && !dynamic_cast<SelfRelation*>(textEdit->figure)) {
 		EditResizerProcess resizer;
 		RECT rt;
 		textEdit->GetClientRect(&rt);
@@ -62,7 +63,7 @@ void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
 	EditResizerProcess resizer;
 	RECT rt;
 	textEdit->GetClientRect(&rt);
-	if (!dynamic_cast<Relation*>(textEdit->figure) && !dynamic_cast<Template*>(textEdit->figure)) {
+	if (!dynamic_cast<Relation*>(textEdit->figure) && !dynamic_cast<Template*>(textEdit->figure) && !dynamic_cast<SelfRelation*>(textEdit->figure)) {
 		ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParentFrame();
 		Long gabY_ = GabY * 2;
 

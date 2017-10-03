@@ -52,8 +52,14 @@ void DrawingAggregations::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *di
 	if (selection->GetLength() == 2 && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
 		SelfAggregations selfAggregations(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
-		if (object->GetTempletePosition() != -1) {
-			selfAggregations.Move(0, -15);
+		if(object->GetTempletePosition() != -1) {
+			selfAggregations.Move(0, -17);
+			Long k = 0;
+			while (k < 5) {
+				CPoint cPoint(selfAggregations.rollNamePoints->GetAt(k).x, selfAggregations.rollNamePoints->GetAt(k).y - 17);
+				selfAggregations.rollNamePoints->Modify(k, cPoint);
+				k++;
+			}
 		}
 		index = object->Add(selfAggregations.Clone());
 		figure = object->GetAt(index);
