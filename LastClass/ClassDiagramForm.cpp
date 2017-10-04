@@ -743,6 +743,8 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->verticalScrollBar = new VerticalScrollBar(this);
 	this->horizontalScroll = new HorizontalScrollBar(this);
 	this->keyBoard = new KeyBoard;
+	ModifyStyle(0, WS_CLIPCHILDREN);
+	this->isDblclk = false;
 
 	//1.2. 적재한다
 	//this->Load();
@@ -921,6 +923,9 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	return  CWnd::OnMouseWheel(nFlags, zDelta, pt);
 }
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
+
+	isDblclk = false;
+
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
 	UINT elapseTime = 0;
@@ -953,6 +958,8 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
+
+	isDblclk = true;
 
 	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
 	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
@@ -1087,35 +1094,34 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
-	CWnd::SetFocus();
+	if (!this->isDblclk) {
+		CWnd::SetFocus();
+		MSG msg;
+		UINT dblclkTime = GetDoubleClickTime();
+		UINT elapseTime = 0;
+		PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+		if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
+			return;
+		}
 
-	MSG msg;
-	UINT dblclkTime = GetDoubleClickTime();
-	UINT elapseTime = 0;
-	PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
-	if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
-		return;
+		Long verticalNPos = this->verticalScrollBar->GetScrollPos();
+		Long horizontalNPos = this->horizontalScroll->GetScrollPos();
+
+		this->currentX = point.x + horizontalNPos;
+		this->currentY = point.y + verticalNPos;
+
+
+		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
+
+		this->startX = 0;
+		this->startY = 0;
+		this->currentX = 0;
+		this->currentY = 0;
+
+		KillTimer(1);
+		Invalidate(false);
 	}
-
-
-	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
-	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
-
-	this->currentX = point.x + horizontalNPos;
-	this->currentY = point.y + verticalNPos;
-
-
-	this->mouseLButton->MouseLButtonUp(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-
-
-
-	this->startX = 0;
-	this->startY = 0;
-	this->currentX = 0;
-	this->currentY = 0;
-
-	KillTimer(1);
-	Invalidate(false);
+	this->isDblclk = false;
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
