@@ -281,9 +281,6 @@
     <ClInclude Include="ArrayIterator.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="ClassDiagramForm.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="FontSet.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
@@ -490,6 +487,8 @@
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="GraphicCtrlUndoKey.h" />
+    <ClInclude Include="GraphicCtrlRedoKey.h" />
+    <ClInclude Include="ClassDiagramForm.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -526,9 +525,6 @@
       <Filter>TextEdit</Filter>
     </ClCompile>
     <ClCompile Include="TextComposite.cpp">
-      <Filter>TextEdit</Filter>
-    </ClCompile>
-    <ClCompile Include="WritingVisitor.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
     <ClCompile Include="SingleByteCharacter.cpp">
@@ -724,9 +720,6 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="ArrayIterator.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="ClassDiagramForm.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="FontSet.cpp">
@@ -929,8 +922,9 @@
     <ClCompile Include="RemoveTemplateKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicCtrlUndoKey.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
+    <ClCompile Include="GraphicCtrlUndoKey.cpp" />
+    <ClCompile Include="GraphicCtrlRedoKey.cpp" />
+    <ClCompile Include="ClassDiagramForm.cpp" />
+    <ClCompile Include="WritingVisitor.cpp" />
   </ItemGroup>
 </Project>
