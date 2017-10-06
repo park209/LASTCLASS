@@ -101,7 +101,6 @@ Long ClassDiagramForm::Load() {
 	Long l;
 	Long rowLength = 0;
 	Long fontSize = 0;
-	char temp[512] = { 0, };
 	string temp1;
 	string temp2;
 	fTest.open("text.txt");
@@ -151,12 +150,24 @@ Long ClassDiagramForm::Load() {
 						temp2.append("\n");
 						j++;
 					}
-					//if (rowLength != 0) {
 						Long k = temp2.find_last_of('\n');
 						temp2.replace(k, 1, "\0");
 						figure->ReplaceString(temp2, fontSize);
-					//}
-					figureComposite->Add(figure);
+						if (type == 3) {
+							static_cast<Class*>(figureComposite)->Add(static_cast<Attribute*>(figure));
+						}
+						else if (type == 4) {
+							static_cast<Class*>(figureComposite)->Add(static_cast<Method*>(figure));
+						}
+						else if (type == 5) {
+							static_cast<Class*>(figureComposite)->Add(static_cast<Reception*>(figure));
+						}
+						else if (type == 6) {
+							static_cast<Class*>(figureComposite)->Add(static_cast<Template*>(figure));
+						}
+						else {
+							figureComposite->Add(figure); 
+						}
 				}
 				if (type >= 8 && type <= 17) {
 					getline(fTest, temp1);
@@ -697,7 +708,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->verticalScrollBar = new VerticalScrollBar(this);
 	this->horizontalScroll = new HorizontalScrollBar(this);
 	this->keyBoard = new KeyBoard;
-
+	ModifyStyle(0, WS_CLIPCHILDREN);
 	//1.2. 적재한다
 	this->Load();
 
@@ -875,10 +886,11 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	return  CWnd::OnMouseWheel(nFlags, zDelta, pt);
 }
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
+	CWnd::SetFocus();
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
 	UINT elapseTime = 0;
-	this->SetFocus();
+	//this->SetFocus();
 	SetTimer(1, 1, NULL);
 	while (elapseTime < dblclkTime) {
 		PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
@@ -1041,7 +1053,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
-	CWnd::SetFocus();
+	
 
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();

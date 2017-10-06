@@ -136,7 +136,50 @@ Long Class::Add(Figure *figure) {
 
 	return index;
 }
-
+Long Class::Add(Attribute *attribute) {
+	if (this->length < this->capacity) {
+		this->attributePosition= this->figures.Store(this->length, attribute);
+	}
+	else {
+		this->attributePosition = this->figures.AppendFromRear(attribute);
+		this->capacity++;
+	}
+	this->length++;
+	return this->attributePosition;
+}
+Long Class::Add(Method *method) {
+	if (this->length < this->capacity) {
+		this->methodPosition = this->figures.Store(this->length, method);
+	}
+	else {
+		this->methodPosition = this->figures.AppendFromRear(method);
+		this->capacity++;
+	}
+	this->length++;
+	return this->methodPosition;
+}
+Long Class::Add(Reception *reception) {
+	if (this->length < this->capacity) {
+		this->receptionPosition = this->figures.Store(this->length, reception);
+	}
+	else {
+		this->receptionPosition = this->figures.AppendFromRear(reception);
+		this->capacity++;
+	}
+	this->length++;
+	return this->receptionPosition;
+}
+Long Class::Add(Template *object) {
+	if (this->length < this->capacity) {
+		this->templetePosition = this->figures.Store(this->length, object);
+	}
+	else {
+		this->templetePosition = this->figures.AppendFromRear(object);
+		this->capacity++;
+	}
+	this->length++;
+	return this->templetePosition;
+}
 Long Class::Add(Long x, Long y, Long width, Long height) {
 	Long index;
 	Line object(x, y, width, height);
