@@ -436,6 +436,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->verticalScrollBar = new VerticalScrollBar(this);
 	this->horizontalScroll = new HorizontalScrollBar(this);
 	this->keyBoard = new KeyBoard;
+	ModifyStyle(0, WS_CLIPCHILDREN);
 
 	//1.2. 적재한다
 	//this->Load();
@@ -536,6 +537,8 @@ void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 
 }
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
+	CWnd::SetFocus();
+
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
 	UINT elapseTime = 0;
@@ -703,7 +706,6 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
-	CWnd::SetFocus();
 
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
