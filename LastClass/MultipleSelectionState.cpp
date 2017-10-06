@@ -35,7 +35,7 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 
 	classDiagramForm->historyGraphic->PushUndo(diagram);
 
-	while (i < length) { // 선택된 개수만큼 반복
+	while (i < length && GetKeyState(VK_SHIFT) >= 0) { // 선택된 개수만큼 반복
 		figure = selection->GetAt(i);
 
 		if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
@@ -136,10 +136,13 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 		}
 		i++;
 	}
-	/*//if (GetKeyState(VK_SHIFT) >= 0) {
-		this->ChangeDefault(mouseLButton); // 디폴트상태로 바꾸는거 필요없을듯?
-	//}*/
+	//this->ChangeDefault(mouseLButton); // 디폴트상태로 바꾸는거 필요없을듯?
 }
+
+#include "Finder.h"
+#include "Class.h"
+#include "MemoBox.h"
+
 void MultipleSelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long i = 0;
 	Long index = -1;
@@ -153,12 +156,25 @@ void MultipleSelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagra
 		selection->DeleteAllItems();
 		this->ChangeDefault(mouseLButton);
 	}
-	if (GetKeyState(VK_SHIFT) < 0) {
+	else if (index != -1 && GetKeyState(VK_SHIFT) < 0) {
 		Long previousLength = selection->GetLength();
-		shiftIndex = selection->SelectByPoint(diagram, startX, startY);
-		if (shiftIndex < previousLength) { // 기존에 있던거면 selection 에서 지워야함
-			selection->Remove(shiftIndex);
+		Finder finder;
+		bool ret = false;
+		i = 0;
+		while (i < selection->GetLength() && ret == false) {
+			if (dynamic_cast<Class*>(selection->GetAt(i)) || dynamic_cast<MemoBox*>(selection->GetAt(i))) {
+				CRect rct = CRect(selection->GetAt(i)->GetX(), selection->GetAt(i)->GetY(), selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth(),
+					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight());
+				ret = finder.FindRectangleByPoint(rct, startX, startY);
+			}
+			i++;
+			if (ret == true) { // 기존에 있던거면 selection 에서 지워야함
+				selection->Remove(i - 1);
+			}
 		}
+	}
+	else if (index == -1 && GetKeyState(VK_SHIFT) < 0) {
+		selection->SelectByPoint(diagram, startX, startY);
 	}
 }
 

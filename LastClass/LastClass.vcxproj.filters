@@ -33,6 +33,9 @@
     <Filter Include="ScrollBar">
       <UniqueIdentifier>{8a987566-45b4-4852-9630-3923117e1202}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MenuBar">
+      <UniqueIdentifier>{5b257264-30c3-46c8-9143-1fc42cfadc17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h">
@@ -48,9 +51,6 @@
       <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="FigureFactory.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="Finder.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="MovingVisitor.h">
@@ -490,10 +490,45 @@
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="Selection.h" />
-    <ClInclude Include="ClassMenuAction.h" />
-    <ClInclude Include="MemoBoxMenuAction.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuAction.h" />
+    <ClInclude Include="AggregationMenuAction.h">
+      <Filter>MenuBar</Filter>
+    </ClInclude>
+    <ClInclude Include="AggregationsMenuAction.h">
+      <Filter>MenuBar</Filter>
+    </ClInclude>
+    <ClInclude Include="AssociationMenuAction.h">
+      <Filter>MenuBar</Filter>
+    </ClInclude>
+    <ClInclude Include="CompositionMenuAction.h">
+      <Filter>MenuBar</Filter>
+    </ClInclude>
+    <ClInclude Include="CompositionsMenuAction.h">
+      <Filter>MenuBar</Filter>
+    </ClInclude>
+    <ClInclude Include="DependencyMenuAction.h">
+      <Filter>MenuBar</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectedAssociationMenuAction.h">
+      <Filter>MenuBar</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneralizationMenuAction.h">
+      <Filter>MenuBar</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoBoxMenuAction.h">
+      <Filter>MenuBar</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoLineMenuAction.h">
+      <Filter>MenuBar</Filter>
+    </ClInclude>
+    <ClInclude Include="RealizationMenuAction.h">
+      <Filter>MenuBar</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassMenuAction.h">
+      <Filter>MenuBar</Filter>
+    </ClInclude>
+    <ClInclude Include="Finder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -506,9 +541,6 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="FigureFactory.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="Finder.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="MovingVisitor.cpp">
@@ -638,12 +670,6 @@
       <Filter>MouseAction</Filter>
     </ClCompile>
     <ClCompile Include="DefaultState.cpp">
-      <Filter>MouseAction</Filter>
-    </ClCompile>
-    <ClCompile Include="MultipleSelectionState.cpp">
-      <Filter>MouseAction</Filter>
-    </ClCompile>
-    <ClCompile Include="SelectionState.cpp">
       <Filter>MouseAction</Filter>
     </ClCompile>
     <ClCompile Include="Composition.cpp">
@@ -936,7 +962,44 @@
     </ClCompile>
     <ClCompile Include="Selection.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="MemoBoxMenuAction.cpp" />
-    <ClCompile Include="ClassMenuAction.cpp" />
+    <ClCompile Include="MemoBoxMenuAction.cpp">
+      <Filter>MenuBar</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositionMenuAction.cpp">
+      <Filter>MenuBar</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositionsMenuAction.cpp">
+      <Filter>MenuBar</Filter>
+    </ClCompile>
+    <ClCompile Include="AssociationMenuAction.cpp">
+      <Filter>MenuBar</Filter>
+    </ClCompile>
+    <ClCompile Include="AggregationsMenuAction.cpp">
+      <Filter>MenuBar</Filter>
+    </ClCompile>
+    <ClCompile Include="AggregationMenuAction.cpp">
+      <Filter>MenuBar</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectedAssociationMenuAction.cpp">
+      <Filter>MenuBar</Filter>
+    </ClCompile>
+    <ClCompile Include="DependencyMenuAction.cpp">
+      <Filter>MenuBar</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneralizationMenuAction.cpp">
+      <Filter>MenuBar</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoLineMenuAction.cpp">
+      <Filter>MenuBar</Filter>
+    </ClCompile>
+    <ClCompile Include="RealizationMenuAction.cpp">
+      <Filter>MenuBar</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassMenuAction.cpp">
+      <Filter>MenuBar</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectionState.cpp" />
+    <ClCompile Include="MultipleSelectionState.cpp" />
+    <ClCompile Include="Finder.cpp" />
   </ItemGroup>
 </Project>
