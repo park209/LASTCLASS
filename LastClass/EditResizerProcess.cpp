@@ -65,12 +65,17 @@ void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
 }
 
 void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit) {
-
+	RECT rt;
+	textEdit->GetClientRect(&rt);
 	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParentFrame();
 	FigureComposite *object = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
-
-	Long distanceX = object->GetMinimumWidth() - object->GetWidth();
-	
+	Long distanceX;
+	if (rt.right + GabX * 2 > textEdit->GetCriteriaWidth()) {
+		distanceX = object->GetMinimumWidth() - object->GetWidth();
+	}
+	else {
+		distanceX = textEdit->GetCriteriaWidth() - object->GetWidth();
+	}
 	object->ModifyComponetsToRightDirection(classDiagramForm->diagram, distanceX);
 }
 
@@ -82,9 +87,13 @@ void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 	if (dynamic_cast<MemoBox*>(textEdit->figure) || dynamic_cast<ClassName*>(textEdit->figure)) {
 		gabY_ += MemoGab;
 	}
-
-	Long distanceY = rt.bottom + gabY_ - textEdit->figure->GetHeight();
-
+	Long distanceY;
+	if (rt.bottom + gabY_ > textEdit->GetCriteriaHeight()) {
+		distanceY = rt.bottom + gabY_ - textEdit->figure->GetHeight();
+	}
+	else {
+		distanceY = textEdit->GetCriteriaHeight() - textEdit->figure->GetHeight();
+	}
 	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParentFrame();
 	FigureComposite *composite = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
 

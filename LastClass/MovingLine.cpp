@@ -185,5 +185,4 @@ void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, 
 	}
 	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
-
 }
