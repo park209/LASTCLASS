@@ -78,7 +78,7 @@ void  WritingVisitor::Visit(Relation *relation, CDC *pDC) {
 		}
 		i++;
 	}
-	pDC->SelectObject(&oldFont);
+	pDC->SelectObject(oldFont);
 	font.DeleteObject();
 }
 
