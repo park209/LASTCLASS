@@ -488,6 +488,16 @@
     <ClInclude Include="MenuAction.h" />
     <ClInclude Include="ClassMenuAction.h" />
     <ClInclude Include="MemoBoxMenuAction.h" />
+    <ClInclude Include="GeneralizationMenuAction.h" />
+    <ClInclude Include="RealizationMenuAction.h" />
+    <ClInclude Include="DependencyMenuAction.h" />
+    <ClInclude Include="AssociationMenuAction.h" />
+    <ClInclude Include="DirectedAssociationMenuAction.h" />
+    <ClInclude Include="AggregationMenuAction.h" />
+    <ClInclude Include="AggregationsMenuAction.h" />
+    <ClInclude Include="CompositionMenuAction.h" />
+    <ClInclude Include="CompositionsMenuAction.h" />
+    <ClInclude Include="MemoLineMenuAction.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -932,6 +942,36 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="MemoBoxMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneralizationMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="RealizationMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DependencyMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AssociationMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectedAssociationMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AggregationMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AggregationsMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositionMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositionsMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoLineMenuAction.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>
