@@ -36,6 +36,7 @@ private:
 	Long startY;
 	Long currentX;
 	Long currentY;
+	bool isDblclk;
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
