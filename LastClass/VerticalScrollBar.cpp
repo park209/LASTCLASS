@@ -6,7 +6,7 @@ VerticalScrollBar::VerticalScrollBar(ClassDiagramForm *classDiagramForm) :Scroll
 	CRect cRect;
 	SCROLLINFO  scrinfo;
 	classDiagramForm->GetClientRect(&cRect);
-	this->scrollBar->Create(SBS_VERT, CRect(cRect.right - 20, cRect.top + 30, cRect.right, cRect.bottom - 20), this->classDiagramForm, 1);
+	this->scrollBar->Create(SBS_VERT, CRect(cRect.right - 20, cRect.top , cRect.right, cRect.bottom - 20), this->classDiagramForm, 1);
 
 	scrinfo.cbSize = sizeof(scrinfo);
 	scrinfo.fMask = SIF_ALL;

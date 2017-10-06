@@ -49,6 +49,7 @@
 #include <math.h>
 #include <iostream>
 #include <fstream>
+#include <afxdlgs.h>
 using namespace std;
 
 
@@ -103,7 +104,15 @@ Long ClassDiagramForm::Load() {
 	Long fontSize = 0;
 	string temp1;
 	string temp2;
-	fTest.open("text.txt");
+	string fileName;
+
+	CFileDialog  dlgFile(true, "txt", "*", NULL, "텍스트 문서(*.txt)");
+	if (dlgFile.DoModal() == IDOK)
+	{
+		fileName = dlgFile.GetPathName();
+	}
+	fTest.open(fileName);
+	//fTest.open("text.txt");
 	//종류 구별을 위한 마지막 칸 
 	// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 6 = Dependency(의존), 7 = Association(연관화),
 	// 8 = DirectedAssociation(직접연관),  9 = Aggregation(집합), 10 = Aggregations(집합연관), 11 =  Composition(합성), 12 = Compositions(복합연관), 13 = MemoLine
@@ -127,11 +136,10 @@ Long ClassDiagramForm::Load() {
 					temp2.append("\n");
 					j++;
 				}
-				//if (rowLength != 0) {
 					Long k = temp2.find_last_of('\n');
 					temp2.replace(k, 1, "\0");
 					figureComposite->ReplaceString(temp2, fontSize);
-				//}
+			
 			}
 			i = 0;
 			while (position != -1 && i < length) {
@@ -249,8 +257,14 @@ Long ClassDiagramForm::Save() {
 	CPoint cPoint;
 	string saveText;
 	ofstream fTest;
-	fTest.open("text.txt");
-	if (fTest.is_open()) {//(fClass.is_open() && fLine.is_open()) {
+	CString fileName;
+		CFileDialog  dlgFile(false,"txt","*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT,"텍스트 문서(*.txt)");
+		if (dlgFile.DoModal() == IDOK)
+		{
+			fileName = dlgFile.GetPathName();
+		}
+	fTest.open(fileName);
+	if (fTest.is_open()) {
 		while (i < this->diagram->GetLength()) {
 			//종류 구별을 위한 마지막 칸 
 			// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 
@@ -577,213 +591,8 @@ Long ClassDiagramForm::Save() {
 					j++;
 				}
 			}
-
-
-
-
-
-
-
-
-			/*
-
-			else if (dynamic_cast<MemoBox*>(this->diagram->GetAt(i))) {
-			object = static_cast<FigureComposite*>(this->diagram->GetAt(i));
-			fontSize = object->GetFontSize();
-			rowLength = object->GetRowCount(object->GetContent());
-			fClass << object->GetLength() << " " << object->GetX() << " " << object->GetY()
-			<< " " << object->GetWidth() << " " << object->GetHeight() << " " << 1 << " " << fontSize << " " << rowLength << endl;
-			}
-			j = 0;
-			while (j < object->GetLength()) {
-			Figure *figure;
-			CPoint cPoint;
-
-			else if (dynamic_cast<Generalization*>(object->GetAt(j))) {
-			Relation *relation = static_cast<Relation*>(object->GetAt(j));
-			fontSize = object->GetFontSize();
-			rowLength = object->GetRowCount(object->GetContent());
-			fLine << relation->GetX() << " " << relation->GetY() << " " <<
-			relation->GetWidth() << " " << relation->GetHeight() << " " << 4 << " " << relation->GetLength() << endl;
-			k = 0;
-			while (k < relation->GetLength()) {
-			cPoint = relation->GetAt(k);
-			fLine << cPoint.x << " " << cPoint.y << endl;
-			k++;
-			}
-			}
-
-			else if (dynamic_cast<Realization*>(object->GetAt(j))) {
-			Relation *relation = static_cast<Relation*>(object->GetAt(j));
-			fLine << relation->GetX() << " " << relation->GetY() << " " <<
-			relation->GetWidth() << " " << relation->GetHeight() << " " << 5 << " " << relation->GetLength() << endl;
-			k = 0;
-			while (k < relation->GetLength()) {
-			cPoint = relation->GetAt(k);
-			fLine << cPoint.x << " " << cPoint.y << endl;
-			k++;
-			}
-			}
-
-			else if (dynamic_cast<Dependency*>(object->GetAt(j))) {
-			Relation *relation = static_cast<Relation*>(object->GetAt(j));
-			fLine << relation->GetX() << " " << relation->GetY() << " " <<
-			relation->GetWidth() << " " << relation->GetHeight() << " " << 6 << " " << relation->GetLength() << endl;
-			k = 0;
-			while (k < relation->GetLength()) {
-			cPoint = relation->GetAt(k);
-			fLine << cPoint.x << " " << cPoint.y << endl;
-			k++;
-			}
-			}
-
-			else if (dynamic_cast<Association*>(object->GetAt(j))) {
-			Relation *relation = static_cast<Relation*>(object->GetAt(j));
-			fLine << relation->GetX() << " " << relation->GetY() << " " <<
-			relation->GetWidth() << " " << relation->GetHeight() << " " << 7 << " " << relation->GetLength() << endl;
-			k = 0;
-			while (k < relation->GetLength()) {
-			cPoint = relation->GetAt(k);
-			fLine << cPoint.x << " " << cPoint.y << endl;
-			k++;
-			}
-			}
-
-			else if (dynamic_cast<DirectedAssociation*>(object->GetAt(j))) {
-			Relation *relation = static_cast<Relation*>(object->GetAt(j));
-			fLine << relation->GetX() << " " << relation->GetY() << " " <<
-			relation->GetWidth() << " " << relation->GetHeight() << " " << 8 << " " << relation->GetLength() << endl;
-			k = 0;
-			while (k < relation->GetLength()) {
-			cPoint = relation->GetAt(k);
-			fLine << cPoint.x << " " << cPoint.y << endl;
-			k++;
-			}
-			}
-
-			else if (dynamic_cast<Aggregation*>(object->GetAt(j))) {
-			Relation *relation = static_cast<Relation*>(object->GetAt(j));
-			fLine << relation->GetX() << " " << relation->GetY() << " " <<
-			relation->GetWidth() << " " << relation->GetHeight() << " " << 9 << " " << relation->GetLength() << endl;
-			k = 0;
-			while (k < relation->GetLength()) {
-			cPoint = relation->GetAt(k);
-			fLine << cPoint.x << " " << cPoint.y << endl;
-			k++;
-			}
-			}
-
-			else if (dynamic_cast<Aggregations*>(object->GetAt(j))) {
-			Relation *relation = static_cast<Relation*>(object->GetAt(j));
-			fLine << relation->GetX() << " " << relation->GetY() << " " <<
-			relation->GetWidth() << " " << relation->GetHeight() << " " << 10 << " " << relation->GetLength() << endl;
-			k = 0;
-			while (k < relation->GetLength()) {
-			cPoint = relation->GetAt(k);
-			fLine << cPoint.x << " " << cPoint.y << endl;
-			k++;
-			}
-			}
-
-			else if (dynamic_cast<Composition*>(object->GetAt(j))) {
-			Relation *relation = static_cast<Relation*>(object->GetAt(j));
-			fLine << relation->GetX() << " " << relation->GetY() << " " <<
-			relation->GetWidth() << " " << relation->GetHeight() << " " << 11 << " " << relation->GetLength() << endl;
-			k = 0;
-			while (k < relation->GetLength()) {
-			cPoint = relation->GetAt(k);
-			fLine << cPoint.x << " " << cPoint.y << endl;
-			k++;
-			}
-			}
-			else if (dynamic_cast<Compositions*>(object->GetAt(j))) {
-			Relation *relation = static_cast<Relation*>(object->GetAt(j));
-			fLine << relation->GetX() << " " << relation->GetY() << " " <<
-			relation->GetWidth() << " " << relation->GetHeight() << " " << 12 << " " << relation->GetLength() << endl;
-			k = 0;
-			while (k < relation->GetLength()) {
-			cPoint = relation->GetAt(k);
-			fLine << cPoint.x << " " << cPoint.y << endl;
-			k++;
-			}
-			}
-
-			else if (dynamic_cast<MemoLine*>(object->GetAt(j))) {
-			Relation *relation = static_cast<Relation*>(object->GetAt(j));
-			fLine << relation->GetX() << " " << relation->GetY() << " " <<
-			relation->GetWidth() << " " << relation->GetHeight() << " " << 13 << " " << relation->GetLength() << endl;
-			k = 0;
-			while (k < relation->GetLength()) {
-			cPoint = relation->GetAt(k);
-			fLine << cPoint.x << " " << cPoint.y << endl;
-			k++;
-			}
-			}
-
-			else if (dynamic_cast<SelfGeneralization*>(object->GetAt(j))) {
-			figure = static_cast<SelfRelation*>(object->GetAt(j));
-			fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-			<< figure->GetHeight() << " " << 18 <<
-			" " << 0 << endl;
-
-			}
-			else if (dynamic_cast<SelfDependency*>(object->GetAt(j))) {
-			figure = static_cast<SelfRelation*>(object->GetAt(j));
-			fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-			<< figure->GetHeight() << " " << 19 <<
-			" " << 0 << endl;
-
-			}
-			else if (dynamic_cast<SelfAssociation*>(object->GetAt(j))) {
-			figure = static_cast<SelfRelation*>(object->GetAt(j));
-			fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-			<< figure->GetHeight() << " " << 20 <<
-			" " << 0 << endl;
-
-			}
-			else if (dynamic_cast<SelfDirectedAssociation*>(object->GetAt(j))) {
-			figure = static_cast<SelfRelation*>(object->GetAt(j));
-			fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-			<< figure->GetHeight() << " " << 21 <<
-			" " << 0 << endl;
-
-			}
-			else if (dynamic_cast<SelfAggregation*>(object->GetAt(j))) {
-			figure = static_cast<SelfRelation*>(object->GetAt(j));
-			fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-			<< figure->GetHeight() << " " << 22 <<
-			" " << 0 << endl;
-
-			}
-			else if (dynamic_cast<SelfAggregations*>(object->GetAt(j))) {
-			figure = static_cast<SelfRelation*>(object->GetAt(j));
-			fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-			<< figure->GetHeight() << " " << 23 <<
-			" " << 0 << endl;
-
-			}
-			else if (dynamic_cast<SelfComposition*>(object->GetAt(j))) {
-			figure = static_cast<SelfRelation*>(object->GetAt(j));
-			fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-			<< figure->GetHeight() << " " << 24 <<
-			" " << 0 << endl;
-
-			}
-			else if (dynamic_cast<SelfCompositions*>(object->GetAt(j))) {
-			figure = static_cast<SelfRelation*>(object->GetAt(j));
-			fLine << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-			<< figure->GetHeight() << " " << 25 <<
-			" " << 0 << endl;
-
-			}
-			j++;
-
-			}
-			*/
 			i++;
 		}
-		//fClass.close();
-		//fLine.close();
 		fTest.close();
 	}
 	return this->diagram->GetLength();
@@ -802,8 +611,28 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->keyBoard = new KeyBoard;
 	ModifyStyle(0, WS_CLIPCHILDREN);
 	//1.2. 적재한다
+	CMenu mainMenu;
+	CMenu popupMenu;
+	CMenu editMenu;
+	CMenu supportMenu;
+	mainMenu.CreateMenu();
+	popupMenu.CreatePopupMenu();
+	editMenu.CreatePopupMenu();
+	supportMenu.CreatePopupMenu();
+	popupMenu.AppendMenu(MF_STRING,100,"열기");
+	popupMenu.AppendMenu(MF_STRING, 101, "저장");
+	editMenu.AppendMenu(MF_STRING, 102, "복사하기");
+	editMenu.AppendMenu(MF_STRING, 103, "붙여넣기");
+	supportMenu.AppendMenu(MF_STRING, 103, "도움말 ");
+	mainMenu.AppendMenu(MF_POPUP, (UINT_PTR)popupMenu.m_hMenu, "파일");
+	mainMenu.AppendMenu(MF_POPUP, (UINT_PTR)editMenu.m_hMenu, "편집");
+	mainMenu.AppendMenu(MF_POPUP, (UINT_PTR)supportMenu.m_hMenu, "도움말");
+	SetMenu(&mainMenu);
+	supportMenu.Detach();
+	editMenu.Detach();
+	popupMenu.Detach();
+	mainMenu.Detach();
 	this->Load();
-
 	//1.3. 윈도우를 갱신한다
 	Invalidate();
 
@@ -937,6 +766,7 @@ void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
 	}
 }
 void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+	this->SetFocus();
 	VScrollCreator vaction;
 	ScrollAction *action = vaction.CreatorAction(nSBCode, nPos, pScrollBar);
 	if (action != 0) {
@@ -946,11 +776,11 @@ void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 	this->GetClientRect(&rect);
 	rect.right -= 20;
 	rect.bottom -= 20;
-	this->SetFocus();
-	InvalidateRect(rect);
+	Invalidate(false);
 
 }
 void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+	this->SetFocus();
 	HScrollCreator haction;
 	ScrollAction *action = haction.CreatorAction(nSBCode, nPos, pScrollBar);
 	if (action != 0) {
@@ -960,11 +790,10 @@ void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 	this->GetClientRect(&rect);
 	rect.right -= 20;
 	rect.bottom -= 20;
-	this->SetFocus();
-	InvalidateRect(rect);
+	Invalidate(false);
 }
 BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
-
+	this->SetFocus();
 	if (zDelta <= 0) { //마우스 휠 다운
 		this->verticalScrollBar->OnMouseWheelDown();
 		Invalidate(false);
@@ -1005,7 +834,7 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 
 
 	KillTimer(1);
-
+	SetCapture();
 	Invalidate(false);
 }
 
@@ -1076,10 +905,10 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		if (index > 0) {
 			this->textEdit = new TextEdit(relation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				left + 1,
-				top + 1,
-				right - 1,
-				bottom - 1), this, 10000, NULL);
+				left + 1 -horizontalNPos,
+				top + 1 - verticalNPos,
+				right - 1 - horizontalNPos,
+				bottom - 1 - verticalNPos), this, 10000, NULL);
 			OnKillFocus(NULL);
 		}
 	}
@@ -1134,10 +963,10 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		if (index > 0) {
 			this->textEdit = new TextEdit(selfRelation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				left + 1,
-				top + 1,
-				right - 1,
-				bottom - 1), this, 10000, NULL);
+				left + 1 - horizontalNPos,
+				top + 1 - verticalNPos,
+				right - 1 - horizontalNPos,
+				bottom - 1 - verticalNPos), this, 10000, NULL);
 			OnKillFocus(NULL);
 		}
 	}
@@ -1173,6 +1002,8 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentY = 0;
 
 	KillTimer(1);
+
+	ReleaseCapture();
 	Invalidate(false);
 }
 
