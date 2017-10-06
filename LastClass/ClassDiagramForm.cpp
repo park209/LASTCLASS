@@ -46,9 +46,12 @@
 #include "VScrollCreator.h"
 #include "ScrollAction.h"
 #include "HScrollCreator.h"
+#include "Menu.h"
+#include "menuAction.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
+#include <afxmsg_.h>
 #include <afxdlgs.h>
 using namespace std;
 
@@ -63,6 +66,7 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 	ON_WM_CLOSE()
+	ON_COMMAND_RANGE(100,122,OnMyMenu)
 	ON_WM_SIZE()
 	ON_WM_VSCROLL()
 	ON_WM_HSCROLL()
@@ -78,6 +82,7 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->horizontalScroll = NULL;
 	this->keyBoard = NULL;
 	this->historyGraphic = NULL;
+	this->menu = NULL;
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
@@ -609,13 +614,10 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->verticalScrollBar = new VerticalScrollBar(this);
 	this->horizontalScroll = new HorizontalScrollBar(this);
 	this->keyBoard = new KeyBoard;
+	this->menu = new Menu(this);
 	ModifyStyle(0, WS_CLIPCHILDREN);
 	//1.2. 적재한다
-	CMenu mainMenu;
-	CMenu popupMenu;
-	CMenu editMenu;
-	CMenu supportMenu;
-	mainMenu.CreateMenu();
+	/*mainMenu.CreateMenu();
 	popupMenu.CreatePopupMenu();
 	editMenu.CreatePopupMenu();
 	supportMenu.CreatePopupMenu();
@@ -627,11 +629,11 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	mainMenu.AppendMenu(MF_POPUP, (UINT_PTR)popupMenu.m_hMenu, "파일");
 	mainMenu.AppendMenu(MF_POPUP, (UINT_PTR)editMenu.m_hMenu, "편집");
 	mainMenu.AppendMenu(MF_POPUP, (UINT_PTR)supportMenu.m_hMenu, "도움말");
-	SetMenu(&mainMenu);
+	SetMenu(this->menu);
 	supportMenu.Detach();
 	editMenu.Detach();
 	popupMenu.Detach();
-	mainMenu.Detach();
+	mainMenu.Detach();*/
 	this->Load();
 	//1.3. 윈도우를 갱신한다
 	Invalidate();
@@ -676,7 +678,13 @@ void ClassDiagramForm::OnPaint() {
 	bitmap.DeleteObject();
 	memDC.DeleteDC();
 }
-
+void ClassDiagramForm::OnMyMenu(UINT parm_control_id) {
+	MenuAction* menuAction = this->menu->MenuSelected(parm_control_id);
+	if (menuAction != 0) {
+		menuAction->MenuPress(this);
+	}
+	//this->mouseLButton->ChangeDefault();
+}
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->mouseLButton->ChangeState(nChar);
 	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
@@ -1016,8 +1024,6 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 
 		this->currentX = point.x + horizontalNPos;
 		this->currentY = point.y + verticalNPos;
-		//CRect rect;
-		//this->GetClientRect(&rect);
 		Invalidate(false);
 	}
 	/*Long index;
@@ -1054,6 +1060,15 @@ void ClassDiagramForm::OnClose() {
 	}
 	if (this->historyGraphic != NULL) {
 		delete this->historyGraphic;
+	}
+	if (this->verticalScrollBar != NULL) {
+		delete this->verticalScrollBar;
+	}
+	if (this->horizontalScroll != NULL) {
+		delete this->horizontalScroll;
+	}
+	if (this->menu != NULL) {
+		delete this->menu;
 	}
 	//6.3. 윈도우를 닫는다.
 	CFrameWnd::OnClose(); // 오버라이딩 코드재사용

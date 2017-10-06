@@ -484,6 +484,10 @@
     <ClInclude Include="GraphicCtrlRedoKey.h" />
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="GraphicCtrlAllKey.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="MenuAction.h" />
+    <ClInclude Include="ClassMenuAction.h" />
+    <ClInclude Include="MemoBoxMenuAction.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -919,6 +923,15 @@
       <Filter>Relationship</Filter>
     </ClCompile>
     <ClCompile Include="GraphicCtrlAllKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoBoxMenuAction.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>
