@@ -4,6 +4,9 @@
 #include "Selection.h"
 #include "Diagram.h"
 #include "RollNameBox.h"
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
+
 MovingRelation* MovingRelation::instance = 0;
 
 MouseLButtonAction* MovingRelation::Instance() {
@@ -13,7 +16,7 @@ MouseLButtonAction* MovingRelation::Instance() {
 	return instance;
 }
 
-void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Relation *relation = static_cast<Relation*>(selection->GetAt(0));
 	bool point = false;
 	bool startLine = false;
@@ -35,6 +38,8 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram
 	startCPoint.y = startY;
 	currentCPoint.x = currentX;
 	currentCPoint.y = currentY;
+
+	classDiagramForm->historyGraphic->PushUndo(diagram);
 
 	CRect object(relation->GetX() - 10, relation->GetY() - 10, relation->GetX() + 10, relation->GetY() + 10);
 	startLine = finder.FindRectangleByPoint(object, startX, startY);

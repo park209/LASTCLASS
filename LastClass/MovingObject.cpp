@@ -6,6 +6,9 @@
 #include "SelectionState.h"
 #include "Relation.h"
 #include "Diagram.h"
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
+
 MovingObject* MovingObject::instance = 0;
 
 MouseLButtonAction* MovingObject::Instance() {
@@ -15,15 +18,18 @@ MouseLButtonAction* MovingObject::Instance() {
 	return instance;
 }
 
-void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+
+	classDiagramForm->historyGraphic->PushUndo(diagram);
+
 	if (dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
 		MovingVisitor movingVisitor;
 		FigureComposite *figures = static_cast<FigureComposite*>(selection->GetAt(0));
 		Finder finder;
-		Long i = 0; 
+		Long i = 0;
 		Long j = 0;
 		bool ret = false;
-		CRect cRect1(figures->GetX()+(currentX-startX), figures->GetY()+(currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
+		CRect cRect1(figures->GetX() + (currentX - startX), figures->GetY() + (currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
 		while (i < diagram->GetLength() && ret != true) {
 			FigureComposite *figureComposite = static_cast<FigureComposite*>(diagram->GetAt(i));
 			CRect cRect2(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
@@ -56,13 +62,11 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, 
 			Long distanceY = currentY - startY;
 			selection->Accept(diagram, movingVisitor, distanceX, distanceY);
 		}
-		this->ChangeState(mouseLButton, SelectionState::Instance());
+		//this->ChangeState(mouseLButton, SelectionState::Instance());
 	}
-
-
-
 	this->ChangeState(mouseLButton, SelectionState::Instance());
 }
+
 void MovingObject::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	selection->DeleteAllItems();
 	selection->SelectByPoint(diagram, currentX, currentY);

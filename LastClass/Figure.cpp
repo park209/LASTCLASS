@@ -41,6 +41,7 @@ Figure::Figure(const Figure& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
+	this->content = source.content;
 	this->minimumWidth = source.minimumWidth;
 	this->minimumHeight = source.minimumHeight;
 	this->fontSize = source.fontSize;

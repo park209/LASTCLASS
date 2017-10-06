@@ -30,7 +30,7 @@ MouseLButtonAction* DefaultState::Instance() {
 	}
 	return instance;
 }
-void DefaultState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void DefaultState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 
 	Finder finder;
 	CRect area(startX, startY, currentX, currentY);

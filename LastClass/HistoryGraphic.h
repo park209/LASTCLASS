@@ -31,4 +31,4 @@ public:
 };
 
 
-#endif //!_HISTORYGRAPHIC_H
+#endif // _HISTORYGRAPHIC_H

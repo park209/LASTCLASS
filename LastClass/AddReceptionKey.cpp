@@ -18,20 +18,13 @@ AddReceptionKey::~AddReceptionKey() {
 }
 
 void AddReceptionKey::KeyPress(ClassDiagramForm *classDiagramForm) {
-	//if (classDiagramForm->selection->GetLength() > 0) {
-	//	Class *object = static_cast<Class*>(classDiagramForm->selection->GetAt(0));
-	/////////////////
-	Diagram *diagram_ = classDiagramForm->historyGraphic->PopUndoGraphic();
-	if (diagram_ != 0) {
-		delete classDiagramForm->diagram;
-		classDiagramForm->diagram = diagram_;
-	}
-	///////////////////
-		/*if (object->GetReceptionPosition() == -1) {
+	if (classDiagramForm->selection->GetLength() > 0) {
+		Class *object = static_cast<Class*>(classDiagramForm->selection->GetAt(0));
+		if (object->GetReceptionPosition() == -1) {
 			classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram);
 			object->AddReception(classDiagramForm->diagram);
 		}
-	}*/
+	}
 
 }
 

@@ -7,6 +7,8 @@
 #include "Class.h"
 #include "Template.h"
 #include "SelectionState.h"
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 
 #include "ClassName.h"
 #include "Attribute.h"
@@ -23,12 +25,14 @@ MouseLButtonAction* MovingLine::Instance() {
 	}
 	return instance;
 }
-void MovingLine::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void MovingLine::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	bool ret = false;
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;
 	Class *selectedClass = static_cast<Class*>(selection->GetAt(0));
 	Finder finder;
+
+	classDiagramForm->historyGraphic->PushUndo(diagram);
 
 	MovingLineProcess *moveLine = MovingLineProcess::Instance();
 

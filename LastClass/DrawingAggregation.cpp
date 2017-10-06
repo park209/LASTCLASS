@@ -7,6 +7,8 @@
 #include "Aggregation.h"
 #include "SelfAggregation.h"
 #include "RollNameBox.h"
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 
 DrawingAggregation* DrawingAggregation::instance = 0;
 
@@ -17,12 +19,13 @@ MouseLButtonAction* DrawingAggregation::Instance() {
 	return instance;
 }
 
-void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long index;
 	Figure *figure = 0;
 
 	//if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
+	classDiagramForm->historyGraphic->PushUndo(diagram);
 	selection->SelectByPoint(diagram, currentX, currentY);
 
 	if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {

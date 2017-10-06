@@ -4,6 +4,7 @@
 #include "ClassDiagramForm.h"
 #include "HistoryGraphic.h"
 #include "Diagram.h"
+#include "Selection.h"
 
 GraphicCtrlUndoKey::GraphicCtrlUndoKey() {
 }
@@ -22,6 +23,7 @@ void GraphicCtrlUndoKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 		delete classDiagramForm->diagram;
 		classDiagramForm->diagram = diagram_;
 	}
+	classDiagramForm->selection->DeleteAllItems();
 }
 
 void GraphicCtrlUndoKey::KeyPress(TextEdit *textEdit) {

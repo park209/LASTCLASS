@@ -4,6 +4,7 @@
 #include "ClassDiagramForm.h"
 #include "HistoryGraphic.h"
 #include "Diagram.h"
+#include "Selection.h"
 
 GraphicCtrlRedoKey::GraphicCtrlRedoKey() {
 }
@@ -22,6 +23,7 @@ void GraphicCtrlRedoKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 		delete classDiagramForm->diagram;
 		classDiagramForm->diagram = diagram_;
 	}
+	classDiagramForm->selection->DeleteAllItems();
 }
 
 void GraphicCtrlRedoKey::KeyPress(TextEdit *textEdit) {

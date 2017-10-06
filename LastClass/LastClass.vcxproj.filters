@@ -182,9 +182,6 @@
     <ClInclude Include="DrawingVisitor.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="DrawingResize.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="MouseLButtonAction.h">
       <Filter>MouseAction</Filter>
     </ClInclude>
@@ -486,6 +483,7 @@
     <ClInclude Include="GraphicCtrlUndoKey.h" />
     <ClInclude Include="GraphicCtrlRedoKey.h" />
     <ClInclude Include="ClassDiagramForm.h" />
+    <ClInclude Include="GraphicCtrlAllKey.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -582,9 +580,6 @@
       <Filter>Relationship</Filter>
     </ClCompile>
     <ClCompile Include="DrawingRealization.cpp">
-      <Filter>Relationship</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawningResize.cpp">
       <Filter>Relationship</Filter>
     </ClCompile>
     <ClCompile Include="Realization.cpp">
@@ -711,9 +706,6 @@
       <Filter>TextEdit</Filter>
     </ClCompile>
     <ClCompile Include="DrawingResizing.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="MovingRelation.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="ArrayIterator.cpp">
@@ -923,5 +915,11 @@
     <ClCompile Include="GraphicCtrlRedoKey.cpp" />
     <ClCompile Include="ClassDiagramForm.cpp" />
     <ClCompile Include="WritingVisitor.cpp" />
+    <ClCompile Include="MovingRelation.cpp">
+      <Filter>Relationship</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlAllKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

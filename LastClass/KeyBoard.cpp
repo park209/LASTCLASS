@@ -174,15 +174,20 @@ KeyAction* KeyBoard::KeyDown(ClassDiagramForm *classDiagramForm, UINT nChar, UIN
 		}
 		break;
 	case 0x41: // a
-		this->keyAction = new AddTemplateKey;
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			this->keyAction = new AddTemplateKey;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			//this->keyAction = new GraphicCtrlAllKey;
+		}
 		break;
-	case 0x53: // s
+	case 0x46: // f 
 		this->keyAction = new AddReceptionKey;
 		break;
-	case 0x44: // d
+	case 0x53: // s 
 		this->keyAction = new AddAttributeKey;
 		break;
-	case 0x46: // f
+	case 0x44: // d
 		this->keyAction = new AddMethodKey;
 		break;
 	case 0x5A: // z
@@ -193,13 +198,13 @@ KeyAction* KeyBoard::KeyDown(ClassDiagramForm *classDiagramForm, UINT nChar, UIN
 			this->keyAction = new GraphicCtrlUndoKey;
 		}
 		break;
-	case 0x58: // x
+	case 0x56: // x
 		this->keyAction = new RemoveReceptionKey;
 		break;
-	case 0x43: // c
+	case 0x58: // c
 		this->keyAction = new RemoveAttributeKey;
 		break;
-	case 0x56: // v
+	case 0x43: // v
 		this->keyAction = new RemoveMethodKey;
 		break;
 	default:
