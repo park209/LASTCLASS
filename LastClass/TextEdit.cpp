@@ -414,6 +414,10 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 	if (this->textAreaSelected != NULL) {
 		delete this->textAreaSelected;
 	}
+
+	if (this->fontSet != NULL) {
+		delete this->fontSet;
+	}
 	if (this != NULL) {
 		delete this;
 	}
@@ -450,6 +454,9 @@ void TextEdit::OnClose() {
 	}
 	if (this->textAreaSelected != NULL) {
 		delete this->textAreaSelected;
+	}
+	if (this->fontSet != NULL) {
+		delete this->fontSet;
 	}
 	if (this != NULL) {
 		delete this;

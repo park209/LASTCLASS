@@ -32,6 +32,7 @@
     <ClInclude Include="Class.h" />
     <ClInclude Include="ClassDiagramApp.h" />
     <ClInclude Include="ClassDiagramForm.h" />
+    <ClInclude Include="ClassMenuAction.h" />
     <ClInclude Include="ClassName.h" />
     <ClInclude Include="Composition.h" />
     <ClInclude Include="Compositions.h" />
@@ -84,6 +85,9 @@
     <ClInclude Include="GraphicCtrlAllKey.h" />
     <ClInclude Include="GraphicCtrlRedoKey.h" />
     <ClInclude Include="GraphicCtrlUndoKey.h" />
+    <ClInclude Include="MemoBoxMenuAction.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="MenuAction.h" />
     <ClInclude Include="RemoveReceptionKey.h" />
     <ClInclude Include="FontSet.h" />
     <ClInclude Include="Generalization.h" />
@@ -186,6 +190,7 @@
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="ClassDiagramApp.cpp" />
     <ClCompile Include="ClassDiagramForm.cpp" />
+    <ClCompile Include="ClassMenuAction.cpp" />
     <ClCompile Include="ClassName.cpp" />
     <ClCompile Include="Composition.cpp" />
     <ClCompile Include="Compositions.cpp" />
@@ -238,6 +243,8 @@
     <ClCompile Include="GraphicCtrlAllKey.cpp" />
     <ClCompile Include="GraphicCtrlRedoKey.cpp" />
     <ClCompile Include="GraphicCtrlUndoKey.cpp" />
+    <ClCompile Include="MemoBoxMenuAction.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="RemoveReceptionKey.cpp" />
     <ClCompile Include="FontSet.cpp" />
     <ClCompile Include="Generalization.cpp" />
