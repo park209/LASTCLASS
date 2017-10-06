@@ -3,6 +3,16 @@
 #include "MenuAction.h"
 #include "ClassMenuAction.h"
 #include "MemoBoxMenuAction.h"
+#include "GeneralizationMenuAction.h"
+#include "RealizationMenuAction.h"
+#include "DependencyMenuAction.h"
+#include "AssociationMenuAction.h"
+#include "DirectedAssociationMenuAction.h"
+#include "AggregationMenuAction.h"
+#include "AggregationsMenuAction.h"
+#include "CompositionMenuAction.h"
+#include "CompositionsMenuAction.h"
+#include "MemoLineMenuAction.h"
 Menu::Menu(ClassDiagramForm* classDiagramForm) {
 	this->mainMenu = new CMenu;
 	this->popupMenu = new CMenu;
@@ -67,6 +77,16 @@ MenuAction* Menu::MenuSelected( UINT parm_control_id) {
 	{
 	case 110: this->menuAction = new ClassMenuAction; break;
 	case 111: this->menuAction = new MemoBoxMenuAction; break;
+	case 112: this->menuAction = new GeneralizationMenuAction; break;
+	case 113: this->menuAction = new RealizationMenuAction; break;
+	case 114: this->menuAction = new DependencyMenuAction; break;
+	case 115: this->menuAction = new AssociationMenuAction; break;
+	case 116: this->menuAction = new DirectedAssociationMenuAction;  break;
+	case 117: this->menuAction = new AggregationMenuAction; break;
+	case 118: this->menuAction = new AggregationsMenuAction; break;
+	case 119: this->menuAction = new CompositionMenuAction; break;
+	case 120: this->menuAction = new CompositionsMenuAction; break;
+	case 121: this->menuAction = new MemoLineMenuAction; break;
 	default: break;
 	}
 	return this->menuAction;
