@@ -86,93 +86,81 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 Long ClassDiagramForm::Load() {
 	Long position = -1;
 	Long i;
-	Long x;
-	Long y;
-	Long width;
-	Long height;
-	Long length;
-	Long lineX;
-	Long lineY;
-	Long lineWidth;
-	Long lineHeight;
+	Long x = 0;
+	Long y = 0;
+	Long width = 0;
+	Long height = 0;
+	Long length = 0;
 	Long index;
-	//ifstream fClass;
-	//ifstream fLine;
-	Long type;
-	Long relationLength;
-	Long relationEndX;
-	Long relationEndY;
+	Long type = 0;
+	Long relationLength = 0;
 	FigureFactory factory;
 	Figure *figure;
 	ifstream fTest;
 	Long j;
 	Long l;
-	Long rowLength;
-	Long relationRowLength1;
-	Long relationRowLength2;
-	Long relationRowLength3;
-	Long relationRowLength4;
-	Long relationRowLength5;
-	Long fontSize;
+	Long rowLength = 0;
+	Long fontSize = 0;
+	char temp[512] = { 0, };
 	string temp1;
 	string temp2;
-	//fClass.open("ClassSave.txt");
-	//fLine.open("LineSave.txt");
 	fTest.open("text.txt");
 	//종류 구별을 위한 마지막 칸 
 	// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 6 = Dependency(의존), 7 = Association(연관화),
 	// 8 = DirectedAssociation(직접연관),  9 = Aggregation(집합), 10 = Aggregations(집합연관), 11 =  Composition(합성), 12 = Compositions(복합연관), 13 = MemoLine
 	// 14 = ClassName , 15 = Attribute , 16 = Method , 17 = Reception
 
-	if (fTest.is_open()) {  //(fClass.is_open() && fLine.is_open()) {
-		fTest >> length >> x >> y >> width >> height >> type; //복합객체
+	if (fTest.is_open()) {  
+		getline(fTest, temp1);
+		sscanf_s((CString)temp1.c_str(), "%d %d %d %d %d %d", &length, &x, &y, &width, &height, &type);
 		while (!fTest.eof()) {
 			figure = factory.Create(x, y, width, height, type);
 			position = this->diagram->Add(figure);
 			FigureComposite *figureComposite = static_cast<FigureComposite*>(this->diagram->GetAt(position));
 			if (type == 7) {   //메모박스이면
-				fTest >> fontSize >> rowLength;
+				getline(fTest, temp1);
+				sscanf_s((CString)temp1.c_str(), "%d %d",&fontSize, &rowLength);
 				j = 0;
 				temp2.clear();
 				while (j < rowLength) {
-					fTest >> temp1;
-					//getline(fTest, temp1);
+					getline(fTest, temp1);
 					temp2.append(temp1);
 					temp2.append("\n");
 					j++;
 				}
-				if (rowLength != 0) {
+				//if (rowLength != 0) {
 					Long k = temp2.find_last_of('\n');
 					temp2.replace(k, 1, "\0");
 					figureComposite->ReplaceString(temp2, fontSize);
-				}
+				//}
 			}
 			i = 0;
 			while (position != -1 && i < length) {
-				fTest >> x >> y >> width >> height >> type;    //말단객체
+				getline(fTest, temp1);
+				sscanf_s((CString)temp1.c_str(), "%d %d %d %d %d", &x, &y, &width, &height, &type); //말단객체
 				figure = factory.Create(x, y, width, height, type);
-				j = 0;
+			
 				if (type < 7 && type != 2) {
-					fTest >> fontSize >> rowLength;
+					getline(fTest, temp1);
+					sscanf_s((CString)temp1.c_str(), "%d %d", &fontSize, &rowLength);
 					temp2.clear();
-
+					j = 0;
 					while (j < rowLength) {
-						fTest >> temp1;
-						//getline(fTest, temp1);
+						getline(fTest, temp1);
 						temp2.append(temp1);
 						temp2.append("\n");
 						j++;
 					}
-					if (rowLength != 0) {
+					//if (rowLength != 0) {
 						Long k = temp2.find_last_of('\n');
 						temp2.replace(k, 1, "\0");
 						figure->ReplaceString(temp2, fontSize);
-					}
+					//}
 					figureComposite->Add(figure);
 				}
-				l = 0;
 				if (type >= 8 && type <= 17) {
-					fTest >> relationLength;
+					getline(fTest, temp1);
+					sscanf_s((CString)temp1.c_str(), "%d", &relationLength);
 					Long cPointX;
 					Long cPointY;
 					CPoint cPoint;
@@ -180,20 +168,22 @@ Long ClassDiagramForm::Load() {
 					Relation *relation = static_cast<Relation*>(figureComposite->GetAt(index));
 					j = 0;
 					while (j < relationLength) {
-						fTest >> cPointX >> cPointY;
+						getline(fTest, temp1);
+						sscanf_s((CString)temp1.c_str(), "%d %d", &cPointX, &cPointY);
 						cPoint.x = cPointX;
 						cPoint.y = cPointY;
 						relation->Add(cPoint);
 						j++;
 					}
 					if (type != 8) {
+						l = 0;
 						while (l < 5) {
-							temp2.clear();
-							fTest >> temp2;
-							if (temp2 != "") {
-								relation->rollNames->Modify(l, temp2);
+							getline(fTest, temp1);
+							if (temp1 != "") {
+								relation->rollNames->Modify(l, temp1);
 							}
-							fTest >> cPointX >> cPointY;
+							getline(fTest, temp1);
+							sscanf_s((CString)temp1.c_str(), "%d %d", &cPointX, &cPointY);
 							cPoint.x = cPointX;
 							cPoint.y = cPointY;
 							relation->rollNamePoints->Modify(l, cPoint);
@@ -206,47 +196,11 @@ Long ClassDiagramForm::Load() {
 				}
 				i++;
 			}
-
-			fTest >> length >> x >> y >> width >> height >> type;
+			getline(fTest, temp1);
+			sscanf_s((CString)temp1.c_str(), "%d %d %d %d %d %d", &length, &x, &y, &width, &height, &type);
 		}
-		/*
-		fClass >> length >> x >> y >> width >> height >> type;
-		while (!fClass.eof()) {
-		figure = factory.Create(x, y, width, height, type);
-		position = this->diagram->Add(figure);
-
-		FigureComposite *figureComposite = static_cast<FigureComposite*>(this->diagram->GetAt(position));
-		i = 0;
-		while (position != -1 && i < length) {
-		fLine >> lineX >> lineY >> lineWidth >> lineHeight >> type >> relationLength;
-
-		figure = factory.Create(lineX, lineY, lineWidth, lineHeight, type);
-		index = figureComposite->Add(figure);
-		if (dynamic_cast<Relation*>(figureComposite->GetAt(index))) {
-		Relation *relation = static_cast<Relation*>(figureComposite->GetAt(index));
-		CPoint startCPoint;
-		CPoint currentCPoint;
-		Long j = 0;
-		while (j < relationLength) {
-		fLine >> relationEndX >> relationEndY;
-		startCPoint.x = x;
-		startCPoint.y = y;
-		currentCPoint.x = relationEndX;
-		currentCPoint.y = relationEndY;
-		relation->Add(startCPoint, currentCPoint);
-		j++;
-		}
-		}
-		i++;
-
-		}
-		fClass >> length >> x >> y >> width >> height >> type;
-		*/
-
 	}
 	fTest.close();
-	//fClass.close();
-	//fLine.close();
 
 	return this->diagram->GetLength();
 }
@@ -279,14 +233,15 @@ Long ClassDiagramForm::Save() {
 			//19 = SelfDependency , 20 = SelfAssociation , 21 = SelfDirectedAssociation
 			// 22 = SelfAggregation , 23 = SelfAggregations , 24 =SelfComposition , 25 = SelfCompositions
 			j = 0;
-			k = 0;
-			l = 0;
 			if (dynamic_cast<Class*>(this->diagram->GetAt(i))) {
 				object = static_cast<FigureComposite*>(this->diagram->GetAt(i));
 				fTest << object->GetLength() << " " << object->GetX() << " " << object->GetY()
 					<< " " << object->GetWidth() << " " << object->GetHeight() << " " << 0 << endl;
 				while (j < object->GetLength())
 				{
+
+					k = 0;
+					l = 0;
 					if (dynamic_cast<ClassName*>(object->GetAt(j))) {
 						figure = static_cast<ClassName*>(object->GetAt(j));
 						fontSize = figure->GetFontSize();
@@ -342,7 +297,6 @@ Long ClassDiagramForm::Save() {
 						fTest << relation->GetX() << " " << relation->GetY() << " " <<
 							relation->GetWidth() << " " << relation->GetHeight() << " " << 8 << endl;
 						fTest << relation->GetLength() << endl;
-						k = 0;
 						while (k < relation->GetLength()) {
 							cPoint = relation->GetAt(k);
 							fTest << cPoint.x << " " << cPoint.y << endl;
@@ -745,7 +699,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->keyBoard = new KeyBoard;
 
 	//1.2. 적재한다
-	//this->Load();
+	this->Load();
 
 	//1.3. 윈도우를 갱신한다
 	Invalidate();
@@ -1148,7 +1102,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 }
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
-	//this->Save();
+	this->Save();
 
 	//6.2. 다이어그램을 지운다.
 	if (this->diagram != NULL) {

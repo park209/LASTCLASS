@@ -1,3 +1,75 @@
-0 251 166 239 226 7
+6 36 733 530 258 0
+36 733 530 50 1
 25 1
-aa
+Personal
+36 783 530 0 2
+36 783 530 104 3
+25 4
+-name : String
+-address : String
+-telephoneNumber : String
+-emailAddress : String
+36 887 530 0 2
+36 887 530 104 4
+25 4
++Create()
++Create(name : String , address : String,        
+              telephoneNumber : String , emailAddress : String)
++Destroy()
+295 733 242 -243 9
+0
+
+309 690
+
+402 596
+
+494 504
+
+337 718
+
+522 532
+6 763 709 524 308 0
+763 709 524 50 1
+25 1
+Company
+763 759 524 0 2
+763 759 524 129 3
+25 5
+-name : String
+-address : Stirng
+-telephoneNumber : String
+-faxNumber : String
+url : String
+763 888 524 0 2
+763 888 524 129 4
+25 5
++Create()
++Create(name : String , address : String,        
+              telephoneNumber : String , -faxNumber : String,
+               url : String)
++Destroy()
+967 709 -185 -219 9
+1
+861 592
+
+925 692
+
+861 572
+
+790 533
+
+954 665
+
+822 509
+5 442 240 393 250 0
+442 240 393 50 1
+25 1
+BusenissCard
+442 290 393 0 2
+442 290 393 100 3
+25 1
+
+442 390 393 0 2
+442 390 393 100 4
+25 1
+
