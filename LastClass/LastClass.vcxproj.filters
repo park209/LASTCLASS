@@ -59,9 +59,6 @@
     <ClInclude Include="Selection.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="CMemoryDC.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="MovingObject.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>

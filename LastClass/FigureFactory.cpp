@@ -91,6 +91,30 @@ Figure* FigureFactory::Create(Long x, Long y, Long width, Long height, Long type
 	if (type == 17) {
 		return new Compositions(x, y, width, height);
 	}
+	if (type == 18) {
+		return new SelfGeneralization(x, y, width, height);
+	}
+	if (type == 19) {
+		return new SelfDependency(x, y, width, height);
+	}
+	if (type == 20) {
+		return new SelfAssociation(x, y, width, height);
+	}
+	if (type == 21) {
+		return new SelfDirectedAssociation(x, y, width, height);
+	}
+	if (type == 22) {
+		return new SelfAggregation(x, y, width, height);
+	}
+	if (type == 23) {
+		return new SelfAggregations(x, y, width, height);
+	}
+	if (type == 24) {
+		return new SelfComposition(x, y, width, height);
+	}
+	if (type == 25) {
+		return new SelfCompositions(x, y, width, height);
+	}
 	/*if (type == 0) {
 		return new Class(x, y, width, height);
 	}

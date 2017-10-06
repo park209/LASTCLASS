@@ -33,7 +33,6 @@
     <ClInclude Include="ClassDiagramApp.h" />
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="ClassName.h" />
-    <ClInclude Include="CMemoryDC.h" />
     <ClInclude Include="Composition.h" />
     <ClInclude Include="Compositions.h" />
     <ClInclude Include="CtrlAllKey.h" />
