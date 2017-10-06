@@ -49,6 +49,7 @@
 #include <math.h>
 #include <iostream>
 #include <fstream>
+#include <afxdlgs.h>
 using namespace std;
 
 
@@ -103,7 +104,15 @@ Long ClassDiagramForm::Load() {
 	Long fontSize = 0;
 	string temp1;
 	string temp2;
-	fTest.open("text.txt");
+	string fileName;
+
+	CFileDialog  dlgFile(true, "txt", "*", NULL, "텍스트 문서(*.txt)");
+	if (dlgFile.DoModal() == IDOK)
+	{
+		fileName = dlgFile.GetPathName();
+	}
+	fTest.open(fileName);
+	//fTest.open("text.txt");
 	//종류 구별을 위한 마지막 칸 
 	// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 6 = Dependency(의존), 7 = Association(연관화),
 	// 8 = DirectedAssociation(직접연관),  9 = Aggregation(집합), 10 = Aggregations(집합연관), 11 =  Composition(합성), 12 = Compositions(복합연관), 13 = MemoLine
@@ -248,8 +257,14 @@ Long ClassDiagramForm::Save() {
 	CPoint cPoint;
 	string saveText;
 	ofstream fTest;
-	fTest.open("text.txt");
-	if (fTest.is_open()) {//(fClass.is_open() && fLine.is_open()) {
+	CString fileName;
+		CFileDialog  dlgFile(false,"txt","*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT,"텍스트 문서(*.txt)");
+		if (dlgFile.DoModal() == IDOK)
+		{
+			fileName = dlgFile.GetPathName();
+		}
+	fTest.open(fileName);
+	if (fTest.is_open()) {
 		while (i < this->diagram->GetLength()) {
 			//종류 구별을 위한 마지막 칸 
 			// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 
@@ -597,7 +612,6 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	ModifyStyle(0, WS_CLIPCHILDREN);
 	//1.2. 적재한다
 	this->Load();
-
 	//1.3. 윈도우를 갱신한다
 	Invalidate();
 

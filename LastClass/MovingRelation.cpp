@@ -169,14 +169,14 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 		if (x + width < currentX) {
 			relationX = x + width - 1;
 		}
-		else if (relation->GetX() > currentX) {
-			relationX = relation->GetX();
+		else if (x > currentX) {
+			relationX = x ;
 		}
 		if (y + height < currentY) {
 			relationY = y + height - 1;
 		}
-		else if (y > currentY) {
-			relationY = y + 1;
+		else if (relation->GetY() > currentY) {
+			relationY = relation->GetY();
 		}
 		lineStart.x = relationX;
 		lineStart.y = relationY;
@@ -207,17 +207,17 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 			Long height = figures->GetHeight();
 			Long relationX = currentX;
 			Long relationY = currentY;
-			if (relation->GetX() + relation->GetWidth() < currentX) {
-				relationX = relation->GetX() + relation->GetWidth() - 1;
+			if (x + width < currentX) {
+				relationX = x+width - 1;
 			}
-			else if (relation->GetX() + relation->GetWidth() > currentX) {
-				relationX = relation->GetX() + relation->GetWidth() - 1;
+			else if (x > currentX) {
+				relationX = x;
 			}
 			if (y + height < currentY) {
-				relationY = y + height - 1;
+				relationY = y + height ;
 			}
 			else if (y > currentY) {
-				relationY = y + 1;
+				relationY = y;
 			}
 
 
