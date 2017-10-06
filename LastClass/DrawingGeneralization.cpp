@@ -54,7 +54,13 @@ void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *
 
 		SelfGeneralization selfGeneralization(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
 		if (object->GetTempletePosition() != -1) {
-			selfGeneralization.Move(0, -15);
+			selfGeneralization.Move(0, -17);
+			Long k = 0;
+			while (k < 5) {
+				CPoint cPoint(selfGeneralization.rollNamePoints->GetAt(k).x, selfGeneralization.rollNamePoints->GetAt(k).y - 17);
+				selfGeneralization.rollNamePoints->Modify(k, cPoint);
+				k++;
+			}
 		}
 
 		index = object->Add(selfGeneralization.Clone());

@@ -33,7 +33,6 @@
     <ClInclude Include="ClassDiagramApp.h" />
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="ClassName.h" />
-    <ClInclude Include="CMemoryDC.h" />
     <ClInclude Include="Composition.h" />
     <ClInclude Include="Compositions.h" />
     <ClInclude Include="CtrlAllKey.h" />
@@ -83,6 +82,7 @@
     <ClInclude Include="FigureComposite.h" />
     <ClInclude Include="FigureFactory.h" />
     <ClInclude Include="Finder.h" />
+    <ClInclude Include="GraphicCtrlRedoKey.h" />
     <ClInclude Include="GraphicCtrlUndoKey.h" />
     <ClInclude Include="RemoveReceptionKey.h" />
     <ClInclude Include="FontSet.h" />
@@ -236,6 +236,7 @@
     <ClCompile Include="FigureComposite.cpp" />
     <ClCompile Include="FigureFactory.cpp" />
     <ClCompile Include="Finder.cpp" />
+    <ClCompile Include="GraphicCtrlRedoKey.cpp" />
     <ClCompile Include="GraphicCtrlUndoKey.cpp" />
     <ClCompile Include="RemoveReceptionKey.cpp" />
     <ClCompile Include="FontSet.cpp" />

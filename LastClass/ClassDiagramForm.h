@@ -36,6 +36,7 @@ private:
 	Long startY;
 	Long currentX;
 	Long currentY;
+	bool isDblclk;
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
@@ -48,7 +49,8 @@ protected:
 	afx_msg void OnClose();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar); 
+	afx_msg BOOL OnMouseWheel(UINT nFlags,	short zDelta,CPoint pt);
 	DECLARE_MESSAGE_MAP()
 };
 #endif // _CLASSDIAGRAM_H
