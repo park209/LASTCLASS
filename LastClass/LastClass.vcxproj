@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AggregationMenuAction.h" />
+    <ClInclude Include="AggregationsMenuAction.h" />
+    <ClInclude Include="AssociationMenuAction.h" />
     <ClInclude Include="Aggregation.h" />
     <ClInclude Include="Aggregations.h" />
     <ClInclude Include="AddTemplateKey.h" />
@@ -35,7 +38,9 @@
     <ClInclude Include="ClassMenuAction.h" />
     <ClInclude Include="ClassName.h" />
     <ClInclude Include="Composition.h" />
+    <ClInclude Include="CompositionMenuAction.h" />
     <ClInclude Include="Compositions.h" />
+    <ClInclude Include="CompositionsMenuAction.h" />
     <ClInclude Include="CtrlAllKey.h" />
     <ClInclude Include="CtrlCopyKey.h" />
     <ClInclude Include="CtrlCutKey.h" />
@@ -49,9 +54,11 @@
     <ClInclude Include="DeleteTextArea.h" />
     <ClInclude Include="DeleteTextAreaSelected.h" />
     <ClInclude Include="Dependency.h" />
+    <ClInclude Include="DependencyMenuAction.h" />
     <ClInclude Include="Diagram.h" />
     <ClInclude Include="DirectedAssociation.h" />
     <ClInclude Include="AddReceptionKey.h" />
+    <ClInclude Include="DirectedAssociationMenuAction.h" />
     <ClInclude Include="DoubleByteCharacter.h" />
     <ClInclude Include="DoubleClickTextArea.h" />
     <ClInclude Include="DoubleClickTextAreaProcess.h" />
@@ -82,12 +89,15 @@
     <ClInclude Include="FigureComposite.h" />
     <ClInclude Include="FigureFactory.h" />
     <ClInclude Include="Finder.h" />
+    <ClInclude Include="GeneralizationMenuAction.h" />
     <ClInclude Include="GraphicCtrlAllKey.h" />
     <ClInclude Include="GraphicCtrlRedoKey.h" />
     <ClInclude Include="GraphicCtrlUndoKey.h" />
     <ClInclude Include="MemoBoxMenuAction.h" />
+    <ClInclude Include="MemoLineMenuAction.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuAction.h" />
+    <ClInclude Include="RealizationMenuAction.h" />
     <ClInclude Include="RemoveReceptionKey.h" />
     <ClInclude Include="FontSet.h" />
     <ClInclude Include="Generalization.h" />
@@ -179,10 +189,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aggregation.cpp" />
+    <ClCompile Include="AggregationMenuAction.cpp" />
     <ClCompile Include="Aggregations.cpp" />
     <ClCompile Include="AddTemplateKey.cpp" />
+    <ClCompile Include="AggregationsMenuAction.cpp" />
     <ClCompile Include="ArrayIterator.cpp" />
     <ClCompile Include="Association.cpp" />
+    <ClCompile Include="AssociationMenuAction.cpp" />
     <ClCompile Include="Attribute.cpp" />
     <ClCompile Include="BackSpaceKey.cpp" />
     <ClCompile Include="Caret.cpp" />
@@ -193,7 +206,9 @@
     <ClCompile Include="ClassMenuAction.cpp" />
     <ClCompile Include="ClassName.cpp" />
     <ClCompile Include="Composition.cpp" />
+    <ClCompile Include="CompositionMenuAction.cpp" />
     <ClCompile Include="Compositions.cpp" />
+    <ClCompile Include="CompositionsMenuAction.cpp" />
     <ClCompile Include="CtrlAllKey.cpp" />
     <ClCompile Include="CtrlCopyKey.cpp" />
     <ClCompile Include="CtrlCutKey.cpp" />
@@ -207,9 +222,11 @@
     <ClCompile Include="DeleteTextArea.cpp" />
     <ClCompile Include="DeleteTextAreaSelected.cpp" />
     <ClCompile Include="Dependency.cpp" />
+    <ClCompile Include="DependencyMenuAction.cpp" />
     <ClCompile Include="Diagram.cpp" />
     <ClCompile Include="DirectedAssociation.cpp" />
     <ClCompile Include="AddReceptionKey.cpp" />
+    <ClCompile Include="DirectedAssociationMenuAction.cpp" />
     <ClCompile Include="DoubleByteCharacter.cpp" />
     <ClCompile Include="DoubleClickTextArea.cpp" />
     <ClCompile Include="DoubleClickTextAreaProcess.cpp" />
@@ -240,11 +257,14 @@
     <ClCompile Include="FigureComposite.cpp" />
     <ClCompile Include="FigureFactory.cpp" />
     <ClCompile Include="Finder.cpp" />
+    <ClCompile Include="GeneralizationMenuAction.cpp" />
     <ClCompile Include="GraphicCtrlAllKey.cpp" />
     <ClCompile Include="GraphicCtrlRedoKey.cpp" />
     <ClCompile Include="GraphicCtrlUndoKey.cpp" />
     <ClCompile Include="MemoBoxMenuAction.cpp" />
+    <ClCompile Include="MemoLineMenuAction.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="RealizationMenuAction.cpp" />
     <ClCompile Include="RemoveReceptionKey.cpp" />
     <ClCompile Include="FontSet.cpp" />
     <ClCompile Include="Generalization.cpp" />

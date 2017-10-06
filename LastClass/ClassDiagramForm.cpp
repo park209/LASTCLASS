@@ -683,7 +683,6 @@ void ClassDiagramForm::OnMyMenu(UINT parm_control_id) {
 	if (menuAction != 0) {
 		menuAction->MenuPress(this);
 	}
-	//this->mouseLButton->ChangeDefault();
 }
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (nChar == 0 || nChar == 49 || nChar == 81 || nChar == 50 || nChar == 55 || nChar == 56 || nChar == 53 ||
