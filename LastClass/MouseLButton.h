@@ -8,6 +8,7 @@ using namespace std;
 
 
 class MouseLButtonAction;
+class ClassDiagramForm;
 class Diagram;
 class Selection;
 typedef signed long int Long;
@@ -17,7 +18,7 @@ public:
 	MouseLButton();
 	//~MouseLButton();
 
-	void MouseLButtonUp(MouseLButton *mouseLButton,Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY);
+	void MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY);
 	void MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY);
 	void MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY,CDC *pDC);
 	void ChangeState(UINT nChar);

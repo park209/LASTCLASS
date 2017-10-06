@@ -54,7 +54,7 @@ void  WritingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
 		}
 		i++;
 	}
-	cPaintDc->SelectObject(&oldFont);
+	cPaintDc->SelectObject(oldFont);
 	font.DeleteObject();
 }
 
@@ -78,7 +78,7 @@ void  WritingVisitor::Visit(Relation *relation, CDC *pDC) {
 		}
 		i++;
 	}
-	pDC->SelectObject(&oldFont);
+	pDC->SelectObject(oldFont);
 	font.DeleteObject();
 }
 

@@ -5,6 +5,9 @@
 #include "Diagram.h"
 #include "SelfRelation.h"
 #include "RollNameBox.h"
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
+
 MultipleSelectionState* MultipleSelectionState::instance = 0;
 
 MouseLButtonAction* MultipleSelectionState::Instance() {
@@ -14,7 +17,7 @@ MouseLButtonAction* MultipleSelectionState::Instance() {
 	return instance;
 }
 
-void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long length = selection->GetLength();
 	Long i = 0;
 	Long j;
@@ -29,6 +32,8 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram 
 	CPoint cPoint3;
 	CPoint cPoint4;
 	CPoint cPoint5;
+
+	classDiagramForm->historyGraphic->PushUndo(diagram);
 	while (i < length) {
 		figure = selection->GetAt(i);
 

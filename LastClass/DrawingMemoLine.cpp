@@ -7,6 +7,8 @@
 #include "MemoLine.h"
 #include "Diagram.h"
 #include "MemoBox.h"
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 
 DrawingMemoLine* DrawingMemoLine::instance = 0;
 
@@ -17,9 +19,12 @@ MouseLButtonAction* DrawingMemoLine::Instance() {
 	return instance;
 }
 
-void DrawingMemoLine::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void DrawingMemoLine::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long index;
 	Figure *figure = 0;
+
+	classDiagramForm->historyGraphic->PushUndo(diagram);
+
 	if (selection->GetLength() == 1 && dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
 
 

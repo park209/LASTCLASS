@@ -5,6 +5,8 @@
 #include "DefaultState.h"
 #include "Selection.h"
 #include "Finder.h"
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 
 DrawingClass* DrawingClass::instance = 0;
 
@@ -14,9 +16,10 @@ MouseLButtonAction* DrawingClass::Instance() {
 	}
 	return instance;
 }
-void DrawingClass::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
+void DrawingClass::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 
-		
+	classDiagramForm->historyGraphic->PushUndo(diagram);
+
 	if (currentX - startX < 120) {
 		currentX = startX + 120;
 	}
@@ -29,10 +32,10 @@ void DrawingClass::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, 
 	Finder finder;
 	bool ret = false;
 	while (i < diagram->GetLength() && ret == false) {
-		FigureComposite *figures =static_cast<FigureComposite*>(diagram->GetAt(i));
+		FigureComposite *figures = static_cast<FigureComposite*>(diagram->GetAt(i));
 		CRect cRect(startX, startY, currentX, currentY);
-		CRect cRect1(figures->GetX(), figures->GetY(),figures->GetWidth() + figures->GetX(),figures->GetY() + figures->GetHeight());
-		ret = finder.FindRectangleByArea(cRect, cRect1); 
+		CRect cRect1(figures->GetX(), figures->GetY(), figures->GetWidth() + figures->GetX(), figures->GetY() + figures->GetHeight());
+		ret = finder.FindRectangleByArea(cRect, cRect1);
 		i++;
 	}
 
@@ -41,7 +44,7 @@ void DrawingClass::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, 
 		Class *object = static_cast<Class*>(diagram->GetAt(index));
 		object->Initialize();
 	}
-		this->ChangeDefault(mouseLButton);
+	this->ChangeDefault(mouseLButton);
 }
 void DrawingClass::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
 

@@ -5,6 +5,8 @@
 #include "Class.h"
 #include "Template.h"
 #include "SelectionState.h"
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 
 DrawingResizing* DrawingResizing::instance = 0;
 
@@ -14,7 +16,7 @@ MouseLButtonAction* DrawingResizing::Instance() {
 	}
 	return instance;
 }
-void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	FigureComposite *object = static_cast<FigureComposite*>(selection->GetAt(0));
 	bool ret = false;
 	Long x = object->GetX();
@@ -28,6 +30,8 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagra
 	Finder finder;
 	Long length = 0;
 	Long k = 0;
+
+	classDiagramForm->historyGraphic->PushUndo(diagram);
 
 	if (dynamic_cast<Class*>(object) && static_cast<Class*>(object)->GetTempletePosition() != -1) {
 		Class *selectedClass = static_cast<Class*>(object);
