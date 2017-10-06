@@ -490,6 +490,10 @@
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="Selection.h" />
+    <ClInclude Include="ClassMenuAction.h" />
+    <ClInclude Include="MemoBoxMenuAction.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="MenuAction.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -931,5 +935,8 @@
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="Selection.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MemoBoxMenuAction.cpp" />
+    <ClCompile Include="ClassMenuAction.cpp" />
   </ItemGroup>
 </Project>
