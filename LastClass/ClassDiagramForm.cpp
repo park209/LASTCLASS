@@ -834,7 +834,7 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 
 
 	KillTimer(1);
-
+	SetCapture();
 	Invalidate(false);
 }
 
@@ -1002,6 +1002,8 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentY = 0;
 
 	KillTimer(1);
+
+	ReleaseCapture();
 	Invalidate(false);
 }
 
