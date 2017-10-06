@@ -849,7 +849,10 @@ void ClassDiagramForm::OnPaint() {
 }
 
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
-	this->mouseLButton->ChangeState(nChar);
+	if (nChar == 0 || nChar == 49 || nChar == 81 || nChar == 50 || nChar == 55 || nChar == 56 || nChar == 53 ||
+		nChar == 57 || nChar == 48 || nChar == 52 || nChar == 54 || nChar == 87 || nChar == 51) {
+		this->mouseLButton->ChangeState(nChar);
+	}
 	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 	if (keyAction != 0) {
 		keyAction->KeyPress(this);
@@ -947,8 +950,8 @@ void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 	rect.right -= 20;
 	rect.bottom -= 20;
 	this->SetFocus();
-	InvalidateRect(rect);
 
+	Invalidate(false);
 }
 void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
 	HScrollCreator haction;
@@ -961,7 +964,7 @@ void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 	rect.right -= 20;
 	rect.bottom -= 20;
 	this->SetFocus();
-	InvalidateRect(rect);
+	Invalidate(false);
 }
 BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	SetFocus();
@@ -1001,9 +1004,7 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->currentX = point.x + horizontalNPos;
 	this->currentY = point.y + verticalNPos;
 
-
 	this->mouseLButton->MouseLButtonDown(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-
 
 	KillTimer(1);
 
@@ -1016,13 +1017,10 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
 	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
 
-
 	this->startX = point.x + horizontalNPos;
 	this->startY = point.y + verticalNPos;
 	this->currentX = point.x + horizontalNPos;
 	this->currentY = point.y + verticalNPos;
-
-
 
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {

@@ -34,7 +34,8 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 	CPoint cPoint5;
 
 	classDiagramForm->historyGraphic->PushUndo(diagram);
-	while (i < length) {
+
+	while (i < length) { // 선택된 개수만큼 반복
 		figure = selection->GetAt(i);
 
 		if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
@@ -135,20 +136,29 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 		}
 		i++;
 	}
-	this->ChangeDefault(mouseLButton);
+	/*//if (GetKeyState(VK_SHIFT) >= 0) {
+		this->ChangeDefault(mouseLButton); // 디폴트상태로 바꾸는거 필요없을듯?
+	//}*/
 }
 void MultipleSelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long i = 0;
 	Long index = -1;
+	Long shiftIndex = -1;
 
-	while (i < selection->GetLength() && index == -1) {
-		index = selection->SelectByPoint(startX, startY);
-		i++;
-	}
-	if (index == -1) {
+	//while (i < selection->GetLength() && index == -1) { // 지워야할듯?
+	index = selection->SelectByPoint(startX, startY); // 클릭 위치가 어느 선택박스인지(작은조절박스) 있는지 찾는다
+	//i++;
+	//}
+	if (index == -1 && GetKeyState(VK_SHIFT) >= 0) { // 선택된 곳중에 없는데를 눌렀는데, 쉬프트키가 눌려있지 않으면
 		selection->DeleteAllItems();
 		this->ChangeDefault(mouseLButton);
-
+	}
+	if (GetKeyState(VK_SHIFT) < 0) {
+		Long previousLength = selection->GetLength();
+		shiftIndex = selection->SelectByPoint(diagram, startX, startY);
+		if (shiftIndex < previousLength) { // 기존에 있던거면 selection 에서 지워야함
+			selection->Remove(shiftIndex);
+		}
 	}
 }
 

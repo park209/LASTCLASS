@@ -56,9 +56,6 @@
     <ClInclude Include="MovingVisitor.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="Selection.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="MovingObject.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
@@ -480,7 +477,6 @@
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="ClassDiagramForm.h" />
-    <ClInclude Include="GraphicCtrlAllKey.h" />
     <ClInclude Include="GraphicCtrlUndoKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
@@ -490,6 +486,10 @@
     <ClInclude Include="HistoryGraphic.h">
       <Filter>Diagram</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicCtrlAllKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="Selection.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -508,9 +508,6 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="MovingVisitor.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="Selection.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="MovingObject.cpp">
@@ -930,6 +927,9 @@
     <ClCompile Include="HistoryGraphic.cpp">
       <Filter>Diagram</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicCtrlAllKey.cpp" />
+    <ClCompile Include="GraphicCtrlAllKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Selection.cpp" />
   </ItemGroup>
 </Project>
