@@ -964,6 +964,7 @@ void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 	InvalidateRect(rect);
 }
 BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
+	SetFocus();
 
 	if (zDelta <= 0) { //마우스 휠 다운
 		this->verticalScrollBar->OnMouseWheelDown();
@@ -982,7 +983,7 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
 	UINT elapseTime = 0;
-	//this->SetFocus();
+	
 	SetTimer(1, 1, NULL);
 	while (elapseTime < dblclkTime) {
 		PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
@@ -1076,10 +1077,10 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		if (index > 0) {
 			this->textEdit = new TextEdit(relation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				left + 1,
-				top + 1,
-				right - 1,
-				bottom - 1), this, 10000, NULL);
+				left + 1 - horizontalNPos,
+				top + 1 - verticalNPos,
+				right - 1 - horizontalNPos,
+				bottom - 1 - verticalNPos), this, 10000, NULL);
 			OnKillFocus(NULL);
 		}
 	}
@@ -1134,10 +1135,10 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		if (index > 0) {
 			this->textEdit = new TextEdit(selfRelation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				left + 1,
-				top + 1,
-				right - 1,
-				bottom - 1), this, 10000, NULL);
+				left + 1 - horizontalNPos,
+				top + 1 - verticalNPos,
+				right - 1 - horizontalNPos,
+				bottom - 1 - verticalNPos), this, 10000, NULL);
 			OnKillFocus(NULL);
 		}
 	}

@@ -449,7 +449,6 @@
     <ClInclude Include="DrawRollNameBoxes.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="HistoryGraphic.h" />
     <ClInclude Include="DeleteKey.h">
       <Filter>KeyAction\TextEdit</Filter>
     </ClInclude>
@@ -480,10 +479,17 @@
     <ClInclude Include="RemoveTemplateKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicCtrlUndoKey.h" />
-    <ClInclude Include="GraphicCtrlRedoKey.h" />
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="GraphicCtrlAllKey.h" />
+    <ClInclude Include="GraphicCtrlUndoKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCtrlRedoKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="HistoryGraphic.h">
+      <Filter>Diagram</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -873,7 +879,6 @@
     <ClCompile Include="MovingLine.cpp">
       <Filter>Diagram</Filter>
     </ClCompile>
-    <ClCompile Include="HistoryGraphic.cpp" />
     <ClCompile Include="DrawingRelation.cpp">
       <Filter>Relationship</Filter>
     </ClCompile>
@@ -911,15 +916,20 @@
     <ClCompile Include="RemoveTemplateKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicCtrlUndoKey.cpp" />
-    <ClCompile Include="GraphicCtrlRedoKey.cpp" />
     <ClCompile Include="ClassDiagramForm.cpp" />
     <ClCompile Include="WritingVisitor.cpp" />
     <ClCompile Include="MovingRelation.cpp">
       <Filter>Relationship</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicCtrlAllKey.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="GraphicCtrlRedoKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
+    <ClCompile Include="GraphicCtrlUndoKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="HistoryGraphic.cpp">
+      <Filter>Diagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlAllKey.cpp" />
   </ItemGroup>
 </Project>
