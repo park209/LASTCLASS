@@ -82,7 +82,7 @@ void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit) {
 void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 	RECT rt;
 	textEdit->GetClientRect(&rt);
-	
+
 	Long gabY_ = GabY * 2;
 	if (dynamic_cast<MemoBox*>(textEdit->figure) || dynamic_cast<ClassName*>(textEdit->figure)) {
 		gabY_ += MemoGab;
@@ -105,11 +105,11 @@ void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 	Long endX = composite->GetX() + composite->GetWidth();
 	Long endY = composite->GetY() + composite->GetHeight();
 	SmartPointer<Figure*> iterator(classDiagramForm->diagram->CreateIterator());
-	for(iterator->First();!iterator->IsDone();iterator->Next()){
+	for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
 		Long j = 0;
 		FigureComposite *figureComposite = dynamic_cast<FigureComposite*>(iterator->Current());
 		SmartPointer<Figure*> iterator_(figureComposite->CreateIterator());
-		for (iterator_->First();!iterator_->IsDone();iterator_->Next()) {
+		for (iterator_->First(); !iterator_->IsDone(); iterator_->Next()) {
 			Figure *figure = iterator_->Current();
 			if (dynamic_cast<Relation*>(iterator_->Current())) {
 				Long relationEndX = figure->GetX() + figure->GetWidth();
@@ -126,7 +126,7 @@ void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 		}
 	}
 	SmartPointer<Figure*> iterator__(composite->CreateIterator());
-	for (iterator__->First();!iterator__->IsDone();iterator__->Next()) {
+	for (iterator__->First(); !iterator__->IsDone(); iterator__->Next()) {
 		if (iterator__->Current()->GetY() > textEdit->figure->GetY()) {
 			iterator__->Current()->Move(0, distanceY);
 		}
