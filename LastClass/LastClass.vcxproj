@@ -97,6 +97,7 @@
     <ClInclude Include="MemoLineMenuAction.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuAction.h" />
+    <ClInclude Include="OpenMenuAction.h" />
     <ClInclude Include="RealizationMenuAction.h" />
     <ClInclude Include="RemoveReceptionKey.h" />
     <ClInclude Include="FontSet.h" />
@@ -154,6 +155,8 @@
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="RollNameBox.h" />
     <ClInclude Include="Row.h" />
+    <ClInclude Include="SaveAsMenuAction.h" />
+    <ClInclude Include="SaveMenuAction.h" />
     <ClInclude Include="Scroll.h" />
     <ClInclude Include="ScrollAction.h" />
     <ClInclude Include="VScrollCreator.h" />
@@ -264,6 +267,7 @@
     <ClCompile Include="MemoBoxMenuAction.cpp" />
     <ClCompile Include="MemoLineMenuAction.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="OpenMenuAction.cpp" />
     <ClCompile Include="RealizationMenuAction.cpp" />
     <ClCompile Include="RemoveReceptionKey.cpp" />
     <ClCompile Include="FontSet.cpp" />
@@ -318,6 +322,8 @@
     <ClCompile Include="RightArrowKey.cpp" />
     <ClCompile Include="RollNameBox.cpp" />
     <ClCompile Include="Row.cpp" />
+    <ClCompile Include="SaveAsMenuAction.cpp" />
+    <ClCompile Include="SaveMenuAction.cpp" />
     <ClCompile Include="Scroll.cpp" />
     <ClCompile Include="ScrollAction.cpp" />
     <ClCompile Include="VScrollCreator.cpp" />

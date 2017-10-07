@@ -4,7 +4,7 @@
 #define _CLASSDIAGRAM_H
 
 #include <afxwin.h>
-
+#include <string>
 typedef signed long int Long;
 
 enum gab { GabX = 8, GabY = 2, MemoGab = 20, CaretWidth = 2};
@@ -33,6 +33,7 @@ public:
 public:
 	Long Load();
 	Long Save();
+	CString fileName;
 private:
 	Long startX;
 	Long startY;

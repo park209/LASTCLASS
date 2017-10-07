@@ -88,6 +88,7 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->startY = 0;
 	this->currentX = 0;
 	this->currentY = 0;
+	this->fileName = "";
 }
 
 Long ClassDiagramForm::Load() {
@@ -110,14 +111,14 @@ Long ClassDiagramForm::Load() {
 	Long fontSize = 0;
 	string temp1;
 	string temp2;
-	string fileName;
 
-	CFileDialog  dlgFile(true, "txt", "*", NULL, "텍스트 문서(*.txt)");
-	if (dlgFile.DoModal() == IDOK)
-	{
-		fileName = dlgFile.GetPathName();
-	}
-	fTest.open(fileName);
+
+	//CFileDialog  dlgFile(true, "txt", "*", NULL, "텍스트 문서(*.txt)");
+	//if (dlgFile.DoModal() == IDOK)
+	//{
+	//	this->fileName = dlgFile.GetPathName();
+	//}
+	fTest.open(this->fileName);
 	//fTest.open("text.txt");
 	//종류 구별을 위한 마지막 칸 
 	// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 6 = Dependency(의존), 7 = Association(연관화),
@@ -263,13 +264,13 @@ Long ClassDiagramForm::Save() {
 	CPoint cPoint;
 	string saveText;
 	ofstream fTest;
-	CString fileName;
-		CFileDialog  dlgFile(false,"txt","*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT,"텍스트 문서(*.txt)");
-		if (dlgFile.DoModal() == IDOK)
-		{
-			fileName = dlgFile.GetPathName();
-		}
-	fTest.open(fileName);
+	//CString fileName;
+		//CFileDialog  dlgFile(false,"txt","*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT,"텍스트 문서(*.txt)");
+		//if (dlgFile.DoModal() == IDOK)
+		//{
+			//fileName = dlgFile.GetPathName();
+		//}
+	fTest.open(this->fileName);
 	if (fTest.is_open()) {
 		while (i < this->diagram->GetLength()) {
 			//종류 구별을 위한 마지막 칸 
@@ -623,9 +624,9 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	//EnableDocking(CBRS_ALIGN_ANY);
 	//DockControlBar(&toolBar);
 	//1.2. 적재한다
-	this->Load();
+	//this->Load();
 	//1.3. 윈도우를 갱신한다
-	Invalidate();
+	//Invalidate();
 
 	return 0;
 }
@@ -1034,7 +1035,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 }
 void ClassDiagramForm::OnClose() {
 	//6.1. 저장한다.
-	this->Save();
+	//this->Save();
 
 	//6.2. 다이어그램을 지운다.
 	if (this->diagram != NULL) {
