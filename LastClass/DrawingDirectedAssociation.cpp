@@ -6,7 +6,8 @@
 #include "Finder.h"
 #include "DirectedAssociation.h"
 #include "SelfDirectedAssociation.h"
-
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 
 DrawingDirectedAssociation* DrawingDirectedAssociation::instance = 0;
 
@@ -17,12 +18,13 @@ MouseLButtonAction* DrawingDirectedAssociation::Instance() {
 	return instance;
 }
 
-void DrawingDirectedAssociation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void DrawingDirectedAssociation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long index;
 	Figure *figure = 0;
 
 	//if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
+	classDiagramForm->historyGraphic->PushUndo(diagram);
 	selection->SelectByPoint(diagram, currentX, currentY);
 
 	if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {
@@ -52,6 +54,15 @@ void DrawingDirectedAssociation::MouseLButtonUp(MouseLButton *mouseLButton, Diag
 	if (selection->GetLength() == 2 && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
 		SelfDirectedAssociation selfDirectedAssociation(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
+		if (object->GetTempletePosition() != -1) {
+			selfDirectedAssociation.Move(0, -17);
+			Long k = 0;
+			while (k < 5) {
+				CPoint cPoint(selfDirectedAssociation.rollNamePoints->GetAt(k).x, selfDirectedAssociation.rollNamePoints->GetAt(k).y - 17);
+				selfDirectedAssociation.rollNamePoints->Modify(k, cPoint);
+				k++;
+			}
+		}
 		index = object->Add(selfDirectedAssociation.Clone());
 		figure = object->GetAt(index);
 	}
@@ -63,13 +74,13 @@ void DrawingDirectedAssociation::MouseLButtonDown(MouseLButton *mouseLButton, Di
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingDirectedAssociation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void DrawingDirectedAssociation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);
 	}
-	cPaintDC->MoveTo(startX, startY);
-	cPaintDC->LineTo(currentX, currentY);
+	pDC->MoveTo(startX, startY);
+	pDC->LineTo(currentX, currentY);
 
 	double degree = atan2(currentX - startX, startY - currentY); // 기울기
 
@@ -91,10 +102,10 @@ void DrawingDirectedAssociation::MouseLButtonDrag(MouseLButton *mouseLButton, Di
 	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
 	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
-	cPaintDC->MoveTo(pts[0].x, pts[0].y);
-	cPaintDC->LineTo(pts[1].x, pts[1].y);
+	pDC->MoveTo(pts[0].x, pts[0].y);
+	pDC->LineTo(pts[1].x, pts[1].y);
 
-	cPaintDC->MoveTo(pts[0].x, pts[0].y);
-	cPaintDC->LineTo(pts[2].x, pts[2].y);
+	pDC->MoveTo(pts[0].x, pts[0].y);
+	pDC->LineTo(pts[2].x, pts[2].y);
 
 }

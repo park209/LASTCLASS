@@ -41,6 +41,84 @@ Figure* FigureFactory::Create(Long x, Long y, Long width, Long height, Long type
 		return new Class(x, y, width, height);
 	}
 	if (type == 1) {
+		return new ClassName(x, y, width, height, "");
+	}
+	if (type == 2) {
+		return new Line(x, y, width, height);
+	}
+	if (type == 3) {
+		return new Attribute(x, y, width, height, "");
+	}
+	if (type == 4) {
+		return new Method(x, y, width, height, "");
+	}
+	if (type == 5) {
+		return new Reception(x, y, width, height, "");
+	}
+	if (type == 6) {
+		return new Template(x, y, width, height);
+	}
+	if (type == 7) {
+		return new MemoBox(x, y, width, height);
+	}
+	if (type == 8) {
+		return new MemoLine(x, y, width, height);
+	}
+	if (type == 9) {
+		return new Generalization(x, y, width, height);
+	}
+	if (type == 10) {
+		return new Realization(x, y, width, height);
+	}
+	if (type == 11) {
+		return new Dependency(x, y, width, height);
+	}
+	if (type == 12) {
+		return new Association(x, y, width, height);
+	}
+	if (type == 13) {
+		return new DirectedAssociation(x, y, width, height);
+	}
+	if (type == 14) {
+		return new Aggregation(x, y, width, height);
+	}
+	if (type == 15) {
+		return new Aggregations(x, y, width, height);
+	}
+	if (type == 16) {
+		return new Composition(x, y, width, height);
+	}
+	if (type == 17) {
+		return new Compositions(x, y, width, height);
+	}
+	if (type == 18) {
+		return new SelfGeneralization(x, y, width, height);
+	}
+	if (type == 19) {
+		return new SelfDependency(x, y, width, height);
+	}
+	if (type == 20) {
+		return new SelfAssociation(x, y, width, height);
+	}
+	if (type == 21) {
+		return new SelfDirectedAssociation(x, y, width, height);
+	}
+	if (type == 22) {
+		return new SelfAggregation(x, y, width, height);
+	}
+	if (type == 23) {
+		return new SelfAggregations(x, y, width, height);
+	}
+	if (type == 24) {
+		return new SelfComposition(x, y, width, height);
+	}
+	if (type == 25) {
+		return new SelfCompositions(x, y, width, height);
+	}
+	/*if (type == 0) {
+		return new Class(x, y, width, height);
+	}
+	if (type == 1) {
 		return new MemoBox(x, y, width, height);
 	}
 	if (type == 2) {
@@ -115,7 +193,7 @@ Figure* FigureFactory::Create(Long x, Long y, Long width, Long height, Long type
 	if (type == 25) {
 		return new SelfCompositions(x, y, width, height);
 	}
-	return 0;
+	*/return 0;
 }
 
 

@@ -28,6 +28,6 @@ Figure* ClassName::Clone() const {
 	return new ClassName(*this);
 }
 
-void ClassName::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);
+void ClassName::Accept(Visitor& visitor, CDC *pDC) {
+	visitor.Visit(this, pDC);
 }

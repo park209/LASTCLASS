@@ -28,10 +28,10 @@ public:
 	string MakeText();
 	void SprayString(string str);
 
-	Long MaxWidth(CDC* cPaintDc);
+	Long MaxWidth(CDC* pDC);
 	Row* GetAt(Long index);
 	
-	void Accept(Visitor& visitor, CDC* cPaintDc);
+	void Accept(Visitor& visitor, CDC* pDC);
 
 	Text& operator = (const Text& source);
 	Row* operator [] (Long index);

@@ -6,16 +6,16 @@
 #include "MouseLButton.h"
 
 class MouseLButton;
+class ClassDiagramForm;
 class Diagram;
 class Selection;
-class CPaintDC;
 typedef signed long int Long;
 
 class MouseLButtonAction {
 public:
-	virtual void MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) ;
-	virtual void MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY);
-	virtual void MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPatinDC) ;
+	virtual void MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) = 0;
+	virtual void MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) = 0;
+	virtual void MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) = 0;
 protected:
 	void ChangeState(MouseLButton* mouseLButton, MouseLButtonAction *mouseLButtonAction,UINT nChar=0);
 	void ChangeDefault(MouseLButton* mouseLButton);

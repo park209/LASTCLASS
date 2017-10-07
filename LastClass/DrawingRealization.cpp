@@ -5,8 +5,8 @@
 #include "Class.h"
 #include "Finder.h"
 #include "Realization.h"
-
-
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 
 DrawingRealization* DrawingRealization::instance = 0;
 
@@ -17,9 +17,12 @@ MouseLButtonAction* DrawingRealization::Instance() {
 	return instance;
 }
 
-void DrawingRealization::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void DrawingRealization::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long index;
 	Figure *figure = 0;
+
+	classDiagramForm->historyGraphic->PushUndo(diagram);
+
 	if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
 		selection->SelectByPoint(diagram, currentX, currentY);
@@ -57,24 +60,24 @@ void DrawingRealization::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *d
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingRealization::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void DrawingRealization::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);
 	}
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDC->SelectObject(&pen);
-	cPaintDC->SetBkMode(TRANSPARENT);
-	cPaintDC->MoveTo(startX, startY);
-	cPaintDC->LineTo(currentX, currentY);
-	cPaintDC->SelectObject(oldPen);
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
+	pDC->MoveTo(startX, startY);
+	pDC->LineTo(currentX, currentY);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
 
 	CBrush white(RGB(255, 255, 255));
 	CBrush myBrush;
 	myBrush.CreateSolidBrush(RGB(255, 255, 255));
-	CBrush *oldBrush = cPaintDC->SelectObject(&myBrush);
+	CBrush *oldBrush = pDC->SelectObject(&myBrush);
 
 	double degree = atan2(currentX - startX, startY - currentY); // 기울기
 
@@ -96,11 +99,11 @@ void DrawingRealization::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *d
 	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
 	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
-	cPaintDC->SelectObject(&white);
+	pDC->SelectObject(&white);
 	if (startX != currentX && startY != currentY) {
-		cPaintDC->Polygon(pts, 3);
+		pDC->Polygon(pts, 3);
 	}
-	cPaintDC->SelectObject(oldBrush);
+	pDC->SelectObject(oldBrush);
 	myBrush.DeleteObject();
 
 }

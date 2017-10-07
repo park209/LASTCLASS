@@ -29,9 +29,9 @@ Figure* Line::Clone() const {
 }
 
 
-void Line::Accept(Visitor& visitor, CDC *cPaintDc) {
+void Line::Accept(Visitor& visitor, CDC *pDC) {
 	
-	visitor.Visit(this, cPaintDc);
+	visitor.Visit(this, pDC);
 }
 
 

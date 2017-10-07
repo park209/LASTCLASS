@@ -7,6 +7,8 @@
 #include "Class.h"
 #include "Template.h"
 #include "SelectionState.h"
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 
 #include "ClassName.h"
 #include "Attribute.h"
@@ -23,12 +25,14 @@ MouseLButtonAction* MovingLine::Instance() {
 	}
 	return instance;
 }
-void MovingLine::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void MovingLine::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	bool ret = false;
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;
 	Class *selectedClass = static_cast<Class*>(selection->GetAt(0));
 	Finder finder;
+
+	classDiagramForm->historyGraphic->PushUndo(diagram);
 
 	MovingLineProcess *moveLine = MovingLineProcess::Instance();
 
@@ -65,7 +69,7 @@ void MovingLine::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, 
 
 }
 
-void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	bool ret = false;
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;
@@ -79,8 +83,8 @@ void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, 
 
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDC->SelectObject(&pen);
-	cPaintDC->SetBkMode(TRANSPARENT);
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
 
 	rect.left = startX - 4;
 	rect.top = startY - 4;
@@ -104,8 +108,8 @@ void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, 
 				distanceY = selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() + selectedClass->GetAt(selectedClass->GetAttributePosition())->GetHeight()
 					- selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() - 25;
 			}
-			cPaintDC->MoveTo(startPoint.x, startPoint.y + distanceY);
-			cPaintDC->LineTo(endPoint.x, endPoint.y + distanceY);
+			pDC->MoveTo(startPoint.x, startPoint.y + distanceY);
+			pDC->LineTo(endPoint.x, endPoint.y + distanceY);
 		}
 	}
 	if (selectedClass->GetMethodPosition() != -1 && ret != true) {
@@ -133,8 +137,8 @@ void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, 
 						- selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY() - 25;
 				}
 			}
-			cPaintDC->MoveTo(startPoint.x, startPoint.y + distanceY);
-			cPaintDC->LineTo(endPoint.x, endPoint.y + distanceY);
+			pDC->MoveTo(startPoint.x, startPoint.y + distanceY);
+			pDC->LineTo(endPoint.x, endPoint.y + distanceY);
 		}
 	}
 	if (selectedClass->GetReceptionPosition() != -1 && ret != true) {
@@ -167,10 +171,11 @@ void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, 
 						- selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY() - 25;
 				}
 			}
-			cPaintDC->MoveTo(startPoint.x, startPoint.y + distanceY);
-			cPaintDC->LineTo(endPoint.x, endPoint.y + distanceY);
+			pDC->MoveTo(startPoint.x, startPoint.y + distanceY);
+			pDC->LineTo(endPoint.x, endPoint.y + distanceY);
 		}
 	}
-	cPaintDC->SelectObject(oldPen);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
+
 }

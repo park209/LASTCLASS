@@ -17,7 +17,7 @@ class TextAreaSelected;
 class FontSet;
 class TextEdit : public CWnd { // CWnd 상속으로 바꿔야함
 public:
-	TextEdit(Figure *figure);
+	TextEdit(Figure *figure, Long rollNameBoxIndex = -1);
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
@@ -45,6 +45,9 @@ public:
 	Long GetKoreanEnglish() const;
 	Long GetFlagBuffer() const;
 	CString GetCopyBuffer() const;
+	Long GetCriteriaX() const;
+	Long GetCriteriaWidth() const;
+	Long GetCriteriaHeight() const;
 public:
 	Text *text;
 	Caret *caret;
@@ -60,9 +63,13 @@ public:
 	CString copyBuffer;
 	Long flagBuffer; //flag
 	Figure *figure;
+	Long rollNameBoxIndex;
 private:
 	Long koreanEnglish; //flag
 	Long currentX;
+	Long criteriaX;
+	Long criteriaWidth;
+	Long criteriaHeight;
 };
 
 inline Long TextEdit::GetFlagInsert() const {
@@ -88,6 +95,15 @@ inline Long TextEdit::GetSelectedX() const {
 }
 inline Long TextEdit::GetSelectedY() const {
 	return this->selectedY;
+}
+inline Long TextEdit::GetCriteriaWidth() const {
+	return this->criteriaWidth;
+}
+inline Long TextEdit::GetCriteriaHeight() const {
+	return this->criteriaHeight;
+}
+inline Long TextEdit::GetCriteriaX() const {
+	return this->criteriaX;
 }
 
 #endif // _TEXTEDIT_H

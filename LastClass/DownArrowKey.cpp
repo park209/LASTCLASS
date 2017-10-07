@@ -55,5 +55,5 @@ void DownArrowKey::KeyPress(TextEdit *textEdit) {
 	cFont.DeleteObject(); // ÆùÆ®
 }
 
-void DownArrowKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void DownArrowKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

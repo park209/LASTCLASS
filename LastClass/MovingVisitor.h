@@ -12,37 +12,40 @@ public:
 	~MovingVisitor();
 
 	void Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY);
-	void Visit(Class *object, CDC* cPaintDc);
-	void Visit(MemoBox* memoBox, CDC* cPaintDc);
-	void Visit(Selection *selection, CDC *cPaintDc);
+	void Visit(Class *object, CDC* pDC);
+	void Visit(MemoBox* memoBox, CDC* pDC);
+	void Visit(Selection *selection, CDC *pDC);
 
-	void Visit(Template *object, CDC *cPaintDc);
-	void Visit(ClassName* className, CDC* cPaintDc);
-	void Visit(Attribute* attribute, CDC* cPaintDc);
-	void Visit(Method* method, CDC* cPaintDc);
-	void Visit(Reception* reception, CDC* cPaintDc);
-	void Visit(Line *line, CDC* cPaintDc);
+	void Visit(Template *object, CDC *pDC);
+	void Visit(ClassName* className, CDC* pDC);
+	void Visit(Attribute* attribute, CDC* pDC);
+	void Visit(Method* method, CDC* pDC);
+	void Visit(Reception* reception, CDC* pDC);
+	void Visit(Line *line, CDC* pDC);
 
-	void Visit(Generalization *generalization, CDC* cPaintDc); //일반화
-	void Visit(Realization * realization, CDC* cPaintDc);		//실체화
-	void Visit(Dependency *dependency, CDC* cPaintDc);		//의존
-	void Visit(Association *association, CDC* cPaintDc);		//연관화
-	void Visit(DirectedAssociation *directedAssociation, CDC* cPaintDc);		//직접연관
-	void Visit(Aggregation *aggregation, CDC* cPaintDc);		//집합
-	void Visit(Aggregations *aggregations, CDC* cPaintDc);		//집합연관
-	void Visit(Composition *composition, CDC* cPaintDc);		//합성
-	void Visit(Compositions *compositions, CDC* cPaintDc);		//복합연관
-	void Visit(MemoLine* memobox, CDC *cPaintDc); //메모선
-	void Visit(SelfGeneralization *selfGeneralization, CDC *cPaintDc);
-	void Visit(SelfAggregation *selfAggregation, CDC *cPaintDc);
-	void Visit(SelfDependency *selfdependency, CDC *cPaintDc);
-	void Visit(SelfAssociation *selfAssociation, CDC *cPaintDc);
-	void Visit(SelfAggregations *selfAggregations, CDC *cPaintDc);
-	void Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *cPaintDc);
-	void Visit(SelfComposition *selfComposition, CDC *cPaintDc);
-	void Visit(SelfCompositions *selfCompositions, CDC *cPaintDc);
+	void Visit(Generalization *generalization, CDC* pDC); //일반화
+	void Visit(Realization * realization, CDC* pDC);		//실체화
+	void Visit(Dependency *dependency, CDC* pDC);		//의존
+	void Visit(Association *association, CDC* pDC);		//연관화
+	void Visit(DirectedAssociation *directedAssociation, CDC* pDC);		//직접연관
+	void Visit(Aggregation *aggregation, CDC* pDC);		//집합
+	void Visit(Aggregations *aggregations, CDC* pDC);		//집합연관
+	void Visit(Composition *composition, CDC* pDC);		//합성
+	void Visit(Compositions *compositions, CDC* pDC);		//복합연관
+	void Visit(MemoLine* memobox, CDC *pDC); //메모선
+	void Visit(SelfGeneralization *selfGeneralization, CDC *pDC);
+	void Visit(SelfAggregation *selfAggregation, CDC *pDC);
+	void Visit(SelfDependency *selfdependency, CDC *pDC);
+	void Visit(SelfAssociation *selfAssociation, CDC *pDC);
+	void Visit(SelfAggregations *selfAggregations, CDC *pDC);
+	void Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *pDC);
+	void Visit(SelfComposition *selfComposition, CDC *pDC);
+	void Visit(SelfCompositions *selfCompositions, CDC *pDC);
 
-	void Visit(Text* text, CDC* cPaintDc);
+	void Visit(SelfRelation *selfRelation, CDC *cPaintDc);
+	void Visit(Relation *relation, CDC *cPaintDc);
+
+	void Visit(Text* text, CDC* pDC);
 };
 
 

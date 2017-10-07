@@ -5,6 +5,8 @@
 #include "Class.h"
 #include "Template.h"
 #include "SelectionState.h"
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 
 DrawingResizing* DrawingResizing::instance = 0;
 
@@ -14,7 +16,7 @@ MouseLButtonAction* DrawingResizing::Instance() {
 	}
 	return instance;
 }
-void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	FigureComposite *object = static_cast<FigureComposite*>(selection->GetAt(0));
 	bool ret = false;
 	Long x = object->GetX();
@@ -28,6 +30,8 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagra
 	Finder finder;
 	Long length = 0;
 	Long k = 0;
+
+	classDiagramForm->historyGraphic->PushUndo(diagram);
 
 	if (dynamic_cast<Class*>(object) && static_cast<Class*>(object)->GetTempletePosition() != -1) {
 		Class *selectedClass = static_cast<Class*>(object);
@@ -178,7 +182,7 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagra
 void DrawingResizing::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 
 }
-void DrawingResizing::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDc) {
+void DrawingResizing::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	
 		FigureComposite *object = static_cast<FigureComposite*>(selection->GetAt(0));
 		CRect rect;
@@ -192,11 +196,11 @@ void DrawingResizing::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diag
 				CRect rect(selectedClass->GetX() - 3, templete->GetY() - 3, selectedClass->GetX() + 6, templete->GetY() + 6);
 				ret = finder.FindRectangleByPoint(rect, startX, startY);
 				if (ret == true) {
-					cPaintDc->MoveTo(object->GetX() + (currentX - startX), object->GetY() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX() + (currentX - startX), object->GetY() + (currentY - startY));
+					pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY() + (currentY - startY));
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + (currentY - startY));
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + (currentY - startY));
 				}
 			}
 			if (ret == false) { // 우상단
@@ -204,11 +208,11 @@ void DrawingResizing::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diag
 					templete->GetX() + templete->GetWidth() + 3, templete->GetY() + 6);
 				ret = finder.FindRectangleByPoint(rect, startX, startY);
 				if (ret == true) {
-					cPaintDc->MoveTo(object->GetX(), object->GetY() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX(), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX(), object->GetY() + (currentY - startY));
+					pDC->MoveTo(object->GetX(), object->GetY() + (currentY - startY));
+					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + (currentY - startY));
+					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX(), object->GetY() + (currentY - startY));
 				}
 			}
 			if (ret == false) { // 좌하단
@@ -216,11 +220,11 @@ void DrawingResizing::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diag
 					selectedClass->GetX() + 6, selectedClass->GetY() + selectedClass->GetHeight() + 3);
 				ret = finder.FindRectangleByPoint(rect, startX, startY);
 				if (ret == true) {
-					cPaintDc->MoveTo(object->GetX() + (currentX - startX), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX() + (currentX - startX), object->GetY());
+					pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight() + (currentY - startY));
+					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight() + (currentY - startY));
+					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY());
 				}
 			}
 			if (ret == false) { // 우하단
@@ -228,11 +232,11 @@ void DrawingResizing::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diag
 					templete->GetX() + templete->GetWidth() + 3, selectedClass->GetY() + selectedClass->GetHeight() + 3);
 				ret = finder.FindRectangleByPoint(rect, startX, startY);
 				if (ret == true) {
-					cPaintDc->MoveTo(object->GetX(), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX(), object->GetY() + object->GetHeight() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX(), object->GetY());
+					pDC->MoveTo(object->GetX(), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight() + (currentY - startY));
+					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight() + (currentY - startY));
+					pDC->LineTo(object->GetX(), object->GetY());
 				}
 			}
 			if (ret == false) { // 상중단
@@ -240,11 +244,11 @@ void DrawingResizing::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diag
 					selectedClass->GetX() + (templete->GetX() + templete->GetWidth() - selectedClass->GetX()) / 2 + 5, templete->GetY() + 6);
 				ret = finder.FindRectangleByPoint(rect, startX, startY);
 				if (ret == true) {
-					cPaintDc->MoveTo(object->GetX(), object->GetY() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX(), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX(), object->GetY() + (currentY - startY));
+					pDC->MoveTo(object->GetX(), object->GetY() + (currentY - startY));
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + (currentY - startY));
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX(), object->GetY() + (currentY - startY));
 				}
 			}
 			if (ret == false) { // 하중단
@@ -252,11 +256,11 @@ void DrawingResizing::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diag
 					selectedClass->GetX() + (templete->GetX() + templete->GetWidth() - selectedClass->GetX()) / 2 + 5, selectedClass->GetY() + selectedClass->GetHeight() + 3);
 				ret = finder.FindRectangleByPoint(rect, startX, startY);
 				if (ret == true) {
-					cPaintDc->MoveTo(object->GetX(), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX(), object->GetY() + object->GetHeight() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX(), object->GetY());
+					pDC->MoveTo(object->GetX(), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight() + (currentY - startY));
+					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight() + (currentY - startY));
+					pDC->LineTo(object->GetX(), object->GetY());
 				}
 			}
 			if (ret == false) { // 좌중단
@@ -264,11 +268,11 @@ void DrawingResizing::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diag
 					selectedClass->GetX() + 5, templete->GetY() + (selectedClass->GetY() + selectedClass->GetHeight() - templete->GetY()) / 2 + 5);
 				ret = finder.FindRectangleByPoint(rect, startX, startY);
 				if (ret == true) {
-					cPaintDc->MoveTo(object->GetX() + (currentX - startX), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX() + (currentX - startX), object->GetY());
+					pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY());
 				}
 			}
 			if (ret == false) { // 우중단
@@ -276,11 +280,11 @@ void DrawingResizing::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diag
 					templete->GetX() + templete->GetWidth() + 3, templete->GetY() + (selectedClass->GetY() + selectedClass->GetHeight() - templete->GetY()) / 2 + 5);
 				ret = finder.FindRectangleByPoint(rect, startX, startY);
 				if (ret == true) {
-					cPaintDc->MoveTo(object->GetX(), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX(), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX(), object->GetY());
+					pDC->MoveTo(object->GetX(), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX(), object->GetY());
 				}
 			}
 		}
@@ -289,33 +293,33 @@ void DrawingResizing::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diag
 				CRect rect(object->GetX() - 3, object->GetY() - 3, object->GetX() + 6, object->GetY() + 6);
 				ret = finder.FindRectangleByPoint(rect, startX, startY);
 				if (ret == true) {
-					cPaintDc->MoveTo(object->GetX() + (currentX - startX), object->GetY() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX() + (currentX - startX), object->GetY() + (currentY - startY));
+					pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY() + (currentY - startY));
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + (currentY - startY));
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + (currentY - startY));
 				}
 			}
 			if (ret == false) { // 우상단
 				CRect rect(object->GetX() + object->GetWidth() - 6, object->GetY() - 3, object->GetX() + object->GetWidth() + 3, object->GetY() + 6);
 				ret = finder.FindRectangleByPoint(rect, startX, startY);
 				if (ret == true) {
-					cPaintDc->MoveTo(object->GetX(), object->GetY() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX(), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX(), object->GetY() + (currentY - startY));
+					pDC->MoveTo(object->GetX(), object->GetY() + (currentY - startY));
+					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + (currentY - startY));
+					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX(), object->GetY() + (currentY - startY));
 				}
 			}
 			if (ret == false) { // 좌하단
 				CRect rect(object->GetX() - 3, object->GetY() + object->GetHeight() - 6, object->GetX() + 6, object->GetY() + object->GetHeight() + 3);
 				ret = finder.FindRectangleByPoint(rect, startX, startY);
 				if (ret == true) {
-					cPaintDc->MoveTo(object->GetX() + (currentX - startX), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX() + (currentX - startX), object->GetY());
+					pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight() + (currentY - startY));
+					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight() + (currentY - startY));
+					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY());
 				}
 			}
 			if (ret == false) { // 우하단
@@ -323,22 +327,22 @@ void DrawingResizing::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diag
 					object->GetX() + object->GetWidth() + 3, object->GetY() + object->GetHeight() + 3);
 				ret = finder.FindRectangleByPoint(rect, startX, startY);
 				if (ret == true) {
-					cPaintDc->MoveTo(object->GetX(), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX(), object->GetY() + object->GetHeight() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX(), object->GetY());
+					pDC->MoveTo(object->GetX(), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight() + (currentY - startY));
+					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight() + (currentY - startY));
+					pDC->LineTo(object->GetX(), object->GetY());
 				}
 			}
 			if (ret == false) { // 상중단
 				CRect rect(object->GetX() + object->GetWidth() / 2 - 4, object->GetY() - 3, object->GetX() + object->GetWidth() / 2 + 5, object->GetY() + 6);
 				ret = finder.FindRectangleByPoint(rect, startX, startY);
 				if (ret == true) {
-					cPaintDc->MoveTo(object->GetX(), object->GetY() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX(), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX(), object->GetY() + (currentY - startY));
+					pDC->MoveTo(object->GetX(), object->GetY() + (currentY - startY));
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + (currentY - startY));
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX(), object->GetY() + (currentY - startY));
 				}
 			}
 			if (ret == false) { // 하중단
@@ -346,22 +350,22 @@ void DrawingResizing::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diag
 					object->GetX() + object->GetWidth() / 2 + 5, object->GetY() + object->GetHeight() + 3);
 				ret = finder.FindRectangleByPoint(rect, startX, startY);
 				if (ret == true) {
-					cPaintDc->MoveTo(object->GetX(), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX(), object->GetY() + object->GetHeight() + (currentY - startY));
-					cPaintDc->LineTo(object->GetX(), object->GetY());
+					pDC->MoveTo(object->GetX(), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight() + (currentY - startY));
+					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight() + (currentY - startY));
+					pDC->LineTo(object->GetX(), object->GetY());
 				}
 			}
 			if (ret == false) { // 좌중단
 				CRect rect(object->GetX() - 3, object->GetY() + object->GetHeight() / 2 - 4, object->GetX() + 6, object->GetY() + object->GetHeight() / 2 + 5);
 				ret = finder.FindRectangleByPoint(rect, startX, startY);
 				if (ret == true) {
-					cPaintDc->MoveTo(object->GetX() + (currentX - startX), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX() + (currentX - startX), object->GetY());
+					pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY());
 				}
 			}
 			if (ret == false) { // 우중단
@@ -369,11 +373,11 @@ void DrawingResizing::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diag
 					object->GetX() + object->GetWidth() + 3, object->GetY() + object->GetHeight() / 2 + 5);
 				ret = finder.FindRectangleByPoint(rect, startX, startY);
 				if (ret == true) {
-					cPaintDc->MoveTo(object->GetX(), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY());
-					cPaintDc->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX(), object->GetY() + object->GetHeight());
-					cPaintDc->LineTo(object->GetX(), object->GetY());
+					pDC->MoveTo(object->GetX(), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY());
+					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
+					pDC->LineTo(object->GetX(), object->GetY());
 				}
 			}
 		}

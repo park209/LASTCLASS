@@ -6,6 +6,9 @@
 #include "SelectionState.h"
 #include "Relation.h"
 #include "Diagram.h"
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
+
 MovingObject* MovingObject::instance = 0;
 
 MouseLButtonAction* MovingObject::Instance() {
@@ -15,15 +18,18 @@ MouseLButtonAction* MovingObject::Instance() {
 	return instance;
 }
 
-void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+
+	classDiagramForm->historyGraphic->PushUndo(diagram);
+
 	if (dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
 		MovingVisitor movingVisitor;
 		FigureComposite *figures = static_cast<FigureComposite*>(selection->GetAt(0));
 		Finder finder;
-		Long i = 0; 
+		Long i = 0;
 		Long j = 0;
 		bool ret = false;
-		CRect cRect1(figures->GetX()+(currentX-startX), figures->GetY()+(currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
+		CRect cRect1(figures->GetX() + (currentX - startX), figures->GetY() + (currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
 		while (i < diagram->GetLength() && ret != true) {
 			FigureComposite *figureComposite = static_cast<FigureComposite*>(diagram->GetAt(i));
 			CRect cRect2(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
@@ -56,13 +62,11 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, 
 			Long distanceY = currentY - startY;
 			selection->Accept(diagram, movingVisitor, distanceX, distanceY);
 		}
-		this->ChangeState(mouseLButton, SelectionState::Instance());
+		//this->ChangeState(mouseLButton, SelectionState::Instance());
 	}
-
-
-
 	this->ChangeState(mouseLButton, SelectionState::Instance());
 }
+
 void MovingObject::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	selection->DeleteAllItems();
 	selection->SelectByPoint(diagram, currentX, currentY);
@@ -71,13 +75,12 @@ void MovingObject::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	}
 }
 
-void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDC->SelectObject(&pen);
-	cPaintDC->SetBkMode(TRANSPARENT);
-
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
 
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;
@@ -88,26 +91,22 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram
 	figure = selection->GetAt(i);
 	if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
 												  // 해당 클래스나 메모 이동
-		cPaintDC->Rectangle(figure->GetX() + distanceX, figure->GetY() + distanceY, figure->GetX() + figure->GetWidth() + distanceX,
+		pDC->Rectangle(figure->GetX() + distanceX, figure->GetY() + distanceY, figure->GetX() + figure->GetWidth() + distanceX,
 			figure->GetY() + figure->GetHeight() + distanceY);
 		FigureComposite *figureComposite = static_cast<FigureComposite*>(figure); // 형변환
 
 		while (j < figureComposite->GetLength()) { // 형변환 한게 관리하면 배열 렝스까지
 			figure = figureComposite->GetAt(j);
 			if (dynamic_cast<Line*>(figure)) {
-				cPaintDC->MoveTo(figure->GetX() + distanceX, figure->GetY() + distanceY);
-				cPaintDC->LineTo(figure->GetX() + figure->GetWidth() + distanceX,
+				pDC->MoveTo(figure->GetX() + distanceX, figure->GetY() + distanceY);
+				pDC->LineTo(figure->GetX() + figure->GetWidth() + distanceX,
 					figure->GetY() + figure->GetHeight() + distanceY);
 			}
 			j++;
 		}
 	}
 
-
-	
-
-
-	cPaintDC->SelectObject(oldPen);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
 
 }

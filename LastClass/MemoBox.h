@@ -19,12 +19,13 @@ public:
 	virtual Figure* GetAt(Long index);	//
 	virtual Figure* Clone() const;	//
 	virtual Long Remove(Long index);	//
+	virtual Long Correct(Long index, Figure *figure);
 
 	MemoBox& operator=(const MemoBox& source);
 	Figure* operator[](Long index);
 
 
-	void Accept(Visitor& visitor, CDC *cPaintDc);//CDC* CPointDc
+	void Accept(Visitor& visitor, CDC *pDC);
 };
 
 #endif // !_MEMOBOX_H

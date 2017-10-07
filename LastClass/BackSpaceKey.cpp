@@ -56,5 +56,5 @@ void BackSpaceKey::KeyPress(TextEdit *textEdit) {
 		}
 	}
 }
-void BackSpaceKey::KeyPress(ClassDiagramForm *classDIagramForm) {
+void BackSpaceKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

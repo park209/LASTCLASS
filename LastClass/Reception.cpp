@@ -30,6 +30,6 @@ Figure* Reception::Clone() const {
 	return new Reception(*this);
 }
 
-void Reception::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);
+void Reception::Accept(Visitor& visitor, CDC *pDC) {
+	visitor.Visit(this, pDC);
 }

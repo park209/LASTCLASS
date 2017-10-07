@@ -30,14 +30,14 @@ MouseLButtonAction* DefaultState::Instance() {
 	}
 	return instance;
 }
-void DefaultState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
-	
-		Finder finder;
-		CRect area(startX, startY, currentX, currentY);
-		selection->DeleteAllItems();
-		selection->SelectByArea(diagram, area);
-	
-	if (selection->GetLength() ==1 ) {
+void DefaultState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+
+	Finder finder;
+	CRect area(startX, startY, currentX, currentY);
+	selection->DeleteAllItems();
+	selection->SelectByArea(diagram, area);
+
+	if (selection->GetLength() == 1) {
 		this->ChangeState(mouseLButton, SelectionState::Instance());
 	}
 	if (selection->GetLength() > 1) {
@@ -83,6 +83,7 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	if (object == 51) {
 		this->ChangeState(mouseLButton, DrawingRealization::Instance(), 51);
 	}
+	//키보드 전략패턴을 적용해야할듯
 	if (mouseLButton->GetButtonState() == 0) {
 
 		Long index = selection->SelectByPoint(startX, startY);
@@ -93,29 +94,28 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 		else {
 			selection->DeleteAllItems();
 			selection->SelectByPoint(diagram, startX, startY);
-			if (selection->GetLength() ==1 ) {
+			if (selection->GetLength() == 1) {
 				this->ChangeState(mouseLButton, SelectionState::Instance());
 			}
 		}
 	}
 }
 
-void DefaultState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void DefaultState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = cPaintDC->SelectObject(&pen);
-	cPaintDC->SetBkMode(TRANSPARENT);
-	
-	cPaintDC->MoveTo(startX, startY);
-	cPaintDC->LineTo(currentX, startY);
-	cPaintDC->MoveTo(startX, startY);
-	cPaintDC->LineTo(startX, currentY);
-	cPaintDC->MoveTo(currentX, startY);
-	cPaintDC->LineTo(currentX, currentY);
-	cPaintDC->MoveTo(startX, currentY);
-	cPaintDC->LineTo(currentX, currentY);
+	CPen *oldPen = pDC->SelectObject(&pen);
+	pDC->SetBkMode(TRANSPARENT);
 
+	pDC->MoveTo(startX, startY);
+	pDC->LineTo(currentX, startY);
+	pDC->MoveTo(startX, startY);
+	pDC->LineTo(startX, currentY);
+	pDC->MoveTo(currentX, startY);
+	pDC->LineTo(currentX, currentY);
+	pDC->MoveTo(startX, currentY);
+	pDC->LineTo(currentX, currentY);
 
-	cPaintDC->SelectObject(oldPen);
+	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
 }

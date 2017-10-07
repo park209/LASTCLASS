@@ -5,9 +5,10 @@
 #define _CTRLPASTEKEY_H
 
 #include "KeyAction.h"
+#include <afxwin.h>
 
 class TextEdit;
-class ClassDIagramForm;
+class ClassDiagramForm;
 class CtrlPasteKey : public KeyAction {
 public:
 	CtrlPasteKey();
@@ -15,7 +16,7 @@ public:
 	virtual ~CtrlPasteKey();
 
 	void KeyPress(TextEdit *textEdit);
-	void KeyPress(ClassDiagramForm *classDiagramForm);
+	void KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc);
 };
 
 #endif // _CTRLPASTEKEY_H

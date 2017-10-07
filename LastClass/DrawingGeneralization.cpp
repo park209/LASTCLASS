@@ -6,7 +6,8 @@
 #include "Finder.h"
 #include "Generalization.h"
 #include "SelfGeneralization.h"
-
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 
 DrawingGeneralization* DrawingGeneralization::instance = 0;
 
@@ -17,12 +18,13 @@ MouseLButtonAction* DrawingGeneralization::Instance() {
 	return instance;
 }
 
-void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long index;
 	Figure *figure = 0;
 
 	//if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
+	classDiagramForm->historyGraphic->PushUndo(diagram);
 	selection->SelectByPoint(diagram, currentX, currentY);
 
 	if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {
@@ -51,7 +53,18 @@ void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *
 
 	if (selection->GetLength() == 2 && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
+
 		SelfGeneralization selfGeneralization(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
+		if (object->GetTempletePosition() != -1) {
+			selfGeneralization.Move(0, -17);
+			Long k = 0;
+			while (k < 5) {
+				CPoint cPoint(selfGeneralization.rollNamePoints->GetAt(k).x, selfGeneralization.rollNamePoints->GetAt(k).y - 17);
+				selfGeneralization.rollNamePoints->Modify(k, cPoint);
+				k++;
+			}
+		}
+
 		index = object->Add(selfGeneralization.Clone());
 		figure = object->GetAt(index);
 	}
@@ -63,18 +76,18 @@ void DrawingGeneralization::MouseLButtonDown(MouseLButton *mouseLButton, Diagram
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingGeneralization::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CPaintDC *cPaintDC) {
+void DrawingGeneralization::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);
 	}
-	cPaintDC->MoveTo(startX, startY);
-	cPaintDC->LineTo(currentX, currentY);
+	pDC->MoveTo(startX, startY);
+	pDC->LineTo(currentX, currentY);
 
 	CBrush white(RGB(255, 255, 255));
 	CBrush myBrush;
 	myBrush.CreateSolidBrush(RGB(255, 255, 255));
-	CBrush *oldBrush = cPaintDC->SelectObject(&myBrush);
+	CBrush *oldBrush = pDC->SelectObject(&myBrush);
 
 	double degree = atan2(currentX - startX, startY - currentY); // 기울기
 
@@ -96,11 +109,11 @@ void DrawingGeneralization::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram
 	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
 	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
-	cPaintDC->SelectObject(&white);
+	pDC->SelectObject(&white);
 	if (startX != currentX && startY != currentY) {
-		cPaintDC->Polygon(pts, 3);
+		pDC->Polygon(pts, 3);
 	}
-	cPaintDC->SelectObject(oldBrush);
+	pDC->SelectObject(oldBrush);
 	myBrush.DeleteObject();
 
 }

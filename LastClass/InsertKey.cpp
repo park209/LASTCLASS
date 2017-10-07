@@ -24,5 +24,5 @@ void InsertKey::KeyPress(TextEdit *textEdit) {
 	}
 }
 
-void InsertKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void InsertKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

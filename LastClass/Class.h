@@ -37,21 +37,29 @@ public:
 	Long AddReception(Diagram *diagram);
 	Long AddTemplate(Long x, Long y, Long width, Long height);
 
+	Long Add(Attribute *attribute);
+	Long Add(Method *method);
+	Long Add(Reception *reception);
+	Long Add(Template *object);
+
 	Long RemoveAttribute();
 	Long RemoveMethod();
 	Long RemoveReception();
 	Long RemoveTemplate();
+
+	Long SetMinimumWidth();
 	
 
 
 	virtual Long Add(Figure *figure);
 	virtual Long Remove(Long index);
+	Long Correct(Figure *figure, Long index);
 
 	virtual Figure* GetAt(Long index);
 
 
 	virtual Figure* Clone() const;
-	void Accept(Visitor& visitor, CDC *cPaintDc);
+	void Accept(Visitor& visitor, CDC *pDC);
 
 	Long GetAttributePosition()const;
 	Long GetMethodPosition()const;

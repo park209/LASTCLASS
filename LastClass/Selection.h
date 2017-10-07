@@ -21,11 +21,13 @@ public:
 	virtual Figure* Clone() const;
 	void DeleteAllItems();
 	void Accept(Diagram *diagram,Visitor& visitor, Long distanceX, Long distanceY);
-	void Accept(Visitor& visitor, CDC *cPaintDc);
+	void Accept(Visitor& visitor, CDC *pDC);
 
 	void SelectByArea(Diagram *diagram, CRect area);
 	Long SelectByPoint(Diagram *diagram, Long x, Long y);
 	Long SelectByPoint(Long x, Long y);
+
+	virtual Long Correct(Figure *figure, Long index);
 
 };
 

@@ -19,6 +19,11 @@
 #include "WriteKoreanText.h"
 #include "DoubleClickTextArea.h"
 #include "FontSet.h"
+#include "Selection.h"
+#include "EditResizer.h"
+#include "Class.h"
+#include "Relation.h"
+#include "SelfRelation.h"
 
 //#include <iostream>
 
@@ -39,7 +44,7 @@ BEGIN_MESSAGE_MAP(TextEdit, CWnd)
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
-TextEdit::TextEdit(Figure *figure) {
+TextEdit::TextEdit(Figure *figure, Long rollNameBoxIndex) {
 	this->text = NULL;
 	this->caret = NULL;
 	this->keyBoard = NULL;
@@ -47,6 +52,7 @@ TextEdit::TextEdit(Figure *figure) {
 	this->textAreaSelected = NULL;
 	this->fontSet = NULL;
 	this->figure = figure;
+	this->rollNameBoxIndex = rollNameBoxIndex;
 	this->rowHeight = 25; // 폰트 사이즈
 	this->koreanEnglish = 0;
 	this->flagBuffer = 0;
@@ -54,11 +60,15 @@ TextEdit::TextEdit(Figure *figure) {
 	this->flagSelection = 0;
 	this->currentX = 0;
 	this->copyBuffer = "";
+	this->criteriaWidth = figure->GetWidth();
+	this->criteriaHeight = figure->GetHeight();
+	this->criteriaX = figure->GetX();
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CWnd::OnCreate(lpCreateStruct); //override
 	CWnd::SetFocus();
+
 	this->text = new Text;
 	this->caret = new Caret;
 	this->keyBoard = new KeyBoard;
@@ -66,49 +76,93 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->textAreaSelected = new TextAreaSelected;
 	this->fontSet = new FontSet;
 
-	this->text->SprayString(this->figure->GetContent()); // 넘겨받아온거 자료구조로 뿌려줌 ㅇㅇㅇㅇㅇ
+	if (this->rollNameBoxIndex == -1) {
+		this->text->SprayString(this->figure->GetContent()); // 넘겨받아온거 자료구조로 뿌려줌 ㅇㅇㅇㅇㅇ
+	}
+	else if (dynamic_cast<Relation*>(this->figure)) {
+		this->text->SprayString(static_cast<Relation*>(this->figure)->rollNames->GetAt(this->rollNameBoxIndex));
+	}
+	else if (dynamic_cast<SelfRelation*>(this->figure)) {
+		this->text->SprayString(static_cast<SelfRelation*>(this->figure)->rollNames->GetAt(this->rollNameBoxIndex));
+	}
 
-	CWnd::HideCaret();
-	::DestroyCaret();
-
-	Invalidate();
+	Invalidate(false);
 	return 0;
 }
 
 void TextEdit::OnPaint() {
 	CPaintDC dc(this);
+	RECT rt;
+	this->GetClientRect(&rt);
+
+	CDC memDC;
+	CBitmap *pOldBitmap;
+	CBitmap bitmap;
+	memDC.CreateCompatibleDC(&dc);
+	bitmap.CreateCompatibleBitmap(&dc, rt.right, rt.bottom);
+	pOldBitmap = memDC.SelectObject(&bitmap);
+	memDC.FillSolidRect(CRect(0, 0, rt.right, rt.bottom), RGB(255, 255, 255));
 	WritingVisitor writingVisitor;
-
 	CFont cFont;
-	cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
-	SetFont(&cFont, TRUE);
-	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
+	CFont *oldFont = 0;
+	CFont *m_oldFont = 0;
 
-	if (this->flagSelection == 0) {
-		dc.FillSolidRect(CRect(5, 5, figure->GetWidth() - 5, figure->GetHeight() - 5), RGB(255, 255, 255));
+	if (this->rollNameBoxIndex == -1) {
+		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+		SetFont(&cFont, TRUE);
+		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
+		CFont *m_oldFont = memDC.SelectObject(&cFont);
 
-		this->text->Accept(writingVisitor, &dc);//받았던거 출력
-		this->caret->MoveToIndex(this, &dc);
+		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
+		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
+			this->textAreaSelected->SelectTextArea(this, &memDC);
+		}
 	}
-	else if (this->flagSelection == 1) { // flagSelection이 눌려있으면
-		this->textAreaSelected->SelectTextArea(this, &dc);
+	else if (dynamic_cast<Relation*>(this->figure)) {
+		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
+		SetFont(&cFont, TRUE);
+		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
+		CFont *m_oldFont = memDC.SelectObject(&cFont);
+
+		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
+		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
+			this->textAreaSelected->SelectTextArea(this, &memDC);
+		}
 	}
+	else if (dynamic_cast<SelfRelation*>(this->figure)) {
+		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
+		SetFont(&cFont, TRUE);
+		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
+		CFont *m_oldFont = memDC.SelectObject(&cFont);
+
+		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
+		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
+			this->textAreaSelected->SelectTextArea(this, &memDC);
+		}
+	}
+
+	dc.BitBlt(0, 0, rt.right, rt.bottom, &memDC, 0, 0, SRCCOPY);
+
+	this->caret->MoveToIndex(this, &dc);
 
 	dc.SelectObject(oldFont);
+	memDC.SelectObject(m_oldFont);
 	cFont.DeleteObject(); // 폰트
+	memDC.SelectObject(pOldBitmap);
+	bitmap.DeleteObject();
+	memDC.DeleteDC();
 }
 
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN &&
-		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10  && GetKeyState(VK_CONTROL) >= 0) {
+		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10 && GetKeyState(VK_CONTROL) >= 0) {
 
 		if (flagSelection == 1) {
-			DeleteTextArea *deleteArea = new DeleteTextArea();
+			DeleteTextArea *deleteArea = DeleteTextArea::Instance();
 			deleteArea->DeleteArea(this);
-			if (deleteArea != 0) {
-				delete deleteArea;
-			}
 		}
 		char nCharacter = nChar;
 		SingleByteCharacter singleByteCharacter(nCharacter);
@@ -123,40 +177,61 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		}
 		this->caret->MoveForwardCharacterIndex();
 	}
+	
+	CDC *dc = GetDC();
+	CFont cFont;
+	cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+	SetFont(&cFont, TRUE);
+	dc->SelectObject(cFont);
+	EditResizer editResizer;
+	editResizer.ResizeEdit(this, dc);
+	editResizer.ResizeClass(this, dc);
+	GetParentFrame()->Invalidate(false);
+
+	//GetParentFrame()->RedrawWindow();
+
+	cFont.DeleteObject(); // 폰트
 
 	CWnd::HideCaret();
-	::DestroyCaret();
 
-	Invalidate();
+	Invalidate(false);
 }
 
 Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	HIMC hIMC = ImmGetContext(GetSafeHwnd());
 
 	if (flagSelection == 1) {
-		DeleteTextArea *deleteArea = new DeleteTextArea();
+		DeleteTextArea *deleteArea = DeleteTextArea::Instance();
 		deleteArea->DeleteArea(this);
-		if (deleteArea != 0) {
-			delete deleteArea;
-		}
 	}
-	WriteKoreanText *writeHanguel = new WriteKoreanText();
+	WriteKoreanText *writeHanguel = WriteKoreanText::Instance();
 	writeHanguel->WriteHanguel(wParam, lParam, hIMC, this);
-	if (writeHanguel != 0) {
-		delete writeHanguel;
-	}
-	ImmReleaseContext(GetSafeHwnd(), hIMC);
-	
-	CWnd::HideCaret();
-	::DestroyCaret();
 
-	Invalidate();
+	ImmReleaseContext(GetSafeHwnd(), hIMC);
+
+	CDC *dc = GetDC();
+	CFont cFont;
+	cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+	SetFont(&cFont, TRUE);
+	dc->SelectObject(cFont);
+	EditResizer editResizer;
+	editResizer.ResizeEdit(this, dc);
+	editResizer.ResizeClass(this, dc);
+	GetParentFrame()->Invalidate(false);
+	cFont.DeleteObject(); // 폰트
+
+	CWnd::HideCaret();
+
+	Invalidate(false);
 	return 0;
 }
 
 void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 
-	CPaintDC dc(this);
+	CClientDC dc(this);
+
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
 	UINT elapseTime = 0;
@@ -171,9 +246,17 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	}
 
 	CFont cFont;
-	cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
-	SetFont(&cFont, TRUE);
+	if (this->rollNameBoxIndex == -1) {
+		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+		SetFont(&cFont, TRUE);
+	}
+	else {
+		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
+		SetFont(&cFont, TRUE);
+	}
+
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작
 
 	if (GetKeyState(VK_SHIFT) < 0) { // 클릭했는데 쉬프트가 눌려있을 때
@@ -193,15 +276,12 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject(); // 폰트 끝
 
-	CWnd::HideCaret();
-	::DestroyCaret();
+	//CWnd::HideCaret();
 
-	
 	SetCapture();
 
-
 	KillTimer(1);
-	Invalidate();
+	Invalidate(false);
 }
 
 void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
@@ -214,13 +294,13 @@ void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 		return;
 	}
 
-	CWnd::HideCaret();
-	::DestroyCaret();
+	//CWnd::HideCaret();
 
 	KillTimer(1);
-		ReleaseCapture();
-		Invalidate();
-	
+
+	ReleaseCapture();
+
+	Invalidate(false);
 }
 
 void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
@@ -228,12 +308,11 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 	//SetCursor(LoadCursor(NULL, IDC_IBEAM));
 
 	if (nFlags == MK_LBUTTON) {
-		
-		SetCursor(LoadCursor(NULL, IDC_IBEAM));
+		//SetCursor(LoadCursor(NULL, IDC_IBEAM));
 		CFont cFont;
-		CPaintDC dc(this);
+		CClientDC dc(this);
 		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str()); 
 		this->SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);// 폰트 시작
 
@@ -242,33 +321,27 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 			this->selectedX = this->caret->GetCharacterIndex(); // 최초 한번 selectedX, Y 를
 			this->selectedY = this->caret->GetRowIndex();
 		}
-			this->caret->MoveToPoint(this, &dc, point); // 새로운 위치로 캐럿 이동한다
-	
+		this->caret->MoveToPoint(this, &dc, point); // 새로운 위치로 캐럿 이동한다
+
 		dc.SelectObject(oldFont);
 		cFont.DeleteObject(); // 폰트 끝
 
-		::DestroyCaret();
-		Invalidate();
+		Invalidate(false);
 	}
 	this->currentX = point.x;
 }
 
 void TextEdit::OnLButtonDblClk(UINT nFlags, CPoint point) {
-	CPaintDC dc(this);
+	CClientDC dc(this);
 
-	DoubleClickTextArea *DoubleClick = new DoubleClickTextArea();
+	DoubleClickTextArea *DoubleClick = DoubleClickTextArea::Instance();
 	DoubleClick->FindDoubleClickAreaIndex(this);
-	if (DoubleClick != 0) {
-		delete DoubleClick;
-	}
-	
-	::DestroyCaret();
-	Invalidate();
+
+	Invalidate(false);
 }
 
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->koreanEnglish = 1;
-
 	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 	if (keyAction != 0) {
 		keyAction->KeyPress(this);
@@ -276,10 +349,22 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->koreanEnglish = 0;
 
 	if (nChar != VK_RETURN && nChar != VK_ESCAPE) {
-		CWnd::HideCaret();
-		::DestroyCaret();
 
-		CWnd::Invalidate();
+		CDC *dc = GetDC();
+		CFont cFont;
+		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+		SetFont(&cFont, TRUE);
+		dc->SelectObject(cFont);
+		EditResizer editResizer;
+		editResizer.ResizeEdit(this, dc);
+		editResizer.ResizeClass(this, dc);
+		GetParentFrame()->Invalidate(false);
+		cFont.DeleteObject(); // 폰트
+
+		CWnd::HideCaret();
+
+		Invalidate(false);
 	}
 }
 
@@ -296,12 +381,23 @@ LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {
 }
 
 void TextEdit::OnKillFocus(CWnd *pNewWnd) {
-	CWnd::OnKillFocus(pNewWnd);
+	if (this->rollNameBoxIndex == -1) {
+		string content(this->text->MakeText());
+		this->figure->ReplaceString(content, this->rowHeight);
+	}
+	else if (dynamic_cast<Relation*>(this->figure)) {
+		string rollNameText(this->text->MakeText());
+		static_cast<Relation*>(this->figure)->ReplaceString(rollNameText, this->rollNameBoxIndex);
+	}
+	else if (dynamic_cast<SelfRelation*>(this->figure)) {
+		string rollNameText(this->text->MakeText());
+		static_cast<SelfRelation*>(this->figure)->ReplaceString(rollNameText, this->rollNameBoxIndex);
+	}
 
+	CWnd::OnKillFocus(pNewWnd);
 	CWnd::HideCaret();
 	::DestroyCaret();
-	string content(this->text->MakeText());
-	this->figure->ReplaceString(content);
+
 
 	if (this->caret != NULL) {
 		delete this->caret;
@@ -318,7 +414,6 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 	if (this->textAreaSelected != NULL) {
 		delete this->textAreaSelected;
 	}
-
 	if (this != NULL) {
 		delete this;
 	}
@@ -328,8 +423,18 @@ void TextEdit::OnClose() {
 	CWnd::HideCaret();
 	::DestroyCaret();
 
-	string content(this->text->MakeText());
-	this->figure->ReplaceString(content);
+	if (this->rollNameBoxIndex == -1) {
+		string content(this->text->MakeText());
+		this->figure->ReplaceString(content, this->rowHeight);
+	}
+	else if (dynamic_cast<Relation*>(this->figure)) {
+		string rollNameText(this->text->MakeText());
+		static_cast<Relation*>(this->figure)->ReplaceString(rollNameText, this->rollNameBoxIndex);
+	}
+	else if (dynamic_cast<SelfRelation*>(this->figure)) {
+		string rollNameText(this->text->MakeText());
+		static_cast<SelfRelation*>(this->figure)->ReplaceString(rollNameText, this->rollNameBoxIndex);
+	}
 
 	if (this->caret != NULL) {
 		delete this->caret;
@@ -350,4 +455,3 @@ void TextEdit::OnClose() {
 		delete this;
 	}
 }
-	

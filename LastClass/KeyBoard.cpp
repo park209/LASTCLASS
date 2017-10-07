@@ -25,15 +25,21 @@
 #include "CtrlRedoTextKey.h"
 #include "CtrlCutKey.h"
 #include "ClassDiagramForm.h"
-#include "DeleteSelectedOne.h"
-#include "AKey.h"
-#include "SKey.h"
-#include "DKey.h"
-#include "FKey.h"
-#include "GKey.h"
-#include "HKey.h"
-#include "JKey.h"
-#include "KKey.h"
+#include "AddTemplateKey.h"
+#include "DeleteGraphicKey.h"
+#include "AddReceptionKey.h"
+#include "RemoveReceptionKey.h"
+#include "AddAttributeKey.h"
+#include "AddAttributeKey.h"
+#include "RemoveAttributeKey.h"
+#include "AddMethodKey.h"
+#include "RemoveMethodKey.h"
+#include "RemoveTemplateKey.h"
+#include "GraphicCtrlCopyKey.h"
+#include "GraphicCtrlPasteKey.h"
+#include "GraphicCtrlCutKey.h"
+#include "GraphicCtrlRedoKey.h"
+#include "GraphicCtrlUndoKey.h"
 
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
@@ -47,7 +53,7 @@ KeyBoard::KeyBoard(const KeyBoard& source) {
 KeyBoard::~KeyBoard() {
 	if (this->keyAction != 0) {
 		delete this->keyAction;
-		this->keyAction = 0;
+		//this->keyAction = 0;
 	}
 }
 
@@ -160,31 +166,64 @@ KeyAction* KeyBoard::KeyDown(ClassDiagramForm *classDiagramForm, UINT nChar, UIN
 	}
 	switch (nChar) {
 	case VK_DELETE:
-		this->keyAction = new DeleteSelectedOne;
+		this->keyAction = new DeleteGraphicKey;
 		break;
-	case 65: // 백스페이스
-		this->keyAction = new AKey;
+	case 0x59: // y
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			//this->keyAction = new ;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new GraphicCtrlRedoKey;
+		}
 		break;
-	case 83:
-		this->keyAction = new SKey;
+	case 0x41: // a
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			this->keyAction = new AddTemplateKey;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			//this->keyAction = new GraphicCtrlAllKey;
+		}
 		break;
-	case 68:
-		this->keyAction = new DKey;
+	case 0x46: // f 
+		this->keyAction = new AddReceptionKey;
 		break;
-	case 70:
-		this->keyAction = new FKey;
+	case 0x53: // s 
+		this->keyAction = new AddAttributeKey;
 		break;
-	case 71:
-		this->keyAction = new GKey;
+	case 0x44: // d
+		this->keyAction = new AddMethodKey;
 		break;
-	case 72:
-		this->keyAction = new HKey;
+	case 0x5A: // z
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			this->keyAction = new RemoveTemplateKey;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new GraphicCtrlUndoKey;
+		}
 		break;
-	case 74: 
-			this->keyAction = new JKey;
+	case 0x58: // x
+		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new GraphicCtrlCutKey;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			this->keyAction = new RemoveReceptionKey;
+		}
 		break;
-	case 75:
-		this->keyAction = new KKey;
+	case 0x43: // c
+		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new GraphicCtrlCopyKey;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			this->keyAction = new RemoveAttributeKey;
+		}
+		break;
+	case 0x56: // v
+		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new GraphicCtrlPasteKey;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			this->keyAction = new RemoveMethodKey;
+		}
 		break;
 	default:
 		break;

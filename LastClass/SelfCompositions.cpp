@@ -27,6 +27,6 @@ Figure* SelfCompositions::Clone() const {
 	return new SelfCompositions(*this);
 }
 
-void SelfCompositions::Accept(Visitor& visitor, CDC *cPaintDc) {
-	visitor.Visit(this, cPaintDc);
+void SelfCompositions::Accept(Visitor& visitor, CDC *pDC) {
+	visitor.Visit(this, pDC);
 }

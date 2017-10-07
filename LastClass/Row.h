@@ -29,7 +29,7 @@ public:
 
 	Long Modify(Long index, TextComponent *textComponent);
 	string PrintRowString();
-	Long GetRowWidth(CDC* cPaintDc, Long to, Long from = 0);
+	Long GetRowWidth(CDC* pDC, Long to, Long from = 0);
 	Character* GetAt(Long index);
 
 	Row& operator = (const Row& source);

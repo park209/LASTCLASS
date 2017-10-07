@@ -23,22 +23,22 @@ Caret::Caret(const Caret& source) {
 Caret::~Caret() {
 }
 
-void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
-	Long pointX = 5;													 //가로
-	Long pointY = this->rowIndex * textEdit->GetRowHeight() + 5;         //세로
+void Caret::MoveToIndex(TextEdit *textEdit, CDC *pDC) {
+	Long pointX = 0;													 //가로
+	Long pointY = this->rowIndex * textEdit->GetRowHeight();         //세로
 	CString str;
 	Long column = 0;
 	Long tabWidth = 0;
 	Long i = 0;
 
-	pointX += textEdit->text->GetAt((this->rowIndex))->GetRowWidth(dc, this->characterIndex);
+	pointX += textEdit->text->GetAt((this->rowIndex))->GetRowWidth(pDC, this->characterIndex);
 
 	textEdit->CreateSolidCaret(2, textEdit->GetRowHeight());
 	if (textEdit->GetFlagBuffer() == 1) {
-		textEdit->CreateSolidCaret(-dc->GetTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex - 1)->MakeCString()).cx, textEdit->GetRowHeight());
+		textEdit->CreateSolidCaret(-pDC->GetTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex - 1)->MakeCString()).cx, textEdit->GetRowHeight());
 	}
 	if (textEdit->GetFlagInsert() == 1 && this->characterIndex < textEdit->text->GetAt(this->rowIndex)->GetLength()) {
-		textEdit->CreateSolidCaret(dc->GetTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex)->MakeCString()).cx, textEdit->GetRowHeight());
+		textEdit->CreateSolidCaret(pDC->GetTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex)->MakeCString()).cx, textEdit->GetRowHeight());
 	}
 	this->currentCaretX = pointX;
 	this->currentCaretY = pointY;
@@ -46,31 +46,31 @@ void Caret::MoveToIndex(TextEdit *textEdit, CPaintDC *dc) {
 	textEdit->ShowCaret();
 }
 
-void Caret::MoveToPoint(TextEdit *textEdit, CPaintDC *cPaintDc, CPoint point) {
+void Caret::MoveToPoint(TextEdit *textEdit, CDC *pDC, CPoint point) {
 	Long x = point.x;
 	Long y = point.y;
 	CString str;
 	this->characterIndex = 0;
 	this->rowIndex = 0;
 
-	Long height = 5;
-	while (y > 5 && height <= y && this->rowIndex < textEdit->text->GetLength()) {
+	Long height = 0;
+	while (y > 0 && height <= y && this->rowIndex < textEdit->text->GetLength()) {
 		height += textEdit->GetRowHeight();
 		this->rowIndex++;
 	}
-	if (y > 5 && textEdit->text->GetLength() > 0) {
+	if (y > 0 && textEdit->text->GetLength() > 0) {
 		this->rowIndex--;
 	}
-	Long width = 5;
-	while (this->characterIndex < textEdit->text->GetAt(this->rowIndex)->GetLength() && x > 5 && width <= x) {
+	Long width = 0;
+	while (this->characterIndex < textEdit->text->GetAt(this->rowIndex)->GetLength() && x > 0 && width <= x) {
 		str = textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex)->MakeCString();
-		width += cPaintDc->GetTextExtent(str).cx;
+		width += pDC->GetTextExtent(str).cx;
 		this->characterIndex++; // -1 안하면 다음꺼
 	}
 	if (this->characterIndex > 0) {
 		str = textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex - 1)->MakeCString();
-		Long textWidth = cPaintDc->GetTextExtent(str).cx;
-		if (x > 5 && x < width - textWidth / 2) {
+		Long textWidth = pDC->GetTextExtent(str).cx;
+		if (x > 0 && x < width - textWidth / 2) {
 			this->characterIndex--;
 		}
 	}
