@@ -501,6 +501,7 @@
     <ClInclude Include="OpenMenuAction.h" />
     <ClInclude Include="SaveMenuAction.h" />
     <ClInclude Include="SaveAsMenuAction.h" />
+    <ClInclude Include="NewMenuAction.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -984,6 +985,9 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="SaveAsMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="NewMenuAction.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>

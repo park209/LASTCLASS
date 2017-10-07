@@ -97,6 +97,7 @@
     <ClInclude Include="MemoLineMenuAction.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuAction.h" />
+    <ClInclude Include="NewMenuAction.h" />
     <ClInclude Include="OpenMenuAction.h" />
     <ClInclude Include="RealizationMenuAction.h" />
     <ClInclude Include="RemoveReceptionKey.h" />
@@ -267,6 +268,7 @@
     <ClCompile Include="MemoBoxMenuAction.cpp" />
     <ClCompile Include="MemoLineMenuAction.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="NewMenuAction.cpp" />
     <ClCompile Include="OpenMenuAction.cpp" />
     <ClCompile Include="RealizationMenuAction.cpp" />
     <ClCompile Include="RemoveReceptionKey.cpp" />

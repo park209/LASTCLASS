@@ -16,6 +16,7 @@
 #include "OpenMenuAction.h"
 #include "SaveMenuAction.h"
 #include "SaveAsMenuAction.h"
+#include "NewMenuAction.h"
 Menu::Menu(ClassDiagramForm* classDiagramForm) {
 	this->mainMenu = new CMenu;
 	this->popupMenu = new CMenu;
@@ -34,8 +35,8 @@ Menu::Menu(ClassDiagramForm* classDiagramForm) {
 	this->popupMenu->AppendMenu(MF_STRING, 101, "열기");
 	this->popupMenu->AppendMenu(MF_STRING, 102, "저장");
 	this->popupMenu->AppendMenu(MF_STRING, 103, "다른이름으로 저장");
-	this->popupMenu->AppendMenu(MF_STRING, 105, "미리보기");
-	this->popupMenu->AppendMenu(MF_STRING, 104, "인쇄하기");
+	this->popupMenu->AppendMenu(MF_STRING, 104, "미리보기");
+	this->popupMenu->AppendMenu(MF_STRING, 105, "인쇄하기");
 	this->popupMenu->AppendMenu(MF_STRING, 106, "끝내기");
 	this->editMenu->AppendMenu(MF_STRING, 107, "복사하기");
 	this->editMenu->AppendMenu(MF_STRING, 108, "붙여넣기");
@@ -78,6 +79,7 @@ MenuAction* Menu::MenuSelected( UINT parm_control_id) {
 	}
 	switch (parm_control_id)
 	{
+	case 100: this->menuAction = new NewMenuAction; break;
 	case 101: this->menuAction = new OpenMenuAction; break;
 	case 102: this->menuAction = new SaveMenuAction; break;
 	case 103: this->menuAction = new SaveAsMenuAction;break;
