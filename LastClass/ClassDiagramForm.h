@@ -16,7 +16,7 @@ class MouseLButton;
 class Scroll;
 class KeyBoard;
 class HistoryGraphic;
-class Selection;
+class Menu;
 class ClassDiagramForm : public CFrameWnd { //CFrameWnd 에 상속관계 표기
 public:
 	Diagram *diagram;
@@ -27,8 +27,7 @@ public:
 	Scroll *verticalScrollBar;
 	Scroll *horizontalScroll;
 	HistoryGraphic *historyGraphic;
-	Selection *copyBuffer;
-	Long isCut;
+	Menu *menu;
 public:
 	ClassDiagramForm();
 public:
@@ -53,6 +52,7 @@ protected:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar); 
+	afx_msg void OnMyMenu(UINT parm_control_id);
 	afx_msg BOOL OnMouseWheel(UINT nFlags,	short zDelta,CPoint pt);
 	DECLARE_MESSAGE_MAP()
 };

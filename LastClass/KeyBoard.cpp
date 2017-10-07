@@ -35,11 +35,9 @@
 #include "AddMethodKey.h"
 #include "RemoveMethodKey.h"
 #include "RemoveTemplateKey.h"
-#include "GraphicCtrlCopyKey.h"
-#include "GraphicCtrlPasteKey.h"
-#include "GraphicCtrlCutKey.h"
-#include "GraphicCtrlRedoKey.h"
 #include "GraphicCtrlUndoKey.h"
+#include "GraphicCtrlRedoKey.h"
+#include "GraphicCtrlAllKey.h"
 
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
@@ -53,7 +51,7 @@ KeyBoard::KeyBoard(const KeyBoard& source) {
 KeyBoard::~KeyBoard() {
 	if (this->keyAction != 0) {
 		delete this->keyAction;
-		//this->keyAction = 0;
+		this->keyAction = 0;
 	}
 }
 
@@ -181,7 +179,7 @@ KeyAction* KeyBoard::KeyDown(ClassDiagramForm *classDiagramForm, UINT nChar, UIN
 			this->keyAction = new AddTemplateKey;
 		}
 		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-			//this->keyAction = new GraphicCtrlAllKey;
+			this->keyAction = new GraphicCtrlAllKey;
 		}
 		break;
 	case 0x46: // f 
@@ -201,29 +199,14 @@ KeyAction* KeyBoard::KeyDown(ClassDiagramForm *classDiagramForm, UINT nChar, UIN
 			this->keyAction = new GraphicCtrlUndoKey;
 		}
 		break;
-	case 0x58: // x
-		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-			this->keyAction = new GraphicCtrlCutKey;
-		}
-		else if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-			this->keyAction = new RemoveReceptionKey;
-		}
+	case 0x56: // x
+		this->keyAction = new RemoveReceptionKey;
 		break;
-	case 0x43: // c
-		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-			this->keyAction = new GraphicCtrlCopyKey;
-		}
-		else if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-			this->keyAction = new RemoveAttributeKey;
-		}
+	case 0x58: // c
+		this->keyAction = new RemoveAttributeKey;
 		break;
-	case 0x56: // v
-		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-			this->keyAction = new GraphicCtrlPasteKey;
-		}
-		else if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-			this->keyAction = new RemoveMethodKey;
-		}
+	case 0x43: // v
+		this->keyAction = new RemoveMethodKey;
 		break;
 	default:
 		break;

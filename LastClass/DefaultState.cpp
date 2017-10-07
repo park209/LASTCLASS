@@ -51,7 +51,7 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 		this->ChangeState(mouseLButton, DrawingClass::Instance(), 49);
 	}
 	if (object == 81) {
-		this->ChangeState(mouseLButton, DrawingMemoBox::Instance(), 101);
+		this->ChangeState(mouseLButton, DrawingMemoBox::Instance(), 81);
 	}
 	if (object == 50) {
 		this->ChangeState(mouseLButton, DrawingGeneralization::Instance(), 50);
@@ -78,20 +78,20 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 		this->ChangeState(mouseLButton, DrawingDirectedAssociation::Instance(), 54);
 	}
 	if (object == 87) {
-		this->ChangeState(mouseLButton, DrawingMemoLine::Instance(), 114);
+		this->ChangeState(mouseLButton, DrawingMemoLine::Instance(), 87);
 	}
 	if (object == 51) {
 		this->ChangeState(mouseLButton, DrawingRealization::Instance(), 51);
 	}
-	//키보드 전략패턴을 적용해야할듯
-	if (mouseLButton->GetButtonState() == 0) {
+	if (object == 0) {
 
 		Long index = selection->SelectByPoint(startX, startY);
-		if (index != -1 && selection->GetLength() > 1) {
-			this->ChangeState(mouseLButton, MultipleSelectionState::Instance());
-		}
+		//if (index != -1 && selection->GetLength() > 1) { // 기호가 여러개 선택되어있을때, 어느 선택박스가 잡히면 // 지워야할듯
+		//	this->ChangeState(mouseLButton, MultipleSelectionState::Instance());
+		//}
 
-		else {
+		//else { // 선택박스가 안잡혔거나 // 아니면 기호 한개나, 한개도 선택이 안되어있을 때 // 위에 지우고 아래만 남김
+		if (index == -1 && selection->GetLength() == 0) {
 			selection->DeleteAllItems();
 			selection->SelectByPoint(diagram, startX, startY);
 			if (selection->GetLength() == 1) {

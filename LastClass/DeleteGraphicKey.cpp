@@ -16,7 +16,7 @@ DeleteGraphicKey::DeleteGraphicKey(const DeleteGraphicKey& source) {
 DeleteGraphicKey::~DeleteGraphicKey() {
 }
 
-void DeleteGraphicKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
+void DeleteGraphicKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 	if (classDiagramForm->selection->GetLength() > 0) {
 		classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram);
 		while (classDiagramForm->selection->GetLength() != 0) {
