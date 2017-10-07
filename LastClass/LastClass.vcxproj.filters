@@ -502,6 +502,10 @@
     <ClInclude Include="SaveMenuAction.h" />
     <ClInclude Include="SaveAsMenuAction.h" />
     <ClInclude Include="NewMenuAction.h" />
+    <ClInclude Include="PrintPreview.h" />
+    <ClInclude Include="FilePrintPreviewMenuAction.h" />
+    <ClInclude Include="SupportMenuAction.h" />
+    <ClInclude Include="SupportMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -988,6 +992,18 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="NewMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreview.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="FilePrintPreviewMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SupportMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SupportMenu.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>

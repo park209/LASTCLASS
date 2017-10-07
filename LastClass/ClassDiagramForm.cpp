@@ -608,7 +608,8 @@ Long ClassDiagramForm::Save() {
 int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
-										 //1.1. 다이어그램을 준비한다
+	CWnd::SetFocus();								//1.1. 다이어그램을 준비한다
+
 	this->diagram = new Diagram();
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
@@ -669,6 +670,7 @@ void ClassDiagramForm::OnPaint() {
 	memDC.DeleteDC();
 }
 void ClassDiagramForm::OnMyMenu(UINT parm_control_id) {
+	
 	MenuAction* menuAction = this->menu->MenuSelected(parm_control_id);
 	if (menuAction != 0) {
 		menuAction->MenuPress(this);

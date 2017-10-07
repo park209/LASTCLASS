@@ -88,6 +88,7 @@
     <ClInclude Include="Figure.h" />
     <ClInclude Include="FigureComposite.h" />
     <ClInclude Include="FigureFactory.h" />
+    <ClInclude Include="FilePrintPreviewMenuAction.h" />
     <ClInclude Include="Finder.h" />
     <ClInclude Include="GeneralizationMenuAction.h" />
     <ClInclude Include="GraphicCtrlAllKey.h" />
@@ -99,6 +100,7 @@
     <ClInclude Include="MenuAction.h" />
     <ClInclude Include="NewMenuAction.h" />
     <ClInclude Include="OpenMenuAction.h" />
+    <ClInclude Include="PrintPreview.h" />
     <ClInclude Include="RealizationMenuAction.h" />
     <ClInclude Include="RemoveReceptionKey.h" />
     <ClInclude Include="FontSet.h" />
@@ -160,6 +162,8 @@
     <ClInclude Include="SaveMenuAction.h" />
     <ClInclude Include="Scroll.h" />
     <ClInclude Include="ScrollAction.h" />
+    <ClInclude Include="SupportMenu.h" />
+    <ClInclude Include="SupportMenuAction.h" />
     <ClInclude Include="VScrollCreator.h" />
     <ClInclude Include="Selection.h" />
     <ClInclude Include="SelectionState.h" />
@@ -260,6 +264,7 @@
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="FigureComposite.cpp" />
     <ClCompile Include="FigureFactory.cpp" />
+    <ClCompile Include="FilePrintPreviewMenuAction.cpp" />
     <ClCompile Include="Finder.cpp" />
     <ClCompile Include="GeneralizationMenuAction.cpp" />
     <ClCompile Include="GraphicCtrlAllKey.cpp" />
@@ -270,6 +275,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NewMenuAction.cpp" />
     <ClCompile Include="OpenMenuAction.cpp" />
+    <ClCompile Include="PrintPreview.cpp" />
     <ClCompile Include="RealizationMenuAction.cpp" />
     <ClCompile Include="RemoveReceptionKey.cpp" />
     <ClCompile Include="FontSet.cpp" />
@@ -328,6 +334,8 @@
     <ClCompile Include="SaveMenuAction.cpp" />
     <ClCompile Include="Scroll.cpp" />
     <ClCompile Include="ScrollAction.cpp" />
+    <ClCompile Include="SupportMenu.cpp" />
+    <ClCompile Include="SupportMenuAction.cpp" />
     <ClCompile Include="VScrollCreator.cpp" />
     <ClCompile Include="Selection.cpp" />
     <ClCompile Include="SelectionState.cpp" />

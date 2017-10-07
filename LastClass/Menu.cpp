@@ -17,6 +17,8 @@
 #include "SaveMenuAction.h"
 #include "SaveAsMenuAction.h"
 #include "NewMenuAction.h"
+#include "FilePrintPreviewMenuAction.h"
+#include "SupportMenuAction.h"
 Menu::Menu(ClassDiagramForm* classDiagramForm) {
 	this->mainMenu = new CMenu;
 	this->popupMenu = new CMenu;
@@ -83,6 +85,7 @@ MenuAction* Menu::MenuSelected( UINT parm_control_id) {
 	case 101: this->menuAction = new OpenMenuAction; break;
 	case 102: this->menuAction = new SaveMenuAction; break;
 	case 103: this->menuAction = new SaveAsMenuAction;break;
+	case 104: this->menuAction = new FilePrintPreviewMenuAction; break;
 	case 110: this->menuAction = new ClassMenuAction; break;
 	case 111: this->menuAction = new MemoBoxMenuAction; break;
 	case 112: this->menuAction = new GeneralizationMenuAction; break;
@@ -95,6 +98,7 @@ MenuAction* Menu::MenuSelected( UINT parm_control_id) {
 	case 119: this->menuAction = new CompositionMenuAction; break;
 	case 120: this->menuAction = new CompositionsMenuAction; break;
 	case 121: this->menuAction = new MemoLineMenuAction; break;
+	case 122: this->menuAction = new SupportMenuAction; break;
 	default: break;
 	}
 	return this->menuAction;
