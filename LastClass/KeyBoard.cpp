@@ -37,6 +37,7 @@
 #include "RemoveTemplateKey.h"
 #include "GraphicCtrlUndoKey.h"
 #include "GraphicCtrlRedoKey.h"
+#include "GraphicCtrlAllKey.h"
 
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
@@ -178,7 +179,7 @@ KeyAction* KeyBoard::KeyDown(ClassDiagramForm *classDiagramForm, UINT nChar, UIN
 			this->keyAction = new AddTemplateKey;
 		}
 		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-			//this->keyAction = new GraphicCtrlAllKey;
+			this->keyAction = new GraphicCtrlAllKey;
 		}
 		break;
 	case 0x46: // f 

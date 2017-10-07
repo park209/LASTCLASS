@@ -674,7 +674,10 @@ void ClassDiagramForm::OnMyMenu(UINT parm_control_id) {
 	}
 }
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
-	this->mouseLButton->ChangeState(nChar);
+	if (nChar == 0 || nChar == 49 || nChar == 81 || nChar == 50 || nChar == 55 || nChar == 56 || nChar == 53 ||
+		nChar == 57 || nChar == 48 || nChar == 52 || nChar == 54 || nChar == 87 || nChar == 51) {
+		this->mouseLButton->ChangeState(nChar);
+	}
 	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 	if (keyAction != 0) {
 		keyAction->KeyPress(this);

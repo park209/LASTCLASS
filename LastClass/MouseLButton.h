@@ -6,7 +6,6 @@
 #include <afxwin.h>
 using namespace std;
 
-
 class MouseLButtonAction;
 class ClassDiagramForm;
 class Diagram;
@@ -24,7 +23,7 @@ public:
 	void ChangeState(UINT nChar);
 	void ChangeDefault();
 	UINT GetButtonState()const;
-private:
+//private:
 	friend class  MouseLButtonAction;
 	
 	void ChangeState(MouseLButtonAction *mouseLButtonAction, UINT nChar = 0);

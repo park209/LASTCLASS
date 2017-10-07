@@ -1,6 +1,8 @@
 #ifndef _MENU_H
 #define _MENU_H
+
 #include <afxwin.h>
+
 using namespace std;
 class ClassDiagramForm;
 class MenuAction;
