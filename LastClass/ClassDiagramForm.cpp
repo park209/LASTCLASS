@@ -52,6 +52,7 @@
 #include <iostream>
 #include <fstream>
 #include <afxmsg_.h>
+#include <afxext.h>
 #include <afxdlgs.h>
 using namespace std;
 
@@ -616,24 +617,12 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->keyBoard = new KeyBoard;
 	this->menu = new Menu(this);
 	ModifyStyle(0, WS_CLIPCHILDREN);
+	//CToolBar toolBar;
+	//toolBar.Create(this, CBRS_TOP);
+	//toolBar.EnableDocking(CBRS_ALIGN_ANY);
+	//EnableDocking(CBRS_ALIGN_ANY);
+	//DockControlBar(&toolBar);
 	//1.2. 적재한다
-	/*mainMenu.CreateMenu();
-	popupMenu.CreatePopupMenu();
-	editMenu.CreatePopupMenu();
-	supportMenu.CreatePopupMenu();
-	popupMenu.AppendMenu(MF_STRING,100,"열기");
-	popupMenu.AppendMenu(MF_STRING, 101, "저장");
-	editMenu.AppendMenu(MF_STRING, 102, "복사하기");
-	editMenu.AppendMenu(MF_STRING, 103, "붙여넣기");
-	supportMenu.AppendMenu(MF_STRING, 103, "도움말 ");
-	mainMenu.AppendMenu(MF_POPUP, (UINT_PTR)popupMenu.m_hMenu, "파일");
-	mainMenu.AppendMenu(MF_POPUP, (UINT_PTR)editMenu.m_hMenu, "편집");
-	mainMenu.AppendMenu(MF_POPUP, (UINT_PTR)supportMenu.m_hMenu, "도움말");
-	SetMenu(this->menu);
-	supportMenu.Detach();
-	editMenu.Detach();
-	popupMenu.Detach();
-	mainMenu.Detach();*/
 	this->Load();
 	//1.3. 윈도우를 갱신한다
 	Invalidate();
