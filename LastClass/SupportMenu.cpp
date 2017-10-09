@@ -1,7 +1,7 @@
 //SupportMenu.cpp
 
 #include "SupportMenu.h"
-#include "ClassDiagramForm.h"
+#include "LastClass.h"
 
 BEGIN_MESSAGE_MAP(SupportMenu, CWnd)
 	ON_WM_CREATE()

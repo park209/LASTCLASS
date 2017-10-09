@@ -1,10 +1,11 @@
 #include "DependencyMenuAction.h"
+#include "LastClass.h"
 #include "ClassDiagramForm.h"
 #include "MouseLButton.h"
 DependencyMenuAction::DependencyMenuAction() {
 }
 DependencyMenuAction::~DependencyMenuAction() {
 }
-void DependencyMenuAction::MenuPress(ClassDiagramForm *classDiagramForm) {
-	classDiagramForm->mouseLButton->ChangeState(52);
+void DependencyMenuAction::MenuPress(LastClass* lastClass) {
+	lastClass->classDiagramForm->mouseLButton->ChangeState(52);
 }

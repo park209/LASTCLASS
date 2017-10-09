@@ -1,6 +1,7 @@
 //PrintPreview.cpp
 
 #include "PrintPreview.h"
+#include "LastClass.h"
 #include "ClassDiagramForm.h"
 #include "DrawingVisitor.h"
 #include "WritingVisitor.h"
@@ -17,8 +18,8 @@ BEGIN_MESSAGE_MAP(PrintPreview,CWnd)
 	ON_BN_CLICKED(2, OnPriviousButton)
 	ON_BN_CLICKED(3, OnPrintButton)
 END_MESSAGE_MAP()
-PrintPreview::PrintPreview(ClassDiagramForm *classDiagramForm) {
-	this->classDiagramForm = classDiagramForm;
+PrintPreview::PrintPreview(LastClass *lastClass) {
+	this->lastClass = lastClass;
 	this->nextButton = NULL;
 	this->priviousButton = NULL;
 	this->printButton = NULL;
@@ -33,6 +34,11 @@ int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->priviousButton->Create("ÀÌÀü", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(800, 250, 880, 290), this, 2);
 	this->printButton = new CButton;
 	this->printButton->Create("ÀÎ¼â", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(800, 300, 880, 340), this, 3);
+	
+	this->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE );
+	this->SetFocus();
+	this->lastClass->classDiagramForm->EnableWindow(false);
+	
 	Invalidate();
 	return 0;
 }
@@ -45,11 +51,6 @@ void PrintPreview::OnPaint() {
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
 	
-
-
-
-
-
 	memDC.CreateCompatibleDC(&dc);
 	bitmap.CreateCompatibleBitmap(&dc, 4000, 2000);
 	pOldBitmap = memDC.SelectObject(&bitmap);
@@ -60,9 +61,9 @@ void PrintPreview::OnPaint() {
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
 	DrawingVisitor drawingVisitor;
-	this->classDiagramForm->diagram->Accept(drawingVisitor, &memDC);
+	this->lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &memDC);
 	WritingVisitor writingVisitor;
-	this->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
+	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 
 	dc.FillSolidRect(rec, RGB(153,153,153));
 	dc.StretchBlt(10, 10, 600, 800, &memDC, (this->horizontalPage * 800), (this->verticalPage * 1000), 800,1000, SRCCOPY);
@@ -74,7 +75,7 @@ void PrintPreview::OnPaint() {
 	memDC.DeleteDC();
 }
 void PrintPreview::OnClose() {
-
+	this->lastClass->classDiagramForm->EnableWindow(true);
 	if (this->nextButton != 0) {
 		delete this->nextButton;
 	}

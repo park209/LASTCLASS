@@ -1,18 +1,28 @@
 //OnVScrollPageDown.cpp
 
 #include "OnVScrollPageDown.h"
-#include "VerticalScrollBar.h"
+#include "ClassDiagramForm.h"
 
-OnVScrollPageDown::OnVScrollPageDown() : ScrollAction() {
+OnVScrollPageDown::OnVScrollPageDown() {
 }
-OnVScrollPageDown::OnVScrollPageDown(const OnVScrollPageDown& source) : ScrollAction(source) {
+OnVScrollPageDown::OnVScrollPageDown(const OnVScrollPageDown& source) {
 }
 OnVScrollPageDown::~OnVScrollPageDown() {
 }
-OnVScrollPageDown& OnVScrollPageDown::operator=(const OnVScrollPageDown& source) {
-	ScrollAction::operator=(source);
-	return *this;
-}
-void OnVScrollPageDown::ScrollScreen(Scroll *scroll) {
-	scroll->OnVScrollPageDown();
+
+void OnVScrollPageDown::Scrolling(ClassDiagramForm *classDiagramForm) {
+	int minpos;
+	int maxpos;
+	classDiagramForm->GetScrollRange(SB_VERT, &minpos, &maxpos);
+	maxpos = classDiagramForm->GetScrollLimit(SB_VERT);
+
+	// Get the current position of scroll box.
+	int curpos = classDiagramForm->GetScrollPos(SB_VERT);
+
+	curpos += 50;
+	if (curpos > maxpos) {
+		curpos = maxpos;
+	}
+
+	classDiagramForm->SetScrollPos(SB_VERT, curpos);
 }

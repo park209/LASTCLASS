@@ -4,16 +4,15 @@
 #include <afxwin.h>
 
 using namespace std;
-class ClassDiagramForm;
+class LastClass;
 class MenuAction;
 class Menu {
 public:
-	Menu(ClassDiagramForm *classDiagramForm);
+	Menu(LastClass *lastClass);
 	~Menu();
 	Menu(const Menu& source);
 	MenuAction* MenuSelected( UINT parm_control_id);
 	Menu& operator= (const Menu& source);
-
 private:
 	CMenu *mainMenu;
 	CMenu *popupMenu;
@@ -23,5 +22,6 @@ private:
 	CMenu *relationMenu;
 public:
 	MenuAction *menuAction;
+	LastClass *lastClass;
 };
 #endif // !_MENU_H

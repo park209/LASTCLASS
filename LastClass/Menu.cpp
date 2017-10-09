@@ -1,5 +1,7 @@
 #include "Menu.h"
+#include "LastClass.h"
 #include "ClassDiagramForm.h"
+
 #include "MenuAction.h"
 #include "ClassMenuAction.h"
 #include "MemoBoxMenuAction.h"
@@ -19,13 +21,15 @@
 #include "NewMenuAction.h"
 #include "FilePrintPreviewMenuAction.h"
 #include "SupportMenuAction.h"
-Menu::Menu(ClassDiagramForm* classDiagramForm) {
-	this->mainMenu = new CMenu;
-	this->popupMenu = new CMenu;
-	this->editMenu = new CMenu;
-	this->supportMenu = new CMenu;
-	this->drawMenu = new CMenu;
-	this->relationMenu = new CMenu;
+
+Menu::Menu(LastClass* lastClass) {
+	this->lastClass = lastClass;
+	this->mainMenu = new CMenu; // 전체메뉴
+	this->popupMenu = new CMenu; // 맨앞 메뉴
+	this->editMenu = new CMenu; // 편집 메뉴
+	this->supportMenu = new CMenu; // 도움말
+	this->drawMenu = new CMenu; // 그리기 메뉴
+	this->relationMenu = new CMenu; // 관계선 메뉴
 	this->mainMenu->CreateMenu();
 	this->popupMenu->CreatePopupMenu();
 	this->editMenu->CreatePopupMenu();
@@ -33,47 +37,51 @@ Menu::Menu(ClassDiagramForm* classDiagramForm) {
 	this->drawMenu->CreatePopupMenu();
 	this->relationMenu->CreatePopupMenu();
 
-	this->popupMenu->AppendMenu(MF_STRING, 100, "새로 만들기");
-	this->popupMenu->AppendMenu(MF_STRING, 101, "열기");
-	this->popupMenu->AppendMenu(MF_STRING, 102, "저장");
-	this->popupMenu->AppendMenu(MF_STRING, 103, "다른이름으로 저장");
-	this->popupMenu->AppendMenu(MF_STRING, 104, "미리보기");
-	this->popupMenu->AppendMenu(MF_STRING, 105, "인쇄하기");
-	this->popupMenu->AppendMenu(MF_STRING, 106, "끝내기");
-	this->editMenu->AppendMenu(MF_STRING, 107, "복사하기");
-	this->editMenu->AppendMenu(MF_STRING, 108, "붙여넣기");
-	this->drawMenu->AppendMenu(MF_STRING , 110, "클래스 그리기"); //
-	this->drawMenu->AppendMenu(MF_STRING, 111, "메모박스 그리기"); //
-	this->drawMenu->AppendMenu(MF_POPUP, (UINT_PTR)this->relationMenu->m_hMenu, "관계선 그리기");
-	this->relationMenu->AppendMenu(MF_STRING, 112, "일반화");
-	this->relationMenu->AppendMenu(MF_STRING, 113, "실체화");
-	this->relationMenu->AppendMenu(MF_STRING, 114, "의존");
-	this->relationMenu->AppendMenu(MF_STRING, 115, "연관");
-	this->relationMenu->AppendMenu(MF_STRING, 116, "직접연관");
-	this->relationMenu->AppendMenu(MF_STRING, 117, "집합");
-	this->relationMenu->AppendMenu(MF_STRING, 118, "집합연관");
-	this->relationMenu->AppendMenu(MF_STRING, 119, "합성");
-	this->relationMenu->AppendMenu(MF_STRING, 120, "복합연관");
-	this->relationMenu->AppendMenu(MF_STRING, 121, "메모라인");
-	this->supportMenu->AppendMenu(MF_STRING, 122, "도움말 ");
-	this->mainMenu->AppendMenu(MF_POPUP, (UINT_PTR)this->popupMenu->m_hMenu, "파일");
-	this->mainMenu->AppendMenu(MF_POPUP, (UINT_PTR)this->editMenu->m_hMenu, "편집");
-	this->mainMenu->AppendMenu(MF_POPUP, (UINT_PTR)this->drawMenu->m_hMenu, "그리기");
-	this->mainMenu->AppendMenu(MF_POPUP, (UINT_PTR)this->supportMenu->m_hMenu, "도움말");
-	classDiagramForm->SetMenu(this->mainMenu);
-	this->supportMenu->Detach();
-	this->drawMenu->Detach();
-	this->relationMenu->Detach();
-	this->editMenu->Detach();
-	this->popupMenu->Detach();
-	this->mainMenu->Detach();
+	this->popupMenu->AppendMenu(MF_STRING, 100, "새로 만들기(N)");
+	this->popupMenu->AppendMenu(MF_STRING, 101, "열기(O)");
+	this->popupMenu->AppendMenu(MF_STRING, 102, "저장(S)");
+	this->popupMenu->AppendMenu(MF_STRING, 103, "다른이름으로 저장(A)");
+	this->popupMenu->AppendMenu(MF_STRING, 104, "미리보기(F)");
+	this->popupMenu->AppendMenu(MF_STRING, 105, "인쇄하기(P)");
+	this->popupMenu->AppendMenu(MF_STRING, 106, "끝내기(X)");
+	this->editMenu->AppendMenu(MF_STRING, 107, "복사하기(C)");
+	this->editMenu->AppendMenu(MF_STRING, 108, "붙여넣기(V)");
+	this->editMenu->AppendMenu(MF_STRING, 123, "되돌리기(Z)");
+	this->editMenu->AppendMenu(MF_STRING, 124, "재실행(Y)");
+	this->drawMenu->AppendMenu(MF_STRING , 110, "클래스 그리기(Q)"); //
+	this->drawMenu->AppendMenu(MF_STRING, 111, "메모박스 그리기(W)"); //
+	this->drawMenu->AppendMenu(MF_POPUP, (UINT_PTR)this->relationMenu->m_hMenu, "관계선 그리기(D)"); // 관계선 안에 관계선 그리기
+	this->relationMenu->AppendMenu(MF_STRING, 112, "일반화(1)");
+	this->relationMenu->AppendMenu(MF_STRING, 113, "실체화(2)");
+	this->relationMenu->AppendMenu(MF_STRING, 114, "의존(3)");
+	this->relationMenu->AppendMenu(MF_STRING, 115, "연관(4)");
+	this->relationMenu->AppendMenu(MF_STRING, 116, "직접연관(5)");
+	this->relationMenu->AppendMenu(MF_STRING, 117, "집합(6)");
+	this->relationMenu->AppendMenu(MF_STRING, 118, "집합연관(7)");
+	this->relationMenu->AppendMenu(MF_STRING, 119, "합성(8)");
+	this->relationMenu->AppendMenu(MF_STRING, 120, "복합연관(9)");
+	this->relationMenu->AppendMenu(MF_STRING, 121, "메모라인(0)");
+	this->supportMenu->AppendMenu(MF_STRING, 122, "도움말(H)");
+	this->mainMenu->AppendMenu(MF_POPUP, (UINT_PTR)this->popupMenu->m_hMenu, "파일(F)");
+	this->mainMenu->AppendMenu(MF_POPUP, (UINT_PTR)this->editMenu->m_hMenu, "편집(E)");
+	this->mainMenu->AppendMenu(MF_POPUP, (UINT_PTR)this->drawMenu->m_hMenu, "그리기(D)");
+	this->mainMenu->AppendMenu(MF_POPUP, (UINT_PTR)this->supportMenu->m_hMenu, "도움말(H)");
+	lastClass->SetMenu(this->mainMenu);
+	//this->supportMenu->Detach();
+	//this->drawMenu->Detach();
+	//this->relationMenu->Detach();
+	//this->editMenu->Detach();
+	//this->popupMenu->Detach();
+	//this->mainMenu->Detach();
 }
+
 Menu::Menu(const Menu& source){
 	this->mainMenu = source.mainMenu;
 	this->popupMenu = source.popupMenu;
 	this->editMenu = source.editMenu;
 	this->supportMenu = source.supportMenu;
 }
+
 MenuAction* Menu::MenuSelected( UINT parm_control_id) {
 	if (this->menuAction != 0) {
 		delete this->menuAction;
@@ -85,20 +93,25 @@ MenuAction* Menu::MenuSelected( UINT parm_control_id) {
 	case 101: this->menuAction = new OpenMenuAction; break;
 	case 102: this->menuAction = new SaveMenuAction; break;
 	case 103: this->menuAction = new SaveAsMenuAction;break;
-	case 104: this->menuAction = new FilePrintPreviewMenuAction; break;
+	case 104: this->menuAction = new FilePrintPreviewMenuAction; break; // 더
 	case 110: this->menuAction = new ClassMenuAction; break;
 	case 111: this->menuAction = new MemoBoxMenuAction; break;
 	case 112: this->menuAction = new GeneralizationMenuAction; break;
 	case 113: this->menuAction = new RealizationMenuAction; break;
 	case 114: this->menuAction = new DependencyMenuAction; break;
 	case 115: this->menuAction = new AssociationMenuAction; break;
-	case 116: this->menuAction = new DirectedAssociationMenuAction;  break;
+	case 116: this->menuAction = new DirectedAssociationMenuAction; break;
 	case 117: this->menuAction = new AggregationMenuAction; break;
 	case 118: this->menuAction = new AggregationsMenuAction; break;
 	case 119: this->menuAction = new CompositionMenuAction; break;
 	case 120: this->menuAction = new CompositionsMenuAction; break;
 	case 121: this->menuAction = new MemoLineMenuAction; break;
 	case 122: this->menuAction = new SupportMenuAction; break;
+//#include "KeyBoard.h"
+//#include "KeyAction.h"
+//#include "HistoryGraphic.h"
+	//case 123: this->lastClass->classDiagramForm->historyGraphic->
+	//case 124: this->lastClass->classDiagramForm->
 	default: break;
 	}
 	return this->menuAction;

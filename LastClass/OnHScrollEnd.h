@@ -4,18 +4,15 @@
 #define _ONHSCROLLEND_H
 #include "ScrollAction.h"
 
-class VerticalScrollBar;
+class ClassDiagramForm;
 class OnHScrollEnd : public ScrollAction {
 public:
 	OnHScrollEnd();
 	OnHScrollEnd(const OnHScrollEnd& sorce);
-	OnHScrollEnd& operator=(const OnHScrollEnd& source);
 	virtual ~OnHScrollEnd();
-	virtual void ScrollScreen(Scroll *scroll);
+
+	OnHScrollEnd& operator=(const OnHScrollEnd& source);
+
+	virtual void Scrolling(ClassDiagramForm *classDiagramForm);
 };
 #endif // !_ONHSCROLLEND_H
-
-
-
-
-

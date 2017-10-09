@@ -67,7 +67,7 @@ void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
 void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit) {
 	RECT rt;
 	textEdit->GetClientRect(&rt);
-	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParentFrame();
+	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
 	FigureComposite *object = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
 	Long distanceX;
 	if (rt.right + GabX * 2 > textEdit->GetCriteriaWidth()) {
@@ -94,7 +94,7 @@ void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 	else {
 		distanceY = textEdit->GetCriteriaHeight() - textEdit->figure->GetHeight();
 	}
-	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParentFrame();
+	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
 	FigureComposite *composite = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
 
 	Finder finder;

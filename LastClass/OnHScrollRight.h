@@ -2,20 +2,18 @@
 
 #ifndef _ONHSCROLLRIGHT_H
 #define _ONHSCROLLRIGHT_H
+
 #include "ScrollAction.h"
 
-class VerticalScrollBar;
+class ClassDiagramForm;
 class OnHScrollRight : public ScrollAction {
 public:
 	OnHScrollRight();
 	OnHScrollRight(const OnHScrollRight& sorce);
-	OnHScrollRight& operator=(const OnHScrollRight& source);
 	virtual ~OnHScrollRight();
-	virtual void ScrollScreen(Scroll *scroll);
+
+	OnHScrollRight& operator=(const OnHScrollRight& source);
+
+	virtual void Scrolling(ClassDiagramForm *classDiagramForm);
 };
 #endif // !_ONHSCROLLRIGHT_H
-
-
-
-
-

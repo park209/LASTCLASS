@@ -7,6 +7,6 @@ class FilePrintPreviewMenuAction : public MenuAction {
 public:
 	FilePrintPreviewMenuAction();
 	virtual ~FilePrintPreviewMenuAction();
-	void MenuPress(ClassDiagramForm *classDiagramForm);
+	void MenuPress(LastClass* lastClass);
 };
 #endif // !_FILEPRINTPREVIEWMENUACTION_H

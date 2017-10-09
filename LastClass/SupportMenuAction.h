@@ -6,6 +6,6 @@ class SupportMenuAction : public MenuAction {
 public:
 	SupportMenuAction();
 	virtual ~SupportMenuAction();
-	void MenuPress(ClassDiagramForm *classDiagramForm);
+	void MenuPress(LastClass* lastClass);
 };
 #endif // !_SUPPORTMENUACTION_H

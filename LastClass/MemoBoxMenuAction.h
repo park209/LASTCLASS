@@ -7,6 +7,6 @@ class MemoBoxMenuAction : public MenuAction {
 public:
 	MemoBoxMenuAction();
 	virtual ~MemoBoxMenuAction();
-	void MenuPress(ClassDiagramForm *classDiagramForm);
+	void MenuPress(LastClass* lastClass);
 };
 #endif // !_MEMOBOXMENUACTION_H

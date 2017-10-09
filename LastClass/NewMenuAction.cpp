@@ -1,11 +1,10 @@
 #include "NewMenuAction.h"
+#include "LastClass.h"
 #include "ClassDiagramForm.h"
 #include "MouseLButton.h"
 #include "Diagram.h"
 #include "Selection.h"
 #include "HistoryGraphic.h"
-#include "VerticalScrollBar.h"
-#include "HorizontalScrollBar.h"
 #include "KeyBoard.h"
 #include <afxdlgs.h>
 using namespace std;
@@ -14,60 +13,60 @@ NewMenuAction::NewMenuAction() {
 }
 NewMenuAction::~NewMenuAction() {
 }
-void NewMenuAction::MenuPress(ClassDiagramForm *classDiagramForm) {
+void NewMenuAction::MenuPress(LastClass* lastClass) {
 	int messageBox = IDNO;
-	if (classDiagramForm->historyGraphic->undoGraphicArray->GetLength() != 0) {
-		if (classDiagramForm->fileName != "") {
+	if (lastClass->classDiagramForm->historyGraphic->undoGraphicArray->GetLength() != 0) {
+		if (lastClass->classDiagramForm->fileName != "") {
 			CString object;
 			object = "변경내용을 ";
-			object.Append(classDiagramForm->fileName);
+			object.Append(lastClass->classDiagramForm->fileName);
 			object.Append("에 저장하시겠습니까?");
-			messageBox = classDiagramForm->MessageBox(object, "ClassDiagram", MB_YESNOCANCEL);
+			messageBox = lastClass->classDiagramForm->MessageBox(object, "ClassDiagram", MB_YESNOCANCEL);
 		}
 		else {
-			messageBox = classDiagramForm->MessageBox(_T("변경 내용을 제목 없음에 저장하시겠습니까?"), "ClassDiagram", MB_YESNOCANCEL);
+			messageBox = lastClass->classDiagramForm->MessageBox(_T("변경 내용을 제목 없음에 저장하시겠습니까?"), "ClassDiagram", MB_YESNOCANCEL);
 			if (messageBox == IDYES) {
 				CFileDialog  dlgFile(false, "txt", "*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT, "텍스트 문서(*.txt)");
 				if (dlgFile.DoModal() == IDOK)
 				{
-					classDiagramForm->fileName = dlgFile.GetPathName();
+					lastClass->classDiagramForm->fileName = dlgFile.GetPathName();
 				}
 			}
 		}
 		if (messageBox == IDYES) {
-			classDiagramForm->Save();
+			lastClass->classDiagramForm->Save();
 		}
 	}
 	if (messageBox != IDCANCEL) {
-		if (classDiagramForm->diagram != NULL) {
-			delete classDiagramForm->diagram;
+		if (lastClass->classDiagramForm->diagram != NULL) {
+			delete lastClass->classDiagramForm->diagram;
 		}
-		if (classDiagramForm->selection != NULL) {
-			delete classDiagramForm->selection;
+		if (lastClass->classDiagramForm->selection != NULL) {
+			delete lastClass->classDiagramForm->selection;
 		}
-		if (classDiagramForm->mouseLButton != NULL) {
-			delete classDiagramForm->mouseLButton;
+		if (lastClass->classDiagramForm->mouseLButton != NULL) {
+			delete lastClass->classDiagramForm->mouseLButton;
 		}
-		if (classDiagramForm->keyBoard != NULL) {
-			delete classDiagramForm->keyBoard;
+		if (lastClass->classDiagramForm->keyBoard != NULL) {
+			delete lastClass->classDiagramForm->keyBoard;
 		}
-		if (classDiagramForm->historyGraphic != NULL) {
-			delete classDiagramForm->historyGraphic;
+		if (lastClass->classDiagramForm->historyGraphic != NULL) {
+			delete lastClass->classDiagramForm->historyGraphic;
 		}
-		if (classDiagramForm->verticalScrollBar != NULL) {
-			delete classDiagramForm->verticalScrollBar;
-		}
-		if (classDiagramForm->horizontalScroll != NULL) {
-			delete classDiagramForm->horizontalScroll;
-		}
-		classDiagramForm->diagram = new Diagram();
-		classDiagramForm->selection = new Selection;
-		classDiagramForm->mouseLButton = new MouseLButton;
-		classDiagramForm->historyGraphic = new HistoryGraphic;
-		classDiagramForm->verticalScrollBar = new VerticalScrollBar(classDiagramForm);
-		classDiagramForm->horizontalScroll = new HorizontalScrollBar(classDiagramForm);
-		classDiagramForm->keyBoard = new KeyBoard;
-		classDiagramForm->fileName = "";
+		//if (lastClass->classDiagramForm->verticalScrollBar != NULL) {
+			//delete lastClass->classDiagramForm->verticalScrollBar;
+		//}
+		//if (lastClass->classDiagramForm->horizontalScroll != NULL) {
+			//delete lastClass->classDiagramForm->horizontalScroll;
+		//}
+		lastClass->classDiagramForm->diagram = new Diagram();
+		lastClass->classDiagramForm->selection = new Selection;
+		lastClass->classDiagramForm->mouseLButton = new MouseLButton;
+		lastClass->classDiagramForm->historyGraphic = new HistoryGraphic;
+		//lastClass->classDiagramForm->verticalScrollBar = new VerticalScrollBar(lastClass->classDiagramForm);
+		//lastClass->classDiagramForm->horizontalScroll = new HorizontalScrollBar(lastClass->classDiagramForm);
+		lastClass->classDiagramForm->keyBoard = new KeyBoard;
+		lastClass->classDiagramForm->fileName = "";
 	}
-	classDiagramForm->Invalidate(false);
+	lastClass->classDiagramForm->Invalidate(false);
 }

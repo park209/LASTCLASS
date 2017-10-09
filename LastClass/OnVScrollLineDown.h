@@ -2,15 +2,17 @@
 
 #ifndef _ONVSCROLLLINEDOWN_H
 #define _ONVSCROLLLINEDOWN_H
+
 #include "ScrollAction.h"
 
-class VerticalScrollBar;
+class ClassDiagramForm;
 class OnVScrollLineDown : public ScrollAction {
 public:
 	OnVScrollLineDown();
-	OnVScrollLineDown(const OnVScrollLineDown& sorce);
-	OnVScrollLineDown& operator=(const OnVScrollLineDown& source);
-	virtual ~OnVScrollLineDown() ;
-	virtual void ScrollScreen(Scroll *scroll) ;
+	OnVScrollLineDown(const OnVScrollLineDown& source);
+	~OnVScrollLineDown();
+public:
+	void Scrolling(ClassDiagramForm* classDiagramForm);
 };
-#endif // !_ONVSCROLLLINEDOWN_H
+
+#endif // _ONVSCROLLLINEDOWN_H

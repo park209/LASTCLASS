@@ -7,6 +7,6 @@ class OpenMenuAction : public MenuAction {
 public:
 	OpenMenuAction();
 	virtual ~OpenMenuAction();
-	void MenuPress(ClassDiagramForm *classDiagramForm);
+	void MenuPress(LastClass* lastClass);
 };
 #endif // !_OPENMENUACTION_H

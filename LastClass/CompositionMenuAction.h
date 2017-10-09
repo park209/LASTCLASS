@@ -7,6 +7,6 @@ class CompositionMenuAction : public MenuAction {
 public:
 	CompositionMenuAction();
 	virtual ~CompositionMenuAction();
-	void MenuPress(ClassDiagramForm *classDiagramForm);
+	void MenuPress(LastClass* lastClass);
 };
 #endif // !_COMPOSITIONMENUACTION_H

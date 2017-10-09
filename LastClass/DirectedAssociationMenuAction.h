@@ -7,6 +7,6 @@ class DirectedAssociationMenuAction : public MenuAction {
 public:
 	DirectedAssociationMenuAction();
 	virtual ~DirectedAssociationMenuAction();
-	void MenuPress(ClassDiagramForm *classDiagramForm);
+	void MenuPress(LastClass* lastClass);
 };
 #endif // !_DIRECTEDASSOCIATIONMENUACTION_H

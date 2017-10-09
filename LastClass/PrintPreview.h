@@ -5,10 +5,10 @@
 #include <afxwin.h>
 typedef signed long int Long;
 
-class ClassDiagramForm;
+class LastClass;
 class PrintPreview : public CWnd {
 public:
-	PrintPreview(ClassDiagramForm *classDiagramForm);
+	PrintPreview(LastClass *lastClass);
 private:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
@@ -20,7 +20,7 @@ private:
 	afx_msg void OnPrintButton();
 	DECLARE_MESSAGE_MAP()
 private:
-	ClassDiagramForm *classDiagramForm;
+	LastClass *lastClass;
 	CButton *nextButton;
 	CButton *priviousButton;
 	CButton *printButton;

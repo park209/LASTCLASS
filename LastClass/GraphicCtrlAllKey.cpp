@@ -20,7 +20,6 @@ GraphicCtrlAllKey::~GraphicCtrlAllKey() {
 
 void GraphicCtrlAllKey::KeyPress(ClassDiagramForm *classDiagramForm) {
 	Long i = 0;
-	Long j;
 	classDiagramForm->selection->DeleteAllItems();
 	while (i < classDiagramForm->diagram->GetLength()) {
 		classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(i));
