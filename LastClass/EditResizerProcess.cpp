@@ -143,9 +143,14 @@ void EditResizerProcess::ResizeEditWidthToLeft(TextEdit *textEdit, CDC *cdc) {
 	RECT rt;
 	textEdit->GetClientRect(&rt); //최대화 상태에서만 정상적인 rect를 출력. 최소화X
 	
+
+	
+	int vertCurPos = textEdit->GetParent()->GetScrollPos(SB_VERT);
+	int horzCurPos = textEdit->GetParent()->GetScrollPos(SB_HORZ);
+
 	textEdit->SetWindowPos(&textEdit->wndTopMost,
-		textEdit->figure->GetX() + GabX - (textEdit->text->MaxWidth(cdc) - rt.right) - CaretWidth,
-		textEdit->figure->GetY() + GabY,
+		textEdit->figure->GetX() + GabX - (textEdit->text->MaxWidth(cdc) - rt.right) - CaretWidth - horzCurPos,
+		textEdit->figure->GetY() + GabY - vertCurPos,
 		rt.right + (textEdit->text->MaxWidth(cdc) - rt.right) + CaretWidth,
 		rt.bottom, SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 }

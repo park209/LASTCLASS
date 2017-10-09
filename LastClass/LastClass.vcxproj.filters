@@ -550,9 +550,7 @@
     <ClInclude Include="GraphicCtrlUndoMenuAction.h">
       <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicCtrlCopyKey.h" />
-    <ClInclude Include="GraphicCtrlCutKey.h" />
-    <ClInclude Include="GraphicCtrlPasteKey.h" />
+    <ClInclude Include="EditResizerBlocker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -1055,8 +1053,6 @@
     <ClCompile Include="GraphicCtrlUndoMenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicCtrlCopyKey.cpp" />
-    <ClCompile Include="GraphicCtrlCutKey.cpp" />
-    <ClCompile Include="GraphicCtrlPasteKey.cpp" />
+    <ClCompile Include="EditResizerBlocker.cpp" />
   </ItemGroup>
 </Project>
