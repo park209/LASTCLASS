@@ -550,6 +550,7 @@
     <ClInclude Include="GraphicCtrlUndoMenuAction.h">
       <Filter>Menu</Filter>
     </ClInclude>
+    <ClInclude Include="EditResizerBlocker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -1052,5 +1053,6 @@
     <ClCompile Include="GraphicCtrlUndoMenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
+    <ClCompile Include="EditResizerBlocker.cpp" />
   </ItemGroup>
 </Project>

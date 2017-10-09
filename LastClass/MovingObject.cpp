@@ -29,16 +29,20 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 		Long i = 0;
 		Long j = 0;
 		bool ret = false;
+
 		CRect cRect1(figures->GetX() + (currentX - startX), figures->GetY() + (currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
-		while (i < diagram->GetLength() && ret != true) {
-			FigureComposite *figureComposite = static_cast<FigureComposite*>(diagram->GetAt(i));
-			CRect cRect2(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
-			ret = finder.FindRectangleByArea(cRect2, cRect1);
-			if (figures == figureComposite) {
-				ret = false;
-			}
-			i++;
-		}
+		ret = diagram->CheckOverlap(cRect1, figures);
+		//CRect cRect1(figures->GetX() + (currentX - startX), figures->GetY() + (currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
+		//while (i < diagram->GetLength() && ret != true) {
+		//	FigureComposite *figureComposite = static_cast<FigureComposite*>(diagram->GetAt(i));
+		//	CRect cRect2(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
+		//	ret = finder.FindRectangleByArea(cRect2, cRect1);
+		//	if (figures == figureComposite) {
+		//		ret = false;
+		//	}
+		//	i++;
+		//}
+
 		// FigureComposite에 관계선 점 겹치면 점 Remove
 		i = 0;
 		while (i < figures->GetLength()) {
