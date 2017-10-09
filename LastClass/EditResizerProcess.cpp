@@ -148,6 +148,7 @@ void EditResizerProcess::ResizeEditWidthToLeft(TextEdit *textEdit, CDC *cdc) {
 		textEdit->figure->GetY() + GabY,
 		rt.right + (textEdit->text->MaxWidth(cdc) - rt.right) + CaretWidth,
 		rt.bottom, SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
+
 }
 
 void EditResizerProcess::ResizeTemplateWidth(TextEdit *textEdit) {
