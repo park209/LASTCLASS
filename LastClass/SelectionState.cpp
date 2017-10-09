@@ -74,11 +74,14 @@ void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagr
 		this->ChangeState(mouseLButton, DrawingRealization::Instance(), 51);
 	}
 	if (GetKeyState(VK_SHIFT) >= 0) {
-		selection->DeleteAllItems();
-		selection->SelectByPoint(diagram, startX, startY);
+		Long index = selection->SelectByPoint(startX, startY);
 
-		if (selection->GetLength() == 0) {
-			this->ChangeDefault(mouseLButton);
+		if (index == -1) {
+			selection->DeleteAllItems();
+			selection->SelectByPoint(diagram, startX, startY);
+			if (selection->GetLength() == 0) {
+				this->ChangeDefault(mouseLButton);
+			}
 		}
 	}
 	else if (GetKeyState(VK_SHIFT) < 0) {
