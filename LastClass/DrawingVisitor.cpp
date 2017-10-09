@@ -31,7 +31,6 @@
 #include "SelfCompositions.h"
 #include <iostream>
 #include "Scroll.h"
-#include "VerticalScrollBar.h"
 #include "DrawRollNameBoxes.h"
 
 using namespace std;

@@ -5,39 +5,21 @@
 #include <afxwin.h>
 
 typedef signed long int Long;
-class ClassDiagramForm;
 
+class ClassDiagramForm;
+class ScrollAction;
 class Scroll {
 public:
-	Scroll(ClassDiagramForm *classDiagramForm);
+	Scroll();
 	Scroll(const Scroll& source);
-	virtual ~Scroll() = 0;
-	virtual void OnVScrollLineDown();
-	virtual void OnVScrollLineUp();
-	virtual void OnVScrollPageDown();
-	virtual void OnVScrollPageUp();
-	virtual void OnVScrollBottom();
-	virtual void OnVScrollTop();
-	virtual void OnVScrollEndScroll();
-	virtual void OnVScrollThumPosition();
-	virtual void OnVScrollThumbTrack();
-	virtual void OnHScrollLineRight();
-	virtual void OnHScrollLineLeft();
-	virtual void OnHScrollPageRight();
-	virtual void OnHScrollPageLeft();
-	virtual void OnHScrollRight();
-	virtual void OnHScrollLeft();
-	virtual void OnHScrollEnd();
-	virtual void OnHScrollThumbPosition();
-	virtual void OnHScrollThumbTrack();
-	virtual void OnMouseWheelUp();
-	virtual void OnMouseWheelDown();
+	~Scroll();
+
 	Scroll& operator = (const Scroll& source);
-	Long GetMaxPos();
-	Long SetScrollPos(Long nPos);
-	Long GetScrollPos();
+
+	ScrollAction* MoveVScroll(ClassDiagramForm *classDiagramForm, UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	ScrollAction* MoveHScroll(ClassDiagramForm *classDiagramForm, UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 protected:
-	ClassDiagramForm *classDiagramForm;
-	CScrollBar *scrollBar;
+	ScrollAction *scrollAction;
 };
+
 #endif // !_SCROLL_H

@@ -20,13 +20,16 @@ void DrawingMemoBox::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 
 	classDiagramForm->historyGraphic->PushUndo(diagram);
 
-	if (currentX - startX < 100) {
-		currentX = startX + 100;
+	CRect rect = diagram->GetCorrectRect(startX, startY, currentX, currentY);
+
+	if (rect.Width() < 100) {
+		rect.right = rect.left + 100;
 	}
-	if (currentY - startY < 80) {
-		currentY = startY + 80;
+	if (rect.Height() < 80) {
+		rect.bottom = rect.top + 80;
 	}
-	index = diagram->AddMemoBox(startX, startY, currentX - startX, currentY - startY);
+
+	index = diagram->AddMemoBox(rect.left, rect.top, rect.Width(), rect.Height());
 	this->ChangeDefault(mouseLButton);
 }
 void DrawingMemoBox::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
