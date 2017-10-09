@@ -38,25 +38,22 @@
 #include "MovingVisitor.h"
 #include "MouseLButton.h"
 #include "HistoryGraphic.h"
-#include "Scroll.h"
-#include "VerticalScrollBar.h"
-#include "HorizontalScrollBar.h"
 #include "KeyBoard.h"
 #include "KeyAction.h"
-#include "VScrollCreator.h"
+
+#include "Scroll.h"
 #include "ScrollAction.h"
-#include "HScrollCreator.h"
-#include "Menu.h"
-#include "menuAction.h"
+
 #include <math.h>
 #include <iostream>
 #include <fstream>
 #include <afxmsg_.h>
+#include <afxext.h>
 #include <afxdlgs.h>
 using namespace std;
 
 
-BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
+BEGIN_MESSAGE_MAP(ClassDiagramForm, CWnd)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
 	ON_WM_KEYDOWN()
@@ -66,7 +63,6 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CFrameWnd)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 	ON_WM_CLOSE()
-	ON_COMMAND_RANGE(100,122,OnMyMenu)
 	ON_WM_SIZE()
 	ON_WM_VSCROLL()
 	ON_WM_HSCROLL()
@@ -78,15 +74,14 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->textEdit = NULL;
 	this->selection = NULL;
 	this->mouseLButton = NULL;
-	this->verticalScrollBar = NULL;
-	this->horizontalScroll = NULL;
 	this->keyBoard = NULL;
 	this->historyGraphic = NULL;
-	this->menu = NULL;
+	this->scroll = NULL;
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
 	this->currentY = 0;
+	this->fileName = "";
 }
 
 Long ClassDiagramForm::Load() {
@@ -109,14 +104,14 @@ Long ClassDiagramForm::Load() {
 	Long fontSize = 0;
 	string temp1;
 	string temp2;
-	string fileName;
 
-	CFileDialog  dlgFile(true, "txt", "*", NULL, "텍스트 문서(*.txt)");
-	if (dlgFile.DoModal() == IDOK)
-	{
-		fileName = dlgFile.GetPathName();
-	}
-	fTest.open(fileName);
+
+	//CFileDialog  dlgFile(true, "txt", "*", NULL, "텍스트 문서(*.txt)");
+	//if (dlgFile.DoModal() == IDOK)
+	//{
+	//	this->fileName = dlgFile.GetPathName();
+	//}
+	fTest.open(this->fileName);
 	//fTest.open("text.txt");
 	//종류 구별을 위한 마지막 칸 
 	// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 6 = Dependency(의존), 7 = Association(연관화),
@@ -262,13 +257,13 @@ Long ClassDiagramForm::Save() {
 	CPoint cPoint;
 	string saveText;
 	ofstream fTest;
-	CString fileName;
-		CFileDialog  dlgFile(false,"txt","*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT,"텍스트 문서(*.txt)");
-		if (dlgFile.DoModal() == IDOK)
-		{
-			fileName = dlgFile.GetPathName();
-		}
-	fTest.open(fileName);
+	//CString fileName;
+		//CFileDialog  dlgFile(false,"txt","*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT,"텍스트 문서(*.txt)");
+		//if (dlgFile.DoModal() == IDOK)
+		//{
+			//fileName = dlgFile.GetPathName();
+		//}
+	fTest.open(this->fileName);
 	if (fTest.is_open()) {
 		while (i < this->diagram->GetLength()) {
 			//종류 구별을 위한 마지막 칸 
@@ -605,38 +600,23 @@ Long ClassDiagramForm::Save() {
 
 int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
-	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
-										 //1.1. 다이어그램을 준비한다
+	CWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
+	CWnd::SetFocus();                        //1.1. 다이어그램을 준비한다
+
 	this->diagram = new Diagram();
 	this->selection = new Selection;
 	this->mouseLButton = new MouseLButton;
 	this->historyGraphic = new HistoryGraphic;
-	this->verticalScrollBar = new VerticalScrollBar(this);
-	this->horizontalScroll = new HorizontalScrollBar(this);
 	this->keyBoard = new KeyBoard;
-	this->menu = new Menu(this);
+	this->scroll = new Scroll;
+
 	ModifyStyle(0, WS_CLIPCHILDREN);
+	SetScrollRange(SB_VERT, 0, pageHeight, 0);
+	SetScrollRange(SB_HORZ, 0, pageWidth, 0);
 	//1.2. 적재한다
-	/*mainMenu.CreateMenu();
-	popupMenu.CreatePopupMenu();
-	editMenu.CreatePopupMenu();
-	supportMenu.CreatePopupMenu();
-	popupMenu.AppendMenu(MF_STRING,100,"열기");
-	popupMenu.AppendMenu(MF_STRING, 101, "저장");
-	editMenu.AppendMenu(MF_STRING, 102, "복사하기");
-	editMenu.AppendMenu(MF_STRING, 103, "붙여넣기");
-	supportMenu.AppendMenu(MF_STRING, 103, "도움말 ");
-	mainMenu.AppendMenu(MF_POPUP, (UINT_PTR)popupMenu.m_hMenu, "파일");
-	mainMenu.AppendMenu(MF_POPUP, (UINT_PTR)editMenu.m_hMenu, "편집");
-	mainMenu.AppendMenu(MF_POPUP, (UINT_PTR)supportMenu.m_hMenu, "도움말");
-	SetMenu(this->menu);
-	supportMenu.Detach();
-	editMenu.Detach();
-	popupMenu.Detach();
-	mainMenu.Detach();*/
-	this->Load();
+	//this->Load();
 	//1.3. 윈도우를 갱신한다
-	Invalidate();
+	//Invalidate();
 
 	return 0;
 }
@@ -649,9 +629,9 @@ void ClassDiagramForm::OnPaint() {
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
 	memDC.CreateCompatibleDC(&dc);
-	bitmap.CreateCompatibleBitmap(&dc, 4000, 2000);
+	bitmap.CreateCompatibleBitmap(&dc, rect.right + pageWidth, rect.bottom + pageHeight);
 	pOldBitmap = memDC.SelectObject(&bitmap);
-	memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
+	memDC.FillSolidRect(CRect(0, 0, rect.right + pageWidth, rect.bottom + pageHeight), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
@@ -667,22 +647,20 @@ void ClassDiagramForm::OnPaint() {
 		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
 	}
 
-	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
-	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
+	int vertCurPos = GetScrollPos(SB_VERT);
+	int horzCurPos = GetScrollPos(SB_HORZ);
 
-	dc.BitBlt(0, 0, rect.right - 20, rect.bottom - 20, &memDC, horizontalNPos, verticalNPos, SRCCOPY);
+	dc.BitBlt(-horzCurPos,
+		-vertCurPos,
+		rect.right + horzCurPos,
+		rect.bottom + vertCurPos,
+		&memDC, 0, 0, SRCCOPY);
 
 	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
 	memDC.SelectObject(pOldBitmap);
 	bitmap.DeleteObject();
 	memDC.DeleteDC();
-}
-void ClassDiagramForm::OnMyMenu(UINT parm_control_id) {
-	MenuAction* menuAction = this->menu->MenuSelected(parm_control_id);
-	if (menuAction != 0) {
-		menuAction->MenuPress(this);
-	}
 }
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (nChar == 0 || nChar == 49 || nChar == 81 || nChar == 50 || nChar == 55 || nChar == 56 || nChar == 53 ||
@@ -694,128 +672,56 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		keyAction->KeyPress(this);
 		Invalidate(false);
 	}
-	CRect rect;
-	this->GetClientRect(&rect);
-	rect.right -= 20;
-	rect.bottom -= 20;
-	Long nPos = this->verticalScrollBar->GetScrollPos();
-	if (nChar == VK_END) {
-		if (this->verticalScrollBar->GetMaxPos() > this->verticalScrollBar->GetScrollPos()) {
-			this->verticalScrollBar->OnVScrollBottom();
-			Invalidate(false);
-		}
-
-	}
-	if (nChar == VK_HOME) {
-		if (this->verticalScrollBar->GetScrollPos() >  0) {
-			this->verticalScrollBar->OnVScrollTop();
-			Invalidate(false);
-		}
-	}
-	if (nChar == VK_PRIOR) {
-
-		if (this->verticalScrollBar->GetScrollPos() >  0) {
-			this->verticalScrollBar->OnVScrollPageUp();
-			Invalidate(false);
-		}
-	}
-	if (nChar == VK_NEXT) {
-
-		if (this->verticalScrollBar->GetMaxPos() > this->verticalScrollBar->GetScrollPos()) {
-			this->verticalScrollBar->OnVScrollPageDown();
-			Invalidate(false);
-		}
-	}
-	if (nChar == VK_UP) {
-
-		if (this->verticalScrollBar->GetScrollPos() > 0) {
-			this->verticalScrollBar->OnVScrollLineUp();
-			Invalidate(false);
-		}
-	}
-	if (nChar == VK_DOWN) {
-
-		if (this->verticalScrollBar->GetMaxPos() > this->verticalScrollBar->GetScrollPos()) {
-			this->verticalScrollBar->OnVScrollLineDown();
-			Invalidate(false);
-		}
-	}
-	if (nChar == VK_LEFT) {
-		if (this->horizontalScroll->GetScrollPos() > 0) {
-			this->horizontalScroll->OnHScrollLineLeft();
-			Invalidate(false);
-		}
-	}
-	if (nChar == VK_RIGHT) {
-
-		if (this->horizontalScroll->GetMaxPos() > this->verticalScrollBar->GetScrollPos()) {
-			this->horizontalScroll->OnHScrollLineRight();
-			Invalidate(false);
-		}
-	}
 }
 
+
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
-	CFrameWnd::OnSetFocus(pOldWnd);
+	CWnd::OnSetFocus(pOldWnd);
 	CWnd::SetFocus();
 	Invalidate(false);
 }
 void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
-	Long nPos;
-	if (this->verticalScrollBar != 0) {
-		nPos = this->verticalScrollBar->GetScrollPos();
-		delete this->verticalScrollBar;
-		this->verticalScrollBar = new VerticalScrollBar(this);
-		this->verticalScrollBar->SetScrollPos(nPos);
-	}
-	if (this->horizontalScroll != 0) {
-		nPos = this->horizontalScroll->GetScrollPos();
-		delete this->horizontalScroll;
-		this->horizontalScroll = new HorizontalScrollBar(this);
-		this->horizontalScroll->SetScrollPos(nPos);
-	}
-}
-void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
-	this->SetFocus();
-	VScrollCreator vaction;
-	ScrollAction *action = vaction.CreatorAction(nSBCode, nPos, pScrollBar);
-	if (action != 0) {
-		action->ScrollScreen(this->verticalScrollBar);
-	}
-	CRect rect;
-	this->GetClientRect(&rect);
-	rect.right -= 20;
-	rect.bottom -= 20;
 	Invalidate(false);
+}
 
-}
-void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
-	this->SetFocus();
-	HScrollCreator haction;
-	ScrollAction *action = haction.CreatorAction(nSBCode, nPos, pScrollBar);
-	if (action != 0) {
-		action->ScrollScreen(this->horizontalScroll);
+void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+	CWnd::OnVScroll(nSBCode, nPos, pScrollBar);
+	ScrollAction *scrollAction = this->scroll->MoveVScroll(this, nSBCode, nPos, pScrollBar);
+	if (scrollAction != 0) {
+		scrollAction->Scrolling(this);
 	}
-	CRect rect;
-	this->GetClientRect(&rect);
-	rect.right -= 20;
-	rect.bottom -= 20;
 	Invalidate(false);
 }
+
+void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+	CWnd::OnHScroll(nSBCode, nPos, pScrollBar);
+	ScrollAction *scrollAction = this->scroll->MoveHScroll(this, nSBCode, nPos, pScrollBar);
+	if (scrollAction != 0) {
+		scrollAction->Scrolling(this);
+	}
+	Invalidate(false);
+}
+
 BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
-	this->SetFocus();
+	CWnd::SetFocus();
+	SetFocus();
+	bool ret = false;
+	int vertCurPos = GetScrollPos(SB_VERT);
+
 	if (zDelta <= 0) { //마우스 휠 다운
-		this->verticalScrollBar->OnMouseWheelDown();
-		Invalidate(false);
+		vertCurPos += 20;
+		ret = true;
 	}
 	else {  //마우스 휠 업
-
-		this->verticalScrollBar->OnMouseWheelUp();
-		Invalidate(false);
+		vertCurPos -= 20;
+		ret = true;
 	}
+	SetScrollPos(SB_VERT, vertCurPos);
+	Invalidate(false);
 
-	return  CWnd::OnMouseWheel(nFlags, zDelta, pt);
+	return ret;
 }
+
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	CWnd::SetFocus();
 	MSG msg;
@@ -830,18 +736,15 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 		}
 		elapseTime++;
 	}
-	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
-	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
+	int vertCurPos = GetScrollPos(SB_VERT);
+	int horzCurPos = GetScrollPos(SB_HORZ);
 
-
-	this->startX = point.x + horizontalNPos;
-	this->startY = point.y + verticalNPos;
-	this->currentX = point.x + horizontalNPos;
-	this->currentY = point.y + verticalNPos;
-
+	this->startX = point.x + horzCurPos;
+	this->startY = point.y + vertCurPos;
+	this->currentX = point.x + horzCurPos;
+	this->currentY = point.y + vertCurPos;
 
 	this->mouseLButton->MouseLButtonDown(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-
 
 	KillTimer(1);
 	SetCapture();
@@ -851,16 +754,13 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
 
-	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
-	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
+	int vertCurPos = GetScrollPos(SB_VERT);
+	int horzCurPos = GetScrollPos(SB_HORZ);
 
-
-	this->startX = point.x + horizontalNPos;
-	this->startY = point.y + verticalNPos;
-	this->currentX = point.x + horizontalNPos;
-	this->currentY = point.y + verticalNPos;
-
-
+	this->startX = point.x + horzCurPos;
+	this->startY = point.y + vertCurPos;
+	this->currentX = point.x + horzCurPos;
+	this->currentY = point.y + vertCurPos;
 
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {
@@ -869,18 +769,17 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 		if (dynamic_cast<MemoBox*>(figure) || dynamic_cast<ClassName*>(figure)) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				figure->GetX() + GabX - horizontalNPos,
-				figure->GetY() + GabY + MemoGab - verticalNPos,
-				figure->GetX() + figure->GetWidth() - GabX - horizontalNPos,
-				figure->GetY() + figure->GetHeight() - GabY - verticalNPos), this, 10000, NULL);
-			OnKillFocus(NULL);
+				figure->GetX() + GabX - horzCurPos,
+				figure->GetY() + GabY + MemoGab - vertCurPos,
+				figure->GetX() + figure->GetWidth() - GabX - horzCurPos,
+				figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
 		}
 		else {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				figure->GetX() + GabX - horizontalNPos,
-				figure->GetY() + GabY - verticalNPos,
-				figure->GetX() + figure->GetWidth() - GabX - horizontalNPos,
-				figure->GetY() + figure->GetHeight() - GabY - verticalNPos), this, 10000, NULL);
+				figure->GetX() + GabX - horzCurPos,
+				figure->GetY() + GabY - vertCurPos,
+				figure->GetX() + figure->GetWidth() - GabX - horzCurPos,
+				figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
 		}
 	}
 
@@ -915,11 +814,10 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		if (index > 0) {
 			this->textEdit = new TextEdit(relation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				left + 1 -horizontalNPos,
-				top + 1 - verticalNPos,
-				right - 1 - horizontalNPos,
-				bottom - 1 - verticalNPos), this, 10000, NULL);
-			OnKillFocus(NULL);
+				left + 1 - horzCurPos,
+				top + 1 - vertCurPos,
+				right - 1 - horzCurPos,
+				bottom - 1 - vertCurPos), this, 10000, NULL);
 		}
 	}
 	if (this->selection->GetLength() == 1 && dynamic_cast<SelfRelation*>(this->selection->GetAt(0))) {
@@ -973,10 +871,10 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		if (index > 0) {
 			this->textEdit = new TextEdit(selfRelation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				left + 1 - horizontalNPos,
-				top + 1 - verticalNPos,
-				right - 1 - horizontalNPos,
-				bottom - 1 - verticalNPos), this, 10000, NULL);
+				left + 1 - horzCurPos,
+				top + 1 - vertCurPos,
+				right - 1 - horzCurPos,
+				bottom - 1 - vertCurPos), this, 10000, NULL);
 			OnKillFocus(NULL);
 		}
 	}
@@ -984,7 +882,6 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
-	
 
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
@@ -993,18 +890,13 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
 		return;
 	}
+	int vertCurPos = GetScrollPos(SB_VERT);
+	int horzCurPos = GetScrollPos(SB_HORZ);
 
-
-	Long verticalNPos = this->verticalScrollBar->GetScrollPos();
-	Long horizontalNPos = this->horizontalScroll->GetScrollPos();
-
-	this->currentX = point.x + horizontalNPos;
-	this->currentY = point.y + verticalNPos;
-
+	this->currentX = point.x + horzCurPos;
+	this->currentY = point.y + vertCurPos;
 
 	this->mouseLButton->MouseLButtonUp(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-
-
 
 	this->startX = 0;
 	this->startY = 0;
@@ -1021,12 +913,13 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 
 	if (nFlags == MK_LBUTTON) {
 
-		Long verticalNPos = this->verticalScrollBar->GetScrollPos();
-		Long horizontalNPos = this->horizontalScroll->GetScrollPos();
+		int vertCurPos = GetScrollPos(SB_VERT);
+		int horzCurPos = GetScrollPos(SB_HORZ);
 
-		this->currentX = point.x + horizontalNPos;
-		this->currentY = point.y + verticalNPos;
-		Invalidate(false);
+		this->currentX = point.x + horzCurPos;
+		this->currentY = point.y + vertCurPos;
+
+	Invalidate(false);
 	}
 	/*Long index;
 	index = this->selection->SelectByPoint(point.x, point.y);
@@ -1043,35 +936,60 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	SetCursor(LoadCursor(NULL, IDC_SIZEALL));
 	}*/
 }
+
 void ClassDiagramForm::OnClose() {
+	CWnd::OnClose();
 	//6.1. 저장한다.
-	this->Save();
+	//this->Save();
+	int messageBox = IDNO;
+	INT_PTR int_ptr = IDOK;
+	if (this->historyGraphic->undoGraphicArray->GetLength() != 0) {
+		if (this->fileName == "") {
+			messageBox = MessageBox(_T("변경 내용을 제목 없음에 저장하시겠습니까?"), "ClassDiagram", MB_YESNOCANCEL);
+
+			if (messageBox == IDYES) {
+				CFileDialog  dlgFile(false, "txt", "*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT, "텍스트 문서(*.txt)");
+				int_ptr = dlgFile.DoModal();
+				if (int_ptr == IDOK) {
+					this->fileName = dlgFile.GetPathName();
+					this->Save();
+				}
+				//else {
+				//return;  //보류
+				//}
+			}
+		}
+		else {
+			CString object;
+			object = "변경내용을 ";
+			object.Append(this->fileName);
+			object.Append("에 저장하시겠습니까?");
+			messageBox = MessageBox(object, "ClassDiagram", MB_YESNOCANCEL);
+			if (messageBox == IDYES) {
+				this->Save();
+			}
+		}
+	}
 
 	//6.2. 다이어그램을 지운다.
-	if (this->diagram != NULL) {
-		delete this->diagram;
+	if (messageBox != IDCANCEL && int_ptr == IDOK) {//== IDYES || messageBox == IDNO ) {
+		if (this->diagram != NULL) {
+			delete this->diagram;
+		}
+		if (this->selection != NULL) {
+			delete this->selection;
+		}
+		if (this->mouseLButton != NULL) {
+			delete this->mouseLButton;
+		}
+		if (this->keyBoard != NULL) {
+			delete this->keyBoard;
+		}
+		if (this->historyGraphic != NULL) {
+			delete this->historyGraphic;
+		}
+		if (this != NULL) {
+			delete this;
+		}
 	}
-	if (this->selection != NULL) {
-		delete this->selection;
-	}
-	if (this->mouseLButton != NULL) {
-		delete this->mouseLButton;
-	}
-	if (this->keyBoard != NULL) {
-		delete this->keyBoard;
-	}
-	if (this->historyGraphic != NULL) {
-		delete this->historyGraphic;
-	}
-	if (this->verticalScrollBar != NULL) {
-		delete this->verticalScrollBar;
-	}
-	if (this->horizontalScroll != NULL) {
-		delete this->horizontalScroll;
-	}
-	if (this->menu != NULL) {
-		delete this->menu;
-	}
-	//6.3. 윈도우를 닫는다.
-	CFrameWnd::OnClose(); // 오버라이딩 코드재사용
 }

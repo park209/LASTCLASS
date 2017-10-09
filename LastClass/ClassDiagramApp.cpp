@@ -1,15 +1,15 @@
-#include "ClassDiagramForm.h"
+#include "LastClass.h"
 #include "ClassDiagramApp.h"
 
 BOOL ClassDiagramApp::InitInstance() {
-	ClassDiagramForm *classDiagramForm = new ClassDiagramForm;
+	LastClass *lastClass = new LastClass;
 
-	classDiagramForm->Create(NULL, "classDiagram"); //CFrameWnd 꺼 갖다쓰는듯??
+	lastClass->Create(NULL, "LastClass"); //CFrameWnd 꺼 갖다쓰는듯??
 	//WS_VSCROLL
 	//classDiagramForm->ShowWindow(SW_SHOWMAXIMIZED);
-	classDiagramForm->ShowWindow(SW_SHOW);
-	classDiagramForm->UpdateWindow();
-	this->m_pMainWnd = classDiagramForm;
+	lastClass->ShowWindow(SW_SHOW);
+	lastClass->UpdateWindow();
+	this->m_pMainWnd = lastClass;
 
 	return TRUE;
 }

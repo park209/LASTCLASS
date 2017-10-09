@@ -6,6 +6,6 @@ class DependencyMenuAction : public MenuAction {
 public:
 	DependencyMenuAction();
 	virtual ~DependencyMenuAction();
-	void MenuPress(ClassDiagramForm *classDiagramForm);
+	void MenuPress(LastClass* lastClass);
 };
 #endif // !_DEPENDENCYMENUACTION_H
