@@ -122,7 +122,7 @@ void MovingLineProcess::MoveUpReception(Class *selectedClass, Long  startX, Long
 			if (selectedClass->GetAttributePosition() != -1) {
 				selectedClass->GetAt(selectedClass->GetAttributePosition())->
 					SetHeight(currentY - selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY());
-				if (selectedClass->GetAt(selectedClass->GetAttributePosition())->GetHeight() < 
+				if (selectedClass->GetAt(selectedClass->GetAttributePosition())->GetHeight() <
 					selectedClass->GetAt(selectedClass->GetAttributePosition())->GetMinimumHeight() + GabY) {
 					selectedClass->GetAt(selectedClass->GetAttributePosition())->SetHeight(selectedClass->GetAt(selectedClass->GetAttributePosition())->GetMinimumHeight() + GabY);
 					distanceY = selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() + selectedClass->GetAt(selectedClass->GetAttributePosition())
@@ -166,7 +166,7 @@ void MovingLineProcess::MoveDownAttributeLine(Class *selectedClass, Long  startX
 		selectedClass->GetAt(selectedClass->GetAttributePosition())->SetHeight(selectedClass->GetAt(selectedClass->GetAttributePosition())->GetHeight() - distanceY);
 		selectedClass->GetAt(0)->SetHeight(selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() - selectedClass->GetY());
 
-		if (selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() + selectedClass->GetAt(selectedClass->GetAttributePosition())->GetHeight() 
+		if (selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() + selectedClass->GetAt(selectedClass->GetAttributePosition())->GetHeight()
 			- (selectedClass->GetAt(selectedClass->GetAttributePosition())->GetMinimumHeight() + GabY) <
 			selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY()) {
 			selectedClass->GetAt(selectedClass->GetAttributePosition())->SetY(selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY()
@@ -201,7 +201,7 @@ void MovingLineProcess::MoveDownMethodLine(Class *selectedClass, Long startX, Lo
 			selectedClass->GetAt(selectedClass->GetMethodPosition())->SetY(selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY() + distanceY);
 			selectedClass->GetAt(selectedClass->GetMethodPosition())->SetHeight(selectedClass->GetAt(selectedClass->GetMethodPosition())->GetHeight() - distanceY);
 			selectedClass->GetAt(selectedClass->GetAttributePosition())->SetHeight(selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY() - selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY());
-			if (selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY() + selectedClass->GetAt(selectedClass->GetMethodPosition())->GetHeight() 
+			if (selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY() + selectedClass->GetAt(selectedClass->GetMethodPosition())->GetHeight()
 				- (selectedClass->GetAt(selectedClass->GetMethodPosition())->GetMinimumHeight() + GabY) <
 				selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY()) {
 				selectedClass->GetAt(selectedClass->GetMethodPosition())->SetY(selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY()
@@ -215,7 +215,7 @@ void MovingLineProcess::MoveDownMethodLine(Class *selectedClass, Long startX, Lo
 			selectedClass->GetAt(selectedClass->GetMethodPosition())->SetY(selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY() + distanceY);
 			selectedClass->GetAt(selectedClass->GetMethodPosition())->SetHeight(selectedClass->GetAt(selectedClass->GetMethodPosition())->GetHeight() - distanceY);
 			selectedClass->GetAt(0)->SetHeight(selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY() - selectedClass->GetY());
-			if (selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY() + selectedClass->GetAt(selectedClass->GetMethodPosition())->GetHeight() 
+			if (selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY() + selectedClass->GetAt(selectedClass->GetMethodPosition())->GetHeight()
 				- (selectedClass->GetAt(selectedClass->GetMethodPosition())->GetMinimumHeight() + GabY) <
 				selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY()) {
 				selectedClass->GetAt(selectedClass->GetMethodPosition())->SetY(selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY()
@@ -249,7 +249,7 @@ void MovingLineProcess::MoveDownReception(Class *selectedClass, Long  startX, Lo
 			selectedClass->GetAt(selectedClass->GetReceptionPosition())->SetY(selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY() + distanceY);
 			selectedClass->GetAt(selectedClass->GetReceptionPosition())->SetHeight(selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetHeight() - distanceY);
 			selectedClass->GetAt(selectedClass->GetMethodPosition())->SetHeight(selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY() - selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY());
-			if (selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY() + selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetHeight() 
+			if (selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY() + selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetHeight()
 				- (selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetMinimumHeight() + GabY) <
 				selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY()) {
 				selectedClass->GetAt(selectedClass->GetReceptionPosition())->SetY(selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY()
@@ -264,7 +264,7 @@ void MovingLineProcess::MoveDownReception(Class *selectedClass, Long  startX, Lo
 			selectedClass->GetAt(selectedClass->GetReceptionPosition())->SetY(selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY() + distanceY);
 			selectedClass->GetAt(selectedClass->GetReceptionPosition())->SetHeight(selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetHeight() - distanceY);
 			selectedClass->GetAt(selectedClass->GetAttributePosition())->SetHeight(selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY() - selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY());
-			if (selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY() + selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetHeight() 
+			if (selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY() + selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetHeight()
 				- (selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetMinimumHeight() + GabY) <
 				selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY()) {
 				selectedClass->GetAt(selectedClass->GetReceptionPosition())->SetY(selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY()
@@ -278,7 +278,7 @@ void MovingLineProcess::MoveDownReception(Class *selectedClass, Long  startX, Lo
 			selectedClass->GetAt(selectedClass->GetReceptionPosition())->SetY(selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY() + distanceY);
 			selectedClass->GetAt(selectedClass->GetReceptionPosition())->SetHeight(selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetHeight() - distanceY);
 			selectedClass->GetAt(0)->SetHeight(selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY() - selectedClass->GetY());
-			if (selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY() + selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetHeight() 
+			if (selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY() + selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetHeight()
 				- (selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetMinimumHeight() + GabY) <
 				selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY()) {
 				selectedClass->GetAt(selectedClass->GetReceptionPosition())->SetY(selectedClass->GetAt(selectedClass->GetReceptionPosition())->GetY()

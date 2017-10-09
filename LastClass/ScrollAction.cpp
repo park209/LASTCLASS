@@ -11,5 +11,5 @@ ScrollAction::~ScrollAction() {
 ScrollAction& ScrollAction::operator=(const ScrollAction& source) {
 	return *this;
 }
-void ScrollAction::ScrollScreen(Scroll *scroll) {
+void ScrollAction::Scrolling(ClassDiagramForm *classDiagramForm) {
 }

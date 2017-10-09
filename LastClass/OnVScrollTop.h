@@ -2,20 +2,17 @@
 
 #ifndef _ONVSCROLLTOP_H
 #define _ONVSCROLLTOP_H
+
 #include "ScrollAction.h"
 
-class VerticalScrollBar;
+class ClassDiagramForm;
 class OnVScrollTop : public ScrollAction {
 public:
 	OnVScrollTop();
-	OnVScrollTop(const OnVScrollTop& sorce);
-	OnVScrollTop& operator=(const OnVScrollTop& source);
-	virtual ~OnVScrollTop();
-	virtual void ScrollScreen(Scroll *scroll);
+	OnVScrollTop(const OnVScrollTop& source);
+	~OnVScrollTop();
+public:
+	void Scrolling(ClassDiagramForm* classDiagramForm);
 };
-#endif // !_ONVSCROLLTOP_H
 
-
-
-
-
+#endif // _ONVSCROLLTOP_H

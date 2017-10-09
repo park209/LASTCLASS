@@ -6,6 +6,6 @@ class RealizationMenuAction : public MenuAction {
 public:
 	RealizationMenuAction();
 	virtual ~RealizationMenuAction();
-	void MenuPress(ClassDiagramForm *classDiagramForm);
+	void MenuPress(LastClass* lastClass);
 };
 #endif // !_REALIZATIONMENUACTION_H

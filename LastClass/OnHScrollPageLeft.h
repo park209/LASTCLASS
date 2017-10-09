@@ -4,18 +4,16 @@
 #define _ONHSCROLLPAGELEFT_H
 #include "ScrollAction.h"
 
-class VerticalScrollBar;
+class ClassDiagramForm;
 class OnHScrollPageLeft : public ScrollAction {
 public:
 	OnHScrollPageLeft();
 	OnHScrollPageLeft(const OnHScrollPageLeft& sorce);
-	OnHScrollPageLeft& operator=(const OnHScrollPageLeft& source);
 	virtual ~OnHScrollPageLeft();
-	virtual void ScrollScreen(Scroll *scroll);
+
+	OnHScrollPageLeft& operator=(const OnHScrollPageLeft& source);
+
+	virtual void Scrolling(ClassDiagramForm *classDiagramForm);
 };
+
 #endif // !_ONHSCROLLPAGELEFT_H
-
-
-
-
-

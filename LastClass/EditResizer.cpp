@@ -64,7 +64,7 @@ void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
 	RECT rt;
 	textEdit->GetClientRect(&rt);
 	if (!dynamic_cast<Relation*>(textEdit->figure) && !dynamic_cast<Template*>(textEdit->figure) && !dynamic_cast<SelfRelation*>(textEdit->figure)) {
-		ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParentFrame();
+		ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
 		Long gabY_ = GabY * 2;
 
 		if (dynamic_cast<Class*>(classDiagramForm->selection->GetAt(0))) {

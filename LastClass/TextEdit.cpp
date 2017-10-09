@@ -143,6 +143,7 @@ void TextEdit::OnPaint() {
 			this->textAreaSelected->SelectTextArea(this, &memDC);
 		}
 	}
+
 	dc.BitBlt(0, 0, rt.right, rt.bottom, &memDC, 0, 0, SRCCOPY);
 
 	this->caret->MoveToIndex(this, &dc);
@@ -186,7 +187,7 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	EditResizer editResizer;
 	editResizer.ResizeEdit(this, dc);
 	editResizer.ResizeClass(this, dc);
-	GetParentFrame()->Invalidate(false);
+	GetParent()->Invalidate(false);
 
 	//GetParentFrame()->RedrawWindow();
 
@@ -218,7 +219,7 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	EditResizer editResizer;
 	editResizer.ResizeEdit(this, dc);
 	editResizer.ResizeClass(this, dc);
-	GetParentFrame()->Invalidate(false);
+	GetParent()->Invalidate(false);
 	cFont.DeleteObject(); // 폰트
 
 	CWnd::HideCaret();
@@ -358,7 +359,7 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		EditResizer editResizer;
 		editResizer.ResizeEdit(this, dc);
 		editResizer.ResizeClass(this, dc);
-		GetParentFrame()->Invalidate(false);
+		GetParent()->Invalidate(false);
 		cFont.DeleteObject(); // 폰트
 
 		CWnd::HideCaret();

@@ -1,10 +1,11 @@
 #include "RealizationMenuAction.h"
+#include "LastClass.h"
 #include "ClassDiagramForm.h"
 #include "MouseLButton.h"
 RealizationMenuAction::RealizationMenuAction() {
 }
 RealizationMenuAction::~RealizationMenuAction() {
 }
-void RealizationMenuAction::MenuPress(ClassDiagramForm *classDiagramForm) {
-	classDiagramForm->mouseLButton->ChangeState(51);
+void RealizationMenuAction::MenuPress(LastClass* lastClass) {
+	lastClass->classDiagramForm->mouseLButton->ChangeState(51);
 }

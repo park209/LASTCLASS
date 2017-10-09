@@ -7,6 +7,6 @@ class MemoLineMenuAction : public MenuAction {
 public:
 	MemoLineMenuAction();
 	virtual ~MemoLineMenuAction();
-	void MenuPress(ClassDiagramForm *classDiagramForm);
+	void MenuPress(LastClass* lastClass);
 };
 #endif // !_MEMOLINEMENUACTION_H

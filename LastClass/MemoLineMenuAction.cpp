@@ -1,10 +1,11 @@
 #include "MemoLineMenuAction.h"
+#include "LastClass.h"
 #include "ClassDiagramForm.h"
 #include "MouseLButton.h"
 MemoLineMenuAction::MemoLineMenuAction() {
 }
 MemoLineMenuAction::~MemoLineMenuAction() {
 }
-void MemoLineMenuAction::MenuPress(ClassDiagramForm *classDiagramForm) {
-	classDiagramForm->mouseLButton->ChangeState(87);
+void MemoLineMenuAction::MenuPress(LastClass* lastClass) {
+	lastClass->classDiagramForm->mouseLButton->ChangeState(87);
 }

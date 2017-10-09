@@ -1,10 +1,11 @@
 #include "AssociationMenuAction.h"
+#include "LastClass.h"
 #include "ClassDiagramForm.h"
 #include "MouseLButton.h"
 AssociationMenuAction::AssociationMenuAction() {
 }
 AssociationMenuAction::~AssociationMenuAction() {
 }
-void AssociationMenuAction::MenuPress(ClassDiagramForm *classDiagramForm) {
-	classDiagramForm->mouseLButton->ChangeState(53);
+void AssociationMenuAction::MenuPress(LastClass* lastClass) {
+	lastClass->classDiagramForm->mouseLButton->ChangeState(53);
 }

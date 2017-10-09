@@ -33,8 +33,8 @@
     <Filter Include="ScrollBar">
       <UniqueIdentifier>{8a987566-45b4-4852-9630-3923117e1202}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MenuBar">
-      <UniqueIdentifier>{5b257264-30c3-46c8-9143-1fc42cfadc17}</UniqueIdentifier>
+    <Filter Include="Menu">
+      <UniqueIdentifier>{875438d8-f102-470a-a207-cf2e8c152d32}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -53,7 +53,13 @@
     <ClInclude Include="FigureFactory.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
+    <ClInclude Include="Finder.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
     <ClInclude Include="MovingVisitor.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="Selection.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="MovingObject.h">
@@ -236,9 +242,6 @@
     <ClInclude Include="DrawingMemoBox.h">
       <Filter>Diagram</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
     <ClInclude Include="DeleteTextAreaSelected.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
@@ -365,76 +368,10 @@
     <ClInclude Include="KeyBoard.h">
       <Filter>KeyAction</Filter>
     </ClInclude>
-    <ClInclude Include="HorizontalScrollBar.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="HScrollCreator.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnHScrollEnd.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnHScrollLeft.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnHScrollLineLeft.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnHScrollLineRight.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnHScrollPageLeft.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnHScrollPageRight.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnHScrollRight.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnHScrollThumbPosition.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnHScrollThumbTrack.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnVScrollBottom.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnVScrollEndScroll.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnVScrollLineDown.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnVScrollLineUp.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnVScrollPageDown.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnVScrollPageUp.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnVScrollThumbPosition.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnVScrollThumbTrack.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="OnVScrollTop.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
     <ClInclude Include="ScrollAction.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
-    <ClInclude Include="VScrollCreator.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
     <ClInclude Include="Scroll.h">
-      <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="VerticalScrollBar.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
     <ClInclude Include="DrawingRelation.h">
@@ -476,59 +413,137 @@
     <ClInclude Include="RemoveTemplateKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="ClassDiagramForm.h" />
-    <ClInclude Include="GraphicCtrlUndoKey.h">
+    <ClInclude Include="AggregationMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="AggregationsMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="AssociationMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="CompositionMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="CompositionsMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="DependencyMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectedAssociationMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneralizationMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoLineMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoBoxMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="RealizationMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassDiagramForm.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCtrlAllKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="GraphicCtrlRedoKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="HistoryGraphic.h">
-      <Filter>Diagram</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicCtrlAllKey.h">
+    <ClInclude Include="GraphicCtrlUndoKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="Selection.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="MenuAction.h" />
-    <ClInclude Include="AggregationMenuAction.h">
-      <Filter>MenuBar</Filter>
+    <ClInclude Include="HistoryGraphic.h">
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="AggregationsMenuAction.h">
-      <Filter>MenuBar</Filter>
+    <ClInclude Include="LastClass.h" />
+    <ClInclude Include="SaveAsMenuAction.h">
+      <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="AssociationMenuAction.h">
-      <Filter>MenuBar</Filter>
+    <ClInclude Include="SaveMenuAction.h">
+      <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="CompositionMenuAction.h">
-      <Filter>MenuBar</Filter>
+    <ClInclude Include="OpenMenuAction.h">
+      <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="CompositionsMenuAction.h">
-      <Filter>MenuBar</Filter>
+    <ClInclude Include="NewMenuAction.h">
+      <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="DependencyMenuAction.h">
-      <Filter>MenuBar</Filter>
+    <ClInclude Include="PrintPreview.h">
+      <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="DirectedAssociationMenuAction.h">
-      <Filter>MenuBar</Filter>
+    <ClInclude Include="SupportMenuAction.h">
+      <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="GeneralizationMenuAction.h">
-      <Filter>MenuBar</Filter>
+    <ClInclude Include="SupportMenu.h">
+      <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="MemoBoxMenuAction.h">
-      <Filter>MenuBar</Filter>
+    <ClInclude Include="FilePrintPreviewMenuAction.h">
+      <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="MemoLineMenuAction.h">
-      <Filter>MenuBar</Filter>
+    <ClInclude Include="DrawingResize.h">
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="RealizationMenuAction.h">
-      <Filter>MenuBar</Filter>
+    <ClInclude Include="resource.h">
+      <Filter>Resource</Filter>
     </ClInclude>
-    <ClInclude Include="ClassMenuAction.h">
-      <Filter>MenuBar</Filter>
+    <ClInclude Include="OnHScrollEnd.h">
+      <Filter>ScrollBar</Filter>
     </ClInclude>
-    <ClInclude Include="Finder.h" />
+    <ClInclude Include="OnHScrollLeft.h">
+      <Filter>ScrollBar</Filter>
+    </ClInclude>
+    <ClInclude Include="OnHScrollLineLeft.h">
+      <Filter>ScrollBar</Filter>
+    </ClInclude>
+    <ClInclude Include="OnHScrollLineRight.h">
+      <Filter>ScrollBar</Filter>
+    </ClInclude>
+    <ClInclude Include="OnHScrollPageLeft.h">
+      <Filter>ScrollBar</Filter>
+    </ClInclude>
+    <ClInclude Include="OnHScrollPageRight.h">
+      <Filter>ScrollBar</Filter>
+    </ClInclude>
+    <ClInclude Include="OnHScrollRight.h">
+      <Filter>ScrollBar</Filter>
+    </ClInclude>
+    <ClInclude Include="OnVScrollBottom.h">
+      <Filter>ScrollBar</Filter>
+    </ClInclude>
+    <ClInclude Include="OnVScrollLineDown.h">
+      <Filter>ScrollBar</Filter>
+    </ClInclude>
+    <ClInclude Include="OnVScrollLineUp.h">
+      <Filter>ScrollBar</Filter>
+    </ClInclude>
+    <ClInclude Include="OnVScrollPageDown.h">
+      <Filter>ScrollBar</Filter>
+    </ClInclude>
+    <ClInclude Include="OnVScrollPageUp.h">
+      <Filter>ScrollBar</Filter>
+    </ClInclude>
+    <ClInclude Include="OnVScrollTop.h">
+      <Filter>ScrollBar</Filter>
+    </ClInclude>
+    <ClInclude Include="StatusBar.h" />
+    <ClInclude Include="OnVScrollEnd.h">
+      <Filter>ScrollBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -543,7 +558,13 @@
     <ClCompile Include="FigureFactory.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
+    <ClCompile Include="Finder.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
     <ClCompile Include="MovingVisitor.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Selection.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="MovingObject.cpp">
@@ -670,6 +691,12 @@
       <Filter>MouseAction</Filter>
     </ClCompile>
     <ClCompile Include="DefaultState.cpp">
+      <Filter>MouseAction</Filter>
+    </ClCompile>
+    <ClCompile Include="MultipleSelectionState.cpp">
+      <Filter>MouseAction</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectionState.cpp">
       <Filter>MouseAction</Filter>
     </ClCompile>
     <ClCompile Include="Composition.cpp">
@@ -828,76 +855,10 @@
     <ClCompile Include="RollNameBox.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="HorizontalScrollBar.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="HScrollCreator.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnHScrollEnd.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnHScrollLeft.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnHScrollLineLeft.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnHScrollLineRight.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnHScrollPageLeft.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnHScrollPageRight.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnHScrollRight.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnHScrollThumbPosition.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnHScrollThumbTrack.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnVScrollBottom.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnVScrollEndScroll.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnVScrollLineDown.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnVScrollLineUp.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnVScrollPageDown.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnVScrollPageUp.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnVScrollThumbPosition.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnVScrollThumbTrack.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="OnVScrollTop.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="VScrollCreator.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
     <ClCompile Include="Scroll.cpp">
       <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="ScrollAction.cpp">
-      <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="VerticalScrollBar.cpp">
       <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="MovingLineProcess.cpp">
@@ -915,7 +876,6 @@
     <ClCompile Include="DeleteKey.cpp">
       <Filter>KeyAction\TextEdit</Filter>
     </ClCompile>
-    <ClCompile Include="TextEdit.cpp" />
     <ClCompile Include="AddTemplateKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
@@ -943,10 +903,11 @@
     <ClCompile Include="RemoveTemplateKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="ClassDiagramForm.cpp" />
-    <ClCompile Include="WritingVisitor.cpp" />
     <ClCompile Include="MovingRelation.cpp">
       <Filter>Relationship</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassDiagramForm.cpp">
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="GraphicCtrlRedoKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
@@ -955,51 +916,129 @@
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="HistoryGraphic.cpp">
-      <Filter>Diagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="GraphicCtrlAllKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="Selection.cpp" />
-    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Menu.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
     <ClCompile Include="MemoBoxMenuAction.cpp">
-      <Filter>MenuBar</Filter>
-    </ClCompile>
-    <ClCompile Include="CompositionMenuAction.cpp">
-      <Filter>MenuBar</Filter>
-    </ClCompile>
-    <ClCompile Include="CompositionsMenuAction.cpp">
-      <Filter>MenuBar</Filter>
-    </ClCompile>
-    <ClCompile Include="AssociationMenuAction.cpp">
-      <Filter>MenuBar</Filter>
-    </ClCompile>
-    <ClCompile Include="AggregationsMenuAction.cpp">
-      <Filter>MenuBar</Filter>
-    </ClCompile>
-    <ClCompile Include="AggregationMenuAction.cpp">
-      <Filter>MenuBar</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectedAssociationMenuAction.cpp">
-      <Filter>MenuBar</Filter>
-    </ClCompile>
-    <ClCompile Include="DependencyMenuAction.cpp">
-      <Filter>MenuBar</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneralizationMenuAction.cpp">
-      <Filter>MenuBar</Filter>
+      <Filter>Menu</Filter>
     </ClCompile>
     <ClCompile Include="MemoLineMenuAction.cpp">
-      <Filter>MenuBar</Filter>
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneralizationMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectedAssociationMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="DependencyMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositionsMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositionMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="AssociationMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="AggregationsMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="AggregationMenuAction.cpp">
+      <Filter>Menu</Filter>
     </ClCompile>
     <ClCompile Include="RealizationMenuAction.cpp">
-      <Filter>MenuBar</Filter>
+      <Filter>Menu</Filter>
     </ClCompile>
     <ClCompile Include="ClassMenuAction.cpp">
-      <Filter>MenuBar</Filter>
+      <Filter>Menu</Filter>
     </ClCompile>
-    <ClCompile Include="SelectionState.cpp" />
-    <ClCompile Include="MultipleSelectionState.cpp" />
-    <ClCompile Include="Finder.cpp" />
+    <ClCompile Include="WritingVisitor.cpp">
+      <Filter>TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="TextEdit.cpp">
+      <Filter>TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="LastClass.cpp" />
+    <ClCompile Include="OpenMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="NewMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveAsMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="SupportMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="SupportMenu.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHScrollEnd.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHScrollLeft.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHScrollLineLeft.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHScrollLineRight.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHScrollPageLeft.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHScrollPageRight.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHScrollRight.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollBottom.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollLineDown.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollLineUp.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollPageDown.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollPageUp.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollTop.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreview.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingResize.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="FilePrintPreviewMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="StatusBar.cpp" />
+    <ClCompile Include="OnVScrollEnd.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

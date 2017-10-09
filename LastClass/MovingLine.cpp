@@ -105,7 +105,7 @@ void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, 
 				distanceY = selectedClass->GetAt(0)->GetY() + selectedClass->GetAt(0)->GetMinimumHeight() + GabY + MemoGab - startPoint.y;
 			}
 			else if (currentY > selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() + selectedClass->GetAt(selectedClass->GetAttributePosition())->GetHeight()
-				-(selectedClass->GetAt(selectedClass->GetAttributePosition())->GetMinimumHeight() + GabY)) {
+				- (selectedClass->GetAt(selectedClass->GetAttributePosition())->GetMinimumHeight() + GabY)) {
 				distanceY = selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() + selectedClass->GetAt(selectedClass->GetAttributePosition())->GetHeight()
 					- selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() - (selectedClass->GetAt(selectedClass->GetAttributePosition())->GetMinimumHeight() + GabY);
 			}
@@ -123,7 +123,7 @@ void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, 
 			if (distanceY < 0) { // 올릴 떄
 				if (selectedClass->GetAttributePosition() != -1) { // 속성 있으면
 					if (currentY < selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() + selectedClass->GetAt(selectedClass->GetAttributePosition())->GetMinimumHeight() + GabY) {
-						distanceY = selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() 
+						distanceY = selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY()
 							+ selectedClass->GetAt(selectedClass->GetAttributePosition())->GetMinimumHeight() + GabY - startPoint.y;
 					}
 				}
@@ -153,16 +153,16 @@ void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, 
 		if (ret == true) {
 			if (distanceY < 0) { // 올릴 때
 				if (selectedClass->GetMethodPosition() != -1) { // method exist
-					if (currentY < selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY() 
+					if (currentY < selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY()
 						+ selectedClass->GetAt(selectedClass->GetMethodPosition())->GetMinimumHeight() + GabY) {
-						distanceY = selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY() 
+						distanceY = selectedClass->GetAt(selectedClass->GetMethodPosition())->GetY()
 							+ selectedClass->GetAt(selectedClass->GetMethodPosition())->GetMinimumHeight() + GabY - startPoint.y;
 					}
 				}
 				else if (selectedClass->GetAttributePosition() != -1) { // 속성 있으면
-					if (currentY < selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() 
+					if (currentY < selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY()
 						+ selectedClass->GetAt(selectedClass->GetAttributePosition())->GetMinimumHeight() + GabY) {
-						distanceY = selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY() 
+						distanceY = selectedClass->GetAt(selectedClass->GetAttributePosition())->GetY()
 							+ selectedClass->GetAt(selectedClass->GetAttributePosition())->GetMinimumHeight() + GabY - startPoint.y;
 					}
 				}

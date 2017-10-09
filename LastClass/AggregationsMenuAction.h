@@ -7,6 +7,6 @@ class AggregationsMenuAction : public MenuAction {
 public:
 	AggregationsMenuAction();
 	virtual ~AggregationsMenuAction();
-	void MenuPress(ClassDiagramForm *classDiagramForm);
+	void MenuPress(LastClass* lastClass);
 };
 #endif // !_AGGREGATIONSMENUACTION_H
