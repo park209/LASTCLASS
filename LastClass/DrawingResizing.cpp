@@ -7,6 +7,7 @@
 #include "SelectionState.h"
 #include "ClassDiagramForm.h"
 #include "HistoryGraphic.h"
+#include "Diagram.h"
 
 DrawingResizing* DrawingResizing::instance = 0;
 
@@ -32,6 +33,9 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 	Long k = 0;
 
 	classDiagramForm->historyGraphic->PushUndo(diagram);
+
+	CRect rect = diagram->GetCorrectRect(startX, startY, currentX, currentY);
+	ret = diagram->CheckOverlap(rect, object);
 
 	if (dynamic_cast<Class*>(object) && static_cast<Class*>(object)->GetTempletePosition() != -1) {
 		Class *selectedClass = static_cast<Class*>(object);

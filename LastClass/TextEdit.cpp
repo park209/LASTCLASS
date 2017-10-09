@@ -20,7 +20,7 @@
 #include "DoubleClickTextArea.h"
 #include "FontSet.h"
 #include "Selection.h"
-#include "EditResizer.h"
+#include "EditResizerBlocker.h"
 #include "Class.h"
 #include "Relation.h"
 #include "SelfRelation.h"
@@ -164,6 +164,9 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 			DeleteTextArea *deleteArea = DeleteTextArea::Instance();
 			deleteArea->DeleteArea(this);
 		}
+
+		this->historyText->PushUndo(this->text, this->caret);
+
 		char nCharacter = nChar;
 		SingleByteCharacter singleByteCharacter(nCharacter);
 		if (this->caret->GetCharacterIndex() == this->text->GetAt(this->caret->GetRowIndex())->GetLength()) {
@@ -184,12 +187,9 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 	SetFont(&cFont, TRUE);
 	dc->SelectObject(cFont);
-	EditResizer editResizer;
-	editResizer.ResizeEdit(this, dc);
-	editResizer.ResizeClass(this, dc);
-	GetParent()->Invalidate(false);
 
-	//GetParentFrame()->RedrawWindow();
+	EditResizerBlocker editResizer;
+	editResizer.Block(this, dc);
 
 	cFont.DeleteObject(); // 폰트
 
@@ -216,10 +216,8 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 	SetFont(&cFont, TRUE);
 	dc->SelectObject(cFont);
-	EditResizer editResizer;
-	editResizer.ResizeEdit(this, dc);
-	editResizer.ResizeClass(this, dc);
-	GetParent()->Invalidate(false);
+	EditResizerBlocker editResizer;
+	editResizer.Block(this, dc);
 	cFont.DeleteObject(); // 폰트
 
 	CWnd::HideCaret();
@@ -356,10 +354,8 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 		SetFont(&cFont, TRUE);
 		dc->SelectObject(cFont);
-		EditResizer editResizer;
-		editResizer.ResizeEdit(this, dc);
-		editResizer.ResizeClass(this, dc);
-		GetParent()->Invalidate(false);
+		EditResizerBlocker editResizer;
+		editResizer.Block(this, dc);
 		cFont.DeleteObject(); // 폰트
 
 		CWnd::HideCaret();
