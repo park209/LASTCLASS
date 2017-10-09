@@ -53,6 +53,14 @@
 #include <fstream>
 #include <afxmsg_.h>
 #include <afxdlgs.h>
+#include <commctrl.h>
+#include <Winuser.h>
+#include <windows.h>
+#include "resource2.h"
+#pragma comment(lib, "comctl32.lib")
+//#include <commctrl.h>
+//#pragma comment(lib, "comctl32") 
+#pragma comment(lib, "User32") 
 using namespace std;
 
 
@@ -83,10 +91,12 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->keyBoard = NULL;
 	this->historyGraphic = NULL;
 	this->menu = NULL;
+	this->copyBuffer = NULL;
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
 	this->currentY = 0;
+	this->isCut = 0;
 }
 
 Long ClassDiagramForm::Load() {
@@ -604,7 +614,6 @@ Long ClassDiagramForm::Save() {
 }
 
 int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
-
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
 										 //1.1. 다이어그램을 준비한다
 	this->diagram = new Diagram();
@@ -615,7 +624,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->horizontalScroll = new HorizontalScrollBar(this);
 	this->keyBoard = new KeyBoard;
 	this->menu = new Menu(this);
-	ModifyStyle(0, WS_CLIPCHILDREN);
+	
 	//1.2. 적재한다
 	/*mainMenu.CreateMenu();
 	popupMenu.CreatePopupMenu();
@@ -641,6 +650,40 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	return 0;
 }
 
+HWND ClassDiagramForm::CreateAToolBar(HWND hwndParent) {
+	InitCommonControls();
+	HWND hTool;
+	TBBUTTON tbb[3];
+	TBADDBITMAP tbab;
+	hTool = CreateWindowEx(WS_EX_TOPMOST, TOOLBARCLASSNAME, (LPSTR)NULL,
+		WS_CHILD | TBSTYLE_TOOLTIPS | CCS_ADJUSTABLE| WS_VISIBLE,
+		0, 0, 0, 0, hwndParent, (HMENU)IDR_TOOLBAR2, GetModuleHandle(NULL), NULL);
+
+	/*SendMessageW(hTool, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
+	tbab.hInst = HINST_COMMCTRL;
+	tbab.nID = IDB_STD_SMALL_COLOR;
+	SendMessageW(hTool, TB_ADDBITMAP, 0, (LPARAM)&tbab);
+	ZeroMemory(tbb, sizeof(tbb));
+	tbb[0].iBitmap = STD_FILENEW;
+	tbb[0].fsState = TBSTATE_ENABLED;
+	tbb[0].fsStyle = TBSTYLE_BUTTON;
+	tbb[0].idCommand = ID_FILE_NEW;
+
+	tbb[1].iBitmap = STD_FILEOPEN;
+	tbb[1].fsState = TBSTATE_ENABLED;
+	tbb[1].fsStyle = TBSTYLE_BUTTON;
+	tbb[1].idCommand = ID_FILE_OPEN;
+
+	tbb[2].iBitmap = STD_FILESAVE;
+	tbb[2].fsState = TBSTATE_ENABLED;
+	tbb[2].fsStyle = TBSTYLE_BUTTON;
+	tbb[2].idCommand = ID_FILE_SAVE;
+
+	SendMessageW(hTool, TB_ADDBUTTONS, sizeof(tbb) / sizeof(TBBUTTON), (LPARAM)&tbb);
+	//ShowWindow(SW_SHOW);*/
+
+	return hTool;
+}
 void ClassDiagramForm::OnPaint() {
 	CPaintDC dc(this);
 	CRect rect;
@@ -690,10 +733,18 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		this->mouseLButton->ChangeState(nChar);
 	}
 	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
+	CClientDC dc(this);
+	 CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함    
+	cFont.CreateFont(25, 0, 0, 0, 1500, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정    
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
+	SetFont(&cFont, TRUE);
+	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작  
 	if (keyAction != 0) {
-		keyAction->KeyPress(this);
+		keyAction->KeyPress(this,&dc);
 		Invalidate(false);
 	}
+	dc.SelectObject(oldFont);
+	 cFont.DeleteObject();
 	CRect rect;
 	this->GetClientRect(&rect);
 	rect.right -= 20;

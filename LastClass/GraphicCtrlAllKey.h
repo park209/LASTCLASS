@@ -12,7 +12,7 @@ public:
 	GraphicCtrlAllKey(const GraphicCtrlAllKey& source);
 	virtual ~GraphicCtrlAllKey();
 public:
-	void KeyPress(ClassDiagramForm *classDiagramForm);
+	void KeyPress(ClassDiagramForm *classDiagramForm,CDC *cdc);
 	void KeyPress(TextEdit *textEdit);
 };
 

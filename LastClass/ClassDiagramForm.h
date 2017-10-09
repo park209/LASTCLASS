@@ -4,7 +4,7 @@
 #define _CLASSDIAGRAM_H
 
 #include <afxwin.h>
-
+#include <afxext.h>
 typedef signed long int Long;
 
 enum gab { GabX = 8, GabY = 2, MemoGab = 20, CaretWidth = 2};
@@ -28,6 +28,9 @@ public:
 	Scroll *horizontalScroll;
 	HistoryGraphic *historyGraphic;
 	Menu *menu;
+	Selection *copyBuffer;
+	Long isCut;
+
 public:
 	ClassDiagramForm();
 public:
@@ -40,6 +43,7 @@ private:
 	Long currentY;
 	bool isDblclk;
 protected:
+	afx_msg HWND CreateAToolBar(HWND hwndParent);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);

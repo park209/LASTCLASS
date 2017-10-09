@@ -181,7 +181,8 @@ void Relation::Accept(Visitor& visitor, CDC *cPaintDc) {
 }
 
 void Relation::MovePaste(Long distanceX, Long distanceY) {
-	Figure::Move(distanceX, distanceY);
+	this->x = this->x + distanceX;
+	this->y = this->y + distanceY;
 }
 
 Long Relation::Correct(Long index, CPoint point) {
