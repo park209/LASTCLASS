@@ -49,13 +49,10 @@ public:
 
 	Long SetMinimumWidth();
 	
-
-
 	virtual Long Add(Figure *figure);
 	virtual Long Remove(Long index);
 
 	virtual Figure* GetAt(Long index);
-
 
 	virtual Figure* Clone() const;
 	void Accept(Visitor& visitor, CDC *pDC);
@@ -64,13 +61,13 @@ public:
 	Long GetMethodPosition()const;
 	Long GetReceptionPosition() const;
 	Long GetTempletePosition() const;
-
 private:
 	Long attributePosition;
 	Long methodPosition;
 	Long receptionPosition;
 	Long templetePosition;
 };
+
 inline Long Class::GetAttributePosition()const {
 	return this->attributePosition;
 }
