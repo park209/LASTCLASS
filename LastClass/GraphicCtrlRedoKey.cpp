@@ -13,7 +13,7 @@ GraphicCtrlRedoKey::GraphicCtrlRedoKey(const GraphicCtrlRedoKey& source) {
 GraphicCtrlRedoKey::~GraphicCtrlRedoKey() {
 }
 
-void GraphicCtrlRedoKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void GraphicCtrlRedoKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 	if (classDiagramForm->historyGraphic->redoGraphicArray->GetLength() > 0) {
 		Diagram *diagram_ = classDiagramForm->historyGraphic->PopRedoGraphic();
 

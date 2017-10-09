@@ -14,6 +14,7 @@ GraphicCtrlRedoMenuAction::~GraphicCtrlRedoMenuAction() {
 
 void GraphicCtrlRedoMenuAction::MenuPress(LastClass *lastClass) {
 	GraphicCtrlRedoKey *ctrlRedo = new GraphicCtrlRedoKey;
-	ctrlRedo->KeyPress(lastClass->classDiagramForm);
+	CClientDC dc(lastClass->classDiagramForm);
+	ctrlRedo->KeyPress(lastClass->classDiagramForm,&dc);
 	lastClass->classDiagramForm->Invalidate(false);
 }

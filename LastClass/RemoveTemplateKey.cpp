@@ -18,7 +18,7 @@ RemoveTemplateKey::~RemoveTemplateKey() {
 }
 
 
-void RemoveTemplateKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void RemoveTemplateKey::KeyPress(ClassDiagramForm *classDiagramForm,CDC *cdc) {
 	if (classDiagramForm->selection->GetLength() > 0) {
 		Class *object = static_cast<Class*>(classDiagramForm->selection->GetAt(0));
 		if (object->GetTempletePosition() != -1) {

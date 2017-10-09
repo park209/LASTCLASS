@@ -50,5 +50,5 @@ void CtrlEnterKey::KeyPress(TextEdit *textEdit) {
 	}
 }
 
-void CtrlEnterKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void CtrlEnterKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

@@ -4,6 +4,7 @@
 #define _REMOVERECEPTIONKEY_H
 
 #include "KeyAction.h"
+#include <afxwin.h>
 
 class ClassDiagramForm;
 class TextEdit;
@@ -13,7 +14,7 @@ public:
 	RemoveReceptionKey(const RemoveReceptionKey& source);
 	virtual ~RemoveReceptionKey();
 
-	void KeyPress(ClassDiagramForm *classDiagramForm);
+	void KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc);
 	void KeyPress(TextEdit *textEdit);
 };
 

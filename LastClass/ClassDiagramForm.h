@@ -26,6 +26,8 @@ public:
 	KeyBoard *keyBoard;
 	HistoryGraphic *historyGraphic;
 	Scroll *scroll;
+	Selection *copyBuffer;
+	Long isCut;
 public:
 	ClassDiagramForm();
 public:

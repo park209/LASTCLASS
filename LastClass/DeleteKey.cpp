@@ -47,5 +47,5 @@ void DeleteKey::KeyPress(TextEdit *textEdit) {
 	}
 }
 
-void DeleteKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void DeleteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

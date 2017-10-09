@@ -1,6 +1,7 @@
 //GraphicCtrlUndoKey.h
 
 #include "KeyAction.h"
+#include <afxwin.h>
 
 #ifndef _GRAPHICCTRLUNDOKEY_H
 #define _GRAPHICCTRLUNDOKEY_H
@@ -13,7 +14,7 @@ public:
 	GraphicCtrlUndoKey(const GraphicCtrlUndoKey& source);
 	virtual ~GraphicCtrlUndoKey();
 
-	virtual void KeyPress(ClassDiagramForm *classDiagramForm);
+	virtual void KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc);
 	virtual void KeyPress(TextEdit *textEdit);
 };
 
