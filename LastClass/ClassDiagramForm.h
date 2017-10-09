@@ -8,7 +8,7 @@
 typedef signed long int Long;
 
 enum gab { GabX = 8, GabY = 2, MemoGab = 20, CaretWidth = 2};
-enum page { pageHeight = 3000 };
+enum page { pageHeight = 3000, pageWidth = 1000 };
 
 class Diagram; //전방선언
 class TextEdit;

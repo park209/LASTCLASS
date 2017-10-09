@@ -8,7 +8,7 @@
 #include "OnHScrollLineRight.h"
 #include "OnHScrollPageLeft.h"
 #include "OnHScrollPageRight.h"
-
+#include "OnVScrollEnd.h"
 #include "OnVScrollTop.h"
 #include "OnVScrollBottom.h"
 #include "OnVScrollLineUp.h"
@@ -45,8 +45,9 @@ ScrollAction* Scroll::MoveVScroll(ClassDiagramForm *classDiagramForm, UINT nSBCo
 	case SB_BOTTOM:
 		this->scrollAction = new OnVScrollBottom;
 		break;
-	//case SB_ENDSCROLL:
-		//break;
+	case SB_ENDSCROLL:
+		this->scrollAction = new OnVScrollEnd;
+		break;
 	case SB_LINEUP: 
 		this->scrollAction = new OnVScrollLineUp;
 		break;

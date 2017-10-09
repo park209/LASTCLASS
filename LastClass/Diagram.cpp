@@ -123,51 +123,42 @@ Figure* Diagram::FindItem(Long x, Long y) {
 	return figure;
 }
 
-//Figure* Diagram::FindItem(Long x, Long y) {
-//	SmartPointer<Figure*> smartPointer(this->CreateIterator());//다이어그램 배열 반복자
-//	Figure *figure = 0;
-//	Long endX;
-//	Long endY;
-//	Long index = -1;
-//	smartPointer->First();
-//	while (!smartPointer->IsDone() && index != 0) {
-//		endX = smartPointer->Current()->GetX() + smartPointer->Current()->GetWidth();
-//		endY = smartPointer->Current()->GetY() + smartPointer->Current()->GetHeight();
-//		if (dynamic_cast<Class*>(smartPointer->Current())) {
-//			if (dynamic_cast<Class*>(smartPointer->Current())->GetTempletePosition() == -1) {
-//				if (smartPointer->Current()->GetX() <= x && endX >= x && smartPointer->Current()->GetY() <= y && endY >= y) {
-//					figure = smartPointer->Current();
-//					index = 0;
-//				}
-//			}
-//			else {
-//				Template* objcet = dynamic_cast<Template*>(static_cast<Class*>(smartPointer->Current())->GetAt(static_cast<Class*>(smartPointer->Current())->GetTempletePosition()));
-//				if (smartPointer->Current()->GetX() <= x && objcet->GetX() + objcet->GetWidth() >= x &&
-//					objcet->GetY() <= y && smartPointer->Current()->GetY() + smartPointer->Current()->GetHeight() >= y) {
-//					figure = smartPointer->Current();
-//					index = 0;
-//				}
-
-//		smartPointer->Next();
-//	}
-//	if (index == 0) {
-//		SmartPointer<Figure*> smartPointer_(static_cast<Class*>(figure)->CreateIterator()); //클래스 배열 반복자
-//		for (smartPointer_->First(); !smartPointer_->IsDone(); smartPointer_->Next()) {
-//			if (smartPointer_->Current()->GetX() <= x && smartPointer_->Current()->GetX() + smartPointer_->Current()->GetWidth() >= x
-//				&& smartPointer_->Current()->GetY() <= y   && smartPointer_->Current()->GetY() + smartPointer_->Current()->GetHeight() >= y) {
-//				figure = smartPointer_->Current();
-//			}
-//		}
-//	}
-//	return figure;
-//}
-
 Long Diagram::Remove(Long index) {
 
 	this->length--;
 	this->capacity--;
 
 	return this->figures.Delete(index);
+}
+
+CRect& Diagram::GetCorrectRect(Long startX, Long startY, Long currentX, Long currentY) {
+	CRect rect;
+	if (currentX >= startX && currentY >= startY) {
+		rect.left = startX;
+		rect.top = startY;
+		rect.right = currentX;
+		rect.bottom = currentY;
+	}
+	else if (currentX < startX && currentY < startY) {
+		rect.left = currentX;
+		rect.top = currentY;
+		rect.right = startX;
+		rect.bottom = startY;
+	}
+	else if (currentX > startX) {
+		rect.left = startX;
+		rect.top = currentY;
+		rect.right = currentX;
+		rect.bottom = startY;
+	}
+	else {
+		rect.left = currentX;
+		rect.top = startY;
+		rect.right = startX;
+		rect.bottom = currentY;
+	}
+
+	return rect;
 }
 
 Figure* Diagram::GetAt(Long index) {
