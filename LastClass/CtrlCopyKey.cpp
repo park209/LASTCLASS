@@ -25,5 +25,5 @@ void CtrlCopyKey::KeyPress(TextEdit *textEdit) {
 	CloseClipboard();
 }
 
-void CtrlCopyKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void CtrlCopyKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

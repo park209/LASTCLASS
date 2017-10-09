@@ -18,5 +18,5 @@ void EnterKey::KeyPress(TextEdit *textEdit) {
 	textEdit->OnClose();
 }
 
-void EnterKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void EnterKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

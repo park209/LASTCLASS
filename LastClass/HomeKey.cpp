@@ -29,5 +29,5 @@ void HomeKey::KeyPress(TextEdit *textEdit) {
 	textEdit->caret->SetCharacterIndex(0);
 }
 
-void HomeKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void HomeKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

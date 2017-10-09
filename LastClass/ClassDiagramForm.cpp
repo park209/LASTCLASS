@@ -82,6 +82,8 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->currentX = 0;
 	this->currentY = 0;
 	this->fileName = "";
+	this->copyBuffer = NULL;
+	this->isCut = 0;
 }
 
 Long ClassDiagramForm::Load() {
@@ -667,11 +669,19 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		nChar == 57 || nChar == 48 || nChar == 52 || nChar == 54 || nChar == 87 || nChar == 51) {
 		this->mouseLButton->ChangeState(nChar);
 	}
+	CClientDC dc(this);
+	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
+	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
+	SetFont(&cFont, TRUE);
+	CFont *oldFont = dc.SelectObject(&cFont);
 	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 	if (keyAction != 0) {
-		keyAction->KeyPress(this);
+		keyAction->KeyPress(this,&dc);
 		Invalidate(false);
 	}
+	dc.SelectObject(oldFont);
+	cFont.DeleteObject();
 }
 
 
