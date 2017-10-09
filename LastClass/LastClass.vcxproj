@@ -94,7 +94,9 @@
     <ClInclude Include="GeneralizationMenuAction.h" />
     <ClInclude Include="GraphicCtrlAllKey.h" />
     <ClInclude Include="GraphicCtrlRedoKey.h" />
+    <ClInclude Include="GraphicCtrlRedoMenuAction.h" />
     <ClInclude Include="GraphicCtrlUndoKey.h" />
+    <ClInclude Include="GraphicCtrlUndoMenuAction.h" />
     <ClInclude Include="LastClass.h" />
     <ClInclude Include="MemoBoxMenuAction.h" />
     <ClInclude Include="MemoLineMenuAction.h" />
@@ -265,7 +267,9 @@
     <ClCompile Include="GeneralizationMenuAction.cpp" />
     <ClCompile Include="GraphicCtrlAllKey.cpp" />
     <ClCompile Include="GraphicCtrlRedoKey.cpp" />
+    <ClCompile Include="GraphicCtrlRedoMenuAction.cpp" />
     <ClCompile Include="GraphicCtrlUndoKey.cpp" />
+    <ClCompile Include="GraphicCtrlUndoMenuAction.cpp" />
     <ClCompile Include="LastClass.cpp" />
     <ClCompile Include="MemoBoxMenuAction.cpp" />
     <ClCompile Include="MemoLineMenuAction.cpp" />

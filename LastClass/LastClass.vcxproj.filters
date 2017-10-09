@@ -544,6 +544,12 @@
     <ClInclude Include="OnVScrollEnd.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicCtrlRedoMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCtrlUndoMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -1039,6 +1045,12 @@
     <ClCompile Include="StatusBar.cpp" />
     <ClCompile Include="OnVScrollEnd.cpp">
       <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlRedoMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlUndoMenuAction.cpp">
+      <Filter>Menu</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
