@@ -540,6 +540,7 @@
     <ClInclude Include="OnVScrollTop.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
+    <ClInclude Include="OnVScrollEnd.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -962,9 +963,6 @@
     <ClCompile Include="TextEdit.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
-    <ClCompile Include="DrawningResize.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
     <ClCompile Include="FilePrintPreviewMenuAction.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
@@ -1030,6 +1028,18 @@
       <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="MenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingResize.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OnVScrollEnd.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlRedoMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlUndoMenuAction.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>

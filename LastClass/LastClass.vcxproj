@@ -109,6 +109,7 @@
     <ClInclude Include="OnHScrollPageRight.h" />
     <ClInclude Include="OnHScrollRight.h" />
     <ClInclude Include="OnVScrollBottom.h" />
+    <ClInclude Include="OnVScrollEnd.h" />
     <ClInclude Include="OnVScrollLineDown.h" />
     <ClInclude Include="OnVScrollLineUp.h" />
     <ClInclude Include="OnVScrollPageDown.h" />
@@ -246,9 +247,9 @@
     <ClCompile Include="DrawingRealization.cpp" />
     <ClCompile Include="DrawingRelation.cpp" />
     <ClCompile Include="DrawingRelationPoint.cpp" />
+    <ClCompile Include="DrawingResize.cpp" />
     <ClCompile Include="DrawingResizing.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
-    <ClCompile Include="DrawningResize.cpp" />
     <ClCompile Include="DrawRollNameBoxes.cpp" />
     <ClCompile Include="EditResizer.cpp" />
     <ClCompile Include="EditResizerProcess.cpp" />
@@ -263,7 +264,9 @@
     <ClCompile Include="GeneralizationMenuAction.cpp" />
     <ClCompile Include="GraphicCtrlAllKey.cpp" />
     <ClCompile Include="GraphicCtrlRedoKey.cpp" />
+    <ClCompile Include="GraphicCtrlRedoMenuAction.cpp" />
     <ClCompile Include="GraphicCtrlUndoKey.cpp" />
+    <ClCompile Include="GraphicCtrlUndoMenuAction.cpp" />
     <ClCompile Include="LastClass.cpp" />
     <ClCompile Include="MemoBoxMenuAction.cpp" />
     <ClCompile Include="MemoLineMenuAction.cpp" />
@@ -278,6 +281,7 @@
     <ClCompile Include="OnHScrollPageRight.cpp" />
     <ClCompile Include="OnHScrollRight.cpp" />
     <ClCompile Include="OnVScrollBottom.cpp" />
+    <ClCompile Include="OnVScrollEnd.cpp" />
     <ClCompile Include="OnVScrollLineDown.cpp" />
     <ClCompile Include="OnVScrollLineUp.cpp" />
     <ClCompile Include="OnVScrollPageDown.cpp" />
