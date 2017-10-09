@@ -5,7 +5,7 @@
 #include <afxwin.h>
 
 class ClassDiagramApp : public CWinApp {
-public:
+public:  
 	BOOL InitInstance();
 };
 
