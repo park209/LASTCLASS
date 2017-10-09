@@ -40,6 +40,8 @@
 #include "HistoryGraphic.h"
 #include "KeyBoard.h"
 #include "KeyAction.h"
+#include "ToolBar.h"
+#include "StatusBar.h"
 
 #include "Scroll.h"
 #include "ScrollAction.h"
@@ -50,6 +52,7 @@
 #include <afxmsg_.h>
 #include <afxext.h>
 #include <afxdlgs.h>
+
 using namespace std;
 
 
@@ -614,12 +617,18 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 	ModifyStyle(0, WS_CLIPCHILDREN);
 	SetScrollRange(SB_VERT, 0, pageHeight, 0);
-	SetScrollRange(SB_HORZ, 0, pageWidth, 0);
+	
+	/*ToolBar toolBar;
+	toolBar.MakeToolBar(this->GetSafeHwnd());
+	
+	StatusBar statusBar;
+	statusBar.MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);*/
+
+
 	//1.2. 적재한다
 	//this->Load();
 	//1.3. 윈도우를 갱신한다
 	//Invalidate();
-
 	return 0;
 }
 

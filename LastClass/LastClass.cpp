@@ -6,8 +6,11 @@
 #include "menuAction.h"
 #include "Scroll.h"
 #include "HistoryGraphic.h"
+#include "StatusBar.h"
+#include "ToolBar.h"
 
 #include <afxdlgs.h>
+#include <afxext.h>
 
 using namespace std;
 
@@ -29,17 +32,36 @@ END_MESSAGE_MAP()
 LastClass::LastClass() {
 	this->classDiagramForm = NULL;
 	this->menu = NULL;
+	this->statusBar = NULL;
 }
 
 int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
 
+	//툴바랑 스태투스바 너비랑 높이 구해서 classDiagramForm rect 다시 구한다
+	ToolBar toolBar;
+	toolBar.MakeToolBar(this->GetSafeHwnd());
+
+	this->statusBar = new StatusBar;
+	HWND test = this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 7);
+
 	CRect rect;
 	this->GetClientRect(&rect);
+	//rect.top += 25;
+	rect.left += 30;
+	//rect.right -= 30;
+	rect.bottom -= 100;
+
 	this->classDiagramForm = new ClassDiagramForm;
 	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
 
 	this->menu = new Menu(this);
+
+	/*ToolBar toolBar;
+	toolBar.MakeToolBar(this->GetSafeHwnd());
+
+	this->statusBar = new StatusBar;
+	HWND test = this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 7);*/
 
 	return 0;
 }
@@ -129,5 +151,6 @@ void LastClass::OnClose() {
 		if (this->menu != NULL) {
 			delete this->menu;
 		}
+		
 	}
 }

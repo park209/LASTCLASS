@@ -455,9 +455,6 @@
     <ClInclude Include="RealizationMenuAction.h">
       <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="ClassDiagramForm.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicCtrlAllKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
@@ -553,6 +550,8 @@
     <ClInclude Include="GraphicCtrlCopyKey.h" />
     <ClInclude Include="GraphicCtrlCutKey.h" />
     <ClInclude Include="GraphicCtrlPasteKey.h" />
+    <ClInclude Include="ClassDiagramForm.h" />
+    <ClInclude Include="ToolBar.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -915,9 +914,6 @@
     <ClCompile Include="MovingRelation.cpp">
       <Filter>Relationship</Filter>
     </ClCompile>
-    <ClCompile Include="ClassDiagramForm.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicCtrlRedoKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
@@ -1058,5 +1054,7 @@
     <ClCompile Include="GraphicCtrlCopyKey.cpp" />
     <ClCompile Include="GraphicCtrlCutKey.cpp" />
     <ClCompile Include="GraphicCtrlPasteKey.cpp" />
+    <ClCompile Include="ClassDiagramForm.cpp" />
+    <ClCompile Include="ToolBar.cpp" />
   </ItemGroup>
 </Project>

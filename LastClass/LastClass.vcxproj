@@ -189,6 +189,7 @@
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TextComposite.h" />
     <ClInclude Include="TextEdit.h" />
+    <ClInclude Include="ToolBar.h" />
     <ClInclude Include="UpArrowKey.h" />
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="WriteKoreanText.h" />
@@ -362,6 +363,7 @@
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextComposite.cpp" />
     <ClCompile Include="TextEdit.cpp" />
+    <ClCompile Include="ToolBar.cpp" />
     <ClCompile Include="UpArrowKey.cpp" />
     <ClCompile Include="Visitor.cpp" />
     <ClCompile Include="WriteKoreanText.cpp" />

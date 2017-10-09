@@ -17,4 +17,7 @@ void GraphicCtrlRedoMenuAction::MenuPress(LastClass *lastClass) {
 	CClientDC dc(lastClass->classDiagramForm);
 	ctrlRedo->KeyPress(lastClass->classDiagramForm,&dc);
 	lastClass->classDiagramForm->Invalidate(false);
+	if (ctrlRedo != 0) {
+		delete ctrlRedo;
+	}
 }

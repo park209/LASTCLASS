@@ -7,12 +7,14 @@ typedef signed long int Long;
 
 class Menu;
 class ClassDiagramForm;
+class StatusBar;
 class LastClass : public CFrameWnd {
 public:
 	LastClass();
 public:
 	ClassDiagramForm *classDiagramForm;
 	Menu *menu;
+	StatusBar *statusBar;
 private:
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
