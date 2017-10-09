@@ -27,6 +27,8 @@ public:
 	Long SelectByPoint(Diagram *diagram, Long x, Long y);
 	Long SelectByPoint(Long x, Long y);
 
+	virtual Long Correct(Figure *figure, Long index);
+
 };
 
 #endif // !_SELECTION_H

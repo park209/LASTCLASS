@@ -4,8 +4,9 @@
 #define _REMOVETEMPLATEKEY_H
 
 #include "KeyAction.h"
+#include <afxwin.h>
 
-class ClassDIagramForm;
+class ClassDiagramForm;
 class TextEdit;
 class RemoveTemplateKey : public KeyAction {
 public:
@@ -13,7 +14,7 @@ public:
 	RemoveTemplateKey(const RemoveTemplateKey& source);
 	virtual ~RemoveTemplateKey();
 
-	void KeyPress(ClassDiagramForm *classDiagramForm);
+	void KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc);
 	void KeyPress(TextEdit *textEdit);
 };
 

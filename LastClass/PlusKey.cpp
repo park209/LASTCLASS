@@ -20,5 +20,5 @@ void PlusKey::KeyPress(TextEdit *textEdit) {
 	textEdit->rowHeight++;
 }
 
-void PlusKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void PlusKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

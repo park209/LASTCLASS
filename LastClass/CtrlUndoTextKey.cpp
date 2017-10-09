@@ -31,5 +31,5 @@ void CtrlUndoTextKey::KeyPress(TextEdit *textEdit) {
 	}
 }
 
-void CtrlUndoTextKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void CtrlUndoTextKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

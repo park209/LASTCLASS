@@ -16,5 +16,5 @@ void EscapeKey::KeyPress(TextEdit *textEdit) {
 	textEdit->OnClose();
 }
 
-void EscapeKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void EscapeKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

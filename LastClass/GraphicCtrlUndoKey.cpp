@@ -13,7 +13,7 @@ GraphicCtrlUndoKey::GraphicCtrlUndoKey(const GraphicCtrlUndoKey& source) {
 GraphicCtrlUndoKey::~GraphicCtrlUndoKey() {
 }
 
-void GraphicCtrlUndoKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void GraphicCtrlUndoKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 	if (classDiagramForm->historyGraphic->undoGraphicArray->GetLength() > 0) {
 		Diagram *diagram_ = classDiagramForm->historyGraphic->PopUndoGraphic();
 

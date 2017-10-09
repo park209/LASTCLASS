@@ -4,8 +4,9 @@
 #define _ADDMETHODKEY_H
 
 #include "KeyAction.h"
+#include <afxwin.h>
 
-class ClassDIagramForm;
+class ClassDiagramForm;
 class TextEdit;
 class AddMethodKey : public KeyAction {
 public:
@@ -13,7 +14,7 @@ public:
 	AddMethodKey(const AddMethodKey& source);
 	virtual ~AddMethodKey();
 
-	void KeyPress(ClassDiagramForm *classDiagramForm);
+	void KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc);
 	void KeyPress(TextEdit *textEdit);
 };
 

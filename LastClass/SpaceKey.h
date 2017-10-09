@@ -4,6 +4,7 @@
 #define _SPACEKEY_H
 
 #include "KeyAction.h"
+#include <afxwin.h>
 
 class TextEdit;
 class ClassDiagremForm;
@@ -14,7 +15,7 @@ public:
 	virtual ~SpaceKey();
 
 	void KeyPress(TextEdit *textEdit);
-	void KeyPress(ClassDiagramForm *classDiagramForm);
+	void KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc);
 };
 
 #endif // _SPACEKEY_H

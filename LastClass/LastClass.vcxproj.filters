@@ -540,7 +540,19 @@
     <ClInclude Include="OnVScrollTop.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
-    <ClInclude Include="OnVScrollEnd.h" />
+    <ClInclude Include="StatusBar.h" />
+    <ClInclude Include="OnVScrollEnd.h">
+      <Filter>ScrollBar</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCtrlRedoMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCtrlUndoMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCtrlCopyKey.h" />
+    <ClInclude Include="GraphicCtrlCutKey.h" />
+    <ClInclude Include="GraphicCtrlPasteKey.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -963,12 +975,6 @@
     <ClCompile Include="TextEdit.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
-    <ClCompile Include="FilePrintPreviewMenuAction.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="PrintPreview.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
     <ClCompile Include="LastClass.cpp" />
     <ClCompile Include="OpenMenuAction.cpp">
       <Filter>Menu</Filter>
@@ -1027,20 +1033,30 @@
     <ClCompile Include="OnVScrollTop.cpp">
       <Filter>ScrollBar</Filter>
     </ClCompile>
-    <ClCompile Include="MenuAction.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="PrintPreview.cpp">
+      <Filter>Menu</Filter>
     </ClCompile>
     <ClCompile Include="DrawingResize.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
+    <ClCompile Include="FilePrintPreviewMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="StatusBar.cpp" />
     <ClCompile Include="OnVScrollEnd.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="GraphicCtrlRedoMenuAction.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>Menu</Filter>
     </ClCompile>
     <ClCompile Include="GraphicCtrlUndoMenuAction.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>Menu</Filter>
     </ClCompile>
+    <ClCompile Include="GraphicCtrlCopyKey.cpp" />
+    <ClCompile Include="GraphicCtrlCutKey.cpp" />
+    <ClCompile Include="GraphicCtrlPasteKey.cpp" />
   </ItemGroup>
 </Project>

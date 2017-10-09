@@ -39,5 +39,5 @@ void CtrlCutKey::KeyPress(TextEdit *textEdit) {
 	}
 }
 
-void CtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void CtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

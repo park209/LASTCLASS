@@ -38,5 +38,5 @@ void TabKey::KeyPress(TextEdit *textEdit) {
 	textEdit->caret->MoveForwardCharacterIndex();
 }
 
-void TabKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void TabKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

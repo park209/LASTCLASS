@@ -17,7 +17,7 @@ AddMethodKey::AddMethodKey(const AddMethodKey& source) {
 AddMethodKey::~AddMethodKey() {
 }
 
-void AddMethodKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void AddMethodKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 	if (classDiagramForm->selection->GetLength() > 0) {
 		Class *object = static_cast<Class*>(classDiagramForm->selection->GetAt(0));
 		if (object->GetMethodPosition() == -1) {

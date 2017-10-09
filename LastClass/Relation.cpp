@@ -3,6 +3,7 @@
 #include "Relation.h"
 #include "Finder.h"
 #include "RollNameBox.h"
+#include "Figure.h"
 
 Relation::Relation(Long capacity) :Figure(), points(capacity) {
 	this->capacity = capacity;
@@ -177,4 +178,13 @@ void Relation::ReplaceString(string rollNameText, Long rollNameBoxIndex) {
 
 void Relation::Accept(Visitor& visitor, CDC *cPaintDc) {
 	visitor.Visit(this, cPaintDc);//, cPaintDc);
+}
+
+void Relation::MovePaste(Long distanceX, Long distanceY) {
+	this->x = this->x + distanceX;
+	this->y = this->y + distanceY;
+}
+
+Long Relation::Correct(Long index, CPoint point) {
+	return this->points.Modify(index, point);
 }

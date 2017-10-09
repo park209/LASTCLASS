@@ -41,5 +41,5 @@ void RightArrowKey::KeyPress(TextEdit *textEdit) {
 	}
 }
 
-void RightArrowKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void RightArrowKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

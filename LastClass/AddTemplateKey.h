@@ -4,8 +4,9 @@
 #define _ADDTEMPLATEKEY_H
 
 #include "KeyAction.h"
+#include <afxwin.h>
 
-class ClassDIagramForm;
+class ClassDiagramForm;
 class TextEdit;
 class AddTemplateKey : public KeyAction {
 public:
@@ -13,7 +14,7 @@ public:
 	AddTemplateKey(const AddTemplateKey& source);
 	virtual ~AddTemplateKey();
 
-	virtual void KeyPress(ClassDiagramForm *classDiagramForm);
+	virtual void KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc);
 	virtual void KeyPress(TextEdit *textEdit);
 };
 

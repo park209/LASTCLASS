@@ -53,6 +53,7 @@ public:
 
 	virtual Long Add(Figure *figure);
 	virtual Long Remove(Long index);
+	Long Correct(Figure *figure, Long index);
 
 	virtual Figure* GetAt(Long index);
 
