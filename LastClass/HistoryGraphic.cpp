@@ -40,13 +40,12 @@ void HistoryGraphic::PushUndo(Diagram *diagram) {
 }
 
 Diagram* HistoryGraphic::PopUndoGraphic(){
+	Diagram *diagram=0;
 	if (this->undoGraphicArray->GetLength() > 0) {
-		Diagram *diagram;
 		diagram = this->undoGraphicArray->GetAt(0);
 		this->undoGraphicArray->Delete(0);
-
-		return diagram;
 	}
+	return diagram;
 }
 
 void HistoryGraphic::PushRedo(Diagram *diagram){
@@ -61,10 +60,10 @@ void HistoryGraphic::PushRedo(Diagram *diagram){
 }
 
 Diagram* HistoryGraphic::PopRedoGraphic(){
+	Diagram *diagram = 0;
 	if (this->redoGraphicArray->GetLength() > 0) {
-		Diagram *diagram;
 		diagram = this->redoGraphicArray->GetAt(0);
 		this->redoGraphicArray->Delete(0);
-		return diagram;
 	}
+	return diagram;
 }

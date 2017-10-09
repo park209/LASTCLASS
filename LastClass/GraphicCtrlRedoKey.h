@@ -13,7 +13,7 @@ public:
 	GraphicCtrlRedoKey(const GraphicCtrlRedoKey& source);
 	virtual ~GraphicCtrlRedoKey();
 
-	virtual void KeyPress(ClassDiagramForm *classDiagramForm);
+	virtual void KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc);
 	virtual void KeyPress(TextEdit *textEdit);
 };
 

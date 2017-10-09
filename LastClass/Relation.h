@@ -35,6 +35,9 @@ public:
 	void ReplaceString(string rollNameText, Long rollNameBoxIndex);
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 
+	void MovePaste(Long distanceX, Long distanceY);
+	Long Correct(Long index, CPoint point);
+
 	Long GetCapacity() const;
 	Long GetLength() const;
 public:

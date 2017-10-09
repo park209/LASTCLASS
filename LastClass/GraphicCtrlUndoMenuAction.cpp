@@ -14,6 +14,7 @@ GraphicCtrlUndoMenuAction::~GraphicCtrlUndoMenuAction() {
 
 void GraphicCtrlUndoMenuAction::MenuPress(LastClass *lastClass) {
 	GraphicCtrlUndoKey *ctrlUndo = new GraphicCtrlUndoKey;
-	ctrlUndo->KeyPress(lastClass->classDiagramForm);
+	CClientDC dc(lastClass->classDiagramForm);
+	ctrlUndo->KeyPress(lastClass->classDiagramForm,&dc);
 	lastClass->classDiagramForm->Invalidate(false);
 }

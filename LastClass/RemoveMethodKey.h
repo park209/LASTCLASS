@@ -4,6 +4,7 @@
 #define _REMOVEMETHODKEY_H
 
 #include "KeyAction.h"
+#include <afxwin.h>
 
 class ClassDiagramForm;
 class TextEdit;
@@ -13,7 +14,7 @@ public:
 	RemoveMethodKey(const RemoveMethodKey& source);
 	virtual ~RemoveMethodKey();
 
-	void KeyPress(ClassDiagramForm *classDiagramForm);
+	void KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc);
 	void KeyPress(TextEdit *textEdit);
 };
 

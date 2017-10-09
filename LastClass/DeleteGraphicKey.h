@@ -4,8 +4,9 @@
 #define _DELETEGRAPHICKEY_H
 
 #include "KeyAction.h"
+#include <afxwin.h>
 
-class ClassDIagramForm;
+class ClassDiagramForm;
 class TextEdit;
 class DeleteGraphicKey : public KeyAction {
 public:
@@ -13,7 +14,7 @@ public:
 	DeleteGraphicKey(const DeleteGraphicKey& source);
 	virtual ~DeleteGraphicKey();
 
-	void KeyPress(ClassDiagramForm *classDiagramForm);
+	void KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc);
 	void KeyPress(TextEdit *textEdit);
 };
 

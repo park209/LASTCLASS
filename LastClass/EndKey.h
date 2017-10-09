@@ -4,9 +4,10 @@
 #define _ENDKEY_H
 
 #include "KeyAction.h"
+#include <afxwin.h>
 
 class TextEdit;
-class ClassDIagramForm;
+class ClassDiagramForm;
 class EndKey : public KeyAction {
 public:
 	EndKey();
@@ -14,7 +15,7 @@ public:
 	virtual ~EndKey();
 
 	void KeyPress(TextEdit *textEdit);
-	void KeyPress(ClassDiagramForm *classDiagramForm);
+	void KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc);
 };
 
 #endif // _ENDKEY_H

@@ -17,7 +17,7 @@ AddReceptionKey::AddReceptionKey(const AddReceptionKey& source) {
 AddReceptionKey::~AddReceptionKey() {
 }
 
-void AddReceptionKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void AddReceptionKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 	if (classDiagramForm->selection->GetLength() > 0) {
 		Class *object = static_cast<Class*>(classDiagramForm->selection->GetAt(0));
 		if (object->GetReceptionPosition() == -1) {
