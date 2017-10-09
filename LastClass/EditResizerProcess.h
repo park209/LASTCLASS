@@ -22,6 +22,8 @@ public:
 
 	void ResizeEditWidthToLeft(TextEdit *textEdit, CDC *cdc);
 	void ResizeTemplateWidth(TextEdit *textEdit);
+
+	void AffectedRelation(TextEdit *textEdit);
 };
 
 #endif // _EDITRESIZERPROCESS_H
