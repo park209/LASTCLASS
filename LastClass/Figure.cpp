@@ -41,6 +41,7 @@ Figure::Figure(const Figure& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
+	this->content = source.content;
 	this->minimumWidth = source.minimumWidth;
 	this->minimumHeight = source.minimumHeight;
 	this->fontSize = source.fontSize;
@@ -55,7 +56,9 @@ Long Figure::GetRowCount(string object) {
 		}
 		i++;
 	}
-	count++; // 한줄이 생략되기때문에 증가해줌.
+	//if (i != 0) {
+		count++; // 한줄이 생략되기때문에 증가해줌.
+//	}
 	return count;
 }
 

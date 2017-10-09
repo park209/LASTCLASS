@@ -1,7 +1,7 @@
-//OnHScrollEnd.cpp
+//OnScrollEnd.cpp
 
 #include "OnHScrollEnd.h"
-#include "VerticalScrollBar.h"
+#include "ClassDiagramForm.h"
 
 OnHScrollEnd::OnHScrollEnd() : ScrollAction() {
 }
@@ -13,6 +13,5 @@ OnHScrollEnd& OnHScrollEnd::operator=(const OnHScrollEnd& source) {
 	ScrollAction::operator=(source);
 	return *this;
 }
-void OnHScrollEnd::ScrollScreen(Scroll *scroll) {
-	scroll->OnHScrollEnd();
+void OnHScrollEnd::Scrolling(ClassDiagramForm *classDiagramForm) {
 }

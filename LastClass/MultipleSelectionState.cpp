@@ -5,6 +5,9 @@
 #include "Diagram.h"
 #include "SelfRelation.h"
 #include "RollNameBox.h"
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
+
 MultipleSelectionState* MultipleSelectionState::instance = 0;
 
 MouseLButtonAction* MultipleSelectionState::Instance() {
@@ -14,7 +17,7 @@ MouseLButtonAction* MultipleSelectionState::Instance() {
 	return instance;
 }
 
-void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long length = selection->GetLength();
 	Long i = 0;
 	Long j;
@@ -29,7 +32,10 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram 
 	CPoint cPoint3;
 	CPoint cPoint4;
 	CPoint cPoint5;
-	while (i < length) {
+
+	classDiagramForm->historyGraphic->PushUndo(diagram);
+
+	while (i < length && GetKeyState(VK_SHIFT) >= 0) { // 선택된 개수만큼 반복
 		figure = selection->GetAt(i);
 
 		if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
@@ -45,27 +51,64 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram 
 				figure->Move(distanceX, distanceY);
 				if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
 					Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
-					//
-					CPoint startPoint{ relation->GetX(), relation->GetY() };
-					CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
-					cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-					cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
-					cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
-					cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-					cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-					relation->rollNamePoints->Modify(0, cPoint1);
-					relation->rollNamePoints->Modify(1, cPoint2);
-					relation->rollNamePoints->Modify(2, cPoint3);
-					relation->rollNamePoints->Modify(3, cPoint4);
-					relation->rollNamePoints->Modify(4, cPoint5);
-
-					//
+					//	
 					Long m = 0;
 					while (m < relation->GetLength()) {
 						CPoint point(relation->GetAt(m).x + distanceX, relation->GetAt(m).y + distanceY);
 						relation->Move(m, point);
 						m++;
 					}
+					if (relation->GetLength() == 0) {
+						CPoint startPoint{ relation->GetX(), relation->GetY() };
+						CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+						cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+						cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+						cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+						cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+						cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+						relation->rollNamePoints->Modify(0, cPoint1);
+						relation->rollNamePoints->Modify(1, cPoint2);
+						relation->rollNamePoints->Modify(2, cPoint3);
+						relation->rollNamePoints->Modify(3, cPoint4);
+						relation->rollNamePoints->Modify(4, cPoint5);
+					}
+					else {
+						CPoint startPoint{ relation->GetX(), relation->GetY() };
+						CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+						cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+						cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+						relation->rollNamePoints->Modify(0, cPoint1);
+						relation->rollNamePoints->Modify(3, cPoint4);
+						
+						CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+							relation->GetAt(relation->GetLength() - 1).y };
+						CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+						cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+						cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+						relation->rollNamePoints->Modify(2, cPoint3);
+						relation->rollNamePoints->Modify(4, cPoint5);
+
+						if (relation->GetLength() % 2 == 0) {//짝수
+							
+								CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+									relation->GetAt((relation->GetLength() - 1) / 2).y };
+								CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
+									relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
+								cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
+								relation->rollNamePoints->Modify(1, cPoint2);
+							
+						}
+						else {//홀수
+							
+								CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+									relation->GetAt((relation->GetLength() - 1) / 2).y };
+								cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
+								relation->rollNamePoints->Modify(1, cPoint2);
+							
+						}
+					}
+					//
+				
 				}
 				if (dynamic_cast<SelfRelation*>(figureComposite->GetAt(j))) {
 					//
@@ -105,18 +148,55 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram 
 							startY <= relationEndY &&  relationEndY <= endY) {
 							relation->EndPointMove(distanceX, distanceY);
 							//
-							CPoint startPoint{ relation->GetX(), relation->GetY() };
-							CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
-							cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-							cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
-							cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
-							cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-							cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-							relation->rollNamePoints->Modify(0, cPoint1);
-							relation->rollNamePoints->Modify(1, cPoint2);
-							relation->rollNamePoints->Modify(2, cPoint3);
-							relation->rollNamePoints->Modify(3, cPoint4);
-							relation->rollNamePoints->Modify(4, cPoint5);
+							if (relation->GetLength() == 0) {
+								CPoint startPoint{ relation->GetX(), relation->GetY() };
+								CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+								cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+								cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+								cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+								cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+								cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+								relation->rollNamePoints->Modify(0, cPoint1);
+								relation->rollNamePoints->Modify(1, cPoint2);
+								relation->rollNamePoints->Modify(2, cPoint3);
+								relation->rollNamePoints->Modify(3, cPoint4);
+								relation->rollNamePoints->Modify(4, cPoint5);
+							}
+							else {
+								CPoint startPoint{ relation->GetX(), relation->GetY() };
+								CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+								cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+								cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+								relation->rollNamePoints->Modify(0, cPoint1);
+								relation->rollNamePoints->Modify(3, cPoint4);
+
+								CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+									relation->GetAt(relation->GetLength() - 1).y };
+								CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+								cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+								cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+								relation->rollNamePoints->Modify(2, cPoint3);
+								relation->rollNamePoints->Modify(4, cPoint5);
+
+								if (relation->GetLength() % 2 == 0) {//짝수
+
+									CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+										relation->GetAt((relation->GetLength() - 1) / 2).y };
+									CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
+										relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
+									cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
+									relation->rollNamePoints->Modify(1, cPoint2);
+
+								}
+								else {//홀수
+
+									CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+										relation->GetAt((relation->GetLength() - 1) / 2).y };
+									cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
+									relation->rollNamePoints->Modify(1, cPoint2);
+
+								}
+							}
 							Long h = 0;
 
 						}
@@ -130,20 +210,45 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, Diagram 
 		}
 		i++;
 	}
-	this->ChangeDefault(mouseLButton);
+	//this->ChangeDefault(mouseLButton); // 디폴트상태로 바꾸는거 필요없을듯?
 }
+
+#include "Finder.h"
+#include "Class.h"
+#include "MemoBox.h"
+
 void MultipleSelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long i = 0;
 	Long index = -1;
+	Long shiftIndex = -1;
 
-	while (i < selection->GetLength() && index == -1) {
-		index = selection->SelectByPoint(startX, startY);
-		i++;
-	}
-	if (index == -1) {
+	//while (i < selection->GetLength() && index == -1) { // 지워야할듯?
+	index = selection->SelectByPoint(startX, startY); // 클릭 위치가 어느 선택박스인지(작은조절박스) 있는지 찾는다
+	//i++;
+	//}
+	if (index == -1 && GetKeyState(VK_SHIFT) >= 0) { // 선택된 곳중에 없는데를 눌렀는데, 쉬프트키가 눌려있지 않으면
 		selection->DeleteAllItems();
 		this->ChangeDefault(mouseLButton);
-
+	}
+	else if (index != -1 && GetKeyState(VK_SHIFT) < 0) {
+		Long previousLength = selection->GetLength();
+		Finder finder;
+		bool ret = false;
+		i = 0;
+		while (i < selection->GetLength() && ret == false) {
+			if (dynamic_cast<Class*>(selection->GetAt(i)) || dynamic_cast<MemoBox*>(selection->GetAt(i))) {
+				CRect rct = CRect(selection->GetAt(i)->GetX(), selection->GetAt(i)->GetY(), selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth(),
+					selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight());
+				ret = finder.FindRectangleByPoint(rct, startX, startY);
+			}
+			i++;
+			if (ret == true) { // 기존에 있던거면 selection 에서 지워야함
+				selection->Remove(i - 1);
+			}
+		}
+	}
+	else if (index == -1 && GetKeyState(VK_SHIFT) < 0) {
+		selection->SelectByPoint(diagram, startX, startY);
 	}
 }
 

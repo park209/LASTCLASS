@@ -96,7 +96,17 @@ Long Relation::Add(const CPoint& startCPoint, const CPoint& currentCPoint) {
 	this->length++;
 	return index;
 }
-
+Long Relation::Add(const CPoint& cPoint) {
+	if (this->length < this->capacity) {
+		this->points.Store(this->length, cPoint);
+	}
+	else {
+		this->points.AppendFromRear(cPoint);
+		this->capacity++;
+	}
+	this->length++;
+	return this->length;
+}
 Long Relation::Remove(Long index) {
 	this->length--;
 	this->capacity--;

@@ -6,7 +6,8 @@
 #include "Finder.h"
 #include "DirectedAssociation.h"
 #include "SelfDirectedAssociation.h"
-
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 
 DrawingDirectedAssociation* DrawingDirectedAssociation::instance = 0;
 
@@ -17,12 +18,13 @@ MouseLButtonAction* DrawingDirectedAssociation::Instance() {
 	return instance;
 }
 
-void DrawingDirectedAssociation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void DrawingDirectedAssociation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long index;
 	Figure *figure = 0;
 
 	//if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
+	classDiagramForm->historyGraphic->PushUndo(diagram);
 	selection->SelectByPoint(diagram, currentX, currentY);
 
 	if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {
@@ -53,7 +55,13 @@ void DrawingDirectedAssociation::MouseLButtonUp(MouseLButton *mouseLButton, Diag
 		Class *object = static_cast<Class*>(selection->GetAt(0));
 		SelfDirectedAssociation selfDirectedAssociation(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
 		if (object->GetTempletePosition() != -1) {
-			selfDirectedAssociation.Move(0, -15);
+			selfDirectedAssociation.Move(0, -17);
+			Long k = 0;
+			while (k < 5) {
+				CPoint cPoint(selfDirectedAssociation.rollNamePoints->GetAt(k).x, selfDirectedAssociation.rollNamePoints->GetAt(k).y - 17);
+				selfDirectedAssociation.rollNamePoints->Modify(k, cPoint);
+				k++;
+			}
 		}
 		index = object->Add(selfDirectedAssociation.Clone());
 		figure = object->GetAt(index);

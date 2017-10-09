@@ -6,7 +6,8 @@
 #include "Finder.h"
 #include "Compositions.h"
 #include "SelfCompositions.h"
-
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 
 DrawingCompositions* DrawingCompositions::instance = 0;
 
@@ -17,12 +18,13 @@ MouseLButtonAction* DrawingCompositions::Instance() {
 	return instance;
 }
 
-void DrawingCompositions::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void DrawingCompositions::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long index;
 	Figure *figure = 0;
 
 	//if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
+	classDiagramForm->historyGraphic->PushUndo(diagram);
 	selection->SelectByPoint(diagram, currentX, currentY);
 
 	if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {
@@ -53,7 +55,13 @@ void DrawingCompositions::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *di
 		Class *object = static_cast<Class*>(selection->GetAt(0));
 		SelfCompositions selfCompositions(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
 		if (object->GetTempletePosition() != -1) {
-			selfCompositions.Move(0, -15);
+			selfCompositions.Move(0, -17);
+			Long k = 0;
+			while (k < 5) {
+				CPoint cPoint(selfCompositions.rollNamePoints->GetAt(k).x, selfCompositions.rollNamePoints->GetAt(k).y - 17);
+				selfCompositions.rollNamePoints->Modify(k, cPoint);
+				k++;
+			}
 		}
 		index = object->Add(selfCompositions.Clone());
 		figure = object->GetAt(index);

@@ -22,20 +22,17 @@ public:
 	Figure* Move(Long distanceX, Long distanceY);
 	void Initialize();
 
-	Long AddGeneralization(Long x, Long y, Long width, Long height);
-	Long AddRealization(Long x, Long y, Long width, Long height);
-	Long AddDependency(Long x, Long y, Long width, Long height);
-	Long AddAssociation(Long x, Long y, Long width, Long height);
-	Long AddDirectedAssociation(Long x, Long y, Long width, Long height);
-	Long AddAggregation(Long x, Long y, Long width, Long height);
-	Long AddAggregations(Long x, Long y, Long width, Long height);
-	Long AddComposition(Long x, Long y, Long width, Long height);
-	Long AddCompositions(Long x, Long y, Long width, Long height);
+	
 	
 	Long AddAttribute(Diagram *diagram);
 	Long AddMethod(Diagram *diagram);
 	Long AddReception(Diagram *diagram);
 	Long AddTemplate(Long x, Long y, Long width, Long height);
+
+	Long Add(Attribute *attribute);
+	Long Add(Method *method);
+	Long Add(Reception *reception);
+	Long Add(Template *object);
 
 	Long RemoveAttribute();
 	Long RemoveMethod();

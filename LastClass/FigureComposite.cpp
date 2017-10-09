@@ -89,18 +89,30 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 
 		}
 		//관계선 에디트 이동
-		CPoint startPoint{ relation->GetX(), relation->GetY() };
-		CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
-		cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-		cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
-		cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
-		cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-		cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-		relation->rollNamePoints->Modify(0, cPoint1);
-		relation->rollNamePoints->Modify(1, cPoint2);
-		relation->rollNamePoints->Modify(2, cPoint3);
-		relation->rollNamePoints->Modify(3, cPoint4);
-		relation->rollNamePoints->Modify(4, cPoint5);
+		if (relation->GetLength() == 0) {
+			CPoint startPoint{ relation->GetX(), relation->GetY() };
+			CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+			cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+			relation->rollNamePoints->Modify(0, cPoint1);
+			relation->rollNamePoints->Modify(1, cPoint2);
+			relation->rollNamePoints->Modify(2, cPoint3);
+			relation->rollNamePoints->Modify(3, cPoint4);
+			relation->rollNamePoints->Modify(4, cPoint5);
+		}
+		else {
+			CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+				relation->GetAt(relation->GetLength() - 1).y };
+			CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+			relation->rollNamePoints->Modify(2, cPoint3);
+			relation->rollNamePoints->Modify(4, cPoint5);
+		}
+
 		i++;
 	}
 
@@ -125,18 +137,29 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 				this->GetAt(i)->Move(distanceX, 0);
 			}
 			//관계선 에디트 이동
-			CPoint startPoint{ relation->GetX(), relation->GetY() };
-			CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
-			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
-			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
-			cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-			relation->rollNamePoints->Modify(0, cPoint1);
-			relation->rollNamePoints->Modify(1, cPoint2);
-			relation->rollNamePoints->Modify(2, cPoint3);
-			relation->rollNamePoints->Modify(3, cPoint4);
-			relation->rollNamePoints->Modify(4, cPoint5);
+			if (relation->GetLength() == 0) {
+				CPoint startPoint{ relation->GetX(), relation->GetY() };
+				CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+				cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+				cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+				cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+				cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+				cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+				relation->rollNamePoints->Modify(0, cPoint1);
+				relation->rollNamePoints->Modify(1, cPoint2);
+				relation->rollNamePoints->Modify(2, cPoint3);
+				relation->rollNamePoints->Modify(3, cPoint4);
+				relation->rollNamePoints->Modify(4, cPoint5);
+			}
+			else {
+				CPoint startPoint{ relation->GetX(), relation->GetY() };
+				CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+				cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+				cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+				relation->rollNamePoints->Modify(0, cPoint1);
+				relation->rollNamePoints->Modify(3, cPoint4);
+			}
+			
 		}
 		else if (dynamic_cast<Template*>(this->GetAt(i))) {
 			this->GetAt(i)->Move(distanceX, 0);
@@ -248,18 +271,29 @@ Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long d
 			figures[i]->EndPointMove(0, distanceY);
 		}
 		//관계선 에디트 이동
-		CPoint startPoint{ relation->GetX(), relation->GetY() };
-		CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
-		cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-		cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
-		cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
-		cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-		cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-		relation->rollNamePoints->Modify(0, cPoint1);
-		relation->rollNamePoints->Modify(1, cPoint2);
-		relation->rollNamePoints->Modify(2, cPoint3);
-		relation->rollNamePoints->Modify(3, cPoint4);
-		relation->rollNamePoints->Modify(4, cPoint5);
+		if (relation->GetLength() == 0) {
+			CPoint startPoint{ relation->GetX(), relation->GetY() };
+			CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+			cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+			relation->rollNamePoints->Modify(0, cPoint1);
+			relation->rollNamePoints->Modify(1, cPoint2);
+			relation->rollNamePoints->Modify(2, cPoint3);
+			relation->rollNamePoints->Modify(3, cPoint4);
+			relation->rollNamePoints->Modify(4, cPoint5);
+		}
+		else {
+			CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+				relation->GetAt(relation->GetLength() - 1).y };
+			CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+			relation->rollNamePoints->Modify(2, cPoint3);
+			relation->rollNamePoints->Modify(4, cPoint5);
+		}
 		i++;
 	}
 
@@ -284,18 +318,28 @@ Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long d
 				this->GetAt(i)->Move(0, distanceY);
 			}
 			//관계선 에디트 이동
-			CPoint startPoint{ relation->GetX(), relation->GetY() };
-			CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
-			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
-			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
-			cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-			relation->rollNamePoints->Modify(0, cPoint1);
-			relation->rollNamePoints->Modify(1, cPoint2);
-			relation->rollNamePoints->Modify(2, cPoint3);
-			relation->rollNamePoints->Modify(3, cPoint4);
-			relation->rollNamePoints->Modify(4, cPoint5);
+			if (relation->GetLength() == 0) {
+				CPoint startPoint{ relation->GetX(), relation->GetY() };
+				CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+				cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+				cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+				cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+				cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+				cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+				relation->rollNamePoints->Modify(0, cPoint1);
+				relation->rollNamePoints->Modify(1, cPoint2);
+				relation->rollNamePoints->Modify(2, cPoint3);
+				relation->rollNamePoints->Modify(3, cPoint4);
+				relation->rollNamePoints->Modify(4, cPoint5);
+			}
+			else {
+				CPoint startPoint{ relation->GetX(), relation->GetY() };
+				CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+				cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+				cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+				relation->rollNamePoints->Modify(0, cPoint1);
+				relation->rollNamePoints->Modify(3, cPoint4);
+			}
 		}
 		i++;
 	}
@@ -372,18 +416,29 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 			figures[i]->EndPointMove(0, distanceY);
 		}
 		//관계선 에디트 이동
-		CPoint startPoint{ relation->GetX(), relation->GetY() };
-		CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
-		cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-		cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
-		cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
-		cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-		cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-		relation->rollNamePoints->Modify(0, cPoint1);
-		relation->rollNamePoints->Modify(1, cPoint2);
-		relation->rollNamePoints->Modify(2, cPoint3);
-		relation->rollNamePoints->Modify(3, cPoint4);
-		relation->rollNamePoints->Modify(4, cPoint5);
+		if (relation->GetLength() == 0) {
+			CPoint startPoint{ relation->GetX(), relation->GetY() };
+			CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+			cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+			relation->rollNamePoints->Modify(0, cPoint1);
+			relation->rollNamePoints->Modify(1, cPoint2);
+			relation->rollNamePoints->Modify(2, cPoint3);
+			relation->rollNamePoints->Modify(3, cPoint4);
+			relation->rollNamePoints->Modify(4, cPoint5);
+		}
+		else {
+			CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+				relation->GetAt(relation->GetLength() - 1).y };
+			CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+			relation->rollNamePoints->Modify(2, cPoint3);
+			relation->rollNamePoints->Modify(4, cPoint5);
+		}
 		i++;
 	}
 
@@ -408,18 +463,28 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 				this->GetAt(i)->Move(0, distanceY);
 			}
 			//관계선 에디트 이동
-			CPoint startPoint{ relation->GetX(), relation->GetY() };
-			CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
-			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
-			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
-			cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-			relation->rollNamePoints->Modify(0, cPoint1);
-			relation->rollNamePoints->Modify(1, cPoint2);
-			relation->rollNamePoints->Modify(2, cPoint3);
-			relation->rollNamePoints->Modify(3, cPoint4);
-			relation->rollNamePoints->Modify(4, cPoint5);
+			if (relation->GetLength() == 0) {
+				CPoint startPoint{ relation->GetX(), relation->GetY() };
+				CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+				cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+				cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+				cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+				cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+				cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+				relation->rollNamePoints->Modify(0, cPoint1);
+				relation->rollNamePoints->Modify(1, cPoint2);
+				relation->rollNamePoints->Modify(2, cPoint3);
+				relation->rollNamePoints->Modify(3, cPoint4);
+				relation->rollNamePoints->Modify(4, cPoint5);
+			}
+			else {
+				CPoint startPoint{ relation->GetX(), relation->GetY() };
+				CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+				cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+				cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+				relation->rollNamePoints->Modify(0, cPoint1);
+				relation->rollNamePoints->Modify(3, cPoint4);
+			}
 		}
 		else if (dynamic_cast<SelfRelation*>(this->GetAt(i))) {
 			this->GetAt(i)->Move(0, distanceY);
@@ -513,18 +578,29 @@ Figure* FigureComposite::ModifyComponetsToLeftDirection(Diagram *diagram, Long d
 			figures[i]->EndPointMove(distanceX, 0);
 		}
 		//관계선 에디트 이동
-		CPoint startPoint{ relation->GetX(), relation->GetY() };
-		CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
-		cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-		cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
-		cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
-		cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-		cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-		relation->rollNamePoints->Modify(0, cPoint1);
-		relation->rollNamePoints->Modify(1, cPoint2);
-		relation->rollNamePoints->Modify(2, cPoint3);
-		relation->rollNamePoints->Modify(3, cPoint4);
-		relation->rollNamePoints->Modify(4, cPoint5);
+		if (relation->GetLength() == 0) {
+			CPoint startPoint{ relation->GetX(), relation->GetY() };
+			CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+			cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+			relation->rollNamePoints->Modify(0, cPoint1);
+			relation->rollNamePoints->Modify(1, cPoint2);
+			relation->rollNamePoints->Modify(2, cPoint3);
+			relation->rollNamePoints->Modify(3, cPoint4);
+			relation->rollNamePoints->Modify(4, cPoint5);
+		}
+		else {
+			CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+				relation->GetAt(relation->GetLength() - 1).y };
+			CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+			relation->rollNamePoints->Modify(2, cPoint3);
+			relation->rollNamePoints->Modify(4, cPoint5);
+		}
 		i++;
 	}
 
@@ -549,18 +625,28 @@ Figure* FigureComposite::ModifyComponetsToLeftDirection(Diagram *diagram, Long d
 				this->GetAt(i)->Move(distanceX, 0);
 			}
 			//관계선 에디트 이동
-			CPoint startPoint{ relation->GetX(), relation->GetY() };
-			CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
-			cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
-			cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
-			cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-			cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-			relation->rollNamePoints->Modify(0, cPoint1);
-			relation->rollNamePoints->Modify(1, cPoint2);
-			relation->rollNamePoints->Modify(2, cPoint3);
-			relation->rollNamePoints->Modify(3, cPoint4);
-			relation->rollNamePoints->Modify(4, cPoint5);
+			if (relation->GetLength() == 0) {
+				CPoint startPoint{ relation->GetX(), relation->GetY() };
+				CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+				cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+				cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+				cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+				cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+				cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+				relation->rollNamePoints->Modify(0, cPoint1);
+				relation->rollNamePoints->Modify(1, cPoint2);
+				relation->rollNamePoints->Modify(2, cPoint3);
+				relation->rollNamePoints->Modify(3, cPoint4);
+				relation->rollNamePoints->Modify(4, cPoint5);
+			}
+			else {
+				CPoint startPoint{ relation->GetX(), relation->GetY() };
+				CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+				cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+				cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+				relation->rollNamePoints->Modify(0, cPoint1);
+				relation->rollNamePoints->Modify(3, cPoint4);
+			}
 		}
 		else if (dynamic_cast<Template*>(this->GetAt(i)) || dynamic_cast<SelfRelation*>(this->GetAt(i))) {
 		}

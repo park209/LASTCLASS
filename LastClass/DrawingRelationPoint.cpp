@@ -7,6 +7,9 @@
 #include "Diagram.h"
 #include "SelectionState.h"
 #include "RollNameBox.h"
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
+
 DrawingRelationPoint* DrawingRelationPoint::instance = 0;
 
 MouseLButtonAction* DrawingRelationPoint::Instance() {
@@ -15,7 +18,7 @@ MouseLButtonAction* DrawingRelationPoint::Instance() {
 	}
 	return instance;
 }
-void DrawingRelationPoint::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void DrawingRelationPoint::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Relation *relation = static_cast<Relation*>(selection->GetAt(0));
 	bool point = false;
 	bool startLine = false;
@@ -31,6 +34,8 @@ void DrawingRelationPoint::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *d
 	startCPoint.y = startY;
 	currentCPoint.x = currentX;
 	currentCPoint.y = currentY;
+
+	classDiagramForm->historyGraphic->PushUndo(diagram);
 
 	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 	CPoint cPoint1;

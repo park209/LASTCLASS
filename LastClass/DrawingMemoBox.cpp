@@ -4,6 +4,8 @@
 #include "DrawingMemoBox.h"
 #include "Figure.h"
 #include "DefaultState.h"
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 
 DrawingMemoBox* DrawingMemoBox::instance = 0;
 
@@ -13,8 +15,11 @@ MouseLButtonAction* DrawingMemoBox::Instance() {
 	}
 	return instance;
 }
-void DrawingMemoBox::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void DrawingMemoBox::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long index;
+
+	classDiagramForm->historyGraphic->PushUndo(diagram);
+
 	if (currentX - startX < 100) {
 		currentX = startX + 100;
 	}

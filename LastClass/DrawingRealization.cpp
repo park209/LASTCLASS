@@ -5,8 +5,8 @@
 #include "Class.h"
 #include "Finder.h"
 #include "Realization.h"
-
-
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 
 DrawingRealization* DrawingRealization::instance = 0;
 
@@ -17,9 +17,12 @@ MouseLButtonAction* DrawingRealization::Instance() {
 	return instance;
 }
 
-void DrawingRealization::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void DrawingRealization::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long index;
 	Figure *figure = 0;
+
+	classDiagramForm->historyGraphic->PushUndo(diagram);
+
 	if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
 		selection->SelectByPoint(diagram, currentX, currentY);

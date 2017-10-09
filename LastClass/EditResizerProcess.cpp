@@ -65,27 +65,36 @@ void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
 }
 
 void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit) {
-
-	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParentFrame();
+	RECT rt;
+	textEdit->GetClientRect(&rt);
+	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
 	FigureComposite *object = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
-
-	Long distanceX = object->GetMinimumWidth() - object->GetWidth();
-	
+	Long distanceX;
+	if (rt.right + GabX * 2 > textEdit->GetCriteriaWidth()) {
+		distanceX = object->GetMinimumWidth() - object->GetWidth();
+	}
+	else {
+		distanceX = textEdit->GetCriteriaWidth() - object->GetWidth();
+	}
 	object->ModifyComponetsToRightDirection(classDiagramForm->diagram, distanceX);
 }
 
 void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 	RECT rt;
 	textEdit->GetClientRect(&rt);
-	
+
 	Long gabY_ = GabY * 2;
 	if (dynamic_cast<MemoBox*>(textEdit->figure) || dynamic_cast<ClassName*>(textEdit->figure)) {
 		gabY_ += MemoGab;
 	}
-
-	Long distanceY = rt.bottom + gabY_ - textEdit->figure->GetHeight();
-
-	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParentFrame();
+	Long distanceY;
+	if (rt.bottom + gabY_ > textEdit->GetCriteriaHeight()) {
+		distanceY = rt.bottom + gabY_ - textEdit->figure->GetHeight();
+	}
+	else {
+		distanceY = textEdit->GetCriteriaHeight() - textEdit->figure->GetHeight();
+	}
+	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
 	FigureComposite *composite = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
 
 	Finder finder;
@@ -96,11 +105,11 @@ void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 	Long endX = composite->GetX() + composite->GetWidth();
 	Long endY = composite->GetY() + composite->GetHeight();
 	SmartPointer<Figure*> iterator(classDiagramForm->diagram->CreateIterator());
-	for(iterator->First();!iterator->IsDone();iterator->Next()){
+	for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
 		Long j = 0;
 		FigureComposite *figureComposite = dynamic_cast<FigureComposite*>(iterator->Current());
 		SmartPointer<Figure*> iterator_(figureComposite->CreateIterator());
-		for (iterator_->First();!iterator_->IsDone();iterator_->Next()) {
+		for (iterator_->First(); !iterator_->IsDone(); iterator_->Next()) {
 			Figure *figure = iterator_->Current();
 			if (dynamic_cast<Relation*>(iterator_->Current())) {
 				Long relationEndX = figure->GetX() + figure->GetWidth();
@@ -117,7 +126,7 @@ void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 		}
 	}
 	SmartPointer<Figure*> iterator__(composite->CreateIterator());
-	for (iterator__->First();!iterator__->IsDone();iterator__->Next()) {
+	for (iterator__->First(); !iterator__->IsDone(); iterator__->Next()) {
 		if (iterator__->Current()->GetY() > textEdit->figure->GetY()) {
 			iterator__->Current()->Move(0, distanceY);
 		}

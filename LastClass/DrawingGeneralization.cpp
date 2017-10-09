@@ -6,7 +6,8 @@
 #include "Finder.h"
 #include "Generalization.h"
 #include "SelfGeneralization.h"
-
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 
 DrawingGeneralization* DrawingGeneralization::instance = 0;
 
@@ -17,12 +18,13 @@ MouseLButtonAction* DrawingGeneralization::Instance() {
 	return instance;
 }
 
-void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long index;
 	Figure *figure = 0;
 
 	//if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
+	classDiagramForm->historyGraphic->PushUndo(diagram);
 	selection->SelectByPoint(diagram, currentX, currentY);
 
 	if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {
@@ -54,7 +56,13 @@ void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *
 
 		SelfGeneralization selfGeneralization(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
 		if (object->GetTempletePosition() != -1) {
-			selfGeneralization.Move(0, -15);
+			selfGeneralization.Move(0, -17);
+			Long k = 0;
+			while (k < 5) {
+				CPoint cPoint(selfGeneralization.rollNamePoints->GetAt(k).x, selfGeneralization.rollNamePoints->GetAt(k).y - 17);
+				selfGeneralization.rollNamePoints->Modify(k, cPoint);
+				k++;
+			}
 		}
 
 		index = object->Add(selfGeneralization.Clone());

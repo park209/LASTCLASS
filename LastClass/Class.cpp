@@ -1,5 +1,5 @@
 //Class.cpp
-
+#include "RollNameBox.h"
 #include "Class.h"
 #include "Line.h"
 #include "Generalization.h"
@@ -136,7 +136,50 @@ Long Class::Add(Figure *figure) {
 
 	return index;
 }
-
+Long Class::Add(Attribute *attribute) {
+	if (this->length < this->capacity) {
+		this->attributePosition= this->figures.Store(this->length, attribute);
+	}
+	else {
+		this->attributePosition = this->figures.AppendFromRear(attribute);
+		this->capacity++;
+	}
+	this->length++;
+	return this->attributePosition;
+}
+Long Class::Add(Method *method) {
+	if (this->length < this->capacity) {
+		this->methodPosition = this->figures.Store(this->length, method);
+	}
+	else {
+		this->methodPosition = this->figures.AppendFromRear(method);
+		this->capacity++;
+	}
+	this->length++;
+	return this->methodPosition;
+}
+Long Class::Add(Reception *reception) {
+	if (this->length < this->capacity) {
+		this->receptionPosition = this->figures.Store(this->length, reception);
+	}
+	else {
+		this->receptionPosition = this->figures.AppendFromRear(reception);
+		this->capacity++;
+	}
+	this->length++;
+	return this->receptionPosition;
+}
+Long Class::Add(Template *object) {
+	if (this->length < this->capacity) {
+		this->templetePosition = this->figures.Store(this->length, object);
+	}
+	else {
+		this->templetePosition = this->figures.AppendFromRear(object);
+		this->capacity++;
+	}
+	this->length++;
+	return this->templetePosition;
+}
 Long Class::Add(Long x, Long y, Long width, Long height) {
 	Long index;
 	Line object(x, y, width, height);
@@ -155,150 +198,13 @@ Long Class::Add(Long x, Long y, Long width, Long height) {
 
 
 
-Long Class::AddGeneralization(Long x, Long y, Long width, Long height) {
-	Long index;
-	Generalization object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddRealization(Long x, Long y, Long width, Long height) {
-	Long index;
-	Realization object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddDependency(Long x, Long y, Long width, Long height) {
-	Long index;
-	Dependency object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddAssociation(Long x, Long y, Long width, Long height) {
-	Long index;
-	Association object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddDirectedAssociation(Long x, Long y, Long width, Long height) {
-	Long index;
-	DirectedAssociation object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddAggregation(Long x, Long y, Long width, Long height) {
-	Long index;
-	Aggregation object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddAggregations(Long x, Long y, Long width, Long height) {
-	Long index;
-	Aggregations object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-
-Long Class::AddComposition(Long x, Long y, Long width, Long height) {
-	Long index;
-	Composition object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
-Long Class::AddCompositions(Long x, Long y, Long width, Long height) {
-	Long index;
-	Compositions object(x, y, width, height);
-
-	if (this->length < this->capacity) {
-		index = this->figures.Store(this->length, object.Clone());
-	}
-	else {
-		index = this->figures.AppendFromRear(object.Clone());
-		this->capacity++;
-	}
-	this->length++;
-
-	return index;
-}
 Long Class::AddAttribute(Diagram *diagram) {
-
+	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
+	CPoint cPoint1;
+	CPoint cPoint2;
+	CPoint cPoint3;
+	CPoint cPoint4;
+	CPoint cPoint5;
 	Line line(this->x, this->y + this->figures.GetAt(0)->GetHeight(), this->width, 0);
 	if (this->length < this->capacity) {
 		this->figures.Store(this->length, line.Clone());
@@ -308,7 +214,7 @@ Long Class::AddAttribute(Diagram *diagram) {
 		this->capacity++;
 	}
 	this->length++;
-	Attribute object(this->x, this->y + this->figures.GetAt(0)->GetHeight(), this->width, 100, "");
+	Attribute object(this->x, this->y + this->figures.GetAt(0)->GetHeight(), this->width, 50, "");
 	if (this->length < this->capacity) {
 		this->attributePosition = this->figures.Store(this->length, object.Clone());
 	}
@@ -318,22 +224,78 @@ Long Class::AddAttribute(Diagram *diagram) {
 	}
 	this->length++;
 
-	this->height += 100;
+	this->height += 50;
 	if (this->methodPosition != -1) {
-		this->figures.GetAt(this->methodPosition)->Move(0, 100);
-		this->figures.GetAt(this->methodPosition - 1)->Move(0, 100);
+		this->figures.GetAt(this->methodPosition)->Move(0, 50);
+		this->figures.GetAt(this->methodPosition - 1)->Move(0, 50);
 	}
 	if (this->receptionPosition != -1) {
-		this->figures.GetAt(this->receptionPosition)->Move(0, 100);
-		this->figures.GetAt(this->receptionPosition - 1)->Move(0, 100);
+		this->figures.GetAt(this->receptionPosition)->Move(0, 50);
+		this->figures.GetAt(this->receptionPosition - 1)->Move(0, 50);
 	}
 
 	Long i = 0;
 	Long j = 0;
+	Long Quadrant;
+	Finder finder;
 	while (i < this->GetLength()) {
-
+		
 		if (dynamic_cast<Relation*>(this->GetAt(i))) {
-			this->GetAt(i)->Modify(this->GetAt(i)->GetX(), this->GetAt(i)->GetY() + 50, this->GetAt(i)->GetWidth(), this->GetAt(i)->GetHeight() - 50);
+			Quadrant = finder.FindQuadrant(this->GetAt(i)->GetX(), this->GetAt(i)->GetY(),
+				this->GetX(), this->GetY(), this->GetX() + this->GetWidth(), this->GetY() + this->GetHeight() - 50);
+			if (Quadrant == 3) {
+				this->GetAt(i)->Modify(this->GetAt(i)->GetX(), this->GetAt(i)->GetY() + 50, this->GetAt(i)->GetWidth(), this->GetAt(i)->GetHeight() - 50);
+			}
+			Relation *relation = static_cast<Relation*>(this->GetAt(i));
+			if (relation->GetLength() == 0) {
+				CPoint startPoint{ relation->GetX(), relation->GetY() };
+				CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+				cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+				cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+				cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+				cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+				cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+				relation->rollNamePoints->Modify(0, cPoint1);
+				relation->rollNamePoints->Modify(1, cPoint2);
+				relation->rollNamePoints->Modify(2, cPoint3);
+				relation->rollNamePoints->Modify(3, cPoint4);
+				relation->rollNamePoints->Modify(4, cPoint5);
+			}
+			else {
+				CPoint startPoint{ relation->GetX(), relation->GetY() };
+				CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+				cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+				cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+				relation->rollNamePoints->Modify(0, cPoint1);
+				relation->rollNamePoints->Modify(3, cPoint4);
+
+				CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+					relation->GetAt(relation->GetLength() - 1).y };
+				CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+				cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+				cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+				relation->rollNamePoints->Modify(2, cPoint3);
+				relation->rollNamePoints->Modify(4, cPoint5);
+
+				if (relation->GetLength() % 2 == 0) {//礎熱
+
+					CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+						relation->GetAt((relation->GetLength() - 1) / 2).y };
+					CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
+						relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
+					cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
+					relation->rollNamePoints->Modify(1, cPoint2);
+
+				}
+				else {//�汝�
+
+					CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+						relation->GetAt((relation->GetLength() - 1) / 2).y };
+					cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
+					relation->rollNamePoints->Modify(1, cPoint2);
+
+				}
+			}
 		}
 		i++;
 	}
@@ -348,11 +310,65 @@ Long Class::AddAttribute(Diagram *diagram) {
 		while (j < figureComposite->GetLength()) {
 			Figure *figure = figureComposite->GetAt(j);
 			if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
+				Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
 				Long relationEndX = figure->GetX() + figure->GetWidth();
 				Long relationEndY = figure->GetY() + figure->GetHeight();
 				if (startX <= relationEndX &&  relationEndX <= endX &&
 					startY <= relationEndY &&  relationEndY <= endY) {
-					figure->EndPointMove(0, 50);
+					Quadrant = finder.FindQuadrant(relationEndX, relationEndY,
+						startX, startY, endX, endY - 50);
+					if (Quadrant == 3) {
+						figure->EndPointMove(0, 50);
+					}
+					if (relation->GetLength() == 0) {
+						CPoint startPoint{ relation->GetX(), relation->GetY() };
+						CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+						cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+						cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+						cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+						cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+						cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+						relation->rollNamePoints->Modify(0, cPoint1);
+						relation->rollNamePoints->Modify(1, cPoint2);
+						relation->rollNamePoints->Modify(2, cPoint3);
+						relation->rollNamePoints->Modify(3, cPoint4);
+						relation->rollNamePoints->Modify(4, cPoint5);
+					}
+					else {
+						CPoint startPoint{ relation->GetX(), relation->GetY() };
+						CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+						cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+						cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+						relation->rollNamePoints->Modify(0, cPoint1);
+						relation->rollNamePoints->Modify(3, cPoint4);
+
+						CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+							relation->GetAt(relation->GetLength() - 1).y };
+						CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+						cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+						cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+						relation->rollNamePoints->Modify(2, cPoint3);
+						relation->rollNamePoints->Modify(4, cPoint5);
+
+						if (relation->GetLength() % 2 == 0) {//礎熱
+
+							CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+								relation->GetAt((relation->GetLength() - 1) / 2).y };
+							CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
+								relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
+							cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
+							relation->rollNamePoints->Modify(1, cPoint2);
+
+						}
+						else {//�汝�
+
+							CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+								relation->GetAt((relation->GetLength() - 1) / 2).y };
+							cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
+							relation->rollNamePoints->Modify(1, cPoint2);
+
+						}
+					}
 				}
 			}
 			j++;
@@ -362,7 +378,12 @@ Long Class::AddAttribute(Diagram *diagram) {
 	return this->attributePosition;
 }
 Long Class::AddMethod(Diagram *diagram) {
-
+	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
+	CPoint cPoint1;
+	CPoint cPoint2;
+	CPoint cPoint3;
+	CPoint cPoint4;
+	CPoint cPoint5;
 	Long y;
 
 	if (this->attributePosition == -1) {
@@ -400,10 +421,66 @@ Long Class::AddMethod(Diagram *diagram) {
 
 	Long i = 0;
 	Long j = 0;
+	Long Quadrant;
+	Finder finder;
 	while (i < this->GetLength()) {
 
 		if (dynamic_cast<Relation*>(this->GetAt(i))) {
-			this->GetAt(i)->Modify(this->GetAt(i)->GetX(), this->GetAt(i)->GetY() + 50, this->GetAt(i)->GetWidth(), this->GetAt(i)->GetHeight() - 50);
+			Quadrant = finder.FindQuadrant(this->GetAt(i)->GetX(), this->GetAt(i)->GetY(),
+				this->GetX(), this->GetY(), this->GetX() + this->GetWidth(), this->GetY() + this->GetHeight() - 100);
+			if (Quadrant == 3) {
+				this->GetAt(i)->Modify(this->GetAt(i)->GetX(), this->GetAt(i)->GetY() + 100, this->GetAt(i)->GetWidth(), this->GetAt(i)->GetHeight() - 100);
+			}
+			Relation *relation = static_cast<Relation*>(this->GetAt(i));
+			if (relation->GetLength() == 0) {
+				CPoint startPoint{ relation->GetX(), relation->GetY() };
+				CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+				cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+				cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+				cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+				cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+				cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+				relation->rollNamePoints->Modify(0, cPoint1);
+				relation->rollNamePoints->Modify(1, cPoint2);
+				relation->rollNamePoints->Modify(2, cPoint3);
+				relation->rollNamePoints->Modify(3, cPoint4);
+				relation->rollNamePoints->Modify(4, cPoint5);
+			}
+			else {
+				CPoint startPoint{ relation->GetX(), relation->GetY() };
+				CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+				cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+				cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+				relation->rollNamePoints->Modify(0, cPoint1);
+				relation->rollNamePoints->Modify(3, cPoint4);
+
+				CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+					relation->GetAt(relation->GetLength() - 1).y };
+				CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+				cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+				cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+				relation->rollNamePoints->Modify(2, cPoint3);
+				relation->rollNamePoints->Modify(4, cPoint5);
+
+				if (relation->GetLength() % 2 == 0) {//礎熱
+
+					CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+						relation->GetAt((relation->GetLength() - 1) / 2).y };
+					CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
+						relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
+					cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
+					relation->rollNamePoints->Modify(1, cPoint2);
+
+				}
+				else {//�汝�
+
+					CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+						relation->GetAt((relation->GetLength() - 1) / 2).y };
+					cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
+					relation->rollNamePoints->Modify(1, cPoint2);
+
+				}
+			}
 		}
 		i++;
 	}
@@ -418,11 +495,66 @@ Long Class::AddMethod(Diagram *diagram) {
 		while (j < figureComposite->GetLength()) {
 			Figure *figure = figureComposite->GetAt(j);
 			if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
+				Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
 				Long relationEndX = figure->GetX() + figure->GetWidth();
 				Long relationEndY = figure->GetY() + figure->GetHeight();
 				if (startX <= relationEndX &&  relationEndX <= endX &&
 					startY <= relationEndY &&  relationEndY <= endY) {
-					figure->EndPointMove(0, 50);
+					Quadrant = finder.FindQuadrant(relationEndX, relationEndY,
+						startX, startY, endX, endY - 100);
+					if (Quadrant == 3) {
+						figure->EndPointMove(0, 100);
+					}
+
+					if (relation->GetLength() == 0) {
+						CPoint startPoint{ relation->GetX(), relation->GetY() };
+						CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+						cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+						cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+						cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+						cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+						cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+						relation->rollNamePoints->Modify(0, cPoint1);
+						relation->rollNamePoints->Modify(1, cPoint2);
+						relation->rollNamePoints->Modify(2, cPoint3);
+						relation->rollNamePoints->Modify(3, cPoint4);
+						relation->rollNamePoints->Modify(4, cPoint5);
+					}
+					else {
+						CPoint startPoint{ relation->GetX(), relation->GetY() };
+						CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+						cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+						cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+						relation->rollNamePoints->Modify(0, cPoint1);
+						relation->rollNamePoints->Modify(3, cPoint4);
+
+						CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+							relation->GetAt(relation->GetLength() - 1).y };
+						CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+						cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+						cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+						relation->rollNamePoints->Modify(2, cPoint3);
+						relation->rollNamePoints->Modify(4, cPoint5);
+
+						if (relation->GetLength() % 2 == 0) {//礎熱
+
+							CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+								relation->GetAt((relation->GetLength() - 1) / 2).y };
+							CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
+								relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
+							cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
+							relation->rollNamePoints->Modify(1, cPoint2);
+
+						}
+						else {//�汝�
+
+							CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+								relation->GetAt((relation->GetLength() - 1) / 2).y };
+							cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
+							relation->rollNamePoints->Modify(1, cPoint2);
+
+						}
+					}
 				}
 			}
 			j++;
@@ -432,7 +564,12 @@ Long Class::AddMethod(Diagram *diagram) {
 	return this->methodPosition;
 }
 Long Class::AddReception(Diagram *diagram) {
-
+	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
+	CPoint cPoint1;
+	CPoint cPoint2;
+	CPoint cPoint3;
+	CPoint cPoint4;
+	CPoint cPoint5;
 	Line line(this->x, this->y + this->height, this->width, 0);
 
 
@@ -467,6 +604,56 @@ Long Class::AddReception(Diagram *diagram) {
 			if (Quadrant == 3) {
 				this->GetAt(i)->Modify(this->GetAt(i)->GetX(), this->GetAt(i)->GetY() + 50, this->GetAt(i)->GetWidth(), this->GetAt(i)->GetHeight() - 50);
 			}
+			Relation *relation = static_cast<Relation*>(this->GetAt(i));
+			if (relation->GetLength() == 0) {
+				CPoint startPoint{ relation->GetX(), relation->GetY() };
+				CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+				cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+				cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+				cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+				cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+				cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+				relation->rollNamePoints->Modify(0, cPoint1);
+				relation->rollNamePoints->Modify(1, cPoint2);
+				relation->rollNamePoints->Modify(2, cPoint3);
+				relation->rollNamePoints->Modify(3, cPoint4);
+				relation->rollNamePoints->Modify(4, cPoint5);
+			}
+			else {
+				CPoint startPoint{ relation->GetX(), relation->GetY() };
+				CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+				cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+				cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+				relation->rollNamePoints->Modify(0, cPoint1);
+				relation->rollNamePoints->Modify(3, cPoint4);
+
+				CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+					relation->GetAt(relation->GetLength() - 1).y };
+				CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+				cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+				cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+				relation->rollNamePoints->Modify(2, cPoint3);
+				relation->rollNamePoints->Modify(4, cPoint5);
+
+				if (relation->GetLength() % 2 == 0) {//礎熱
+
+					CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+						relation->GetAt((relation->GetLength() - 1) / 2).y };
+					CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
+						relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
+					cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
+					relation->rollNamePoints->Modify(1, cPoint2);
+
+				}
+				else {//�汝�
+
+					CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+						relation->GetAt((relation->GetLength() - 1) / 2).y };
+					cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
+					relation->rollNamePoints->Modify(1, cPoint2);
+
+				}
+			}
 		}
 		i++;
 	}
@@ -489,6 +676,56 @@ Long Class::AddReception(Diagram *diagram) {
 						startX, startY, endX, endY - 50);
 					if (Quadrant == 3) {
 						figure->EndPointMove(0, 50);
+					}
+					Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
+					if (relation->GetLength() == 0) {
+						CPoint startPoint{ relation->GetX(), relation->GetY() };
+						CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+						cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+						cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+						cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+						cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+						cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+						relation->rollNamePoints->Modify(0, cPoint1);
+						relation->rollNamePoints->Modify(1, cPoint2);
+						relation->rollNamePoints->Modify(2, cPoint3);
+						relation->rollNamePoints->Modify(3, cPoint4);
+						relation->rollNamePoints->Modify(4, cPoint5);
+					}
+					else {
+						CPoint startPoint{ relation->GetX(), relation->GetY() };
+						CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+						cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+						cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+						relation->rollNamePoints->Modify(0, cPoint1);
+						relation->rollNamePoints->Modify(3, cPoint4);
+
+						CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+							relation->GetAt(relation->GetLength() - 1).y };
+						CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+						cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+						cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+						relation->rollNamePoints->Modify(2, cPoint3);
+						relation->rollNamePoints->Modify(4, cPoint5);
+
+						if (relation->GetLength() % 2 == 0) {//礎熱
+
+							CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+								relation->GetAt((relation->GetLength() - 1) / 2).y };
+							CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
+								relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
+							cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
+							relation->rollNamePoints->Modify(1, cPoint2);
+
+						}
+						else {//�汝�
+
+							CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+								relation->GetAt((relation->GetLength() - 1) / 2).y };
+							cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
+							relation->rollNamePoints->Modify(1, cPoint2);
+
+						}
 					}
 				}
 			}
@@ -513,15 +750,7 @@ Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
 		this->capacity++;
 	}
 	this->length++;
-	Long i = 0;
-	while (i < this->length) {
-		if (this->GetTempletePosition() != -1) {
-			if (dynamic_cast<SelfRelation*>(this->GetAt(i))) {
-				this->GetAt(i)->Move(0, -15);
-			}
-		}
-		i++;
-	}
+
 	return this->templetePosition;
 }
 

@@ -6,7 +6,8 @@
 #include "Finder.h"
 #include "Association.h"
 #include "SelfAssociation.h"
-
+#include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 
 DrawingAssociation* DrawingAssociation::instance = 0;
 
@@ -17,12 +18,13 @@ MouseLButtonAction* DrawingAssociation::Instance() {
 	return instance;
 }
 
-void DrawingAssociation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+void DrawingAssociation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long index;
 	Figure *figure = 0;
 
 	//if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
+	classDiagramForm->historyGraphic->PushUndo(diagram);
 	selection->SelectByPoint(diagram, currentX, currentY);
 
 	if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {
@@ -53,7 +55,13 @@ void DrawingAssociation::MouseLButtonUp(MouseLButton *mouseLButton, Diagram *dia
 		Class *object = static_cast<Class*>(selection->GetAt(0));
 		SelfAssociation selfAssociation(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
 		if (object->GetTempletePosition() != -1) {
-			selfAssociation.Move(0, -15);
+			selfAssociation.Move(0, -17);
+			Long k = 0;
+			while (k < 5) {
+				CPoint cPoint(selfAssociation.rollNamePoints->GetAt(k).x, selfAssociation.rollNamePoints->GetAt(k).y - 17);
+				selfAssociation.rollNamePoints->Modify(k, cPoint);
+				k++;
+			}
 		}
 		index = object->Add(selfAssociation.Clone());
 		figure = object->GetAt(index);
