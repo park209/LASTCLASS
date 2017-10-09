@@ -93,6 +93,9 @@
     <ClInclude Include="Finder.h" />
     <ClInclude Include="GeneralizationMenuAction.h" />
     <ClInclude Include="GraphicCtrlAllKey.h" />
+    <ClInclude Include="GraphicCtrlCopyKey.h" />
+    <ClInclude Include="GraphicCtrlCutKey.h" />
+    <ClInclude Include="GraphicCtrlPasteKey.h" />
     <ClInclude Include="GraphicCtrlRedoKey.h" />
     <ClInclude Include="GraphicCtrlRedoMenuAction.h" />
     <ClInclude Include="GraphicCtrlUndoKey.h" />
@@ -266,6 +269,9 @@
     <ClCompile Include="Finder.cpp" />
     <ClCompile Include="GeneralizationMenuAction.cpp" />
     <ClCompile Include="GraphicCtrlAllKey.cpp" />
+    <ClCompile Include="GraphicCtrlCopyKey.cpp" />
+    <ClCompile Include="GraphicCtrlCutKey.cpp" />
+    <ClCompile Include="GraphicCtrlPasteKey.cpp" />
     <ClCompile Include="GraphicCtrlRedoKey.cpp" />
     <ClCompile Include="GraphicCtrlRedoMenuAction.cpp" />
     <ClCompile Include="GraphicCtrlUndoKey.cpp" />

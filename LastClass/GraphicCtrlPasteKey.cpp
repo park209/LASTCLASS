@@ -97,7 +97,7 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		else {
 			condition = bigWidth + (bigWidth - minX)+lineLength + 20;
 		}
-		if (condition < 4000) {
+		if (condition < 4000) {//비트맵의 너비로 조정
 			SmartPointer<Figure*>smartPointer(classDiagramForm->copyBuffer->CreateIterator());
 			for (smartPointer->First();!smartPointer->IsDone();smartPointer->Next()) {
 				if (dynamic_cast<Class*>(smartPointer->Current())) {
