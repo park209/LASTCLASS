@@ -20,5 +20,5 @@ void MinusKey::KeyPress(TextEdit *textEdit) {
 	textEdit->rowHeight--;
 }
 
-void MinusKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void MinusKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

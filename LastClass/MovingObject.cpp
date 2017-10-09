@@ -122,7 +122,7 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram
 	Long distanceY = currentY - startY;
 	Long i = 0;
 	Long j = 0;
-	Figure *figure ;
+	Figure *figure;
 
 	figure = selection->GetAt(i);
 	if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면

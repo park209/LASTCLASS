@@ -17,7 +17,7 @@ AddTemplateKey::AddTemplateKey(const AddTemplateKey& source) {
 AddTemplateKey::~AddTemplateKey() {
 }
 
-void AddTemplateKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void AddTemplateKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 	if (classDiagramForm->selection->GetLength() > 0) {
 		Class *object = static_cast<Class*>(classDiagramForm->selection->GetAt(0));
 		if (object->GetTempletePosition() == -1) {

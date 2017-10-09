@@ -32,5 +32,5 @@ void SpaceKey::KeyPress(TextEdit *textEdit) {
 	textEdit->caret->MoveForwardCharacterIndex();
 }
 
-void SpaceKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void SpaceKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

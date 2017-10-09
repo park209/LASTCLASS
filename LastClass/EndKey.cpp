@@ -32,5 +32,5 @@ void EndKey::KeyPress(TextEdit *textEdit) {
 	textEdit->caret->SetCharacterIndex(textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength());
 }
 
-void EndKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void EndKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

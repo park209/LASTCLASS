@@ -18,9 +18,9 @@ GraphicCtrlAllKey::GraphicCtrlAllKey(const GraphicCtrlAllKey& source) {
 GraphicCtrlAllKey::~GraphicCtrlAllKey() {
 }
 
-void GraphicCtrlAllKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void GraphicCtrlAllKey::KeyPress(ClassDiagramForm *classDiagramForm,CDC *cdc) {
 	Long i = 0;
-	Long j;
+	//Long j;
 	classDiagramForm->selection->DeleteAllItems();
 	while (i < classDiagramForm->diagram->GetLength()) {
 		classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(i));

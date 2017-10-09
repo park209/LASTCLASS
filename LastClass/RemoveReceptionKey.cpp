@@ -16,7 +16,7 @@ RemoveReceptionKey::RemoveReceptionKey(const RemoveReceptionKey& source) {
 RemoveReceptionKey::~RemoveReceptionKey() {
 }
 
-void RemoveReceptionKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void RemoveReceptionKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 	if (classDiagramForm->selection->GetLength() > 0) {
 		Class *object = static_cast<Class*>(classDiagramForm->selection->GetAt(0));
 		if (object->GetReceptionPosition() != -1) {

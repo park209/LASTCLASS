@@ -55,5 +55,5 @@ void UpArrowKey::KeyPress(TextEdit *textEdit) {
 	cFont.DeleteObject(); // ÆùÆ®
 }
 
-void UpArrowKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void UpArrowKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

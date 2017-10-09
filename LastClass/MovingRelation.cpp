@@ -191,7 +191,7 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 			relationX = x + width - 1;
 		}
 		else if (x > currentX) {
-			relationX = x;
+			relationX = x ;
 		}
 		if (y + height < currentY) {
 			relationY = y + height - 1;
@@ -229,13 +229,13 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 			Long relationX = currentX;
 			Long relationY = currentY;
 			if (x + width < currentX) {
-				relationX = x + width - 1;
+				relationX = x+width - 1;
 			}
 			else if (x > currentX) {
 				relationX = x;
 			}
 			if (y + height < currentY) {
-				relationY = y + height;
+				relationY = y + height ;
 			}
 			else if (y > currentY) {
 				relationY = y;

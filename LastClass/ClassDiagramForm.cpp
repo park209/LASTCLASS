@@ -82,6 +82,8 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->currentX = 0;
 	this->currentY = 0;
 	this->fileName = "";
+	this->copyBuffer = NULL;
+	this->isCut = 0;
 }
 
 Long ClassDiagramForm::Load() {
@@ -612,6 +614,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 	ModifyStyle(0, WS_CLIPCHILDREN);
 	SetScrollRange(SB_VERT, 0, pageHeight, 0);
+	SetScrollRange(SB_HORZ, 0, pageWidth, 0);
 	//1.2. 적재한다
 	//this->Load();
 	//1.3. 윈도우를 갱신한다
@@ -628,9 +631,9 @@ void ClassDiagramForm::OnPaint() {
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
 	memDC.CreateCompatibleDC(&dc);
-	bitmap.CreateCompatibleBitmap(&dc, rect.right, rect.bottom + pageHeight);
+	bitmap.CreateCompatibleBitmap(&dc, rect.right + pageWidth, rect.bottom + pageHeight);
 	pOldBitmap = memDC.SelectObject(&bitmap);
-	memDC.FillSolidRect(CRect(0, 0, rect.right, rect.bottom + pageHeight), RGB(255, 255, 255));
+	memDC.FillSolidRect(CRect(0, 0, rect.right + pageWidth, rect.bottom + pageHeight), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
@@ -666,11 +669,19 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		nChar == 57 || nChar == 48 || nChar == 52 || nChar == 54 || nChar == 87 || nChar == 51) {
 		this->mouseLButton->ChangeState(nChar);
 	}
+	CClientDC dc(this);
+	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
+	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
+	SetFont(&cFont, TRUE);
+	CFont *oldFont = dc.SelectObject(&cFont);
 	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 	if (keyAction != 0) {
-		keyAction->KeyPress(this);
+		keyAction->KeyPress(this,&dc);
 		Invalidate(false);
 	}
+	dc.SelectObject(oldFont);
+	cFont.DeleteObject();
 }
 
 
@@ -684,24 +695,25 @@ void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
 }
 
 void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+	CWnd::OnVScroll(nSBCode, nPos, pScrollBar);
 	ScrollAction *scrollAction = this->scroll->MoveVScroll(this, nSBCode, nPos, pScrollBar);
 	if (scrollAction != 0) {
 		scrollAction->Scrolling(this);
 	}
 	Invalidate(false);
-	CWnd::OnVScroll(nSBCode, nPos, pScrollBar);
 }
 
 void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+	CWnd::OnHScroll(nSBCode, nPos, pScrollBar);
 	ScrollAction *scrollAction = this->scroll->MoveHScroll(this, nSBCode, nPos, pScrollBar);
 	if (scrollAction != 0) {
 		scrollAction->Scrolling(this);
 	}
 	Invalidate(false);
-	CWnd::OnHScroll(nSBCode, nPos, pScrollBar);
 }
 
 BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
+	CWnd::SetFocus();
 	SetFocus();
 	bool ret = false;
 	int vertCurPos = GetScrollPos(SB_VERT);
@@ -880,7 +892,6 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
-
 
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();

@@ -4,6 +4,7 @@
 #define _CTRLUNDOTEXTKEY_H
 
 #include "KeyAction.h"
+#include <afxwin.h>
 
 class TextEdit;
 class ClassDiagramForm;
@@ -14,7 +15,7 @@ public:
 	virtual ~CtrlUndoTextKey();
 
 	void KeyPress(TextEdit *textEdit);
-	void KeyPress(ClassDiagramForm *classDiagramForm);
+	void KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc);
 };
 
 #endif // _CTRLUNDOTEXTKEY_H

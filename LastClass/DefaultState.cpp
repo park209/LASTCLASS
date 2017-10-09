@@ -33,7 +33,7 @@ MouseLButtonAction* DefaultState::Instance() {
 void DefaultState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 
 	Finder finder;
-	CRect area(startX, startY, currentX, currentY);
+	CRect area = diagram->GetCorrectRect(startX, startY, currentX, currentY);
 	selection->DeleteAllItems();
 	selection->SelectByArea(diagram, area);
 
@@ -109,12 +109,9 @@ void DefaultState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram
 
 	pDC->MoveTo(startX, startY);
 	pDC->LineTo(currentX, startY);
-	pDC->MoveTo(startX, startY);
+	pDC->LineTo(currentX, currentY);
 	pDC->LineTo(startX, currentY);
-	pDC->MoveTo(currentX, startY);
-	pDC->LineTo(currentX, currentY);
-	pDC->MoveTo(startX, currentY);
-	pDC->LineTo(currentX, currentY);
+	pDC->LineTo(startX, startY);
 
 	pDC->SelectObject(oldPen);
 	pen.DeleteObject();

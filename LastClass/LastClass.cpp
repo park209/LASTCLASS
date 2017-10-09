@@ -23,8 +23,6 @@ BEGIN_MESSAGE_MAP(LastClass, CFrameWnd)
 	ON_WM_CLOSE()
 	ON_COMMAND_RANGE(100, 124, OnMyMenu)
 	ON_WM_SIZE()
-	ON_WM_VSCROLL()
-	ON_WM_HSCROLL()
 	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
@@ -39,7 +37,7 @@ int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CRect rect;
 	this->GetClientRect(&rect);
 	this->classDiagramForm = new ClassDiagramForm;
-	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_BORDER | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
+	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
 
 	this->menu = new Menu(this);
 
@@ -54,7 +52,7 @@ void LastClass::OnMyMenu(UINT parm_control_id) {
 	}
 }
 void LastClass::OnKillFocus(CWnd *pNewWnd) {
-
+	CFrameWnd::OnKillFocus(pNewWnd);
 }
 void LastClass::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 }
@@ -66,13 +64,9 @@ void LastClass::OnSetFocus(CWnd* pOldWnd) {
 }
 
 void LastClass::OnSize(UINT nType, int cx, int cy) {
-	//this->SetWindowPos(this, 0, 0, cx, cy, SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 	CRect rect;
 	this->GetClientRect(&rect);
 	this->classDiagramForm->SetWindowPos(this, rect.left,rect.top,rect.right,rect.bottom, SWP_NOMOVE | SWP_NOZORDER );
-
-	//this->classDiagramForm->Invalidate(false);
-	//this->Invalidate(false);
 }
 
 BOOL LastClass::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
@@ -80,15 +74,19 @@ BOOL LastClass::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 }
 
 void LastClass::OnLButtonDown(UINT nFlags, CPoint point) {
+	CFrameWnd::OnLButtonDown(nFlags, point);
 }
 
 void LastClass::OnLButtonDblClk(UINT nFlags, CPoint point) {
+	CFrameWnd::OnLButtonDblClk(nFlags, point);
 }
 
 void LastClass::OnLButtonUp(UINT nFlags, CPoint point) {
+	CFrameWnd::OnLButtonDown(nFlags, point);
 }
 
 void LastClass::OnMouseMove(UINT nFlags, CPoint point) {
+	CFrameWnd::OnMouseMove(nFlags, point);
 }
 
 void LastClass::OnClose() {

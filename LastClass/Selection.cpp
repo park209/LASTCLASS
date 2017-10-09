@@ -17,6 +17,7 @@ Selection::Selection(const Selection& source) : FigureComposite(source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
+	this->content = source.content;
 }
 Selection::~Selection() {
 }
@@ -876,4 +877,9 @@ void Selection::Accept(Diagram *diagram, Visitor& visitor, Long distanceX, Long 
 
 void Selection::Accept(Visitor& visitor, CDC *pDC) {
 	visitor.Visit(this, pDC);
+}
+
+Long Selection::Correct(Figure *figure, Long index) {
+	index = this->figures.Modify(index, figure);
+	return index;
 }

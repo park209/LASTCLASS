@@ -33,17 +33,12 @@ void CtrlPasteKey::KeyPress(TextEdit *textEdit) {
 	if (::GetPriorityClipboardFormat(&priority_list, 1) == CF_TEXT) {
 		OpenClipboard(NULL);
 		HANDLE h_clipboard_data = ::GetClipboardData(CF_TEXT);
-		if (h_clipboard_data != NULL) {
-			char *p_clipboard_data = (char *)::GlobalLock(h_clipboard_data);
-			int string_len = strlen(p_clipboard_data) + 1;
-			p_string = new char[string_len];
-			memcpy(p_string, p_clipboard_data, string_len);
-			::GlobalUnlock(h_clipboard_data);
-		}
-		::CloseClipboard();
-		textEdit->copyBuffer = p_string;
+		char *p_clipboard_data = (char *)::GlobalLock(h_clipboard_data);
+		::GlobalUnlock(h_clipboard_data);
+		::CloseClipboard(); 
+		textEdit->copyBuffer = p_clipboard_data;
 
-		Long size = strlen(p_string);
+		Long size = strlen(p_clipboard_data);
 		Long i = 0;
 		char character[2] = { 0, };
 		Long temp = 0;
@@ -120,5 +115,5 @@ void CtrlPasteKey::KeyPress(TextEdit *textEdit) {
 	}
 }
 
-void CtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void CtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

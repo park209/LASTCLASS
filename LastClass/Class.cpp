@@ -1,5 +1,5 @@
 //Class.cpp
-#include "RollNameBox.h"
+
 #include "Class.h"
 #include "Line.h"
 #include "Generalization.h"
@@ -32,6 +32,8 @@
 #include "Reception.h"
 #include "Diagram.h"
 #include "Finder.h"
+
+#include "RollNameBox.h"
 
 Class::Class(Long capacity) :FigureComposite(capacity) {
 	this->x = 0;
@@ -198,6 +200,148 @@ Long Class::Add(Long x, Long y, Long width, Long height) {
 
 
 
+Long Class::AddGeneralization(Long x, Long y, Long width, Long height) {
+	Long index;
+	Generalization object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddRealization(Long x, Long y, Long width, Long height) {
+	Long index;
+	Realization object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddDependency(Long x, Long y, Long width, Long height) {
+	Long index;
+	Dependency object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddAssociation(Long x, Long y, Long width, Long height) {
+	Long index;
+	Association object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddDirectedAssociation(Long x, Long y, Long width, Long height) {
+	Long index;
+	DirectedAssociation object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddAggregation(Long x, Long y, Long width, Long height) {
+	Long index;
+	Aggregation object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddAggregations(Long x, Long y, Long width, Long height) {
+	Long index;
+	Aggregations object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+
+Long Class::AddComposition(Long x, Long y, Long width, Long height) {
+	Long index;
+	Composition object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
+Long Class::AddCompositions(Long x, Long y, Long width, Long height) {
+	Long index;
+	Compositions object(x, y, width, height);
+
+	if (this->length < this->capacity) {
+		index = this->figures.Store(this->length, object.Clone());
+	}
+	else {
+		index = this->figures.AppendFromRear(object.Clone());
+		this->capacity++;
+	}
+	this->length++;
+
+	return index;
+}
 Long Class::AddAttribute(Diagram *diagram) {
 	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 	CPoint cPoint1;
@@ -239,7 +383,7 @@ Long Class::AddAttribute(Diagram *diagram) {
 	Long Quadrant;
 	Finder finder;
 	while (i < this->GetLength()) {
-		
+
 		if (dynamic_cast<Relation*>(this->GetAt(i))) {
 			Quadrant = finder.FindQuadrant(this->GetAt(i)->GetX(), this->GetAt(i)->GetY(),
 				this->GetX(), this->GetY(), this->GetX() + this->GetWidth(), this->GetY() + this->GetHeight() - 50);
@@ -994,4 +1138,8 @@ Long Class::SetMinimumWidth() {
 		}
 	}
 	return this->minimumWidth;
+}
+
+Long Class::Correct(Figure *figure, Long index) {
+	return index = this->figures.Modify(index, figure);
 }

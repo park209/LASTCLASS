@@ -4,8 +4,9 @@
 #define _REMOVEATTRIBUTEKEY_H
 
 #include "KeyAction.h"
+#include <afxwin.h>
 
-class ClassDIagramForm;
+class ClassDiagramForm;
 class TextEdit;
 class RemoveAttributeKey : public KeyAction {
 public:
@@ -13,7 +14,7 @@ public:
 	RemoveAttributeKey(const RemoveAttributeKey& source);
 	virtual ~RemoveAttributeKey();
 
-	void KeyPress(ClassDiagramForm *classDiagramForm);
+	void KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc);
 	void KeyPress(TextEdit *textEdit);
 };
 

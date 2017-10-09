@@ -3,6 +3,7 @@
 #include "Relation.h"
 #include "Finder.h"
 #include "RollNameBox.h"
+#include "Figure.h"
 
 Relation::Relation(Long capacity) :Figure(), points(capacity) {
 	this->capacity = capacity;
@@ -11,14 +12,29 @@ Relation::Relation(Long capacity) :Figure(), points(capacity) {
 
 Relation::Relation(const Relation& source) : Figure(source), points(source.points) {
 	Long i = 0;
-	while (i < source.length) {
-		this->points.Modify(i, const_cast<Relation&>(source).points[i]);
+
+	if (this->rollNamePoints != 0) {
+		rollNamePoints->Clear();
+	}
+	this->rollNamePoints = new Array<CPoint>(5);
+	i = 0;
+	while (i < source.rollNamePoints->GetLength()) {
+		this->rollNamePoints->Store(i, const_cast<Relation&>(source).rollNamePoints->GetAt(i));
 		i++;
 	}
+
+	if (this->rollNames != 0) {
+		rollNames->Clear();
+	}
+	this->rollNames = new Array<string>(5);
+	i = 0;
+	while (i < 5) {
+		this->rollNames->Store(i, const_cast<Relation&>(source).rollNames->GetAt(i));
+		i++;
+	}
+
 	this->capacity = source.capacity;
 	this->length = source.length;
-	this->rollNamePoints = source.rollNamePoints;
-	this->rollNames = source.rollNames;
 }
 
 Relation::Relation(Long x, Long y, Long width, Long height) :Figure(x, y, width, height), points(10) {
@@ -51,6 +67,10 @@ Relation& Relation::operator=(const Relation& source) {
 }
 
 Relation::~Relation() {
+}
+
+Figure* Relation::Clone() const {
+	return new Relation(*this);
 }
 
 Long Relation::Move(Long index, CPoint cPoint) {
@@ -177,4 +197,13 @@ void Relation::ReplaceString(string rollNameText, Long rollNameBoxIndex) {
 
 void Relation::Accept(Visitor& visitor, CDC *cPaintDc) {
 	visitor.Visit(this, cPaintDc);//, cPaintDc);
+}
+
+void Relation::MovePaste(Long distanceX, Long distanceY) {
+	this->x = this->x + distanceX;
+	this->y = this->y + distanceY;
+}
+
+Long Relation::Correct(Long index, CPoint point) {
+	return this->points.Modify(index, point);
 }

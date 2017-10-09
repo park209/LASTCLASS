@@ -22,5 +22,5 @@ void CtrlAllKey::KeyPress(TextEdit *textEdit) {
 	textEdit->flagSelection = 1;
 }
 
-void CtrlAllKey::KeyPress(ClassDiagramForm *classDiagramForm) {
+void CtrlAllKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 }

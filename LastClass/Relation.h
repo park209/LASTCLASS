@@ -20,9 +20,9 @@ public:
 	Relation(Long capacity = 1);
 	Relation(const Relation& source);
 	Relation(Long x, Long y, Long width, Long height);
-	virtual ~Relation() = 0;
+	virtual ~Relation();
 	Relation& operator = (const Relation& source);
-	Figure* Clone()const = 0;
+	Figure* Clone() const;
 
 	//선 점구하는거
 	Long Move(Long index, CPoint cPoint);
@@ -34,6 +34,9 @@ public:
 
 	void ReplaceString(string rollNameText, Long rollNameBoxIndex);
 	void Accept(Visitor& visitor, CDC *cPaintDc);
+
+	void MovePaste(Long distanceX, Long distanceY);
+	Long Correct(Long index, CPoint point);
 
 	Long GetCapacity() const;
 	Long GetLength() const;

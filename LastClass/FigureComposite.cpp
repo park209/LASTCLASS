@@ -159,7 +159,7 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 				relation->rollNamePoints->Modify(0, cPoint1);
 				relation->rollNamePoints->Modify(3, cPoint4);
 			}
-			
+
 		}
 		else if (dynamic_cast<Template*>(this->GetAt(i))) {
 			this->GetAt(i)->Move(distanceX, 0);
