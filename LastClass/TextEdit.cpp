@@ -1,5 +1,6 @@
 //TextEdit.cpp
 
+#include "LastClass.h"
 #include "TextEdit.h"
 #include "ClassDiagramForm.h"
 #include "Text.h"
@@ -24,6 +25,7 @@
 #include "Class.h"
 #include "Relation.h"
 #include "SelfRelation.h"
+#include "StatusBar.h"
 
 //#include <iostream>
 
@@ -44,7 +46,8 @@ BEGIN_MESSAGE_MAP(TextEdit, CWnd)
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
-TextEdit::TextEdit(Figure *figure, Long rollNameBoxIndex) {
+TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Figure *figure, Long rollNameBoxIndex) {
+	this->classDiagramForm = classDiagramForm;
 	this->text = NULL;
 	this->caret = NULL;
 	this->keyBoard = NULL;
@@ -63,6 +66,7 @@ TextEdit::TextEdit(Figure *figure, Long rollNameBoxIndex) {
 	this->criteriaWidth = figure->GetWidth();
 	this->criteriaHeight = figure->GetHeight();
 	this->criteriaX = figure->GetX();
+	this->numLockFlag = 0;
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -347,6 +351,24 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		keyAction->KeyPress(this);
 	}
 	this->koreanEnglish = 0;
+	if (nChar == VK_NUMLOCK) {
+		if (this->numLockFlag == 0) {
+			this->numLockFlag = 1;
+		}
+		else if (this->numLockFlag == 1) {
+			this->numLockFlag = 0;
+		}
+		this->classDiagramForm->lastClass->statusBar->MakeStatusBar(this->classDiagramForm->lastClass, this->classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
+	}
+	else if (nChar == VK_CAPITAL) {
+		if (this->classDiagramForm->capsLockFlag == 0) {
+			this->classDiagramForm->capsLockFlag = 1;
+		}
+		else if (this->classDiagramForm->capsLockFlag == 1) {
+			this->classDiagramForm->capsLockFlag = 0;
+		}
+		this->classDiagramForm->lastClass->statusBar->MakeStatusBar(this->classDiagramForm->lastClass, this->classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
+	}
 
 	if (nChar != VK_RETURN && nChar != VK_ESCAPE) {
 

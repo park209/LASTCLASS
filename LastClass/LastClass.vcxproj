@@ -162,6 +162,7 @@
     <ClInclude Include="SaveMenuAction.h" />
     <ClInclude Include="Scroll.h" />
     <ClInclude Include="ScrollAction.h" />
+    <ClInclude Include="StatusBar.h" />
     <ClInclude Include="SupportMenu.h" />
     <ClInclude Include="SupportMenuAction.h" />
     <ClInclude Include="Selection.h" />
@@ -338,6 +339,7 @@
     <ClCompile Include="SaveMenuAction.cpp" />
     <ClCompile Include="Scroll.cpp" />
     <ClCompile Include="ScrollAction.cpp" />
+    <ClCompile Include="StatusBar.cpp" />
     <ClCompile Include="SupportMenu.cpp" />
     <ClCompile Include="SupportMenuAction.cpp" />
     <ClCompile Include="Selection.cpp" />
