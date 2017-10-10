@@ -19,6 +19,7 @@ MouseLButtonAction* DrawingResizing::Instance() {
 }
 void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	FigureComposite *object = static_cast<FigureComposite*>(selection->GetAt(0));
+
 	bool ret = false;
 	Long x = object->GetX();
 	Long y = object->GetY();
@@ -31,6 +32,8 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 	Finder finder;
 	Long length = 0;
 	Long k = 0;
+	bool overlapCheck;
+	CRect objectRect(object->GetX(), object->GetY(), object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
 
 	classDiagramForm->historyGraphic->PushUndo(diagram);
 
@@ -44,8 +47,13 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			CRect rect(selectedClass->GetX() - 3, templete->GetY() - 3, selectedClass->GetX() + 6, templete->GetY() + 6);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
-				selectedClass->ModifyComponetsToLeftDirection(diagram, distanceX);
-				selectedClass->ModifyComponetsToUpDirection(diagram, distanceY);
+				objectRect.left += distanceX;
+				objectRect.top += distanceY;
+				overlapCheck = diagram->CheckOverlap(objectRect, object);
+				if (overlapCheck == false) {
+					selectedClass->ModifyComponetsToLeftDirection(diagram, distanceX);
+					selectedClass->ModifyComponetsToUpDirection(diagram, distanceY);
+				}
 			}
 		}
 		if (ret == false) { // 우상단
@@ -53,8 +61,13 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 				templete->GetX() + templete->GetWidth() + 3, templete->GetY() + 6);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
-				selectedClass->ModifyComponetsToRightDirection(diagram, distanceX);
-				selectedClass->ModifyComponetsToUpDirection(diagram, distanceY);
+				objectRect.top += distanceY;
+				objectRect.right += distanceX;
+				overlapCheck = diagram->CheckOverlap(objectRect, object);
+				if (overlapCheck == false) {
+					selectedClass->ModifyComponetsToRightDirection(diagram, distanceX);
+					selectedClass->ModifyComponetsToUpDirection(diagram, distanceY);
+				}
 			}
 		}
 		if (ret == false) { // 좌하단
@@ -62,8 +75,13 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 				selectedClass->GetX() + 6, selectedClass->GetY() + selectedClass->GetHeight() + 3);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
-				selectedClass->ModifyComponetsToLeftDirection(diagram, distanceX);
-				selectedClass->ModifyComponetsToUpDirection(diagram, distanceY);
+				objectRect.left += distanceX;
+				objectRect.bottom += distanceY;
+				overlapCheck = diagram->CheckOverlap(objectRect, object);
+				if (overlapCheck == false) {
+					selectedClass->ModifyComponetsToLeftDirection(diagram, distanceX);
+					selectedClass->ModifyComponetsToDownDirection(diagram, distanceY);
+				}
 			}
 		}
 		if (ret == false) { // 우하단//
@@ -71,8 +89,13 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 				templete->GetX() + templete->GetWidth() + 3, selectedClass->GetY() + selectedClass->GetHeight() + 3);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
-				selectedClass->ModifyComponetsToRightDirection(diagram, distanceX);
-				selectedClass->ModifyComponetsToDownDirection(diagram, distanceY);
+				objectRect.right += distanceX;
+				objectRect.bottom += distanceY;
+				overlapCheck = diagram->CheckOverlap(objectRect, object);
+				if (overlapCheck == false) {
+					selectedClass->ModifyComponetsToRightDirection(diagram, distanceX);
+					selectedClass->ModifyComponetsToDownDirection(diagram, distanceY);
+				}
 			}
 		}
 		if (ret == false) { // 상중단//
@@ -80,7 +103,11 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 				selectedClass->GetX() + (templete->GetX() + templete->GetWidth() - selectedClass->GetX()) / 2 + 5, templete->GetY() + 6);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
-				selectedClass->ModifyComponetsToUpDirection(diagram, distanceY);
+				objectRect.top += distanceY;
+				overlapCheck = diagram->CheckOverlap(objectRect, object);
+				if (overlapCheck == false) {
+					selectedClass->ModifyComponetsToUpDirection(diagram, distanceY);
+				}
 			}
 		}
 
@@ -89,7 +116,11 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 				selectedClass->GetX() + (templete->GetX() + templete->GetWidth() - selectedClass->GetX()) / 2 + 5, selectedClass->GetY() + selectedClass->GetHeight() + 3);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
-				selectedClass->ModifyComponetsToDownDirection(diagram, distanceY);
+				objectRect.bottom += distanceY;
+				overlapCheck = diagram->CheckOverlap(objectRect, object);
+				if (overlapCheck == false) {
+					selectedClass->ModifyComponetsToDownDirection(diagram, distanceY);
+				}
 			}
 		}
 
@@ -98,7 +129,11 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 				selectedClass->GetX() + 5, templete->GetY() + (selectedClass->GetY() + selectedClass->GetHeight() - templete->GetY()) / 2 + 5);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
-				selectedClass->ModifyComponetsToLeftDirection(diagram, distanceX);
+				objectRect.left += distanceX;
+				overlapCheck = diagram->CheckOverlap(objectRect, object);
+				if (overlapCheck == false) {
+					selectedClass->ModifyComponetsToLeftDirection(diagram, distanceX);
+				}
 			}
 		}
 
@@ -107,7 +142,11 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 				templete->GetX() + templete->GetWidth() + 3, templete->GetY() + (selectedClass->GetY() + selectedClass->GetHeight() - templete->GetY()) / 2 + 5);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
-				selectedClass->ModifyComponetsToRightDirection(diagram, distanceX);
+				objectRect.right += distanceX;
+				overlapCheck = diagram->CheckOverlap(objectRect, object);
+				if (overlapCheck == false) {
+					selectedClass->ModifyComponetsToRightDirection(diagram, distanceX);
+				}
 			}
 		}
 	}
@@ -117,34 +156,53 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			CRect rect(object->GetX() - 3, object->GetY() - 3, object->GetX() + 6, object->GetY() + 6);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
-				object->ModifyComponetsToLeftDirection(diagram, distanceX);
-				object->ModifyComponetsToUpDirection(diagram, distanceY);
+				objectRect.left += distanceX;
+				objectRect.top += distanceY;
+				overlapCheck = diagram->CheckOverlap(objectRect, object);
+				if (overlapCheck == false) {
+					object->ModifyComponetsToLeftDirection(diagram, distanceX);
+					object->ModifyComponetsToUpDirection(diagram, distanceY);
+				}
 			}
 		}
 		if (ret == false) { // 우상단
 			CRect rect(object->GetX() + object->GetWidth() - 6, object->GetY() - 3, object->GetX() + object->GetWidth() + 3, object->GetY() + 6);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
-				object->ModifyComponetsToRightDirection(diagram, distanceX);
-				object->ModifyComponetsToUpDirection(diagram, distanceY);
+				objectRect.top += distanceY;
+				objectRect.right += distanceX;
+				overlapCheck = diagram->CheckOverlap(objectRect, object);
+				if (overlapCheck == false) {
+					object->ModifyComponetsToRightDirection(diagram, distanceX);
+					object->ModifyComponetsToUpDirection(diagram, distanceY);
+				}
 			}
 		}
 		if (ret == false) { // 좌하단
 			CRect rect(object->GetX() - 3, object->GetY() + object->GetHeight() - 6, object->GetX() + 6, object->GetY() + object->GetHeight() + 3);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
-				object->ModifyComponetsToLeftDirection(diagram, distanceX);
-				object->ModifyComponetsToDownDirection(diagram, distanceY);
+				objectRect.left += distanceX;
+				objectRect.bottom += distanceY;
+				overlapCheck = diagram->CheckOverlap(objectRect, object);
+				if (overlapCheck == false) {
+					object->ModifyComponetsToLeftDirection(diagram, distanceX);
+					object->ModifyComponetsToDownDirection(diagram, distanceY);
+				}
 			}
-
 		}
 		if (ret == false) { // 우하단
 			CRect rect(object->GetX() + object->GetWidth() - 6, object->GetY() + object->GetHeight() - 6,
 				object->GetX() + object->GetWidth() + 3, object->GetY() + object->GetHeight() + 3);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
-				object->ModifyComponetsToRightDirection(diagram, distanceX);
-				object->ModifyComponetsToDownDirection(diagram, distanceY);
+				objectRect.right += distanceX;
+				objectRect.bottom += distanceY;
+				overlapCheck = diagram->CheckOverlap(objectRect, object);
+				if (overlapCheck == false) {
+					object->ModifyComponetsToRightDirection(diagram, distanceX);
+					object->ModifyComponetsToDownDirection(diagram, distanceY);
+				}
 			}
 		}
 
@@ -152,7 +210,11 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			CRect rect(object->GetX() + object->GetWidth() / 2 - 4, object->GetY() - 3, object->GetX() + object->GetWidth() / 2 + 5, object->GetY() + 6);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
-				object->ModifyComponetsToUpDirection(diagram, distanceY);
+				objectRect.top += distanceY;
+				overlapCheck = diagram->CheckOverlap(objectRect, object);
+				if (overlapCheck == false) {
+					object->ModifyComponetsToUpDirection(diagram, distanceY);
+				}
 			}
 		}
 
@@ -161,14 +223,22 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 				object->GetX() + object->GetWidth() / 2 + 5, object->GetY() + object->GetHeight() + 3);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
-				object->ModifyComponetsToDownDirection(diagram, distanceY);
+				objectRect.bottom += distanceY;
+				overlapCheck = diagram->CheckOverlap(objectRect, object);
+				if (overlapCheck == false) {
+					object->ModifyComponetsToDownDirection(diagram, distanceY);
+				}
 			}
 		}
 		if (ret == false) { // 좌중단
 			CRect rect(object->GetX() - 3, object->GetY() + object->GetHeight() / 2 - 4, object->GetX() + 6, object->GetY() + object->GetHeight() / 2 + 5);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
-				object->ModifyComponetsToLeftDirection(diagram, distanceX);
+				objectRect.left += distanceX;
+				overlapCheck = diagram->CheckOverlap(objectRect, object);
+				if (overlapCheck == false) {
+					object->ModifyComponetsToLeftDirection(diagram, distanceX);
+				}
 			}
 		}
 		if (ret == false) { // 우중단
@@ -176,7 +246,11 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 				object->GetX() + object->GetWidth() + 3, object->GetY() + object->GetHeight() / 2 + 5);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
-				object->ModifyComponetsToRightDirection(diagram, distanceX);
+				objectRect.right += distanceX;
+				overlapCheck = diagram->CheckOverlap(objectRect, object);
+				if (overlapCheck == false) {
+					object->ModifyComponetsToRightDirection(diagram, distanceX);
+				}
 			}
 		}
 	}
@@ -187,204 +261,202 @@ void DrawingResizing::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diag
 
 }
 void DrawingResizing::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
-	
-		FigureComposite *object = static_cast<FigureComposite*>(selection->GetAt(0));
-		CRect rect;
-		Finder finder;
-		bool ret = false;
 
-		if (dynamic_cast<Class*>(object) && static_cast<Class*>(object)->GetTempletePosition() != -1) {
-			Class *selectedClass = static_cast<Class*>(object);
-			Template *templete = static_cast<Template*>(selectedClass->GetAt(selectedClass->GetTempletePosition()));
-			if (ret == false) { // 좌상단
-				CRect rect(selectedClass->GetX() - 3, templete->GetY() - 3, selectedClass->GetX() + 6, templete->GetY() + 6);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {
-					pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY() + (currentY - startY));
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + (currentY - startY));
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + (currentY - startY));
-				}
-			}
-			if (ret == false) { // 우상단
-				CRect rect(templete->GetX() + templete->GetWidth() - 6, templete->GetY() - 3,
-					templete->GetX() + templete->GetWidth() + 3, templete->GetY() + 6);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {
-					pDC->MoveTo(object->GetX(), object->GetY() + (currentY - startY));
-					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + (currentY - startY));
-					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX(), object->GetY() + (currentY - startY));
-				}
-			}
-			if (ret == false) { // 좌하단
-				CRect rect(selectedClass->GetX() - 3, selectedClass->GetY() + selectedClass->GetHeight() - 6,
-					selectedClass->GetX() + 6, selectedClass->GetY() + selectedClass->GetHeight() + 3);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {
-					pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight() + (currentY - startY));
-					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight() + (currentY - startY));
-					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY());
-				}
-			}
-			if (ret == false) { // 우하단
-				CRect rect(templete->GetX() + templete->GetWidth() - 6, selectedClass->GetY() + selectedClass->GetHeight() - 6,
-					templete->GetX() + templete->GetWidth() + 3, selectedClass->GetY() + selectedClass->GetHeight() + 3);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {
-					pDC->MoveTo(object->GetX(), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight() + (currentY - startY));
-					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight() + (currentY - startY));
-					pDC->LineTo(object->GetX(), object->GetY());
-				}
-			}
-			if (ret == false) { // 상중단
-				CRect rect(selectedClass->GetX() + (templete->GetX() + templete->GetWidth() - selectedClass->GetX()) / 2 - 4, templete->GetY() - 3,
-					selectedClass->GetX() + (templete->GetX() + templete->GetWidth() - selectedClass->GetX()) / 2 + 5, templete->GetY() + 6);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {
-					pDC->MoveTo(object->GetX(), object->GetY() + (currentY - startY));
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + (currentY - startY));
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX(), object->GetY() + (currentY - startY));
-				}
-			}
-			if (ret == false) { // 하중단
-				CRect rect(selectedClass->GetX() + (templete->GetX() + templete->GetWidth() - selectedClass->GetX()) / 2 - 4, selectedClass->GetY() + selectedClass->GetHeight() - 6,
-					selectedClass->GetX() + (templete->GetX() + templete->GetWidth() - selectedClass->GetX()) / 2 + 5, selectedClass->GetY() + selectedClass->GetHeight() + 3);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {
-					pDC->MoveTo(object->GetX(), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight() + (currentY - startY));
-					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight() + (currentY - startY));
-					pDC->LineTo(object->GetX(), object->GetY());
-				}
-			}
-			if (ret == false) { // 좌중단
-				CRect rect(selectedClass->GetX() - 3, templete->GetY() + (selectedClass->GetY() + selectedClass->GetHeight() - templete->GetY()) / 2 - 4,
-					selectedClass->GetX() + 5, templete->GetY() + (selectedClass->GetY() + selectedClass->GetHeight() - templete->GetY()) / 2 + 5);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {
-					pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY());
-				}
-			}
-			if (ret == false) { // 우중단
-				CRect rect(templete->GetX() + templete->GetWidth() - 6, templete->GetY() + (selectedClass->GetY() + selectedClass->GetHeight() - templete->GetY()) / 2 - 4,
-					templete->GetX() + templete->GetWidth() + 3, templete->GetY() + (selectedClass->GetY() + selectedClass->GetHeight() - templete->GetY()) / 2 + 5);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {
-					pDC->MoveTo(object->GetX(), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX(), object->GetY());
-				}
+	FigureComposite *object = static_cast<FigureComposite*>(selection->GetAt(0));
+	CRect rect;
+	Finder finder;
+	bool ret = false;
+
+	if (dynamic_cast<Class*>(object) && static_cast<Class*>(object)->GetTempletePosition() != -1) {
+		Class *selectedClass = static_cast<Class*>(object);
+		Template *templete = static_cast<Template*>(selectedClass->GetAt(selectedClass->GetTempletePosition()));
+		if (ret == false) { // 좌상단
+			CRect rect(selectedClass->GetX() - 3, templete->GetY() - 3, selectedClass->GetX() + 6, templete->GetY() + 6);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {
+				pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY() + (currentY - startY));
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + (currentY - startY));
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + (currentY - startY));
 			}
 		}
-		else {
-			if (ret == false) { // 좌상단
-				CRect rect(object->GetX() - 3, object->GetY() - 3, object->GetX() + 6, object->GetY() + 6);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {
-					pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY() + (currentY - startY));
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + (currentY - startY));
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + (currentY - startY));
-				}
-			}
-			if (ret == false) { // 우상단
-				CRect rect(object->GetX() + object->GetWidth() - 6, object->GetY() - 3, object->GetX() + object->GetWidth() + 3, object->GetY() + 6);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {
-					pDC->MoveTo(object->GetX(), object->GetY() + (currentY - startY));
-					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + (currentY - startY));
-					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX(), object->GetY() + (currentY - startY));
-				}
-			}
-			if (ret == false) { // 좌하단
-				CRect rect(object->GetX() - 3, object->GetY() + object->GetHeight() - 6, object->GetX() + 6, object->GetY() + object->GetHeight() + 3);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {
-					pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight() + (currentY - startY));
-					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight() + (currentY - startY));
-					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY());
-				}
-			}
-			if (ret == false) { // 우하단
-				CRect rect(object->GetX() + object->GetWidth() - 6, object->GetY() + object->GetHeight() - 6,
-					object->GetX() + object->GetWidth() + 3, object->GetY() + object->GetHeight() + 3);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {
-					pDC->MoveTo(object->GetX(), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight() + (currentY - startY));
-					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight() + (currentY - startY));
-					pDC->LineTo(object->GetX(), object->GetY());
-				}
-			}
-			if (ret == false) { // 상중단
-				CRect rect(object->GetX() + object->GetWidth() / 2 - 4, object->GetY() - 3, object->GetX() + object->GetWidth() / 2 + 5, object->GetY() + 6);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {
-					pDC->MoveTo(object->GetX(), object->GetY() + (currentY - startY));
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + (currentY - startY));
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX(), object->GetY() + (currentY - startY));
-				}
-			}
-			if (ret == false) { // 하중단
-				CRect rect(object->GetX() + object->GetWidth() / 2 - 4, object->GetY() + object->GetHeight() - 6,
-					object->GetX() + object->GetWidth() / 2 + 5, object->GetY() + object->GetHeight() + 3);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {
-					pDC->MoveTo(object->GetX(), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight() + (currentY - startY));
-					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight() + (currentY - startY));
-					pDC->LineTo(object->GetX(), object->GetY());
-				}
-			}
-			if (ret == false) { // 좌중단
-				CRect rect(object->GetX() - 3, object->GetY() + object->GetHeight() / 2 - 4, object->GetX() + 6, object->GetY() + object->GetHeight() / 2 + 5);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {
-					pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX() + (currentX - startX), object->GetY());
-				}
-			}
-			if (ret == false) { // 우중단
-				CRect rect(object->GetX() + object->GetWidth() - 6, object->GetY() + object->GetHeight() / 2 - 4,
-					object->GetX() + object->GetWidth() + 3, object->GetY() + object->GetHeight() / 2 + 5);
-				ret = finder.FindRectangleByPoint(rect, startX, startY);
-				if (ret == true) {
-					pDC->MoveTo(object->GetX(), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY());
-					pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
-					pDC->LineTo(object->GetX(), object->GetY());
-				}
+		if (ret == false) { // 우상단
+			CRect rect(templete->GetX() + templete->GetWidth() - 6, templete->GetY() - 3,
+				templete->GetX() + templete->GetWidth() + 3, templete->GetY() + 6);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {
+				pDC->MoveTo(object->GetX(), object->GetY() + (currentY - startY));
+				pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + (currentY - startY));
+				pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX(), object->GetY() + (currentY - startY));
 			}
 		}
-	
-
+		if (ret == false) { // 좌하단
+			CRect rect(selectedClass->GetX() - 3, selectedClass->GetY() + selectedClass->GetHeight() - 6,
+				selectedClass->GetX() + 6, selectedClass->GetY() + selectedClass->GetHeight() + 3);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {
+				pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight() + (currentY - startY));
+				pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight() + (currentY - startY));
+				pDC->LineTo(object->GetX() + (currentX - startX), object->GetY());
+			}
+		}
+		if (ret == false) { // 우하단
+			CRect rect(templete->GetX() + templete->GetWidth() - 6, selectedClass->GetY() + selectedClass->GetHeight() - 6,
+				templete->GetX() + templete->GetWidth() + 3, selectedClass->GetY() + selectedClass->GetHeight() + 3);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {
+				pDC->MoveTo(object->GetX(), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight() + (currentY - startY));
+				pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight() + (currentY - startY));
+				pDC->LineTo(object->GetX(), object->GetY());
+			}
+		}
+		if (ret == false) { // 상중단
+			CRect rect(selectedClass->GetX() + (templete->GetX() + templete->GetWidth() - selectedClass->GetX()) / 2 - 4, templete->GetY() - 3,
+				selectedClass->GetX() + (templete->GetX() + templete->GetWidth() - selectedClass->GetX()) / 2 + 5, templete->GetY() + 6);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {
+				pDC->MoveTo(object->GetX(), object->GetY() + (currentY - startY));
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + (currentY - startY));
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX(), object->GetY() + (currentY - startY));
+			}
+		}
+		if (ret == false) { // 하중단
+			CRect rect(selectedClass->GetX() + (templete->GetX() + templete->GetWidth() - selectedClass->GetX()) / 2 - 4, selectedClass->GetY() + selectedClass->GetHeight() - 6,
+				selectedClass->GetX() + (templete->GetX() + templete->GetWidth() - selectedClass->GetX()) / 2 + 5, selectedClass->GetY() + selectedClass->GetHeight() + 3);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {
+				pDC->MoveTo(object->GetX(), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight() + (currentY - startY));
+				pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight() + (currentY - startY));
+				pDC->LineTo(object->GetX(), object->GetY());
+			}
+		}
+		if (ret == false) { // 좌중단
+			CRect rect(selectedClass->GetX() - 3, templete->GetY() + (selectedClass->GetY() + selectedClass->GetHeight() - templete->GetY()) / 2 - 4,
+				selectedClass->GetX() + 5, templete->GetY() + (selectedClass->GetY() + selectedClass->GetHeight() - templete->GetY()) / 2 + 5);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {
+				pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX() + (currentX - startX), object->GetY());
+			}
+		}
+		if (ret == false) { // 우중단
+			CRect rect(templete->GetX() + templete->GetWidth() - 6, templete->GetY() + (selectedClass->GetY() + selectedClass->GetHeight() - templete->GetY()) / 2 - 4,
+				templete->GetX() + templete->GetWidth() + 3, templete->GetY() + (selectedClass->GetY() + selectedClass->GetHeight() - templete->GetY()) / 2 + 5);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {
+				pDC->MoveTo(object->GetX(), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX(), object->GetY());
+			}
+		}
+	}
+	else {
+		if (ret == false) { // 좌상단
+			CRect rect(object->GetX() - 3, object->GetY() - 3, object->GetX() + 6, object->GetY() + 6);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {
+				pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY() + (currentY - startY));
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + (currentY - startY));
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + (currentY - startY));
+			}
+		}
+		if (ret == false) { // 우상단
+			CRect rect(object->GetX() + object->GetWidth() - 6, object->GetY() - 3, object->GetX() + object->GetWidth() + 3, object->GetY() + 6);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {
+				pDC->MoveTo(object->GetX(), object->GetY() + (currentY - startY));
+				pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + (currentY - startY));
+				pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX(), object->GetY() + (currentY - startY));
+			}
+		}
+		if (ret == false) { // 좌하단
+			CRect rect(object->GetX() - 3, object->GetY() + object->GetHeight() - 6, object->GetX() + 6, object->GetY() + object->GetHeight() + 3);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {
+				pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight() + (currentY - startY));
+				pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight() + (currentY - startY));
+				pDC->LineTo(object->GetX() + (currentX - startX), object->GetY());
+			}
+		}
+		if (ret == false) { // 우하단
+			CRect rect(object->GetX() + object->GetWidth() - 6, object->GetY() + object->GetHeight() - 6,
+				object->GetX() + object->GetWidth() + 3, object->GetY() + object->GetHeight() + 3);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {
+				pDC->MoveTo(object->GetX(), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight() + (currentY - startY));
+				pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight() + (currentY - startY));
+				pDC->LineTo(object->GetX(), object->GetY());
+			}
+		}
+		if (ret == false) { // 상중단
+			CRect rect(object->GetX() + object->GetWidth() / 2 - 4, object->GetY() - 3, object->GetX() + object->GetWidth() / 2 + 5, object->GetY() + 6);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {
+				pDC->MoveTo(object->GetX(), object->GetY() + (currentY - startY));
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + (currentY - startY));
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX(), object->GetY() + (currentY - startY));
+			}
+		}
+		if (ret == false) { // 하중단
+			CRect rect(object->GetX() + object->GetWidth() / 2 - 4, object->GetY() + object->GetHeight() - 6,
+				object->GetX() + object->GetWidth() / 2 + 5, object->GetY() + object->GetHeight() + 3);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {
+				pDC->MoveTo(object->GetX(), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight() + (currentY - startY));
+				pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight() + (currentY - startY));
+				pDC->LineTo(object->GetX(), object->GetY());
+			}
+		}
+		if (ret == false) { // 좌중단
+			CRect rect(object->GetX() - 3, object->GetY() + object->GetHeight() / 2 - 4, object->GetX() + 6, object->GetY() + object->GetHeight() / 2 + 5);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {
+				pDC->MoveTo(object->GetX() + (currentX - startX), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX() + (currentX - startX), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX() + (currentX - startX), object->GetY());
+			}
+		}
+		if (ret == false) { // 우중단
+			CRect rect(object->GetX() + object->GetWidth() - 6, object->GetY() + object->GetHeight() / 2 - 4,
+				object->GetX() + object->GetWidth() + 3, object->GetY() + object->GetHeight() / 2 + 5);
+			ret = finder.FindRectangleByPoint(rect, startX, startY);
+			if (ret == true) {
+				pDC->MoveTo(object->GetX(), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY());
+				pDC->LineTo(object->GetX() + object->GetWidth() + (currentX - startX), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX(), object->GetY() + object->GetHeight());
+				pDC->LineTo(object->GetX(), object->GetY());
+			}
+		}
+	}
 }

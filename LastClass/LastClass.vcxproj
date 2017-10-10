@@ -157,6 +157,7 @@
     <ClInclude Include="Reception.h" />
     <ClInclude Include="Relation.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="resource3.h" />
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="RollNameBox.h" />
     <ClInclude Include="Row.h" />
@@ -164,7 +165,6 @@
     <ClInclude Include="SaveMenuAction.h" />
     <ClInclude Include="Scroll.h" />
     <ClInclude Include="ScrollAction.h" />
-    <ClInclude Include="StatusBar.h" />
     <ClInclude Include="SupportMenu.h" />
     <ClInclude Include="SupportMenuAction.h" />
     <ClInclude Include="Selection.h" />
@@ -339,7 +339,6 @@
     <ClCompile Include="SaveMenuAction.cpp" />
     <ClCompile Include="Scroll.cpp" />
     <ClCompile Include="ScrollAction.cpp" />
-    <ClCompile Include="StatusBar.cpp" />
     <ClCompile Include="SupportMenu.cpp" />
     <ClCompile Include="SupportMenuAction.cpp" />
     <ClCompile Include="Selection.cpp" />
@@ -369,6 +368,12 @@
     <ClCompile Include="WriteKoreanText.cpp" />
     <ClCompile Include="WriteKoreanTextProcess.cpp" />
     <ClCompile Include="WritingVisitor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LastClass2.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="toolbar1.bmp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
