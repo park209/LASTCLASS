@@ -3,6 +3,7 @@
 #include "WriteKoreanText.h"
 #include "TextEdit.h"
 #include "WriteKoreanTextProcess.h"
+#include "HistoryText.h"
 
 WriteKoreanText* WriteKoreanText::instance = 0;
 
@@ -36,6 +37,7 @@ void WriteKoreanText::WriteHanguel(WPARAM wParam, LPARAM lParam, HIMC hIMC, Text
 		bufferLength = ImmGetCompositionString(hIMC, GCS_COMPSTR, NULL, 0);
 		ImmGetCompositionString(hIMC, GCS_COMPSTR, buffer, bufferLength);
 		if (textEdit->flagBuffer == 0) { // 조합중에서 시작일때
+			textEdit->historyText->PushUndo(textEdit->text, textEdit->caret);
 			WriteKoreanTextProcess *koreanProcess = new WriteKoreanTextProcess();
 			koreanProcess->StartComposition(textEdit, bufferLength, buffer);
 			if (koreanProcess != 0) {
