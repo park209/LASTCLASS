@@ -176,7 +176,7 @@ bool Diagram::CheckOverlap(CRect object, FigureComposite *execpt) {
 	object.top -= 2;
 	object.right += 2;
 	object.bottom += 2;
-	while (i < this->length) {
+	while (i < this->length  && ret == false) {
 		FigureComposite *figureComposite = static_cast<FigureComposite*>(this->GetAt(i));
 		if (figureComposite != execpt) {
 			CRect rect(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
