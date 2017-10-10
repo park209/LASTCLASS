@@ -156,6 +156,7 @@
     <ClInclude Include="Reception.h" />
     <ClInclude Include="Relation.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="resource3.h" />
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="RollNameBox.h" />
     <ClInclude Include="Row.h" />
@@ -367,6 +368,12 @@
     <ClCompile Include="WriteKoreanText.cpp" />
     <ClCompile Include="WriteKoreanTextProcess.cpp" />
     <ClCompile Include="WritingVisitor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LastClass2.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="toolbar1.bmp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -27,7 +27,7 @@ HistoryText::~HistoryText() {
 
 void HistoryText::PushUndo(Text *text, Caret *caret) {
 	Caret *tempCaret = new Caret(*caret);
-	if (this->undoTextArray->GetCapacity() < 50) {
+	if (this->undoTextArray->GetCapacity() < 200) {
 		this->undoTextArray->AppendFromFront(static_cast<Text*>(text->Clone()));
 		this->undoCaretArray->AppendFromFront(tempCaret);
 	}
@@ -59,7 +59,7 @@ Caret* HistoryText::PopUndoCaret() {
 
 void HistoryText::PushRedo(Text *text, Caret *caret) {
 	Caret *tempCaret = new Caret(*caret);
-	if (this->redoTextArray->GetCapacity() < 50) {
+	if (this->redoTextArray->GetCapacity() < 200) {
 		this->redoTextArray->AppendFromFront(static_cast<Text*>(text->Clone()));
 		this->redoCaretArray->AppendFromFront(tempCaret);
 	}
