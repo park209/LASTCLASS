@@ -556,6 +556,7 @@
       <Filter>MouseAction</Filter>
     </ClInclude>
     <ClInclude Include="ToolBar.h" />
+    <ClInclude Include="CtrlZoomIn.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -1073,5 +1074,6 @@
       <Filter>MouseAction</Filter>
     </ClCompile>
     <ClCompile Include="ToolBar.cpp" />
+    <ClCompile Include="CtrlZoomIn.cpp" />
   </ItemGroup>
 </Project>
