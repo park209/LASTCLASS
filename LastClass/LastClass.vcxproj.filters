@@ -540,7 +540,6 @@
     <ClInclude Include="OnVScrollTop.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
-    <ClInclude Include="StatusBar.h" />
     <ClInclude Include="OnVScrollEnd.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
@@ -549,6 +548,9 @@
     </ClInclude>
     <ClInclude Include="GraphicCtrlUndoMenuAction.h">
       <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="resource3.h">
+      <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="EditResizerBlocker.h">
       <Filter>TextEdit</Filter>
@@ -1054,7 +1056,6 @@
     <ClCompile Include="MenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
-    <ClCompile Include="StatusBar.cpp" />
     <ClCompile Include="OnVScrollEnd.cpp">
       <Filter>ScrollBar</Filter>
     </ClCompile>
@@ -1076,5 +1077,15 @@
     <ClCompile Include="GraphicCtrlPasteKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LastClass2.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="toolbar1.bmp">
+      <Filter>Resource</Filter>
+    </Image>
   </ItemGroup>
 </Project>
