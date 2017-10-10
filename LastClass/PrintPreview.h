@@ -12,12 +12,12 @@ public:
 	PrintPreview(LastClass *lastClass);
 	void OnPrint(CDC *cdc , CPrintInfo *pInfo, UINT page);
 	void OnEndPrinting(CDC *pDc, CPrintInfo *pInfo);
-	void OnBeginPrinting(CDC *pDc, CPrintInfo *pInfo);
+	void OnBeginPrinting(CDC *pDc, CPrintInfo *pInfo);	
+	afx_msg void OnClose();
 private:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
 	afx_msg void OnDraw(CDC *cdc ) ;
-	afx_msg void OnClose();
 	afx_msg void OnNextButton();
 	afx_msg void OnPriviousButton();
 	afx_msg void OnPrintButton();
@@ -30,5 +30,7 @@ private:
 	CButton *printButton;
 	Long horizontalPage;
 	Long verticalPage;
+	Long horizontalPageSize;
+	Long verticalPageSize;
 };
 #endif // !_PRINTPREVIEW_H

@@ -992,5 +992,4 @@ void ClassDiagramForm::OnClose() {
 		if (this != NULL) {
 			delete this;
 		}
-	
 }

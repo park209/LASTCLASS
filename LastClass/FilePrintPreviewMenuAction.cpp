@@ -16,6 +16,6 @@ void FilePrintPreviewMenuAction::MenuPress(LastClass* lastClass) {
 	//CView *printView = NULL;
 	//printView->Create(NULL, "#33", WS_VISIBLE, CRect(100, 100, 700, 700), lastClass, 9999);
 	//CPrintPreviewState *pState = new CPrintPreviewState;
-	PrintPreview *printPreview = new PrintPreview(lastClass);
-	printPreview->Create(NULL, "printPreview", WS_CHILD | WS_VISIBLE  , CRect(10,10,1200,900), lastClass,10001, NULL);
+	lastClass->printPreview= new PrintPreview(lastClass);
+	lastClass->printPreview->Create(NULL, "printPreview", WS_CHILD | WS_VISIBLE  , CRect(10,10,1200,900), lastClass,10001, NULL);
 }

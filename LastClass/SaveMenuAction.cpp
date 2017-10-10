@@ -18,6 +18,8 @@ void SaveMenuAction::MenuPress(LastClass* lastClass) {
 			}
 		}
 	}
-		
+	else {
+		lastClass->classDiagramForm->Save();
+	}
 
 }

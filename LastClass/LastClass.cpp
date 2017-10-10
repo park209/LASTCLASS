@@ -6,6 +6,7 @@
 #include "menuAction.h"
 #include "Scroll.h"
 #include "HistoryGraphic.h"
+#include "PrintPreview.h"
 
 #include <afxdlgs.h>
 
@@ -31,6 +32,7 @@ END_MESSAGE_MAP()
 LastClass::LastClass() {
 	this->classDiagramForm = NULL;
 	this->menu = NULL;
+	this->printPreview = NULL;
 }
 
 int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -93,6 +95,7 @@ void LastClass::OnMouseMove(UINT nFlags, CPoint point) {
 
 void LastClass::OnClose() {
 	//6.2. 다이어그램을 지운다.
+	this->SetFocus();
 	int messageBox = IDNO;
 	INT_PTR int_ptr = IDOK;
 	if (this->classDiagramForm->historyGraphic->undoGraphicArray->GetLength() != 0) {
@@ -124,12 +127,21 @@ void LastClass::OnClose() {
 	}
 	//6.2. 다이어그램을 지운다.
 	if (messageBox != IDCANCEL && int_ptr == IDOK) {//== IDYES || messageBox == IDNO ) {
-		if (this->classDiagramForm != NULL) {
-			this->classDiagramForm->OnClose();
+		//CFrameWnd::OnClose();
+		if (this->printPreview != NULL) {
+			this->printPreview->OnClose();
 		}
+
 		if (this->menu != NULL) {
 			delete this->menu;
 		}
-		CFrameWnd::OnClose(); // 오버라이딩 코드재사용
+		if (this->classDiagramForm != NULL) {
+			this->classDiagramForm->OnClose();
+		}
+		//this->DestroyWindow();
+			CFrameWnd::OnClose();
+	
+		// 오버라이딩 코드재사용
 	}
+
 }

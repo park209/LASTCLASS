@@ -29,6 +29,8 @@ PrintPreview::PrintPreview(LastClass *lastClass) {
 	this->printButton = NULL;
 	this->horizontalPage = 0;
 	this->verticalPage = 0;
+	this->horizontalPageSize = 800;
+	this->verticalPageSize = 1000;
 }
 int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CWnd::OnCreate(lpCreateStruct);
@@ -72,7 +74,7 @@ void PrintPreview::OnPaint() {
 	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 
 	dc.FillSolidRect(rec, RGB(153,153,153));
-	dc.StretchBlt(rec.CenterPoint().x-300, rec.CenterPoint().y-400, 600, 800, &memDC, (this->horizontalPage * 800), (this->verticalPage * 1000), 800,1000, SRCCOPY);
+	dc.StretchBlt(rec.CenterPoint().x-300, rec.CenterPoint().y-400, 600, 800, &memDC, this->horizontalPage, this->verticalPage , 800,1000, SRCCOPY);
 
 	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
@@ -143,34 +145,42 @@ void PrintPreview::OnClose() {
 		delete this->priviousButton;
 	}
 	if (this != 0) {
+		this->lastClass->printPreview = NULL;
 		delete this;
 	}
 }
-
 void PrintPreview::OnNextButton() {
-	this->verticalPage++;
-	if (this->verticalPage > 1) {
-		this->horizontalPage++;
-		this->verticalPage = 0;
+	this->verticalPage += this->verticalPageSize;
+	if (this->verticalPage >= 2000) {
+		this->horizontalPage += this->horizontalPageSize;;
+		if (this->horizontalPage >= 4000) {
+			this->horizontalPage -= this->horizontalPageSize;
+			this->verticalPage -= this->verticalPageSize;
+		}
+		else {
+			this->verticalPage = 0;
+		}
 	}
-	if (this->horizontalPage > 4) {
-		this->horizontalPage = 4;
-		this->verticalPage = 1;
-	}
-	//RedrawWindow();
 	Invalidate(false);
 }
 void PrintPreview::OnPriviousButton() {
-	this->verticalPage--;
+	this->verticalPage -= this->verticalPageSize;
 	if (this->verticalPage < 0) {
-		this->horizontalPage--;
-		this->verticalPage = 1;
+		this->horizontalPage -= this->horizontalPageSize;
+		if (this->horizontalPage < 0) {
+			this->horizontalPage = 0;
+			this->verticalPage = 0;
+		}
+		else {
+			if (2000 % this->verticalPageSize == 0) {
+				this->verticalPage = (2000 / this->verticalPageSize-1)*this->verticalPageSize;
+			}
+			else {
+				this->verticalPage = (2000 / this->verticalPageSize)*this->verticalPageSize;
+			}
+
+		}
 	}
-	if (this->horizontalPage < 0) {
-		this->horizontalPage = 0;
-		this->verticalPage = 0;
-	}
-	//RedrawWindow();
 	Invalidate(false);
 }
 void PrintPreview::OnBeginPrinting(CDC *pDc, CPrintInfo *pInfo) {
@@ -189,12 +199,14 @@ void PrintPreview::OnEndPrinting(CDC *pDc, CPrintInfo *pInfo) {
 		delete this->priviousButton;
 	}
 	if (this != 0) {
+		this->lastClass->printPreview = NULL;
 		delete this;
 	}
 }
 void PrintPreview::OnPrintButton() {
 	CPrintDialog printDialog(false);
-	if (printDialog.DoModal() != IDCANCEL) {
+	INT_PTR int_ptr = printDialog.DoModal();
+	if (int_ptr == IDOK) {
 		CDC dc;
 		dc.Attach(printDialog.GetPrinterDC());
 		dc.m_bPrinting = TRUE;
@@ -211,6 +223,7 @@ void PrintPreview::OnPrintButton() {
 		CPrintInfo Info;
 		Info.m_rectDraw.SetRect(0, 0, dc.GetDeviceCaps(HORZRES),dc.GetDeviceCaps(VERTRES));
 		Info.SetMaxPage(2);
+		
 		OnBeginPrinting(&dc, &Info);
 		for (UINT page = Info.GetMinPage(); page <= Info.GetMaxPage() && bPrintingOK; page++) {
 			dc.StartPage();
@@ -225,6 +238,9 @@ void PrintPreview::OnPrintButton() {
 		else dc.AbortDoc();
 
 		dc.Detach();
+	}
+	else  if (int_ptr == IDCANCEL){
+		printDialog.DestroyWindow();
 	}
 }
 void PrintPreview::OnSize(UINT nType, int cx, int cy) {
