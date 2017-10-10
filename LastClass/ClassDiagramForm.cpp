@@ -740,14 +740,30 @@ void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	SetFocus();
 	bool ret = false;
+
+	// nWheelScrollLines 휠 한번에 이동하는 줄 수 (Reg에서 읽어 온다)
+	HKEY hKey = 0;
+	DWORD dwType = REG_BINARY;
+	DWORD dwSize = 10;
+	BYTE* pByte = new BYTE[dwSize];
+
+	ZeroMemory(pByte, dwSize);
+
+	RegOpenKey(HKEY_CURRENT_USER, "Control Panel\\Desktop", &hKey);
+	RegQueryValueEx(hKey, "WheelScrollLines", NULL, &dwType, pByte, &dwSize);
+	RegCloseKey(hKey);
+
+	int nWheelScrollLines = atoi((char*)pByte);
+	delete pByte;
+
 	int vertCurPos = GetScrollPos(SB_VERT);
 
 	if (zDelta <= 0) { //마우스 휠 다운
-		vertCurPos += 20;
+		vertCurPos += nWheelScrollLines*10;
 		ret = true;
 	}
 	else {  //마우스 휠 업
-		vertCurPos -= 20;
+		vertCurPos -= nWheelScrollLines * 10;
 		ret = true;
 	}
 	SetScrollPos(SB_VERT, vertCurPos);

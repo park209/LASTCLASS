@@ -5,16 +5,18 @@
 #include <afxwin.h>
 typedef signed long int Long;
 
+class StatusBar;
+class ToolBar;
 class Menu;
 class ClassDiagramForm;
-class PrintPreview;
 class LastClass : public CFrameWnd {
 public:
 	LastClass();
 public:
 	ClassDiagramForm *classDiagramForm;
 	Menu *menu;
-	PrintPreview *printPreview;
+	ToolBar *toolBar;
+	StatusBar *statusBar;
 private:
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
