@@ -492,9 +492,6 @@
     <ClInclude Include="DrawingResize.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
     <ClInclude Include="OnHScrollEnd.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
@@ -534,15 +531,8 @@
     <ClInclude Include="OnVScrollTop.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
-    <ClInclude Include="StatusBar.h" />
     <ClInclude Include="OnVScrollEnd.h">
       <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicCtrlRedoMenuAction.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicCtrlUndoMenuAction.h">
-      <Filter>Menu</Filter>
     </ClInclude>
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="ToolBar.h" />
@@ -557,6 +547,8 @@
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="TextEdit.h" />
+    <ClInclude Include="PrintPreviewState.h" />
+    <ClInclude Include="StatusBar.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -1043,7 +1035,6 @@
     <ClCompile Include="MenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
-    <ClCompile Include="StatusBar.cpp" />
     <ClCompile Include="OnVScrollEnd.cpp">
       <Filter>ScrollBar</Filter>
     </ClCompile>
@@ -1068,5 +1059,11 @@
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="TextEdit.cpp" />
+    <ClCompile Include="PrintPreviewState.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="StatusBar.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
