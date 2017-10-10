@@ -6,7 +6,11 @@
 #include "DrawingVisitor.h"
 #include "WritingVisitor.h"
 #include "Diagram.h"
+#include "PrintPreviewState.h"
 #include <afxwin.h>
+#include <afxdlgs.h>
+#include <afxpriv.h>
+using namespace std;
 
 BEGIN_MESSAGE_MAP(PrintPreview,CWnd)
 	ON_WM_CREATE()
@@ -28,6 +32,7 @@ PrintPreview::PrintPreview(LastClass *lastClass) {
 }
 int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CWnd::OnCreate(lpCreateStruct);
+	this->ModifyStyle(0, WS_OVERLAPPEDWINDOW);
 	this->nextButton = new CButton;
 	this->nextButton->Create("다음", WS_CHILD|WS_VISIBLE|BS_PUSHBUTTON|BS_CENTER|BS_VCENTER,CRect(800,200,880,240), this, 1);
 	this->priviousButton = new CButton;
@@ -38,9 +43,28 @@ int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE );
 	this->SetFocus();
 	this->lastClass->classDiagramForm->EnableWindow(false);
-	
+	this->OnFilePrintPreview();
 	Invalidate();
+
+	//this->OnFilePrintPreview();
+	//this->OnFilePrintPreview();
 	return 0;
+}
+void PrintPreview::OnFilePrintPreview() {/*
+	CPrintPreviewState *pState = new CPrintPreviewState;
+
+	if (!DoPrintPreview(AFX_IDD_PREVIEW_TOOLBAR, this, RUNTIME_CLASS(PrintPreviewState), pState)) {
+		TRACE0("Error: DoPrintPreView failed");
+		AfxMessageBox(AFX_IDP_COMMAND_FAILURE); 
+		delete pState;
+	}
+	*/
+	
+}
+BOOL PrintPreview::OnPreparePrinting(CPrintInfo *pInfo) {/*
+	BOOL ret = CView::OnPreparePrinting(pInfo);
+		return ret;*/
+	return true;
 }
 void PrintPreview::OnPaint() {
 	
@@ -73,6 +97,57 @@ void PrintPreview::OnPaint() {
 	memDC.SelectObject(pOldBitmap);
 	bitmap.DeleteObject();
 	memDC.DeleteDC();
+	
+}
+void PrintPreview::OnDraw(CDC *cdc) {
+
+}
+void PrintPreview::OnPrint(CDC *cdc, CPrintInfo *pInfo, UINT page) {
+	Long i[10] = { 0,2000,800,800,1600,1600,2400,2400,3200,3200 };
+	Long j[10] = { 0,0,0,1000,0,1000,0,1000,0,1000 };
+	Long k = page - 1;
+
+	Long width = pInfo->m_rectDraw.Width();
+	Long hegiht = pInfo->m_rectDraw.Height();
+	CDC memDC;
+	CRect rect;
+	this->lastClass->classDiagramForm->GetClientRect(&rect);
+	CBitmap *pOldBitmap;
+	CBitmap bitmap;
+
+	CPaintDC dc(this);
+
+	memDC.CreateCompatibleDC(&dc);
+	bitmap.CreateCompatibleBitmap(&dc, 4000, 2000);
+	pOldBitmap = memDC.SelectObject(&bitmap);
+	memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
+	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
+	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
+	SetFont(&cFont, TRUE);
+	CFont *oldFont = memDC.SelectObject(&cFont);
+
+	DrawingVisitor drawingVisitor;
+	this->lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &memDC);
+	WritingVisitor writingVisitor;
+	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
+
+
+	CBitmap *pOldBitmapOne;
+	CBitmap bitmapOne;
+	CDC memDCOne;
+	memDCOne.CreateCompatibleDC(&dc);
+	bitmapOne.CreateCompatibleBitmap(&dc, 2000, 2000);
+	pOldBitmapOne = memDCOne.SelectObject(&bitmapOne);
+	memDCOne.FillSolidRect(CRect(0, 0, 2000, 2000), RGB(255, 255, 255));
+	memDCOne.BitBlt(0, 0, 2000, 2000, &memDC, i[k], j[k], SRCCOPY);
+
+	int mapMode = cdc->GetMapMode();
+	memDCOne.SetMapMode(mapMode);
+	cdc->SetStretchBltMode(COLORONCOLOR);
+
+	cdc->StretchBlt(100, 100, width - 200, hegiht - 200, &memDCOne, 0, 0, 2000, 2000, SRCCOPY);
+
 }
 void PrintPreview::OnClose() {
 	this->lastClass->classDiagramForm->EnableWindow(true);
@@ -89,11 +164,7 @@ void PrintPreview::OnClose() {
 		delete this;
 	}
 }
-void PrintPreview::OnLButtonDown(UINT nFlags, CPoint point) {
-}
-void PrintPreview::OnLButtonUp(UINT nFlags, CPoint point) {
 
-}
 void PrintPreview::OnNextButton() {
 	this->verticalPage++;
 	if (this->verticalPage > 1) {
@@ -120,6 +191,149 @@ void PrintPreview::OnPriviousButton() {
 	//RedrawWindow();
 	Invalidate(false);
 }
-void PrintPreview::OnPrintButton() {
+void PrintPreview::OnBeginPrinting(CDC *pDc, CPrintInfo *pInfo) {
 
+}
+
+void PrintPreview::OnEndPrinting(CDC *pDc, CPrintInfo *pInfo) {
+
+}
+void PrintPreview::OnPrintButton() {
+	CPrintDialog printDialog(false);
+	if (printDialog.DoModal() != IDCANCEL) {
+		CDC dc;
+		dc.Attach(printDialog.GetPrinterDC());
+		dc.m_bPrinting = TRUE;
+
+		CString strTitle;
+		strTitle.LoadString(AFX_IDS_APP_TITLE);
+		DOCINFO di;
+		ZeroMemory(&di, sizeof(DOCINFO));
+		di.cbSize = sizeof(DOCINFO);
+		di.lpszDocName = strTitle;
+
+		BOOL bPrintingOK = dc.StartDoc(&di);
+
+		CPrintInfo Info;
+		Info.m_rectDraw.SetRect(0, 0, dc.GetDeviceCaps(HORZRES),dc.GetDeviceCaps(VERTRES));
+		Info.SetMaxPage(2);
+		OnBeginPrinting(&dc, &Info);
+		for (UINT page = Info.GetMinPage(); page <= Info.GetMaxPage() && bPrintingOK; page++) {
+			dc.StartPage();
+			Info.m_nCurPage = page;
+			this->OnPrint(&dc,&Info,page);
+
+			bPrintingOK = (dc.EndPage() > 0);
+
+		}
+		this->OnEndPrinting(&dc, &Info);
+		if (bPrintingOK) dc.EndDoc();
+		else dc.AbortDoc();
+
+		dc.Detach();
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//		DeleteDC(hDC);
+//	}
+//}
+//	dlg.DoModal();
+//	CDC dc;
+//	if (dc.Attach(dlg.CreatePrinterDC())) {
+//		DOCINFO info;
+//
+//		memset(&info, 0, sizeof(DOCINFO));
+//		info.cbSize = sizeof(DOCINFO);
+//		dc.StartDoc(&info);
+//		dc.StartPage();
+//		
+//		CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
+//		cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+//			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
+//		SetFont(&cFont, TRUE);
+//		CFont *oldFont = dc.SelectObject(&cFont);
+//
+//		DrawingVisitor drawingVisitor;
+//		this->lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &dc);
+//		WritingVisitor writingVisitor;
+//		this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &dc);
+//		dc.EndPage();
+//		dc.EndDoc();
+//		dc.DeleteDC();
+//	}
+//}
+//	dlg.DoModal();
+//	
+//	CDC dc;
+//	CPaintDC dcp(this);
+//	if (dc.Attach(dlg.CreatePrinterDC())) {
+//		DOCINFO info;
+//		memset(&info, 0, sizeof(DOCINFO));
+//		info.cbSize = sizeof(DOCINFO);
+//		dc.StartDoc(&info);
+//		//dc.StartPage();
+//
+//		HDC hDC = dlg.GetPrinterDC();
+//		int nPageWidth = GetDeviceCaps(hDC, HORZRES);
+//		int nPageHeight = GetDeviceCaps(hDC, VERTRES);
+//
+//
+//		CDC memDC;
+//		CRect rect;
+//		this->lastClass->classDiagramForm->GetClientRect(&rect);
+//		CBitmap *pOldBitmap;
+//		CBitmap bitmap;
+//		memDC.CreateCompatibleDC(&dcp);
+//		bitmap.CreateCompatibleBitmap(&dcp, 4000, 2000);
+//		pOldBitmap = memDC.SelectObject(&bitmap);
+//		memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
+//		CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
+//		cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+//			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
+//		SetFont(&cFont, TRUE);
+//		CFont *oldFont = memDC.SelectObject(&cFont);
+//
+//		DrawingVisitor drawingVisitor;
+//		this->lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &memDC);
+//		WritingVisitor writingVisitor;
+//		this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
+//		
+//		Long i = 0;
+//		while (i < 5) {
+//			dc.StartPage();
+//			int mapMode = dc.GetMapMode();
+//			memDC.SetMapMode(mapMode);
+//			dc.SetStretchBltMode(HALFTONE);
+//			
+//			//dc.BitBlt(0, 0, nPageWidth, nPageHeight, &memDC,0, 0, SRCCOPY);
+//			//dc.StretchBlt(0, 0, nPageWidth, nPageHeight, &memDC, 0,0, i * 400, i * 200, SRCCOPY);
+//			dc.StretchBlt(0, 0,0,0, &memDC,i*400,i*200, (i*400) - nPageWidth, (i*200) - nPageHeight, SRCCOPY);
+//			//::RestoreDC(dc,-1);
+//			dc.EndPage();
+//			i++;
+//		}
+//		memDC.SelectObject(oldFont);
+//		cFont.DeleteObject();
+//		memDC.SelectObject(pOldBitmap);
+//		bitmap.DeleteObject();
+//		memDC.DeleteDC();
+//		//dc.EndPage();
+//
+//		dc.EndDoc();
+//
+//		dc.DeleteDC();
+//
+//	}
 }
