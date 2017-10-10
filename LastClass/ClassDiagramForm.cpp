@@ -611,10 +611,28 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->historyGraphic = new HistoryGraphic;
 	this->keyBoard = new KeyBoard;
 	this->scroll = new Scroll;
-
+	CRect rect;
+	this->GetClientRect(&rect);
 	ModifyStyle(0, WS_CLIPCHILDREN);
-	SetScrollRange(SB_VERT, 0, pageHeight, 0);
-	SetScrollRange(SB_HORZ, 0, pageWidth, 0);
+
+	SCROLLINFO vScinfo;
+	SCROLLINFO hScinfo;
+	vScinfo.cbSize = sizeof(vScinfo);
+	vScinfo.fMask = SIF_ALL;
+	vScinfo.nMin = 0;
+	vScinfo.nMax = 2000;
+	vScinfo.nPage = rect.bottom;
+	vScinfo.nPos = 0;
+	this->SetScrollInfo(SB_VERT, &vScinfo);
+
+	hScinfo.cbSize = sizeof(hScinfo);
+	hScinfo.fMask = SIF_ALL;
+	hScinfo.nMin = 0;
+	hScinfo.nMax = 4000;
+	hScinfo.nPage = rect.right;
+	hScinfo.nTrackPos = 0;
+	hScinfo.nPos = 0;
+	this->SetScrollInfo(SB_HORZ, &hScinfo);
 	//1.2. 적재한다
 	//this->Load();
 	//1.3. 윈도우를 갱신한다
@@ -631,9 +649,9 @@ void ClassDiagramForm::OnPaint() {
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
 	memDC.CreateCompatibleDC(&dc);
-	bitmap.CreateCompatibleBitmap(&dc, rect.right + pageWidth, rect.bottom + pageHeight);
+	bitmap.CreateCompatibleBitmap(&dc, 4000, 2000 );
 	pOldBitmap = memDC.SelectObject(&bitmap);
-	memDC.FillSolidRect(CRect(0, 0, rect.right + pageWidth, rect.bottom + pageHeight), RGB(255, 255, 255));
+	memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
@@ -651,13 +669,10 @@ void ClassDiagramForm::OnPaint() {
 
 	int vertCurPos = GetScrollPos(SB_VERT);
 	int horzCurPos = GetScrollPos(SB_HORZ);
-
-	dc.BitBlt(-horzCurPos,
-		-vertCurPos,
-		rect.right + horzCurPos,
-		rect.bottom + vertCurPos,
-		&memDC, 0, 0, SRCCOPY);
-
+	CString a;
+	a.Format("%d %d", horzCurPos, vertCurPos);
+	dc.BitBlt(0 , 0,rect.right ,rect.bottom ,&memDC, horzCurPos, vertCurPos, SRCCOPY);
+	dc.TextOut(10 ,10, a);
 	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
 	memDC.SelectObject(pOldBitmap);
@@ -684,36 +699,48 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	cFont.DeleteObject();
 }
 
-
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	CWnd::OnSetFocus(pOldWnd);
 	CWnd::SetFocus();
 	Invalidate(false);
 }
 void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
+	CRect rect;
+	this->GetClientRect(&rect);
+	SCROLLINFO vScinfo;
+	SCROLLINFO hScinfo;
+	this->GetScrollInfo(SB_VERT, &vScinfo);
+	this->GetScrollInfo(SB_HORZ, &hScinfo);
+
+	vScinfo.nPage = rect.bottom;
+	hScinfo.nPage = rect.right;
+
+
+	this->SetScrollInfo(SB_VERT, &vScinfo);
+	this->SetScrollInfo(SB_HORZ, &hScinfo);
+
 	Invalidate(false);
 }
 
 void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
-	CWnd::OnVScroll(nSBCode, nPos, pScrollBar);
 	ScrollAction *scrollAction = this->scroll->MoveVScroll(this, nSBCode, nPos, pScrollBar);
 	if (scrollAction != 0) {
 		scrollAction->Scrolling(this);
 	}
 	Invalidate(false);
+	CWnd::OnVScroll(nSBCode, nPos, pScrollBar);
 }
 
 void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
-	CWnd::OnHScroll(nSBCode, nPos, pScrollBar);
 	ScrollAction *scrollAction = this->scroll->MoveHScroll(this, nSBCode, nPos, pScrollBar);
 	if (scrollAction != 0) {
 		scrollAction->Scrolling(this);
 	}
 	Invalidate(false);
+	CWnd::OnHScroll(nSBCode, nPos, pScrollBar);
 }
 
 BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
-	CWnd::SetFocus();
 	SetFocus();
 	bool ret = false;
 	int vertCurPos = GetScrollPos(SB_VERT);
@@ -893,6 +920,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 
+
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
 	UINT elapseTime = 0;
@@ -948,41 +976,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnClose() {
-	CWnd::OnClose();
-	//6.1. 저장한다.
-	//this->Save();
-	int messageBox = IDNO;
-	INT_PTR int_ptr = IDOK;
-	if (this->historyGraphic->undoGraphicArray->GetLength() != 0) {
-		if (this->fileName == "") {
-			messageBox = MessageBox(_T("변경 내용을 제목 없음에 저장하시겠습니까?"), "ClassDiagram", MB_YESNOCANCEL);
 
-			if (messageBox == IDYES) {
-				CFileDialog  dlgFile(false, "txt", "*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT, "텍스트 문서(*.txt)");
-				int_ptr = dlgFile.DoModal();
-				if (int_ptr == IDOK) {
-					this->fileName = dlgFile.GetPathName();
-					this->Save();
-				}
-				//else {
-				//return;  //보류
-				//}
-			}
-		}
-		else {
-			CString object;
-			object = "변경내용을 ";
-			object.Append(this->fileName);
-			object.Append("에 저장하시겠습니까?");
-			messageBox = MessageBox(object, "ClassDiagram", MB_YESNOCANCEL);
-			if (messageBox == IDYES) {
-				this->Save();
-			}
-		}
-	}
-
-	//6.2. 다이어그램을 지운다.
-	if (messageBox != IDCANCEL && int_ptr == IDOK) {//== IDYES || messageBox == IDNO ) {
 		if (this->diagram != NULL) {
 			delete this->diagram;
 		}
@@ -1001,5 +995,5 @@ void ClassDiagramForm::OnClose() {
 		if (this != NULL) {
 			delete this;
 		}
-	}
+	
 }

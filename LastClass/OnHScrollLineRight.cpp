@@ -23,8 +23,9 @@ void OnHScrollLineRight::Scrolling(ClassDiagramForm *classDiagramForm) {
 	// Get the current position of scroll box.
 	int curpos = classDiagramForm->GetScrollPos(SB_HORZ);
 
-	if (curpos < maxpos) {
-		curpos++;
+	curpos += 100;
+	if (curpos > maxpos) {
+		curpos = maxpos;
 	}
 
 	classDiagramForm->SetScrollPos(SB_HORZ, curpos);

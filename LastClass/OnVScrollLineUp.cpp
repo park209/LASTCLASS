@@ -19,7 +19,7 @@ void OnVScrollLineUp::Scrolling(ClassDiagramForm *classDiagramForm) {
 	// Get the current position of scroll box.
 	int curpos = classDiagramForm->GetScrollPos(SB_VERT);
 
-	curpos -= 10;
+	curpos -= 100;
 	if (curpos < minpos) {
 		curpos = minpos;
 	}
