@@ -11,7 +11,9 @@
 
 #include <afxdlgs.h>
 #include <afxext.h>
+#include <afxstatusbar.h>
 
+#include <afxcmn.h>
 using namespace std;
 
 BEGIN_MESSAGE_MAP(LastClass, CFrameWnd)
@@ -32,36 +34,26 @@ END_MESSAGE_MAP()
 LastClass::LastClass() {
 	this->classDiagramForm = NULL;
 	this->menu = NULL;
+	this->toolBar = NULL;
 	this->statusBar = NULL;
 }
 
 int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
 
-	//툴바랑 스태투스바 너비랑 높이 구해서 classDiagramForm rect 다시 구한다
-	ToolBar toolBar;
-	toolBar.MakeToolBar(this->GetSafeHwnd());
-
-	this->statusBar = new StatusBar;
-	HWND test = this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 7);
-
 	CRect rect;
 	this->GetClientRect(&rect);
-	//rect.top += 25;
-	rect.left += 30;
-	//rect.right -= 30;
-	rect.bottom -= 100;
 
-	this->classDiagramForm = new ClassDiagramForm;
+	this->statusBar = new StatusBar;
+	this->toolBar = new ToolBar;
+
+	rect.left += 66;
+	rect.right -= 66;
+	rect.bottom -= 30;
+	this->classDiagramForm = new ClassDiagramForm(this);
 	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
 
 	this->menu = new Menu(this);
-
-	/*ToolBar toolBar;
-	toolBar.MakeToolBar(this->GetSafeHwnd());
-
-	this->statusBar = new StatusBar;
-	HWND test = this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 7);*/
 
 	return 0;
 }
@@ -74,8 +66,9 @@ void LastClass::OnMyMenu(UINT parm_control_id) {
 	}
 }
 void LastClass::OnKillFocus(CWnd *pNewWnd) {
-	CFrameWnd::OnKillFocus(pNewWnd);
+	//CFrameWnd::OnKillFocus(pNewWnd);
 }
+
 void LastClass::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 }
 
@@ -86,9 +79,21 @@ void LastClass::OnSetFocus(CWnd* pOldWnd) {
 }
 
 void LastClass::OnSize(UINT nType, int cx, int cy) {
+	CFrameWnd::OnSize(nType, cx, cy);
+
+	this->toolBar->MakeToolBar(this->GetSafeHwnd());
+	this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
+
 	CRect rect;
 	this->GetClientRect(&rect);
+	rect.left += 66;
+	rect.right -= 66;
+	rect.bottom -= 30;
+	//this->classDiagramForm->MoveWindow(rect.left, rect.top, rect.right, rect.bottom, 1);
 	this->classDiagramForm->SetWindowPos(this, rect.left,rect.top,rect.right,rect.bottom, SWP_NOMOVE | SWP_NOZORDER );
+	
+	this->RedrawWindow();
+	this->classDiagramForm->Invalidate(false);
 }
 
 BOOL LastClass::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {

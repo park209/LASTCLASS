@@ -17,8 +17,10 @@ class MouseLButton;
 class KeyBoard;
 class HistoryGraphic;
 class Scroll;
+class LastClass;
 class ClassDiagramForm : public CWnd { //CFrameWnd 에 상속관계 표기
 public:
+	LastClass *lastClass;
 	Diagram *diagram;
 	TextEdit *textEdit;
 	Selection *selection;
@@ -28,8 +30,9 @@ public:
 	Scroll *scroll;
 	Selection *copyBuffer;
 	Long isCut;
+	Long capsLockFlag;
 public:
-	ClassDiagramForm();
+	ClassDiagramForm(LastClass *lastClass);
 public:
 	afx_msg void OnClose();
 public:

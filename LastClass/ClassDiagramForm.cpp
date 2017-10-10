@@ -1,5 +1,6 @@
 //ClassDiagramForm.cpp
 
+#include "LastClass.h"
 #include "ClassDiagramForm.h"
 #include "TextEdit.h"
 #include "Diagram.h"
@@ -40,6 +41,7 @@
 #include "HistoryGraphic.h"
 #include "KeyBoard.h"
 #include "KeyAction.h"
+
 #include "ToolBar.h"
 #include "StatusBar.h"
 
@@ -72,7 +74,8 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CWnd)
 	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
-ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
+ClassDiagramForm::ClassDiagramForm(LastClass *lastClass) { // 생성자 맞는듯
+	this->lastClass = lastClass;
 	this->diagram = NULL;
 	this->textEdit = NULL;
 	this->selection = NULL;
@@ -87,6 +90,7 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->fileName = "";
 	this->copyBuffer = NULL;
 	this->isCut = 0;
+	this->capsLockFlag = 0;
 }
 
 Long ClassDiagramForm::Load() {
@@ -616,13 +620,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->scroll = new Scroll;
 
 	ModifyStyle(0, WS_CLIPCHILDREN);
-	SetScrollRange(SB_VERT, 0, pageHeight, 0);
-	
-	/*ToolBar toolBar;
-	toolBar.MakeToolBar(this->GetSafeHwnd());
-	
-	StatusBar statusBar;
-	statusBar.MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);*/
+	//SetScrollRange(SB_VERT, 0, pageHeight, 0);
 
 
 	//1.2. 적재한다
@@ -678,6 +676,16 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		nChar == 57 || nChar == 48 || nChar == 52 || nChar == 54 || nChar == 87 || nChar == 51) {
 		this->mouseLButton->ChangeState(nChar);
 	}
+	if (nChar == VK_CAPITAL) {
+		if (this->capsLockFlag == 0) {
+			this->capsLockFlag = 1;
+		}
+		else if (this->capsLockFlag == 1) {
+			this->capsLockFlag = 0;
+		}
+		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
+	}
+
 	CClientDC dc(this);
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
@@ -700,6 +708,8 @@ void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	Invalidate(false);
 }
 void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
+	CWnd::OnSize(nType, cx, cy);
+
 	Invalidate(false);
 }
 
@@ -784,7 +794,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {
 
-		this->textEdit = new TextEdit(figure);
+		this->textEdit = new TextEdit(this, figure);
 
 		if (dynamic_cast<MemoBox*>(figure) || dynamic_cast<ClassName*>(figure)) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
@@ -831,7 +841,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			i++;
 		}
 		if (index > 0) {
-			this->textEdit = new TextEdit(relation, i - 1);
+			this->textEdit = new TextEdit(this, relation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				left + 1 - horzCurPos,
 				top + 1 - vertCurPos,
@@ -888,7 +898,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		// 확인해서 있으면 그 index 기억해두고 그 박스 사이즈로 textEdit 연다 (textEdit 생성자 따로 만들어야할듯)
 
 		if (index > 0) {
-			this->textEdit = new TextEdit(selfRelation, i - 1);
+			this->textEdit = new TextEdit(this, selfRelation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				left + 1 - horzCurPos,
 				top + 1 - vertCurPos,

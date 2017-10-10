@@ -5,6 +5,8 @@
 
 #include <afxext.h>
 
+typedef signed long int Long;
+
 class LastClass;
 class ClassDiagramForm;
 class StatusBar {
@@ -13,7 +15,8 @@ public:
 	StatusBar(const StatusBar& source);
 	~StatusBar();
 public:
-	HWND MakeStatusBar(ClassDiagramForm *classDiagramForm, HWND hwndParent, int idStatus, HINSTANCE hinst, int cParts);
+
+public:
 	HWND MakeStatusBar(LastClass *lastClass, HWND hwndParent, int idStatus, HINSTANCE hinst, int cParts);
 };
 
