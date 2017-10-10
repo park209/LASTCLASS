@@ -498,9 +498,6 @@
     <ClInclude Include="DrawingResize.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
     <ClInclude Include="OnHScrollEnd.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
@@ -543,15 +540,6 @@
     <ClInclude Include="OnVScrollEnd.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicCtrlRedoMenuAction.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicCtrlUndoMenuAction.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="resource3.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
     <ClInclude Include="EditResizerBlocker.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
@@ -564,6 +552,10 @@
     <ClInclude Include="GraphicCtrlPasteKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
+    <ClInclude Include="PrintPreviewState.h">
+      <Filter>MouseAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolBar.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -1077,15 +1069,9 @@
     <ClCompile Include="GraphicCtrlPasteKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="LastClass2.rc">
-      <Filter>Resource</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="toolbar1.bmp">
-      <Filter>Resource</Filter>
-    </Image>
+    <ClCompile Include="PrintPreviewState.cpp">
+      <Filter>MouseAction</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBar.cpp" />
   </ItemGroup>
 </Project>
