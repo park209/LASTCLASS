@@ -1,0 +1,108 @@
+6 61 1017 324 310 0
+61 1017 324 50 1
+25 1
+Personal
+61 1067 324 0 2
+61 1067 324 104 3
+25 4
+-name : String
+-address : String
+-telephoneNumber : String
+-emailAddress : String
+61 1171 324 0 2
+61 1171 324 155 4
+25 2
++Create()
++Destroy()
+99 1017 256 -173 10
+0
+1
+120 978
+
+216 912
+1
+310 849
+
+143 1011
+
+333 882
+6 899 1019 380 297 0
+899 1019 380 50 1
+25 1
+Company
+899 1069 380 0 2
+899 1069 380 129 3
+25 5
+-name : String
+-address : String
+-telephoneNumber : String
+-faxNumber : String
+-url : String
+899 1198 380 0 2
+899 1198 380 118 4
+25 2
++Create()
++Destroy()
+1061 1019 -74 -175 10
+1
+998 881
+
+1026 990
+
+998 861
+1
+979 888
+1
+1062 974
+
+1017 876
+6 353 574 650 270 0
+353 574 650 50 1
+25 1
+BusinessCard
+353 624 650 0 2
+353 624 650 51 3
+25 1
+
+353 675 650 0 2
+353 675 650 168 4
+25 3
++Create(name : String,address : String,
+              telephoneNumber : String,emailAddress : String,name : String,
+address : String,telephoneNumber : String,faxNumber : String,url : String)
+973 574 30 30 21
+0..2
+948 549
+left/right
+1052 514
+0..2
+1036 632
+
+998 549
+
+1036 596
+6 347 92 648 296 0
+347 92 648 50 1
+25 1
+BusinessCardBinder
+347 142 648 0 2
+347 142 648 123 3
+25 2
+-length : Integer
+-capacity : Integer
+347 265 648 0 2
+347 265 648 123 4
+25 1
++Create(capacity = Integer) = 100
+659 388 -8 186 13
+0
+0
+677 428
+
+674 482
+0..*
+672 534
+
+637 427
+
+632 533
