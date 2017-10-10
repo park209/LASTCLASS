@@ -6,6 +6,7 @@
 #include "menuAction.h"
 #include "Scroll.h"
 #include "HistoryGraphic.h"
+#include "ToolBar.h"
 
 #include <afxdlgs.h>
 
@@ -31,15 +32,23 @@ END_MESSAGE_MAP()
 LastClass::LastClass() {
 	this->classDiagramForm = NULL;
 	this->menu = NULL;
+	this->toolBar = NULL;
 }
 
 int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
-
 	CRect rect;
 	this->GetClientRect(&rect);
-	this->classDiagramForm = new ClassDiagramForm;
-	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_BORDER | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
+
+	this->toolBar = new ToolBar;
+	//this->statusBar = new StatusBar;
+
+	rect.left += 66;
+	rect.right -= 66;
+	rect.bottom -= 30;
+
+	this->classDiagramForm = new ClassDiagramForm();
+	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
 
 	this->menu = new Menu(this);
 
@@ -53,15 +62,21 @@ void LastClass::OnMyMenu(UINT parm_control_id) {
 		menuAction->MenuPress(this);
 	}
 }
+
 void LastClass::OnKillFocus(CWnd *pNewWnd) {
 
 }
+
 void LastClass::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 }
 
 void LastClass::OnSetFocus(CWnd* pOldWnd) {
 	CFrameWnd::OnSetFocus(pOldWnd);
 	CWnd::SetFocus();
+
+	this->toolBar->MakeToolBar(GetSafeHwnd());
+	//this->toolBar->MakeAnotherToolBar(GetSafeHwnd());
+
 	Invalidate(false);
 }
 
@@ -69,8 +84,8 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 	//this->SetWindowPos(this, 0, 0, cx, cy, SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 	CRect rect;
 	this->GetClientRect(&rect);
-	this->classDiagramForm->SetWindowPos(this, rect.left,rect.top,rect.right,rect.bottom, SWP_NOMOVE | SWP_NOZORDER );
-	
+	this->classDiagramForm->SetWindowPos(this, 0,0,rect.right,rect.bottom, SWP_NOMOVE | SWP_NOZORDER );
+
 	//this->classDiagramForm->Invalidate(false);
 	//this->Invalidate(false);
 }
@@ -125,11 +140,11 @@ void LastClass::OnClose() {
 	//6.2. 다이어그램을 지운다.
 	if (messageBox != IDCANCEL && int_ptr == IDOK) {//== IDYES || messageBox == IDNO ) {
 		if (this->classDiagramForm != NULL) {
+			CFrameWnd::OnClose(); // 오버라이딩 코드재사용
 			this->classDiagramForm->OnClose();
 		}
 		if (this->menu != NULL) {
 			delete this->menu;
 		}
-		CFrameWnd::OnClose(); // 오버라이딩 코드재사용
 	}
 }
