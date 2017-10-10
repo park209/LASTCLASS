@@ -21,10 +21,8 @@ private:
 	afx_msg void OnNextButton();
 	afx_msg void OnPriviousButton();
 	afx_msg void OnPrintButton();
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 	DECLARE_MESSAGE_MAP()
-protected:
-	virtual void OnFilePrintPreview();
-	 virtual BOOL OnPreparePrinting(CPrintInfo *pInfo);
 private:
 	LastClass *lastClass;
 	CButton *nextButton;

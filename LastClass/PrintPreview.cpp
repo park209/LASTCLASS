@@ -34,37 +34,19 @@ int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CWnd::OnCreate(lpCreateStruct);
 	this->ModifyStyle(0, WS_OVERLAPPEDWINDOW);
 	this->nextButton = new CButton;
-	this->nextButton->Create("다음", WS_CHILD|WS_VISIBLE|BS_PUSHBUTTON|BS_CENTER|BS_VCENTER,CRect(800,200,880,240), this, 1);
+	this->nextButton->Create("다음", WS_CHILD|WS_VISIBLE|BS_PUSHBUTTON|BS_CENTER|BS_VCENTER,CRect(150,200,230,240), this, 1);
 	this->priviousButton = new CButton;
-	this->priviousButton->Create("이전", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(800, 250, 880, 290), this, 2);
+	this->priviousButton->Create("이전", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(150, 250, 230, 290), this, 2);
 	this->printButton = new CButton;
-	this->printButton->Create("인쇄", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(800, 300, 880, 340), this, 3);
+	this->printButton->Create("인쇄", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(150, 300, 230, 340), this, 3);
 	
 	this->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE );
 	this->SetFocus();
+	
 	this->lastClass->classDiagramForm->EnableWindow(false);
-	this->OnFilePrintPreview();
 	Invalidate();
 
-	//this->OnFilePrintPreview();
-	//this->OnFilePrintPreview();
 	return 0;
-}
-void PrintPreview::OnFilePrintPreview() {/*
-	CPrintPreviewState *pState = new CPrintPreviewState;
-
-	if (!DoPrintPreview(AFX_IDD_PREVIEW_TOOLBAR, this, RUNTIME_CLASS(PrintPreviewState), pState)) {
-		TRACE0("Error: DoPrintPreView failed");
-		AfxMessageBox(AFX_IDP_COMMAND_FAILURE); 
-		delete pState;
-	}
-	*/
-	
-}
-BOOL PrintPreview::OnPreparePrinting(CPrintInfo *pInfo) {/*
-	BOOL ret = CView::OnPreparePrinting(pInfo);
-		return ret;*/
-	return true;
 }
 void PrintPreview::OnPaint() {
 	
@@ -90,7 +72,7 @@ void PrintPreview::OnPaint() {
 	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 
 	dc.FillSolidRect(rec, RGB(153,153,153));
-	dc.StretchBlt(10, 10, 600, 800, &memDC, (this->horizontalPage * 800), (this->verticalPage * 1000), 800,1000, SRCCOPY);
+	dc.StretchBlt(rec.CenterPoint().x-300, rec.CenterPoint().y-400, 600, 800, &memDC, (this->horizontalPage * 800), (this->verticalPage * 1000), 800,1000, SRCCOPY);
 
 	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
@@ -196,7 +178,19 @@ void PrintPreview::OnBeginPrinting(CDC *pDc, CPrintInfo *pInfo) {
 }
 
 void PrintPreview::OnEndPrinting(CDC *pDc, CPrintInfo *pInfo) {
-
+	this->lastClass->classDiagramForm->EnableWindow(true);
+	if (this->nextButton != 0) {
+		delete this->nextButton;
+	}
+	if (this->printButton != 0) {
+		delete this->printButton;
+	}
+	if (this->priviousButton != 0) {
+		delete this->priviousButton;
+	}
+	if (this != 0) {
+		delete this;
+	}
 }
 void PrintPreview::OnPrintButton() {
 	CPrintDialog printDialog(false);
@@ -232,108 +226,7 @@ void PrintPreview::OnPrintButton() {
 
 		dc.Detach();
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//		DeleteDC(hDC);
-//	}
-//}
-//	dlg.DoModal();
-//	CDC dc;
-//	if (dc.Attach(dlg.CreatePrinterDC())) {
-//		DOCINFO info;
-//
-//		memset(&info, 0, sizeof(DOCINFO));
-//		info.cbSize = sizeof(DOCINFO);
-//		dc.StartDoc(&info);
-//		dc.StartPage();
-//		
-//		CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-//		cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-//			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
-//		SetFont(&cFont, TRUE);
-//		CFont *oldFont = dc.SelectObject(&cFont);
-//
-//		DrawingVisitor drawingVisitor;
-//		this->lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &dc);
-//		WritingVisitor writingVisitor;
-//		this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &dc);
-//		dc.EndPage();
-//		dc.EndDoc();
-//		dc.DeleteDC();
-//	}
-//}
-//	dlg.DoModal();
-//	
-//	CDC dc;
-//	CPaintDC dcp(this);
-//	if (dc.Attach(dlg.CreatePrinterDC())) {
-//		DOCINFO info;
-//		memset(&info, 0, sizeof(DOCINFO));
-//		info.cbSize = sizeof(DOCINFO);
-//		dc.StartDoc(&info);
-//		//dc.StartPage();
-//
-//		HDC hDC = dlg.GetPrinterDC();
-//		int nPageWidth = GetDeviceCaps(hDC, HORZRES);
-//		int nPageHeight = GetDeviceCaps(hDC, VERTRES);
-//
-//
-//		CDC memDC;
-//		CRect rect;
-//		this->lastClass->classDiagramForm->GetClientRect(&rect);
-//		CBitmap *pOldBitmap;
-//		CBitmap bitmap;
-//		memDC.CreateCompatibleDC(&dcp);
-//		bitmap.CreateCompatibleBitmap(&dcp, 4000, 2000);
-//		pOldBitmap = memDC.SelectObject(&bitmap);
-//		memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
-//		CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-//		cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-//			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
-//		SetFont(&cFont, TRUE);
-//		CFont *oldFont = memDC.SelectObject(&cFont);
-//
-//		DrawingVisitor drawingVisitor;
-//		this->lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &memDC);
-//		WritingVisitor writingVisitor;
-//		this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
-//		
-//		Long i = 0;
-//		while (i < 5) {
-//			dc.StartPage();
-//			int mapMode = dc.GetMapMode();
-//			memDC.SetMapMode(mapMode);
-//			dc.SetStretchBltMode(HALFTONE);
-//			
-//			//dc.BitBlt(0, 0, nPageWidth, nPageHeight, &memDC,0, 0, SRCCOPY);
-//			//dc.StretchBlt(0, 0, nPageWidth, nPageHeight, &memDC, 0,0, i * 400, i * 200, SRCCOPY);
-//			dc.StretchBlt(0, 0,0,0, &memDC,i*400,i*200, (i*400) - nPageWidth, (i*200) - nPageHeight, SRCCOPY);
-//			//::RestoreDC(dc,-1);
-//			dc.EndPage();
-//			i++;
-//		}
-//		memDC.SelectObject(oldFont);
-//		cFont.DeleteObject();
-//		memDC.SelectObject(pOldBitmap);
-//		bitmap.DeleteObject();
-//		memDC.DeleteDC();
-//		//dc.EndPage();
-//
-//		dc.EndDoc();
-//
-//		dc.DeleteDC();
-//
-//	}
+}
+void PrintPreview::OnSize(UINT nType, int cx, int cy) {
+	Invalidate(false);
 }

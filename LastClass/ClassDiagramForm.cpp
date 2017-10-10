@@ -669,10 +669,7 @@ void ClassDiagramForm::OnPaint() {
 
 	int vertCurPos = GetScrollPos(SB_VERT);
 	int horzCurPos = GetScrollPos(SB_HORZ);
-	CString a;
-	a.Format("%d %d", horzCurPos, vertCurPos);
 	dc.BitBlt(0 , 0,rect.right ,rect.bottom ,&memDC, horzCurPos, vertCurPos, SRCCOPY);
-	dc.TextOut(10 ,10, a);
 	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
 	memDC.SelectObject(pOldBitmap);
