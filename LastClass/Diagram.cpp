@@ -7,6 +7,7 @@
 #include "Template.h"
 #include "Relation.h"
 #include "SelfRelation.h"
+#include "Finder.h"
 
 Diagram::Diagram(Long capacity) {
 	this->capacity = capacity;
@@ -21,6 +22,12 @@ Diagram::~Diagram() {
 }
 
 Diagram::Diagram(const Diagram& source) : FigureComposite(source) {
+	/*this->figures = source.figures;
+	Long i = 0;
+	while (i < this->length) {
+		this->figures.Modify(i, (const_cast<Diagram&>(source)).figures[i]->Clone());
+		i++;
+	}*/
 }
 
 Diagram& Diagram::operator = (const Diagram& source) {
@@ -159,6 +166,25 @@ CRect& Diagram::GetCorrectRect(Long startX, Long startY, Long currentX, Long cur
 	}
 
 	return rect;
+}
+
+bool Diagram::CheckOverlap(CRect object, FigureComposite *execpt) {
+	bool ret = false;
+	Long i = 0;
+	Finder finder;
+	object.left -= 2;
+	object.top -= 2;
+	object.right += 2;
+	object.bottom += 2;
+	while (i < this->length) {
+		FigureComposite *figureComposite = static_cast<FigureComposite*>(this->GetAt(i));
+		if (figureComposite != execpt) {
+			CRect rect(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
+			ret = finder.FindRectangleByArea(rect, object);
+		}
+		i++;
+	}
+	return ret;
 }
 
 Figure* Diagram::GetAt(Long index) {

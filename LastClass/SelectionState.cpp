@@ -76,7 +76,7 @@ void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagr
 	if (GetKeyState(VK_SHIFT) >= 0) {
 		Long index = selection->SelectByPoint(startX, startY);
 
-		if (index  == -1) {
+		if (index == -1) {
 			selection->DeleteAllItems();
 			selection->SelectByPoint(diagram, startX, startY);
 			if (selection->GetLength() == 0) {

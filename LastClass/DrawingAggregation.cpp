@@ -64,7 +64,6 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 				selfAggregation.rollNamePoints->Modify(k, cPoint);
 			    k++;
 			}
-		  
 		}
 		index = object->Add(selfAggregation.Clone());
 		figure = object->GetAt(index);
