@@ -8,6 +8,8 @@ using namespace std;
 
 typedef signed long int Long;
 
+class StatusBar;
+class ToolBar;
 class Menu;
 class ClassDiagramForm;
 class ToolBar;

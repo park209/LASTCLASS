@@ -5,16 +5,15 @@
 
 #include <afxwin.h>
 
-using namespace std;
-typedef signed long int Long;
 class ToolBar {
 public:
 	ToolBar();
-	~ToolBar();
 	ToolBar(const ToolBar& source);
-	//ToolBar& operator= (const ToolBar& source);
-public:
-	void MakeToolBar(HWND hWndParent);
+	 ~ToolBar();
+	HWND MakeToolBar(HWND hWndParent);
+	HWND MakeAnotherToolBar(HWND hWndParent);
+private:
+	HWND hTool;
 };
 
-#endif // !_MENU_H
+#endif // _SPACEKEY_H
