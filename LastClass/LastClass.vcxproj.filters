@@ -550,9 +550,18 @@
     <ClInclude Include="GraphicCtrlUndoMenuAction.h">
       <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicCtrlCopyKey.h" />
-    <ClInclude Include="GraphicCtrlCutKey.h" />
-    <ClInclude Include="GraphicCtrlPasteKey.h" />
+    <ClInclude Include="EditResizerBlocker.h">
+      <Filter>TextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCtrlCopyKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCtrlCutKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCtrlPasteKey.h">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -1055,8 +1064,17 @@
     <ClCompile Include="GraphicCtrlUndoMenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicCtrlCopyKey.cpp" />
-    <ClCompile Include="GraphicCtrlCutKey.cpp" />
-    <ClCompile Include="GraphicCtrlPasteKey.cpp" />
+    <ClCompile Include="EditResizerBlocker.cpp">
+      <Filter>TextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlCopyKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlCutKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlPasteKey.cpp">
+      <Filter>KeyAction\ClassDiagram</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
