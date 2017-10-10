@@ -41,6 +41,7 @@
     <ClInclude Include="CompositionMenuAction.h" />
     <ClInclude Include="Compositions.h" />
     <ClInclude Include="CompositionsMenuAction.h" />
+    <ClInclude Include="PrintPreviewState.h" />
     <ClInclude Include="CtrlAllKey.h" />
     <ClInclude Include="CtrlCopyKey.h" />
     <ClInclude Include="CtrlCutKey.h" />
@@ -98,9 +99,7 @@
     <ClInclude Include="GraphicCtrlCutKey.h" />
     <ClInclude Include="GraphicCtrlPasteKey.h" />
     <ClInclude Include="GraphicCtrlRedoKey.h" />
-    <ClInclude Include="GraphicCtrlRedoMenuAction.h" />
     <ClInclude Include="GraphicCtrlUndoKey.h" />
-    <ClInclude Include="GraphicCtrlUndoMenuAction.h" />
     <ClInclude Include="LastClass.h" />
     <ClInclude Include="MemoBoxMenuAction.h" />
     <ClInclude Include="MemoLineMenuAction.h" />
@@ -164,7 +163,6 @@
     <ClInclude Include="SaveMenuAction.h" />
     <ClInclude Include="Scroll.h" />
     <ClInclude Include="ScrollAction.h" />
-    <ClInclude Include="StatusBar.h" />
     <ClInclude Include="SupportMenu.h" />
     <ClInclude Include="SupportMenuAction.h" />
     <ClInclude Include="Selection.h" />
@@ -218,6 +216,7 @@
     <ClCompile Include="CompositionMenuAction.cpp" />
     <ClCompile Include="Compositions.cpp" />
     <ClCompile Include="CompositionsMenuAction.cpp" />
+    <ClCompile Include="PrintPreviewState.cpp" />
     <ClCompile Include="CtrlAllKey.cpp" />
     <ClCompile Include="CtrlCopyKey.cpp" />
     <ClCompile Include="CtrlCutKey.cpp" />
@@ -254,9 +253,9 @@
     <ClCompile Include="DrawingRealization.cpp" />
     <ClCompile Include="DrawingRelation.cpp" />
     <ClCompile Include="DrawingRelationPoint.cpp" />
+    <ClCompile Include="DrawingResize.cpp" />
     <ClCompile Include="DrawingResizing.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
-    <ClCompile Include="DrawingResize.cpp" />
     <ClCompile Include="DrawRollNameBoxes.cpp" />
     <ClCompile Include="EditResizer.cpp" />
     <ClCompile Include="EditResizerBlocker.cpp" />
@@ -339,7 +338,6 @@
     <ClCompile Include="SaveMenuAction.cpp" />
     <ClCompile Include="Scroll.cpp" />
     <ClCompile Include="ScrollAction.cpp" />
-    <ClCompile Include="StatusBar.cpp" />
     <ClCompile Include="SupportMenu.cpp" />
     <ClCompile Include="SupportMenuAction.cpp" />
     <ClCompile Include="Selection.cpp" />
