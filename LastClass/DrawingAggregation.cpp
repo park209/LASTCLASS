@@ -28,6 +28,9 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 	CPoint cPoint3;
 	CPoint cPoint4;
 	CPoint cPoint5;
+
+	Long quadrant;
+	Long quadrant2;
 	//if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
 	classDiagramForm->historyGraphic->PushUndo(diagram);
@@ -37,8 +40,6 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 		Class * classObject = dynamic_cast<Class*>(selection->GetAt(0));
 		Class * classObject2 = dynamic_cast<Class*>(selection->GetAt(1));
 
-		Long quadrant;
-		Long quadrant2;
 
 		CPoint lineStart(startX, startY);
 		CPoint lineEnd(currentX, currentY);

@@ -8,7 +8,7 @@
 #include "SelfAssociation.h"
 #include "ClassDiagramForm.h"
 #include "HistoryGraphic.h"
-
+#include "RollNameBox.h"
 DrawingAssociation* DrawingAssociation::instance = 0;
 
 MouseLButtonAction* DrawingAssociation::Instance() {
@@ -21,14 +21,23 @@ MouseLButtonAction* DrawingAssociation::Instance() {
 void DrawingAssociation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long index;
 	Figure *figure = 0;
+	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
+	CPoint cPoint1;
+	CPoint cPoint2;
+	CPoint cPoint3;
+	CPoint cPoint4;
+	CPoint cPoint5;
 
+	Long quadrant;
+	Long quadrant2;
 	//if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
 	classDiagramForm->historyGraphic->PushUndo(diagram);
 	selection->SelectByPoint(diagram, currentX, currentY);
 
 	if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {
-
+		Class * classObject = dynamic_cast<Class*>(selection->GetAt(0));
+		Class * classObject2 = dynamic_cast<Class*>(selection->GetAt(1));
 		CPoint lineStart(startX, startY);
 		CPoint lineEnd(currentX, currentY);
 
@@ -45,9 +54,30 @@ void DrawingAssociation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 		rect.bottom = selection->GetAt(1)->GetY() + selection->GetAt(1)->GetHeight();
 		CPoint cross2 = finder.GetCrossPoint(lineStart, lineEnd, rect);
 
-		Association object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
-		index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
-		figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
+		
+		quadrant = finder.FindQuadrant(cross1.x, cross1.y, classObject->GetX(), classObject->GetY(),
+			classObject->GetX() + classObject->GetWidth(), classObject->GetY() + classObject->GetHeight());
+
+		quadrant2 = finder.FindQuadrant(cross2.x, cross2.y, classObject2->GetX(), classObject2->GetY(),
+			classObject2->GetX() + classObject2->GetWidth(), classObject2->GetY() + classObject2->GetHeight());
+
+		if (quadrant == 1 && cross1.x >= classObject->GetAt(classObject->GetTempletePosition())->GetX() - 10) {
+			Association object(classObject->GetAt(classObject->GetTempletePosition())->GetX() - 10, cross1.y,
+				cross2.x - (classObject->GetAt(classObject->GetTempletePosition())->GetX() - 10), cross2.y - cross1.y);
+			index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+			figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
+		}
+		else if (quadrant2 == 1 && cross2.x >= classObject2->GetAt(classObject2->GetTempletePosition())->GetX() - 10) {
+			Association object(cross1.x, cross1.y,
+				classObject2->GetAt(classObject2->GetTempletePosition())->GetX() - 10 - cross1.x, cross2.y - cross1.y);
+			index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+			figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
+		}
+		else {
+			Association object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+			index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+			figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
+		}
 
 	}
 
