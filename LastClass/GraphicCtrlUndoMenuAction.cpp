@@ -17,4 +17,7 @@ void GraphicCtrlUndoMenuAction::MenuPress(LastClass *lastClass) {
 	CClientDC dc(lastClass->classDiagramForm);
 	ctrlUndo->KeyPress(lastClass->classDiagramForm,&dc);
 	lastClass->classDiagramForm->Invalidate(false);
+	if (ctrlUndo != 0) {
+		delete ctrlUndo;
+	}
 }

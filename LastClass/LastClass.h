@@ -1,15 +1,19 @@
 //LastClass.h
+
 #ifndef _LASTCLASS_H
 #define _LASTCLASS_H
 
 #include <afxwin.h>
+using namespace std;
+
 typedef signed long int Long;
 
 class StatusBar;
 class ToolBar;
 class Menu;
 class ClassDiagramForm;
-class PrintPreview;
+class ToolBar;
+class StatusBar;
 class LastClass : public CFrameWnd {
 public:
 	LastClass();
@@ -18,7 +22,6 @@ public:
 	Menu *menu;
 	ToolBar *toolBar;
 	StatusBar *statusBar;
-	PrintPreview *printPreview;
 private:
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

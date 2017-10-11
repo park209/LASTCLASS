@@ -6,10 +6,14 @@
 #include "menuAction.h"
 #include "Scroll.h"
 #include "HistoryGraphic.h"
+#include "StatusBar.h"
 #include "ToolBar.h"
 
 #include <afxdlgs.h>
+#include <afxext.h>
+#include <afxstatusbar.h>
 
+#include <afxcmn.h>
 using namespace std;
 
 BEGIN_MESSAGE_MAP(LastClass, CFrameWnd)
@@ -24,8 +28,6 @@ BEGIN_MESSAGE_MAP(LastClass, CFrameWnd)
 	ON_WM_CLOSE()
 	ON_COMMAND_RANGE(100, 124, OnMyMenu)
 	ON_WM_SIZE()
-	ON_WM_VSCROLL()
-	ON_WM_HSCROLL()
 	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
@@ -33,21 +35,23 @@ LastClass::LastClass() {
 	this->classDiagramForm = NULL;
 	this->menu = NULL;
 	this->toolBar = NULL;
+	this->statusBar = NULL;
 }
 
 int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
+
 	CRect rect;
 	this->GetClientRect(&rect);
 
+	this->statusBar = new StatusBar;
 	this->toolBar = new ToolBar;
-	//this->statusBar = new StatusBar;
 
+	rect.top += 53;
 	rect.left += 66;
 	rect.right -= 66;
-	rect.bottom -= 30;
-
-	this->classDiagramForm = new ClassDiagramForm();
+	rect.bottom -= 83;
+	this->classDiagramForm = new ClassDiagramForm(this);
 	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
 
 	this->menu = new Menu(this);
@@ -62,9 +66,8 @@ void LastClass::OnMyMenu(UINT parm_control_id) {
 		menuAction->MenuPress(this);
 	}
 }
-
 void LastClass::OnKillFocus(CWnd *pNewWnd) {
-
+	//CFrameWnd::OnKillFocus(pNewWnd);
 }
 
 void LastClass::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -73,21 +76,27 @@ void LastClass::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 void LastClass::OnSetFocus(CWnd* pOldWnd) {
 	CFrameWnd::OnSetFocus(pOldWnd);
 	CWnd::SetFocus();
-
-	this->toolBar->MakeToolBar(GetSafeHwnd());
-	//this->toolBar->MakeAnotherToolBar(GetSafeHwnd());
-
 	Invalidate(false);
 }
 
 void LastClass::OnSize(UINT nType, int cx, int cy) {
-	//this->SetWindowPos(this, 0, 0, cx, cy, SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
+	CFrameWnd::OnSize(nType, cx, cy);
+
+	this->toolBar->MakeToolBar(this->GetSafeHwnd());
+	this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
+	this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
+
 	CRect rect;
 	this->GetClientRect(&rect);
-	this->classDiagramForm->SetWindowPos(this, 0,0,rect.right,rect.bottom, SWP_NOMOVE | SWP_NOZORDER );
-
-	//this->classDiagramForm->Invalidate(false);
-	//this->Invalidate(false);
+	rect.top += 53;
+	rect.left += 66;
+	rect.right -= 66;
+	rect.bottom -= 83;
+	//this->classDiagramForm->MoveWindow(rect.left, rect.top, rect.right, rect.bottom, 1);
+	this->classDiagramForm->SetWindowPos(this, rect.left,rect.top,rect.right,rect.bottom, SWP_NOMOVE | SWP_NOZORDER );
+	
+	this->RedrawWindow();
+	this->classDiagramForm->Invalidate(false);
 }
 
 BOOL LastClass::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
@@ -95,15 +104,19 @@ BOOL LastClass::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 }
 
 void LastClass::OnLButtonDown(UINT nFlags, CPoint point) {
+	CFrameWnd::OnLButtonDown(nFlags, point);
 }
 
 void LastClass::OnLButtonDblClk(UINT nFlags, CPoint point) {
+	CFrameWnd::OnLButtonDblClk(nFlags, point);
 }
 
 void LastClass::OnLButtonUp(UINT nFlags, CPoint point) {
+	CFrameWnd::OnLButtonDown(nFlags, point);
 }
 
 void LastClass::OnMouseMove(UINT nFlags, CPoint point) {
+	CFrameWnd::OnMouseMove(nFlags, point);
 }
 
 void LastClass::OnClose() {
@@ -143,5 +156,6 @@ void LastClass::OnClose() {
 		if (this->menu != NULL) {
 			delete this->menu;
 		}
+		
 	}
 }

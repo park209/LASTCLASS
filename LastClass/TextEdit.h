@@ -8,6 +8,7 @@
 
 typedef signed long int Long;
 
+class ClassDiagramForm;
 class Text;
 class Figure;
 class Caret;
@@ -17,7 +18,7 @@ class TextAreaSelected;
 class FontSet;
 class TextEdit : public CWnd { // CWnd 상속으로 바꿔야함
 public:
-	TextEdit(Figure *figure, Long rollNameBoxIndex = -1);
+	TextEdit(ClassDiagramForm *classDiagramForm, Figure *figure, Long rollNameBoxIndex = -1);
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
@@ -49,6 +50,7 @@ public:
 	Long GetCriteriaWidth() const;
 	Long GetCriteriaHeight() const;
 public:
+	ClassDiagramForm *classDiagramForm;
 	Text *text;
 	Caret *caret;
 	KeyBoard *keyBoard;
@@ -64,6 +66,7 @@ public:
 	Long flagBuffer; //flag
 	Figure *figure;
 	Long rollNameBoxIndex;
+	Long numLockFlag;
 private:
 	Long koreanEnglish; //flag
 	Long currentX;
