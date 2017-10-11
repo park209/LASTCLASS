@@ -5,6 +5,9 @@
 #include "Diagram.h"
 #include "WritingVisitor.h"
 #include "PrintPreview.h"
+#include "Finder.h"
+#include "FigureComposite.h"
+#include "Relation.h"
 FilePrintMenuAction::FilePrintMenuAction() {
 }
 FilePrintMenuAction::~FilePrintMenuAction() {
@@ -19,14 +22,48 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 	INT_PTR int_ptr = printDialog.DoModal();
 	
 	if (int_ptr == IDOK) {
+		Finder finder;
+		bool ret = false;
+		CRect rect(2000, 0, 4000, 2000);
+		Long i = 0;
+		Long j;
+		Long k;
+		Long length = lastClass->classDiagramForm->diagram->GetLength();
 
+		while (i < length && ret != true) { // 2페이지에 클래스나 메모박스가 있는지 확인.
+			FigureComposite *figureComposite = (FigureComposite*)lastClass->classDiagramForm->diagram->GetAt(i);
+			CRect comperRect(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
+			ret = finder.FindRectangleByArea(comperRect, rect);
+			j = 0;
+			while (j < figureComposite->GetLength() && ret != true) {
+				Figure *figure = figureComposite->GetAt(j);
+				ret = finder.FindRectangleByPoint(rect, figure->GetX(), figure->GetY());
+				if (dynamic_cast<Relation*>(figure)) {
+					Relation *relation = static_cast<Relation*>(figure);
+					k = 0;
+					while (k < relation->GetLength() && ret != true) {
+						CPoint point1 = relation->GetAt(k);
+						ret = finder.FindRectangleByPoint(rect, point1.x, point1.y);
+						k++;
+					}
+				}
+				j++;
+			}
+			i++;
+		}
 		int count = printDialog.GetCopies();
 		CDC cdc;
-		Long i = 1;
+		i = 1;
 		CString strTitle;
 		DOCINFO di;
 		CPrintInfo Info;
 		BOOL bPrintingOK;
+		if (ret == true) {
+			Info.SetMaxPage(2);
+		}
+		else {
+			Info.SetMaxPage(1);
+		}
 		cdc.Attach(printDialog.GetPrinterDC());
 		lastClass->printPreview = new PrintPreview(lastClass);
 		while (i <= count) {
@@ -43,7 +80,6 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 
 	
 			Info.m_rectDraw.SetRect(0, 0, cdc.GetDeviceCaps(HORZRES), cdc.GetDeviceCaps(VERTRES));
-			Info.SetMaxPage(2);
 			lastClass->printPreview->OnBeginPrinting(&cdc, &Info);
 			for (UINT page = Info.GetMinPage(); page <= Info.GetMaxPage() && bPrintingOK; page++) {
 				cdc.StartPage();
