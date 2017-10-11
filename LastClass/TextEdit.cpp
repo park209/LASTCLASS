@@ -124,7 +124,7 @@ void TextEdit::OnPaint() {
 		}
 	}
 	else if (dynamic_cast<Relation*>(this->figure)) {
-		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		cFont.CreateFont(10, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
@@ -136,7 +136,7 @@ void TextEdit::OnPaint() {
 		}
 	}
 	else if (dynamic_cast<SelfRelation*>(this->figure)) {
-		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		cFont.CreateFont(10, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작

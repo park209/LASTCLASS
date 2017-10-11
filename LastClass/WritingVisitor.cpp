@@ -31,7 +31,7 @@ void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 
 void  WritingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
 	CFont font;
-	font.CreateFont(13, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+	font.CreateFont(10, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 	CFont*  oldFont;
 	oldFont = cPaintDc->SelectObject(&font);
@@ -47,7 +47,12 @@ void  WritingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
 				selfRelation->rollNamePoints->GetAt(i).x + 30,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
 			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 		}
-		else {
+		else if (i == 2||i==3) {
+			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 , selfRelation->rollNamePoints->GetAt(i).y - 10,
+				selfRelation->rollNamePoints->GetAt(i).x + 50,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
+			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+		}
+		else if(i == 4){
 			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 , selfRelation->rollNamePoints->GetAt(i).y - 10,
 				selfRelation->rollNamePoints->GetAt(i).x + 10,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
 			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
@@ -60,7 +65,7 @@ void  WritingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
 
 void  WritingVisitor::Visit(Relation *relation, CDC *pDC) {
 	CFont font;
-	font.CreateFont(13, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+	font.CreateFont(10, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 	CFont*  oldFont;
 	oldFont = pDC->SelectObject(&font);
@@ -69,6 +74,16 @@ void  WritingVisitor::Visit(Relation *relation, CDC *pDC) {
 		if (i == 1) {
 			RECT rt = { relation->rollNamePoints->GetAt(i).x - 40, relation->rollNamePoints->GetAt(i).y - 10 ,
 				relation->rollNamePoints->GetAt(i).x + 40,  relation->rollNamePoints->GetAt(i).y + 10 };
+			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+		}
+		if (i == 3) {
+			RECT rt = { relation->rollNamePoints->GetAt(i).x - 20, relation->rollNamePoints->GetAt(i).y - 10 ,
+				relation->rollNamePoints->GetAt(i).x + 50,  relation->rollNamePoints->GetAt(i).y + 10 };
+			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+		}
+		if (i == 4) {
+			RECT rt = { relation->rollNamePoints->GetAt(i).x - 40, relation->rollNamePoints->GetAt(i).y - 10 ,
+				relation->rollNamePoints->GetAt(i).x + 30,  relation->rollNamePoints->GetAt(i).y + 10 };
 			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 		}
 		else {
