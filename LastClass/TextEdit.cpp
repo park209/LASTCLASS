@@ -350,15 +350,15 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	if (nChar != VK_RETURN && nChar != VK_ESCAPE) {
 
-		//CDC *dc = GetDC();
-		//CFont cFont;
-		//cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-		//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
-		//SetFont(&cFont, TRUE);
-		//dc->SelectObject(cFont);
-		//EditResizerBlocker editResizer;
-		//editResizer.Block(this, dc);
-		//cFont.DeleteObject(); // 폰트
+		CDC *dc = GetDC();
+		CFont cFont;
+		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+		SetFont(&cFont, TRUE);
+		dc->SelectObject(cFont);
+		EditResizerBlocker editResizer;
+		editResizer.Block(this, dc);
+		cFont.DeleteObject(); // 폰트
 
 		CWnd::HideCaret();
 
