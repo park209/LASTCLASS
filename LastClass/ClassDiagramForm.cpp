@@ -897,7 +897,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		Long top;
 		Long bottom;
 		while (i < 5 && index == 0) {
-			if (i != 1) {
+			if (i == 0||i==2) {
 				right = relation->rollNamePoints->GetAt(i).x + 20;
 				left = relation->rollNamePoints->GetAt(i).x - 20;
 				top = relation->rollNamePoints->GetAt(i).y - 10;
@@ -909,6 +909,13 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 				top = relation->rollNamePoints->GetAt(i).y - 10;
 				bottom = relation->rollNamePoints->GetAt(i).y + 10;
 			}
+			else if (i == 3||i==4) {
+				right = relation->rollNamePoints->GetAt(i).x + 25;
+				left = relation->rollNamePoints->GetAt(i).x - 25;
+				top = relation->rollNamePoints->GetAt(i).y - 10;
+				bottom = relation->rollNamePoints->GetAt(i).y + 10;
+			}
+			
 			if (startX < right && startX > left && startY > top && startY < bottom) {
 				index++;
 			}
@@ -946,13 +953,13 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
 			}
 			else if (i == 2) {
-				right = selfRelation->rollNamePoints->GetAt(i).x + 10;
+				right = selfRelation->rollNamePoints->GetAt(i).x + 50;
 				left = selfRelation->rollNamePoints->GetAt(i).x - 20;
 				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
 				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
 			}
 			else if (i == 3) {
-				right = selfRelation->rollNamePoints->GetAt(i).x + 10;
+				right = selfRelation->rollNamePoints->GetAt(i).x + 50;
 				left = selfRelation->rollNamePoints->GetAt(i).x - 20;
 				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
 				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;

@@ -8,11 +8,11 @@
 #include "HistoryGraphic.h"
 #include "StatusBar.h"
 #include "ToolBar.h"
-
+#include "resource.h"
 #include <afxdlgs.h>
 #include <afxext.h>
 #include <afxstatusbar.h>
-
+#include "resource.h"
 #include <afxcmn.h>
 using namespace std;
 
@@ -27,6 +27,7 @@ BEGIN_MESSAGE_MAP(LastClass, CFrameWnd)
 	ON_WM_KILLFOCUS()
 	ON_WM_CLOSE()
 	ON_COMMAND_RANGE(100, 124, OnMyMenu)
+	ON_COMMAND_RANGE(40002, 40015, OnMyToolBar)
 	ON_WM_SIZE()
 	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
@@ -40,22 +41,20 @@ LastClass::LastClass() {
 
 int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
-
 	CRect rect;
 	this->GetClientRect(&rect);
 
 	this->statusBar = new StatusBar;
 	this->toolBar = new ToolBar;
-
 	rect.top += 45;
 	rect.left += 60;
 	rect.right -= 60;
-	rect.bottom -= 75;
+	rect.bottom -= 70;
 	this->classDiagramForm = new ClassDiagramForm(this);
 	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
-
 	this->menu = new Menu(this);
-
+	this->toolBar->MakeToolBar(this->GetSafeHwnd());
+	this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
 	return 0;
 }
 
@@ -80,23 +79,25 @@ void LastClass::OnSetFocus(CWnd* pOldWnd) {
 }
 
 void LastClass::OnSize(UINT nType, int cx, int cy) {
+	ModifyStyle(0, WS_CLIPCHILDREN);
 	CFrameWnd::OnSize(nType, cx, cy);
-
-	this->toolBar->MakeToolBar(this->GetSafeHwnd());
-	this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
-	this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
-
 	CRect rect;
 	this->GetClientRect(&rect);
+	if (this->one == 0) {
+		this->toolBar->MakeToolBar(this->GetSafeHwnd());
+		this->one = 1;
+	}
+	this->toolBar->ChangeToolBarSize(&rect);
+	this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
 	rect.top += 45;
 	rect.left += 60;
 	rect.right -= 60;
-	rect.bottom -= 75;
+	rect.bottom -= 70;
 	//this->classDiagramForm->MoveWindow(rect.left, rect.top, rect.right, rect.bottom, 1);
 	this->classDiagramForm->SetWindowPos(this, rect.left,rect.top,rect.right,rect.bottom, SWP_NOMOVE | SWP_NOZORDER );
-	
 	this->RedrawWindow();
-	this->classDiagramForm->Invalidate(false);
+	this->classDiagramForm->Invalidate(FALSE);
+	ModifyStyle(WS_CLIPCHILDREN, 0);
 }
 
 BOOL LastClass::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
@@ -118,7 +119,10 @@ void LastClass::OnLButtonUp(UINT nFlags, CPoint point) {
 void LastClass::OnMouseMove(UINT nFlags, CPoint point) {
 	CFrameWnd::OnMouseMove(nFlags, point);
 }
-
+void LastClass::OnMyToolBar(UINT parm_control_id) {
+	CClientDC dc(this);
+	this->toolBar->ButtonSelected(parm_control_id, this, this->classDiagramForm, &dc);
+}
 void LastClass::OnClose() {
 	//6.2. 다이어그램을 지운다.
 	int messageBox = IDNO;

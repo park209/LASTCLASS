@@ -194,9 +194,9 @@ void PrintPreview::OnPrint(CDC *cdc, CPrintInfo *pInfo, UINT page) {
 	memDCOne.SetMapMode(mapMode);
 	cdc->SetStretchBltMode(COLORONCOLOR);
 
-	//cdc->SetMapMode(MM_ISOTROPIC);
-	//cdc->SetWindowExt(100, 100);
-	//cdc->SetViewportExt(this->zoomRate, this->zoomRate);
+	cdc->SetMapMode(MM_ISOTROPIC);
+	cdc->SetWindowExt(100, 100);
+	cdc->SetViewportExt(this->zoomRate, this->zoomRate);
 
 	cdc->StretchBlt(100, 100, width - 200, hegiht - 200, &memDCOne, 0, 0, 2000, 2000, SRCCOPY);
 
