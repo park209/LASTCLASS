@@ -4,16 +4,14 @@
 #define _TOOLBAR_H
 
 #include <afxwin.h>
-
+typedef signed long int  Long;
 class ToolBar {
 public:
 	ToolBar();
 	ToolBar(const ToolBar& source);
 	 ~ToolBar();
-	HWND MakeToolBar(HWND hWndParent);
-	HWND MakeAnotherToolBar(HWND hWndParent);
-private:
-	HWND hTool;
+	void MakeToolBar(HWND hWndParent);
+	void MakeAnotherToolBar(HWND hWndParent);
 };
 
 #endif // _SPACEKEY_H

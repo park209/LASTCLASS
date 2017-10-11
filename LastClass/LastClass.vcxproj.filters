@@ -536,7 +536,6 @@
     </ClInclude>
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="ToolBar.h" />
-    <ClInclude Include="EditResizerBlocker.h" />
     <ClInclude Include="GraphicCtrlPasteKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
@@ -547,8 +546,14 @@
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="TextEdit.h" />
-    <ClInclude Include="PrintPreviewState.h" />
     <ClInclude Include="StatusBar.h" />
+    <ClInclude Include="CtrlZoomIn.h" />
+    <ClInclude Include="PrintPreviewState.h">
+      <Filter>MouseAction</Filter>
+    </ClInclude>
+    <ClInclude Include="EditResizerBlocker.h">
+      <Filter>TextEdit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -1046,9 +1051,6 @@
     </ClCompile>
     <ClCompile Include="ClassDiagramForm.cpp" />
     <ClCompile Include="ToolBar.cpp" />
-    <ClCompile Include="EditResizerBlocker.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicCtrlCopyKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
@@ -1059,11 +1061,13 @@
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="TextEdit.cpp" />
+    <ClCompile Include="StatusBar.cpp" />
+    <ClCompile Include="CtrlZoomIn.cpp" />
     <ClCompile Include="PrintPreviewState.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>MouseAction</Filter>
     </ClCompile>
-    <ClCompile Include="StatusBar.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="EditResizerBlocker.cpp">
+      <Filter>TextEdit</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
