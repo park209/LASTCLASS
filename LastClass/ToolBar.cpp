@@ -5,6 +5,8 @@
 #include "ToolBarProcess.h"
 
 ToolBar::ToolBar() {
+	this->hTool1 = 0;
+	this->hTool2 = 0;
 }
 ToolBar::ToolBar(const ToolBar& source) {
 }
@@ -14,6 +16,7 @@ void ToolBar::MakeToolBar(HWND hWndParent) {
 	InitCommonControls();
 	HWND hTool = CreateWindowEx(0, TOOLBARCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | CCS_NORESIZE | WS_BORDER, 0, 0, 1361, 45,
 		hWndParent, NULL, GetModuleHandle(NULL), NULL);
+	this->hTool1 = hTool;
 	SendMessage(hTool, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
 	TBBUTTON tbb[12];
 	TBADDBITMAP tbab;
@@ -135,8 +138,9 @@ void ToolBar::MakeToolBar(HWND hWndParent) {
 }
 void ToolBar::MakeAnotherToolBar(HWND hWndParent) {
 	InitCommonControls();
-	HWND hTool = CreateWindowEx(0, TOOLBARCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | CCS_VERT | CCS_NORESIZE | WS_BORDER, 0, 46, 60, 634,
+	HWND hTool = CreateWindowEx(0, TOOLBARCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | CCS_VERT | CCS_NORESIZE | WS_BORDER, 0, 45, 60, 614,
 		hWndParent, NULL, GetModuleHandle(NULL), NULL);
+	this->hTool2 = hTool;
 	SendMessage(hTool, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
 	TBBUTTON tbb[5];
 	SendMessage(hTool, TB_SETBUTTONSIZE, 0, MAKELPARAM(58, 47));
@@ -194,4 +198,12 @@ void ToolBar::ButtonSelected(UINT parm_control_id, LastClass *lastClass, ClassDi
 	default:
 		break;
 	}
+}
+
+void ToolBar::ChangeToolBarSize(RECT *rect) {
+	CWnd *cwnd= CWnd::FromHandle(this->hTool1);
+	cwnd->SetWindowPos(cwnd, 0, 0, rect->right - 1, 45, SWP_NOMOVE | SWP_NOZORDER);
+}
+void ToolBar::ChangeAnotherToolBarSize(RECT *rect) {
+
 }

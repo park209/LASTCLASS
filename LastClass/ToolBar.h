@@ -16,6 +16,11 @@ public:
 	void MakeToolBar(HWND hWndParent);
 	void MakeAnotherToolBar(HWND hWndParent);
 	void ButtonSelected(UINT parm_control_id,LastClass *lastClass,ClassDiagramForm *classDiagramForm,CDC *cdc);
+	void ChangeToolBarSize(RECT *rect);
+	void ChangeAnotherToolBarSize(RECT *rect);
+private:
+	HWND hTool1;
+	HWND hTool2;
 };
 
 #endif // _ToolBar_H

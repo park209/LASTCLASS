@@ -24,6 +24,7 @@ public:
 	ToolBar *toolBar;
 	StatusBar *statusBar;
 	PrintPreview *printPreview;
+	Long one = 0;
 private:
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

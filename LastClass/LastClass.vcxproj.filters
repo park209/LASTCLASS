@@ -546,9 +546,6 @@
     <ClInclude Include="EditResizerBlocker.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
-    <ClInclude Include="StatusBar.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
     <ClInclude Include="PrintPreview.h">
       <Filter>zOngoing</Filter>
     </ClInclude>
@@ -571,6 +568,7 @@
     <ClInclude Include="resource.h">
       <Filter>Resource</Filter>
     </ClInclude>
+    <ClInclude Include="StatusBar.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -1072,9 +1070,6 @@
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="TextEdit.cpp" />
-    <ClCompile Include="StatusBar.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
     <ClCompile Include="PrintPreview.cpp">
       <Filter>zOngoing</Filter>
     </ClCompile>
@@ -1091,6 +1086,7 @@
       <Filter>Menu</Filter>
     </ClCompile>
     <ClCompile Include="ToolBarProcess.cpp" />
+    <ClCompile Include="StatusBar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc">
