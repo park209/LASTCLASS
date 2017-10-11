@@ -20,7 +20,7 @@ private:
 	afx_msg void OnPaint();
 	afx_msg void OnDraw(CDC *cdc ) ;
 	afx_msg void OnNextButton();
-	afx_msg void OnpreviousButton();
+	afx_msg void OnPreviousButton();
 	afx_msg void OnPrintButton();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	DECLARE_MESSAGE_MAP()
