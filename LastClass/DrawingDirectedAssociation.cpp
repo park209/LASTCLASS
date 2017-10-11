@@ -59,18 +59,24 @@ void DrawingDirectedAssociation::MouseLButtonUp(MouseLButton *mouseLButton, Clas
 
 		quadrant2 = finder.FindQuadrant(cross2.x, cross2.y, classObject2->GetX(), classObject2->GetY(),
 			classObject2->GetX() + classObject2->GetWidth(), classObject2->GetY() + classObject2->GetHeight());
-
-		if (quadrant == 1 && cross1.x >= classObject->GetAt(classObject->GetTempletePosition())->GetX() - 10) {
-			DirectedAssociation object(classObject->GetAt(classObject->GetTempletePosition())->GetX() - 10, cross1.y,
-				cross2.x - (classObject->GetAt(classObject->GetTempletePosition())->GetX() - 10), cross2.y - cross1.y);
-			index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
-			figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
-		}
-		else if (quadrant2 == 1 && cross2.x >= classObject2->GetAt(classObject2->GetTempletePosition())->GetX() - 10) {
-			DirectedAssociation object(cross1.x, cross1.y,
-				classObject2->GetAt(classObject2->GetTempletePosition())->GetX() - 10 - cross1.x, cross2.y - cross1.y);
-			index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
-			figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
+		if (classObject->GetTempletePosition() != -1) {
+			if (quadrant == 1 && cross1.x >= classObject->GetAt(classObject->GetTempletePosition())->GetX() - 10) {
+				DirectedAssociation object(classObject->GetAt(classObject->GetTempletePosition())->GetX() - 10, cross1.y,
+					cross2.x - (classObject->GetAt(classObject->GetTempletePosition())->GetX() - 10), cross2.y - cross1.y);
+				index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+				figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
+			}
+			else if (quadrant2 == 1 && cross2.x >= classObject2->GetAt(classObject2->GetTempletePosition())->GetX() - 10) {
+				DirectedAssociation object(cross1.x, cross1.y,
+					classObject2->GetAt(classObject2->GetTempletePosition())->GetX() - 10 - cross1.x, cross2.y - cross1.y);
+				index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+				figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
+			}
+			else {
+				DirectedAssociation object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
+				index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
+				figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
+			}
 		}
 		else {
 			DirectedAssociation object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
