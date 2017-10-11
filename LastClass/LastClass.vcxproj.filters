@@ -597,10 +597,18 @@
     <ClInclude Include="ToolBar.h">
       <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicCtrlPasteMenuAction.h" />
-    <ClInclude Include="GraphicCtrlCutMenuAction.h" />
-    <ClInclude Include="GraphicCtrlCopyMenuAction.h" />
-    <ClInclude Include="DeleteKeyMenuAction.h" />
+    <ClInclude Include="GraphicCtrlPasteMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteKeyMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCtrlCopyMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCtrlCutMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -1144,17 +1152,17 @@
     <ClCompile Include="ToolBar.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicCtrlPasteMenuAction.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicCtrlCutMenuAction.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="DeleteKeyMenuAction.cpp">
+      <Filter>Menu</Filter>
     </ClCompile>
     <ClCompile Include="GraphicCtrlCopyMenuAction.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>Menu</Filter>
     </ClCompile>
-    <ClCompile Include="DeleteKeyMenuAction.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="GraphicCtrlCutMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlPasteMenuAction.cpp">
+      <Filter>Menu</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

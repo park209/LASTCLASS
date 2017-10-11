@@ -643,6 +643,12 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	hScinfo.nPos = 0;
 	this->SetScrollInfo(SB_HORZ, &hScinfo);
 
+	if ((GetKeyState(VK_CAPITAL) & 0x0001) != 0) {
+		this->capsLockFlag = 1;
+	}
+	else {
+		this->capsLockFlag = 0;
+	}
 	//1.2. 적재한다
 	//this->Load();
 	//1.3. 윈도우를 갱신한다
@@ -670,6 +676,10 @@ void ClassDiagramForm::OnPaint() {
 	//memDC.SetMapMode(MM_ISOTROPIC);
 	//memDC.SetWindowExt(100, 100);
 	//memDC.SetViewportExt(this->zoomRate, this->zoomRate);
+	if (this->zoomRate != 100) {
+		CRect rectTemp = { 0, 0, 4000, 2000 };
+		dc.FillSolidRect(rectTemp, RGB(255, 255, 255));
+	}
 
 	DrawingVisitor drawingVisitor;
 	this->diagram->Accept(drawingVisitor, &memDC);
@@ -691,7 +701,7 @@ void ClassDiagramForm::OnPaint() {
 	dc.SetWindowExt(100, 100);
 	dc.SetViewportExt(this->zoomRate, this->zoomRate);
 
-	dc.BitBlt(0, 0, rect.right * 100 / (this->zoomRate + 5), rect.bottom *100 / (this->zoomRate+5), &memDC, horzCurPos, vertCurPos, SRCCOPY);
+	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, horzCurPos, vertCurPos, SRCCOPY);
 	dc.TextOut(10, 10, a);
 }
 
@@ -702,10 +712,10 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 			this->mouseLButton->ChangeState(nChar);
 		}
 		if (nChar == VK_CAPITAL) {
-			if (this->capsLockFlag == 0) {
+			if ((GetKeyState(VK_CAPITAL) & 0x0001) != 0) {
 				this->capsLockFlag = 1;
 			}
-			else if (this->capsLockFlag == 1) {
+			else {
 				this->capsLockFlag = 0;
 			}
 			this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
@@ -797,10 +807,10 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 
 	if (GetKeyState(VK_CONTROL) >= 0) {
 		if (zDelta <= 0) { //마우스 휠 다운
-			vertCurPos += nWheelScrollLines * 10;
+			vertCurPos += nWheelScrollLines * 30;
 		}
 		else {  //마우스 휠 업
-			vertCurPos -= nWheelScrollLines * 10;
+			vertCurPos -= nWheelScrollLines * 30;
 		}
 		ret = true;
 	}
@@ -813,10 +823,16 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		}
 		else {  //마우스 휠 업
 			this->zoomRate += 10;
-			if (this->zoomRate > 300) {
-				this->zoomRate = 300;
+			if (this->zoomRate > 200) {
+				this->zoomRate = 200;
 			}
 		}
+		CRect tempRect;
+		GetClientRect(&tempRect);
+		tempRect.left = tempRect.right - 100;
+		tempRect.top = tempRect.bottom - 10;
+		this->InvalidateRect(tempRect);
+		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		ret = true;
 	}
 	SetScrollPos(SB_VERT, vertCurPos);
@@ -1020,6 +1036,8 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		this->currentY = 0;
 
 		KillTimer(1);
+
+		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 
 		ReleaseCapture();
 		Invalidate(false);

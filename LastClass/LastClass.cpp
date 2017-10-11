@@ -47,14 +47,14 @@ int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->statusBar = new StatusBar;
 	this->toolBar = new ToolBar;
 	rect.top += 45;
-	rect.left += 60;
-	rect.right -= 60;
+	//rect.left += 60;
+	//rect.right -= 60;
 	rect.bottom -= 66;
 	this->classDiagramForm = new ClassDiagramForm(this);
 	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
 	this->menu = new Menu(this);
 	this->toolBar->MakeToolBar(this->GetSafeHwnd());
-	this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
+	//this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
 	return 0;
 }
 
@@ -85,7 +85,7 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 	this->GetClientRect(&rect);
 	if (this->one == 0) {
 		this->toolBar->MakeToolBar(this->GetSafeHwnd());
-		this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
+		//this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
 		this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
 		this->one = 1;
 	}
@@ -93,7 +93,7 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 	this->toolBar->ChangeAnotherToolBarSize(&rect);
 	this->statusBar->ChangeStatusBarSize(&rect);
 	rect.top += 45;
-	rect.left += 60;
+	//rect.left += 60;
 	//rect.right -= 60;
 	rect.bottom -= 66;
 	//this->classDiagramForm->MoveWindow(rect.left, rect.top, rect.right, rect.bottom, 1);
