@@ -7,12 +7,13 @@
 typedef signed long int Long;
 
 class LastClass;
-class PrintPreview : public CWnd {
+class PrintPreview : public CFrameWnd {
 public:
 	PrintPreview(LastClass *lastClass);
 	void OnPrint(CDC *cdc , CPrintInfo *pInfo, UINT page);
 	void OnEndPrinting(CDC *pDc, CPrintInfo *pInfo);
 	void OnBeginPrinting(CDC *pDc, CPrintInfo *pInfo);	
+	BOOL DoModal();
 	afx_msg void OnClose();
 private:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

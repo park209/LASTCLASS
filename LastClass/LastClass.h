@@ -14,6 +14,7 @@ class Menu;
 class ClassDiagramForm;
 class ToolBar;
 class StatusBar;
+class PrintPreview;
 class LastClass : public CFrameWnd {
 public:
 	LastClass();
@@ -22,6 +23,7 @@ public:
 	Menu *menu;
 	ToolBar *toolBar;
 	StatusBar *statusBar;
+	PrintPreview *printPreview;
 private:
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

@@ -1009,41 +1009,12 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnClose() {
+
 	CWnd::OnClose();
 	//6.1. 저장한다.
 	//this->Save();
-	int messageBox = IDNO;
-	INT_PTR int_ptr = IDOK;
-	if (this->historyGraphic->undoGraphicArray->GetLength() != 0) {
-		if (this->fileName == "") {
-			messageBox = MessageBox(_T("변경 내용을 제목 없음에 저장하시겠습니까?"), "ClassDiagram", MB_YESNOCANCEL);
-
-			if (messageBox == IDYES) {
-				CFileDialog  dlgFile(false, "txt", "*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT, "텍스트 문서(*.txt)");
-				int_ptr = dlgFile.DoModal();
-				if (int_ptr == IDOK) {
-					this->fileName = dlgFile.GetPathName();
-					this->Save();
-				}
-				//else {
-				//return;  //보류
-				//}
-			}
-		}
-		else {
-			CString object;
-			object = "변경내용을 ";
-			object.Append(this->fileName);
-			object.Append("에 저장하시겠습니까?");
-			messageBox = MessageBox(object, "ClassDiagram", MB_YESNOCANCEL);
-			if (messageBox == IDYES) {
-				this->Save();
-			}
-		}
-	}
 
 	//6.2. 다이어그램을 지운다.
-	if (messageBox != IDCANCEL && int_ptr == IDOK) {//== IDYES || messageBox == IDNO ) {
 		if (this->diagram != NULL) {
 			delete this->diagram;
 		}
@@ -1062,5 +1033,5 @@ void ClassDiagramForm::OnClose() {
 		if (this != NULL) {
 			delete this;
 		}
-	}
+		
 }

@@ -41,11 +41,12 @@ LastClass::LastClass() {
 int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
 
-	CRect rect;
-	this->GetClientRect(&rect);
 
 	this->statusBar = new StatusBar;
 	this->toolBar = new ToolBar;
+
+	CRect rect;
+	this->GetClientRect(&rect);
 
 	rect.top += 53;
 	rect.left += 66;
@@ -149,13 +150,14 @@ void LastClass::OnClose() {
 	}
 	//6.2. 다이어그램을 지운다.
 	if (messageBox != IDCANCEL && int_ptr == IDOK) {//== IDYES || messageBox == IDNO ) {
+		
 		if (this->classDiagramForm != NULL) {
-			CFrameWnd::OnClose(); // 오버라이딩 코드재사용
 			this->classDiagramForm->OnClose();
 		}
 		if (this->menu != NULL) {
 			delete this->menu;
 		}
+		CFrameWnd::OnClose(); 
 		
 	}
 }

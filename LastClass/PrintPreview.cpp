@@ -7,6 +7,7 @@
 #include "WritingVisitor.h"
 #include "Diagram.h"
 #include "PrintPreviewState.h"
+#include "ToolBar.h"
 #include <afxwin.h>
 #include <afxdlgs.h>
 #include <afxpriv.h>
@@ -33,21 +34,25 @@ PrintPreview::PrintPreview(LastClass *lastClass) {
 	this->verticalPageSize = 1000;
 }
 int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
-	CWnd::OnCreate(lpCreateStruct);
-	this->ModifyStyle(0, WS_OVERLAPPEDWINDOW);
+	CFrameWnd::OnCreate(lpCreateStruct);
+	
+	this->ModifyStyle(0, WS_OVERLAPPEDWINDOW  );
 	this->nextButton = new CButton;
 	this->nextButton->Create("다음", WS_CHILD|WS_VISIBLE|BS_PUSHBUTTON|BS_CENTER|BS_VCENTER,CRect(150,200,230,240), this, 1);
 	this->priviousButton = new CButton;
 	this->priviousButton->Create("이전", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(150, 250, 230, 290), this, 2);
 	this->printButton = new CButton;
 	this->printButton->Create("인쇄", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(150, 300, 230, 340), this, 3);
-	
-	this->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE );
-	this->SetFocus();
-	
-	this->lastClass->classDiagramForm->EnableWindow(false);
-	Invalidate();
 
+
+	this->SetFocus();
+	this->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER);
+
+	this->lastClass->EnableWindow(false);
+	//this->lastClass->classDiagramForm->EnableWindow(false);
+	
+	Invalidate();
+	
 	return 0;
 }
 void PrintPreview::OnPaint() {
@@ -134,7 +139,7 @@ void PrintPreview::OnPrint(CDC *cdc, CPrintInfo *pInfo, UINT page) {
 
 }
 void PrintPreview::OnClose() {
-	this->lastClass->classDiagramForm->EnableWindow(true);
+	this->lastClass->EnableWindow(true);
 	if (this->nextButton != 0) {
 		delete this->nextButton;
 	}
@@ -148,6 +153,8 @@ void PrintPreview::OnClose() {
 		this->lastClass->printPreview = NULL;
 		delete this;
 	}
+
+
 }
 void PrintPreview::OnNextButton() {
 	this->verticalPage += this->verticalPageSize;
@@ -184,11 +191,11 @@ void PrintPreview::OnPriviousButton() {
 	Invalidate(false);
 }
 void PrintPreview::OnBeginPrinting(CDC *pDc, CPrintInfo *pInfo) {
-
+	
 }
 
 void PrintPreview::OnEndPrinting(CDC *pDc, CPrintInfo *pInfo) {
-	this->lastClass->classDiagramForm->EnableWindow(true);
+	this->lastClass->EnableWindow(true);
 	if (this->nextButton != 0) {
 		delete this->nextButton;
 	}
@@ -204,11 +211,16 @@ void PrintPreview::OnEndPrinting(CDC *pDc, CPrintInfo *pInfo) {
 	}
 }
 void PrintPreview::OnPrintButton() {
-	CPrintDialog printDialog(false);
+
+	CPrintDialog printDialog(FALSE, PD_ALLPAGES | PD_USEDEVMODECOPIES);
+
 	INT_PTR int_ptr = printDialog.DoModal();
+
+
 	if (int_ptr == IDOK) {
 		CDC dc;
 		dc.Attach(printDialog.GetPrinterDC());
+		
 		dc.m_bPrinting = TRUE;
 
 		CString strTitle;
@@ -223,7 +235,6 @@ void PrintPreview::OnPrintButton() {
 		CPrintInfo Info;
 		Info.m_rectDraw.SetRect(0, 0, dc.GetDeviceCaps(HORZRES),dc.GetDeviceCaps(VERTRES));
 		Info.SetMaxPage(2);
-		
 		OnBeginPrinting(&dc, &Info);
 		for (UINT page = Info.GetMinPage(); page <= Info.GetMaxPage() && bPrintingOK; page++) {
 			dc.StartPage();
@@ -237,12 +248,20 @@ void PrintPreview::OnPrintButton() {
 		if (bPrintingOK) dc.EndDoc();
 		else dc.AbortDoc();
 
+		//dc.DeleteDC();
 		dc.Detach();
 	}
-	else  if (int_ptr == IDCANCEL){
-		printDialog.DestroyWindow();
-	}
+		//printDialog.EndDialog(0);
+	
 }
 void PrintPreview::OnSize(UINT nType, int cx, int cy) {
 	Invalidate(false);
+}
+BOOL PrintPreview::DoModal() {
+	if (this->GetParent()) {
+		this->GetParent()->EnableWindow(FALSE);
+		RunModalLoop(MLF_SHOWONIDLE);
+		DestroyWindow();
+	}
+	return TRUE;
 }
