@@ -121,9 +121,6 @@ void LastClass::OnClose() {
 					this->classDiagramForm->fileName = dlgFile.GetPathName();
 					this->classDiagramForm->Save();
 				}
-				//else {
-				//return;  //º¸·ù
-				//}
 			}
 		}
 		else {
