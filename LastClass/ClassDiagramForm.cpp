@@ -903,18 +903,13 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 				top = relation->rollNamePoints->GetAt(i).y - 10;
 				bottom = relation->rollNamePoints->GetAt(i).y + 10;
 			}
-			else if (i == 3) {
-				right = relation->rollNamePoints->GetAt(i).x + 50;
-				left = relation->rollNamePoints->GetAt(i).x - 20;
+			else if (i == 3||i==4) {
+				right = relation->rollNamePoints->GetAt(i).x + 25;
+				left = relation->rollNamePoints->GetAt(i).x - 25;
 				top = relation->rollNamePoints->GetAt(i).y - 10;
 				bottom = relation->rollNamePoints->GetAt(i).y + 10;
 			}
-			else if ( i == 4) {
-				right = relation->rollNamePoints->GetAt(i).x + 30;
-				left = relation->rollNamePoints->GetAt(i).x - 40;
-				top = relation->rollNamePoints->GetAt(i).y - 10;
-				bottom = relation->rollNamePoints->GetAt(i).y + 10;
-			}
+			
 			if (startX < right && startX > left && startY > top && startY < bottom) {
 				index++;
 			}

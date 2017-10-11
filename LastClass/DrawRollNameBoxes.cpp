@@ -117,11 +117,11 @@ void DrawRollNameBoxes::DrawFourthRollNameBox(Relation *relationLine, CDC *pDC) 
 	CPoint startPoint{ relationLine->GetX(), relationLine->GetY() };
 	CPoint endPoint{ relationLine->GetAt(0).x, relationLine->GetAt(0).y };
 	cPoint = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-	pDC->MoveTo(cPoint.x - 20, cPoint.y - 10);
-	pDC->LineTo(cPoint.x + 50, cPoint.y - 10);
-	pDC->LineTo(cPoint.x + 50, cPoint.y + 10);
-	pDC->LineTo(cPoint.x - 20, cPoint.y + 10);
-	pDC->LineTo(cPoint.x - 20, cPoint.y - 10);
+	pDC->MoveTo(cPoint.x - 25, cPoint.y - 10);
+	pDC->LineTo(cPoint.x + 25, cPoint.y - 10);
+	pDC->LineTo(cPoint.x + 25, cPoint.y + 10);
+	pDC->LineTo(cPoint.x - 25, cPoint.y + 10);
+	pDC->LineTo(cPoint.x - 25, cPoint.y - 10);
 	//pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 
 	pDC->SelectObject(oldPen);
@@ -142,11 +142,11 @@ void DrawRollNameBoxes::DrawFifthRollNameBox(Relation *relationLine, CDC *pDC) {
 
 	cPoint = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
 
-	pDC->MoveTo(cPoint.x - 20, cPoint.y - 10);
-	pDC->LineTo(cPoint.x + 50, cPoint.y - 10);
-	pDC->LineTo(cPoint.x + 50, cPoint.y + 10);
-	pDC->LineTo(cPoint.x - 20, cPoint.y + 10);
-	pDC->LineTo(cPoint.x - 20, cPoint.y - 10);
+	pDC->MoveTo(cPoint.x - 25, cPoint.y - 10);
+	pDC->LineTo(cPoint.x + 25, cPoint.y - 10);
+	pDC->LineTo(cPoint.x + 25, cPoint.y + 10);
+	pDC->LineTo(cPoint.x - 25, cPoint.y + 10);
+	pDC->LineTo(cPoint.x - 25, cPoint.y - 10);
 	//pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 
 	pDC->SelectObject(oldPen);
@@ -185,18 +185,18 @@ void DrawRollNameBoxes::DrawBoxesWithoutCurvedLine(Relation *relationLine, CDC *
 	pDC->LineTo(cPoint.x - 20, cPoint.y - 10);
 	//pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 	cPoint = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-	pDC->MoveTo(cPoint.x - 20, cPoint.y - 10);
-	pDC->LineTo(cPoint.x + 50, cPoint.y - 10);
-	pDC->LineTo(cPoint.x + 50, cPoint.y + 10);
-	pDC->LineTo(cPoint.x - 20, cPoint.y + 10);
-	pDC->LineTo(cPoint.x - 20, cPoint.y - 10);
+	pDC->MoveTo(cPoint.x - 25, cPoint.y - 10);
+	pDC->LineTo(cPoint.x + 25, cPoint.y - 10);
+	pDC->LineTo(cPoint.x + 25, cPoint.y + 10);
+	pDC->LineTo(cPoint.x - 25, cPoint.y + 10);
+	pDC->LineTo(cPoint.x - 25, cPoint.y - 10);
 	//pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 	cPoint = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-	pDC->MoveTo(cPoint.x - 40, cPoint.y - 10);
-	pDC->LineTo(cPoint.x + 30, cPoint.y - 10);
-	pDC->LineTo(cPoint.x + 30, cPoint.y + 10);
-	pDC->LineTo(cPoint.x - 40, cPoint.y + 10);
-	pDC->LineTo(cPoint.x - 40, cPoint.y - 10);
+	pDC->MoveTo(cPoint.x - 25, cPoint.y - 10);
+	pDC->LineTo(cPoint.x + 25, cPoint.y - 10);
+	pDC->LineTo(cPoint.x + 25, cPoint.y + 10);
+	pDC->LineTo(cPoint.x - 25, cPoint.y + 10);
+	pDC->LineTo(cPoint.x - 25, cPoint.y - 10);
 	//pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 20, cPoint.y + 10);
 
 	pDC->SelectObject(oldPen);

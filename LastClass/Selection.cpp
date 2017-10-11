@@ -763,18 +763,13 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 						rect.top = relation->rollNamePoints->GetAt(l).y - 10;
 						rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
 					}
-					else if (l == 3) {
-						rect.left = relation->rollNamePoints->GetAt(l).x - 20;
-						rect.right = relation->rollNamePoints->GetAt(l).x + 50;
+					else if (l == 3||l==4) {
+						rect.left = relation->rollNamePoints->GetAt(l).x - 25;
+						rect.right = relation->rollNamePoints->GetAt(l).x + 25;
 						rect.top = relation->rollNamePoints->GetAt(l).y - 10;
 						rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
 					}
-					else if (l == 4) {
-						rect.left = relation->rollNamePoints->GetAt(l).x - 40;
-						rect.right = relation->rollNamePoints->GetAt(l).x + 30;
-						rect.top = relation->rollNamePoints->GetAt(l).y - 10;
-						rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
-					}
+					
 					if (ret == false) {
 						ret = finder.FindRectangleByPoint(rect, x, y);
 					}
