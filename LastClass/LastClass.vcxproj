@@ -41,7 +41,11 @@
     <ClInclude Include="CompositionMenuAction.h" />
     <ClInclude Include="Compositions.h" />
     <ClInclude Include="CompositionsMenuAction.h" />
+    <ClInclude Include="DeleteKeyMenuAction.h" />
     <ClInclude Include="FilePrintMenuAction.h" />
+    <ClInclude Include="GraphicCtrlCopyMenuAction.h" />
+    <ClInclude Include="GraphicCtrlCutMenuAction.h" />
+    <ClInclude Include="GraphicCtrlPasteMenuAction.h" />
     <ClInclude Include="GraphicCtrlRedoMenuAction.h" />
     <ClInclude Include="GraphicCtrlUndoMenuAction.h" />
     <ClInclude Include="PrintPreviewButton.h" />
@@ -229,7 +233,11 @@
     <ClCompile Include="CompositionMenuAction.cpp" />
     <ClCompile Include="Compositions.cpp" />
     <ClCompile Include="CompositionsMenuAction.cpp" />
+    <ClCompile Include="DeleteKeyMenuAction.cpp" />
     <ClCompile Include="FilePrintMenuAction.cpp" />
+    <ClCompile Include="GraphicCtrlCopyMenuAction.cpp" />
+    <ClCompile Include="GraphicCtrlCutMenuAction.cpp" />
+    <ClCompile Include="GraphicCtrlPasteMenuAction.cpp" />
     <ClCompile Include="PrintPreviewButton.cpp" />
     <ClCompile Include="PrintPreviewButtonAction.cpp" />
     <ClCompile Include="PrintPreviewNextButton.cpp" />

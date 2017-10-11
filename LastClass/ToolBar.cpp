@@ -162,7 +162,7 @@ void ToolBar::MakeAnotherToolBar(HWND hWndParent) {
 	ZeroMemory(tbb, sizeof(tbb));
 	tbb[0].iBitmap = index;
 	tbb[0].fsState = TBSTATE_ENABLED | TBSTATE_WRAP;
-	tbb[0].fsStyle = TBSTYLE_BUTTON ;
+	tbb[0].fsStyle = TBSTYLE_BUTTON;
 	tbb[0].idCommand = ID_BUTTON40001;
 
 	SendMessage(hTool, TB_ADDBUTTONS, sizeof(tbb) / sizeof(TBBUTTON), (LPARAM)tbb);
@@ -189,8 +189,8 @@ void ToolBar::ButtonSelected(UINT parm_control_id, LastClass *lastClass, ClassDi
 		break;
 	case 40010:toolBarProcess.OnPasteFileClicked(lastClass);
 		break;
-	case 40011:
-		break;		
+	case 40011:toolBarProcess.OnPrintFileClicked(lastClass);
+		break;
 	case 40012:toolBarProcess.OnPrintPreFileClicked(lastClass);
 		break;
 	case 40013:toolBarProcess.OnSupportFileClicked(lastClass);
@@ -201,7 +201,7 @@ void ToolBar::ButtonSelected(UINT parm_control_id, LastClass *lastClass, ClassDi
 }
 
 void ToolBar::ChangeToolBarSize(RECT *rect) {
-	CWnd *cwnd= CWnd::FromHandle(this->hTool1);
+	CWnd *cwnd = CWnd::FromHandle(this->hTool1);
 	cwnd->SetWindowPos(cwnd, 0, 0, rect->right - 1, 45, SWP_NOMOVE | SWP_NOZORDER);
 }
 void ToolBar::ChangeAnotherToolBarSize(RECT *rect) {

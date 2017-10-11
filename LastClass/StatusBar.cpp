@@ -6,6 +6,7 @@
 #include "Diagram.h"
 
 StatusBar::StatusBar() {
+	this->hStatus = 0;
 }
 
 StatusBar::StatusBar(const StatusBar& source) {
@@ -26,18 +27,19 @@ HWND StatusBar::MakeStatusBar(LastClass *lastClass, HWND hwndParent, int idStatu
 
 	// Create the status bar.
 	hwndStatus = CreateWindowEx(
-		WS_EX_APPWINDOW  | WS_EX_WINDOWEDGE,   // no extended styles
+		WS_EX_APPWINDOW  | WS_EX_WINDOWEDGE | CCS_NORESIZE,   // no extended styles
 		STATUSCLASSNAME,         // name of status bar class
 		(PCTSTR)" Draw ClassDiagram!!!  Version 2.27     Learn more about SoftWare in ParkCom 02)587-9424",           // no text when first created
 		//SBARS_SIZEGRIP |         // includes a sizing grip
 		WS_CHILD | WS_VISIBLE,   // creates a visible child window
-		0, 0, 0, 0,              // ignores size and position
+		0, 614, 1361, 635,              // ignores size and position
 		hwndParent,              // handle to parent window
 		(HMENU)idStatus,		 // child window identifier
 		hinst,                   // handle to application instance
 		NULL);                   // no window creation data
 
 								 // Get the coordinates of the parent window's client area.
+	this->hStatus = hwndStatus;
 	lastClass->GetClientRect(&rcClient);
 
 	// Allocate an array for holding the right edge coordinates.
@@ -95,4 +97,9 @@ HWND StatusBar::MakeStatusBar(LastClass *lastClass, HWND hwndParent, int idStatu
 	//lastClass->Invalidate();
 
 	return hwndStatus;
+}
+
+void StatusBar::ChangeStatusBarSize(RECT *rect) {
+	CWnd *cwnd = CWnd::FromHandle(this->hStatus);
+	cwnd->SetWindowPos(cwnd, 0, rect->bottom-21, rect->right, rect->bottom, SWP_NOMOVE | SWP_NOZORDER);
 }
