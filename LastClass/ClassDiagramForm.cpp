@@ -91,6 +91,7 @@ ClassDiagramForm::ClassDiagramForm(LastClass *lastClass) { // 생성자 맞는듯
 	this->copyBuffer = NULL;
 	this->isCut = 0;
 	this->capsLockFlag = 0;
+	this->zoomRate = 100;
 }
 
 Long ClassDiagramForm::Load() {
@@ -679,6 +680,11 @@ void ClassDiagramForm::OnPaint() {
 	int horzCurPos = GetScrollPos(SB_HORZ);
 	CString a;
 	a.Format("%d %d", horzCurPos, vertCurPos);
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	dc.SetMapMode(MM_ISOTROPIC);
+	dc.SetWindowExt(100, 100);
+	dc.SetViewportExt(this->zoomRate, this->zoomRate);
+
 	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, horzCurPos, vertCurPos, SRCCOPY);
 	dc.TextOut(10, 10, a);
 }
@@ -781,12 +787,28 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 
 	int vertCurPos = GetScrollPos(SB_VERT);
 
-	if (zDelta <= 0) { //마우스 휠 다운
-		vertCurPos += nWheelScrollLines * 10;
+	if (GetKeyState(VK_CONTROL) >= 0) {
+		if (zDelta <= 0) { //마우스 휠 다운
+			vertCurPos += nWheelScrollLines * 10;
+		}
+		else {  //마우스 휠 업
+			vertCurPos -= nWheelScrollLines * 10;
+		}
 		ret = true;
 	}
-	else {  //마우스 휠 업
-		vertCurPos -= nWheelScrollLines * 10;
+	else {
+		if (zDelta <= 0) { //마우스 휠 다운
+			this->zoomRate -= 10;
+			if (this->zoomRate < 50) {
+				this->zoomRate = 50;
+			}
+		}
+		else {  //마우스 휠 업
+			this->zoomRate += 10;
+			if (this->zoomRate > 300) {
+				this->zoomRate = 300;
+			}
+		}
 		ret = true;
 	}
 	SetScrollPos(SB_VERT, vertCurPos);

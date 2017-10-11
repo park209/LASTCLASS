@@ -28,7 +28,7 @@ HWND StatusBar::MakeStatusBar(LastClass *lastClass, HWND hwndParent, int idStatu
 	hwndStatus = CreateWindowEx(
 		WS_EX_APPWINDOW  | WS_EX_WINDOWEDGE,   // no extended styles
 		STATUSCLASSNAME,         // name of status bar class
-		(PCTSTR)" Draw ClassDiagram!!!  Version 2.27              ParkCom 02)587-9424",           // no text when first created
+		(PCTSTR)" Draw ClassDiagram!!!  Version 2.27     Learn more about SoftWare in ParkCom 02)587-9424",           // no text when first created
 		//SBARS_SIZEGRIP |         // includes a sizing grip
 		WS_CHILD | WS_VISIBLE,   // creates a visible child window
 		0, 0, 0, 0,              // ignores size and position
@@ -69,14 +69,20 @@ HWND StatusBar::MakeStatusBar(LastClass *lastClass, HWND hwndParent, int idStatu
 	else {
 		SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)2, (LPARAM)" NumLook Off ");
 	}
+	int a;
+	//확대 축소 기능 form 에 넣을거면 주석 풀면됨
+	//Long tempZoomRate = lastClass->classDiagramForm->zoomRate;
+	//a = tempZoomRate;
+	//CString tempString;
+	//tempString.Format(" ZoomRate : %d ", tempZoomRate);
+	//SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)3, (LPARAM)(LPCTSTR)tempString);
 
 	Long tempLength = lastClass->classDiagramForm->diagram->GetLength();
-	int a = tempLength;
-	CString tempString;
-	tempString.Format(" Obj : %d", tempLength);
-	SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)3, (LPARAM)(LPCTSTR)tempString);
+	a = tempLength;
+	CString tempString2;
+	tempString2.Format(" Obj : %d", tempLength);
+	SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)4, (LPARAM)(LPCTSTR)tempString2);
 
-	SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)4, (LPARAM)"  ");
 	// Free the array, and return.
 	LocalUnlock(hloc);
 	LocalFree(hloc);
