@@ -31,21 +31,25 @@ void EditResizerBlocker::Block(TextEdit *textEdit, CDC *pDC) {
 	textEdit->GetClientRect(&editRect);
 
 
-	if (!dynamic_cast<Relation*>(textEdit->figure) && !dynamic_cast<SelfRelation*>(textEdit->figure)) {
-
+	if (/*!dynamic_cast<Template*>(textEdit->figure) && */!dynamic_cast<Relation*>(textEdit->figure) && !dynamic_cast<SelfRelation*>(textEdit->figure)) {
 		FigureComposite *object = dynamic_cast<FigureComposite*>(((ClassDiagramForm*)(textEdit->GetParent()))->selection->GetAt(0));
-
-		CRect rt(object->GetX(), object->GetY(), object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
-
-		if (textEdit->text->MaxWidth(pDC) + CaretWidth > editRect.right) {
-			rt.right += textEdit->text->MaxWidth(pDC) + CaretWidth - editRect.right;
+		bool progress = false;
+		if (dynamic_cast<Template*>(textEdit->figure) && textEdit->text->MaxWidth(pDC) + GabY * 2 + CaretWidth < object->GetWidth() - 30) {
+			progress = true;
 		}
-
-		if (textEdit->GetRowHeight() * textEdit->text->GetLength() > editRect.bottom) {
-			rt.bottom += textEdit->GetRowHeight() * textEdit->text->GetLength() - editRect.bottom;
+		else if(!dynamic_cast<Template*>(textEdit->figure)){
+			CRect rt(object->GetX(), object->GetY(), object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
+			if (textEdit->text->MaxWidth(pDC) + CaretWidth > editRect.right) {
+				rt.right += textEdit->text->MaxWidth(pDC) + CaretWidth - editRect.right;
+			}
+			if (textEdit->GetRowHeight() * textEdit->text->GetLength() > editRect.bottom) {
+				rt.bottom += textEdit->GetRowHeight() * textEdit->text->GetLength() - editRect.bottom;
+			}
+			if (!((ClassDiagramForm*)(textEdit->GetParent()))->diagram->CheckOverlap(rt, object)) {
+				progress = true;
+			}
 		}
-
-		if (!((ClassDiagramForm*)(textEdit->GetParent()))->diagram->CheckOverlap(rt, object)) {
+		if (progress == true) {
 			editResizer.ResizeEdit(textEdit, pDC);
 			editResizer.ResizeClass(textEdit, pDC);
 			textEdit->GetParent()->Invalidate(false);
