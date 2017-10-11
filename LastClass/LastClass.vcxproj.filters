@@ -581,8 +581,22 @@
     <ClInclude Include="FilePrintPreviewMenuAction.h">
       <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="ToolBar.h" />
     <ClInclude Include="PrintPreview.h" />
+    <ClInclude Include="resource.h">
+      <Filter>zOngoing</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCtrlRedoMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCtrlUndoMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolBarProcess.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolBar.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -1119,7 +1133,12 @@
     <ClCompile Include="FilePrintPreviewMenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
-    <ClCompile Include="ToolBar.cpp" />
     <ClCompile Include="PrintPreview.cpp" />
+    <ClCompile Include="ToolBarProcess.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBar.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

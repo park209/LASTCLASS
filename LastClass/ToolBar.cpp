@@ -181,13 +181,13 @@ void ToolBar::ButtonSelected(UINT parm_control_id, LastClass *lastClass, ClassDi
 		break;
 	case 40006:toolBarProcess.OnRedoFileClicked(lastClass);
 		break;
-	case 40007:
+	case 40007:toolBarProcess.OnFinishFileClicked(lastClass);
 		break;
-	case 40008:toolBarProcess.OnCutFileClicked(classDiagramForm, cdc);
+	case 40008:toolBarProcess.OnCutFileClicked(lastClass);
 		break;
-	case 40009:toolBarProcess.OnCopyFileClicked(classDiagramForm, cdc);
+	case 40009:toolBarProcess.OnCopyFileClicked(lastClass);
 		break;
-	case 40010:toolBarProcess.OnPasteFileClicked(classDiagramForm, cdc);
+	case 40010:toolBarProcess.OnPasteFileClicked(lastClass);
 		break;
 	case 40011:
 		break;		
