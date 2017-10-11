@@ -27,11 +27,11 @@ PrintPreview::PrintPreview(LastClass *lastClass) {
 	this->lastClass = lastClass;
 	this->nextButton = NULL;
 	this->previousButton = NULL;
-	this->printButton = NULL;
+	this->previousButton = NULL;
 	this->horizontalPage = 0;
 	this->verticalPage = 0;
-	this->horizontalPageSize = 800;
-	this->verticalPageSize = 1000;
+	this->horizontalPageSize = 2000;
+	this->verticalPageSize = 2000;
 }
 int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct);
@@ -78,12 +78,8 @@ void PrintPreview::OnPaint() {
 	WritingVisitor writingVisitor;
 	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 
-	dc.SetMapMode(MM_ISOTROPIC);
-	dc.SetWindowExt(100, 100);
-	dc.SetViewportExt(lastClass->classDiagramForm->zoomRate, lastClass->classDiagramForm->zoomRate);
-
 	dc.FillSolidRect(rec, RGB(153,153,153));
-	dc.StretchBlt(rec.CenterPoint().x-300, rec.CenterPoint().y-400, 600, 800, &memDC, this->horizontalPage, this->verticalPage , 800,1000, SRCCOPY);
+	dc.StretchBlt(rec.CenterPoint().x-300, rec.CenterPoint().y-400, 600, 800, &memDC, this->horizontalPage, this->verticalPage , this->horizontalPageSize,this->verticalPageSize, SRCCOPY);
 
 	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
@@ -93,7 +89,6 @@ void PrintPreview::OnPaint() {
 	
 }
 void PrintPreview::OnDraw(CDC *cdc) {
-
 
 }
 void PrintPreview::OnPrint(CDC *cdc, CPrintInfo *pInfo, UINT page) {

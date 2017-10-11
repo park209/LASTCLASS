@@ -7,5 +7,5 @@ DependencyMenuAction::DependencyMenuAction() {
 DependencyMenuAction::~DependencyMenuAction() {
 }
 void DependencyMenuAction::MenuPress(LastClass* lastClass) {
-	lastClass->classDiagramForm->mouseLButton->ChangeState(52);
+	lastClass->classDiagramForm->mouseLButton->ChangeDrawingDependencyState();
 }

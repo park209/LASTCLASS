@@ -7,5 +7,5 @@ AggregationsMenuAction::AggregationsMenuAction() {
 AggregationsMenuAction::~AggregationsMenuAction() {
 }
 void AggregationsMenuAction::MenuPress(LastClass* lastClass) {
-	lastClass->classDiagramForm->mouseLButton->ChangeState(56);
+	lastClass->classDiagramForm->mouseLButton->ChangeDrawingAggregationsState();
 }

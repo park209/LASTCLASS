@@ -2,10 +2,13 @@
 #include "LastClass.h"
 #include "ClassDiagramForm.h"
 #include "MouseLButton.h"
+#include "DrawingClass.h"
 ClassMenuAction::ClassMenuAction() {
 }
 ClassMenuAction::~ClassMenuAction() {
 }
 void ClassMenuAction::MenuPress(LastClass* lastClass) {
-	lastClass->classDiagramForm->mouseLButton->ChangeState(49);
+
+	lastClass->classDiagramForm->mouseLButton->ChangeDrawingClassState();
+
 }

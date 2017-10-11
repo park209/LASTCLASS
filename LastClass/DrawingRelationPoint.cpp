@@ -174,7 +174,7 @@ void DrawingRelationPoint::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagr
 
 		}
 	}
-	this->ChangeDefault(mouseLButton);
+	this->ChangeState(mouseLButton, SelectionState::Instance());
 }
 void DrawingRelationPoint::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	selection->DeleteAllItems();
