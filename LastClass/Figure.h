@@ -4,6 +4,7 @@
 #define _FIGURE_H
 
 #include <string>
+#include <afxwin.h>
 using namespace std;
 
 typedef signed long int Long;
@@ -19,7 +20,7 @@ public:
 
 	virtual Figure* Clone() const = 0;
 	Long GetRowCount(string object);
-	void ReplaceString(string content, Long fontSize);
+	void ReplaceString(string content, LOGFONT lf);
 	void SetX(Long x);
 	void SetY(Long y);
 	void SetWidth(Long width);
@@ -38,8 +39,8 @@ public:
 	string& GetContent() const;
 	Long GetMinimumHeight() const;
 	Long GetMinimumWidth() const;
-	Long GetFontSize() const;
-
+public:
+	LOGFONT lf;
 protected:
 	Long x;
 	Long y;
@@ -48,7 +49,6 @@ protected:
 	string content;
 	Long minimumWidth;
 	Long minimumHeight;
-	Long fontSize;
 };
 
 inline Long Figure::GetX() const {
@@ -73,9 +73,6 @@ inline Long Figure::GetMinimumWidth() const {
 
 inline Long Figure::GetMinimumHeight() const {
 	return this->minimumHeight;
-}
-inline Long Figure::GetFontSize()const {
-	return this->fontSize;
 }
 
 #endif //_FIGURE_H

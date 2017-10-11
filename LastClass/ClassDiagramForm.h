@@ -18,10 +18,9 @@ class KeyBoard;
 class HistoryGraphic;
 class Menu;
 class Scroll;
-class LastClass;
+class FontSet;
 class ClassDiagramForm : public CWnd { //CFrameWnd 에 상속관계 표기
 public:
-	LastClass *lastClass;
 	Diagram *diagram;
 	TextEdit *textEdit;
 	Selection *selection;
@@ -30,10 +29,10 @@ public:
 	HistoryGraphic *historyGraphic;
 	Scroll *scroll;
 	Selection *copyBuffer;
+	FontSet *fontSet;
 	Long isCut;
-	Long capsLockFlag;
 public:
-	ClassDiagramForm(LastClass *lastClass);
+	ClassDiagramForm();
 public:
 	afx_msg void OnClose();
 public:

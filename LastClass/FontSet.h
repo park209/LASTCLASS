@@ -4,31 +4,36 @@
 #define _FONTSET_H
 
 #include <string>
+#include <afxwin.h>
+
 using namespace std;
 
 typedef signed long int Long;
 
+class ClassDiagramForm;
+class TextEdit;
 class FontSet {
 public:
 	FontSet();
+	FontSet(ClassDiagramForm *classDiagramForm);
 	FontSet(const FontSet& source);
 	~FontSet();
-public:
-	void SetFontWeight(Long index);
-	void SetFaceName(string faceName);
 
-	Long GetFontWeight();
-	string GetFaceName();
+	LOGFONT& RelationFontSet();
+	LOGFONT& ClassFontSet();
+	CFont& SetFont(TextEdit* textEdit, CDC* pDC);
+	
+	CFont& GetCFont() const;
+public:
 private:
-	Long fontWeight;
-	string faceName;
+	ClassDiagramForm *classDiagramForm;
+	CFont cFont;
+	CFont *oldFont;
+	LOGFONT lf;
 };
 
-inline Long FontSet::GetFontWeight() {
-	return this->fontWeight;
-}
-inline string FontSet::GetFaceName() {
-	return this->faceName;
+inline CFont& FontSet::GetCFont() const {
+	return const_cast<CFont&>(this->cFont);
 }
 
 #endif // _FONTSET_H

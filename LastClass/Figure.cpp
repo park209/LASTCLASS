@@ -11,7 +11,6 @@ Figure::Figure() {
 	this->content = "";
 	this->minimumWidth = 120;
 	this->minimumHeight = 49;
-	this->fontSize = 25;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height) {
@@ -22,7 +21,6 @@ Figure::Figure(Long x, Long y, Long width, Long height) {
 	this->content = "";
 	this->minimumWidth = 120;
 	this->minimumHeight = 49;
-	this->fontSize = 25;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height, string content) {
@@ -33,7 +31,6 @@ Figure::Figure(Long x, Long y, Long width, Long height, string content) {
 	this->content = content;
 	this->minimumWidth = 120; //여기도
 	this->minimumHeight = 49; // 입력받을 문자열에 맞게 값 줘야하는데
-	this->fontSize = 25;
 }
 
 Figure::Figure(const Figure& source) {
@@ -44,7 +41,6 @@ Figure::Figure(const Figure& source) {
 	this->content = source.content;
 	this->minimumWidth = source.minimumWidth;
 	this->minimumHeight = source.minimumHeight;
-	this->fontSize = source.fontSize;
 }
 
 Long Figure::GetRowCount(string object) {
@@ -62,9 +58,9 @@ Long Figure::GetRowCount(string object) {
 	return count;
 }
 
-void Figure::ReplaceString(string content, Long fontSize) {
+void Figure::ReplaceString(string content, LOGFONT lf) {
 	this->content = content;
-	this->fontSize = fontSize;
+	this->lf = lf;
 }
 void Figure::SetX(Long x) {
 	this->x = x;

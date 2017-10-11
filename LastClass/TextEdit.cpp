@@ -1,6 +1,5 @@
 //TextEdit.cpp
 
-#include "LastClass.h"
 #include "TextEdit.h"
 #include "ClassDiagramForm.h"
 #include "Text.h"
@@ -25,7 +24,6 @@
 #include "Class.h"
 #include "Relation.h"
 #include "SelfRelation.h"
-#include "StatusBar.h"
 
 //#include <iostream>
 
@@ -46,27 +44,23 @@ BEGIN_MESSAGE_MAP(TextEdit, CWnd)
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
-TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Figure *figure, Long rollNameBoxIndex) {
-	this->classDiagramForm = classDiagramForm;
+TextEdit::TextEdit(Figure *figure, LOGFONT lf, Long rollNameBoxIndex) {
 	this->text = NULL;
 	this->caret = NULL;
 	this->keyBoard = NULL;
 	this->historyText = NULL;
 	this->textAreaSelected = NULL;
-	this->fontSet = NULL;
 	this->figure = figure;
 	this->rollNameBoxIndex = rollNameBoxIndex;
-	this->rowHeight = 25; // 폰트 사이즈
 	this->koreanEnglish = 0;
 	this->flagBuffer = 0;
 	this->flagInsert = 0;
 	this->flagSelection = 0;
-	this->currentX = 0;
 	this->copyBuffer = "";
 	this->criteriaWidth = figure->GetWidth();
 	this->criteriaHeight = figure->GetHeight();
 	this->criteriaX = figure->GetX();
-	this->numLockFlag = 0;
+	this->lf = lf;
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -78,7 +72,6 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->keyBoard = new KeyBoard;
 	this->historyText = new HistoryText;
 	this->textAreaSelected = new TextAreaSelected;
-	this->fontSet = new FontSet;
 
 	if (this->rollNameBoxIndex == -1) {
 		this->text->SprayString(this->figure->GetContent()); // 넘겨받아온거 자료구조로 뿌려줌 ㅇㅇㅇㅇㅇ
@@ -89,7 +82,7 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	else if (dynamic_cast<SelfRelation*>(this->figure)) {
 		this->text->SprayString(static_cast<SelfRelation*>(this->figure)->rollNames->GetAt(this->rollNameBoxIndex));
 	}
-
+	SetFont(&((ClassDiagramForm*)this->GetParent())->fontSet->GetCFont(), TRUE);
 	Invalidate(false);
 	return 0;
 }
@@ -107,45 +100,16 @@ void TextEdit::OnPaint() {
 	pOldBitmap = memDC.SelectObject(&bitmap);
 	memDC.FillSolidRect(CRect(0, 0, rt.right, rt.bottom), RGB(255, 255, 255));
 	WritingVisitor writingVisitor;
-	CFont cFont;
+	CFont& cFont = ((ClassDiagramForm*)this->GetParent())->fontSet->SetFont(this);
 	CFont *oldFont = 0;
 	CFont *m_oldFont = 0;
 
-	if (this->rollNameBoxIndex == -1) {
-		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
-		SetFont(&cFont, TRUE);
-		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
-		CFont *m_oldFont = memDC.SelectObject(&cFont);
+	CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
+	CFont *m_oldFont = memDC.SelectObject(&cFont);
 
-		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
-		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
-			this->textAreaSelected->SelectTextArea(this, &memDC);
-		}
-	}
-	else if (dynamic_cast<Relation*>(this->figure)) {
-		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
-		SetFont(&cFont, TRUE);
-		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
-		CFont *m_oldFont = memDC.SelectObject(&cFont);
-
-		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
-		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
-			this->textAreaSelected->SelectTextArea(this, &memDC);
-		}
-	}
-	else if (dynamic_cast<SelfRelation*>(this->figure)) {
-		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
-		SetFont(&cFont, TRUE);
-		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
-		CFont *m_oldFont = memDC.SelectObject(&cFont);
-
-		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
-		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
-			this->textAreaSelected->SelectTextArea(this, &memDC);
-		}
+	this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
+	if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
+		this->textAreaSelected->SelectTextArea(this, &memDC);
 	}
 
 	dc.BitBlt(0, 0, rt.right, rt.bottom, &memDC, 0, 0, SRCCOPY);
@@ -186,16 +150,12 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	}
 	
 	CDC *dc = GetDC();
-	CFont cFont;
-	cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
-	SetFont(&cFont, TRUE);
-	dc->SelectObject(cFont);
+	CFont *pFont = dc->GetCurrentFont();
 
 	EditResizerBlocker editResizer;
 	editResizer.Block(this, dc);
 
-	cFont.DeleteObject(); // 폰트
+	pFont->DeleteObject(); // 폰트
 
 	CWnd::HideCaret();
 
@@ -319,8 +279,8 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str()); 
 		this->SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);// 폰트 시작
-
-		if (this->flagSelection == 0 && this->currentX != 0) {// && this->) { // 왼마우스 눌려있는데 이동시에 flag 진행중인지 확인해서
+		
+		if (this->flagSelection == 0 && GetCapture()!=NULL) {// && this->) { // 왼마우스 눌려있는데 이동시에 flag 진행중인지 확인해서
 			this->flagSelection = 1; // flag 진행중 아니면 진행중으로 바꾸고
 			this->selectedX = this->caret->GetCharacterIndex(); // 최초 한번 selectedX, Y 를
 			this->selectedY = this->caret->GetRowIndex();
@@ -331,8 +291,7 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 		cFont.DeleteObject(); // 폰트 끝
 
 		Invalidate(false);
-	}
-	this->currentX = point.x;
+	}	
 }
 
 void TextEdit::OnLButtonDblClk(UINT nFlags, CPoint point) {
@@ -351,36 +310,18 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		keyAction->KeyPress(this);
 	}
 	this->koreanEnglish = 0;
-	if (nChar == VK_NUMLOCK) {
-		if (this->numLockFlag == 0) {
-			this->numLockFlag = 1;
-		}
-		else if (this->numLockFlag == 1) {
-			this->numLockFlag = 0;
-		}
-		this->classDiagramForm->lastClass->statusBar->MakeStatusBar(this->classDiagramForm->lastClass, this->classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
-	}
-	else if (nChar == VK_CAPITAL) {
-		if (this->classDiagramForm->capsLockFlag == 0) {
-			this->classDiagramForm->capsLockFlag = 1;
-		}
-		else if (this->classDiagramForm->capsLockFlag == 1) {
-			this->classDiagramForm->capsLockFlag = 0;
-		}
-		this->classDiagramForm->lastClass->statusBar->MakeStatusBar(this->classDiagramForm->lastClass, this->classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
-	}
 
 	if (nChar != VK_RETURN && nChar != VK_ESCAPE) {
 
-		CDC *dc = GetDC();
-		CFont cFont;
-		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
-		SetFont(&cFont, TRUE);
-		dc->SelectObject(cFont);
-		EditResizerBlocker editResizer;
-		editResizer.Block(this, dc);
-		cFont.DeleteObject(); // 폰트
+		//CDC *dc = GetDC();
+		//CFont cFont;
+		//cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+		//SetFont(&cFont, TRUE);
+		//dc->SelectObject(cFont);
+		//EditResizerBlocker editResizer;
+		//editResizer.Block(this, dc);
+		//cFont.DeleteObject(); // 폰트
 
 		CWnd::HideCaret();
 
@@ -434,10 +375,6 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 	if (this->textAreaSelected != NULL) {
 		delete this->textAreaSelected;
 	}
-
-	if (this->fontSet != NULL) {
-		delete this->fontSet;
-	}
 	if (this != NULL) {
 		delete this;
 	}
@@ -449,7 +386,7 @@ void TextEdit::OnClose() {
 
 	if (this->rollNameBoxIndex == -1) {
 		string content(this->text->MakeText());
-		this->figure->ReplaceString(content, this->rowHeight);
+		this->figure->ReplaceString(content, );
 	}
 	else if (dynamic_cast<Relation*>(this->figure)) {
 		string rollNameText(this->text->MakeText());
