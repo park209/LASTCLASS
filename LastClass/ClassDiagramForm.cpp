@@ -1,5 +1,6 @@
 //ClassDiagramForm.cpp
 
+#include "LastClass.h"
 #include "ClassDiagramForm.h"
 #include "TextEdit.h"
 #include "Diagram.h"
@@ -41,6 +42,9 @@
 #include "KeyBoard.h"
 #include "KeyAction.h"
 
+#include "ToolBar.h"
+#include "StatusBar.h"
+
 #include "Scroll.h"
 #include "ScrollAction.h"
 
@@ -50,6 +54,7 @@
 #include <afxmsg_.h>
 #include <afxext.h>
 #include <afxdlgs.h>
+
 using namespace std;
 
 
@@ -69,7 +74,8 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CWnd)
 	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
-ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
+ClassDiagramForm::ClassDiagramForm(LastClass *lastClass) { // 생성자 맞는듯
+	this->lastClass = lastClass;
 	this->diagram = NULL;
 	this->textEdit = NULL;
 	this->selection = NULL;
@@ -84,6 +90,7 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->fileName = "";
 	this->copyBuffer = NULL;
 	this->isCut = 0;
+	this->capsLockFlag = 0;
 }
 
 Long ClassDiagramForm::Load() {
@@ -611,6 +618,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->historyGraphic = new HistoryGraphic;
 	this->keyBoard = new KeyBoard;
 	this->scroll = new Scroll;
+
 	CRect rect;
 	this->GetClientRect(&rect);
 	ModifyStyle(0, WS_CLIPCHILDREN);
@@ -633,11 +641,11 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	hScinfo.nTrackPos = 0;
 	hScinfo.nPos = 0;
 	this->SetScrollInfo(SB_HORZ, &hScinfo);
+
 	//1.2. 적재한다
 	//this->Load();
 	//1.3. 윈도우를 갱신한다
 	//Invalidate();
-
 	return 0;
 }
 
@@ -649,7 +657,7 @@ void ClassDiagramForm::OnPaint() {
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
 	memDC.CreateCompatibleDC(&dc);
-	bitmap.CreateCompatibleBitmap(&dc, 4000, 2000 );
+	bitmap.CreateCompatibleBitmap(&dc, 4000, 2000);
 	pOldBitmap = memDC.SelectObject(&bitmap);
 	memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
@@ -671,19 +679,25 @@ void ClassDiagramForm::OnPaint() {
 	int horzCurPos = GetScrollPos(SB_HORZ);
 	CString a;
 	a.Format("%d %d", horzCurPos, vertCurPos);
-	dc.BitBlt(0 , 0,rect.right ,rect.bottom ,&memDC, horzCurPos, vertCurPos, SRCCOPY);
-	dc.TextOut(10 ,10, a);
-	memDC.SelectObject(oldFont);
-	cFont.DeleteObject();
-	memDC.SelectObject(pOldBitmap);
-	bitmap.DeleteObject();
-	memDC.DeleteDC();
+	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, horzCurPos, vertCurPos, SRCCOPY);
+	dc.TextOut(10, 10, a);
 }
+
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (nChar == 0 || nChar == 49 || nChar == 81 || nChar == 50 || nChar == 55 || nChar == 56 || nChar == 53 ||
 		nChar == 57 || nChar == 48 || nChar == 52 || nChar == 54 || nChar == 87 || nChar == 51) {
 		this->mouseLButton->ChangeState(nChar);
 	}
+	if (nChar == VK_CAPITAL) {
+		if (this->capsLockFlag == 0) {
+			this->capsLockFlag = 1;
+		}
+		else if (this->capsLockFlag == 1) {
+			this->capsLockFlag = 0;
+		}
+		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
+	}
+
 	CClientDC dc(this);
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
@@ -699,12 +713,15 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	cFont.DeleteObject();
 }
 
+
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	CWnd::OnSetFocus(pOldWnd);
 	CWnd::SetFocus();
 	Invalidate(false);
 }
 void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
+	CWnd::OnSize(nType, cx, cy);
+
 	CRect rect;
 	this->GetClientRect(&rect);
 	SCROLLINFO vScinfo;
@@ -723,34 +740,51 @@ void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
 }
 
 void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+	CWnd::OnVScroll(nSBCode, nPos, pScrollBar);
 	ScrollAction *scrollAction = this->scroll->MoveVScroll(this, nSBCode, nPos, pScrollBar);
 	if (scrollAction != 0) {
 		scrollAction->Scrolling(this);
 	}
 	Invalidate(false);
-	CWnd::OnVScroll(nSBCode, nPos, pScrollBar);
 }
 
 void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+	CWnd::OnHScroll(nSBCode, nPos, pScrollBar);
 	ScrollAction *scrollAction = this->scroll->MoveHScroll(this, nSBCode, nPos, pScrollBar);
 	if (scrollAction != 0) {
 		scrollAction->Scrolling(this);
 	}
 	Invalidate(false);
-	CWnd::OnHScroll(nSBCode, nPos, pScrollBar);
 }
 
 BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
+	CWnd::SetFocus();
 	SetFocus();
 	bool ret = false;
+
+	// nWheelScrollLines 휠 한번에 이동하는 줄 수 (Reg에서 읽어 온다)
+	HKEY hKey = 0;
+	DWORD dwType = REG_BINARY;
+	DWORD dwSize = 10;
+	BYTE* pByte = new BYTE[dwSize];
+
+	ZeroMemory(pByte, dwSize);
+
+	RegOpenKey(HKEY_CURRENT_USER, "Control Panel\\Desktop", &hKey);
+	RegQueryValueEx(hKey, "WheelScrollLines", NULL, &dwType, pByte, &dwSize);
+	RegCloseKey(hKey);
+
+	int nWheelScrollLines = atoi((char*)pByte);
+	delete pByte;
+
 	int vertCurPos = GetScrollPos(SB_VERT);
 
 	if (zDelta <= 0) { //마우스 휠 다운
-		vertCurPos += 20;
+		vertCurPos += nWheelScrollLines * 10;
 		ret = true;
 	}
 	else {  //마우스 휠 업
-		vertCurPos -= 20;
+		vertCurPos -= nWheelScrollLines * 10;
 		ret = true;
 	}
 	SetScrollPos(SB_VERT, vertCurPos);
@@ -802,7 +836,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {
 
-		this->textEdit = new TextEdit(figure);
+		this->textEdit = new TextEdit(this, figure);
 
 		if (dynamic_cast<MemoBox*>(figure) || dynamic_cast<ClassName*>(figure)) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
@@ -849,7 +883,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			i++;
 		}
 		if (index > 0) {
-			this->textEdit = new TextEdit(relation, i - 1);
+			this->textEdit = new TextEdit(this, relation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				left + 1 - horzCurPos,
 				top + 1 - vertCurPos,
@@ -906,7 +940,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		// 확인해서 있으면 그 index 기억해두고 그 박스 사이즈로 textEdit 연다 (textEdit 생성자 따로 만들어야할듯)
 
 		if (index > 0) {
-			this->textEdit = new TextEdit(selfRelation, i - 1);
+			this->textEdit = new TextEdit(this, selfRelation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				left + 1 - horzCurPos,
 				top + 1 - vertCurPos,
@@ -919,7 +953,6 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
-
 
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
@@ -976,7 +1009,41 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnClose() {
+	CWnd::OnClose();
+	//6.1. 저장한다.
+	//this->Save();
+	int messageBox = IDNO;
+	INT_PTR int_ptr = IDOK;
+	if (this->historyGraphic->undoGraphicArray->GetLength() != 0) {
+		if (this->fileName == "") {
+			messageBox = MessageBox(_T("변경 내용을 제목 없음에 저장하시겠습니까?"), "ClassDiagram", MB_YESNOCANCEL);
 
+			if (messageBox == IDYES) {
+				CFileDialog  dlgFile(false, "txt", "*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT, "텍스트 문서(*.txt)");
+				int_ptr = dlgFile.DoModal();
+				if (int_ptr == IDOK) {
+					this->fileName = dlgFile.GetPathName();
+					this->Save();
+				}
+				//else {
+				//return;  //보류
+				//}
+			}
+		}
+		else {
+			CString object;
+			object = "변경내용을 ";
+			object.Append(this->fileName);
+			object.Append("에 저장하시겠습니까?");
+			messageBox = MessageBox(object, "ClassDiagram", MB_YESNOCANCEL);
+			if (messageBox == IDYES) {
+				this->Save();
+			}
+		}
+	}
+
+	//6.2. 다이어그램을 지운다.
+	if (messageBox != IDCANCEL && int_ptr == IDOK) {//== IDYES || messageBox == IDNO ) {
 		if (this->diagram != NULL) {
 			delete this->diagram;
 		}
@@ -995,5 +1062,5 @@ void ClassDiagramForm::OnClose() {
 		if (this != NULL) {
 			delete this;
 		}
-	
+	}
 }
