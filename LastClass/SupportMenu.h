@@ -14,10 +14,10 @@ private:
 	afx_msg void OnPaint();
 	afx_msg void OnClose();
 	afx_msg void OnNextButton();
-	afx_msg void OnPriviousButton();
+	afx_msg void OnpreviousButton();
 	DECLARE_MESSAGE_MAP()
 private:
 	CButton *nextButton;
-	CButton *priviousButton;
+	CButton *previousButton;
 };
 #endif // !_SUPPORTMENU_H

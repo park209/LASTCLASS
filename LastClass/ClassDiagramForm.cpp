@@ -740,6 +740,7 @@ void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
 }
 
 void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+	SetFocus();
 	CWnd::OnVScroll(nSBCode, nPos, pScrollBar);
 	ScrollAction *scrollAction = this->scroll->MoveVScroll(this, nSBCode, nPos, pScrollBar);
 	if (scrollAction != 0) {
@@ -749,6 +750,7 @@ void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 }
 
 void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+	SetFocus();
 	CWnd::OnHScroll(nSBCode, nPos, pScrollBar);
 	ScrollAction *scrollAction = this->scroll->MoveHScroll(this, nSBCode, nPos, pScrollBar);
 	if (scrollAction != 0) {
@@ -795,6 +797,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	CWnd::SetFocus();
+	SetFocus();
+	
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
 	UINT elapseTime = 0;
