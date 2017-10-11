@@ -78,18 +78,31 @@ void PrintPreview::OnPaint() {
 	WritingVisitor writingVisitor;
 	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 
-	dc.FillSolidRect(rec, RGB(153,153,153));
 	Long a = (rec.CenterPoint().x)* 5 / 8;
 	Long b = (rec.CenterPoint().y)* 1 / 6;
 	Long c = (rec.CenterPoint().x) * 11 / 8 - (rec.CenterPoint().x) * 5 / 8;
 	Long d = (rec.CenterPoint().y) * 11 / 6 - (rec.CenterPoint().y) * 1 / 6;
-	dc.StretchBlt(a,b,c,d, &memDC, this->horizontalPage, this->verticalPage , this->horizontalPageSize,this->verticalPageSize, SRCCOPY);
+	
+	CBitmap *pOldBitmapOne;
+	CBitmap bitmapOne;
+	CDC memDCOne;
+	memDCOne.CreateCompatibleDC(&dc);
+	bitmapOne.CreateCompatibleBitmap(&dc, rec.Width(), rec.Height());
+	pOldBitmapOne = memDCOne.SelectObject(&bitmapOne);
+	memDCOne.FillSolidRect(rec, RGB(153, 153,153));
+
+	memDCOne.StretchBlt(a,b,c,d,&memDC, this->horizontalPage, this->verticalPage, this->horizontalPageSize, this->verticalPageSize, SRCCOPY);
+
+	dc.BitBlt(0, 0, rec.Width(), rec.Height(), &memDCOne, 0, 0, SRCCOPY);
 
 	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
 	memDC.SelectObject(pOldBitmap);
 	bitmap.DeleteObject();
 	memDC.DeleteDC();
+	memDCOne.SelectObject(pOldBitmap);
+	bitmapOne.DeleteObject();
+	memDCOne.DeleteDC();
 	
 }
 void PrintPreview::OnDraw(CDC *cdc) {
