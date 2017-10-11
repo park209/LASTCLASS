@@ -25,6 +25,7 @@
 #include "NewMenuAction.h"
 #include "FilePrintPreviewMenuAction.h"
 #include "SupportMenuAction.h"
+#include "FilePrintMenuAction.h"
 
 Menu::Menu(LastClass* lastClass) {
 	this->lastClass = lastClass;
@@ -98,6 +99,7 @@ MenuAction* Menu::MenuSelected( UINT parm_control_id) {
 	case 102: this->menuAction = new SaveMenuAction; break;
 	case 103: this->menuAction = new SaveAsMenuAction; break;
 	case 104: this->menuAction = new FilePrintPreviewMenuAction; break; // ´õ
+	case 105: this->menuAction = new FilePrintMenuAction; break;
 	case 110: this->menuAction = new ClassMenuAction; break;
 	case 111: this->menuAction = new MemoBoxMenuAction; break;
 	case 112: this->menuAction = new GeneralizationMenuAction; break;

@@ -6,6 +6,7 @@
 #include "DefaultState.h"
 #include "ClassDiagramForm.h"
 #include "HistoryGraphic.h"
+#include "Selection.h"
 
 DrawingMemoBox* DrawingMemoBox::instance = 0;
 
@@ -33,7 +34,7 @@ void DrawingMemoBox::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 	this->ChangeDefault(mouseLButton);
 }
 void DrawingMemoBox::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
-
+	selection->DeleteAllItems();
 }
 void DrawingMemoBox::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	CPen pen;

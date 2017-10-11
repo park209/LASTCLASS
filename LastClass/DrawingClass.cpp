@@ -49,7 +49,7 @@ void DrawingClass::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 }
 
 void DrawingClass::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
-
+	selection->DeleteAllItems();
 	
 }
 

@@ -7,5 +7,5 @@ RealizationMenuAction::RealizationMenuAction() {
 RealizationMenuAction::~RealizationMenuAction() {
 }
 void RealizationMenuAction::MenuPress(LastClass* lastClass) {
-	lastClass->classDiagramForm->mouseLButton->ChangeState(51);
+	lastClass->classDiagramForm->mouseLButton->ChangeDrawingRealizationState();
 }

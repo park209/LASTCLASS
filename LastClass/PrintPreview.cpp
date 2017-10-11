@@ -20,18 +20,18 @@ BEGIN_MESSAGE_MAP(PrintPreview,CWnd)
 	ON_WM_LBUTTONUP()
 	ON_WM_CLOSE()
 	ON_BN_CLICKED(1,OnNextButton)
-	ON_BN_CLICKED(2, OnPriviousButton)
+	ON_BN_CLICKED(2, OnPreviousButton)
 	ON_BN_CLICKED(3, OnPrintButton)
 END_MESSAGE_MAP()
 PrintPreview::PrintPreview(LastClass *lastClass) {
 	this->lastClass = lastClass;
 	this->nextButton = NULL;
-	this->priviousButton = NULL;
-	this->printButton = NULL;
+	this->previousButton = NULL;
+	this->previousButton = NULL;
 	this->horizontalPage = 0;
 	this->verticalPage = 0;
-	this->horizontalPageSize = 800;
-	this->verticalPageSize = 1000;
+	this->horizontalPageSize = 2000;
+	this->verticalPageSize = 2000;
 }
 int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct);
@@ -39,8 +39,8 @@ int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->ModifyStyle(0, WS_OVERLAPPEDWINDOW  );
 	this->nextButton = new CButton;
 	this->nextButton->Create("다음", WS_CHILD|WS_VISIBLE|BS_PUSHBUTTON|BS_CENTER|BS_VCENTER,CRect(150,200,230,240), this, 1);
-	this->priviousButton = new CButton;
-	this->priviousButton->Create("이전", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(150, 250, 230, 290), this, 2);
+	this->previousButton = new CButton;
+	this->previousButton->Create("이전", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(150, 250, 230, 290), this, 2);
 	this->printButton = new CButton;
 	this->printButton->Create("인쇄", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(150, 300, 230, 340), this, 3);
 
@@ -79,7 +79,7 @@ void PrintPreview::OnPaint() {
 	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 
 	dc.FillSolidRect(rec, RGB(153,153,153));
-	dc.StretchBlt(rec.CenterPoint().x-300, rec.CenterPoint().y-400, 600, 800, &memDC, this->horizontalPage, this->verticalPage , 800,1000, SRCCOPY);
+	dc.StretchBlt(rec.CenterPoint().x-300, rec.CenterPoint().y-400, 600, 800, &memDC, this->horizontalPage, this->verticalPage , this->horizontalPageSize,this->verticalPageSize, SRCCOPY);
 
 	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
@@ -146,8 +146,8 @@ void PrintPreview::OnClose() {
 	if (this->printButton != 0) {
 		delete this->printButton;
 	}
-	if (this->priviousButton != 0) {
-		delete this->priviousButton;
+	if (this->previousButton != 0) {
+		delete this->previousButton;
 	}
 	if (this != 0) {
 		this->lastClass->printPreview = NULL;
@@ -170,7 +170,7 @@ void PrintPreview::OnNextButton() {
 	}
 	Invalidate(false);
 }
-void PrintPreview::OnPriviousButton() {
+void PrintPreview::OnPreviousButton() {
 	this->verticalPage -= this->verticalPageSize;
 	if (this->verticalPage < 0) {
 		this->horizontalPage -= this->horizontalPageSize;
@@ -202,8 +202,8 @@ void PrintPreview::OnEndPrinting(CDC *pDc, CPrintInfo *pInfo) {
 	if (this->printButton != 0) {
 		delete this->printButton;
 	}
-	if (this->priviousButton != 0) {
-		delete this->priviousButton;
+	if (this->previousButton != 0) {
+		delete this->previousButton;
 	}
 	if (this != 0) {
 		this->lastClass->printPreview = NULL;

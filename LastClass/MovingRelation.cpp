@@ -2,6 +2,7 @@
 #include "Relation.h"
 #include "Finder.h"
 #include "Selection.h"
+#include "SelectionState.h"
 #include "Diagram.h"
 #include "RollNameBox.h"
 #include "ClassDiagramForm.h"
@@ -158,7 +159,7 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 			}
 		}
 	}
-	this->ChangeDefault(mouseLButton);
+	this->ChangeState(mouseLButton,SelectionState::Instance());
 }
 void MovingRelation::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 

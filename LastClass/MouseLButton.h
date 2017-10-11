@@ -21,7 +21,25 @@ public:
 	void MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY);
 	void MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY,CDC *pDC);
 	void ChangeState(UINT nChar);
+
+	void ChangeDrawingClassState();
+	void ChangeDrawingMemoBoxState();
+
+	void ChangeDrawingAggregationState();
+	void ChangeDrawingAggregationsState();
+	void ChangeDrawingAssociationState();
+	void ChangeDrawingCompositionState();
+	void ChangeDrawingCompositionsState();
+	void ChangeDrawingDependencyState();
+	void ChangeDrawingDirectedAssociationState();
+	void ChangeDrawingGeneralizationState();
+	void ChangeDrawingMemoLineState();
+	void ChangeDrawingRealizationState();
+
 	void ChangeDefault();
+
+
+
 	UINT GetButtonState()const;
 //private:
 	friend class  MouseLButtonAction;
