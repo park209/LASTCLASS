@@ -41,6 +41,7 @@
     <ClInclude Include="CompositionMenuAction.h" />
     <ClInclude Include="Compositions.h" />
     <ClInclude Include="CompositionsMenuAction.h" />
+    <ClInclude Include="FilePrintMenuAction.h" />
     <ClInclude Include="PrintPreviewButton.h" />
     <ClInclude Include="PrintPreviewButtonAction.h" />
     <ClInclude Include="PrintPreviewNextButton.h" />
@@ -224,6 +225,7 @@
     <ClCompile Include="CompositionMenuAction.cpp" />
     <ClCompile Include="Compositions.cpp" />
     <ClCompile Include="CompositionsMenuAction.cpp" />
+    <ClCompile Include="FilePrintMenuAction.cpp" />
     <ClCompile Include="PrintPreviewButton.cpp" />
     <ClCompile Include="PrintPreviewButtonAction.cpp" />
     <ClCompile Include="PrintPreviewNextButton.cpp" />

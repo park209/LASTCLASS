@@ -582,6 +582,7 @@
     <ClInclude Include="PrintPreviewPrintButton.h">
       <Filter>Print</Filter>
     </ClInclude>
+    <ClInclude Include="FilePrintMenuAction.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -1119,5 +1120,6 @@
     <ClCompile Include="PrintPreviewZoomOutButton.cpp">
       <Filter>Print</Filter>
     </ClCompile>
+    <ClCompile Include="FilePrintMenuAction.cpp" />
   </ItemGroup>
 </Project>
