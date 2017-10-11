@@ -66,7 +66,6 @@ TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Figure *figure, Long roll
 	this->criteriaWidth = figure->GetWidth();
 	this->criteriaHeight = figure->GetHeight();
 	this->criteriaX = figure->GetX();
-	this->numLockFlag = 0;
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -88,6 +87,12 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	}
 	else if (dynamic_cast<SelfRelation*>(this->figure)) {
 		this->text->SprayString(static_cast<SelfRelation*>(this->figure)->rollNames->GetAt(this->rollNameBoxIndex));
+	}
+	if ((GetKeyState(VK_NUMLOCK) & 0x0001) != 0) {
+		this->numLockFlag = 0;
+	}
+	else {
+		this->numLockFlag = 1;
 	}
 
 	Invalidate(false);
@@ -352,11 +357,11 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	}
 	this->koreanEnglish = 0;
 	if (nChar == VK_NUMLOCK) {
-		if (this->numLockFlag == 0) {
-			this->numLockFlag = 1;
-		}
-		else if (this->numLockFlag == 1) {
+		if ((GetKeyState(VK_NUMLOCK) & 0x0001) != 0) {
 			this->numLockFlag = 0;
+		}
+		else {
+			this->numLockFlag = 1;
 		}
 		this->classDiagramForm->lastClass->statusBar->MakeStatusBar(this->classDiagramForm->lastClass, this->classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
 	}

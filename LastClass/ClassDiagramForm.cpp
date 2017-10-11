@@ -643,6 +643,12 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	hScinfo.nPos = 0;
 	this->SetScrollInfo(SB_HORZ, &hScinfo);
 
+	if ((GetKeyState(VK_CAPITAL) & 0x0001) != 0) {
+		this->capsLockFlag = 1;
+	}
+	else {
+		this->capsLockFlag = 0;
+	}
 	//1.2. 적재한다
 	//this->Load();
 	//1.3. 윈도우를 갱신한다
@@ -667,9 +673,13 @@ void ClassDiagramForm::OnPaint() {
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
 
-	memDC.SetMapMode(MM_ISOTROPIC);
-	memDC.SetWindowExt(100, 100);
-	memDC.SetViewportExt(this->zoomRate, this->zoomRate);
+	//memDC.SetMapMode(MM_ISOTROPIC);
+	//memDC.SetWindowExt(100, 100);
+	//memDC.SetViewportExt(this->zoomRate, this->zoomRate);
+	if (this->zoomRate != 100) {
+		CRect rectTemp = { 0, 0, 4000, 2000 };
+		dc.FillSolidRect(rectTemp, RGB(255, 255, 255));
+	}
 
 	DrawingVisitor drawingVisitor;
 	this->diagram->Accept(drawingVisitor, &memDC);
@@ -696,33 +706,35 @@ void ClassDiagramForm::OnPaint() {
 }
 
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
-	if (nChar == 0 || nChar == 49 || nChar == 81 || nChar == 50 || nChar == 55 || nChar == 56 || nChar == 53 ||
-		nChar == 57 || nChar == 48 || nChar == 52 || nChar == 54 || nChar == 87 || nChar == 51) {
-		this->mouseLButton->ChangeState(nChar);
-	}
-	if (nChar == VK_CAPITAL) {
-		if (this->capsLockFlag == 0) {
-			this->capsLockFlag = 1;
+	if (this->zoomRate == 100) {
+		if (nChar == 0 || nChar == 49 || nChar == 81 || nChar == 50 || nChar == 55 || nChar == 56 || nChar == 53 ||
+			nChar == 57 || nChar == 48 || nChar == 52 || nChar == 54 || nChar == 87 || nChar == 51) {
+			this->mouseLButton->ChangeState(nChar);
 		}
-		else if (this->capsLockFlag == 1) {
-			this->capsLockFlag = 0;
+		if (nChar == VK_CAPITAL) {
+			if ((GetKeyState(VK_CAPITAL) & 0x0001) != 0) {
+				this->capsLockFlag = 1;
+			}
+			else {
+				this->capsLockFlag = 0;
+			}
+			this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		}
-		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
-	}
 
-	CClientDC dc(this);
-	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
-	SetFont(&cFont, TRUE);
-	CFont *oldFont = dc.SelectObject(&cFont);
-	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
-	if (keyAction != 0) {
-		keyAction->KeyPress(this,&dc);
-		Invalidate(false);
+		CClientDC dc(this);
+		CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
+		cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
+		SetFont(&cFont, TRUE);
+		CFont *oldFont = dc.SelectObject(&cFont);
+		KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
+		if (keyAction != 0) {
+			keyAction->KeyPress(this, &dc);
+			Invalidate(false);
+		}
+		dc.SelectObject(oldFont);
+		cFont.DeleteObject();
 	}
-	dc.SelectObject(oldFont);
-	cFont.DeleteObject();
 }
 
 
@@ -795,10 +807,10 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 
 	if (GetKeyState(VK_CONTROL) >= 0) {
 		if (zDelta <= 0) { //마우스 휠 다운
-			vertCurPos += nWheelScrollLines * 10;
+			vertCurPos += nWheelScrollLines * 30;
 		}
 		else {  //마우스 휠 업
-			vertCurPos -= nWheelScrollLines * 10;
+			vertCurPos -= nWheelScrollLines * 30;
 		}
 		ret = true;
 	}
@@ -811,10 +823,16 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		}
 		else {  //마우스 휠 업
 			this->zoomRate += 10;
-			if (this->zoomRate > 300) {
-				this->zoomRate = 300;
+			if (this->zoomRate > 200) {
+				this->zoomRate = 200;
 			}
 		}
+		CRect tempRect;
+		GetClientRect(&tempRect);
+		tempRect.left = tempRect.right - 100;
+		tempRect.top = tempRect.bottom - 10;
+		this->InvalidateRect(tempRect);
+		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		ret = true;
 	}
 	SetScrollPos(SB_VERT, vertCurPos);
@@ -824,227 +842,235 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 }
 
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
-	CWnd::SetFocus();
-	SetFocus();
-	
-	MSG msg;
-	UINT dblclkTime = GetDoubleClickTime();
-	UINT elapseTime = 0;
-	//this->SetFocus();
-	SetTimer(1, 1, NULL);
-	while (elapseTime < dblclkTime) {
-		PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
-		if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
-			KillTimer(1);
+	if (this->zoomRate == 100) {
+		CWnd::SetFocus();
+		SetFocus();
+
+		MSG msg;
+		UINT dblclkTime = GetDoubleClickTime();
+		UINT elapseTime = 0;
+		//this->SetFocus();
+		SetTimer(1, 1, NULL);
+		while (elapseTime < dblclkTime) {
+			PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+			if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
+				KillTimer(1);
+			}
+			elapseTime++;
 		}
-		elapseTime++;
+		int vertCurPos = GetScrollPos(SB_VERT);
+		int horzCurPos = GetScrollPos(SB_HORZ);
+
+		this->startX = point.x + horzCurPos;
+		this->startY = point.y + vertCurPos;
+		this->currentX = point.x + horzCurPos;
+		this->currentY = point.y + vertCurPos;
+
+		this->mouseLButton->MouseLButtonDown(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
+
+		KillTimer(1);
+		SetCapture();
+		Invalidate(false);
 	}
-	int vertCurPos = GetScrollPos(SB_VERT);
-	int horzCurPos = GetScrollPos(SB_HORZ);
-
-	this->startX = point.x + horzCurPos;
-	this->startY = point.y + vertCurPos;
-	this->currentX = point.x + horzCurPos;
-	this->currentY = point.y + vertCurPos;
-
-	this->mouseLButton->MouseLButtonDown(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-
-	KillTimer(1);
-	SetCapture();
-	Invalidate(false);
 }
 
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
-	CPaintDC dc(this);
+	if (this->zoomRate == 100) {
+		CPaintDC dc(this);
 
-	int vertCurPos = GetScrollPos(SB_VERT);
-	int horzCurPos = GetScrollPos(SB_HORZ);
+		int vertCurPos = GetScrollPos(SB_VERT);
+		int horzCurPos = GetScrollPos(SB_HORZ);
 
-	this->startX = point.x + horzCurPos;
-	this->startY = point.y + vertCurPos;
-	this->currentX = point.x + horzCurPos;
-	this->currentY = point.y + vertCurPos;
+		this->startX = point.x + horzCurPos;
+		this->startY = point.y + vertCurPos;
+		this->currentX = point.x + horzCurPos;
+		this->currentY = point.y + vertCurPos;
 
-	Figure* figure = this->diagram->FindItem(startX, startY);
-	if (figure != NULL && this->selection->GetLength() != 0) {
+		Figure* figure = this->diagram->FindItem(startX, startY);
+		if (figure != NULL && this->selection->GetLength() != 0) {
 
-		this->textEdit = new TextEdit(this, figure);
+			this->textEdit = new TextEdit(this, figure);
 
-		if (dynamic_cast<MemoBox*>(figure) || dynamic_cast<ClassName*>(figure)) {
-			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				figure->GetX() + GabX - horzCurPos,
-				figure->GetY() + GabY + MemoGab - vertCurPos,
-				figure->GetX() + figure->GetWidth() - GabX - horzCurPos,
-				figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
+			if (dynamic_cast<MemoBox*>(figure) || dynamic_cast<ClassName*>(figure)) {
+				this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+					figure->GetX() + GabX - horzCurPos,
+					figure->GetY() + GabY + MemoGab - vertCurPos,
+					figure->GetX() + figure->GetWidth() - GabX - horzCurPos,
+					figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
+			}
+			else {
+				this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+					figure->GetX() + GabX - horzCurPos,
+					figure->GetY() + GabY - vertCurPos,
+					figure->GetX() + figure->GetWidth() - GabX - horzCurPos,
+					figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
+			}
 		}
-		else {
-			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				figure->GetX() + GabX - horzCurPos,
-				figure->GetY() + GabY - vertCurPos,
-				figure->GetX() + figure->GetWidth() - GabX - horzCurPos,
-				figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
+
+		//선택된 relationLine 이 있으면
+		if (this->selection->GetLength() == 1 && dynamic_cast<Relation*>(this->selection->GetAt(0)) && !dynamic_cast<MemoLine*>(this->selection->GetAt(0))) {
+			// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
+			Long i = 0;
+			Long index = 0;
+			Relation *relation = static_cast<Relation*>(this->selection->GetAt(0));
+			Long right;
+			Long left;
+			Long top;
+			Long bottom;
+			while (i < 5 && index == 0) {
+				if (i == 0 || i == 2) {
+					right = relation->rollNamePoints->GetAt(i).x + 20;
+					left = relation->rollNamePoints->GetAt(i).x - 20;
+					top = relation->rollNamePoints->GetAt(i).y - 10;
+					bottom = relation->rollNamePoints->GetAt(i).y + 10;
+				}
+				else if (i == 1) {
+					right = relation->rollNamePoints->GetAt(i).x + 40;
+					left = relation->rollNamePoints->GetAt(i).x - 40;
+					top = relation->rollNamePoints->GetAt(i).y - 10;
+					bottom = relation->rollNamePoints->GetAt(i).y + 10;
+				}
+				else if (i == 3 || i == 4) {
+					right = relation->rollNamePoints->GetAt(i).x + 25;
+					left = relation->rollNamePoints->GetAt(i).x - 25;
+					top = relation->rollNamePoints->GetAt(i).y - 10;
+					bottom = relation->rollNamePoints->GetAt(i).y + 10;
+				}
+
+				if (startX < right && startX > left && startY > top && startY < bottom) {
+					index++;
+				}
+				i++;
+			}
+			if (index > 0) {
+				this->textEdit = new TextEdit(this, relation, i - 1);
+				this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+					left + 1 - horzCurPos,
+					top + 1 - vertCurPos,
+					right - 1 - horzCurPos,
+					bottom - 1 - vertCurPos), this, 10000, NULL);
+			}
 		}
+		if (this->selection->GetLength() == 1 && dynamic_cast<SelfRelation*>(this->selection->GetAt(0))) {
+			// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
+			Long i = 0;
+			Long index = 0;
+			SelfRelation *selfRelation = static_cast<SelfRelation*>(this->selection->GetAt(0));
+			Long right;
+			Long left;
+			Long top;
+			Long bottom;
+			while (i < 5 && index == 0) {
+				if (i == 0) {
+					right = selfRelation->rollNamePoints->GetAt(i).x + 20;
+					left = selfRelation->rollNamePoints->GetAt(i).x - 10;
+					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+				}
+				else if (i == 1) {
+					right = selfRelation->rollNamePoints->GetAt(i).x + 30;
+					left = selfRelation->rollNamePoints->GetAt(i).x - 30;
+					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+				}
+				else if (i == 2) {
+					right = selfRelation->rollNamePoints->GetAt(i).x + 50;
+					left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+				}
+				else if (i == 3) {
+					right = selfRelation->rollNamePoints->GetAt(i).x + 50;
+					left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+				}
+				else if (i == 4) {
+					right = selfRelation->rollNamePoints->GetAt(i).x + 10;
+					left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+				}
+
+				if (startX < right && startX > left && startY > top && startY < bottom) {
+					index++;
+				}
+				i++;
+			}
+			// 확인해서 있으면 그 index 기억해두고 그 박스 사이즈로 textEdit 연다 (textEdit 생성자 따로 만들어야할듯)
+
+			if (index > 0) {
+				this->textEdit = new TextEdit(this, selfRelation, i - 1);
+				this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+					left + 1 - horzCurPos,
+					top + 1 - vertCurPos,
+					right - 1 - horzCurPos,
+					bottom - 1 - vertCurPos), this, 10000, NULL);
+				OnKillFocus(NULL);
+			}
+		}
+		Invalidate(false);
 	}
-
-	//선택된 relationLine 이 있으면
-	if (this->selection->GetLength() == 1 && dynamic_cast<Relation*>(this->selection->GetAt(0)) && !dynamic_cast<MemoLine*>(this->selection->GetAt(0))) {
-		// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
-		Long i = 0;
-		Long index = 0;
-		Relation *relation = static_cast<Relation*>(this->selection->GetAt(0));
-		Long right;
-		Long left;
-		Long top;
-		Long bottom;
-		while (i < 5 && index == 0) {
-			if (i == 0||i==2) {
-				right = relation->rollNamePoints->GetAt(i).x + 20;
-				left = relation->rollNamePoints->GetAt(i).x - 20;
-				top = relation->rollNamePoints->GetAt(i).y - 10;
-				bottom = relation->rollNamePoints->GetAt(i).y + 10;
-			}
-			else if (i == 1) {
-				right = relation->rollNamePoints->GetAt(i).x + 40;
-				left = relation->rollNamePoints->GetAt(i).x - 40;
-				top = relation->rollNamePoints->GetAt(i).y - 10;
-				bottom = relation->rollNamePoints->GetAt(i).y + 10;
-			}
-			else if (i == 3||i==4) {
-				right = relation->rollNamePoints->GetAt(i).x + 25;
-				left = relation->rollNamePoints->GetAt(i).x - 25;
-				top = relation->rollNamePoints->GetAt(i).y - 10;
-				bottom = relation->rollNamePoints->GetAt(i).y + 10;
-			}
-			
-			if (startX < right && startX > left && startY > top && startY < bottom) {
-				index++;
-			}
-			i++;
-		}
-		if (index > 0) {
-			this->textEdit = new TextEdit(this, relation, i - 1);
-			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				left + 1 - horzCurPos,
-				top + 1 - vertCurPos,
-				right - 1 - horzCurPos,
-				bottom - 1 - vertCurPos), this, 10000, NULL);
-		}
-	}
-	if (this->selection->GetLength() == 1 && dynamic_cast<SelfRelation*>(this->selection->GetAt(0))) {
-		// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
-		Long i = 0;
-		Long index = 0;
-		SelfRelation *selfRelation = static_cast<SelfRelation*>(this->selection->GetAt(0));
-		Long right;
-		Long left;
-		Long top;
-		Long bottom;
-		while (i < 5 && index == 0) {
-			if (i == 0) {
-				right = selfRelation->rollNamePoints->GetAt(i).x + 20;
-				left = selfRelation->rollNamePoints->GetAt(i).x - 10;
-				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
-			}
-			else if (i == 1) {
-				right = selfRelation->rollNamePoints->GetAt(i).x + 30;
-				left = selfRelation->rollNamePoints->GetAt(i).x - 30;
-				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
-			}
-			else if (i == 2) {
-				right = selfRelation->rollNamePoints->GetAt(i).x + 50;
-				left = selfRelation->rollNamePoints->GetAt(i).x - 20;
-				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
-			}
-			else if (i == 3) {
-				right = selfRelation->rollNamePoints->GetAt(i).x + 50;
-				left = selfRelation->rollNamePoints->GetAt(i).x - 20;
-				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
-			}
-			else if (i == 4) {
-				right = selfRelation->rollNamePoints->GetAt(i).x + 10;
-				left = selfRelation->rollNamePoints->GetAt(i).x - 20;
-				top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-				bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
-			}
-
-			if (startX < right && startX > left && startY > top && startY < bottom) {
-				index++;
-			}
-			i++;
-		}
-		// 확인해서 있으면 그 index 기억해두고 그 박스 사이즈로 textEdit 연다 (textEdit 생성자 따로 만들어야할듯)
-
-		if (index > 0) {
-			this->textEdit = new TextEdit(this, selfRelation, i - 1);
-			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				left + 1 - horzCurPos,
-				top + 1 - vertCurPos,
-				right - 1 - horzCurPos,
-				bottom - 1 - vertCurPos), this, 10000, NULL);
-			OnKillFocus(NULL);
-		}
-	}
-	Invalidate(false);
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
-
-	MSG msg;
-	UINT dblclkTime = GetDoubleClickTime();
-	UINT elapseTime = 0;
-	PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
-	if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
-		return;
-	}
-	int vertCurPos = GetScrollPos(SB_VERT);
-	int horzCurPos = GetScrollPos(SB_HORZ);
-
-	this->currentX = point.x + horzCurPos;
-	this->currentY = point.y + vertCurPos;
-
-	this->mouseLButton->MouseLButtonUp(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-
-	this->startX = 0;
-	this->startY = 0;
-	this->currentX = 0;
-	this->currentY = 0;
-
-	KillTimer(1);
-
-	ReleaseCapture();
-	Invalidate(false);
-}
-
-void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
-
-	if (nFlags == MK_LBUTTON) {
-
+	if (this->zoomRate == 100) {
+		MSG msg;
+		UINT dblclkTime = GetDoubleClickTime();
+		UINT elapseTime = 0;
+		PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+		if (msg.message == WM_LBUTTONDBLCLK || msg.message == WM_RBUTTONDBLCLK) {
+			return;
+		}
 		int vertCurPos = GetScrollPos(SB_VERT);
 		int horzCurPos = GetScrollPos(SB_HORZ);
 
 		this->currentX = point.x + horzCurPos;
 		this->currentY = point.y + vertCurPos;
 
-	Invalidate(false);
+		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
+
+		this->startX = 0;
+		this->startY = 0;
+		this->currentX = 0;
+		this->currentY = 0;
+
+		KillTimer(1);
+
+		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
+
+		ReleaseCapture();
+		Invalidate(false);
 	}
-	/*Long index;
-	index = this->selection->SelectByPoint(point.x, point.y);
-	if (index == 1) {
-	SetCursor(LoadCursor(NULL, IDC_HAND));
+}
+
+void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
+	if (this->zoomRate == 100) {
+		if (nFlags == MK_LBUTTON) {
+
+			int vertCurPos = GetScrollPos(SB_VERT);
+			int horzCurPos = GetScrollPos(SB_HORZ);
+
+			this->currentX = point.x + horzCurPos;
+			this->currentY = point.y + vertCurPos;
+
+			Invalidate(false);
+		}
+		/*Long index;
+		index = this->selection->SelectByPoint(point.x, point.y);
+		if (index == 1) {
+		SetCursor(LoadCursor(NULL, IDC_HAND));
+		}
+		else if (index == 2) {
+		SetCursor(LoadCursor(NULL, IDC_CROSS));
+		}
+		else if (index == 3 || index == 5) {
+		SetCursor(LoadCursor(NULL, IDC_HELP));
+		}
+		else if (index == 4) {
+		SetCursor(LoadCursor(NULL, IDC_SIZEALL));
+		}*/
 	}
-	else if (index == 2) {
-	SetCursor(LoadCursor(NULL, IDC_CROSS));
-	}
-	else if (index == 3 || index == 5) {
-	SetCursor(LoadCursor(NULL, IDC_HELP));
-	}
-	else if (index == 4) {
-	SetCursor(LoadCursor(NULL, IDC_SIZEALL));
-	}*/
 }
 
 void ClassDiagramForm::OnClose() {

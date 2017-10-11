@@ -58,9 +58,9 @@ int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
    this->printButton = new CButton;
    this->printButton->Create("인쇄하기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 200, 200, 240), this, 3);
    this->printZoomIn = new CButton;
-   this->printZoomIn->Create("확 대", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 250, 200, 290), this, 4);
+   //this->printZoomIn->Create("확 대", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 250, 200, 290), this, 4);
    this->printZoomOut = new CButton;
-   this->printZoomOut->Create("축 소", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 300, 200, 340), this, 5);
+  // this->printZoomOut->Create("축 소", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 300, 200, 340), this, 5);
 
    this->SetFocus();
    this->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER);
@@ -97,6 +97,7 @@ void PrintPreview::OnPaint() {
 	WritingVisitor writingVisitor;
 	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 
+	// 흰종이 사이즈
 	Long a = (rec.CenterPoint().x)* 5 / 8;
 	Long b = (rec.CenterPoint().y)* 1 / 6;
 	Long c = (rec.CenterPoint().x) * 11 / 8 - (rec.CenterPoint().x) * 5 / 8;
@@ -108,7 +109,10 @@ void PrintPreview::OnPaint() {
 	memDCOne.CreateCompatibleDC(&dc);
 	bitmapOne.CreateCompatibleBitmap(&dc, rec.Width(), rec.Height());
 	pOldBitmapOne = memDCOne.SelectObject(&bitmapOne);
-	memDCOne.FillSolidRect(rec, RGB(153, 153,153));
+	//회색바탕 준비
+	memDCOne.FillSolidRect(rec, RGB(153, 153, 153));
+	//회색바탕 전체화면으로 출력
+	dc.BitBlt(0, 0, rec.Width(), rec.Height(), &memDCOne, 0, 0, SRCCOPY);
 	////////////////////////////////////////////////////////////
 	//회색바탕 고정하고, 확대한 흰종이에서 이동 가능하게
 	dc.SetMapMode(MM_ISOTROPIC);
@@ -116,12 +120,17 @@ void PrintPreview::OnPaint() {
 	dc.SetViewportExt(this->zoomRate, this->zoomRate);
 	//dc.SetViewportOrg(220, 20);
 
-	memDCOne.StretchBlt(a,b,c,d,&memDC, this->horizontalPage, this->verticalPage, this->horizontalPageSize, this->verticalPageSize, SRCCOPY);
+	Long vertPos = this->GetScrollPos(SB_VERT);
+	//Long horzPos = this->GetScrollPos(SB_HORZ);
 
+	//흰종이 출력
+	memDCOne.StretchBlt(a,b - vertPos,c,d - vertPos,&memDC, this->horizontalPage, this->verticalPage, this->horizontalPageSize, this->verticalPageSize, SRCCOPY);
+
+	//회색바탕에 흰종이 같이 출력
 	dc.BitBlt(0, 0, rec.Width(), rec.Height(), &memDCOne, 0, 0, SRCCOPY);
 
 	CString tempString = _T("");
-	tempString.Format(_T("Pixel (HORZRES:%d VERTRES:%d), mm (HORZSIZE:%d VERTSIZE:%d)"),
+	tempString.Format(_T("해상도 (가로:%d 세로:%d), 모니터길이 (가로:%d 세로:%d)"),
 		dc.GetDeviceCaps(HORZRES),
 		dc.GetDeviceCaps(VERTRES),
 		dc.GetDeviceCaps(HORZSIZE),
@@ -217,10 +226,10 @@ BOOL PrintPreview::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 
 	if (GetKeyState(VK_CONTROL) >= 0) {
 		if (zDelta <= 0) { //마우스 휠 다운
-			vertCurPos += nWheelScrollLines * 10;
+			vertCurPos += nWheelScrollLines * 20;
 		}
 		else {  //마우스 휠 업
-			vertCurPos -= nWheelScrollLines * 10;
+			vertCurPos -= nWheelScrollLines * 20;
 		}
 		ret = true;
 	}
