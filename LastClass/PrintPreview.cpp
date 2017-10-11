@@ -79,7 +79,11 @@ void PrintPreview::OnPaint() {
 	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 
 	dc.FillSolidRect(rec, RGB(153,153,153));
-	dc.StretchBlt(rec.CenterPoint().x-300, rec.CenterPoint().y-400, 600, 800, &memDC, this->horizontalPage, this->verticalPage , this->horizontalPageSize,this->verticalPageSize, SRCCOPY);
+	Long a = (rec.CenterPoint().x)* 5 / 8;
+	Long b = (rec.CenterPoint().y)* 1 / 6;
+	Long c = (rec.CenterPoint().x) * 11 / 8 - (rec.CenterPoint().x) * 5 / 8;
+	Long d = (rec.CenterPoint().y) * 11 / 6 - (rec.CenterPoint().y) * 1 / 6;
+	dc.StretchBlt(a,b,c,d, &memDC, this->horizontalPage, this->verticalPage , this->horizontalPageSize,this->verticalPageSize, SRCCOPY);
 
 	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
