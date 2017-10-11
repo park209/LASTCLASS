@@ -7,6 +7,10 @@
     <Filter Include="KeyAction">
       <UniqueIdentifier>{bff99018-4c2a-45bf-9b36-4d2620ccfd3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ClassDiagram">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
     <Filter Include="MouseAction">
       <UniqueIdentifier>{df10898e-b180-49b9-b6a1-b1f92fc4dc94}</UniqueIdentifier>
     </Filter>
@@ -35,38 +39,37 @@
     <Filter Include="zOngoing">
       <UniqueIdentifier>{227b1c4e-b6b6-4e96-bbd5-7530a1122bff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Diagram\ClassDiagram">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Print">
+      <UniqueIdentifier>{ab0b2afc-66a8-4c56-bc66-62f3d7c4029e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="ClassDiagramApp.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="Figure.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="FigureComposite.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="FigureFactory.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="Finder.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="MovingVisitor.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="Selection.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="MovingObject.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>TextEdit</Filter>
@@ -183,7 +186,7 @@
       <Filter>Relationship</Filter>
     </ClInclude>
     <ClInclude Include="DrawingVisitor.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="MouseLButtonAction.h">
       <Filter>MouseAction</Filter>
@@ -261,19 +264,19 @@
       <Filter>TextEdit</Filter>
     </ClInclude>
     <ClInclude Include="Iterator.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="SmartPointer.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="Visitor.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="TextAreaSelectedProcess.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
     <ClInclude Include="ArrayIterator.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="FontSet.h">
       <Filter>TextEdit</Filter>
@@ -291,7 +294,7 @@
       <Filter>Diagram</Filter>
     </ClInclude>
     <ClInclude Include="DrawingResizing.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="EditResizerProcess.h">
       <Filter>TextEdit</Filter>
@@ -378,10 +381,10 @@
       <Filter>Relationship</Filter>
     </ClInclude>
     <ClInclude Include="RollNameBox.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="DrawRollNameBoxes.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="DeleteKey.h">
       <Filter>KeyAction\TextEdit</Filter>
@@ -465,7 +468,7 @@
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="HistoryGraphic.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="LastClass.h" />
     <ClInclude Include="SaveAsMenuAction.h">
@@ -487,7 +490,7 @@
       <Filter>Menu</Filter>
     </ClInclude>
     <ClInclude Include="DrawingResize.h">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="OnHScrollEnd.h">
       <Filter>ScrollBar</Filter>
@@ -549,42 +552,62 @@
     <ClInclude Include="StatusBar.h">
       <Filter>Menu</Filter>
     </ClInclude>
+    <ClInclude Include="FilePrintPreviewMenuAction.h">
+      <Filter>Print</Filter>
+    </ClInclude>
     <ClInclude Include="PrintPreview.h">
-      <Filter>zOngoing</Filter>
+      <Filter>Print</Filter>
+    </ClInclude>
+    <ClInclude Include="PrintPreviewButton.h">
+      <Filter>Print</Filter>
+    </ClInclude>
+    <ClInclude Include="PrintPreviewButtonAction.h">
+      <Filter>Print</Filter>
+    </ClInclude>
+    <ClInclude Include="PrintPreviewNextButton.h">
+      <Filter>Print</Filter>
     </ClInclude>
     <ClInclude Include="PrintPreviewState.h">
-      <Filter>zOngoing</Filter>
+      <Filter>Print</Filter>
     </ClInclude>
-    <ClInclude Include="FilePrintPreviewMenuAction.h">
-      <Filter>zOngoing</Filter>
+    <ClInclude Include="PrintPreviewZoomInButton.h">
+      <Filter>Print</Filter>
     </ClInclude>
-    <ClInclude Include="CtrlZoomIn.h" />
+    <ClInclude Include="PrintPreviewZoomOutButton.h">
+      <Filter>Print</Filter>
+    </ClInclude>
+    <ClInclude Include="PrintPreviewPreviousButton.h">
+      <Filter>Print</Filter>
+    </ClInclude>
+    <ClInclude Include="PrintPreviewPrintButton.h">
+      <Filter>Print</Filter>
+    </ClInclude>
     <ClInclude Include="FilePrintMenuAction.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="Figure.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="FigureComposite.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="FigureFactory.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="Finder.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="MovingVisitor.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="Selection.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="MovingObject.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>TextEdit</Filter>
@@ -698,7 +721,7 @@
       <Filter>Relationship</Filter>
     </ClCompile>
     <ClCompile Include="DrawingVisitor.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="MouseLButtonAction.cpp">
       <Filter>MouseAction</Filter>
@@ -776,16 +799,16 @@
       <Filter>TextEdit</Filter>
     </ClCompile>
     <ClCompile Include="Visitor.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="TextAreaSelectedProcess.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
     <ClCompile Include="DrawingResizing.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="ArrayIterator.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="FontSet.cpp">
       <Filter>TextEdit</Filter>
@@ -866,10 +889,10 @@
       <Filter>KeyAction</Filter>
     </ClCompile>
     <ClCompile Include="DrawRollNameBoxes.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="RollNameBox.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="Scroll.cpp">
       <Filter>ScrollBar</Filter>
@@ -929,7 +952,7 @@
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="HistoryGraphic.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="GraphicCtrlAllKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
@@ -1035,7 +1058,7 @@
       <Filter>ScrollBar</Filter>
     </ClCompile>
     <ClCompile Include="DrawingResize.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="MenuAction.cpp">
       <Filter>Menu</Filter>
@@ -1052,7 +1075,7 @@
     <ClCompile Include="ClassDiagramForm.cpp" />
     <ClCompile Include="ToolBar.cpp" />
     <ClCompile Include="EditResizerBlocker.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="GraphicCtrlCopyKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
@@ -1067,18 +1090,36 @@
     <ClCompile Include="StatusBar.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
+    <ClCompile Include="FilePrintPreviewMenuAction.cpp">
+      <Filter>Print</Filter>
+    </ClCompile>
     <ClCompile Include="PrintPreview.cpp">
-      <Filter>zOngoing</Filter>
+      <Filter>Print</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreviewButton.cpp">
+      <Filter>Print</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreviewButtonAction.cpp">
+      <Filter>Print</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreviewNextButton.cpp">
+      <Filter>Print</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreviewPreviousButton.cpp">
+      <Filter>Print</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreviewPrintButton.cpp">
+      <Filter>Print</Filter>
     </ClCompile>
     <ClCompile Include="PrintPreviewState.cpp">
-      <Filter>zOngoing</Filter>
+      <Filter>Print</Filter>
     </ClCompile>
-    <ClCompile Include="FilePrintPreviewMenuAction.cpp">
-      <Filter>zOngoing</Filter>
+    <ClCompile Include="PrintPreviewZoomInButton.cpp">
+      <Filter>Print</Filter>
     </ClCompile>
-    <ClCompile Include="CtrlZoomIn.cpp" />
-    <ClCompile Include="FilePrintMenuAction.cpp">
-      <Filter>Diagram\ClassDiagram</Filter>
+    <ClCompile Include="PrintPreviewZoomOutButton.cpp">
+      <Filter>Print</Filter>
     </ClCompile>
+    <ClCompile Include="FilePrintMenuAction.cpp" />
   </ItemGroup>
 </Project>
