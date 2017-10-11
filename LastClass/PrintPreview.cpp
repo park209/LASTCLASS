@@ -7,6 +7,7 @@
 #include "WritingVisitor.h"
 #include "Diagram.h"
 #include "PrintPreviewState.h"
+#include "ToolBar.h"
 #include <afxwin.h>
 #include <afxdlgs.h>
 #include <afxpriv.h>
@@ -19,52 +20,40 @@ BEGIN_MESSAGE_MAP(PrintPreview,CWnd)
 	ON_WM_LBUTTONUP()
 	ON_WM_CLOSE()
 	ON_BN_CLICKED(1,OnNextButton)
-	ON_BN_CLICKED(2, OnPriviousButton)
+	ON_BN_CLICKED(2, OnPreviousButton)
 	ON_BN_CLICKED(3, OnPrintButton)
 END_MESSAGE_MAP()
 PrintPreview::PrintPreview(LastClass *lastClass) {
 	this->lastClass = lastClass;
 	this->nextButton = NULL;
-	this->priviousButton = NULL;
-	this->printButton = NULL;
+	this->previousButton = NULL;
+	this->previousButton = NULL;
 	this->horizontalPage = 0;
 	this->verticalPage = 0;
+	this->horizontalPageSize = 2000;
+	this->verticalPageSize = 2000;
 }
 int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
-	CWnd::OnCreate(lpCreateStruct);
-	this->ModifyStyle(0, WS_OVERLAPPEDWINDOW);
+	CFrameWnd::OnCreate(lpCreateStruct);
+	
+	this->ModifyStyle(0, WS_OVERLAPPEDWINDOW  );
 	this->nextButton = new CButton;
-	this->nextButton->Create("다음", WS_CHILD|WS_VISIBLE|BS_PUSHBUTTON|BS_CENTER|BS_VCENTER,CRect(800,200,880,240), this, 1);
-	this->priviousButton = new CButton;
-	this->priviousButton->Create("이전", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(800, 250, 880, 290), this, 2);
+	this->nextButton->Create("다음", WS_CHILD|WS_VISIBLE|BS_PUSHBUTTON|BS_CENTER|BS_VCENTER,CRect(150,200,230,240), this, 1);
+	this->previousButton = new CButton;
+	this->previousButton->Create("이전", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(150, 250, 230, 290), this, 2);
 	this->printButton = new CButton;
-	this->printButton->Create("인쇄", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(800, 300, 880, 340), this, 3);
-	
-	this->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE );
+	this->printButton->Create("인쇄", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(150, 300, 230, 340), this, 3);
+
+
 	this->SetFocus();
-	this->lastClass->classDiagramForm->EnableWindow(false);
-	this->OnFilePrintPreview();
-	Invalidate();
+	this->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER);
 
-	//this->OnFilePrintPreview();
-	//this->OnFilePrintPreview();
-	return 0;
-}
-void PrintPreview::OnFilePrintPreview() {/*
-	CPrintPreviewState *pState = new CPrintPreviewState;
-
-	if (!DoPrintPreview(AFX_IDD_PREVIEW_TOOLBAR, this, RUNTIME_CLASS(PrintPreviewState), pState)) {
-		TRACE0("Error: DoPrintPreView failed");
-		AfxMessageBox(AFX_IDP_COMMAND_FAILURE); 
-		delete pState;
-	}
-	*/
+	this->lastClass->EnableWindow(false);
+	//this->lastClass->classDiagramForm->EnableWindow(false);
 	
-}
-BOOL PrintPreview::OnPreparePrinting(CPrintInfo *pInfo) {/*
-	BOOL ret = CView::OnPreparePrinting(pInfo);
-		return ret;*/
-	return true;
+	Invalidate();
+	
+	return 0;
 }
 void PrintPreview::OnPaint() {
 	
@@ -90,7 +79,7 @@ void PrintPreview::OnPaint() {
 	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 
 	dc.FillSolidRect(rec, RGB(153,153,153));
-	dc.StretchBlt(10, 10, 600, 800, &memDC, (this->horizontalPage * 800), (this->verticalPage * 1000), 800,1000, SRCCOPY);
+	dc.StretchBlt(rec.CenterPoint().x-300, rec.CenterPoint().y-400, 600, 800, &memDC, this->horizontalPage, this->verticalPage , this->horizontalPageSize,this->verticalPageSize, SRCCOPY);
 
 	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
@@ -114,7 +103,7 @@ void PrintPreview::OnPrint(CDC *cdc, CPrintInfo *pInfo, UINT page) {
 	this->lastClass->classDiagramForm->GetClientRect(&rect);
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
-
+	
 	CPaintDC dc(this);
 
 	memDC.CreateCompatibleDC(&dc);
@@ -150,59 +139,88 @@ void PrintPreview::OnPrint(CDC *cdc, CPrintInfo *pInfo, UINT page) {
 
 }
 void PrintPreview::OnClose() {
-	this->lastClass->classDiagramForm->EnableWindow(true);
+	this->lastClass->EnableWindow(true);
 	if (this->nextButton != 0) {
 		delete this->nextButton;
 	}
 	if (this->printButton != 0) {
 		delete this->printButton;
 	}
-	if (this->priviousButton != 0) {
-		delete this->priviousButton;
+	if (this->previousButton != 0) {
+		delete this->previousButton;
 	}
 	if (this != 0) {
+		this->lastClass->printPreview = NULL;
 		delete this;
 	}
-}
 
+
+}
 void PrintPreview::OnNextButton() {
-	this->verticalPage++;
-	if (this->verticalPage > 1) {
-		this->horizontalPage++;
-		this->verticalPage = 0;
+	this->verticalPage += this->verticalPageSize;
+	if (this->verticalPage >= 2000) {
+		this->horizontalPage += this->horizontalPageSize;;
+		if (this->horizontalPage >= 4000) {
+			this->horizontalPage -= this->horizontalPageSize;
+			this->verticalPage -= this->verticalPageSize;
+		}
+		else {
+			this->verticalPage = 0;
+		}
 	}
-	if (this->horizontalPage > 4) {
-		this->horizontalPage = 4;
-		this->verticalPage = 1;
-	}
-	//RedrawWindow();
 	Invalidate(false);
 }
-void PrintPreview::OnPriviousButton() {
-	this->verticalPage--;
+void PrintPreview::OnPreviousButton() {
+	this->verticalPage -= this->verticalPageSize;
 	if (this->verticalPage < 0) {
-		this->horizontalPage--;
-		this->verticalPage = 1;
+		this->horizontalPage -= this->horizontalPageSize;
+		if (this->horizontalPage < 0) {
+			this->horizontalPage = 0;
+			this->verticalPage = 0;
+		}
+		else {
+			if (2000 % this->verticalPageSize == 0) {
+				this->verticalPage = (2000 / this->verticalPageSize-1)*this->verticalPageSize;
+			}
+			else {
+				this->verticalPage = (2000 / this->verticalPageSize)*this->verticalPageSize;
+			}
+
+		}
 	}
-	if (this->horizontalPage < 0) {
-		this->horizontalPage = 0;
-		this->verticalPage = 0;
-	}
-	//RedrawWindow();
 	Invalidate(false);
 }
 void PrintPreview::OnBeginPrinting(CDC *pDc, CPrintInfo *pInfo) {
-
+	
 }
 
 void PrintPreview::OnEndPrinting(CDC *pDc, CPrintInfo *pInfo) {
-
+	this->lastClass->EnableWindow(true);
+	if (this->nextButton != 0) {
+		delete this->nextButton;
+	}
+	if (this->printButton != 0) {
+		delete this->printButton;
+	}
+	if (this->previousButton != 0) {
+		delete this->previousButton;
+	}
+	if (this != 0) {
+		this->lastClass->printPreview = NULL;
+		delete this;
+	}
 }
 void PrintPreview::OnPrintButton() {
-	CPrintDialog printDialog(false);
-	if (printDialog.DoModal() != IDCANCEL) {
+
+	CPrintDialog printDialog(FALSE, PD_ALLPAGES | PD_USEDEVMODECOPIES,this->lastClass);
+
+	INT_PTR int_ptr = printDialog.DoModal();
+
+
+	if (int_ptr == IDOK) {
 		CDC dc;
 		dc.Attach(printDialog.GetPrinterDC());
+		
 		dc.m_bPrinting = TRUE;
 
 		CString strTitle;
@@ -230,110 +248,20 @@ void PrintPreview::OnPrintButton() {
 		if (bPrintingOK) dc.EndDoc();
 		else dc.AbortDoc();
 
+		//dc.DeleteDC();
 		dc.Detach();
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//		DeleteDC(hDC);
-//	}
-//}
-//	dlg.DoModal();
-//	CDC dc;
-//	if (dc.Attach(dlg.CreatePrinterDC())) {
-//		DOCINFO info;
-//
-//		memset(&info, 0, sizeof(DOCINFO));
-//		info.cbSize = sizeof(DOCINFO);
-//		dc.StartDoc(&info);
-//		dc.StartPage();
-//		
-//		CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-//		cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-//			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
-//		SetFont(&cFont, TRUE);
-//		CFont *oldFont = dc.SelectObject(&cFont);
-//
-//		DrawingVisitor drawingVisitor;
-//		this->lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &dc);
-//		WritingVisitor writingVisitor;
-//		this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &dc);
-//		dc.EndPage();
-//		dc.EndDoc();
-//		dc.DeleteDC();
-//	}
-//}
-//	dlg.DoModal();
-//	
-//	CDC dc;
-//	CPaintDC dcp(this);
-//	if (dc.Attach(dlg.CreatePrinterDC())) {
-//		DOCINFO info;
-//		memset(&info, 0, sizeof(DOCINFO));
-//		info.cbSize = sizeof(DOCINFO);
-//		dc.StartDoc(&info);
-//		//dc.StartPage();
-//
-//		HDC hDC = dlg.GetPrinterDC();
-//		int nPageWidth = GetDeviceCaps(hDC, HORZRES);
-//		int nPageHeight = GetDeviceCaps(hDC, VERTRES);
-//
-//
-//		CDC memDC;
-//		CRect rect;
-//		this->lastClass->classDiagramForm->GetClientRect(&rect);
-//		CBitmap *pOldBitmap;
-//		CBitmap bitmap;
-//		memDC.CreateCompatibleDC(&dcp);
-//		bitmap.CreateCompatibleBitmap(&dcp, 4000, 2000);
-//		pOldBitmap = memDC.SelectObject(&bitmap);
-//		memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
-//		CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-//		cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-//			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
-//		SetFont(&cFont, TRUE);
-//		CFont *oldFont = memDC.SelectObject(&cFont);
-//
-//		DrawingVisitor drawingVisitor;
-//		this->lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &memDC);
-//		WritingVisitor writingVisitor;
-//		this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
-//		
-//		Long i = 0;
-//		while (i < 5) {
-//			dc.StartPage();
-//			int mapMode = dc.GetMapMode();
-//			memDC.SetMapMode(mapMode);
-//			dc.SetStretchBltMode(HALFTONE);
-//			
-//			//dc.BitBlt(0, 0, nPageWidth, nPageHeight, &memDC,0, 0, SRCCOPY);
-//			//dc.StretchBlt(0, 0, nPageWidth, nPageHeight, &memDC, 0,0, i * 400, i * 200, SRCCOPY);
-//			dc.StretchBlt(0, 0,0,0, &memDC,i*400,i*200, (i*400) - nPageWidth, (i*200) - nPageHeight, SRCCOPY);
-//			//::RestoreDC(dc,-1);
-//			dc.EndPage();
-//			i++;
-//		}
-//		memDC.SelectObject(oldFont);
-//		cFont.DeleteObject();
-//		memDC.SelectObject(pOldBitmap);
-//		bitmap.DeleteObject();
-//		memDC.DeleteDC();
-//		//dc.EndPage();
-//
-//		dc.EndDoc();
-//
-//		dc.DeleteDC();
-//
-//	}
+		//printDialog.EndDialog(0);
+	
+}
+void PrintPreview::OnSize(UINT nType, int cx, int cy) {
+	Invalidate(false);
+}
+BOOL PrintPreview::DoModal() {
+	if (this->GetParent()) {
+		this->GetParent()->EnableWindow(FALSE);
+		RunModalLoop(MLF_SHOWONIDLE);
+		DestroyWindow();
+	}
+	return TRUE;
 }

@@ -13,14 +13,13 @@ FilePrintPreviewMenuAction::~FilePrintPreviewMenuAction() {
 void FilePrintPreviewMenuAction::MenuPress(LastClass* lastClass) {
 	lastClass->classDiagramForm->selection->DeleteAllItems();
 	 
-	//CView *printView = NULL;
-	//printView->Create(NULL, "#33", WS_VISIBLE, CRect(100, 100, 700, 700), lastClass, 9999);
-	//CPrintPreviewState *pState = new CPrintPreviewState;
+	
+	lastClass->printPreview= new PrintPreview(lastClass);
+	lastClass->printPreview->Create(NULL, "printPreview");
 
-	//if (CView::DoPrintPreview(AFX_))
-	CCreateContext newContext;
-	newContext.m_pCurrentDoc = (CDocument*)((CFrameWnd*)AfxGetMainWnd())->GetActiveDocument();
+	lastClass->printPreview->ShowWindow(SW_SHOW);
 
-	PrintPreview *printPreview = new PrintPreview(lastClass);
-	printPreview->Create(NULL, "printPreview", WS_CHILD | WS_VISIBLE  , CRect(10,10,1200,900), lastClass,10001, NULL);
+	lastClass->printPreview->UpdateWindow();
+
+
 }

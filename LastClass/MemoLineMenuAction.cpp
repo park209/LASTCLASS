@@ -7,5 +7,5 @@ MemoLineMenuAction::MemoLineMenuAction() {
 MemoLineMenuAction::~MemoLineMenuAction() {
 }
 void MemoLineMenuAction::MenuPress(LastClass* lastClass) {
-	lastClass->classDiagramForm->mouseLButton->ChangeState(87);
+	lastClass->classDiagramForm->mouseLButton->ChangeDrawingMemoLineState();
 }

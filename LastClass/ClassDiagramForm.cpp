@@ -91,6 +91,7 @@ ClassDiagramForm::ClassDiagramForm(LastClass *lastClass) { // 생성자 맞는듯
 	this->copyBuffer = NULL;
 	this->isCut = 0;
 	this->capsLockFlag = 0;
+	this->zoomRate = 100;
 }
 
 Long ClassDiagramForm::Load() {
@@ -679,6 +680,11 @@ void ClassDiagramForm::OnPaint() {
 	int horzCurPos = GetScrollPos(SB_HORZ);
 	CString a;
 	a.Format("%d %d", horzCurPos, vertCurPos);
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	dc.SetMapMode(MM_ISOTROPIC);
+	dc.SetWindowExt(100, 100);
+	dc.SetViewportExt(this->zoomRate, this->zoomRate);
+
 	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, horzCurPos, vertCurPos, SRCCOPY);
 	dc.TextOut(10, 10, a);
 }
@@ -740,6 +746,7 @@ void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
 }
 
 void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+	SetFocus();
 	CWnd::OnVScroll(nSBCode, nPos, pScrollBar);
 	ScrollAction *scrollAction = this->scroll->MoveVScroll(this, nSBCode, nPos, pScrollBar);
 	if (scrollAction != 0) {
@@ -749,6 +756,7 @@ void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 }
 
 void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+	SetFocus();
 	CWnd::OnHScroll(nSBCode, nPos, pScrollBar);
 	ScrollAction *scrollAction = this->scroll->MoveHScroll(this, nSBCode, nPos, pScrollBar);
 	if (scrollAction != 0) {
@@ -779,12 +787,28 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 
 	int vertCurPos = GetScrollPos(SB_VERT);
 
-	if (zDelta <= 0) { //마우스 휠 다운
-		vertCurPos += nWheelScrollLines * 10;
+	if (GetKeyState(VK_CONTROL) >= 0) {
+		if (zDelta <= 0) { //마우스 휠 다운
+			vertCurPos += nWheelScrollLines * 10;
+		}
+		else {  //마우스 휠 업
+			vertCurPos -= nWheelScrollLines * 10;
+		}
 		ret = true;
 	}
-	else {  //마우스 휠 업
-		vertCurPos -= nWheelScrollLines * 10;
+	else {
+		if (zDelta <= 0) { //마우스 휠 다운
+			this->zoomRate -= 10;
+			if (this->zoomRate < 50) {
+				this->zoomRate = 50;
+			}
+		}
+		else {  //마우스 휠 업
+			this->zoomRate += 10;
+			if (this->zoomRate > 300) {
+				this->zoomRate = 300;
+			}
+		}
 		ret = true;
 	}
 	SetScrollPos(SB_VERT, vertCurPos);
@@ -795,6 +819,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	CWnd::SetFocus();
+	SetFocus();
+	
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
 	UINT elapseTime = 0;
@@ -1009,41 +1035,12 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnClose() {
-	CWnd::OnClose();
+
+	
 	//6.1. 저장한다.
 	//this->Save();
-	int messageBox = IDNO;
-	INT_PTR int_ptr = IDOK;
-	if (this->historyGraphic->undoGraphicArray->GetLength() != 0) {
-		if (this->fileName == "") {
-			messageBox = MessageBox(_T("변경 내용을 제목 없음에 저장하시겠습니까?"), "ClassDiagram", MB_YESNOCANCEL);
-
-			if (messageBox == IDYES) {
-				CFileDialog  dlgFile(false, "txt", "*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT, "텍스트 문서(*.txt)");
-				int_ptr = dlgFile.DoModal();
-				if (int_ptr == IDOK) {
-					this->fileName = dlgFile.GetPathName();
-					this->Save();
-				}
-				//else {
-				//return;  //보류
-				//}
-			}
-		}
-		else {
-			CString object;
-			object = "변경내용을 ";
-			object.Append(this->fileName);
-			object.Append("에 저장하시겠습니까?");
-			messageBox = MessageBox(object, "ClassDiagram", MB_YESNOCANCEL);
-			if (messageBox == IDYES) {
-				this->Save();
-			}
-		}
-	}
 
 	//6.2. 다이어그램을 지운다.
-	if (messageBox != IDCANCEL && int_ptr == IDOK) {//== IDYES || messageBox == IDNO ) {
 		if (this->diagram != NULL) {
 			delete this->diagram;
 		}
@@ -1059,8 +1056,5 @@ void ClassDiagramForm::OnClose() {
 		if (this->historyGraphic != NULL) {
 			delete this->historyGraphic;
 		}
-		if (this != NULL) {
-			delete this;
-		}
-	}
+		CWnd::OnClose();
 }

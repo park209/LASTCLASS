@@ -47,10 +47,10 @@ int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->statusBar = new StatusBar;
 	this->toolBar = new ToolBar;
 
-	rect.top += 53;
-	rect.left += 66;
-	rect.right -= 66;
-	rect.bottom -= 83;
+	rect.top += 45;
+	rect.left += 60;
+	rect.right -= 60;
+	rect.bottom -= 75;
 	this->classDiagramForm = new ClassDiagramForm(this);
 	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
 
@@ -88,10 +88,10 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 
 	CRect rect;
 	this->GetClientRect(&rect);
-	rect.top += 53;
-	rect.left += 66;
-	rect.right -= 66;
-	rect.bottom -= 83;
+	rect.top += 45;
+	rect.left += 60;
+	rect.right -= 60;
+	rect.bottom -= 75;
 	//this->classDiagramForm->MoveWindow(rect.left, rect.top, rect.right, rect.bottom, 1);
 	this->classDiagramForm->SetWindowPos(this, rect.left,rect.top,rect.right,rect.bottom, SWP_NOMOVE | SWP_NOZORDER );
 	
@@ -153,12 +153,12 @@ void LastClass::OnClose() {
 	//6.2. 다이어그램을 지운다.
 	if (messageBox != IDCANCEL && int_ptr == IDOK) {//== IDYES || messageBox == IDNO ) {
 		if (this->classDiagramForm != NULL) {
-			CFrameWnd::OnClose(); // 오버라이딩 코드재사용
 			this->classDiagramForm->OnClose();
+			delete this->classDiagramForm;
 		}
 		if (this->menu != NULL) {
 			delete this->menu;
 		}
-		
+		CFrameWnd::OnClose(); // 오버라이`딩 코드재사용
 	}
 }
