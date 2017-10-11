@@ -6,7 +6,7 @@
 typedef signed long int Long;
 
 class ClassDiagramForm;
-class SupportMenu : public CWnd {
+class SupportMenu : public CFrameWnd {
 public:
 	SupportMenu();
 private:

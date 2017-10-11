@@ -866,7 +866,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->currentY = point.y + vertCurPos;
 
 	Figure* figure = this->diagram->FindItem(startX, startY);
-	if (figure != NULL) {
+	if (figure != NULL && this->selection->GetLength() != 0) {
 
 		this->textEdit = new TextEdit(this, figure);
 
@@ -1042,7 +1042,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 
 void ClassDiagramForm::OnClose() {
 
-	CWnd::OnClose();
+	
 	//6.1. 저장한다.
 	//this->Save();
 
@@ -1062,8 +1062,5 @@ void ClassDiagramForm::OnClose() {
 		if (this->historyGraphic != NULL) {
 			delete this->historyGraphic;
 		}
-		if (this != NULL) {
-			delete this;
-		}
-		
+		CWnd::OnClose();
 }

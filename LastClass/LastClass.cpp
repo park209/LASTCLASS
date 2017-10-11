@@ -153,12 +153,12 @@ void LastClass::OnClose() {
 	//6.2. 다이어그램을 지운다.
 	if (messageBox != IDCANCEL && int_ptr == IDOK) {//== IDYES || messageBox == IDNO ) {
 		if (this->classDiagramForm != NULL) {
-			CFrameWnd::OnClose(); // 오버라이`딩 코드재사용
 			this->classDiagramForm->OnClose();
+			delete this->classDiagramForm;
 		}
 		if (this->menu != NULL) {
 			delete this->menu;
 		}
-		
+		CFrameWnd::OnClose(); // 오버라이`딩 코드재사용
 	}
 }
