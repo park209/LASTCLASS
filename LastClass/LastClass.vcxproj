@@ -41,7 +41,11 @@
     <ClInclude Include="CompositionMenuAction.h" />
     <ClInclude Include="Compositions.h" />
     <ClInclude Include="CompositionsMenuAction.h" />
-    <ClInclude Include="CtrlZoomIn.h" />
+    <ClInclude Include="PrintPreviewButton.h" />
+    <ClInclude Include="PrintPreviewButtonAction.h" />
+    <ClInclude Include="PrintPreviewNextButton.h" />
+    <ClInclude Include="PrintPreviewPreviousButton.h" />
+    <ClInclude Include="PrintPreviewPrintButton.h" />
     <ClInclude Include="PrintPreviewState.h" />
     <ClInclude Include="CtrlAllKey.h" />
     <ClInclude Include="CtrlCopyKey.h" />
@@ -123,6 +127,8 @@
     <ClInclude Include="OnVScrollTop.h" />
     <ClInclude Include="OpenMenuAction.h" />
     <ClInclude Include="PrintPreview.h" />
+    <ClInclude Include="PrintPreviewZoomInButton.h" />
+    <ClInclude Include="PrintPreviewZoomOutButton.h" />
     <ClInclude Include="RealizationMenuAction.h" />
     <ClInclude Include="RemoveReceptionKey.h" />
     <ClInclude Include="FontSet.h" />
@@ -218,7 +224,11 @@
     <ClCompile Include="CompositionMenuAction.cpp" />
     <ClCompile Include="Compositions.cpp" />
     <ClCompile Include="CompositionsMenuAction.cpp" />
-    <ClCompile Include="CtrlZoomIn.cpp" />
+    <ClCompile Include="PrintPreviewButton.cpp" />
+    <ClCompile Include="PrintPreviewButtonAction.cpp" />
+    <ClCompile Include="PrintPreviewNextButton.cpp" />
+    <ClCompile Include="PrintPreviewPreviousButton.cpp" />
+    <ClCompile Include="PrintPreviewPrintButton.cpp" />
     <ClCompile Include="PrintPreviewState.cpp" />
     <ClCompile Include="CtrlAllKey.cpp" />
     <ClCompile Include="CtrlCopyKey.cpp" />
@@ -302,6 +312,8 @@
     <ClCompile Include="OnVScrollTop.cpp" />
     <ClCompile Include="OpenMenuAction.cpp" />
     <ClCompile Include="PrintPreview.cpp" />
+    <ClCompile Include="PrintPreviewZoomInButton.cpp" />
+    <ClCompile Include="PrintPreviewZoomOutButton.cpp" />
     <ClCompile Include="RealizationMenuAction.cpp" />
     <ClCompile Include="RemoveReceptionKey.cpp" />
     <ClCompile Include="FontSet.cpp" />
