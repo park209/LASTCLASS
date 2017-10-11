@@ -50,6 +50,10 @@ void EditResizerProcess::ResizeEditAll(TextEdit *textEdit, CDC *cdc) {
 
 void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
 	Long gabY_ = GabY * 2;
+
+	int vertCurPos = textEdit->GetParent()->GetScrollPos(SB_VERT);
+	int horzCurPos = textEdit->GetParent()->GetScrollPos(SB_HORZ);
+
 	if (dynamic_cast<MemoBox*>(textEdit->figure) || dynamic_cast<ClassName*>(textEdit->figure)) {
 		gabY_ += MemoGab;
 	}
@@ -57,8 +61,8 @@ void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
 		textEdit->GetCriteriaWidth() - GabX *2, textEdit->GetCriteriaHeight() - gabY_, SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 	if (dynamic_cast<Template*>(textEdit->figure)) {
 		textEdit->SetWindowPos(&textEdit->wndTopMost,
-			textEdit->GetCriteriaX()+GabX,
-			textEdit->figure->GetY() + GabY,
+			textEdit->GetCriteriaX()+GabX - horzCurPos,
+			textEdit->figure->GetY() + GabY - vertCurPos,
 			textEdit->GetCriteriaWidth() - GabX * 2,
 			textEdit->GetCriteriaHeight() - gabY_,
 			SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
@@ -184,13 +188,27 @@ void EditResizerProcess::AffectedRelation(TextEdit *textEdit) {
 
 	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
 	Class *object = dynamic_cast<Class*>(classDiagramForm->selection->GetAt(0));
+	Long startX = object->GetX();
+	Long startY = object->GetY();
+	Long endX = object->GetX() + object->GetWidth();
+	Long endY = object->GetY() + object->GetHeight();
 	Long i = 0;
+	Long j ;
 	Finder finder;
+	Long quadrant;
+	Long temp;
 	while (i < object->GetLength()) {
 		if (dynamic_cast<Relation*>(object->GetAt(i))) {
 			Relation *relation = static_cast<Relation*>(object->GetAt(i));
-			if (relation->GetX() >= textEdit->figure->GetX() - 10) {
-				relation->Modify(textEdit->figure->GetX() - 10, relation->GetY(), relation->GetWidth() + relation->GetX() - textEdit->figure->GetX() + 10,
+			quadrant = finder.FindQuadrant(relation->GetX(), relation->GetY(), startX, startY, endX, endY);
+			if (relation->GetX() >= textEdit->figure->GetX() - 10 && quadrant==1) {
+				if (textEdit->figure->GetX() - 10 < startX) {
+					temp = startX;
+				}
+				else {
+					temp = textEdit->figure->GetX() - 10;
+				}
+				relation->Modify(temp, relation->GetY(), relation->GetWidth() + relation->GetX() - temp,
 					relation->GetHeight());
 				if (relation->GetLength() == 0) {
 					CPoint startPoint{ relation->GetX(), relation->GetY() };
@@ -244,5 +262,89 @@ void EditResizerProcess::AffectedRelation(TextEdit *textEdit) {
 			}
 		}
 		i++;
-	}//여기부터 끝점 이동/ 이거하고나서 템플릿 생성될때 그자리에 관계선 있을때/ 템플릿 이 있는자리에 관계선 그을때
+	}
+	// 이거하고나서 템플릿 생성될때 그자리에 관계선 있을때/ 템플릿 이 있는자리에 관계선 그을때
+	Diagram * diagram = dynamic_cast<Diagram*>(classDiagramForm->diagram);
+	i = 0;
+
+	while (i<diagram->GetLength()) {
+		j = 0;
+		FigureComposite *figureComposite = dynamic_cast<FigureComposite*>(diagram->GetAt(i));
+		while (j < figureComposite->GetLength()) {
+			Figure *figure = figureComposite->GetAt(j);
+			if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
+				Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
+				Long relationEndX = figure->GetX() + figure->GetWidth();
+				Long relationEndY = figure->GetY() + figure->GetHeight();
+				Long temp=0;
+				if (startX <= relationEndX &&  relationEndX <= endX &&
+					startY <= relationEndY &&  relationEndY <= endY) {
+					quadrant = finder.FindQuadrant(relationEndX, relationEndY,
+						startX, startY, endX, endY);
+					if (relation->GetX()+ relation->GetWidth() >= textEdit->figure->GetX() - 10 && quadrant == 1) {
+						if (textEdit->figure->GetX() - 10 < startX) {
+							temp = startX;
+						}
+						else {
+							temp = textEdit->figure->GetX() - 10;
+						}
+						relation->Modify(relation->GetX(), relation->GetY(), temp - relation->GetX(),
+							relation->GetHeight());
+
+						if (relation->GetLength() == 0) {
+							CPoint startPoint{ relation->GetX(), relation->GetY() };
+							CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+							cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+							cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+							cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+							cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+							cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+							relation->rollNamePoints->Modify(0, cPoint1);
+							relation->rollNamePoints->Modify(1, cPoint2);
+							relation->rollNamePoints->Modify(2, cPoint3);
+							relation->rollNamePoints->Modify(3, cPoint4);
+							relation->rollNamePoints->Modify(4, cPoint5);
+						}
+						else {
+							CPoint startPoint{ relation->GetX(), relation->GetY() };
+							CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+							cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+							cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+							relation->rollNamePoints->Modify(0, cPoint1);
+							relation->rollNamePoints->Modify(3, cPoint4);
+
+							CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+								relation->GetAt(relation->GetLength() - 1).y };
+							CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+							cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+							cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+							relation->rollNamePoints->Modify(2, cPoint3);
+							relation->rollNamePoints->Modify(4, cPoint5);
+
+							if (relation->GetLength() % 2 == 0) {//짝수
+
+								CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+									relation->GetAt((relation->GetLength() - 1) / 2).y };
+								CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
+									relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
+								cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
+								relation->rollNamePoints->Modify(1, cPoint2);
+
+							}
+							else {//홀수
+
+								CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+									relation->GetAt((relation->GetLength() - 1) / 2).y };
+								cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
+								relation->rollNamePoints->Modify(1, cPoint2);
+
+							}
+						}
+					}
+				}
+			}
+			j++;
+		}
+		i++;
+	}
 }
