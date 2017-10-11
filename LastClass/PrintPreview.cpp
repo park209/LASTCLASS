@@ -103,7 +103,7 @@ void PrintPreview::OnPrint(CDC *cdc, CPrintInfo *pInfo, UINT page) {
 	this->lastClass->classDiagramForm->GetClientRect(&rect);
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
-
+	
 	CPaintDC dc(this);
 
 	memDC.CreateCompatibleDC(&dc);
@@ -212,7 +212,7 @@ void PrintPreview::OnEndPrinting(CDC *pDc, CPrintInfo *pInfo) {
 }
 void PrintPreview::OnPrintButton() {
 
-	CPrintDialog printDialog(FALSE, PD_ALLPAGES | PD_USEDEVMODECOPIES);
+	CPrintDialog printDialog(FALSE, PD_ALLPAGES | PD_USEDEVMODECOPIES,this->lastClass);
 
 	INT_PTR int_ptr = printDialog.DoModal();
 

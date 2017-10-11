@@ -1036,7 +1036,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 
 void ClassDiagramForm::OnClose() {
 
-	CWnd::OnClose();
+	
 	//6.1. 저장한다.
 	//this->Save();
 
@@ -1056,8 +1056,5 @@ void ClassDiagramForm::OnClose() {
 		if (this->historyGraphic != NULL) {
 			delete this->historyGraphic;
 		}
-		if (this != NULL) {
-			delete this;
-		}
-		
+		CWnd::OnClose();
 }
