@@ -22,5 +22,5 @@ void FilePrintPreviewMenuAction::MenuPress(LastClass* lastClass) {
 	newContext.m_pCurrentDoc = (CDocument*)((CFrameWnd*)AfxGetMainWnd())->GetActiveDocument();
 
 	PrintPreview *printPreview = new PrintPreview(lastClass);
-	printPreview->Create(NULL, "printPreview", WS_CHILD | WS_VISIBLE  , CRect(10,10,1200,900), lastClass,10001, NULL);
+	printPreview->CreateEx(WS_EX_DLGMODALFRAME, NULL, "printPreview", WS_CHILD | WS_VISIBLE , CRect(30,30,1200,900), lastClass,10001, NULL);
 }

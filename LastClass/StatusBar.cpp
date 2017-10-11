@@ -83,10 +83,10 @@ HWND StatusBar::MakeStatusBar(LastClass *lastClass, HWND hwndParent, int idStatu
 
 	CRect rect;
 	lastClass->GetClientRect(&rect);
-	rect.top = rect.bottom;
+	rect.top = rect.bottom - 30;
 	rect.left += 50;
-	//rect.
 	lastClass->InvalidateRect(rect);
+	//lastClass->Invalidate();
 
 	return hwndStatus;
 }
