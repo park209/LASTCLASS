@@ -667,6 +667,10 @@ void ClassDiagramForm::OnPaint() {
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
 
+	memDC.SetMapMode(MM_ISOTROPIC);
+	memDC.SetWindowExt(100, 100);
+	memDC.SetViewportExt(this->zoomRate, this->zoomRate);
+
 	DrawingVisitor drawingVisitor;
 	this->diagram->Accept(drawingVisitor, &memDC);
 	WritingVisitor writingVisitor;
@@ -678,9 +682,11 @@ void ClassDiagramForm::OnPaint() {
 
 	int vertCurPos = GetScrollPos(SB_VERT);
 	int horzCurPos = GetScrollPos(SB_HORZ);
+
 	CString a;
 	a.Format("%d %d", horzCurPos, vertCurPos);
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////// 좌표 안맞출거면 밑에 3줄 주석해야함
 	dc.SetMapMode(MM_ISOTROPIC);
 	dc.SetWindowExt(100, 100);
 	dc.SetViewportExt(this->zoomRate, this->zoomRate);
@@ -860,7 +866,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->currentY = point.y + vertCurPos;
 
 	Figure* figure = this->diagram->FindItem(startX, startY);
-	if (figure != NULL) {
+	if (figure != NULL && this->selection->GetLength() != 0) {
 
 		this->textEdit = new TextEdit(this, figure);
 
@@ -1036,7 +1042,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 
 void ClassDiagramForm::OnClose() {
 
-	CWnd::OnClose();
+	
 	//6.1. 저장한다.
 	//this->Save();
 
@@ -1056,8 +1062,5 @@ void ClassDiagramForm::OnClose() {
 		if (this->historyGraphic != NULL) {
 			delete this->historyGraphic;
 		}
-		if (this != NULL) {
-			delete this;
-		}
-		
+		CWnd::OnClose();
 }
