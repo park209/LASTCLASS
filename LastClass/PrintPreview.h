@@ -19,7 +19,7 @@ private:
 	afx_msg void OnDraw(CDC *cdc ) ;
 	afx_msg void OnClose();
 	afx_msg void OnNextButton();
-	afx_msg void OnPriviousButton();
+	afx_msg void OnpreviousButton();
 	afx_msg void OnPrintButton();
 	DECLARE_MESSAGE_MAP()
 protected:
@@ -28,7 +28,7 @@ protected:
 private:
 	LastClass *lastClass;
 	CButton *nextButton;
-	CButton *priviousButton;
+	CButton *previousButton;
 	CButton *printButton;
 	Long horizontalPage;
 	Long verticalPage;

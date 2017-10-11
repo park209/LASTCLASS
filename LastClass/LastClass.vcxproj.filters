@@ -558,6 +558,7 @@
     <ClInclude Include="FilePrintPreviewMenuAction.h">
       <Filter>zOngoing</Filter>
     </ClInclude>
+    <ClInclude Include="CtrlZoomIn.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -1074,5 +1075,6 @@
     <ClCompile Include="FilePrintPreviewMenuAction.cpp">
       <Filter>zOngoing</Filter>
     </ClCompile>
+    <ClCompile Include="CtrlZoomIn.cpp" />
   </ItemGroup>
 </Project>
