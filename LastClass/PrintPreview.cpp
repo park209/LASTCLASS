@@ -212,7 +212,7 @@ void PrintPreview::OnEndPrinting(CDC *pDc, CPrintInfo *pInfo) {
 }
 void PrintPreview::OnPrintButton() {
 
-	CPrintDialog printDialog(FALSE, PD_ALLPAGES | PD_USEDEVMODECOPIES,this->lastClass);
+	CPrintDialog printDialog(FALSE, PD_ALLPAGES | PD_USEDEVMODECOPIES,this);
 
 	INT_PTR int_ptr = printDialog.DoModal();
 
@@ -248,10 +248,8 @@ void PrintPreview::OnPrintButton() {
 		if (bPrintingOK) dc.EndDoc();
 		else dc.AbortDoc();
 
-		//dc.DeleteDC();
 		dc.Detach();
 	}
-		//printDialog.EndDialog(0);
 	
 }
 void PrintPreview::OnSize(UINT nType, int cx, int cy) {

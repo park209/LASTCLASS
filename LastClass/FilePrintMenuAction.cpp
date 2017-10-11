@@ -15,11 +15,12 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 	
 
 
-	CPrintDialog printDialog(FALSE, PD_ALLPAGES | PD_USEDEVMODECOPIES);
+	CPrintDialog printDialog(FALSE, PD_ALLPAGES | PD_RETURNDC , lastClass);
 
 	INT_PTR int_ptr = printDialog.DoModal();
-
-
+	if (int_ptr == IDCANCEL) {
+		return;
+	}
 	if (int_ptr == IDOK) {
 		CDC cdc;
 		lastClass->printPreview = new PrintPreview(lastClass);
@@ -100,6 +101,7 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 
 		//dc.DeleteDC();
 		cdc.Detach();
+		
 	}
 	//printDialog.EndDialog(0);
 	if (lastClass->printPreview != NULL) {
