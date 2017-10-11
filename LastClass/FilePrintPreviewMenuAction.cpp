@@ -19,7 +19,7 @@ void FilePrintPreviewMenuAction::MenuPress(LastClass* lastClass) {
 	rect.bottom += 300;
 
 	lastClass->printPreview = new PrintPreview(lastClass);
-	lastClass->printPreview->Create(NULL, "printPreview", WS_VSCROLL, rect, NULL, NULL);
+	lastClass->printPreview->Create(NULL, "printPreview", WS_VSCROLL| WS_HSCROLL, rect, NULL, NULL);
 
 	lastClass->printPreview->ShowWindow(SW_MAXIMIZE);
 

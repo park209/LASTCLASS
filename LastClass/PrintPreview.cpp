@@ -97,6 +97,7 @@ void PrintPreview::OnPaint() {
 	WritingVisitor writingVisitor;
 	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 
+	// 흰종이 사이즈
 	Long a = (rec.CenterPoint().x)* 5 / 8;
 	Long b = (rec.CenterPoint().y)* 1 / 6;
 	Long c = (rec.CenterPoint().x) * 11 / 8 - (rec.CenterPoint().x) * 5 / 8;
@@ -108,7 +109,10 @@ void PrintPreview::OnPaint() {
 	memDCOne.CreateCompatibleDC(&dc);
 	bitmapOne.CreateCompatibleBitmap(&dc, rec.Width(), rec.Height());
 	pOldBitmapOne = memDCOne.SelectObject(&bitmapOne);
-	memDCOne.FillSolidRect(rec, RGB(153, 153,153));
+	//회색바탕 준비
+	memDCOne.FillSolidRect(rec, RGB(153, 153, 153));
+	//회색바탕 전체화면으로 출력
+	dc.BitBlt(0, 0, rec.Width(), rec.Height(), &memDCOne, 0, 0, SRCCOPY);
 	////////////////////////////////////////////////////////////
 	//회색바탕 고정하고, 확대한 흰종이에서 이동 가능하게
 	dc.SetMapMode(MM_ISOTROPIC);
@@ -116,8 +120,13 @@ void PrintPreview::OnPaint() {
 	dc.SetViewportExt(this->zoomRate, this->zoomRate);
 	//dc.SetViewportOrg(220, 20);
 
-	memDCOne.StretchBlt(a,b,c,d,&memDC, this->horizontalPage, this->verticalPage, this->horizontalPageSize, this->verticalPageSize, SRCCOPY);
+	Long vertPos = this->GetScrollPos(SB_VERT);
+	//Long horzPos = this->GetScrollPos(SB_HORZ);
 
+	//흰종이 출력
+	memDCOne.StretchBlt(a,b - vertPos,c,d - vertPos,&memDC, this->horizontalPage, this->verticalPage, this->horizontalPageSize, this->verticalPageSize, SRCCOPY);
+
+	//회색바탕에 흰종이 같이 출력
 	dc.BitBlt(0, 0, rec.Width(), rec.Height(), &memDCOne, 0, 0, SRCCOPY);
 
 	CString tempString = _T("");

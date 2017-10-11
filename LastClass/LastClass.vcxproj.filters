@@ -535,7 +535,6 @@
       <Filter>ScrollBar</Filter>
     </ClInclude>
     <ClInclude Include="ClassDiagramForm.h" />
-    <ClInclude Include="ToolBar.h" />
     <ClInclude Include="GraphicCtrlPasteKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
@@ -551,12 +550,6 @@
     </ClInclude>
     <ClInclude Include="StatusBar.h">
       <Filter>Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="FilePrintPreviewMenuAction.h">
-      <Filter>Print</Filter>
-    </ClInclude>
-    <ClInclude Include="PrintPreview.h">
-      <Filter>Print</Filter>
     </ClInclude>
     <ClInclude Include="PrintPreviewButton.h">
       <Filter>Print</Filter>
@@ -582,7 +575,14 @@
     <ClInclude Include="PrintPreviewPrintButton.h">
       <Filter>Print</Filter>
     </ClInclude>
-    <ClInclude Include="FilePrintMenuAction.h" />
+    <ClInclude Include="FilePrintMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="FilePrintPreviewMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolBar.h" />
+    <ClInclude Include="PrintPreview.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -1073,7 +1073,6 @@
       <Filter>Menu</Filter>
     </ClCompile>
     <ClCompile Include="ClassDiagramForm.cpp" />
-    <ClCompile Include="ToolBar.cpp" />
     <ClCompile Include="EditResizerBlocker.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
@@ -1089,12 +1088,6 @@
     <ClCompile Include="TextEdit.cpp" />
     <ClCompile Include="StatusBar.cpp">
       <Filter>Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="FilePrintPreviewMenuAction.cpp">
-      <Filter>Print</Filter>
-    </ClCompile>
-    <ClCompile Include="PrintPreview.cpp">
-      <Filter>Print</Filter>
     </ClCompile>
     <ClCompile Include="PrintPreviewButton.cpp">
       <Filter>Print</Filter>
@@ -1120,6 +1113,13 @@
     <ClCompile Include="PrintPreviewZoomOutButton.cpp">
       <Filter>Print</Filter>
     </ClCompile>
-    <ClCompile Include="FilePrintMenuAction.cpp" />
+    <ClCompile Include="FilePrintMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="FilePrintPreviewMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBar.cpp" />
+    <ClCompile Include="PrintPreview.cpp" />
   </ItemGroup>
 </Project>
