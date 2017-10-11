@@ -90,6 +90,10 @@ void PrintPreview::OnPaint() {
 	WritingVisitor writingVisitor;
 	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 
+	dc.SetMapMode(MM_ISOTROPIC);
+	dc.SetWindowExt(100, 100);
+	dc.SetViewportExt(lastClass->classDiagramForm->zoomRate, lastClass->classDiagramForm->zoomRate);
+
 	dc.FillSolidRect(rec, RGB(153,153,153));
 	dc.StretchBlt(10, 10, 600, 800, &memDC, (this->horizontalPage * 800), (this->verticalPage * 1000), 800,1000, SRCCOPY);
 
@@ -101,6 +105,7 @@ void PrintPreview::OnPaint() {
 	
 }
 void PrintPreview::OnDraw(CDC *cdc) {
+
 
 }
 void PrintPreview::OnPrint(CDC *cdc, CPrintInfo *pInfo, UINT page) {

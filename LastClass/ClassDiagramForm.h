@@ -32,6 +32,7 @@ public:
 	Selection *copyBuffer;
 	Long isCut;
 	Long capsLockFlag;
+	Long zoomRate;
 public:
 	ClassDiagramForm(LastClass *lastClass);
 public:
