@@ -860,7 +860,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->currentY = point.y + vertCurPos;
 
 	Figure* figure = this->diagram->FindItem(startX, startY);
-	if (figure != NULL) {
+	if (figure != NULL && this->selection->GetLength() != 0) {
 
 		this->textEdit = new TextEdit(this, figure);
 
