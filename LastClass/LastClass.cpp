@@ -8,11 +8,11 @@
 #include "HistoryGraphic.h"
 #include "StatusBar.h"
 #include "ToolBar.h"
-
+#include "resource.h"
 #include <afxdlgs.h>
 #include <afxext.h>
 #include <afxstatusbar.h>
-
+#include "resource.h"
 #include <afxcmn.h>
 using namespace std;
 
@@ -27,6 +27,7 @@ BEGIN_MESSAGE_MAP(LastClass, CFrameWnd)
 	ON_WM_KILLFOCUS()
 	ON_WM_CLOSE()
 	ON_COMMAND_RANGE(100, 124, OnMyMenu)
+	ON_COMMAND_RANGE(40002, 40015, OnMyToolBar)
 	ON_WM_SIZE()
 	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
@@ -118,7 +119,10 @@ void LastClass::OnLButtonUp(UINT nFlags, CPoint point) {
 void LastClass::OnMouseMove(UINT nFlags, CPoint point) {
 	CFrameWnd::OnMouseMove(nFlags, point);
 }
-
+void LastClass::OnMyToolBar(UINT parm_control_id) {
+	CClientDC dc(this);
+	this->toolBar->ButtonSelected(parm_control_id, this, this->classDiagramForm, &dc);
+}
 void LastClass::OnClose() {
 	//6.2. 다이어그램을 지운다.
 	int messageBox = IDNO;

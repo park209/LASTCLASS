@@ -41,8 +41,9 @@
     <ClInclude Include="CompositionMenuAction.h" />
     <ClInclude Include="Compositions.h" />
     <ClInclude Include="CompositionsMenuAction.h" />
-    <ClInclude Include="CtrlZoomIn.h" />
     <ClInclude Include="FilePrintMenuAction.h" />
+    <ClInclude Include="GraphicCtrlRedoMenuAction.h" />
+    <ClInclude Include="GraphicCtrlUndoMenuAction.h" />
     <ClInclude Include="PrintPreviewState.h" />
     <ClInclude Include="CtrlAllKey.h" />
     <ClInclude Include="CtrlCopyKey.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="Realization.h" />
     <ClInclude Include="Reception.h" />
     <ClInclude Include="Relation.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="RollNameBox.h" />
     <ClInclude Include="Row.h" />
@@ -191,6 +193,7 @@
     <ClInclude Include="TextComposite.h" />
     <ClInclude Include="TextEdit.h" />
     <ClInclude Include="ToolBar.h" />
+    <ClInclude Include="ToolBarProcess.h" />
     <ClInclude Include="UpArrowKey.h" />
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="WriteKoreanText.h" />
@@ -219,7 +222,6 @@
     <ClCompile Include="CompositionMenuAction.cpp" />
     <ClCompile Include="Compositions.cpp" />
     <ClCompile Include="CompositionsMenuAction.cpp" />
-    <ClCompile Include="CtrlZoomIn.cpp" />
     <ClCompile Include="FilePrintMenuAction.cpp" />
     <ClCompile Include="PrintPreviewState.cpp" />
     <ClCompile Include="CtrlAllKey.cpp" />
@@ -369,11 +371,18 @@
     <ClCompile Include="TextComposite.cpp" />
     <ClCompile Include="TextEdit.cpp" />
     <ClCompile Include="ToolBar.cpp" />
+    <ClCompile Include="ToolBarProcess.cpp" />
     <ClCompile Include="UpArrowKey.cpp" />
     <ClCompile Include="Visitor.cpp" />
     <ClCompile Include="WriteKoreanText.cpp" />
     <ClCompile Include="WriteKoreanTextProcess.cpp" />
     <ClCompile Include="WritingVisitor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LastClass.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="toolbar.bmp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
