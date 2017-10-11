@@ -76,12 +76,12 @@ void  WritingVisitor::Visit(Relation *relation, CDC *pDC) {
 				relation->rollNamePoints->GetAt(i).x + 40,  relation->rollNamePoints->GetAt(i).y + 10 };
 			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 		}
-		if (i == 3) {
+		else if (i == 3) {
 			RECT rt = { relation->rollNamePoints->GetAt(i).x - 20, relation->rollNamePoints->GetAt(i).y - 10 ,
 				relation->rollNamePoints->GetAt(i).x + 50,  relation->rollNamePoints->GetAt(i).y + 10 };
 			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 		}
-		if (i == 4) {
+		else if (i == 4) {
 			RECT rt = { relation->rollNamePoints->GetAt(i).x - 40, relation->rollNamePoints->GetAt(i).y - 10 ,
 				relation->rollNamePoints->GetAt(i).x + 30,  relation->rollNamePoints->GetAt(i).y + 10 };
 			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
