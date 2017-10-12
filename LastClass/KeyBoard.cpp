@@ -161,7 +161,7 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 			this->keyAction = new CtrlOpenKey;
 		}
 		break;
-		///////////////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////////////////////////////////
 	case  VK_OEM_PLUS:
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new PlusKey;

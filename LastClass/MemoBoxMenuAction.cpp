@@ -7,5 +7,7 @@ MemoBoxMenuAction::MemoBoxMenuAction() {
 MemoBoxMenuAction::~MemoBoxMenuAction() {
 }
 void MemoBoxMenuAction::MenuPress(LastClass* lastClass) {
-	lastClass->classDiagramForm->mouseLButton->ChangeDrawingMemoBoxState();
+	if (lastClass->classDiagramForm->textEdit == 0) {
+		lastClass->classDiagramForm->mouseLButton->ChangeDrawingMemoBoxState();
+	}
 }
