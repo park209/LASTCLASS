@@ -1,7 +1,7 @@
 #include "LastClass.h"
-#include "ClassDiagramApp.h"
+#include "LastClassApp.h"
 
-BOOL ClassDiagramApp::InitInstance() {
+BOOL LastClassApp::InitInstance() {
 	LastClass *lastClass = new LastClass;
 
 	lastClass->Create(NULL, "LastClass"); //CFrameWnd 꺼 갖다쓰는듯??
@@ -12,4 +12,4 @@ BOOL ClassDiagramApp::InitInstance() {
 	return TRUE;
 }
 
-ClassDiagramApp classDiagramApp;
+LastClassApp classDiagramApp;
