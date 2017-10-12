@@ -1,6 +1,6 @@
 //DeleteGraphicKeyMenuAction.cpp
 
-#include "DeleteKeyMenuAction.h"
+#include "DeleteGraphicKeyMenuAction.h"
 #include "LastClass.h"
 #include "ClassDiagramForm.h"
 #include "DeleteGraphicKey.h"

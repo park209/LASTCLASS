@@ -605,6 +605,11 @@ Long ClassDiagramForm::Save() {
 		}
 		fTest.close();
 	}
+	if (this->historyGraphic->undoGraphicArray->GetLength() != 0) {
+		this->historyGraphic->undoGraphicArray->Clear();
+		this->historyGraphic->redoGraphicArray->Clear();
+	}
+
 	return this->diagram->GetLength();
 }
 
