@@ -18,17 +18,17 @@ MouseLButtonAction* DrawingRelation::Instance() {
 	return instance;
 }
 
+//얘 누가 쓰는거지? 선도 그냥 일반화 만드는데 왜 있는건지 모르겠네
+
 void DrawingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long index;
 	Figure *figure = 0;
 
-	//if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
-
 	classDiagramForm->historyGraphic->PushUndo(diagram);
 	selection->SelectByPoint(diagram, currentX, currentY);
 
-	if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {
-
+	if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && dynamic_cast<Class*>(selection->GetAt(1))
+		&& selection->GetAt(0) != selection->GetAt(1)) {
 		CPoint lineStart(startX, startY);
 		CPoint lineEnd(currentX, currentY);
 
@@ -51,15 +51,17 @@ void DrawingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 
 	}
 
-	if (selection->GetLength() == 2 && selection->GetAt(0) == selection->GetAt(1)) {
+	else if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
 		SelfGeneralization selfGeneralization(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
 		index = object->Add(selfGeneralization.Clone());
 		figure = object->GetAt(index);
 	}
-	//	}
+
+	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
 }
+
 void DrawingRelation::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
 	selection->DeleteAllItems();
 	selection->SelectByPoint(diagram, currentX, currentY);
@@ -78,5 +80,4 @@ void DrawingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diag
 		pDC->LineTo(currentX, currentY);
 		pDC->SelectObject(oldPen);
 		pen.DeleteObject();
-	
 }
