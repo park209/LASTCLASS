@@ -829,12 +829,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 				this->zoomRate = 200;
 			}
 		}
-		CRect rect1;
-		lastClass->GetClientRect(&rect1);
-		rect1.top = rect1.bottom - 20;
-		rect1.left += 250;
-		lastClass->InvalidateRect(rect1);
-		//this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
+		this->lastClass->statusBar->DestroyStatus();
+		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		ret = true;
 	}
 	SetScrollPos(SB_VERT, vertCurPos);
