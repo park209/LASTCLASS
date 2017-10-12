@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AboutMenu.h" />
+    <ClInclude Include="AboutMenuAction.h" />
     <ClInclude Include="AggregationMenuAction.h" />
     <ClInclude Include="AggregationsMenuAction.h" />
     <ClInclude Include="AssociationMenuAction.h" />
@@ -213,6 +215,8 @@
     <ClInclude Include="WritingVisitor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AboutMenu.cpp" />
+    <ClCompile Include="AboutMenuAction.cpp" />
     <ClCompile Include="Aggregation.cpp" />
     <ClCompile Include="AggregationMenuAction.cpp" />
     <ClCompile Include="Aggregations.cpp" />
