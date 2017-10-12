@@ -18,6 +18,7 @@ public:
 	void ButtonSelected(UINT parm_control_id,LastClass *lastClass,ClassDiagramForm *classDiagramForm,CDC *cdc);
 	void ChangeToolBarSize(RECT *rect);
 	void ChangeAnotherToolBarSize(RECT *rect);
+	void DestroyToolBar();
 private:
 	HWND hTool1;
 	HWND hTool2;

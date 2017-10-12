@@ -30,6 +30,7 @@
 #include "SmartPointer.h"
 #include "MemoLine.h"
 #include "Finder.h"
+#include "Diagram.h"
 
 GraphicCtrlCutKey::GraphicCtrlCutKey() {
 }
@@ -45,6 +46,8 @@ void GraphicCtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 	if (classDiagramForm->copyBuffer != 0) {
 		delete classDiagramForm->copyBuffer;
 	}
+	Long d;
+	Figure *object3;
 	classDiagramForm->copyBuffer = new Selection(*classDiagramForm->selection);
 	if (classDiagramForm->selection->GetLength() == 1) {
 		//Figure *parent;
@@ -64,7 +67,7 @@ void GraphicCtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 		Long tempsize = 0;
 		Figure *previous = 0;
 		SmartPointer<Figure*>smartPointer_(classDiagramForm->copyBuffer->CreateIterator());
-		if (classDiagramForm->selection->GetLength() >1) {
+		if (classDiagramForm->selection->GetLength() > 1) {
 			Long minX = 0;
 			//Long minY = 0;
 			Long bigWidth = 0;
@@ -329,13 +332,26 @@ void GraphicCtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 		memDC.SelectObject(OldBitmap);
 		bitmap.DeleteObject();
 		memDC.DeleteDC();
-		
+
 	}
 	while (classDiagramForm->selection->GetLength() != 0) {
-		classDiagramForm->selection->Remove(classDiagramForm->diagram, classDiagramForm->selection->GetAt(classDiagramForm->selection->GetLength() - 1));
-	}
-	if (classDiagramForm->isCut == 0) {
-		classDiagramForm->isCut = 1;
+		d = 0;
+		object3 = 0;
+		if (classDiagramForm->diagram->GetLength() > 0) {
+			while (d <= classDiagramForm->diagram->GetLength() && classDiagramForm->selection->GetAt(classDiagramForm->selection->GetLength() - 1) != object3) {
+				object3 = classDiagramForm->diagram->GetAt(d);
+				d++;
+			}
+
+			//classDiagramForm->selection->Remove(classDiagramForm->diagram, classDiagramForm->selection->GetAt(classDiagramForm->selection->GetLength() - 1));
+			classDiagramForm->selection->Remove(classDiagramForm->selection->GetLength() - 1);
+			if (d <= classDiagramForm->diagram->GetLength()) {
+				classDiagramForm->diagram->Remove(d - 1);
+			}
+		}
+		if (classDiagramForm->isCut == 0) {
+			classDiagramForm->isCut = 1;
+		}
 	}
 }
 

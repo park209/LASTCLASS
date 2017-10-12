@@ -7,6 +7,8 @@
 #include "Finder.h"
 #include "ClassDiagramForm.h"
 #include "HistoryGraphic.h"
+#include "LastClass.h"
+#include "StatusBar.h"
 
 DrawingClass* DrawingClass::instance = 0;
 
@@ -45,6 +47,10 @@ void DrawingClass::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 		Class *object = static_cast<Class*>(diagram->GetAt(index));
 		object->Initialize();
 	}
+
+	classDiagramForm->lastClass->statusBar->DestroyStatus();
+	classDiagramForm->lastClass->statusBar->MakeStatusBar(classDiagramForm->lastClass, classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
+
 	this->ChangeDefault(mouseLButton);
 }
 
