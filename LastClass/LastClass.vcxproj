@@ -41,6 +41,7 @@
     <ClInclude Include="CompositionMenuAction.h" />
     <ClInclude Include="Compositions.h" />
     <ClInclude Include="CompositionsMenuAction.h" />
+    <ClInclude Include="CtrlSaveKey.h" />
     <ClInclude Include="DeleteKeyMenuAction.h" />
     <ClInclude Include="FilePrintMenuAction.h" />
     <ClInclude Include="GraphicCtrlCopyMenuAction.h" />
@@ -233,6 +234,7 @@
     <ClCompile Include="CompositionMenuAction.cpp" />
     <ClCompile Include="Compositions.cpp" />
     <ClCompile Include="CompositionsMenuAction.cpp" />
+    <ClCompile Include="CtrlSaveKey.cpp" />
     <ClCompile Include="DeleteKeyMenuAction.cpp" />
     <ClCompile Include="FilePrintMenuAction.cpp" />
     <ClCompile Include="GraphicCtrlCopyMenuAction.cpp" />
@@ -399,6 +401,9 @@
     <ClCompile Include="WriteKoreanText.cpp" />
     <ClCompile Include="WriteKoreanTextProcess.cpp" />
     <ClCompile Include="WritingVisitor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LastClass.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -363,6 +363,7 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		else {
 			this->numLockFlag = 1;
 		}
+		this->classDiagramForm->lastClass->statusBar->DestroyStatus();
 		this->classDiagramForm->lastClass->statusBar->MakeStatusBar(this->classDiagramForm->lastClass, this->classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
 	}
 	else if (nChar == VK_CAPITAL) {
@@ -372,6 +373,7 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		else if (this->classDiagramForm->capsLockFlag == 1) {
 			this->classDiagramForm->capsLockFlag = 0;
 		}
+		this->classDiagramForm->lastClass->statusBar->DestroyStatus();
 		this->classDiagramForm->lastClass->statusBar->MakeStatusBar(this->classDiagramForm->lastClass, this->classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
 	}
 
