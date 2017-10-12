@@ -47,9 +47,6 @@
     <ClInclude Include="Array.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="ClassDiagramApp.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="Figure.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
@@ -630,11 +627,11 @@
     <ClInclude Include="GraphicCtrlDeleteKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
+    <ClInclude Include="AboutMenu.h" />
+    <ClInclude Include="AboutMenuAction.h" />
+    <ClInclude Include="LastClassApp.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ClassDiagramApp.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
     <ClCompile Include="Figure.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
@@ -1206,6 +1203,13 @@
     <ClCompile Include="GraphicCtrlDeleteKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
+    <ClCompile Include="AboutMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="LastClassApp.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AboutMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc">
