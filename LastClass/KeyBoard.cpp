@@ -122,9 +122,8 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 	case VK_ESCAPE:
 		this->keyAction = new EscapeKey;
 		break;
-	case 0x53:
+	case 0x53: // S
 		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-			//this->keyAction = new ;
 		}
 		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlSaveKey;
@@ -139,13 +138,6 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		}
 		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlPreviewKey;
-		}
-		break;
-	case 0x44: // D
-		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-		}
-		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-			this->keyAction = new GraphicCtrlDeleteKey;
 		}
 		break;
 	case 0x50: // P
