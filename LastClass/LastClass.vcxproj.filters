@@ -39,12 +39,15 @@
     <Filter Include="Print">
       <UniqueIdentifier>{ab0b2afc-66a8-4c56-bc66-62f3d7c4029e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="KeyAction\LastClass">
+      <UniqueIdentifier>{d79570e4-9cd3-4731-b5e3-7cc6446be379}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LastClass">
+      <UniqueIdentifier>{d0e43691-8825-4d27-876c-bde0db788f4c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="ClassDiagramApp.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="Figure.h">
@@ -545,9 +548,6 @@
     <ClInclude Include="EditResizerBlocker.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
-    <ClInclude Include="StatusBar.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
     <ClInclude Include="PrintPreviewButton.h">
       <Filter>Print</Filter>
     </ClInclude>
@@ -585,16 +585,7 @@
     <ClInclude Include="GraphicCtrlUndoMenuAction.h">
       <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="ToolBarProcess.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="ToolBar.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicCtrlPasteMenuAction.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="DeleteKeyMenuAction.h">
       <Filter>Menu</Filter>
     </ClInclude>
     <ClInclude Include="GraphicCtrlCopyMenuAction.h">
@@ -615,11 +606,41 @@
     <ClInclude Include="AboutMenu.h">
       <Filter>Menu</Filter>
     </ClInclude>
+    <ClInclude Include="CtrlNewKey.h">
+      <Filter>KeyAction\LastClass</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlOpenKey.h">
+      <Filter>KeyAction\LastClass</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlPreviewKey.h">
+      <Filter>KeyAction\LastClass</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlPrintKey.h">
+      <Filter>KeyAction\LastClass</Filter>
+    </ClInclude>
+    <ClInclude Include="F1HelpKey.h">
+      <Filter>KeyAction\LastClass</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCtrlDeleteKey.h">
+      <Filter>KeyAction\LastClass</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteGraphicKeyMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolBarProcess.h">
+      <Filter>LastClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolBar.h">
+      <Filter>LastClass</Filter>
+    </ClInclude>
+    <ClInclude Include="StatusBar.h">
+      <Filter>LastClass</Filter>
+    </ClInclude>
+    <ClInclude Include="LastClassApp.h">
+      <Filter>LastClass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ClassDiagramApp.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
     <ClCompile Include="Figure.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
@@ -1115,9 +1136,6 @@
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="TextEdit.cpp" />
-    <ClCompile Include="StatusBar.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
     <ClCompile Include="PrintPreviewButton.cpp">
       <Filter>Print</Filter>
     </ClCompile>
@@ -1149,15 +1167,6 @@
       <Filter>Menu</Filter>
     </ClCompile>
     <ClCompile Include="PrintPreview.cpp" />
-    <ClCompile Include="ToolBarProcess.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="ToolBar.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="DeleteKeyMenuAction.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicCtrlCopyMenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
@@ -1178,6 +1187,39 @@
     </ClCompile>
     <ClCompile Include="AboutMenuAction.cpp">
       <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlNewKey.cpp">
+      <Filter>KeyAction\LastClass</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlOpenKey.cpp">
+      <Filter>KeyAction\LastClass</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlPreviewKey.cpp">
+      <Filter>KeyAction\LastClass</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlPrintKey.cpp">
+      <Filter>KeyAction\LastClass</Filter>
+    </ClCompile>
+    <ClCompile Include="F1HelpKey.cpp">
+      <Filter>KeyAction\LastClass</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlDeleteKey.cpp">
+      <Filter>KeyAction\LastClass</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteGraphicKeyMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBar.cpp">
+      <Filter>LastClass</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBarProcess.cpp">
+      <Filter>LastClass</Filter>
+    </ClCompile>
+    <ClCompile Include="StatusBar.cpp">
+      <Filter>LastClass</Filter>
+    </ClCompile>
+    <ClCompile Include="LastClassApp.cpp">
+      <Filter>LastClass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -29,7 +29,7 @@
 #include "GraphicCtrlCutMenuAction.h"
 #include "GraphicCtrlCopyMenuAction.h"
 #include "GraphicCtrlPasteMenuAction.h"
-#include "DeleteKeyMenuAction.h"
+#include "DeleteGraphicKeyMenuAction.h"
 #include "AboutMenuAction.h"
 
 Menu::Menu(LastClass* lastClass) {

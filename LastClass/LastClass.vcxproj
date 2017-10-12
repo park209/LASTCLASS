@@ -35,7 +35,7 @@
     <ClInclude Include="Caret.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Class.h" />
-    <ClInclude Include="ClassDiagramApp.h" />
+    <ClInclude Include="LastClassApp.h" />
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="ClassMenuAction.h" />
     <ClInclude Include="ClassName.h" />
@@ -236,7 +236,7 @@
     <ClCompile Include="Caret.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Class.cpp" />
-    <ClCompile Include="ClassDiagramApp.cpp" />
+    <ClCompile Include="LastClassApp.cpp" />
     <ClCompile Include="ClassDiagramForm.cpp" />
     <ClCompile Include="ClassMenuAction.cpp" />
     <ClCompile Include="ClassName.cpp" />
