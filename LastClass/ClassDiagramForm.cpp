@@ -85,7 +85,7 @@ ClassDiagramForm::ClassDiagramForm() { // 생성자 맞는듯
 	this->fileName = "";
 	this->copyBuffer = NULL;
 	this->isCut = 0;
-	this->fontSet = NULL;
+	this->lf = { 0, };
 }
 
 //Long ClassDiagramForm::Load() {
@@ -613,7 +613,8 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->historyGraphic = new HistoryGraphic;
 	this->keyBoard = new KeyBoard;
 	this->scroll = new Scroll;
-	this->fontSet = new FontSet(this);
+	FontSet fontSet(&lf); // Set Default LOGFONT Structure
+
 	CRect rect;
 	this->GetClientRect(&rect);
 	ModifyStyle(0, WS_CLIPCHILDREN);
@@ -810,6 +811,8 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
 
+	FontSet fontSet;
+
 	int vertCurPos = GetScrollPos(SB_VERT);
 	int horzCurPos = GetScrollPos(SB_HORZ);
 
@@ -821,7 +824,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	Figure* figure = this->diagram->FindItem(startX, startY);
 	if (figure != NULL) {
 
-		this->textEdit = new TextEdit(figure, this->fontSet->ClassFontSet());
+		this->textEdit = new TextEdit(this, figure, this->lf);
 
 		if (dynamic_cast<MemoBox*>(figure) || dynamic_cast<ClassName*>(figure)) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
@@ -868,7 +871,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			i++;
 		}
 		if (index > 0) {
-			this->textEdit = new TextEdit(relation, this->fontSet->RelationFontSet(), i - 1);
+			this->textEdit = new TextEdit(this, relation, fontSet.RelationFontSet(), i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				left + 1 - horzCurPos,
 				top + 1 - vertCurPos,
@@ -925,7 +928,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		// 확인해서 있으면 그 index 기억해두고 그 박스 사이즈로 textEdit 연다 (textEdit 생성자 따로 만들어야할듯)
 
 		if (index > 0) {
-			this->textEdit = new TextEdit(selfRelation, this->fontSet->RelationFontSet(), i - 1);
+			this->textEdit = new TextEdit(this, selfRelation, fontSet.RelationFontSet(), i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				left + 1 - horzCurPos,
 				top + 1 - vertCurPos,

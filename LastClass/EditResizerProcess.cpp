@@ -68,8 +68,7 @@ void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
 void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit) {
 	RECT rt;
 	textEdit->GetClientRect(&rt);
-	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
-	FigureComposite *object = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
+	FigureComposite *object = static_cast<FigureComposite*>(textEdit->classDiagramForm->selection->GetAt(0));
 	Long distanceX;
 	if (rt.right + GabX * 2 > textEdit->GetCriteriaWidth()) {
 		distanceX = object->GetMinimumWidth() - object->GetWidth();
@@ -77,7 +76,7 @@ void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit) {
 	else {
 		distanceX = textEdit->GetCriteriaWidth() - object->GetWidth();
 	}
-	object->ModifyComponetsToRightDirection(classDiagramForm->diagram, distanceX);
+	object->ModifyComponetsToRightDirection(textEdit->classDiagramForm->diagram, distanceX);
 }
 
 void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
@@ -95,8 +94,7 @@ void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 	else {
 		distanceY = textEdit->GetCriteriaHeight() - textEdit->figure->GetHeight();
 	}
-	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
-	FigureComposite *composite = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
+	FigureComposite *composite = static_cast<FigureComposite*>(textEdit->classDiagramForm->selection->GetAt(0));
 
 	Finder finder;
 	Long quadrant;
@@ -105,7 +103,7 @@ void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 	Long startY = composite->GetY();
 	Long endX = composite->GetX() + composite->GetWidth();
 	Long endY = composite->GetY() + composite->GetHeight();
-	SmartPointer<Figure*> iterator(classDiagramForm->diagram->CreateIterator());
+	SmartPointer<Figure*> iterator(textEdit->classDiagramForm->diagram->CreateIterator());
 	for (iterator->First(); !iterator->IsDone(); iterator->Next()) {
 		Long j = 0;
 		FigureComposite *figureComposite = dynamic_cast<FigureComposite*>(iterator->Current());
@@ -146,8 +144,8 @@ void EditResizerProcess::ResizeEditWidthToLeft(TextEdit *textEdit, CDC *cdc) {
 	
 
 	
-	int vertCurPos = textEdit->GetParent()->GetScrollPos(SB_VERT);
-	int horzCurPos = textEdit->GetParent()->GetScrollPos(SB_HORZ);
+	int vertCurPos = textEdit->classDiagramForm->GetScrollPos(SB_VERT);
+	int horzCurPos = textEdit->classDiagramForm->GetScrollPos(SB_HORZ);
 
 	textEdit->SetWindowPos(&textEdit->wndTopMost,
 		textEdit->figure->GetX() + GabX - (textEdit->text->MaxWidth(cdc) - rt.right) - CaretWidth - horzCurPos,
@@ -181,8 +179,7 @@ void EditResizerProcess::AffectedRelation(TextEdit *textEdit) {
 	CPoint cPoint4;
 	CPoint cPoint5;
 
-	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
-	Class *object = dynamic_cast<Class*>(classDiagramForm->selection->GetAt(0));
+	Class *object = dynamic_cast<Class*>(textEdit->classDiagramForm->selection->GetAt(0));
 	Long i = 0;
 	Finder finder;
 	while (i < object->GetLength()) {

@@ -22,6 +22,7 @@ void WritingVisitor::Visit(Diagram *diagram, Selection *selection, Long distance
 void WritingVisitor::Visit(Class *object, CDC* cPaintDc) {
 }
 void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
+	
 	Long fontHeight = cPaintDc->GetTextExtent("아").cy; // rowHeight 구하는방법
 	Long textWidth = text->MaxWidth(cPaintDc);
 	

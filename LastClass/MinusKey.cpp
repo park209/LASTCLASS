@@ -6,6 +6,7 @@
 #include "Row.h"
 #include "Caret.h"
 #include "ClassDiagramForm.h"
+#include "FontSet.h"
 
 MinusKey::MinusKey() {
 }
@@ -17,7 +18,7 @@ MinusKey::~MinusKey() {
 }
 
 void MinusKey::KeyPress(TextEdit *textEdit) {
-	textEdit->rowHeight--;
+	textEdit->classDiagramForm->fontSet->lf.lfHeight -= 1;
 }
 
 void MinusKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {

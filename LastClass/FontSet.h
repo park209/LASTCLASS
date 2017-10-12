@@ -15,25 +15,13 @@ class TextEdit;
 class FontSet {
 public:
 	FontSet();
-	FontSet(ClassDiagramForm *classDiagramForm);
+	FontSet(LOGFONT *lf);
 	FontSet(const FontSet& source);
 	~FontSet();
 
 	LOGFONT& RelationFontSet();
-	LOGFONT& ClassFontSet();
-	CFont& SetFont(TextEdit* textEdit, CDC* pDC);
-	
-	CFont& GetCFont() const;
-public:
 private:
-	ClassDiagramForm *classDiagramForm;
-	CFont cFont;
-	CFont *oldFont;
 	LOGFONT lf;
 };
-
-inline CFont& FontSet::GetCFont() const {
-	return const_cast<CFont&>(this->cFont);
-}
 
 #endif // _FONTSET_H

@@ -33,7 +33,7 @@ void EditResizerBlocker::Block(TextEdit *textEdit, CDC *pDC) {
 
 	if (!dynamic_cast<Relation*>(textEdit->figure) && !dynamic_cast<SelfRelation*>(textEdit->figure)) {
 
-		FigureComposite *object = dynamic_cast<FigureComposite*>(((ClassDiagramForm*)(textEdit->GetParent()))->selection->GetAt(0));
+		FigureComposite *object = dynamic_cast<FigureComposite*>(textEdit->classDiagramForm->selection->GetAt(0));
 
 		CRect rt(object->GetX(), object->GetY(), object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
 
@@ -44,10 +44,10 @@ void EditResizerBlocker::Block(TextEdit *textEdit, CDC *pDC) {
 			rt.bottom += textEdit->GetRowHeight() * textEdit->text->GetLength() - editRect.bottom;
 		}
 
-		if (!((ClassDiagramForm*)(textEdit->GetParent()))->diagram->CheckOverlap(rt, object)) {
+		if (!textEdit->classDiagramForm->diagram->CheckOverlap(rt, object)) {
 			editResizer.ResizeEdit(textEdit, pDC);
 			editResizer.ResizeClass(textEdit, pDC);
-			textEdit->GetParent()->Invalidate(false);
+			textEdit->classDiagramForm->Invalidate(false);
 		}
 		else {
 			undo.KeyPress(textEdit);

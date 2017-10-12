@@ -15,9 +15,10 @@ class KeyBoard;
 class HistoryText;
 class TextAreaSelected;
 class FontSet;
+class ClassDiagramForm;
 class TextEdit : public CWnd { // CWnd 상속으로 바꿔야함
 public:
-	TextEdit(Figure *figure, LOGFONT lf, Long rollNameBoxIndex = -1);
+	TextEdit(ClassDiagramForm *classDiagramForm, Figure *figure, LOGFONT lf, Long rollNameBoxIndex = -1);
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
@@ -62,6 +63,8 @@ public:
 	Figure *figure;
 	Long rollNameBoxIndex;
 	LOGFONT lf;
+	CFont cFont;
+	ClassDiagramForm *classDiagramForm;
 private:
 	Long koreanEnglish; //flag
 	Long criteriaX;

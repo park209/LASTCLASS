@@ -68,7 +68,7 @@ void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
 		}
 	}
 	else {
-		ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
+		ClassDiagramForm *classDiagramForm = textEdit->classDiagramForm;
 		Long gabY_ = GabY * 2;
 
 		if (dynamic_cast<Class*>(classDiagramForm->selection->GetAt(0))) {

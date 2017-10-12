@@ -29,7 +29,7 @@ public:
 	HistoryGraphic *historyGraphic;
 	Scroll *scroll;
 	Selection *copyBuffer;
-	FontSet *fontSet;
+	LOGFONT lf;
 	Long isCut;
 public:
 	ClassDiagramForm();
