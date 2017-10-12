@@ -889,3 +889,57 @@ Long Selection::Correct(Figure *figure, Long index) {
 	index = this->figures.Modify(index, figure);
 	return index;
 }
+Long Selection::SelectByPointForRelation(Diagram *diagram, Long x, Long y) {
+	Finder finder;
+	CRect rect;
+	FigureComposite *composite;
+	
+	bool ret = false;
+	Long i = 0;
+	Long index = -1;
+
+
+	while (i < diagram->GetLength() && ret == false) {
+		composite = static_cast<FigureComposite*>(diagram->GetAt(i));
+		if (dynamic_cast<Class*>(composite)) {
+			if (dynamic_cast<Class*>(composite)->GetTempletePosition() != -1) {
+				Template *object = dynamic_cast<Template*>(composite->GetAt(static_cast<Class*>(composite)->GetTempletePosition()));
+				rect.left = composite->GetX();
+				rect.top = object->GetY();
+				rect.right = object->GetX() + object->GetWidth();
+				rect.bottom = composite->GetY() + composite->GetHeight();
+				ret = finder.FindRectangleByPoint(rect, x, y);
+
+			}
+
+
+			else {
+				rect.left = composite->GetX();
+				rect.top = composite->GetY();
+				rect.right = composite->GetX() + composite->GetWidth();
+				rect.bottom = composite->GetY() + composite->GetHeight();
+				ret = finder.FindRectangleByPoint(rect, x, y);
+
+			}
+		}
+
+
+		//1여기에 템플릿일때 if() 이거하고/2 템플릿일때 작은 사각형 누르기 하고/3 확대하기 
+
+
+		if (ret == true) {
+			if (this->length < this->capacity) {
+				this->figures.Store(this->length, composite);
+			}
+			else {
+				this->figures.AppendFromRear(composite);
+				this->capacity++;
+			}
+			this->length++;
+
+			index = this->length;
+		}
+		i++;
+	}
+	return index;
+}

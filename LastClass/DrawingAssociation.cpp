@@ -21,18 +21,12 @@ MouseLButtonAction* DrawingAssociation::Instance() {
 void DrawingAssociation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long index;
 	Figure *figure = 0;
-	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
-	CPoint cPoint1;
-	CPoint cPoint2;
-	CPoint cPoint3;
-	CPoint cPoint4;
-	CPoint cPoint5;
 
 	Long quadrant;
 	Long quadrant2;
 
 	classDiagramForm->historyGraphic->PushUndo(diagram);
-	selection->SelectByPoint(diagram, currentX, currentY);
+	selection->SelectByPointForRelation(diagram, currentX, currentY);
 
 	if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && dynamic_cast<Class*>(selection->GetAt(1)) 
 		&& selection->GetAt(0) != selection->GetAt(1)) {
