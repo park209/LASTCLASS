@@ -72,18 +72,28 @@ void DrawingAssociation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 
 	else if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
-		SelfAssociation selfAssociation(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
-		if (object->GetTempletePosition() != -1) {
-			selfAssociation.Move(0, -17);
-			Long k = 0;
-			while (k < 5) {
-				CPoint cPoint(selfAssociation.rollNamePoints->GetAt(k).x, selfAssociation.rollNamePoints->GetAt(k).y - 17);
-				selfAssociation.rollNamePoints->Modify(k, cPoint);
-				k++;
+		Long i = 0;
+		bool ret = false;
+		while (i < object->GetLength()) {
+			if (dynamic_cast<SelfRelation*>(object->GetAt(i))) {
+				ret = true;
 			}
+			i++;
 		}
-		index = object->Add(selfAssociation.Clone());
-		figure = object->GetAt(index);
+		if (ret == false) {
+			SelfAssociation selfAssociation(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
+			if (object->GetTempletePosition() != -1) {
+				selfAssociation.Move(0, -17);
+				Long k = 0;
+				while (k < 5) {
+					CPoint cPoint(selfAssociation.rollNamePoints->GetAt(k).x, selfAssociation.rollNamePoints->GetAt(k).y - 17);
+					selfAssociation.rollNamePoints->Modify(k, cPoint);
+					k++;
+				}
+			}
+			index = object->Add(selfAssociation.Clone());
+			figure = object->GetAt(index);
+		}
 	}
 	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
