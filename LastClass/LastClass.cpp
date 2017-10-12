@@ -26,7 +26,7 @@ BEGIN_MESSAGE_MAP(LastClass, CFrameWnd)
 	ON_WM_LBUTTONUP()
 	ON_WM_KILLFOCUS()
 	ON_WM_CLOSE()
-	ON_COMMAND_RANGE(100, 124, OnMyMenu)
+	ON_COMMAND_RANGE(100, 125, OnMyMenu)
 	ON_COMMAND_RANGE(40002, 40015, OnMyToolBar)
 	ON_WM_SIZE()
 	ON_WM_MOUSEWHEEL()
@@ -49,7 +49,7 @@ int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	rect.top += 45;
 	//rect.left += 60;
 	//rect.right -= 60;
-	rect.bottom -= 66;
+	rect.bottom -= 73;
 	this->classDiagramForm = new ClassDiagramForm(this);
 	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
 	this->menu = new Menu(this);
@@ -99,7 +99,7 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 	rect.top += 45;
 	//rect.left += 60;
 	//rect.right -= 60;
-	rect.bottom -= 66;
+	rect.bottom -= 73;
 	//this->classDiagramForm->MoveWindow(rect.left, rect.top, rect.right, rect.bottom, 1);
 	this->classDiagramForm->SetWindowPos(this, rect.left, rect.top, rect.right, rect.bottom, SWP_NOMOVE | SWP_NOZORDER);
 	this->RedrawWindow();
