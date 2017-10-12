@@ -53,8 +53,11 @@ int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->classDiagramForm = new ClassDiagramForm(this);
 	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
 	this->menu = new Menu(this);
-	this->toolBar->MakeToolBar(this->GetSafeHwnd());
+
+	//this->toolBar->MakeToolBar(this->GetSafeHwnd());
 	//this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
+	//this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
+
 	return 0;
 }
 
@@ -65,6 +68,7 @@ void LastClass::OnMyMenu(UINT parm_control_id) {
 		menuAction->MenuPress(this);
 	}
 }
+
 void LastClass::OnKillFocus(CWnd *pNewWnd) {
 	//CFrameWnd::OnKillFocus(pNewWnd);
 }
@@ -83,23 +87,30 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 	CFrameWnd::OnSize(nType, cx, cy);
 	CRect rect;
 	this->GetClientRect(&rect);
-	if (this->one == 0) {
-		this->toolBar->MakeToolBar(this->GetSafeHwnd());
-		//this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
-		this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
-		this->one = 1;
-	}
+
+	this->toolBar->MakeToolBar(this->GetSafeHwnd());
+	//this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
+	this->statusBar->DestroyStatus();
+	this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
+
 	this->toolBar->ChangeToolBarSize(&rect);
-	this->toolBar->ChangeAnotherToolBarSize(&rect);
-	this->statusBar->ChangeStatusBarSize(&rect);
+	//this->toolBar->ChangeAnotherToolBarSize(&rect);
+	//this->statusBar->ChangeStatusBarSize(&rect);
 	rect.top += 45;
 	//rect.left += 60;
 	//rect.right -= 60;
 	rect.bottom -= 66;
 	//this->classDiagramForm->MoveWindow(rect.left, rect.top, rect.right, rect.bottom, 1);
-	this->classDiagramForm->SetWindowPos(this, rect.left,rect.top,rect.right,rect.bottom, SWP_NOMOVE | SWP_NOZORDER );
+	this->classDiagramForm->SetWindowPos(this, rect.left, rect.top, rect.right, rect.bottom, SWP_NOMOVE | SWP_NOZORDER);
 	this->RedrawWindow();
 	this->classDiagramForm->Invalidate(FALSE);
+
+	CRect rect1;
+	this->GetClientRect(&rect1);
+	rect1.top = rect1.bottom - 20;
+	//rect1.right = rect1.left + 10;
+	this->InvalidateRect(rect1);
+
 	//ModifyStyle(WS_CLIPCHILDREN, 0);
 }
 

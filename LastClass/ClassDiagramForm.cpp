@@ -718,6 +718,7 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 			else {
 				this->capsLockFlag = 0;
 			}
+			this->lastClass->statusBar->DestroyStatus();
 			this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		}
 
@@ -745,6 +746,7 @@ void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 }
 void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
 	CWnd::OnSize(nType, cx, cy);
+	CPaintDC dc(this);
 
 	CRect rect;
 	this->GetClientRect(&rect);
@@ -827,12 +829,12 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 				this->zoomRate = 200;
 			}
 		}
-		CRect tempRect;
-		GetClientRect(&tempRect);
-		tempRect.left = tempRect.right - 100;
-		tempRect.top = tempRect.bottom - 10;
-		this->InvalidateRect(tempRect);
-		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
+		CRect rect1;
+		lastClass->GetClientRect(&rect1);
+		rect1.top = rect1.bottom - 20;
+		rect1.left += 250;
+		lastClass->InvalidateRect(rect1);
+		//this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		ret = true;
 	}
 	SetScrollPos(SB_VERT, vertCurPos);
