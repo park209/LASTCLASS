@@ -41,7 +41,9 @@ Menu::Menu(LastClass* lastClass) {
 	this->supportMenu = new CMenu; // 도움말
 	this->drawMenu = new CMenu; // 그리기 메뉴
 	this->relationMenu = new CMenu; // 관계선 메뉴
+
 	this->mainMenu->CreateMenu();
+
 	this->popupMenu->CreatePopupMenu();
 	this->editMenu->CreatePopupMenu();
 	this->supportMenu->CreatePopupMenu();

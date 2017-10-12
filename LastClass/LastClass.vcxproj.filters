@@ -628,6 +628,16 @@
     <ClInclude Include="AboutMenuAction.h" />
     <ClInclude Include="LastClassApp.h" />
     <ClInclude Include="ExitKeyMenuAction.h" />
+    <ClInclude Include="ClassDiagramFormMenu.h" />
+    <ClInclude Include="AddTemplateMenuAction.h" />
+    <ClInclude Include="DeleteTemplateMenuAction.h" />
+    <ClInclude Include="DeleteMenuAction.h" />
+    <ClInclude Include="AddAttributeMenuAction.h" />
+    <ClInclude Include="DeleteAttributeMenuAction.h" />
+    <ClInclude Include="AddMethodMenuAction.h" />
+    <ClInclude Include="DeleteMethodMenuAction.h" />
+    <ClInclude Include="AddReceptionMenuAction.h" />
+    <ClInclude Include="DeleteReceptionMenuAction.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">
@@ -1204,6 +1214,36 @@
     <ClCompile Include="AboutMenu.cpp" />
     <ClCompile Include="AboutMenuAction.cpp" />
     <ClCompile Include="ExitKeyMenuAction.cpp" />
+    <ClCompile Include="ClassDiagramFormMenu.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AddTemplateMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteTemplateMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AddAttributeMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteAttributeMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AddMethodMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteMethodMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AddReceptionMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteReceptionMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc">

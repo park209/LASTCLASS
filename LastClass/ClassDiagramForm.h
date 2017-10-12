@@ -19,6 +19,8 @@ class HistoryGraphic;
 class Menu;
 class Scroll;
 class LastClass;
+class Menu;
+class ClassDiagramFormMenu;
 class ClassDiagramForm : public CWnd { //CFrameWnd 에 상속관계 표기
 public:
 	LastClass *lastClass;
@@ -30,6 +32,7 @@ public:
 	HistoryGraphic *historyGraphic;
 	Scroll *scroll;
 	Selection *copyBuffer;
+	ClassDiagramFormMenu *classDiagramFormMenu;
 	Long isCut;
 	Long capsLockFlag;
 	Long zoomRate;
@@ -60,6 +63,9 @@ protected:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnMyMenu(UINT parm_control_id);
+	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar); 
 	afx_msg BOOL OnMouseWheel(UINT nFlags,	short zDelta,CPoint pt);
