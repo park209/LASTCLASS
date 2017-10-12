@@ -126,7 +126,7 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
 		}
 		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-			this->keyAction = new CtrlSaveKey;
+			//this->keyAction = new CtrlSaveKey;
 		}
 		break;
 		//////////////////////////////////////////////////////////////////////////////

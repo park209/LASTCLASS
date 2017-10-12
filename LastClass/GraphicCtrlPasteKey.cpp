@@ -55,9 +55,6 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		}
 		SmartPointer<Figure*>diagramSmartPointer(classDiagramForm->diagram->CreateIterator());
 		for (diagramSmartPointer->First(); !diagramSmartPointer->IsDone(); diagramSmartPointer->Next()) {
-			if (minX == 0 || diagramSmartPointer->Current()->GetX() < minX) {
-				minX = diagramSmartPointer->Current()->GetX();
-			}
 			if (bigWidth == 0 || (diagramSmartPointer->Current()->GetX() + diagramSmartPointer->Current()->GetWidth()) > bigWidth) {
 				bigWidth = diagramSmartPointer->Current()->GetX() + diagramSmartPointer->Current()->GetWidth();
 			}
