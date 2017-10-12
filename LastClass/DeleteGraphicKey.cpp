@@ -8,6 +8,7 @@
 #include "TextEdit.h"
 #include "Relation.h"
 #include "Diagram.h"
+#include "MouseLButton.h"
 
 DeleteGraphicKey::DeleteGraphicKey() {
 }
@@ -60,6 +61,7 @@ void DeleteGraphicKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 			classDiagramForm->selection->Remove(classDiagramForm->diagram, classDiagramForm->selection->GetAt(classDiagramForm->selection->GetLength() - 1));
 		}
 	}
+	classDiagramForm->mouseLButton->ChangeDefault();
 }
 
 void DeleteGraphicKey::KeyPress(TextEdit *textEdit) {
