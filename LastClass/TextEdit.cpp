@@ -446,6 +446,7 @@ void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 		delete this->fontSet;
 	}
 	if (this != NULL) {
+		classDiagramForm->textEdit = NULL;
 		delete this;
 	}
 }
