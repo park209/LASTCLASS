@@ -41,7 +41,13 @@
     <ClInclude Include="CompositionMenuAction.h" />
     <ClInclude Include="Compositions.h" />
     <ClInclude Include="CompositionsMenuAction.h" />
+    <ClInclude Include="DeleteKeyMenuAction.h" />
     <ClInclude Include="FilePrintMenuAction.h" />
+    <ClInclude Include="GraphicCtrlCopyMenuAction.h" />
+    <ClInclude Include="GraphicCtrlCutMenuAction.h" />
+    <ClInclude Include="GraphicCtrlPasteMenuAction.h" />
+    <ClInclude Include="GraphicCtrlRedoMenuAction.h" />
+    <ClInclude Include="GraphicCtrlUndoMenuAction.h" />
     <ClInclude Include="PrintPreviewButton.h" />
     <ClInclude Include="PrintPreviewButtonAction.h" />
     <ClInclude Include="PrintPreviewNextButton.h" />
@@ -163,6 +169,7 @@
     <ClInclude Include="Realization.h" />
     <ClInclude Include="Reception.h" />
     <ClInclude Include="Relation.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="RollNameBox.h" />
     <ClInclude Include="Row.h" />
@@ -197,6 +204,7 @@
     <ClInclude Include="TextComposite.h" />
     <ClInclude Include="TextEdit.h" />
     <ClInclude Include="ToolBar.h" />
+    <ClInclude Include="ToolBarProcess.h" />
     <ClInclude Include="UpArrowKey.h" />
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="WriteKoreanText.h" />
@@ -225,7 +233,11 @@
     <ClCompile Include="CompositionMenuAction.cpp" />
     <ClCompile Include="Compositions.cpp" />
     <ClCompile Include="CompositionsMenuAction.cpp" />
+    <ClCompile Include="DeleteKeyMenuAction.cpp" />
     <ClCompile Include="FilePrintMenuAction.cpp" />
+    <ClCompile Include="GraphicCtrlCopyMenuAction.cpp" />
+    <ClCompile Include="GraphicCtrlCutMenuAction.cpp" />
+    <ClCompile Include="GraphicCtrlPasteMenuAction.cpp" />
     <ClCompile Include="PrintPreviewButton.cpp" />
     <ClCompile Include="PrintPreviewButtonAction.cpp" />
     <ClCompile Include="PrintPreviewNextButton.cpp" />
@@ -381,6 +393,7 @@
     <ClCompile Include="TextComposite.cpp" />
     <ClCompile Include="TextEdit.cpp" />
     <ClCompile Include="ToolBar.cpp" />
+    <ClCompile Include="ToolBarProcess.cpp" />
     <ClCompile Include="UpArrowKey.cpp" />
     <ClCompile Include="Visitor.cpp" />
     <ClCompile Include="WriteKoreanText.cpp" />

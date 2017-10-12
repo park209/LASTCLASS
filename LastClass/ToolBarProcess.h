@@ -17,9 +17,9 @@ public:
 	void OnSaveFileClicked(LastClass *lastClass);
 	void OnRedoFileClicked(LastClass *lastClass);
 	void OnUndoFileClicked(LastClass *lastClass);
-	void OnCutFileClicked(ClassDiagramForm *classDiagramForm,CDC *cdc);
-	void OnCopyFileClicked(ClassDiagramForm *classDiagramForm, CDC *cdc);
-	void OnPasteFileClicked(ClassDiagramForm *classDiagramForm, CDC *cdc);
+	void OnCutFileClicked(LastClass *lastClass);
+	void OnCopyFileClicked(LastClass *lastClass);
+	void OnPasteFileClicked(LastClass *lastClass);
 	void OnFinishFileClicked(LastClass *lastClass);
 	void OnPrintFileClicked(LastClass *lastClass);
 	void OnPrintPreFileClicked(LastClass *lastClass);

@@ -583,6 +583,14 @@
       <Filter>Print</Filter>
     </ClInclude>
     <ClInclude Include="FilePrintMenuAction.h" />
+    <ClInclude Include="GraphicCtrlRedoMenuAction.h" />
+    <ClInclude Include="GraphicCtrlUndoMenuAction.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="ToolBarProcess.h" />
+    <ClInclude Include="GraphicCtrlCutMenuAction.h" />
+    <ClInclude Include="GraphicCtrlCopyMenuAction.h" />
+    <ClInclude Include="GraphicCtrlPasteMenuAction.h" />
+    <ClInclude Include="DeleteKeyMenuAction.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -1121,5 +1129,18 @@
       <Filter>Print</Filter>
     </ClCompile>
     <ClCompile Include="FilePrintMenuAction.cpp" />
+    <ClCompile Include="ToolBarProcess.cpp" />
+    <ClCompile Include="GraphicCtrlCutMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlCopyMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlPasteMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteKeyMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

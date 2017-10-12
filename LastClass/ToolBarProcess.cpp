@@ -25,6 +25,11 @@
 #include "GraphicCtrlPasteKey.h"
 #include "GraphicCtrlRedoMenuAction.h"
 #include "GraphicCtrlUndoMenuAction.h"
+#include "ClassDiagramForm.h"
+#include "GraphicCtrlCutMenuAction.h"
+#include "GraphicCtrlCopyMenuAction.h"
+#include "GraphicCtrlPasteMenuAction.h"
+#include "DeleteKeyMenuAction.h"
 
 ToolBarProcess::ToolBarProcess() {
 }
@@ -52,19 +57,21 @@ void ToolBarProcess::OnUndoFileClicked(LastClass *lastClass) {
 	GraphicCtrlUndoMenuAction graphicCtrlUndoMenuAction;
 	graphicCtrlUndoMenuAction.MenuPress(lastClass);
 }
-void ToolBarProcess::OnCutFileClicked(ClassDiagramForm *classDiagramForm, CDC *cdc) {
-	GraphicCtrlCutKey graphicCtrlCutKey;
-	graphicCtrlCutKey.KeyPress(classDiagramForm, cdc);
+void ToolBarProcess::OnCutFileClicked(LastClass *lastClass) {
+	GraphicCtrlCutMenuAction graphicCtrlCutMenuAction;
+	graphicCtrlCutMenuAction.MenuPress(lastClass);
 }
-void ToolBarProcess::OnCopyFileClicked(ClassDiagramForm *classDiagramForm, CDC *cdc) {
-	GraphicCtrlCopyKey graphicCtrlCopyKey;
-	graphicCtrlCopyKey.KeyPress(classDiagramForm, cdc);
+void ToolBarProcess::OnCopyFileClicked(LastClass *lastClass) {
+	GraphicCtrlCopyMenuAction graphicCtrlCopyMenuAction;
+	graphicCtrlCopyMenuAction.MenuPress(lastClass);
 }
-void ToolBarProcess::OnPasteFileClicked(ClassDiagramForm *classDiagramForm, CDC *cdc) {
-	GraphicCtrlPasteKey graphicCtrlPasteKey;
-	graphicCtrlPasteKey.KeyPress(classDiagramForm, cdc);
+void ToolBarProcess::OnPasteFileClicked(LastClass *lastClass) {
+	GraphicCtrlPasteMenuAction graphicCtrlPasteMenuAction;
+	graphicCtrlPasteMenuAction.MenuPress(lastClass);
 }
 void ToolBarProcess::OnFinishFileClicked(LastClass *lastClass) {
+	DeleteGraphicKeyMenuAction deleteGraphicKeyMenuAction;
+	deleteGraphicKeyMenuAction.MenuPress(lastClass);
 }
 void ToolBarProcess::OnPrintFileClicked(LastClass *lastClass) {
 	//SupportMenuAction supportMenuAction;
