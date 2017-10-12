@@ -7,5 +7,7 @@ AssociationMenuAction::AssociationMenuAction() {
 AssociationMenuAction::~AssociationMenuAction() {
 }
 void AssociationMenuAction::MenuPress(LastClass* lastClass) {
-	lastClass->classDiagramForm->mouseLButton->ChangeDrawingAssociationState();
+	if (lastClass->classDiagramForm->textEdit == 0) {
+		lastClass->classDiagramForm->mouseLButton->ChangeDrawingAssociationState();
+	}
 }

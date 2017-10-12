@@ -43,6 +43,13 @@
 #include "GraphicCtrlCutKey.h"
 #include "GraphicCtrlRedoKey.h"
 
+#include "CtrlSaveKey.h"
+#include "F1HelpKey.h"
+#include "CtrlNewKey.h"
+#include "CtrlOpenKey.h"
+#include "CtrlPreviewKey.h"
+#include "CtrlPrintKey.h"
+#include "GraphicCtrlDeleteKey.h"
 
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
@@ -109,12 +116,52 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 	case VK_INSERT:
 		this->keyAction = new InsertKey;
 		break;
-	case VK_TAB:
-		this->keyAction = new TabKey;
-		break;
+	//case VK_TAB:
+		//this->keyAction = new TabKey;
+		//break;
 	case VK_ESCAPE:
 		this->keyAction = new EscapeKey;
 		break;
+	case 0x53: // S
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			//this->keyAction = new CtrlSaveKey;
+		}
+		break;
+		//////////////////////////////////////////////////////////////////////////////
+	case VK_F1: // F1
+		this->keyAction = new F1HelpKey;
+		break;
+	case 0x46: // F
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlPreviewKey;
+		}
+		break;
+	case 0x50: // P
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlPrintKey;
+		}
+		break;
+	case 0x4E: // N
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlNewKey;
+		}
+		break;
+	case 0x4F: // O
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlOpenKey;
+		}
+		break;
+		/////////////////////////////////////////////////////////////////////////////////////////////
 	case  VK_OEM_PLUS:
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new PlusKey;
@@ -186,14 +233,53 @@ KeyAction* KeyBoard::KeyDown(ClassDiagramForm *classDiagramForm, UINT nChar, UIN
 			this->keyAction = new GraphicCtrlAllKey;
 		}
 		break;
+	case VK_F1: // F1
+		this->keyAction = new F1HelpKey;
+		break;
+	case 0x50: // P
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlPrintKey;
+		}
+		break;
+	case 0x4E: // N
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlNewKey;
+		}
+		break;
+	case 0x4F: // O
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlOpenKey;
+		}
+		break;
 	case 0x46: // f 
-		this->keyAction = new AddReceptionKey;
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			this->keyAction = new AddReceptionKey;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlPreviewKey;
+		}
 		break;
-	case 0x53: // s 
-		this->keyAction = new AddAttributeKey;
+	case 0x53: // S
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			this->keyAction = new AddAttributeKey;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlSaveKey;
+		}
 		break;
-	case 0x44: // d
-		this->keyAction = new AddMethodKey;
+	case 0x44: // D
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			this->keyAction = new AddMethodKey;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new GraphicCtrlDeleteKey;
+		}
 		break;
 	case 0x5A: // z
 		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {

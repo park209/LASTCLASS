@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AboutMenu.h" />
+    <ClInclude Include="AboutMenuAction.h" />
     <ClInclude Include="AggregationMenuAction.h" />
     <ClInclude Include="AggregationsMenuAction.h" />
     <ClInclude Include="AssociationMenuAction.h" />
@@ -33,7 +35,8 @@
     <ClInclude Include="Caret.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Class.h" />
-    <ClInclude Include="ClassDiagramApp.h" />
+    <ClInclude Include="ExitKeyMenuAction.h" />
+    <ClInclude Include="LastClassApp.h" />
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="ClassMenuAction.h" />
     <ClInclude Include="ClassName.h" />
@@ -41,10 +44,17 @@
     <ClInclude Include="CompositionMenuAction.h" />
     <ClInclude Include="Compositions.h" />
     <ClInclude Include="CompositionsMenuAction.h" />
-    <ClInclude Include="DeleteKeyMenuAction.h" />
+    <ClInclude Include="CtrlNewKey.h" />
+    <ClInclude Include="CtrlOpenKey.h" />
+    <ClInclude Include="CtrlPreviewKey.h" />
+    <ClInclude Include="CtrlPrintKey.h" />
+    <ClInclude Include="CtrlSaveKey.h" />
+    <ClInclude Include="DeleteGraphicKeyMenuAction.h" />
+    <ClInclude Include="F1HelpKey.h" />
     <ClInclude Include="FilePrintMenuAction.h" />
     <ClInclude Include="GraphicCtrlCopyMenuAction.h" />
     <ClInclude Include="GraphicCtrlCutMenuAction.h" />
+    <ClInclude Include="GraphicCtrlDeleteKey.h" />
     <ClInclude Include="GraphicCtrlPasteMenuAction.h" />
     <ClInclude Include="GraphicCtrlRedoMenuAction.h" />
     <ClInclude Include="GraphicCtrlUndoMenuAction.h" />
@@ -211,6 +221,8 @@
     <ClInclude Include="WritingVisitor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AboutMenu.cpp" />
+    <ClCompile Include="AboutMenuAction.cpp" />
     <ClCompile Include="Aggregation.cpp" />
     <ClCompile Include="AggregationMenuAction.cpp" />
     <ClCompile Include="Aggregations.cpp" />
@@ -224,7 +236,8 @@
     <ClCompile Include="Caret.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Class.cpp" />
-    <ClCompile Include="ClassDiagramApp.cpp" />
+    <ClCompile Include="ExitKeyMenuAction.cpp" />
+    <ClCompile Include="LastClassApp.cpp" />
     <ClCompile Include="ClassDiagramForm.cpp" />
     <ClCompile Include="ClassMenuAction.cpp" />
     <ClCompile Include="ClassName.cpp" />
@@ -232,10 +245,17 @@
     <ClCompile Include="CompositionMenuAction.cpp" />
     <ClCompile Include="Compositions.cpp" />
     <ClCompile Include="CompositionsMenuAction.cpp" />
-    <ClCompile Include="DeleteKeyMenuAction.cpp" />
+    <ClCompile Include="CtrlNewKey.cpp" />
+    <ClCompile Include="CtrlOpenKey.cpp" />
+    <ClCompile Include="CtrlPreviewKey.cpp" />
+    <ClCompile Include="CtrlPrintKey.cpp" />
+    <ClCompile Include="CtrlSaveKey.cpp" />
+    <ClCompile Include="DeleteGraphicKeyMenuAction.cpp" />
+    <ClCompile Include="F1HelpKey.cpp" />
     <ClCompile Include="FilePrintMenuAction.cpp" />
     <ClCompile Include="GraphicCtrlCopyMenuAction.cpp" />
     <ClCompile Include="GraphicCtrlCutMenuAction.cpp" />
+    <ClCompile Include="GraphicCtrlDeleteKey.cpp" />
     <ClCompile Include="GraphicCtrlPasteMenuAction.cpp" />
     <ClCompile Include="PrintPreviewButton.cpp" />
     <ClCompile Include="PrintPreviewButtonAction.cpp" />
@@ -397,6 +417,9 @@
     <ClCompile Include="WriteKoreanText.cpp" />
     <ClCompile Include="WriteKoreanTextProcess.cpp" />
     <ClCompile Include="WritingVisitor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LastClass.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

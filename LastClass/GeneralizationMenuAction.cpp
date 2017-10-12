@@ -7,5 +7,7 @@ GeneralizationMenuAction::GeneralizationMenuAction() {
 GeneralizationMenuAction::~GeneralizationMenuAction() {
 }
 void GeneralizationMenuAction::MenuPress(LastClass* lastClass) {
-	lastClass->classDiagramForm->mouseLButton->ChangeDrawingGeneralizationState();
+	if (lastClass->classDiagramForm->textEdit == 0) {
+		lastClass->classDiagramForm->mouseLButton->ChangeDrawingGeneralizationState();
+	}
 }

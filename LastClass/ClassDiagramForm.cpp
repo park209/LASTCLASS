@@ -605,6 +605,11 @@ Long ClassDiagramForm::Save() {
 		}
 		fTest.close();
 	}
+	if (this->historyGraphic->undoGraphicArray->GetLength() != 0) {
+		this->historyGraphic->undoGraphicArray->Clear();
+		this->historyGraphic->redoGraphicArray->Clear();
+	}
+
 	return this->diagram->GetLength();
 }
 
@@ -695,16 +700,13 @@ void ClassDiagramForm::OnPaint() {
 	int vertCurPos = GetScrollPos(SB_VERT);
 	int horzCurPos = GetScrollPos(SB_HORZ);
 
-	CString a;
-	a.Format("%d %d", horzCurPos, vertCurPos);
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////// 좌표 안맞출거면 밑에 3줄 주석해야함
 	dc.SetMapMode(MM_ISOTROPIC);
 	dc.SetWindowExt(100, 100);
 	dc.SetViewportExt(this->zoomRate, this->zoomRate);
 
-	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, horzCurPos, vertCurPos, SRCCOPY);
-	dc.TextOut(10, 10, a);
+	dc.BitBlt(0, 0, rect.right * 100 / this->zoomRate, rect.bottom * 100 / this->zoomRate, &memDC, horzCurPos, vertCurPos, SRCCOPY);
 }
 
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -720,6 +722,7 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 			else {
 				this->capsLockFlag = 0;
 			}
+			this->lastClass->statusBar->DestroyStatus();
 			this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		}
 
@@ -747,6 +750,7 @@ void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 }
 void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
 	CWnd::OnSize(nType, cx, cy);
+	CPaintDC dc(this);
 
 	CRect rect;
 	this->GetClientRect(&rect);
@@ -829,11 +833,7 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 				this->zoomRate = 200;
 			}
 		}
-		CRect tempRect;
-		GetClientRect(&tempRect);
-		tempRect.left = tempRect.right - 100;
-		tempRect.top = tempRect.bottom - 10;
-		this->InvalidateRect(tempRect);
+		this->lastClass->statusBar->DestroyStatus();
 		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		ret = true;
 	}
@@ -1038,8 +1038,6 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		this->currentY = 0;
 
 		KillTimer(1);
-
-		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 
 		ReleaseCapture();
 		Invalidate(false);
