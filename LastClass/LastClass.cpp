@@ -8,6 +8,7 @@
 #include "HistoryGraphic.h"
 #include "StatusBar.h"
 #include "ToolBar.h"
+#include "PrintPreview.h"
 #include "resource.h"
 #include <afxdlgs.h>
 #include <afxext.h>
@@ -37,6 +38,7 @@ LastClass::LastClass() {
 	this->menu = NULL;
 	this->toolBar = NULL;
 	this->statusBar = NULL;
+	this->printPreview = NULL;
 }
 
 int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -173,9 +175,23 @@ void LastClass::OnClose() {
 		if (this->classDiagramForm != NULL) {
 			this->classDiagramForm->OnClose();
 			delete this->classDiagramForm;
+			this->classDiagramForm = NULL;
 		}
 		if (this->menu != NULL) {
 			delete this->menu;
+			this->menu = NULL;
+		}
+		if (this->toolBar != NULL) {
+			delete this->toolBar;
+			this->toolBar = NULL;
+		}
+		if (this->statusBar != NULL) {
+			delete this->statusBar;
+			this->statusBar = NULL;
+		}
+		if (this->printPreview != NULL) {
+			this->printPreview->OnClose();
+			this->printPreview = NULL;
 		}
 		CFrameWnd::OnClose(); // 오버라이`딩 코드재사용
 	}
