@@ -14,7 +14,7 @@ ToolBar::~ToolBar() {
 }
 void ToolBar::MakeToolBar(HWND hWndParent) {
 	InitCommonControls();
-	HWND hTool = CreateWindowEx(0, TOOLBARCLASSNAME, NULL, WS_CHILD | TBSTYLE_FLAT  | WS_VISIBLE | CCS_NORESIZE | WS_BORDER | TBSTYLE_TRANSPARENT, 0, 0, 1361, 45,
+	HWND hTool = CreateWindowEx(0, TOOLBARCLASSNAME, NULL, WS_CHILD | TBSTYLE_FLAT | WS_VISIBLE | CCS_NORESIZE | WS_BORDER | TBSTYLE_TRANSPARENT, 0, 0, 1361, 45,
 		hWndParent, NULL, GetModuleHandle(NULL), NULL);
 	this->hTool1 = hTool;
 	SendMessage(hTool, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
@@ -63,15 +63,15 @@ void ToolBar::MakeToolBar(HWND hWndParent) {
 		(WPARAM)NULL, (LPARAM)help);
 	ZeroMemory(tbb, sizeof(tbb));
 	tbb[0].iBitmap = STD_FILENEW;
-	tbb[0].fsState = TBSTATE_ENABLED ;
-	tbb[0].fsStyle = TBSTYLE_BUTTON ;
+	tbb[0].fsState = TBSTATE_ENABLED;
+	tbb[0].fsStyle = TBSTYLE_BUTTON;
 	tbb[0].idCommand = ID_BUTTON40001;
 	tbb[0].iString = iNew;
-    tbb[1].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
+	tbb[1].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
 
 	tbb[2].iBitmap = STD_FILEOPEN;
 	tbb[2].fsState = TBSTATE_ENABLED;
-	tbb[2].fsStyle = TBSTYLE_BUTTON ;
+	tbb[2].fsStyle = TBSTYLE_BUTTON;
 	tbb[2].idCommand = ID_BUTTON40002;
 	tbb[2].iString = iopen;
 	tbb[3].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
@@ -81,32 +81,32 @@ void ToolBar::MakeToolBar(HWND hWndParent) {
 	tbb[4].fsStyle = TBSTYLE_BUTTON;
 	tbb[4].idCommand = ID_BUTTON40003;
 	tbb[4].iString = iSave;
-    tbb[5].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
+	tbb[5].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
 
 	tbb[6].iBitmap = STD_UNDO;
 	tbb[6].fsState = TBSTATE_ENABLED;
-	tbb[6].fsStyle = TBSTYLE_BUTTON ;
+	tbb[6].fsStyle = TBSTYLE_BUTTON;
 	tbb[6].idCommand = ID_BUTTON40005;
 	tbb[6].iString = iundo;
 	tbb[7].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
 
 	tbb[8].iBitmap = STD_REDOW;
 	tbb[8].fsState = TBSTATE_ENABLED;
-	tbb[8].fsStyle = TBSTYLE_BUTTON ;
+	tbb[8].fsStyle = TBSTYLE_BUTTON;
 	tbb[8].idCommand = ID_BUTTON40006;
 	tbb[8].iString = iredo;
 	tbb[9].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
 
 	tbb[10].iBitmap = STD_DELETE;
 	tbb[10].fsState = TBSTATE_ENABLED;
-	tbb[10].fsStyle = TBSTYLE_BUTTON ;
+	tbb[10].fsStyle = TBSTYLE_BUTTON;
 	tbb[10].idCommand = ID_BUTTON40007;
 	tbb[10].iString = idelete_;
 	tbb[11].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
 
 	tbb[12].iBitmap = STD_CUT;
 	tbb[12].fsState = TBSTATE_ENABLED;
-	tbb[12].fsStyle = TBSTYLE_BUTTON ;
+	tbb[12].fsStyle = TBSTYLE_BUTTON;
 	tbb[12].idCommand = ID_BUTTON40008;
 	tbb[12].iString = icut;
 	tbb[13].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
@@ -120,14 +120,14 @@ void ToolBar::MakeToolBar(HWND hWndParent) {
 
 	tbb[16].iBitmap = STD_PASTE;
 	tbb[16].fsState = TBSTATE_ENABLED;
-	tbb[16].fsStyle = TBSTYLE_BUTTON ;
+	tbb[16].fsStyle = TBSTYLE_BUTTON;
 	tbb[16].idCommand = ID_BUTTON40010;
 	tbb[16].iString = ipaste;
 	tbb[17].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
 
 	tbb[18].iBitmap = STD_PRINT;
 	tbb[18].fsState = TBSTATE_ENABLED;
-	tbb[18].fsStyle = TBSTYLE_BUTTON ;
+	tbb[18].fsStyle = TBSTYLE_BUTTON;
 	tbb[18].idCommand = ID_BUTTON40011;
 	tbb[18].iString = iprint;
 	tbb[19].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
@@ -141,7 +141,7 @@ void ToolBar::MakeToolBar(HWND hWndParent) {
 
 	tbb[22].iBitmap = STD_HELP;
 	tbb[22].fsState = TBSTATE_ENABLED;
-	tbb[22].fsStyle =  TBSTYLE_BUTTON ;
+	tbb[22].fsStyle = TBSTYLE_BUTTON;
 	tbb[22].idCommand = ID_BUTTON40013;
 	tbb[22].iString = ihelp;
 	tbb[23].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
@@ -175,7 +175,7 @@ void ToolBar::MakeAnotherToolBar(HWND hWndParent) {
 	ZeroMemory(tbb, sizeof(tbb));
 	tbb[0].iBitmap = index;
 	tbb[0].fsState = TBSTATE_ENABLED | TBSTATE_WRAP;
-	tbb[0].fsStyle = TBSTYLE_BUTTON ;
+	tbb[0].fsStyle = TBSTYLE_BUTTON;
 	tbb[0].idCommand = ID_BUTTON40001;
 
 	SendMessage(hTool, TB_ADDBUTTONS, sizeof(tbb) / sizeof(TBBUTTON), (LPARAM)tbb);
@@ -203,7 +203,7 @@ void ToolBar::ButtonSelected(UINT parm_control_id, LastClass *lastClass, ClassDi
 	case 40010:toolBarProcess.OnPasteFileClicked(lastClass);
 		break;
 	case 40011:toolBarProcess.OnPrintFileClicked(lastClass);
-		break;		
+		break;
 	case 40012:toolBarProcess.OnPrintPreFileClicked(lastClass);
 		break;
 	case 40013:toolBarProcess.OnSupportFileClicked(lastClass);
@@ -214,10 +214,10 @@ void ToolBar::ButtonSelected(UINT parm_control_id, LastClass *lastClass, ClassDi
 }
 
 void ToolBar::ChangeToolBarSize(RECT *rect) {
-	CWnd *cwnd= CWnd::FromHandle(this->hTool1);
+	CWnd *cwnd = CWnd::FromHandle(this->hTool1);
 	cwnd->SetWindowPos(cwnd, 0, 0, rect->right - 1, 45, SWP_NOMOVE | SWP_NOZORDER);
 }
 void ToolBar::ChangeAnotherToolBarSize(RECT *rect) {
 	CWnd *cwnd = CWnd::FromHandle(this->hTool2);
-	cwnd->SetWindowPos(cwnd, 0, 45, 60, rect->bottom-66, SWP_NOMOVE | SWP_NOZORDER);
+	cwnd->SetWindowPos(cwnd, 0, 45, 60, rect->bottom - 66, SWP_NOMOVE | SWP_NOZORDER);
 }

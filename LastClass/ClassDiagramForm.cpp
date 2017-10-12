@@ -605,6 +605,11 @@ Long ClassDiagramForm::Save() {
 		}
 		fTest.close();
 	}
+	if (this->historyGraphic->undoGraphicArray->GetLength() != 0) {
+		this->historyGraphic->undoGraphicArray->Clear();
+		this->historyGraphic->redoGraphicArray->Clear();
+	}
+
 	return this->diagram->GetLength();
 }
 
@@ -746,6 +751,7 @@ void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 }
 void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
 	CWnd::OnSize(nType, cx, cy);
+	CPaintDC dc(this);
 
 	CRect rect;
 	this->GetClientRect(&rect);
@@ -828,11 +834,7 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 				this->zoomRate = 200;
 			}
 		}
-		CRect tempRect;
-		GetClientRect(&tempRect);
-		tempRect.left = tempRect.right - 100;
-		tempRect.top = tempRect.bottom - 10;
-		this->InvalidateRect(tempRect);
+		this->lastClass->statusBar->DestroyStatus();
 		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		ret = true;
 	}

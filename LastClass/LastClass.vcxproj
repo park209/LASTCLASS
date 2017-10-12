@@ -41,10 +41,17 @@
     <ClInclude Include="CompositionMenuAction.h" />
     <ClInclude Include="Compositions.h" />
     <ClInclude Include="CompositionsMenuAction.h" />
-    <ClInclude Include="DeleteKeyMenuAction.h" />
+    <ClInclude Include="CtrlNewKey.h" />
+    <ClInclude Include="CtrlOpenKey.h" />
+    <ClInclude Include="CtrlPreviewKey.h" />
+    <ClInclude Include="CtrlPrintKey.h" />
+    <ClInclude Include="CtrlSaveKey.h" />
+    <ClInclude Include="DeleteGraphicKeyMenuAction.h" />
+    <ClInclude Include="F1HelpKey.h" />
     <ClInclude Include="FilePrintMenuAction.h" />
     <ClInclude Include="GraphicCtrlCopyMenuAction.h" />
     <ClInclude Include="GraphicCtrlCutMenuAction.h" />
+    <ClInclude Include="GraphicCtrlDeleteKey.h" />
     <ClInclude Include="GraphicCtrlPasteMenuAction.h" />
     <ClInclude Include="GraphicCtrlRedoMenuAction.h" />
     <ClInclude Include="GraphicCtrlUndoMenuAction.h" />
@@ -233,10 +240,17 @@
     <ClCompile Include="CompositionMenuAction.cpp" />
     <ClCompile Include="Compositions.cpp" />
     <ClCompile Include="CompositionsMenuAction.cpp" />
-    <ClCompile Include="DeleteKeyMenuAction.cpp" />
+    <ClCompile Include="CtrlNewKey.cpp" />
+    <ClCompile Include="CtrlOpenKey.cpp" />
+    <ClCompile Include="CtrlPreviewKey.cpp" />
+    <ClCompile Include="CtrlPrintKey.cpp" />
+    <ClCompile Include="CtrlSaveKey.cpp" />
+    <ClCompile Include="DeleteGraphicKeyMenuAction.cpp" />
+    <ClCompile Include="F1HelpKey.cpp" />
     <ClCompile Include="FilePrintMenuAction.cpp" />
     <ClCompile Include="GraphicCtrlCopyMenuAction.cpp" />
     <ClCompile Include="GraphicCtrlCutMenuAction.cpp" />
+    <ClCompile Include="GraphicCtrlDeleteKey.cpp" />
     <ClCompile Include="GraphicCtrlPasteMenuAction.cpp" />
     <ClCompile Include="PrintPreviewButton.cpp" />
     <ClCompile Include="PrintPreviewButtonAction.cpp" />
@@ -399,6 +413,9 @@
     <ClCompile Include="WriteKoreanText.cpp" />
     <ClCompile Include="WriteKoreanTextProcess.cpp" />
     <ClCompile Include="WritingVisitor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LastClass.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

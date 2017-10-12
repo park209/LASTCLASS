@@ -15,9 +15,13 @@ private:
 	afx_msg void OnClose();
 	afx_msg void OnNextButton();
 	afx_msg void OnpreviousButton();
+	afx_msg void OnOkButton();
 	DECLARE_MESSAGE_MAP()
 private:
 	CButton *nextButton;
 	CButton *previousButton;
+	CButton *okButton;
+	Long page;
+	Long menualCount;
 };
 #endif // !_SUPPORTMENU_H

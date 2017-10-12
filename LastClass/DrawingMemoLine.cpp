@@ -27,10 +27,8 @@ void DrawingMemoLine::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 
 	if (selection->GetLength() == 1 && dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
 
-
 		selection->SelectByPoint(diagram, currentX, currentY);
 		if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && (dynamic_cast<MemoBox*>(selection->GetAt(0)) || dynamic_cast<MemoBox*>(selection->GetAt(1)))) {
-
 
 			CPoint lineStart(startX, startY);
 			CPoint lineEnd(currentX, currentY);
@@ -53,9 +51,11 @@ void DrawingMemoLine::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
 		}
 	}
+
 	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
 }
+
 void DrawingMemoLine::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	selection->DeleteAllItems();
 	selection->SelectByPoint(diagram, currentX, currentY);

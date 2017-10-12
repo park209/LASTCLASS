@@ -47,7 +47,6 @@ HWND StatusBar::MakeStatusBar(LastClass *lastClass, HWND hwndParent, int idStatu
 		NULL);                   // no window creation data
 
 								 // Get the coordinates of the parent window's client area.
-	this->hStatus = hwndStatus;
 	lastClass->GetClientRect(&rcClient);
 
 	// Allocate an array for holding the right edge coordinates.
@@ -97,12 +96,13 @@ HWND StatusBar::MakeStatusBar(LastClass *lastClass, HWND hwndParent, int idStatu
 	LocalUnlock(hloc);
 	LocalFree(hloc);
 
-	CRect rect;
-	lastClass->GetClientRect(&rect);
-	rect.top = rect.bottom - 30;
-	rect.left += 50;
-	lastClass->InvalidateRect(rect);
-	//lastClass->Invalidate();
+	CRect rect1;
+	lastClass->GetClientRect(&rect1);
+	rect1.top = rect1.bottom - 20;
+	rect1.left += 250;
+	lastClass->InvalidateRect(rect1);
+
+	this->hStatus = hwndStatus;
 
 	return hwndStatus;
 }
