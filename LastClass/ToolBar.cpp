@@ -221,3 +221,8 @@ void ToolBar::ChangeAnotherToolBarSize(RECT *rect) {
 	CWnd *cwnd = CWnd::FromHandle(this->hTool2);
 	cwnd->SetWindowPos(cwnd, 0, 45, 60, rect->bottom - 66, SWP_NOMOVE | SWP_NOZORDER);
 }
+
+void ToolBar::DestroyToolBar() {
+	DestroyWindow(this->hTool1);
+	this->hTool1 = 0;
+}

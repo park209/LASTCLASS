@@ -7,6 +7,8 @@
 #include "ClassDiagramForm.h"
 #include "HistoryGraphic.h"
 #include "Selection.h"
+#include "LastClass.h"
+#include "StatusBar.h"
 
 DrawingMemoBox* DrawingMemoBox::instance = 0;
 
@@ -31,6 +33,10 @@ void DrawingMemoBox::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 	}
 
 	index = diagram->AddMemoBox(rect.left, rect.top, rect.Width(), rect.Height());
+
+	classDiagramForm->lastClass->statusBar->DestroyStatus();
+	classDiagramForm->lastClass->statusBar->MakeStatusBar(classDiagramForm->lastClass, classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
+
 	this->ChangeDefault(mouseLButton);
 }
 void DrawingMemoBox::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {

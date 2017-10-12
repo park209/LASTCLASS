@@ -1040,8 +1040,6 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 
 		KillTimer(1);
 
-		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
-
 		ReleaseCapture();
 		Invalidate(false);
 	}

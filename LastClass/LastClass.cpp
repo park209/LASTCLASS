@@ -87,7 +87,7 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 	CFrameWnd::OnSize(nType, cx, cy);
 	CRect rect;
 	this->GetClientRect(&rect);
-
+	this->toolBar->DestroyToolBar();
 	this->toolBar->MakeToolBar(this->GetSafeHwnd());
 	//this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
 	this->statusBar->DestroyStatus();
