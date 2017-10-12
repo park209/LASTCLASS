@@ -30,12 +30,12 @@ void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiag
 
 	Long quadrant;
 	Long quadrant2;
-	//if (selection->GetLength() == 1 && dynamic_cast<Class*>(selection->GetAt(0))) {
 
 	classDiagramForm->historyGraphic->PushUndo(diagram);
 	selection->SelectByPoint(diagram, currentX, currentY);
 
-	if (selection->GetLength() == 2 && selection->GetAt(0) != selection->GetAt(1) && dynamic_cast<Class*>(selection->GetAt(1))) {
+	if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && dynamic_cast<Class*>(selection->GetAt(1))
+		&& selection->GetAt(0) != selection->GetAt(1)) {
 		Class * classObject = dynamic_cast<Class*>(selection->GetAt(0));
 		Class * classObject2 = dynamic_cast<Class*>(selection->GetAt(1));
 		CPoint lineStart(startX, startY);
@@ -59,37 +59,24 @@ void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiag
 
 		quadrant2 = finder.FindQuadrant(cross2.x, cross2.y, classObject2->GetX(), classObject2->GetY(),
 			classObject2->GetX() + classObject2->GetWidth(), classObject2->GetY() + classObject2->GetHeight());
-		if (classObject->GetTempletePosition() != -1) {
-			if (quadrant == 1 && cross1.x >= classObject->GetAt(classObject->GetTempletePosition())->GetX() - 10) {
-				Generalization object(classObject->GetAt(classObject->GetTempletePosition())->GetX() - 10, cross1.y,
-					cross2.x - (classObject->GetAt(classObject->GetTempletePosition())->GetX() - 10), cross2.y - cross1.y);
-				index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
-				figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
-			}
-			else if (quadrant2 == 1 && cross2.x >= classObject2->GetAt(classObject2->GetTempletePosition())->GetX() - 10) {
-				Generalization object(cross1.x, cross1.y,
-					classObject2->GetAt(classObject2->GetTempletePosition())->GetX() - 10 - cross1.x, cross2.y - cross1.y);
-				index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
-				figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
-			}
-			else {
-				Generalization object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
-				index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
-				figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
-			}
+
+		if (classObject->GetTempletePosition() != -1 && quadrant == 1
+			&& cross1.x >= classObject->GetAt(classObject->GetTempletePosition())->GetX() - 10) {
+			cross1.x = classObject->GetAt(classObject->GetTempletePosition())->GetX() - 10;
 		}
-		else {
+
+		if (classObject2->GetTempletePosition() != -1 && quadrant2 == 1
+			&& cross2.x >= classObject2->GetAt(classObject2->GetTempletePosition())->GetX() - 10) {
+			cross2.x = classObject2->GetAt(classObject2->GetTempletePosition())->GetX() - 10;
+		}
 
 		Generalization object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 		index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
-	
-		}
 	}
 
-	if (selection->GetLength() == 2 && selection->GetAt(0) == selection->GetAt(1)) {
+	else if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
-
 		SelfGeneralization selfGeneralization(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
 		if (object->GetTempletePosition() != -1) {
 			selfGeneralization.Move(0, -17);
@@ -104,9 +91,11 @@ void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiag
 		index = object->Add(selfGeneralization.Clone());
 		figure = object->GetAt(index);
 	}
+
 	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
 }
+
 void DrawingGeneralization::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	selection->DeleteAllItems();
 	selection->SelectByPoint(diagram, currentX, currentY);
