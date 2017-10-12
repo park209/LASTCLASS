@@ -392,9 +392,6 @@
     <ClInclude Include="AddTemplateKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="DeleteGraphicKey.h">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="AddReceptionKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
@@ -600,9 +597,6 @@
     <ClInclude Include="GraphicCtrlPasteMenuAction.h">
       <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="DeleteKeyMenuAction.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicCtrlCopyMenuAction.h">
       <Filter>Menu</Filter>
     </ClInclude>
@@ -610,6 +604,16 @@
       <Filter>Menu</Filter>
     </ClInclude>
     <ClInclude Include="CtrlSaveKey.h" />
+    <ClInclude Include="CtrlNewKey.h" />
+    <ClInclude Include="CtrlOpenKey.h" />
+    <ClInclude Include="CtrlPrintKey.h" />
+    <ClInclude Include="F1HelpKey.h" />
+    <ClInclude Include="GraphicCtrlDeleteKey.h" />
+    <ClInclude Include="DeleteGraphicKey.h" />
+    <ClInclude Include="DeleteGraphicKeyMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlPreviewKey.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -945,9 +949,6 @@
     <ClCompile Include="AddTemplateKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="DeleteGraphicKey.cpp">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClCompile>
     <ClCompile Include="AddReceptionKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
@@ -1153,9 +1154,6 @@
     <ClCompile Include="ToolBar.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
-    <ClCompile Include="DeleteKeyMenuAction.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicCtrlCopyMenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
@@ -1165,8 +1163,16 @@
     <ClCompile Include="GraphicCtrlPasteMenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
-    <ClCompile Include="CtrlSaveKey.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="CtrlSaveKey.cpp" />
+    <ClCompile Include="GraphicCtrlDeleteKey.cpp" />
+    <ClCompile Include="DeleteGraphicKey.cpp" />
+    <ClCompile Include="DeleteGraphicKeyMenuAction.cpp">
+      <Filter>Menu</Filter>
     </ClCompile>
+    <ClCompile Include="CtrlNewKey.cpp" />
+    <ClCompile Include="CtrlOpenKey.cpp" />
+    <ClCompile Include="CtrlPreviewKey.cpp" />
+    <ClCompile Include="CtrlPrintKey.cpp" />
+    <ClCompile Include="F1HelpKey.cpp" />
   </ItemGroup>
 </Project>
