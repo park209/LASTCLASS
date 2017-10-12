@@ -658,6 +658,8 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	//this->Load();
 	//1.3. 윈도우를 갱신한다
 	//Invalidate();
+
+
 	return 0;
 }
 
@@ -698,16 +700,13 @@ void ClassDiagramForm::OnPaint() {
 	int vertCurPos = GetScrollPos(SB_VERT);
 	int horzCurPos = GetScrollPos(SB_HORZ);
 
-	CString a;
-	a.Format("%d %d", horzCurPos, vertCurPos);
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////// 좌표 안맞출거면 밑에 3줄 주석해야함
 	dc.SetMapMode(MM_ISOTROPIC);
 	dc.SetWindowExt(100, 100);
 	dc.SetViewportExt(this->zoomRate, this->zoomRate);
 
-	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, horzCurPos, vertCurPos, SRCCOPY);
-	dc.TextOut(10, 10, a);
+	dc.BitBlt(0, 0, rect.right * 100 / this->zoomRate, rect.bottom * 100 / this->zoomRate, &memDC, horzCurPos, vertCurPos, SRCCOPY);
 }
 
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -1083,18 +1082,35 @@ void ClassDiagramForm::OnClose() {
 	//6.2. 다이어그램을 지운다.
 		if (this->diagram != NULL) {
 			delete this->diagram;
+			this->diagram = NULL;
 		}
 		if (this->selection != NULL) {
 			delete this->selection;
+			this-> selection = NULL;
 		}
 		if (this->mouseLButton != NULL) {
 			delete this->mouseLButton;
+			this->mouseLButton = NULL;
 		}
 		if (this->keyBoard != NULL) {
 			delete this->keyBoard;
+			this->keyBoard = NULL;
 		}
 		if (this->historyGraphic != NULL) {
 			delete this->historyGraphic;
+			this->historyGraphic = NULL;
+		}
+		if (this->textEdit != NULL) {
+			delete this->textEdit;
+			this->textEdit = NULL;
+		}
+		if (this->scroll != NULL) {
+			delete this->scroll;
+			this->scroll = NULL;
+		}
+		if (this->copyBuffer != NULL) {
+			delete this->copyBuffer;
+			this->copyBuffer = NULL;
 		}
 		CWnd::OnClose();
 }

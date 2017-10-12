@@ -13,11 +13,13 @@ DeleteGraphicKeyMenuAction::~DeleteGraphicKeyMenuAction() {
 }
 
 void DeleteGraphicKeyMenuAction::MenuPress(LastClass *lastClass) {
-	DeleteGraphicKey *ctrlUndo = new DeleteGraphicKey;
-	CClientDC dc(lastClass->classDiagramForm);
-	ctrlUndo->KeyPress(lastClass->classDiagramForm, &dc);
-	lastClass->classDiagramForm->Invalidate(false);
-	if (ctrlUndo != 0) {
-		delete ctrlUndo;
+	if (lastClass->classDiagramForm->textEdit == 0) {
+		DeleteGraphicKey *ctrlUndo = new DeleteGraphicKey;
+		CClientDC dc(lastClass->classDiagramForm);
+		ctrlUndo->KeyPress(lastClass->classDiagramForm, &dc);
+		lastClass->classDiagramForm->Invalidate(false);
+		if (ctrlUndo != 0) {
+			delete ctrlUndo;
+		}
 	}
 }

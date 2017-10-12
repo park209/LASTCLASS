@@ -7,5 +7,7 @@ DirectedAssociationMenuAction::DirectedAssociationMenuAction() {
 DirectedAssociationMenuAction::~DirectedAssociationMenuAction() {
 }
 void DirectedAssociationMenuAction::MenuPress(LastClass* lastClass) {
-	lastClass->classDiagramForm->mouseLButton->ChangeDrawingDirectedAssociationState();
+	if (lastClass->classDiagramForm->textEdit == 0) {
+		lastClass->classDiagramForm->mouseLButton->ChangeDrawingDirectedAssociationState();
+	}
 }

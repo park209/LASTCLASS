@@ -15,12 +15,13 @@ FilePrintMenuAction::~FilePrintMenuAction() {
 void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 	lastClass->classDiagramForm->selection->DeleteAllItems();
 	
-
-
-	CPrintDialog printDialog(FALSE, PD_ALLPAGES | PD_RETURNDC , lastClass);
-
-	INT_PTR int_ptr = printDialog.DoModal();
 	
+	CPrintDialog *printDialog = new CPrintDialog(FALSE, PD_ALLPAGES | PD_RETURNDC);
+	//CPrintDialog printDialog( FALSE, PD_ALLPAGES | PD_RETURNDC, lastClass);
+	//CPrintDialogEx *printDialog  = new CPrintDialogEx();
+
+	//INT_PTR int_ptr = printDialog->DoModal();
+	INT_PTR int_ptr = AfxGetApp()->DoPrintDialog(printDialog);
 	if (int_ptr == IDOK) {
 		Finder finder;
 		bool ret = false;
@@ -51,8 +52,17 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 			}
 			i++;
 		}
-		int count = printDialog.GetCopies();
+		int count = printDialog->GetCopies();
+		CPaintDC dc(lastClass);
 		CDC cdc;
+		CDC memDC;
+		CDC memDCOne;
+		CBitmap *pOldBitmap = NULL;
+		CBitmap bitmap;
+		CBitmap *pOldBitmapOne = NULL;
+		CBitmap bitmapOne;
+		CFont cFont;
+		CFont *oldFont=NULL;
 		i = 1;
 		CString strTitle;
 		DOCINFO di;
@@ -64,7 +74,9 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 		else {
 			Info.SetMaxPage(1);
 		}
-		cdc.Attach(printDialog.GetPrinterDC());
+		HDC hdc = printDialog->GetPrinterDC();
+		//cdc.Attach(printDialog.GetPrinterDC());
+		cdc.Attach(hdc);
 		lastClass->printPreview = new PrintPreview(lastClass);
 		while (i <= count) {
 			cdc.m_bPrinting = TRUE;
@@ -86,29 +98,28 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 				Info.m_nCurPage = page;
 				//lastClass->printPreview->OnPrint(&dc, &Info, page);
 
-				Long i[10] = { 0,2000,800,800,1600,1600,2400,2400,3200,3200 };
-				Long j[10] = { 0,0,0,1000,0,1000,0,1000,0,1000 };
+				Long i[2] = { 0,2000};
 				Long k = page - 1;
 
 				Long width = Info.m_rectDraw.Width();
 				Long hegiht = Info.m_rectDraw.Height();
-				CDC memDC;
+
 				CRect rect;
 				lastClass->classDiagramForm->GetClientRect(&rect);
-				CBitmap *pOldBitmap;
-				CBitmap bitmap;
+				//CBitmap *pOldBitmap;
+				//CBitmap bitmap;
 
-				CPaintDC dc(lastClass);
+				//CPaintDC dc(lastClass);
 
 				memDC.CreateCompatibleDC(&dc);
 				bitmap.CreateCompatibleBitmap(&dc, 4000, 2000);
 				pOldBitmap = memDC.SelectObject(&bitmap);
 				memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
-				CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
+				cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 				cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 					OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
 				lastClass->SetFont(&cFont, TRUE);
-				CFont *oldFont = memDC.SelectObject(&cFont);
+				oldFont = memDC.SelectObject(&cFont);
 
 				DrawingVisitor drawingVisitor;
 				lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &memDC);
@@ -116,14 +127,14 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 				lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 
 
-				CBitmap *pOldBitmapOne;
-				CBitmap bitmapOne;
-				CDC memDCOne;
+				//CBitmap *pOldBitmapOne;
+				//CBitmap bitmapOne;
+		
 				memDCOne.CreateCompatibleDC(&dc);
 				bitmapOne.CreateCompatibleBitmap(&dc, 2000, 2000);
 				pOldBitmapOne = memDCOne.SelectObject(&bitmapOne);
 				memDCOne.FillSolidRect(CRect(0, 0, 2000, 2000), RGB(255, 255, 255));
-				memDCOne.BitBlt(0, 0, 2000, 2000, &memDC, i[k], j[k], SRCCOPY);
+				memDCOne.BitBlt(0, 0, 2000, 2000, &memDC, i[k], 0, SRCCOPY);
 
 				int mapMode = cdc.GetMapMode();
 				memDCOne.SetMapMode(mapMode);
@@ -139,16 +150,29 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 		lastClass->printPreview->OnEndPrinting(&cdc, &Info);
 		if (bPrintingOK) cdc.EndDoc();
 		else cdc.AbortDoc();
-
-		//dc.DeleteDC();
-		cdc.Detach();
 		
+		memDC.SelectObject(pOldBitmap);
+		memDC.SelectObject(oldFont);
+		memDCOne.SelectObject(pOldBitmapOne);
+		bitmap.DeleteObject();
+		bitmapOne.DeleteObject();
+		cFont.DeleteObject();
+		cdc.Detach();
+		cdc.DeleteDC();
+		
+		memDC.Detach();
+		memDC.DeleteDC();
+		memDCOne.Detach();
+		memDCOne.DeleteDC();
+		//dc.Detach();
+		//dc.DeleteDC();
 	}
-	//printDialog.EndDialog(0);
+	
+	delete printDialog;
+
 	if (lastClass->printPreview != NULL) {
 		delete lastClass->printPreview;
 		lastClass->printPreview = NULL;
 	}
-	
 
 }

@@ -126,7 +126,7 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
 		}
 		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-			this->keyAction = new CtrlSaveKey;
+			//this->keyAction = new CtrlSaveKey;
 		}
 		break;
 		//////////////////////////////////////////////////////////////////////////////
@@ -161,7 +161,7 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 			this->keyAction = new CtrlOpenKey;
 		}
 		break;
-		///////////////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////////////////////////////////
 	case  VK_OEM_PLUS:
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new PlusKey;
