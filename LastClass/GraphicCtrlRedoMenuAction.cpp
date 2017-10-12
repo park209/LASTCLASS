@@ -13,11 +13,13 @@ GraphicCtrlRedoMenuAction::~GraphicCtrlRedoMenuAction() {
 }
 
 void GraphicCtrlRedoMenuAction::MenuPress(LastClass *lastClass) {
-	GraphicCtrlRedoKey *ctrlRedo = new GraphicCtrlRedoKey;
-	CClientDC dc(lastClass->classDiagramForm);
-	ctrlRedo->KeyPress(lastClass->classDiagramForm,&dc);
-	lastClass->classDiagramForm->Invalidate(false);
-	if (ctrlRedo != 0) {
-		delete ctrlRedo;
+	if (lastClass->classDiagramForm->textEdit == 0) {
+		GraphicCtrlRedoKey *ctrlRedo = new GraphicCtrlRedoKey;
+		CClientDC dc(lastClass->classDiagramForm);
+		ctrlRedo->KeyPress(lastClass->classDiagramForm, &dc);
+		lastClass->classDiagramForm->Invalidate(false);
+		if (ctrlRedo != 0) {
+			delete ctrlRedo;
+		}
 	}
 }

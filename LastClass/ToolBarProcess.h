@@ -24,6 +24,7 @@ public:
 	void OnPrintFileClicked(LastClass *lastClass);
 	void OnPrintPreFileClicked(LastClass *lastClass);
 	void OnSupportFileClicked(LastClass *lastClass);
+	void OnAboutFileClicked(LastClass *lastClass);
 };
 
 #endif // _ToolBar_H

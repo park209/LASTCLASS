@@ -7,5 +7,7 @@ CompositionMenuAction::CompositionMenuAction() {
 CompositionMenuAction::~CompositionMenuAction() {
 }
 void CompositionMenuAction::MenuPress(LastClass* lastClass) {
-	lastClass->classDiagramForm->mouseLButton->ChangeDrawingCompositionState();
+	if (lastClass->classDiagramForm->textEdit == 0) {
+		lastClass->classDiagramForm->mouseLButton->ChangeDrawingCompositionState();
+	}
 }

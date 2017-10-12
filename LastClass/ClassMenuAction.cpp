@@ -8,7 +8,7 @@ ClassMenuAction::ClassMenuAction() {
 ClassMenuAction::~ClassMenuAction() {
 }
 void ClassMenuAction::MenuPress(LastClass* lastClass) {
-
-	lastClass->classDiagramForm->mouseLButton->ChangeDrawingClassState();
-
+	if (lastClass->classDiagramForm->textEdit == 0) {
+		lastClass->classDiagramForm->mouseLButton->ChangeDrawingClassState();
+	}
 }
