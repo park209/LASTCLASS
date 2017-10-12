@@ -202,7 +202,7 @@ void ToolBar::ButtonSelected(UINT parm_control_id, LastClass *lastClass, ClassDi
 		break;
 	case 40010:toolBarProcess.OnPasteFileClicked(lastClass);
 		break;
-	case 40011:
+	case 40011:toolBarProcess.OnPrintFileClicked(lastClass);
 		break;		
 	case 40012:toolBarProcess.OnPrintPreFileClicked(lastClass);
 		break;

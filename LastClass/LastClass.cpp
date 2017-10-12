@@ -90,7 +90,7 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 		this->one = 1;
 	}
 	this->toolBar->ChangeToolBarSize(&rect);
-	this->toolBar->ChangeAnotherToolBarSize(&rect);
+	//this->toolBar->ChangeAnotherToolBarSize(&rect);
 	this->statusBar->ChangeStatusBarSize(&rect);
 	rect.top += 45;
 	//rect.left += 60;

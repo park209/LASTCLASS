@@ -111,3 +111,8 @@ void StatusBar::ChangeStatusBarSize(RECT *rect) {
 	CWnd *cwnd = CWnd::FromHandle(this->hStatus);
 	cwnd->SetWindowPos(cwnd, 0, rect->bottom-21, rect->right, rect->bottom, SWP_NOMOVE | SWP_NOZORDER);
 }
+
+void StatusBar::DestroyStatus() {
+	DestroyWindow(this->hStatus);
+	this->hStatus = 0;
+}
