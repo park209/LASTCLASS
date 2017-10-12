@@ -6,6 +6,8 @@
 #include "Selection.h"
 #include "Class.h"
 #include "TextEdit.h"
+#include "Relation.h"
+#include "Diagram.h"
 
 DeleteGraphicKey::DeleteGraphicKey() {
 }
@@ -17,14 +19,41 @@ DeleteGraphicKey::~DeleteGraphicKey() {
 }
 
 void DeleteGraphicKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
-	//Long i = 0;
-	//Long j;
-	//while (i < classDiagramForm->selection->GetLength()) {
-	//	if (dynamic_cast<FigureComposite*>(classDiagramForm->selection->GetAt(i))) {
-	//		j = 0;
-	//		while()
-	//	}
-	//}
+	Long i = 0;
+	Long j;
+	Long k;
+	FigureComposite *selectedComposite;
+	FigureComposite *composite;
+	Figure *relation;
+	Long relationEndX;
+	Long relationEndY;
+	while (i < classDiagramForm->selection->GetLength()) {
+		if (dynamic_cast<FigureComposite*>(classDiagramForm->selection->GetAt(i))) {
+			selectedComposite = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(i));
+			j = 0;
+			while (j < classDiagramForm->diagram->GetLength()) {
+				composite = static_cast<FigureComposite*>(classDiagramForm->diagram->GetAt(j));
+				k = 0;
+				while (k < composite->GetLength()) {
+					if (dynamic_cast<Relation*>(composite->GetAt(k))) {
+						relation = composite->GetAt(k);
+						relationEndX = relation->GetX() + relation->GetWidth();
+						relationEndY = relation->GetY() + relation->GetHeight();
+						if (selectedComposite->GetX() <= relationEndX
+							&& relationEndX <= selectedComposite->GetX() + selectedComposite->GetWidth()
+							&& selectedComposite->GetY() <= relationEndY
+							&& relationEndY <= selectedComposite->GetY() + selectedComposite->GetHeight()) {
+							classDiagramForm->selection->Add(relation);
+						}
+					}
+					k++;
+				}
+				j++;
+			}
+		}
+		i++;
+	}
+
 	if (classDiagramForm->selection->GetLength() > 0) {
 		classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram);
 		while (classDiagramForm->selection->GetLength() != 0) {
