@@ -13,11 +13,11 @@ GraphicCtrlCutMenuAction::~GraphicCtrlCutMenuAction() {
 }
 
 void GraphicCtrlCutMenuAction::MenuPress(LastClass *lastClass) {
-	GraphicCtrlCutKey *ctrlUndo = new GraphicCtrlCutKey;
+	GraphicCtrlCutKey *ctrlCut = new GraphicCtrlCutKey;
 	CClientDC dc(lastClass->classDiagramForm);
-	ctrlUndo->KeyPress(lastClass->classDiagramForm, &dc);
+	ctrlCut->KeyPress(lastClass->classDiagramForm, &dc);
 	lastClass->classDiagramForm->Invalidate(false);
-	if (ctrlUndo != 0) {
-		delete ctrlUndo;
+	if (ctrlCut != 0) {
+		delete ctrlCut;
 	}
 }

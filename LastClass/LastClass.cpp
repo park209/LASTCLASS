@@ -47,8 +47,8 @@ int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->statusBar = new StatusBar;
 	this->toolBar = new ToolBar;
 	rect.top += 45;
-	rect.left += 60;
-	rect.right -= 60;
+	//rect.left += 60;
+	//rect.right -= 60;
 	rect.bottom -= 66;
 	this->classDiagramForm = new ClassDiagramForm(this);
 	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
@@ -90,16 +90,16 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 		this->one = 1;
 	}
 	this->toolBar->ChangeToolBarSize(&rect);
-	//this->toolBar->ChangeAnotherToolBarSize(&rect);
+	this->toolBar->ChangeAnotherToolBarSize(&rect);
 	this->statusBar->ChangeStatusBarSize(&rect);
 	rect.top += 45;
-	rect.left += 60;
-	rect.right -= 60;
+	//rect.left += 60;
+	//rect.right -= 60;
 	rect.bottom -= 66;
 	//this->classDiagramForm->MoveWindow(rect.left, rect.top, rect.right, rect.bottom, 1);
 	this->classDiagramForm->SetWindowPos(this, rect.left,rect.top,rect.right,rect.bottom, SWP_NOMOVE | SWP_NOZORDER );
 	this->RedrawWindow();
-	this->classDiagramForm->Invalidate(false);
+	this->classDiagramForm->Invalidate(FALSE);
 	//ModifyStyle(WS_CLIPCHILDREN, 0);
 }
 

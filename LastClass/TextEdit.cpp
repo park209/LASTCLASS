@@ -66,7 +66,6 @@ TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Figure *figure, Long roll
 	this->criteriaWidth = figure->GetWidth();
 	this->criteriaHeight = figure->GetHeight();
 	this->criteriaX = figure->GetX();
-	this->numLockFlag = 0;
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -88,6 +87,12 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	}
 	else if (dynamic_cast<SelfRelation*>(this->figure)) {
 		this->text->SprayString(static_cast<SelfRelation*>(this->figure)->rollNames->GetAt(this->rollNameBoxIndex));
+	}
+	if ((GetKeyState(VK_NUMLOCK) & 0x0001) != 0) {
+		this->numLockFlag = 0;
+	}
+	else {
+		this->numLockFlag = 1;
 	}
 
 	Invalidate(false);
@@ -124,7 +129,7 @@ void TextEdit::OnPaint() {
 		}
 	}
 	else if (dynamic_cast<Relation*>(this->figure)) {
-		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		cFont.CreateFont(10, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
@@ -136,7 +141,7 @@ void TextEdit::OnPaint() {
 		}
 	}
 	else if (dynamic_cast<SelfRelation*>(this->figure)) {
-		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		cFont.CreateFont(10, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
@@ -352,11 +357,11 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	}
 	this->koreanEnglish = 0;
 	if (nChar == VK_NUMLOCK) {
-		if (this->numLockFlag == 0) {
-			this->numLockFlag = 1;
-		}
-		else if (this->numLockFlag == 1) {
+		if ((GetKeyState(VK_NUMLOCK) & 0x0001) != 0) {
 			this->numLockFlag = 0;
+		}
+		else {
+			this->numLockFlag = 1;
 		}
 		this->classDiagramForm->lastClass->statusBar->MakeStatusBar(this->classDiagramForm->lastClass, this->classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
 	}

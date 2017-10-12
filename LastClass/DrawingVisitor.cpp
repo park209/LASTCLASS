@@ -1104,16 +1104,16 @@ void DrawingVisitor::Visit(SelfAggregation *selfAggregation, CDC *pDC) {
 void DrawingVisitor::Visit(SelfAssociation *selfAssociation, CDC *pDC) {
 
 	pDC->MoveTo(selfAssociation->GetX(), selfAssociation->GetY());
-	pDC->LineTo(selfAssociation->GetX(), selfAssociation->GetY() - 30);
+	pDC->LineTo(selfAssociation->GetX(), selfAssociation->GetY() - 40);
 
-	pDC->MoveTo(selfAssociation->GetX(), selfAssociation->GetY() - 30);
-	pDC->LineTo(selfAssociation->GetX() + 60, selfAssociation->GetY() - 30);
+	pDC->MoveTo(selfAssociation->GetX(), selfAssociation->GetY() - 40);
+	pDC->LineTo(selfAssociation->GetX() + 80, selfAssociation->GetY() - 40);
 
-	pDC->MoveTo(selfAssociation->GetX() + 60, selfAssociation->GetY() - 30);
-	pDC->LineTo(selfAssociation->GetX() + 60, selfAssociation->GetY() + 30);
+	pDC->MoveTo(selfAssociation->GetX() + 80, selfAssociation->GetY() - 40);
+	pDC->LineTo(selfAssociation->GetX() + 80, selfAssociation->GetY() + 40);
 
-	pDC->MoveTo(selfAssociation->GetX() + 60, selfAssociation->GetY() + 30);
-	pDC->LineTo(selfAssociation->GetX() + 30, selfAssociation->GetY() + 30);
+	pDC->MoveTo(selfAssociation->GetX() + 80, selfAssociation->GetY() + 40);
+	pDC->LineTo(selfAssociation->GetX() + 30, selfAssociation->GetY() + 40);
 }
 
 void DrawingVisitor::Visit(SelfAggregations *selfAggregations, CDC *pDC) {

@@ -26,10 +26,18 @@ HWND StatusBar::MakeStatusBar(LastClass *lastClass, HWND hwndParent, int idStatu
 	InitCommonControls();
 
 	// Create the status bar.
+	Long tempZoomRate1 = lastClass->classDiagramForm->zoomRate;
+	CString mainString;
+	if (tempZoomRate1 == 100) {
+		mainString = " Draw ClassDiagram!!!  Version 2.27     Learn more about Software in ParkCom 02)587-9424               Ready";
+	}
+	else {
+		mainString = " Draw ClassDiagram!!!  Version 2.27     Learn more about Software in ParkCom 02)587-9424";
+	}
 	hwndStatus = CreateWindowEx(
 		WS_EX_APPWINDOW  | WS_EX_WINDOWEDGE | CCS_NORESIZE,   // no extended styles
 		STATUSCLASSNAME,         // name of status bar class
-		(PCTSTR)" Draw ClassDiagram!!!  Version 2.27     Learn more about SoftWare in ParkCom 02)587-9424",           // no text when first created
+		(LPCTSTR)mainString,           // no text when first created
 		//SBARS_SIZEGRIP |         // includes a sizing grip
 		WS_CHILD | WS_VISIBLE,   // creates a visible child window
 		0, 614, 1361, 635,              // ignores size and position
@@ -73,11 +81,11 @@ HWND StatusBar::MakeStatusBar(LastClass *lastClass, HWND hwndParent, int idStatu
 	}
 	int a;
 	//확대 축소 기능 form 에 넣을거면 주석 풀면됨
-	//Long tempZoomRate = lastClass->classDiagramForm->zoomRate;
-	//a = tempZoomRate;
-	//CString tempString;
-	//tempString.Format(" ZoomRate : %d ", tempZoomRate);
-	//SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)3, (LPARAM)(LPCTSTR)tempString);
+	Long tempZoomRate2 = lastClass->classDiagramForm->zoomRate;
+	a = tempZoomRate2;
+	CString tempString;
+	tempString.Format(" ZoomRate : %d ", tempZoomRate2);
+	SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)3, (LPARAM)(LPCTSTR)tempString);
 
 	Long tempLength = lastClass->classDiagramForm->diagram->GetLength();
 	a = tempLength;

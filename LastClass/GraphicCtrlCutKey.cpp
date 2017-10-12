@@ -2,6 +2,7 @@
 
 #include "GraphicCtrlCutKey.h"
 #include "ClassDiagramForm.h"
+#include "HistoryGraphic.h"
 #include "Selection.h"
 #include "Class.h"
 #include "TextEdit.h"
@@ -40,6 +41,7 @@ GraphicCtrlCutKey::~GraphicCtrlCutKey() {
 }
 
 void GraphicCtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
+	classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram);
 	if (classDiagramForm->copyBuffer != 0) {
 		delete classDiagramForm->copyBuffer;
 	}

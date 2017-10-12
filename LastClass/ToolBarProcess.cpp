@@ -30,6 +30,7 @@
 #include "GraphicCtrlCopyMenuAction.h"
 #include "GraphicCtrlPasteMenuAction.h"
 #include "DeleteKeyMenuAction.h"
+#include "FilePrintMenuAction.h"
 
 ToolBarProcess::ToolBarProcess() {
 }
@@ -74,8 +75,8 @@ void ToolBarProcess::OnFinishFileClicked(LastClass *lastClass) {
 	deleteGraphicKeyMenuAction.MenuPress(lastClass);
 }
 void ToolBarProcess::OnPrintFileClicked(LastClass *lastClass) {
-	//SupportMenuAction supportMenuAction;
-	//supportMenuAction.MenuPress(lastClass);
+	FilePrintMenuAction filePrintMenuAction;
+	filePrintMenuAction.MenuPress(lastClass);
 }
 void ToolBarProcess::OnPrintPreFileClicked(LastClass *lastClass) {
 	FilePrintPreviewMenuAction filePrintPreviewMenuAction;

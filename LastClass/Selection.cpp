@@ -757,13 +757,19 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 						rect.top = relation->rollNamePoints->GetAt(l).y - 10;
 						rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
 					}
-					else {
+					else if(l == 0|| l == 2){
 						rect.left = relation->rollNamePoints->GetAt(l).x - 20;
 						rect.right = relation->rollNamePoints->GetAt(l).x + 20;
 						rect.top = relation->rollNamePoints->GetAt(l).y - 10;
 						rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
 					}
-
+					else if (l == 3||l==4) {
+						rect.left = relation->rollNamePoints->GetAt(l).x - 25;
+						rect.right = relation->rollNamePoints->GetAt(l).x + 25;
+						rect.top = relation->rollNamePoints->GetAt(l).y - 10;
+						rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
+					}
+					
 					if (ret == false) {
 						ret = finder.FindRectangleByPoint(rect, x, y);
 					}
@@ -831,14 +837,14 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 					ret = finder.FindRectangleByPoint(rect, x, y);
 				}
 				rect.left = selfRelation->rollNamePoints->GetAt(2).x - 20;
-				rect.right = selfRelation->rollNamePoints->GetAt(2).x + 10;
+				rect.right = selfRelation->rollNamePoints->GetAt(2).x + 50;
 				rect.top = selfRelation->rollNamePoints->GetAt(2).y - 10;
 				rect.bottom = selfRelation->rollNamePoints->GetAt(2).y + 10;
 				if (ret == false) {
 					ret = finder.FindRectangleByPoint(rect, x, y);
 				}
 				rect.left = selfRelation->rollNamePoints->GetAt(3).x - 20;
-				rect.right = selfRelation->rollNamePoints->GetAt(3).x + 10;
+				rect.right = selfRelation->rollNamePoints->GetAt(3).x + 50;
 				rect.top = selfRelation->rollNamePoints->GetAt(3).y - 10;
 				rect.bottom = selfRelation->rollNamePoints->GetAt(3).y + 10;
 				if (ret == false) {

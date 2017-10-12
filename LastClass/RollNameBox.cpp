@@ -29,8 +29,8 @@ CPoint RollNameBox::GetFirstRollNamePoint(CPoint startPoint, CPoint endPoint) {
 	double distance = sqrt(pow(endPoint.x - startPoint.x, 2) + pow(startPoint.y - endPoint.y, 2)); // 본 선 거리
 																								   // 루트안에 = 루트(제곱(
 
-	double dX = startPoint.x + (40 * (endPoint.x - startPoint.x) / distance); // 선따라서 30 만큼 이동 x 점
-	double dY = startPoint.y - (40 * (startPoint.y - endPoint.y) / distance);
+	double dX = startPoint.x + (30 * (endPoint.x - startPoint.x) / distance); // 선따라서 30 만큼 이동 x 점
+	double dY = startPoint.y - (30 * (startPoint.y - endPoint.y) / distance);
 
 	//double degree90 = -(atan2((endPoint.x - startPoint.x) , (startPoint.y - endPoint.y)));      // 수직 기울기
 
@@ -65,8 +65,8 @@ CPoint RollNameBox::GetThirdRollNamePoint(CPoint startPoint, CPoint endPoint) {
 
 	double distance = sqrt(pow(endPoint.x - startPoint.x, 2) + pow(startPoint.y - endPoint.y, 2));
 	// 루트안에 = 루트(제곱(
-	double dX = (endPoint.x) - (40 * (endPoint.x - startPoint.x) / distance); //뒤로 온 기준점 x
-	double dY = (endPoint.y) + (40 * (startPoint.y - endPoint.y) / distance); //뒤로 온 기준점 y
+	double dX = (endPoint.x) - (30 * (endPoint.x - startPoint.x) / distance); //뒤로 온 기준점 x
+	double dY = (endPoint.y) + (30 * (startPoint.y - endPoint.y) / distance); //뒤로 온 기준점 y
 
 	cPoint.x = static_cast<LONG>(dX - 20 * cos(degree));
 	cPoint.y = static_cast<LONG>(dY - 20 * sin(degree));
