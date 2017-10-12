@@ -609,6 +609,7 @@
     <ClInclude Include="GraphicCtrlCutMenuAction.h">
       <Filter>Menu</Filter>
     </ClInclude>
+    <ClInclude Include="CtrlSaveKey.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassDiagramApp.cpp">
@@ -1163,6 +1164,9 @@
     </ClCompile>
     <ClCompile Include="GraphicCtrlPasteMenuAction.cpp">
       <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlSaveKey.cpp">
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
