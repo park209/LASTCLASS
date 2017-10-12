@@ -16,7 +16,8 @@ void PrintPreviewPrintButton::ButtonPress(PrintPreview *printPreview) {
 
 	CPrintDialog printDialog(FALSE, PD_ALLPAGES | PD_RETURNDC, printPreview);
 
-	INT_PTR int_ptr = printDialog.DoModal();
+
+	INT_PTR int_ptr = AfxGetApp()->DoPrintDialog(&printDialog);
 
 
 	if (int_ptr == IDOK) {

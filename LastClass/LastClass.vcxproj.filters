@@ -560,9 +560,6 @@
     <ClInclude Include="PrintPreviewNextButton.h">
       <Filter>Print</Filter>
     </ClInclude>
-    <ClInclude Include="PrintPreviewState.h">
-      <Filter>Print</Filter>
-    </ClInclude>
     <ClInclude Include="PrintPreviewZoomInButton.h">
       <Filter>Print</Filter>
     </ClInclude>
@@ -1128,9 +1125,6 @@
       <Filter>Print</Filter>
     </ClCompile>
     <ClCompile Include="PrintPreviewPrintButton.cpp">
-      <Filter>Print</Filter>
-    </ClCompile>
-    <ClCompile Include="PrintPreviewState.cpp">
       <Filter>Print</Filter>
     </ClCompile>
     <ClCompile Include="PrintPreviewZoomInButton.cpp">
