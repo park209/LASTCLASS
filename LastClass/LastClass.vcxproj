@@ -414,6 +414,9 @@
     <ClCompile Include="WriteKoreanTextProcess.cpp" />
     <ClCompile Include="WritingVisitor.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LastClass.rc" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{EE54C3EA-961D-4217-8B0F-44C954776CB5}</ProjectGuid>
