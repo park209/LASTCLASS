@@ -62,9 +62,6 @@ Long Selection::Remove(Diagram *diagram, Figure *figure) {
 	if (i < diagram->GetLength()) {
 		index = i;
 		diagram->Remove(index);
-		this->figures.Delete(this->length - 1);
-		this->length--;
-		this->capacity--;
 	}
 
 	i = 0;
@@ -78,13 +75,13 @@ Long Selection::Remove(Diagram *diagram, Figure *figure) {
 		if (j < figures->GetLength()) {
 			index = j;
 			figures->Remove(index);
-			this->figures.Delete(this->length - 1);
-			this->length--;
-			this->capacity--;
 		}
 		i++;
 	}
 
+	this->figures.Delete(this->length - 1);
+	this->length--;
+	this->capacity--;
 	return index;
 }
 
