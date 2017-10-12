@@ -43,13 +43,14 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		Finder finder;
 		Figure *temp = 0;
 		Long j = 0;
-		Long tmp = 0;
+		Long tmp;
 		Long isHave = 0;
 		Long isOne = 0;
 		Long bigWidth = 0;
 		Long minX = 0;
 		Long isCut = 0;
 		Long lineLength = 0;
+		Long c;
 		if (classDiagramForm->selection->GetLength() > 0) {
 			isHave = 1;
 		}if (classDiagramForm->copyBuffer->GetLength() == 1) {
@@ -61,9 +62,6 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		Figure * lastObject = 0;
 		SmartPointer<Figure*>diagramSmartPointer(classDiagramForm->diagram->CreateIterator());
 		for (diagramSmartPointer->First();!diagramSmartPointer->IsDone();diagramSmartPointer->Next()) {
-			if (minX == 0 || diagramSmartPointer->Current()->GetX() < minX) {
-				minX = diagramSmartPointer->Current()->GetX();
-			}
 			if (bigWidth == 0 || (diagramSmartPointer->Current()->GetX() + diagramSmartPointer->Current()->GetWidth()) > bigWidth) {
 				bigWidth = diagramSmartPointer->Current()->GetX() + diagramSmartPointer->Current()->GetWidth();
 				lastObject = diagramSmartPointer->Current();
@@ -89,17 +87,22 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 				}
 			}
 		}
+		if (lineLength < 0) {
+			lineLength = 0;
+		}
 		Figure *object_ = classDiagramForm->copyBuffer->GetAt(0);
 		Long condition = 0;
 		if (isOne == 1) {
-			condition = (bigWidth + object_->GetWidth() +lineLength+ 10);
+			condition = (bigWidth + object_->GetWidth() + lineLength + 10);
 		}
 		else {
-			condition = bigWidth + (bigWidth - minX)+lineLength + 20;
+			condition = bigWidth + (bigWidth - minX) + lineLength + 20;
 		}
 		if (condition < 4000) {//비트맵의 너비로 조정
 			SmartPointer<Figure*>smartPointer(classDiagramForm->copyBuffer->CreateIterator());
 			for (smartPointer->First();!smartPointer->IsDone();smartPointer->Next()) {
+				tmp = 0;
+				c = 0;
 				if (dynamic_cast<Class*>(smartPointer->Current())) {
 					Class *object = static_cast<Class*>(smartPointer->Current());
 					Class *object2 = new Class(*object);
@@ -116,6 +119,9 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 								smartPointer_->Current()->Move((bigWidth + 10) + lineLength - minX, 0);
 							}
 						}
+						if (tmp == 0) {
+							c++;
+						}
 					}
 					if (isOne == 1) {
 						Long k = 0;
@@ -131,6 +137,32 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 								j++;
 							}
 							k++;
+						}
+					}
+					else {
+						Long s = 0;
+						Relation * relation_ = 0;
+						Long isRemove;
+						while (s < tmp) {
+							isRemove = 1;
+							relation_ = static_cast<Relation*>(object->GetAt(c));
+							for (CopyBufferSmartPointer->First();!CopyBufferSmartPointer->IsDone();CopyBufferSmartPointer->Next()) {
+								if (dynamic_cast<Relation*>(CopyBufferSmartPointer->Current())) {
+									if (relation_->GetX() == static_cast<Relation*>(CopyBufferSmartPointer->Current())->GetX() &&
+										relation_->GetY() == static_cast<Relation*>(CopyBufferSmartPointer->Current())->GetY()) {
+										isRemove = 0;
+									}
+								}
+							}
+							if (isRemove == 1) {
+								object->Remove(c);
+								object2->Remove(c);
+							}
+							else
+							{
+								c++;
+							}
+							s++;
 						}
 					}
 					if (isOne == 1) {
@@ -150,7 +182,7 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 				else if (dynamic_cast<MemoBox*>(smartPointer->Current())) {
 					MemoBox *object = static_cast<MemoBox*>(smartPointer->Current());
 					MemoBox *object2 = new MemoBox(*object);
-					if (isOne == 1 ) {
+					if (isOne == 1) {
 						object2->Move((bigWidth + 10) + lineLength - object->GetX(), 0);
 					}
 					else {
@@ -1073,13 +1105,12 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 				}
 				i++;
 			}
-		}
-		if (classDiagramForm->isCut == 1) {
-			classDiagramForm->isCut = 0;
+			if (classDiagramForm->isCut == 1) {
+				classDiagramForm->isCut = 0;
+			}
 		}
 	}
 }
-
 
 
 void GraphicCtrlPasteKey::KeyPress(TextEdit *textEdit) {
