@@ -31,6 +31,7 @@
 #include "GraphicCtrlPasteMenuAction.h"
 #include "DeleteGraphicKeyMenuAction.h"
 #include "AboutMenuAction.h"
+#include "ExitKeyMenuAction.h"
 
 Menu::Menu(LastClass* lastClass) {
 	this->lastClass = lastClass;
@@ -120,7 +121,7 @@ MenuAction* Menu::MenuSelected( UINT parm_control_id) {
 	case 120: this->menuAction = new CompositionsMenuAction; break;
 	case 121: this->menuAction = new MemoLineMenuAction; break;
 	case 122: this->menuAction = new SupportMenuAction; break;
-	case 106:this->menuAction = new DeleteGraphicKeyMenuAction; break;
+	case 106:this->menuAction = new ExitKeyMenuAction; break;
 	case 107:this->menuAction = new GraphicCtrlCopyMenuAction; break;
 	case 108:this->menuAction = new GraphicCtrlPasteMenuAction; break;
 	case 109: this->menuAction = new GraphicCtrlCutMenuAction; break;

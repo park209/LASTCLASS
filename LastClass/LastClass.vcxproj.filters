@@ -630,6 +630,7 @@
     <ClInclude Include="AboutMenu.h" />
     <ClInclude Include="AboutMenuAction.h" />
     <ClInclude Include="LastClassApp.h" />
+    <ClInclude Include="ExitKeyMenuAction.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">
@@ -1203,13 +1204,12 @@
     <ClCompile Include="GraphicCtrlDeleteKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="AboutMenuAction.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
     <ClCompile Include="LastClassApp.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="AboutMenu.cpp" />
+    <ClCompile Include="AboutMenuAction.cpp" />
+    <ClCompile Include="ExitKeyMenuAction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc">
