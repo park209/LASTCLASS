@@ -706,7 +706,7 @@ void ClassDiagramForm::OnPaint() {
 	dc.SetWindowExt(100, 100);
 	dc.SetViewportExt(this->zoomRate, this->zoomRate);
 
-	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, horzCurPos, vertCurPos, SRCCOPY);
+	dc.BitBlt(0, 0, rect.right * 100 / this->zoomRate, rect.bottom * 100 / this->zoomRate, &memDC, horzCurPos, vertCurPos, SRCCOPY);
 	dc.TextOut(10, 10, a);
 }
 
