@@ -204,6 +204,7 @@ void ToolBar::ChangeToolBarSize(RECT *rect) {
 	CWnd *cwnd = CWnd::FromHandle(this->hTool1);
 	cwnd->SetWindowPos(cwnd, 0, 0, rect->right - 1, 45, SWP_NOMOVE | SWP_NOZORDER);
 }
+
 void ToolBar::ChangeAnotherToolBarSize(RECT *rect) {
 
 }
