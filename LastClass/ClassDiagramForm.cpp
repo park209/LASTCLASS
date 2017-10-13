@@ -1170,10 +1170,6 @@ void ClassDiagramForm::OnClose() {
 			delete this->historyGraphic;
 			this->historyGraphic = NULL;
 		}
-		if (this->textEdit != NULL) {
-			delete this->textEdit;
-			this->textEdit = NULL;
-		}
 		if (this->scroll != NULL) {
 			delete this->scroll;
 			this->scroll = NULL;
