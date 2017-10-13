@@ -11,6 +11,10 @@ ClassName::~ClassName() {
 ClassName::ClassName(Long x, Long y, Long width, Long height, string content) : Figure(x, y, width, height, content) {
 }
 
+ClassName::ClassName(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight, string content) 
+	: Figure(x, y, width, height, minimumWidth, minimumHeight, content) {
+}
+
 ClassName::ClassName(const ClassName& source) : Figure(source) {
 }
 

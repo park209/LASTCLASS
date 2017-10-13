@@ -11,6 +11,10 @@ Method::~Method() {
 Method::Method(Long x, Long y, Long width, Long height, string content) : Figure(x, y, width, height, content) {
 }
 
+Method::Method(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight, string content)
+	: Figure(x, y, width, height, minimumWidth, minimumHeight, content) {
+}
+
 Method::Method(const Method& source) : Figure(source) {
 }
 
