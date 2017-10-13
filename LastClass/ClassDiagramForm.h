@@ -35,6 +35,7 @@ public:
 	ClassDiagramFormMenu *classDiagramFormMenu;
 	Long isCut;
 	Long capsLockFlag;
+	Long numLockFlag;
 	Long zoomRate;
 public:
 	ClassDiagramForm(LastClass *lastClass);
