@@ -21,6 +21,10 @@
   <ItemGroup>
     <ClInclude Include="AboutMenu.h" />
     <ClInclude Include="AboutMenuAction.h" />
+    <ClInclude Include="AddAttributeMenuAction.h" />
+    <ClInclude Include="AddMethodMenuAction.h" />
+    <ClInclude Include="AddReceptionMenuAction.h" />
+    <ClInclude Include="AddTemplateMenuAction.h" />
     <ClInclude Include="AggregationMenuAction.h" />
     <ClInclude Include="AggregationsMenuAction.h" />
     <ClInclude Include="AssociationMenuAction.h" />
@@ -35,6 +39,12 @@
     <ClInclude Include="Caret.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Class.h" />
+    <ClInclude Include="ClassDiagramFormMenu.h" />
+    <ClInclude Include="DeleteAttributeMenuAction.h" />
+    <ClInclude Include="DeleteMenuAction.h" />
+    <ClInclude Include="DeleteMethodMenuAction.h" />
+    <ClInclude Include="DeleteReceptionMenuAction.h" />
+    <ClInclude Include="DeleteTemplateMenuAction.h" />
     <ClInclude Include="ExitKeyMenuAction.h" />
     <ClInclude Include="LastClassApp.h" />
     <ClInclude Include="ClassDiagramForm.h" />
@@ -223,6 +233,10 @@
   <ItemGroup>
     <ClCompile Include="AboutMenu.cpp" />
     <ClCompile Include="AboutMenuAction.cpp" />
+    <ClCompile Include="AddAttributeMenuAction.cpp" />
+    <ClCompile Include="AddMethodMenuAction.cpp" />
+    <ClCompile Include="AddReceptionMenuAction.cpp" />
+    <ClCompile Include="AddTemplateMenuAction.cpp" />
     <ClCompile Include="Aggregation.cpp" />
     <ClCompile Include="AggregationMenuAction.cpp" />
     <ClCompile Include="Aggregations.cpp" />
@@ -236,6 +250,12 @@
     <ClCompile Include="Caret.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Class.cpp" />
+    <ClCompile Include="ClassDiagramFormMenu.cpp" />
+    <ClCompile Include="DeleteAttributeMenuAction.cpp" />
+    <ClCompile Include="DeleteMenuAction.cpp" />
+    <ClCompile Include="DeleteMethodMenuAction.cpp" />
+    <ClCompile Include="DeleteReceptionMenuAction.cpp" />
+    <ClCompile Include="DeleteTemplateMenuAction.cpp" />
     <ClCompile Include="ExitKeyMenuAction.cpp" />
     <ClCompile Include="LastClassApp.cpp" />
     <ClCompile Include="ClassDiagramForm.cpp" />

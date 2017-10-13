@@ -41,10 +41,10 @@
 #include "HistoryGraphic.h"
 #include "KeyBoard.h"
 #include "KeyAction.h"
-
+#include "ClassDiagramFormMenu.h"
 #include "ToolBar.h"
 #include "StatusBar.h"
-
+#include "MenuAction.h"
 #include "Scroll.h"
 #include "ScrollAction.h"
 
@@ -68,7 +68,10 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CWnd)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 	ON_WM_CLOSE()
+	ON_COMMAND_RANGE(100, 140, OnMyMenu)
 	ON_WM_SIZE()
+	ON_WM_RBUTTONDOWN()
+	ON_WM_RBUTTONUP()
 	ON_WM_VSCROLL()
 	ON_WM_HSCROLL()
 	ON_WM_MOUSEWHEEL()
@@ -83,6 +86,7 @@ ClassDiagramForm::ClassDiagramForm(LastClass *lastClass) { // 생성자 맞는듯
 	this->keyBoard = NULL;
 	this->historyGraphic = NULL;
 	this->scroll = NULL;
+	this->classDiagramFormMenu = NULL;
 	this->startX = 0;
 	this->startY = 0;
 	this->currentX = 0;
@@ -624,7 +628,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->historyGraphic = new HistoryGraphic;
 	this->keyBoard = new KeyBoard;
 	this->scroll = new Scroll;
-
+	this->classDiagramFormMenu = new ClassDiagramFormMenu(this);
 	CRect rect;
 	this->GetClientRect(&rect);
 	ModifyStyle(0, WS_CLIPCHILDREN);
@@ -788,7 +792,43 @@ void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 	}
 	Invalidate(false);
 }
+void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
+	SetFocus();
 
+	int vertCurPos = GetScrollPos(SB_VERT);
+	int horzCurPos = GetScrollPos(SB_HORZ);
+
+	this->startX = point.x + horzCurPos;
+	this->startY = point.y + vertCurPos;
+	this->currentX = point.x + horzCurPos;
+	this->currentY = point.y + vertCurPos;
+	CMenu *menu;
+	if (this->selection->GetLength() > 0) {
+		menu = this->classDiagramFormMenu->menu2;
+	}
+	else {
+		menu = this->classDiagramFormMenu->menu1;
+	}
+	menu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, this->currentX, this->currentY, this);
+
+	Invalidate(false);
+}
+void ClassDiagramForm::OnRButtonDown(UINT nFlags, CPoint point) {
+	SetFocus();
+
+	int vertCurPos = GetScrollPos(SB_VERT);
+	int horzCurPos = GetScrollPos(SB_HORZ);
+
+	this->startX = point.x + horzCurPos;
+	this->startY = point.y + vertCurPos;
+	this->currentX = point.x + horzCurPos;
+	this->currentY = point.y + vertCurPos;
+
+	this->selection->DeleteAllItems();
+
+	this->selection->SelectByPoint(this->diagram, currentX, currentY);
+	Invalidate(false);
+}
 BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	CWnd::SetFocus();
 	SetFocus();
@@ -875,7 +915,13 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 		Invalidate(false);
 	}
 }
+void ClassDiagramForm::OnMyMenu(UINT parm_control_id) {
 
+	MenuAction* menuAction = this->classDiagramFormMenu->MenuSelected(parm_control_id);
+	if (menuAction != 0) {
+		menuAction->MenuPress(this->lastClass);
+	}
+}
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	if (this->zoomRate == 100) {
 		CPaintDC dc(this);
@@ -1071,6 +1117,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 		SetCursor(LoadCursor(NULL, IDC_SIZEALL));
 		}*/
 	}
+
 }
 
 void ClassDiagramForm::OnClose() {
