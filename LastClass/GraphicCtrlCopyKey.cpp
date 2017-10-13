@@ -42,6 +42,7 @@ GraphicCtrlCopyKey::~GraphicCtrlCopyKey() {
 void GraphicCtrlCopyKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 	if (classDiagramForm->copyBuffer != 0) {
 		delete classDiagramForm->copyBuffer;
+		classDiagramForm->copyBuffer = 0;
 	}
 	classDiagramForm->copyBuffer = new Selection(*classDiagramForm->selection);
 	if (classDiagramForm->isCut == 1) {

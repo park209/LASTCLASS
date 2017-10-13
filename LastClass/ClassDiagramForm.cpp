@@ -75,6 +75,7 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CWnd)
 	ON_WM_VSCROLL()
 	ON_WM_HSCROLL()
 	ON_WM_MOUSEWHEEL()
+	ON_WM_NCMOUSEMOVE()
 END_MESSAGE_MAP()
 
 ClassDiagramForm::ClassDiagramForm(LastClass *lastClass) { // 생성자 맞는듯
@@ -814,11 +815,22 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 	CMenu *menu;
 	if (this->selection->GetLength() > 0) {
 		menu = this->classDiagramFormMenu->menu2;
+		if (!dynamic_cast<Class*>(this->selection->GetAt(0))) {
+			menu->EnableMenuItem(127, MF_DISABLED);
+			menu->EnableMenuItem(135, MF_DISABLED);
+			menu->EnableMenuItem(130, MF_DISABLED);
+			menu->EnableMenuItem(133, MF_DISABLED);
+			menu->EnableMenuItem(128, MF_DISABLED);
+			menu->EnableMenuItem(131, MF_DISABLED);
+			menu->EnableMenuItem(132, MF_DISABLED);
+			menu->EnableMenuItem(134, MF_DISABLED);
+		}
 	}
 	else {
 		menu = this->classDiagramFormMenu->menu1;
 	}
-	menu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, this->currentX, this->currentY, this);
+	ClientToScreen(&point); //스크린 기준으로 들어가야함.
+	menu->TrackPopupMenu(TPM_LEFTBUTTON | TPM_LEFTALIGN, point.x, point.y, this);
 
 	Invalidate(false);
 }
@@ -835,7 +847,7 @@ void ClassDiagramForm::OnRButtonDown(UINT nFlags, CPoint point) {
 
 	this->selection->DeleteAllItems();
 
-	this->selection->SelectByPoint(this->diagram, currentX, currentY);
+	this->selection->SelectByPoint(this->diagram, this->currentX, this->currentY);
 	Invalidate(false);
 }
 BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
@@ -890,6 +902,26 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	Invalidate(false);
 
 	return ret;
+}
+void ClassDiagramForm::OnNcMouseMove(UINT nHitTest, CPoint point) {
+
+	CRect rect;
+	this->GetWindowRect(&rect);
+	bool ret = rect.PtInRect(CPoint(this->startX, this->startY));
+	if (this->startX!=0&& this->startY!=0) {
+		switch (nHitTest) {
+		case HTTOP: this->zoomRate++; break;
+		case HTTOPLEFT:; break;
+		case HTTOPRIGHT:; break;
+		case HTLEFT:; break;
+		case HTRIGHT:; break;
+		case HTBOTTOM:; break;
+		case HTBOTTOMLEFT:; break;
+		case HTBOTTOMRIGHT:; break;
+		default: break;
+		}
+	}
+	Invalidate(false);
 }
 
 void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
@@ -1102,15 +1134,50 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	if (this->zoomRate == 100) {
 		if (nFlags == MK_LBUTTON) {
-
 			int vertCurPos = GetScrollPos(SB_VERT);
 			int horzCurPos = GetScrollPos(SB_HORZ);
+
+			CRect testRect;
+			this->GetClientRect(&testRect);
+			
+			//좌측
+			if (point.x < testRect.left + 20) {
+				horzCurPos -= 20;
+				if (horzCurPos < 0) {
+					horzCurPos = 0;
+				}
+			}
+			if (point.x > testRect.right - 20) {
+				horzCurPos += 20;
+				Long maxpos = this->GetScrollLimit(SB_HORZ);
+				if (horzCurPos > maxpos) {
+					horzCurPos = maxpos;
+				}
+			}
+			if (point.y < testRect.top + 20) {
+				vertCurPos -= 20;
+				if (vertCurPos < 0) {
+					vertCurPos = 0;
+				}
+			}
+			if (point.y > testRect.bottom - 20) {
+				vertCurPos += 20;
+				Long maxpos = this->GetScrollLimit(SB_VERT);
+				if (vertCurPos > maxpos) {
+					vertCurPos = maxpos;
+				}
+			}
 
 			this->currentX = point.x + horzCurPos;
 			this->currentY = point.y + vertCurPos;
 
+			SetScrollPos(SB_HORZ, horzCurPos);
+			SetScrollPos(SB_VERT, vertCurPos);
+
 			Invalidate(false);
 		}
+
+		//커서모양
 		/*Long index;
 		index = this->selection->SelectByPoint(point.x, point.y);
 		if (index == 1) {
