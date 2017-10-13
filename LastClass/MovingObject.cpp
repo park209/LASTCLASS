@@ -37,7 +37,8 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 		bool ret = false;
 
 		CRect cRect1(figures->GetX() + (currentX - startX), figures->GetY() + (currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
-		ret = diagram->CheckOverlap(cRect1, figures);
+		ret = diagram->CheckOverlapSelection(cRect1, selection);
+
 		//CRect cRect1(figures->GetX() + (currentX - startX), figures->GetY() + (currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
 		//while (i < diagram->GetLength() && ret != true) {
 		//	FigureComposite *figureComposite = static_cast<FigureComposite*>(diagram->GetAt(i));
