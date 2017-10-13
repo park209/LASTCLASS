@@ -56,6 +56,19 @@ Class::Class(Long x, Long y, Long width, Long height) : FigureComposite(64) {
 	this->templetePosition = -1;
 }
 
+Class::Class(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight) : FigureComposite(64) {
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
+	this->minimumWidth = minimumWidth;
+	this->minimumHeight = minimumHeight;
+	this->attributePosition = -1;
+	this->methodPosition = -1;
+	this->receptionPosition = -1;
+	this->templetePosition = -1;
+}
+
 Class::Class(const Class& source) : FigureComposite(source) {
 	this->x = source.x;
 	this->y = source.y;

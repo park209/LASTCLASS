@@ -36,6 +36,17 @@ Figure::Figure(Long x, Long y, Long width, Long height, string content) {
 	this->fontSize = 25;
 }
 
+Figure::Figure(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight, string content) {
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
+	this->content = content;
+	this->minimumWidth = minimumWidth;
+	this->minimumHeight = minimumHeight;
+	this->fontSize = 25;
+}
+
 Figure::Figure(const Figure& source) {
 	this->x = source.x;
 	this->y = source.y;

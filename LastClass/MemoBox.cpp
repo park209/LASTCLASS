@@ -16,6 +16,16 @@ MemoBox::MemoBox(Long x, Long y, Long width, Long height) : FigureComposite(10) 
 	this->width = width;
 	this->height = height;
 }
+
+MemoBox::MemoBox(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight) : FigureComposite(10) {
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
+	this->minimumWidth = minimumWidth;
+	this->minimumHeight = minimumHeight;
+}
+
 MemoBox::MemoBox(const MemoBox& source) : FigureComposite(source) {
 	
 	this->x = source.x;
