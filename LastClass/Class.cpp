@@ -32,7 +32,6 @@
 #include "Reception.h"
 #include "Diagram.h"
 #include "Finder.h"
-
 #include "RollNameBox.h"
 
 Class::Class(Long capacity) :FigureComposite(capacity) {
@@ -55,7 +54,6 @@ Class::Class(Long x, Long y, Long width, Long height) : FigureComposite(64) {
 	this->receptionPosition = -1;
 	this->templetePosition = -1;
 }
-
 Class::Class(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight) : FigureComposite(64) {
 	this->x = x;
 	this->y = y;
@@ -69,11 +67,13 @@ Class::Class(Long x, Long y, Long width, Long height, Long minimumWidth, Long mi
 	this->templetePosition = -1;
 }
 
-Class::Class(const Class& source) : FigureComposite(source) {
+Class::Class(const Class& source) :FigureComposite(source) {
 	this->x = source.x;
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
+	this->minimumWidth = source.minimumWidth;
+	this->minimumHeight = source.minimumHeight;
 	this->attributePosition = source.attributePosition;
 	this->methodPosition = source.methodPosition;
 	this->receptionPosition = source.receptionPosition;

@@ -47,6 +47,7 @@
 #include "MenuAction.h"
 #include "Scroll.h"
 #include "ScrollAction.h"
+#include "GraphicCtrlCopyKey.h"
 
 #include <math.h>
 #include <iostream>
@@ -96,6 +97,7 @@ ClassDiagramForm::ClassDiagramForm(LastClass *lastClass) { // 생성자 맞는듯
 	this->copyBuffer = NULL;
 	this->isCut = 0;
 	this->capsLockFlag = 0;
+	this->numLockFlag = 0;
 	this->zoomRate = 100;
 }
 
@@ -668,6 +670,12 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	else {
 		this->capsLockFlag = 0;
 	}
+	if ((GetKeyState(VK_NUMLOCK) & 0x0001) != 0) {
+		this->numLockFlag = 1;
+	}
+	else {
+		this->numLockFlag = 0;
+	}
 	//1.2. 적재한다
 	//this->Load();
 	//1.3. 윈도우를 갱신한다
@@ -739,6 +747,16 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 			this->lastClass->statusBar->DestroyStatus();
 			this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		}
+		if (nChar == VK_NUMLOCK) {
+			if ((GetKeyState(VK_NUMLOCK) & 0x0001) != 0) {
+				this->numLockFlag = 1;
+			}
+			else {
+				this->numLockFlag = 0;
+			}
+			this->lastClass->statusBar->DestroyStatus();
+			this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
+		}
 
 		CClientDC dc(this);
 		CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
@@ -749,7 +767,7 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 		if (keyAction != 0) {
 			keyAction->KeyPress(this, &dc);
-			Invalidate(false);
+				Invalidate(false);
 		}
 		dc.SelectObject(oldFont);
 		cFont.DeleteObject();

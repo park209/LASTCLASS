@@ -143,7 +143,8 @@ void LastClass::OnClose() {
 	//6.2. 다이어그램을 지운다.
 	int messageBox = IDNO;
 	INT_PTR int_ptr = IDOK;
-	if (this->classDiagramForm->historyGraphic->undoGraphicArray->GetLength() != 0) {
+	if (this->classDiagramForm->historyGraphic->undoGraphicArray->GetLength() != 0 
+		|| this->classDiagramForm->historyGraphic->redoGraphicArray->GetLength() != 0) {
 		if (this->classDiagramForm->fileName == "") {
 			messageBox = MessageBox(_T("변경 내용을 제목 없음에 저장하시겠습니까?"), "ClassDiagram", MB_YESNOCANCEL);
 

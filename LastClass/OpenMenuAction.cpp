@@ -18,7 +18,8 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 
 	int messageBox = IDNO;
 	INT_PTR int_ptr = IDOK;
-	if (lastClass->classDiagramForm->historyGraphic->undoGraphicArray->GetLength() != 0) {
+	if (lastClass->classDiagramForm->historyGraphic->undoGraphicArray->GetLength() != 0
+		|| lastClass->classDiagramForm->historyGraphic->redoGraphicArray->GetLength() != 0) {
 		if (lastClass->classDiagramForm->fileName == "") {
 			messageBox = lastClass->MessageBox(_T("변경 내용을 제목 없음에 저장하시겠습니까?"), "ClassDiagram", MB_YESNOCANCEL);
 

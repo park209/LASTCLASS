@@ -48,10 +48,13 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		Long isOne = 0;
 		Long bigWidth = 0;
 		Long minX = 0;
+		Long isCut = 0;
 		if (classDiagramForm->selection->GetLength() > 0) {
 			isHave = 1;
 		}if (classDiagramForm->copyBuffer->GetLength() == 1) {
 			isOne = 1;
+		}if (classDiagramForm->isCut==0) {
+			isCut = 1;
 		}
 		SmartPointer<Figure*>diagramSmartPointer(classDiagramForm->diagram->CreateIterator());
 		for (diagramSmartPointer->First(); !diagramSmartPointer->IsDone(); diagramSmartPointer->Next()) {
@@ -132,6 +135,103 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 					}
 					else {
 						classDiagramForm->selection->Add(static_cast<Figure*>(object2));
+					}
+				}
+				else if (dynamic_cast<Relation*>(smartPointer->Current())) {
+					Relation *objectRelation = static_cast<Relation*>(smartPointer->Current());
+					Long f = 0;
+					Class *parent = 0;
+					Long z;
+					CPoint point_;
+					if (dynamic_cast<Generalization*>(objectRelation)) {
+						Generalization* object = static_cast<Generalization*>(smartPointer->Current());
+						Generalization* object2 = new Generalization(*object);
+						parent = static_cast<Class*>(finder.GetParents(classDiagramForm->diagram, smartPointer->Current()));
+						if (isOne == 1) {
+							if (object2->GetY() < parent->GetY() + parent->GetHeight() - 10) {
+								static_cast<Figure*>(object2)->Move(0, 30);
+								z = 0;
+								while (z < object2->GetLength()) {
+									point_.x = object2->GetAt(z).x;
+									point_.y = object2->GetAt(z).y;
+									point_.y += 30;
+									object2->Correct(z, point_);
+									z++;
+								}
+							}
+							static_cast<Class*>(parent)->Add(object2->Clone());
+							temp = static_cast<Class*>(parent)->GetAt(parent->GetLength() - 1);
+						}
+						else {
+							SmartPointer<Figure*> ResmartPointer(classDiagramForm->selection->CreateIterator());
+							for (ResmartPointer->First();!ResmartPointer->IsDone();ResmartPointer->Next()) {
+								if (dynamic_cast<Class*>(ResmartPointer->Current())) {
+									if (isCut == 1) {
+										if (ResmartPointer->Current()->GetX() == parent->GetX()
+											&& ResmartPointer->Current()->GetY() == parent->GetY()) {
+											while (static_cast<Class*>(ResmartPointer->Current())->GetAt(f)->GetX() != object->GetX()) {
+												f++;
+											}
+											if (isOne == 1) {
+												object2->MovePaste((bigWidth + 10) - object->GetX(), 0);
+											}
+											else {
+												object2->MovePaste((bigWidth + 10)  - minX, 0);
+											}
+											z = 0;
+											while (z < object2->GetLength()) {
+												point_.x = object2->GetAt(z).x;
+												point_.y = object2->GetAt(z).y;
+												point_.x += 50;
+												point_.y += 50;
+												object2->Correct(z, point_);
+												z++;
+											}
+											static_cast<Class*>(ResmartPointer->Current())->Correct(object2->Clone(), f);
+											temp = static_cast<Class*>(ResmartPointer->Current())->GetAt(f);
+										}
+									}
+									else {
+										Long condition_ = 0;
+										if (isOne == 1) {
+											condition_ = (bigWidth + 10)  - object->GetX();
+										}
+										else {
+											condition_ = (bigWidth + 10)  - minX;
+										}
+
+										if (ResmartPointer->Current()->GetX() - condition_ == parent->GetX()) {
+											while (static_cast<Class*>(ResmartPointer->Current())->GetAt(f)->GetX() != object->GetX()) {
+												f++;
+											}
+											if (isOne == 1) {
+												object2->MovePaste((bigWidth + 10) - object->GetX(), 0);
+											}
+											else {
+												object2->MovePaste((bigWidth + 10)  - minX, 0);
+											}
+											z = 0;
+											while (z < object2->GetLength()) {
+												point_.x = object2->GetAt(z).x;
+												point_.y = object2->GetAt(z).y;
+												point_.x += 50;
+												point_.y += 50;
+												object2->Correct(z, point_);
+												z++;
+											}
+											static_cast<Class*>(ResmartPointer->Current())->Correct(object2->Clone(), f);
+											temp = static_cast<Class*>(ResmartPointer->Current())->GetAt(f);
+										}
+									}
+								}
+							}
+						}
+						if (isHave == 1) {
+							classDiagramForm->selection->Correct(temp, i);
+						}
+						else {
+							classDiagramForm->selection->Add(temp);
+						}
 					}
 				}
 				i++;

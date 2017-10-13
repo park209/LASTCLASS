@@ -23,7 +23,6 @@
 #include "DrawingRelationPoint.h"
 #include "DrawingResizing.h"
 #include "MultipleSelectionState.h"
-
 SelectionState* SelectionState::instance = 0;
 
 MouseLButtonAction* SelectionState::Instance() {
@@ -75,7 +74,12 @@ void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagr
 	}
 	if (GetKeyState(VK_SHIFT) >= 0) {
 		Long index = selection->SelectByPoint(startX, startY);
-
+		if (index == 3) { // 크기조절
+			this->ChangeState(mouseLButton, DrawingResizing::Instance());
+		}
+		if (index == 5) { // 내부 선이동
+			this->ChangeState(mouseLButton, MovingLine::Instance());
+		}
 		if (index == -1) {
 			selection->DeleteAllItems();
 			selection->SelectByPoint(diagram, startX, startY);
@@ -89,25 +93,24 @@ void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagr
 		this->ChangeState(mouseLButton, MultipleSelectionState::Instance());
 	}
 }
-
 void SelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	if (startX != currentX && startY != currentY) {
 		Long index = selection->SelectByPoint(startX, startY);
+		Figure *figure = selection->GetAt(0);
+
+
+
 		if (index == 1) { // 끝점이동
 			this->ChangeState(mouseLButton, MovingRelation::Instance());
 		}
 		if (index == 2) { // 선분리
 			this->ChangeState(mouseLButton, DrawingRelationPoint::Instance());
 		}
-		if (index == 3) { // 크기조절
-			this->ChangeState(mouseLButton, DrawingResizing::Instance());
-		}
-		if (index == 4) { // 기호 이동
+		
+		if (index == 4 || index ==3 || index== 5) { // 기호 이동
 			this->ChangeState(mouseLButton, MovingObject::Instance());
 		}
-		if (index == 5) { // 내부 선이동
-			this->ChangeState(mouseLButton, MovingLine::Instance());
-		}
+		
 		if (index == -1) {
 			this->ChangeDefault(mouseLButton);
 		}
