@@ -255,7 +255,13 @@ void MultipleSelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagra
 													  //}
 	if (index == -1 && GetKeyState(VK_SHIFT) >= 0) { // 선택된 곳중에 없는데를 눌렀는데, 쉬프트키가 눌려있지 않으면
 		selection->DeleteAllItems();
-		this->ChangeDefault(mouseLButton);
+		selection->SelectByPoint(diagram, currentX, currentY);
+		if (selection->GetLength() == 0) {
+			this->ChangeDefault(mouseLButton);
+		}
+		else {
+			this->ChangeState(mouseLButton, SelectionState::Instance());
+		}
 	}
 	else if (index != -1 && GetKeyState(VK_SHIFT) < 0) {
 		Long previousLength = selection->GetLength();

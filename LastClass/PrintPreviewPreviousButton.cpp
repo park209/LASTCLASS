@@ -21,11 +21,11 @@ void PrintPreviewPreviousButton::ButtonPress(PrintPreview *printPreview) {
 			printPreview->verticalPage = 0;
 		}
 		else {
-			if (2000 % printPreview->verticalPageSize == 0) {
-				printPreview->verticalPage = (2000 / printPreview->verticalPageSize - 1)*printPreview->verticalPageSize;
+			if (printPreview->verticalPaperSize % printPreview->verticalPageSize == 0) {
+				printPreview->verticalPage = (printPreview->verticalPaperSize / printPreview->verticalPageSize - 1)*printPreview->verticalPageSize;
 			}
 			else {
-				printPreview->verticalPage = (2000 / printPreview->verticalPageSize)*printPreview->verticalPageSize;
+				printPreview->verticalPage = (printPreview->verticalPaperSize / printPreview->verticalPageSize)*printPreview->verticalPageSize;
 			}
 
 		}

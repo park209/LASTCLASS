@@ -15,7 +15,9 @@ public:
 	void OnEndPrinting(CDC *pDc, CPrintInfo *pInfo);
 	void OnBeginPrinting(CDC *pDc, CPrintInfo *pInfo);	
 	BOOL DoModal();
+	LastClass *lastClass;
 	afx_msg void OnClose();
+
 private:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
@@ -25,8 +27,9 @@ private:
 	afx_msg void OnCommandButton(UINT parm_control_id);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	DECLARE_MESSAGE_MAP()
+
 private:
-	LastClass *lastClass;
+
 
 	PrintPreviewButton *printPreviewButton;
 	CButton *nextButton;
@@ -40,5 +43,7 @@ public:
 	Long horizontalPageSize;
 	Long verticalPageSize;
 	Long zoomRate;
+	Long horizontalPaperSize;
+	Long verticalPaperSize;
 };
 #endif // !_PRINTPREVIEW_H
