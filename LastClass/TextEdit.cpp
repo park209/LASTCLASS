@@ -352,11 +352,11 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	}
 	this->koreanEnglish = 0;
 	if (nChar == VK_NUMLOCK) {
-		if ((GetKeyState(VK_NUMLOCK) & 0x0001) != 0) {
-			this->classDiagramForm->numLockFlag = 0;
-		}
-		else {
+		if (this->classDiagramForm->numLockFlag == 0) {
 			this->classDiagramForm->numLockFlag = 1;
+		}
+		else if (this->classDiagramForm->numLockFlag == 1) {
+			this->classDiagramForm->numLockFlag = 0;
 		}
 		this->classDiagramForm->lastClass->statusBar->DestroyStatus();
 		this->classDiagramForm->lastClass->statusBar->MakeStatusBar(this->classDiagramForm->lastClass, this->classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
