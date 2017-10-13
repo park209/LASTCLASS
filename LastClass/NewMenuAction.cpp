@@ -15,7 +15,8 @@ NewMenuAction::~NewMenuAction() {
 }
 void NewMenuAction::MenuPress(LastClass* lastClass) {
 	int messageBox = IDNO;
-	if (lastClass->classDiagramForm->historyGraphic->undoGraphicArray->GetLength() != 0) {
+	if (lastClass->classDiagramForm->historyGraphic->undoGraphicArray->GetLength() != 0
+		|| lastClass->classDiagramForm->historyGraphic->redoGraphicArray->GetLength() != 0) {
 		if (lastClass->classDiagramForm->fileName != "") {
 			CString object;
 			object = "변경내용을 ";

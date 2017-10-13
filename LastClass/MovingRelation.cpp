@@ -177,6 +177,9 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 	CPoint lineEnd;
 	Finder finder;
 
+	//CPoint startLine;// (relation->GetX(), relation->GetY());
+	//CPoint endLine;// (relationX, relationY);
+
 	//시작점 찾기
 	CRect object(relation->GetX() - 10, relation->GetY() - 10, relation->GetX() + 10, relation->GetY() + 10);
 	startLine = finder.FindRectangleByPoint(object, startX, startY);
@@ -192,16 +195,17 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 			relationX = x + width - 1;
 		}
 		else if (x > currentX) {
-			relationX = x ;
+			relationX = x +1;
 		}
 		if (y + height < currentY) {
 			relationY = y + height - 1;
 		}
-		else if (relation->GetY() > currentY) {
-			relationY = relation->GetY();
+		else if (figure->GetY() > currentY) {
+			relationY = figure->GetY()+1;
 		}
 		lineStart.x = relationX;
 		lineStart.y = relationY;
+
 		if (relation->GetLength() > 0) {
 			lineEnd.x = relation->GetAt(0).x;
 			lineEnd.y = relation->GetAt(0).y;
@@ -210,6 +214,8 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 			lineEnd.x = relation->GetX() + relation->GetWidth();
 			lineEnd.y = relation->GetY() + relation->GetHeight();
 		}
+		CRect rect(x, y, x + width, y + height);
+		lineStart = finder.GetCrossPoint(lineStart, lineEnd, rect);
 
 	}
 	else { // 끝점찾기
@@ -223,7 +229,7 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 		}
 		if (endLine == true) {
 			//끝점 
-			Long x = figures->GetX();
+			/*Long x = figures->GetX();
 			Long y = figures->GetY();
 			Long width = figures->GetWidth();
 			Long height = figures->GetHeight();
@@ -255,6 +261,34 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 			}
 			lineEnd.x = relationX;
 			lineEnd.y = relationY;
+		}*/
+			Long x = figures->GetX();
+			Long y = figures->GetY();
+			Long width = figures->GetWidth();
+			Long height = figures->GetHeight();
+			Long relationX = currentX;
+			Long relationY = currentY;
+			if (x + width < currentX) {
+				relationX = x + width - 1;
+			}
+			else if (x > currentX) {
+				relationX = x + 1;
+			}
+			if (y + height < currentY) {
+				relationY = y + height - 1;
+			}
+			else if (y > currentY) {
+				relationY = y + 1;
+			}
+
+			CRect rect(x, y, x + width, y + height);
+			Finder finder;
+			lineStart.x = relation->GetX();
+			lineStart.y = relation->GetY();
+			lineEnd.x = relationX;
+			lineEnd.y = relationY;
+
+			lineEnd = finder.GetCrossPoint(lineStart, lineEnd, rect);
 		}
 	}
 	pDC->MoveTo(lineStart.x, lineStart.y);
