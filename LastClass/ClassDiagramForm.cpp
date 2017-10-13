@@ -97,6 +97,7 @@ ClassDiagramForm::ClassDiagramForm(LastClass *lastClass) { // 생성자 맞는듯
 	this->copyBuffer = NULL;
 	this->isCut = 0;
 	this->capsLockFlag = 0;
+	this->numLockFlag = 0;
 	this->zoomRate = 100;
 }
 
@@ -669,6 +670,12 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	else {
 		this->capsLockFlag = 0;
 	}
+	if ((GetKeyState(VK_NUMLOCK) & 0x0001) != 0) {
+		this->numLockFlag = 1;
+	}
+	else {
+		this->numLockFlag = 0;
+	}
 	//1.2. 적재한다
 	//this->Load();
 	//1.3. 윈도우를 갱신한다
@@ -736,6 +743,16 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 			}
 			else {
 				this->capsLockFlag = 0;
+			}
+			this->lastClass->statusBar->DestroyStatus();
+			this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
+		}
+		if (nChar == VK_NUMLOCK) {
+			if ((GetKeyState(VK_NUMLOCK) & 0x0001) != 0) {
+				this->numLockFlag = 1;
+			}
+			else {
+				this->numLockFlag = 0;
 			}
 			this->lastClass->statusBar->DestroyStatus();
 			this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
@@ -818,7 +835,45 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 	if (this->selection->GetLength() > 0) {
 		menu = this->classDiagramFormMenu->menu2;
 		Figure *figure = this->selection->GetAt(0);
-		if (!(dynamic_cast<Class*>(figure))) {
+		if ((dynamic_cast<Class*>(figure))) {
+			Class *object = static_cast<Class*>(figure);
+			if (object->GetAttributePosition() != -1) {
+				menu->EnableMenuItem(135, MF_DISABLED);
+				menu->EnableMenuItem(131, MF_ENABLED);//135추가 131 제거
+			}
+			else {
+				menu->EnableMenuItem(131, MF_DISABLED);
+				menu->EnableMenuItem(135, MF_ENABLED);
+			}
+			if (object->GetMethodPosition() != -1) {
+				menu->EnableMenuItem(130, MF_DISABLED);
+				menu->EnableMenuItem(132, MF_ENABLED);//130 추가 132 제거
+			}
+			else {
+				menu->EnableMenuItem(132, MF_DISABLED);
+				menu->EnableMenuItem(130, MF_ENABLED);
+			}
+			if (object->GetReceptionPosition() != -1) {
+				menu->EnableMenuItem(134, MF_ENABLED);
+				menu->EnableMenuItem(133, MF_DISABLED);
+				//133추가 134 제거
+			}
+			else {
+				menu->EnableMenuItem(134, MF_DISABLED);
+				menu->EnableMenuItem(133, MF_ENABLED);
+			}
+			if (object->GetTempletePosition() != -1) {
+				//127 추가 128 제거
+				menu->EnableMenuItem(128, MF_ENABLED);
+				menu->EnableMenuItem(127, MF_DISABLED);
+			}
+			else {
+				menu->EnableMenuItem(128, MF_DISABLED);
+				menu->EnableMenuItem(127, MF_ENABLED);
+			}
+		
+		}
+		else {
 			menu->EnableMenuItem(127, MF_DISABLED);
 			menu->EnableMenuItem(135, MF_DISABLED);
 			menu->EnableMenuItem(130, MF_DISABLED);
@@ -827,16 +882,6 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 			menu->EnableMenuItem(131, MF_DISABLED);
 			menu->EnableMenuItem(132, MF_DISABLED);
 			menu->EnableMenuItem(134, MF_DISABLED);
-		}
-		else {
-			menu->EnableMenuItem(127, MF_ENABLED);
-			menu->EnableMenuItem(135, MF_ENABLED);
-			menu->EnableMenuItem(130, MF_ENABLED);
-			menu->EnableMenuItem(133, MF_ENABLED);
-			menu->EnableMenuItem(128, MF_ENABLED);
-			menu->EnableMenuItem(131, MF_ENABLED);
-			menu->EnableMenuItem(132, MF_ENABLED);
-			menu->EnableMenuItem(134, MF_ENABLED);
 		}
 	}
 	else {

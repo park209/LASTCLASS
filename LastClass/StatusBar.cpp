@@ -72,7 +72,7 @@ HWND StatusBar::MakeStatusBar(LastClass *lastClass, HWND hwndParent, int idStatu
 	else {
 		SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)1, (LPARAM)" CapsLock On ");
 	}
-	if (lastClass->classDiagramForm->textEdit != 0 && lastClass->classDiagramForm->textEdit->numLockFlag == 1) {
+	if (lastClass->classDiagramForm->numLockFlag == 1) {
 		SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)2, (LPARAM)" NumLook On ");
 	}
 	else {

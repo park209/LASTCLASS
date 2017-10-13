@@ -72,10 +72,8 @@ Class::Class(const Class& source) :FigureComposite(source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
-	this->content = source.content;
 	this->minimumWidth = source.minimumWidth;
 	this->minimumHeight = source.minimumHeight;
-	this->fontSize = source.fontSize;
 	this->attributePosition = source.attributePosition;
 	this->methodPosition = source.methodPosition;
 	this->receptionPosition = source.receptionPosition;
