@@ -9,6 +9,8 @@
 #include "Relation.h"
 #include "Diagram.h"
 #include "MouseLButton.h"
+#include "LastClass.h"
+#include "StatusBar.h"
 
 DeleteGraphicKey::DeleteGraphicKey() {
 }
@@ -61,6 +63,9 @@ void DeleteGraphicKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 			classDiagramForm->selection->Remove(classDiagramForm->diagram, classDiagramForm->selection->GetAt(classDiagramForm->selection->GetLength() - 1));
 		}
 	}
+	classDiagramForm->lastClass->statusBar->DestroyStatus();
+	classDiagramForm->lastClass->statusBar->MakeStatusBar(classDiagramForm->lastClass, classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
+
 	classDiagramForm->mouseLButton->ChangeDefault();
 }
 
