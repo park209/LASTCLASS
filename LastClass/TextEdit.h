@@ -66,7 +66,6 @@ public:
 	Long flagBuffer; //flag
 	Figure *figure;
 	Long rollNameBoxIndex;
-	Long numLockFlag;
 private:
 	Long koreanEnglish; //flag
 	Long currentX;
