@@ -11,6 +11,7 @@ class MemoBox : public FigureComposite {
 public:
 	MemoBox(Long capacity = 10);
 	MemoBox(Long x, Long y, Long width, Long height);
+	MemoBox(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight);
 	MemoBox(const MemoBox& source);
 	virtual ~MemoBox();	// 
 

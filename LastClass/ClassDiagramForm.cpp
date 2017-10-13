@@ -47,6 +47,7 @@
 #include "MenuAction.h"
 #include "Scroll.h"
 #include "ScrollAction.h"
+#include "GraphicCtrlCopyKey.h"
 
 #include <math.h>
 #include <iostream>
@@ -107,6 +108,8 @@ Long ClassDiagramForm::Load() {
 	Long width = 0;
 	Long height = 0;
 	Long length = 0;
+	Long minimumWidth = 0;
+	Long minimumHeight = 0;
 	Long index;
 	Long type = 0;
 	Long relationLength = 0;
@@ -135,9 +138,9 @@ Long ClassDiagramForm::Load() {
 
 	if (fTest.is_open()) {  
 		getline(fTest, temp1);
-		sscanf_s((CString)temp1.c_str(), "%d %d %d %d %d %d", &length, &x, &y, &width, &height, &type);
+		sscanf_s((CString)temp1.c_str(), "%d %d %d %d %d %d %d %d", &length, &x, &y, &width, &height, &minimumWidth, &minimumHeight, &type);
 		while (!fTest.eof()) {
-			figure = factory.Create(x, y, width, height, type);
+			figure = factory.Create(x, y, width, height, minimumWidth, minimumHeight, type);
 			position = this->diagram->Add(figure);
 			FigureComposite *figureComposite = static_cast<FigureComposite*>(this->diagram->GetAt(position));
 			if (type == 7) {   //메모박스이면
@@ -159,8 +162,8 @@ Long ClassDiagramForm::Load() {
 			i = 0;
 			while (position != -1 && i < length) {
 				getline(fTest, temp1);
-				sscanf_s((CString)temp1.c_str(), "%d %d %d %d %d", &x, &y, &width, &height, &type); //말단객체
-				figure = factory.Create(x, y, width, height, type);
+				sscanf_s((CString)temp1.c_str(), "%d %d %d %d %d %d %d", &x, &y, &width, &height, &minimumWidth, &minimumHeight, &type); //말단객체
+				figure = factory.Create(x, y, width, height, minimumWidth, minimumHeight, type);
 			
 				if (type < 7 && type != 2) {
 					getline(fTest, temp1);
@@ -251,7 +254,7 @@ Long ClassDiagramForm::Load() {
 				i++;
 			}
 			getline(fTest, temp1);
-			sscanf_s((CString)temp1.c_str(), "%d %d %d %d %d %d", &length, &x, &y, &width, &height, &type);
+			sscanf_s((CString)temp1.c_str(), "%d %d %d %d %d %d %d %d", &length, &x, &y, &width, &height, &minimumWidth, &minimumHeight, &type);
 		}
 	}
 	fTest.close();
@@ -293,10 +296,9 @@ Long ClassDiagramForm::Save() {
 			if (dynamic_cast<Class*>(this->diagram->GetAt(i))) {
 				object = static_cast<FigureComposite*>(this->diagram->GetAt(i));
 				fTest << object->GetLength() << " " << object->GetX() << " " << object->GetY()
-					<< " " << object->GetWidth() << " " << object->GetHeight() << " " << 0 << endl;
+					<< " " << object->GetWidth() << " " << object->GetHeight() << " " << object->GetMinimumWidth() << " " <<object->GetMinimumHeight() << " " << 0 << endl;
 				while (j < object->GetLength())
 				{
-
 					k = 0;
 					l = 0;
 					if (dynamic_cast<ClassName*>(object->GetAt(j))) {
@@ -304,21 +306,21 @@ Long ClassDiagramForm::Save() {
 						fontSize = figure->GetFontSize();
 						rowLength = figure->GetRowCount(figure->GetContent());
 						fTest << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-							<< figure->GetHeight() << " " << 1 << endl;
+							<< figure->GetHeight() << " " << figure->GetMinimumWidth() << " " << figure->GetMinimumHeight() << " " << 1 << endl;
 						fTest << fontSize << " " << rowLength << endl;
 						fTest << figure->GetContent() << endl;
 					}
 					else if (dynamic_cast<Line*>(object->GetAt(j))) {
 						figure = object->GetAt(j);
 						fTest << figure->GetX() << " " << figure->GetY() << " " <<
-							figure->GetWidth() << " " << figure->GetHeight() << " " << 2 << endl;
+							figure->GetWidth() << " " << figure->GetHeight() << " " << figure->GetMinimumWidth() << " " << figure->GetMinimumHeight() << " " << 2 << endl;
 					}
 					else if (dynamic_cast<Attribute*>(object->GetAt(j))) {
 						figure = static_cast<Attribute*>(object->GetAt(j));
 						fontSize = figure->GetFontSize();
 						rowLength = figure->GetRowCount(figure->GetContent());
 						fTest << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-							<< figure->GetHeight() << " " << 3 << endl;
+							<< figure->GetHeight() << " " << figure->GetMinimumWidth() << " " << figure->GetMinimumHeight() << " " << 3 << endl;
 						fTest << fontSize << " " << rowLength << endl;
 						fTest << figure->GetContent() << endl;
 					}
@@ -327,7 +329,7 @@ Long ClassDiagramForm::Save() {
 						fontSize = figure->GetFontSize();
 						rowLength = figure->GetRowCount(figure->GetContent());
 						fTest << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-							<< figure->GetHeight() << " " << 4 << endl;
+							<< figure->GetHeight() << " " << figure->GetMinimumWidth() << " " << figure->GetMinimumHeight() << " " << 4 << endl;
 						fTest << fontSize << " " << rowLength << endl;
 						fTest << figure->GetContent() << endl;
 					}
@@ -336,7 +338,7 @@ Long ClassDiagramForm::Save() {
 						fontSize = figure->GetFontSize();
 						rowLength = figure->GetRowCount(figure->GetContent());
 						fTest << figure->GetX() << " " << figure->GetY() << " " << figure->GetWidth() << " "
-							<< figure->GetHeight() << " " << 5 << endl;
+							<< figure->GetHeight() << " " << figure->GetMinimumWidth() << " " << figure->GetMinimumHeight() << " " << 5 << endl;
 						fTest << fontSize << " " << rowLength << endl;
 						fTest << figure->GetContent() << endl;
 					}
@@ -345,14 +347,14 @@ Long ClassDiagramForm::Save() {
 						fontSize = figure->GetFontSize();
 						rowLength = figure->GetRowCount(figure->GetContent());
 						fTest << figure->GetX() << " " << figure->GetY() << " " <<
-							figure->GetWidth() << " " << figure->GetHeight() << " " << 6 << endl;
+							figure->GetWidth() << " " << figure->GetHeight() << " " << figure->GetMinimumWidth() << " " << figure->GetMinimumHeight() << " " << 6 << endl;
 						fTest << fontSize << " " << rowLength << endl;
 						fTest << figure->GetContent() << endl;
 					}
 					else if (dynamic_cast<MemoLine*>(object->GetAt(j))) {
 						Relation *relation = static_cast<Relation*>(object->GetAt(j));
 						fTest << relation->GetX() << " " << relation->GetY() << " " <<
-							relation->GetWidth() << " " << relation->GetHeight() << " " << 8 << endl;
+							relation->GetWidth() << " " << relation->GetHeight() << " " << relation->GetMinimumWidth() << " " << relation->GetMinimumHeight() << " " << 8 << endl;
 						fTest << relation->GetLength() << endl;
 						while (k < relation->GetLength()) {
 							cPoint = relation->GetAt(k);
@@ -363,7 +365,7 @@ Long ClassDiagramForm::Save() {
 					else if (dynamic_cast<Generalization*>(object->GetAt(j))) {
 						Relation *relation = static_cast<Relation*>(object->GetAt(j));
 						fTest << relation->GetX() << " " << relation->GetY() << " " <<
-							relation->GetWidth() << " " << relation->GetHeight() << " " << 9 << endl;
+							relation->GetWidth() << " " << relation->GetHeight() << " " << relation->GetMinimumWidth() << " " << relation->GetMinimumHeight() << " " << 9 << endl;
 						fTest << relation->GetLength() << endl;
 						while (k < relation->GetLength()) {
 							cPoint = relation->GetAt(k);
@@ -379,7 +381,7 @@ Long ClassDiagramForm::Save() {
 					else if (dynamic_cast<Realization*>(object->GetAt(j))) {
 						Relation *relation = static_cast<Relation*>(object->GetAt(j));
 						fTest << relation->GetX() << " " << relation->GetY() << " " <<
-							relation->GetWidth() << " " << relation->GetHeight() << " " << 10 << endl;
+							relation->GetWidth() << " " << relation->GetHeight() << " " << relation->GetMinimumWidth() << " " << relation->GetMinimumHeight() << " " << 10 << endl;
 						fTest << relation->GetLength() << endl;
 						while (k < relation->GetLength()) {
 							cPoint = relation->GetAt(k);
@@ -395,7 +397,7 @@ Long ClassDiagramForm::Save() {
 					else if (dynamic_cast<Dependency*>(object->GetAt(j))) {
 						Relation *relation = static_cast<Relation*>(object->GetAt(j));
 						fTest << relation->GetX() << " " << relation->GetY() << " " <<
-							relation->GetWidth() << " " << relation->GetHeight() << " " << 11 << endl;
+							relation->GetWidth() << " " << relation->GetHeight() << " " << relation->GetMinimumWidth() << " " << relation->GetMinimumHeight() << " " << 11 << endl;
 						fTest << relation->GetLength() << endl;
 						while (k < relation->GetLength()) {
 							cPoint = relation->GetAt(k);
@@ -411,7 +413,7 @@ Long ClassDiagramForm::Save() {
 					else if (dynamic_cast<Association*>(object->GetAt(j))) {
 						Relation *relation = static_cast<Relation*>(object->GetAt(j));
 						fTest << relation->GetX() << " " << relation->GetY() << " " <<
-							relation->GetWidth() << " " << relation->GetHeight() << " " << 12 << endl;
+							relation->GetWidth() << " " << relation->GetHeight() << " " << relation->GetMinimumWidth() << " " << relation->GetMinimumHeight() << " " << 12 << endl;
 						fTest << relation->GetLength() << endl;
 						while (k < relation->GetLength()) {
 							cPoint = relation->GetAt(k);
@@ -427,7 +429,7 @@ Long ClassDiagramForm::Save() {
 					else if (dynamic_cast<DirectedAssociation*>(object->GetAt(j))) {
 						Relation *relation = static_cast<Relation*>(object->GetAt(j));
 						fTest << relation->GetX() << " " << relation->GetY() << " " <<
-							relation->GetWidth() << " " << relation->GetHeight() << " " << 13 << endl;
+							relation->GetWidth() << " " << relation->GetHeight() << " " << relation->GetMinimumWidth() << " " << relation->GetMinimumHeight() << " " << 13 << endl;
 						fTest << relation->GetLength() << endl;
 						while (k < relation->GetLength()) {
 							cPoint = relation->GetAt(k);
@@ -443,7 +445,7 @@ Long ClassDiagramForm::Save() {
 					else if (dynamic_cast<Aggregation*>(object->GetAt(j))) {
 						Relation *relation = static_cast<Relation*>(object->GetAt(j));
 						fTest << relation->GetX() << " " << relation->GetY() << " " <<
-							relation->GetWidth() << " " << relation->GetHeight() << " " << 14 << endl;
+							relation->GetWidth() << " " << relation->GetHeight() << " " << relation->GetMinimumWidth() << " " << relation->GetMinimumHeight() << " " << 14 << endl;
 						fTest << relation->GetLength() << endl;
 						while (k < relation->GetLength()) {
 							cPoint = relation->GetAt(k);
@@ -459,7 +461,7 @@ Long ClassDiagramForm::Save() {
 					else if (dynamic_cast<Aggregations*>(object->GetAt(j))) {
 						Relation *relation = static_cast<Relation*>(object->GetAt(j));
 						fTest << relation->GetX() << " " << relation->GetY() << " " <<
-							relation->GetWidth() << " " << relation->GetHeight() << " " << 15 << endl;
+							relation->GetWidth() << " " << relation->GetHeight() << " " << relation->GetMinimumWidth() << " " << relation->GetMinimumHeight() << " " << 15 << endl;
 						fTest << relation->GetLength() << endl;
 						while (k < relation->GetLength()) {
 							cPoint = relation->GetAt(k);
@@ -476,7 +478,7 @@ Long ClassDiagramForm::Save() {
 					else if (dynamic_cast<Composition*>(object->GetAt(j))) {
 						Relation *relation = static_cast<Relation*>(object->GetAt(j));
 						fTest << relation->GetX() << " " << relation->GetY() << " " <<
-							relation->GetWidth() << " " << relation->GetHeight() << " " << 16 << endl;
+							relation->GetWidth() << " " << relation->GetHeight() << " " << relation->GetMinimumWidth() << " " << relation->GetMinimumHeight() << " " << 16 << endl;
 						fTest << relation->GetLength() << endl;
 						while (k < relation->GetLength()) {
 							cPoint = relation->GetAt(k);
@@ -492,7 +494,7 @@ Long ClassDiagramForm::Save() {
 					else if (dynamic_cast<Compositions*>(object->GetAt(j))) {
 						Relation *relation = static_cast<Relation*>(object->GetAt(j));
 						fTest << relation->GetX() << " " << relation->GetY() << " " <<
-							relation->GetWidth() << " " << relation->GetHeight() << " " << 17 << endl;
+							relation->GetWidth() << " " << relation->GetHeight() << " " << relation->GetMinimumWidth() << " " << relation->GetMinimumHeight() << " " << 17 << endl;
 						fTest << relation->GetLength() << endl;
 						while (k < relation->GetLength()) {
 							cPoint = relation->GetAt(k);
@@ -508,7 +510,8 @@ Long ClassDiagramForm::Save() {
 
 					else if (dynamic_cast<SelfGeneralization*>(object->GetAt(j))) {
 						selfRelation = static_cast<SelfRelation*>(object->GetAt(j));
-						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " << 18 << endl;
+						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " 
+							<< selfRelation->GetMinimumWidth() << " " << selfRelation->GetMinimumHeight() << " " << 18 << endl;
 						while (l < 5) {
 							fTest << selfRelation->rollNames->GetAt(l) << endl;;
 							fTest << selfRelation->rollNamePoints->GetAt(l).x << " " << selfRelation->rollNamePoints->GetAt(l).y << endl;
@@ -517,7 +520,8 @@ Long ClassDiagramForm::Save() {
 					}
 					else if (dynamic_cast<SelfDependency*>(object->GetAt(j))) {
 						selfRelation = static_cast<SelfRelation*>(object->GetAt(j));
-						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " << 19 << endl;
+						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " 
+							<< selfRelation->GetMinimumWidth() << " " << selfRelation->GetMinimumHeight() << " " << 19 << endl;
 						while (l < 5) {
 							fTest << selfRelation->rollNames->GetAt(l) << endl;;
 							fTest << selfRelation->rollNamePoints->GetAt(l).x << " " << selfRelation->rollNamePoints->GetAt(l).y << endl;
@@ -527,7 +531,8 @@ Long ClassDiagramForm::Save() {
 					}
 					else if (dynamic_cast<SelfAssociation*>(object->GetAt(j))) {
 						selfRelation = static_cast<SelfRelation*>(object->GetAt(j));
-						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " << 20 << endl;
+						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " 
+							<< selfRelation->GetMinimumWidth() << " " << selfRelation->GetMinimumHeight() << " " << 20 << endl;
 						while (l < 5) {
 							fTest << selfRelation->rollNames->GetAt(l) << endl;;
 							fTest << selfRelation->rollNamePoints->GetAt(l).x << " " << selfRelation->rollNamePoints->GetAt(l).y << endl;
@@ -536,7 +541,8 @@ Long ClassDiagramForm::Save() {
 					}
 					else if (dynamic_cast<SelfDirectedAssociation*>(object->GetAt(j))) {
 						selfRelation = static_cast<SelfRelation*>(object->GetAt(j));
-						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " << 21 << endl;
+						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " 
+							<< selfRelation->GetMinimumWidth() << " " << selfRelation->GetMinimumHeight() << " " << 21 << endl;
 						while (l < 5) {
 							fTest << selfRelation->rollNames->GetAt(l) << endl;;
 							fTest << selfRelation->rollNamePoints->GetAt(l).x << " " << selfRelation->rollNamePoints->GetAt(l).y << endl;
@@ -545,7 +551,8 @@ Long ClassDiagramForm::Save() {
 					}
 					else if (dynamic_cast<SelfAggregation*>(object->GetAt(j))) {
 						selfRelation = static_cast<SelfRelation*>(object->GetAt(j));
-						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " << 22 << endl;
+						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " 
+							<< selfRelation->GetMinimumWidth() << " " << selfRelation->GetMinimumHeight() << " " << 22 << endl;
 						while (l < 5) {
 							fTest << selfRelation->rollNames->GetAt(l) << endl;;
 							fTest << selfRelation->rollNamePoints->GetAt(l).x << " " << selfRelation->rollNamePoints->GetAt(l).y << endl;
@@ -554,7 +561,8 @@ Long ClassDiagramForm::Save() {
 					}
 					else if (dynamic_cast<SelfAggregations*>(object->GetAt(j))) {
 						selfRelation = static_cast<SelfRelation*>(object->GetAt(j));
-						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " << 23 << endl;
+						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " 
+							<< selfRelation->GetMinimumWidth() << " " << selfRelation->GetMinimumHeight() << " " << 23 << endl;
 						while (l < 5) {
 							fTest << selfRelation->rollNames->GetAt(l) << endl;;
 							fTest << selfRelation->rollNamePoints->GetAt(l).x << " " << selfRelation->rollNamePoints->GetAt(l).y << endl;
@@ -564,7 +572,8 @@ Long ClassDiagramForm::Save() {
 					}
 					else if (dynamic_cast<SelfComposition*>(object->GetAt(j))) {
 						selfRelation = static_cast<SelfRelation*>(object->GetAt(j));
-						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " << 24 << endl;
+						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " 
+							<< selfRelation->GetMinimumWidth() << " " << selfRelation->GetMinimumHeight() << " " << 24 << endl;
 						while (l < 5) {
 							fTest << selfRelation->rollNames->GetAt(l) << endl;;
 							fTest << selfRelation->rollNamePoints->GetAt(l).x << " " << selfRelation->rollNamePoints->GetAt(l).y << endl;
@@ -574,7 +583,8 @@ Long ClassDiagramForm::Save() {
 					}
 					else if (dynamic_cast<SelfCompositions*>(object->GetAt(j))) {
 						selfRelation = static_cast<SelfRelation*>(object->GetAt(j));
-						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " << 25 << endl;
+						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " 
+							<< selfRelation->GetMinimumWidth() << " " << selfRelation->GetMinimumHeight() << " " << 25 << endl;
 						while (l < 5) {
 							fTest << selfRelation->rollNames->GetAt(l) << endl;;
 							fTest << selfRelation->rollNamePoints->GetAt(l).x << " " << selfRelation->rollNamePoints->GetAt(l).y << endl;
@@ -589,13 +599,13 @@ Long ClassDiagramForm::Save() {
 				fontSize = object->GetFontSize();
 				rowLength = object->GetRowCount(object->GetContent());
 				fTest << object->GetLength() << " " << object->GetX() << " " << object->GetY()
-					<< " " << object->GetWidth() << " " << object->GetHeight() << " " << 7 << endl;;
+					<< " " << object->GetWidth() << " " << object->GetHeight() << " " << object->GetMinimumWidth() << " " << object->GetMinimumHeight() << " " << 7 << endl;;
 				fTest << fontSize << " " << rowLength << endl;
 				fTest << object->GetContent() << endl;
 				while (j < object->GetLength()) {
 					Relation *relation = static_cast<Relation*>(object->GetAt(j));
 					fTest << relation->GetX() << " " << relation->GetY() << " " <<
-						relation->GetWidth() << " " << relation->GetHeight() << " " << 8 << endl;
+						relation->GetWidth() << " " << relation->GetHeight() << " " << relation->GetMinimumWidth() << " " << relation->GetMinimumHeight() << " " << 8 << endl;
 					fTest << relation->GetLength() << endl;
 
 					while (k < relation->GetLength()) {
@@ -740,7 +750,7 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 		if (keyAction != 0) {
 			keyAction->KeyPress(this, &dc);
-			Invalidate(false);
+				Invalidate(false);
 		}
 		dc.SelectObject(oldFont);
 		cFont.DeleteObject();
@@ -803,10 +813,12 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 	this->startY = point.y + vertCurPos;
 	this->currentX = point.x + horzCurPos;
 	this->currentY = point.y + vertCurPos;
+
 	CMenu *menu;
 	if (this->selection->GetLength() > 0) {
 		menu = this->classDiagramFormMenu->menu2;
-		if (!dynamic_cast<Class*>(this->selection->GetAt(0))) {
+		Figure *figure = this->selection->GetAt(0);
+		if (!(dynamic_cast<Class*>(figure))) {
 			menu->EnableMenuItem(127, MF_DISABLED);
 			menu->EnableMenuItem(135, MF_DISABLED);
 			menu->EnableMenuItem(130, MF_DISABLED);
@@ -815,6 +827,16 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 			menu->EnableMenuItem(131, MF_DISABLED);
 			menu->EnableMenuItem(132, MF_DISABLED);
 			menu->EnableMenuItem(134, MF_DISABLED);
+		}
+		else {
+			menu->EnableMenuItem(127, MF_ENABLED);
+			menu->EnableMenuItem(135, MF_ENABLED);
+			menu->EnableMenuItem(130, MF_ENABLED);
+			menu->EnableMenuItem(133, MF_ENABLED);
+			menu->EnableMenuItem(128, MF_ENABLED);
+			menu->EnableMenuItem(131, MF_ENABLED);
+			menu->EnableMenuItem(132, MF_ENABLED);
+			menu->EnableMenuItem(134, MF_ENABLED);
 		}
 	}
 	else {
@@ -837,8 +859,8 @@ void ClassDiagramForm::OnRButtonDown(UINT nFlags, CPoint point) {
 	this->currentY = point.y + vertCurPos;
 
 	this->selection->DeleteAllItems();
-
 	this->selection->SelectByPoint(this->diagram, this->currentX, this->currentY);
+
 	Invalidate(false);
 }
 BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
@@ -1213,10 +1235,6 @@ void ClassDiagramForm::OnClose() {
 		if (this->historyGraphic != NULL) {
 			delete this->historyGraphic;
 			this->historyGraphic = NULL;
-		}
-		if (this->textEdit != NULL) {
-			delete this->textEdit;
-			this->textEdit = NULL;
 		}
 		if (this->scroll != NULL) {
 			delete this->scroll;

@@ -14,7 +14,7 @@ class FigureFactory {
 public:
 	FigureFactory();
 	~FigureFactory();
-	Figure* Create(Long x, Long y, Long width, Long height, Long type);
+	Figure* Create(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight, Long type);
 };
 
 #endif // !_FIGUREFACTORY_H

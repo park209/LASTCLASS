@@ -10,6 +10,7 @@ class Attribute : public Figure {
 public:
 	Attribute();
 	Attribute(Long x, Long y, Long width, Long height, string content);
+	Attribute(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight, string content);
 	Attribute(const Attribute& source);
 	virtual ~Attribute();
 
