@@ -50,6 +50,11 @@
 #include "CtrlPreviewKey.h"
 #include "CtrlPrintKey.h"
 #include "GraphicCtrlDeleteKey.h"
+#include "GraphicRightArrowKey.h"
+#include "GraphicUpArrowKey.h"
+#include "GraphicDownArrowKey.h"
+#include "GraphicLeftArrowKey.h"
+
 
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
@@ -312,6 +317,18 @@ KeyAction* KeyBoard::KeyDown(ClassDiagramForm *classDiagramForm, UINT nChar, UIN
 		else if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
 				this->keyAction = new RemoveMethodKey;
 			}
+		break;
+	case VK_LEFT:
+		this->keyAction = new GraphicLeftArrowKey;
+		break;
+	case VK_RIGHT:
+		this->keyAction = new GraphicRightArrowKey;
+		break;
+	case VK_UP:
+		this->keyAction = new GraphicUpArrowKey;
+		break;
+	case VK_DOWN:
+		this->keyAction = new GraphicDownArrowKey;
 		break;
 	default:
 		break;

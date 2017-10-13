@@ -45,6 +45,7 @@ void GraphicCtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 	classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram);
 	if (classDiagramForm->copyBuffer != 0) {
 		delete classDiagramForm->copyBuffer;
+		classDiagramForm->copyBuffer = 0;
 	}
 	Long d;
 	Figure *object3;

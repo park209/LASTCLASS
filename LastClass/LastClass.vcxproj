@@ -46,6 +46,10 @@
     <ClInclude Include="DeleteReceptionMenuAction.h" />
     <ClInclude Include="DeleteTemplateMenuAction.h" />
     <ClInclude Include="ExitKeyMenuAction.h" />
+    <ClInclude Include="GraphicDownArrowKey.h" />
+    <ClInclude Include="GraphicLeftArrowKey.h" />
+    <ClInclude Include="GraphicRightArrowKey.h" />
+    <ClInclude Include="GraphicUpArrowKey.h" />
     <ClInclude Include="LastClassApp.h" />
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="ClassMenuAction.h" />
@@ -257,6 +261,10 @@
     <ClCompile Include="DeleteReceptionMenuAction.cpp" />
     <ClCompile Include="DeleteTemplateMenuAction.cpp" />
     <ClCompile Include="ExitKeyMenuAction.cpp" />
+    <ClCompile Include="GraphicDownArrowKey.cpp" />
+    <ClCompile Include="GraphicleftArrowKey.cpp" />
+    <ClCompile Include="GraphicRightArrowKey.cpp" />
+    <ClCompile Include="GraphicUpArrowKey.cpp" />
     <ClCompile Include="LastClassApp.cpp" />
     <ClCompile Include="ClassDiagramForm.cpp" />
     <ClCompile Include="ClassMenuAction.cpp" />

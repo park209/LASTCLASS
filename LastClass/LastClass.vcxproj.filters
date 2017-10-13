@@ -638,6 +638,10 @@
     <ClInclude Include="DeleteMethodMenuAction.h" />
     <ClInclude Include="AddReceptionMenuAction.h" />
     <ClInclude Include="DeleteReceptionMenuAction.h" />
+    <ClInclude Include="GraphicRightArrowKey.h" />
+    <ClInclude Include="GraphicLeftArrowKey.h" />
+    <ClInclude Include="GraphicUpArrowKey.h" />
+    <ClInclude Include="GraphicDownArrowKey.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">
@@ -1242,6 +1246,18 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="DeleteReceptionMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicRightArrowKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicleftArrowKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicUpArrowKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicDownArrowKey.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>
