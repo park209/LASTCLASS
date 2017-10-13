@@ -47,6 +47,7 @@
 #include "MenuAction.h"
 #include "Scroll.h"
 #include "ScrollAction.h"
+#include "GraphicCtrlCopyKey.h"
 
 #include <math.h>
 #include <iostream>
@@ -749,7 +750,7 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 		if (keyAction != 0) {
 			keyAction->KeyPress(this, &dc);
-			Invalidate(false);
+				Invalidate(false);
 		}
 		dc.SelectObject(oldFont);
 		cFont.DeleteObject();

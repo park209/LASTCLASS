@@ -48,7 +48,7 @@ void GraphicCtrlCopyKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) 
 	if (classDiagramForm->isCut == 1) {
 		classDiagramForm->isCut = 0;
 	}
-	if (classDiagramForm->selection->GetLength() == 1) {
+	/*if (classDiagramForm->selection->GetLength() == 1) {
 		//Figure *parent;
 		Finder finder;
 		CBitmap bitmap;
@@ -248,7 +248,7 @@ void GraphicCtrlCopyKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) 
 				parent = static_cast<Class*>(finder.GetParents(classDiagramForm->diagram, objectRelation));
 				objectRelation->SetX(parent->GetWidth());
 				objectRelation->SetY(objectRelation->GetY() - parent->GetY());
-				}*/
+				}
 				if (dynamic_cast<Generalization*>(objectRelation)) {
 					static_cast<Generalization*>(objectRelation)->Accept(drawingVisitor, &memDC);
 				}
@@ -325,6 +325,7 @@ void GraphicCtrlCopyKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) 
 		bitmap.DeleteObject();
 		memDC.DeleteDC();
 	}
+	*/
 }
 
 
