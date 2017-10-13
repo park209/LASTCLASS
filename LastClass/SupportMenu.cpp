@@ -11,12 +11,16 @@ BEGIN_MESSAGE_MAP(SupportMenu, CWnd)
 	ON_BN_CLICKED(2, OnNextButton)
 	ON_BN_CLICKED(3, OnOkButton)
 END_MESSAGE_MAP()
-SupportMenu::SupportMenu() {
+SupportMenu::SupportMenu(LastClass *lastClass) {
+	this->lastClass = lastClass;
 	this->page = 1;
 	this->menualCount = 2;
 }
 int SupportMenu::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct);
+
+	this->lastClass->EnableWindow(FALSE);
+
 	CRect rt;
 	this->GetClientRect(&rt);
 	this->OnSetFocus(this);
@@ -74,6 +78,8 @@ void SupportMenu::OnPaint() {
 	dc.TextOut(point.x, rt.bottom - 35, pagePage);
 }
 void SupportMenu::OnClose() {
+	this->lastClass->EnableWindow(TRUE);
+
 	if (this->nextButton != 0) {
 		delete this->nextButton;
 	}

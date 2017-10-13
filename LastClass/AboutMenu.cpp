@@ -8,10 +8,14 @@ BEGIN_MESSAGE_MAP(AboutMenu, CWnd)
 	ON_WM_PAINT()
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
-AboutMenu::AboutMenu() {
+AboutMenu::AboutMenu(LastClass *lastClass) {
+	this->lastClass = lastClass;
 }
 int AboutMenu::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct);
+
+	this->lastClass->EnableWindow(FALSE);
+
 	CRect rt;
 	this->GetClientRect(&rt);
 	this->OnSetFocus(this);
@@ -45,6 +49,8 @@ void AboutMenu::OnPaint() {
 	memDC.DeleteDC();
 }
 void AboutMenu::OnClose() {
+	this->lastClass->EnableWindow(TRUE);
+
 	if (this != 0) {
 		delete this;
 	}
