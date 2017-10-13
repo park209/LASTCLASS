@@ -802,10 +802,12 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 	this->startY = point.y + vertCurPos;
 	this->currentX = point.x + horzCurPos;
 	this->currentY = point.y + vertCurPos;
+
 	CMenu *menu;
 	if (this->selection->GetLength() > 0) {
 		menu = this->classDiagramFormMenu->menu2;
-		if (!dynamic_cast<Class*>(this->selection->GetAt(0))) {
+		Figure *figure = this->selection->GetAt(0);
+		if (!(dynamic_cast<Class*>(figure))) {
 			menu->EnableMenuItem(127, MF_DISABLED);
 			menu->EnableMenuItem(135, MF_DISABLED);
 			menu->EnableMenuItem(130, MF_DISABLED);
@@ -814,6 +816,16 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 			menu->EnableMenuItem(131, MF_DISABLED);
 			menu->EnableMenuItem(132, MF_DISABLED);
 			menu->EnableMenuItem(134, MF_DISABLED);
+		}
+		else {
+			menu->EnableMenuItem(127, MF_ENABLED);
+			menu->EnableMenuItem(135, MF_ENABLED);
+			menu->EnableMenuItem(130, MF_ENABLED);
+			menu->EnableMenuItem(133, MF_ENABLED);
+			menu->EnableMenuItem(128, MF_ENABLED);
+			menu->EnableMenuItem(131, MF_ENABLED);
+			menu->EnableMenuItem(132, MF_ENABLED);
+			menu->EnableMenuItem(134, MF_ENABLED);
 		}
 	}
 	else {
@@ -836,8 +848,8 @@ void ClassDiagramForm::OnRButtonDown(UINT nFlags, CPoint point) {
 	this->currentY = point.y + vertCurPos;
 
 	this->selection->DeleteAllItems();
-
 	this->selection->SelectByPoint(this->diagram, this->currentX, this->currentY);
+
 	Invalidate(false);
 }
 BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
