@@ -805,11 +805,22 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 	CMenu *menu;
 	if (this->selection->GetLength() > 0) {
 		menu = this->classDiagramFormMenu->menu2;
+		if (!dynamic_cast<Class*>(this->selection->GetAt(0))) {
+			menu->EnableMenuItem(127, MF_DISABLED);
+			menu->EnableMenuItem(135, MF_DISABLED);
+			menu->EnableMenuItem(130, MF_DISABLED);
+			menu->EnableMenuItem(133, MF_DISABLED);
+			menu->EnableMenuItem(128, MF_DISABLED);
+			menu->EnableMenuItem(131, MF_DISABLED);
+			menu->EnableMenuItem(132, MF_DISABLED);
+			menu->EnableMenuItem(134, MF_DISABLED);
+		}
 	}
 	else {
 		menu = this->classDiagramFormMenu->menu1;
 	}
-	menu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, this->currentX, this->currentY, this);
+	ClientToScreen(&point); //스크린 기준으로 들어가야함.
+	menu->TrackPopupMenu(TPM_LEFTBUTTON | TPM_LEFTALIGN, point.x, point.y, this);
 
 	Invalidate(false);
 }
@@ -826,7 +837,7 @@ void ClassDiagramForm::OnRButtonDown(UINT nFlags, CPoint point) {
 
 	this->selection->DeleteAllItems();
 
-	this->selection->SelectByPoint(this->diagram, currentX, currentY);
+	this->selection->SelectByPoint(this->diagram, this->currentX, this->currentY);
 	Invalidate(false);
 }
 BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
