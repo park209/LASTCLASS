@@ -11,6 +11,7 @@ class Class : public FigureComposite {
 public:
 	Class(Long capacity = 64);  // 관리는 Line을 하고
 	Class(Long x, Long y, Long width, Long height); // 본인 그림(클래스다이어그램 기호)
+	Class(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight);
 	Class(const Class& source);
 	virtual ~Class();
 

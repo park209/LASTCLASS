@@ -13,6 +13,7 @@ class Method : public Figure {
 public:
 	Method();
 	Method(Long x, Long y, Long width, Long height, string content);
+	Method(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight, string content);
 	Method(const Method& source);
 	virtual ~Method();
 

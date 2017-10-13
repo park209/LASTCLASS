@@ -487,6 +487,7 @@ void TextEdit::OnClose() {
 		delete this->fontSet;
 	}
 	if (this != NULL) {
+		this->classDiagramForm->textEdit = NULL;
 		delete this;
 	}
 }

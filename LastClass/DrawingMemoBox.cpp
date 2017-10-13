@@ -20,6 +20,7 @@ MouseLButtonAction* DrawingMemoBox::Instance() {
 }
 void DrawingMemoBox::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	Long index;
+	bool ret;
 
 	classDiagramForm->historyGraphic->PushUndo(diagram);
 
@@ -32,7 +33,10 @@ void DrawingMemoBox::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 		rect.bottom = rect.top + 80;
 	}
 
-	index = diagram->AddMemoBox(rect.left, rect.top, rect.Width(), rect.Height());
+	ret = diagram->CheckOverlap(rect, 0);
+	if (ret == false) {
+		index = diagram->AddMemoBox(rect.left, rect.top, rect.Width(), rect.Height());
+	}
 
 	classDiagramForm->lastClass->statusBar->DestroyStatus();
 	classDiagramForm->lastClass->statusBar->MakeStatusBar(classDiagramForm->lastClass, classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
