@@ -72,16 +72,26 @@ Class::Class(const Class& source) :FigureComposite(source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
-	this->content = source.content;
 	this->minimumWidth = source.minimumWidth;
 	this->minimumHeight = source.minimumHeight;
-	this->fontSize = source.fontSize;
 	this->attributePosition = source.attributePosition;
 	this->methodPosition = source.methodPosition;
 	this->receptionPosition = source.receptionPosition;
 	this->templetePosition = source.templetePosition;
 }
 
+Class::Class(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight) : FigureComposite(64) {
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
+	this->minimumWidth = minimumWidth;
+	this->minimumHeight = minimumHeight;
+	this->attributePosition = -1;
+	this->methodPosition = -1;
+	this->receptionPosition = -1;
+	this->templetePosition = -1;
+}
 Class::~Class() {
 	Long i = 0;
 	while (i < this->length) {
