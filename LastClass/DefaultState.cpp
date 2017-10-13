@@ -35,7 +35,9 @@ void DefaultState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 	Finder finder;
 	CRect area = diagram->GetCorrectRect(startX, startY, currentX, currentY);
 	selection->DeleteAllItems();
-	selection->SelectByArea(diagram, area);
+	if (startX != 0||startY!=0 ) {
+		selection->SelectByArea(diagram, area);
+	}
 
 	if (selection->GetLength() == 1) {
 		this->ChangeState(mouseLButton, SelectionState::Instance());
