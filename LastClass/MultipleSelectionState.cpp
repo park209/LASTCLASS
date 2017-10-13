@@ -50,7 +50,7 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 	}
 	classDiagramForm->historyGraphic->PushUndo(diagram);
 	i = 0;
-	while (i < length && GetKeyState(VK_SHIFT) >= 0&&ret==false) { // 선택된 개수만큼 반복
+	while (i < length && GetKeyState(VK_SHIFT) >= 0 && ret==false) { // 선택된 개수만큼 반복
 		figure = selection->GetAt(i);
 
 
@@ -227,13 +227,15 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 		i++;
 	}
 	if (startX == currentX && startY == currentY) {
-		selection->DeleteAllItems();
-		selection->SelectByPoint(diagram,currentX, currentY);
-		if (selection->GetLength() == 0) {
-			classDiagramForm->mouseLButton->ChangeDefault();
-		}
-		else {
-			this->ChangeState(mouseLButton, SelectionState::Instance());
+		if (GetKeyState(VK_SHIFT) >= 0) {
+			selection->DeleteAllItems();
+			selection->SelectByPoint(diagram, currentX, currentY);
+			if (selection->GetLength() == 0) {
+				classDiagramForm->mouseLButton->ChangeDefault();
+			}
+			else {
+				this->ChangeState(mouseLButton, SelectionState::Instance());
+			}
 		}
 	}
 }
