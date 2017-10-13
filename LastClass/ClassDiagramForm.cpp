@@ -749,10 +749,10 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		}
 		if (nChar == VK_NUMLOCK) {
 			if ((GetKeyState(VK_NUMLOCK) & 0x0001) != 0) {
-				this->capsLockFlag = 1;
+				this->numLockFlag = 1;
 			}
 			else {
-				this->capsLockFlag = 0;
+				this->numLockFlag = 0;
 			}
 			this->lastClass->statusBar->DestroyStatus();
 			this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
