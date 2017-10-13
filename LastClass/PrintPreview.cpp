@@ -3,10 +3,11 @@
 #include "PrintPreview.h"
 #include "LastClass.h"
 #include "ClassDiagramForm.h"
+#include "Relation.h"
 #include "DrawingVisitor.h"
 #include "WritingVisitor.h"
 #include "Diagram.h"
-
+#include "Finder.h"
 #include "PrintPreviewButton.h"
 #include "PrintPreviewButtonAction.h"
 
@@ -37,6 +38,8 @@ PrintPreview::PrintPreview(LastClass *lastClass) {
 	this->verticalPage = 0;
 	this->horizontalPageSize = 2000;
 	this->verticalPageSize = 2000;
+	this->horizontalPaperSize = 4000;
+	this->verticalPaperSize = 2000;
 	this->zoomRate = 100;
 }
 
@@ -64,7 +67,45 @@ int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
    this->lastClass->EnableWindow(false);
    //this->lastClass->classDiagramForm->EnableWindow(false);
-   
+
+
+   CRect rect(2000, 0, 4000, 2000);
+   bool ret = false;
+   Long l = 0;
+   Long m;
+   Long n;
+   Finder finder;
+   Long length = lastClass->classDiagramForm->diagram->GetLength();
+   while (l < length && ret != true) { // 2페이지에 클래스나 메모박스가 있는지 확인.
+	   FigureComposite *figureComposite = (FigureComposite*)lastClass->classDiagramForm->diagram->GetAt(l);
+	   CRect comperRect(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
+	   ret = finder.FindRectangleByArea(comperRect, rect);
+	   m = 0;
+	   while (m < figureComposite->GetLength() && ret != true) {
+		   Figure *figure = figureComposite->GetAt(m);
+		   ret = finder.FindRectangleByPoint(rect, figure->GetX(), figure->GetY());
+		   if (dynamic_cast<Relation*>(figure)) {
+			   Relation *relation = static_cast<Relation*>(figure);
+			   n = 0;
+			   while (n < relation->GetLength() && ret != true) {
+				   CPoint point1 = relation->GetAt(n);
+				   ret = finder.FindRectangleByPoint(rect, point1.x, point1.y);
+				   n++;
+			   }
+		   }
+		   m++;
+	   }
+	   l++;
+   }
+   if (ret == true) {
+	   this->verticalPaperSize = 2000;
+	   this->horizontalPaperSize = 4000;
+   }
+   else {
+	   this->verticalPaperSize = 2000;
+	   this->horizontalPaperSize = 2000;
+   }
+
    Invalidate();
    
    return 0;
@@ -79,9 +120,9 @@ void PrintPreview::OnPaint() {
 	CBitmap bitmap;
 	
 	memDC.CreateCompatibleDC(&dc);
-	bitmap.CreateCompatibleBitmap(&dc, 4000, 2000);
+	bitmap.CreateCompatibleBitmap(&dc, this->horizontalPaperSize, this->verticalPaperSize);
 	pOldBitmap = memDC.SelectObject(&bitmap);
-	memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
+	memDC.FillSolidRect(CRect(0, 0, this->horizontalPaperSize, this->verticalPaperSize), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
@@ -157,7 +198,7 @@ void PrintPreview::OnPrint(CDC *cdc, CPrintInfo *pInfo, UINT page) {
 	this->lastClass->classDiagramForm->GetClientRect(&rect);
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
-	
+
 	CPaintDC dc(this);
 
 	memDC.CreateCompatibleDC(&dc);
@@ -189,9 +230,9 @@ void PrintPreview::OnPrint(CDC *cdc, CPrintInfo *pInfo, UINT page) {
 	memDCOne.SetMapMode(mapMode);
 	cdc->SetStretchBltMode(COLORONCOLOR);
 
-	cdc->SetMapMode(MM_ISOTROPIC);
-	cdc->SetWindowExt(100, 100);
-	cdc->SetViewportExt(this->zoomRate, this->zoomRate);
+	//cdc->SetMapMode(MM_ISOTROPIC);
+	//cdc->SetWindowExt(100, 100);
+	//cdc->SetViewportExt(this->zoomRate, this->zoomRate);
 
 	cdc->StretchBlt(100, 100, width - 200, hegiht - 200, &memDCOne, 0, 0, 2000, 2000, SRCCOPY);
 
