@@ -138,8 +138,8 @@ Long Diagram::Remove(Long index) {
 	return this->figures.Delete(index);
 }
 
-CRect& Diagram::GetCorrectRect(Long startX, Long startY, Long currentX, Long currentY) {
-	CRect rect;
+CRect Diagram::GetCorrectRect(Long startX, Long startY, Long currentX, Long currentY) {
+	CRect rect(0,0,0,0);
 	if (currentX >= startX && currentY >= startY) {
 		rect.left = startX;
 		rect.top = startY;
