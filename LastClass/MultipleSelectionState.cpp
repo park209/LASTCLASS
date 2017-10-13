@@ -10,6 +10,7 @@
 #include "Line.h"
 #include "Class.h"
 #include "MemoBox.h"
+#include "SelectionState.h"
 
 MultipleSelectionState* MultipleSelectionState::instance = 0;
 
@@ -43,13 +44,13 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 		figure = selection->GetAt(i);
 		if (dynamic_cast<Class*>(figure) || dynamic_cast<MemoBox*>(figure)) {
 			CRect cRect1(figure->GetX() + (currentX - startX), figure->GetY() + (currentY - startY), figure->GetX() + (currentX - startX) + figure->GetWidth(), figure->GetY() + (currentY - startY) + figure->GetHeight());
-			ret = diagram->CheckOverlap(cRect1, selection);
+			ret = diagram->CheckOverlapSelection(cRect1, selection);
 		}
 		i++;
 	}
 	classDiagramForm->historyGraphic->PushUndo(diagram);
 	i = 0;
-	while (i < length && GetKeyState(VK_SHIFT) >= 0&&ret==false) { // 선택된 개수만큼 반복
+	while (i < length && GetKeyState(VK_SHIFT) >= 0 && ret==false) { // 선택된 개수만큼 반복
 		figure = selection->GetAt(i);
 
 
@@ -225,7 +226,18 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 		}
 		i++;
 	}
-	//this->ChangeDefault(mouseLButton); // 디폴트상태로 바꾸는거 필요없을듯?
+	if (startX == currentX && startY == currentY) {
+		if (GetKeyState(VK_SHIFT) >= 0) {
+			selection->DeleteAllItems();
+			selection->SelectByPoint(diagram, currentX, currentY);
+			if (selection->GetLength() == 0) {
+				classDiagramForm->mouseLButton->ChangeDefault();
+			}
+			else {
+				this->ChangeState(mouseLButton, SelectionState::Instance());
+			}
+		}
+	}
 }
 
 #include "Finder.h"
@@ -268,38 +280,40 @@ void MultipleSelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagra
 }
 
 void MultipleSelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
-	CPen pen;
-	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = pDC->SelectObject(&pen);
-	pDC->SetBkMode(TRANSPARENT);
+	if (startX != currentX || startY != currentY) {
+		CPen pen;
+		pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
+		CPen *oldPen = pDC->SelectObject(&pen);
+		pDC->SetBkMode(TRANSPARENT);
 
-	Long distanceX = currentX - startX;
-	Long distanceY = currentY - startY;
-	Long i = 0;
-	Long j = 0;
-	Figure *figure;
+		Long distanceX = currentX - startX;
+		Long distanceY = currentY - startY;
+		Long i = 0;
+		Long j = 0;
+		Figure *figure;
 
-	while (i < selection->GetLength()) {
-		figure = selection->GetAt(i);
-		if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
-													  // 해당 클래스나 메모 이동
-			pDC->Rectangle(figure->GetX() + distanceX, figure->GetY() + distanceY, figure->GetX() + figure->GetWidth() + distanceX,
-				figure->GetY() + figure->GetHeight() + distanceY);
-			FigureComposite *figureComposite = static_cast<FigureComposite*>(figure); // 형변환
-			j = 0;
-			while (j < figureComposite->GetLength()) { // 형변환 한게 관리하면 배열 렝스까지
-				figure = figureComposite->GetAt(j);
-				if (dynamic_cast<Line*>(figure)) {
-					pDC->MoveTo(figure->GetX() + distanceX, figure->GetY() + distanceY);
-					pDC->LineTo(figure->GetX() + figure->GetWidth() + distanceX,
-						figure->GetY() + figure->GetHeight() + distanceY);
+		while (i < selection->GetLength()) {
+			figure = selection->GetAt(i);
+			if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
+														  // 해당 클래스나 메모 이동
+				pDC->Rectangle(figure->GetX() + distanceX, figure->GetY() + distanceY, figure->GetX() + figure->GetWidth() + distanceX,
+					figure->GetY() + figure->GetHeight() + distanceY);
+				FigureComposite *figureComposite = static_cast<FigureComposite*>(figure); // 형변환
+				j = 0;
+				while (j < figureComposite->GetLength()) { // 형변환 한게 관리하면 배열 렝스까지
+					figure = figureComposite->GetAt(j);
+					if (dynamic_cast<Line*>(figure)) {
+						pDC->MoveTo(figure->GetX() + distanceX, figure->GetY() + distanceY);
+						pDC->LineTo(figure->GetX() + figure->GetWidth() + distanceX,
+							figure->GetY() + figure->GetHeight() + distanceY);
+					}
+					j++;
 				}
-				j++;
 			}
+			i++;
 		}
-		i++;
-	}
 
-	pDC->SelectObject(oldPen);
-	pen.DeleteObject();
+		pDC->SelectObject(oldPen);
+		pen.DeleteObject();
+	}
 }
