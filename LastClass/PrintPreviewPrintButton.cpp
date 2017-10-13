@@ -83,17 +83,17 @@ void PrintPreviewPrintButton::ButtonPress(PrintPreview *printPreview) {
 			Info.SetMaxPage(1);
 		}
 		printPreview->OnBeginPrinting(&dc, &Info);
-
-		for (UINT page = Info.GetMinPage(); page <= Info.GetMaxPage() && bPrintingOK; page++) {
-			i = 1;
+	i = 1;
 			while (i <= count) {
+		for (UINT page = Info.GetMinPage(); page <= Info.GetMaxPage() && bPrintingOK; page++) {
+		
 				dc.StartPage();
 				Info.m_nCurPage = page;
 				printPreview->OnPrint(&dc, &Info, page);
 				bPrintingOK = (dc.EndPage() > 0);
-				i++;
+			
 			}
-
+	i++;
 
 		}
 		printPreview->OnEndPrinting(&dc, &Info);
