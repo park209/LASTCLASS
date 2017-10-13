@@ -1064,30 +1064,34 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			Long left;
 			Long top;
 			Long bottom;
-			while (i < 5 && index == 0) {
-				if (i == 0 || i == 2) {
-					right = relation->rollNamePoints->GetAt(i).x + 20;
-					left = relation->rollNamePoints->GetAt(i).x - 20;
-					top = relation->rollNamePoints->GetAt(i).y - 10;
-					bottom = relation->rollNamePoints->GetAt(i).y + 10;
-				}
-				else if (i == 1) {
-					right = relation->rollNamePoints->GetAt(i).x + 40;
-					left = relation->rollNamePoints->GetAt(i).x - 40;
-					top = relation->rollNamePoints->GetAt(i).y - 10;
-					bottom = relation->rollNamePoints->GetAt(i).y + 10;
-				}
-				else if (i == 3 || i == 4) {
-					right = relation->rollNamePoints->GetAt(i).x + 25;
-					left = relation->rollNamePoints->GetAt(i).x - 25;
-					top = relation->rollNamePoints->GetAt(i).y - 10;
-					bottom = relation->rollNamePoints->GetAt(i).y + 10;
-				}
+			if (!dynamic_cast<Generalization*>(this->selection->GetAt(0)) && !dynamic_cast<Composition*>(this->selection->GetAt(0)) &&
+				!dynamic_cast<Compositions*>(this->selection->GetAt(0)) && !dynamic_cast<Dependency*>(this->selection->GetAt(0)) &&
+				!dynamic_cast<Realization*>(this->selection->GetAt(0))) {
+				while (i < 5 && index == 0) {
+					if (i == 0 || i == 2) {
+						right = relation->rollNamePoints->GetAt(i).x + 20;
+						left = relation->rollNamePoints->GetAt(i).x - 20;
+						top = relation->rollNamePoints->GetAt(i).y - 10;
+						bottom = relation->rollNamePoints->GetAt(i).y + 10;
+					}
+					else if (i == 1) {
+						right = relation->rollNamePoints->GetAt(i).x + 40;
+						left = relation->rollNamePoints->GetAt(i).x - 40;
+						top = relation->rollNamePoints->GetAt(i).y - 10;
+						bottom = relation->rollNamePoints->GetAt(i).y + 10;
+					}
+					else if (i == 3 || i == 4) {
+						right = relation->rollNamePoints->GetAt(i).x + 25;
+						left = relation->rollNamePoints->GetAt(i).x - 25;
+						top = relation->rollNamePoints->GetAt(i).y - 10;
+						bottom = relation->rollNamePoints->GetAt(i).y + 10;
+					}
 
-				if (startX < right && startX > left && startY > top && startY < bottom) {
-					index++;
+					if (startX < right && startX > left && startY > top && startY < bottom) {
+						index++;
+					}
+					i++;
 				}
-				i++;
 			}
 			if (index > 0) {
 				this->textEdit = new TextEdit(this, relation, i - 1);
@@ -1107,42 +1111,46 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			Long left;
 			Long top;
 			Long bottom;
-			while (i < 5 && index == 0) {
-				if (i == 0) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 20;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 10;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
-				}
-				else if (i == 1) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 30;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 30;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
-				}
-				else if (i == 2) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 50;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 20;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
-				}
-				else if (i == 3) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 50;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 20;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
-				}
-				else if (i == 4) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 10;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 20;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
-				}
+			if (!dynamic_cast<Generalization*>(this->selection->GetAt(0)) && !dynamic_cast<Composition*>(this->selection->GetAt(0)) &&
+				!dynamic_cast<Compositions*>(this->selection->GetAt(0)) && !dynamic_cast<Dependency*>(this->selection->GetAt(0)) &&
+				!dynamic_cast<Realization*>(this->selection->GetAt(0))) {
+				while (i < 5 && index == 0) {
+					if (i == 0) {
+						right = selfRelation->rollNamePoints->GetAt(i).x + 20;
+						left = selfRelation->rollNamePoints->GetAt(i).x - 10;
+						top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+						bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					}
+					else if (i == 1) {
+						right = selfRelation->rollNamePoints->GetAt(i).x + 30;
+						left = selfRelation->rollNamePoints->GetAt(i).x - 30;
+						top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+						bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					}
+					else if (i == 2) {
+						right = selfRelation->rollNamePoints->GetAt(i).x + 50;
+						left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+						top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+						bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					}
+					else if (i == 3) {
+						right = selfRelation->rollNamePoints->GetAt(i).x + 50;
+						left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+						top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+						bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					}
+					else if (i == 4) {
+						right = selfRelation->rollNamePoints->GetAt(i).x + 10;
+						left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+						top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+						bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					}
 
-				if (startX < right && startX > left && startY > top && startY < bottom) {
-					index++;
+					if (startX < right && startX > left && startY > top && startY < bottom) {
+						index++;
+					}
+					i++;
 				}
-				i++;
 			}
 			// 확인해서 있으면 그 index 기억해두고 그 박스 사이즈로 textEdit 연다 (textEdit 생성자 따로 만들어야할듯)
 
