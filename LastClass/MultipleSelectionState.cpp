@@ -44,7 +44,7 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 		figure = selection->GetAt(i);
 		if (dynamic_cast<Class*>(figure) || dynamic_cast<MemoBox*>(figure)) {
 			CRect cRect1(figure->GetX() + (currentX - startX), figure->GetY() + (currentY - startY), figure->GetX() + (currentX - startX) + figure->GetWidth(), figure->GetY() + (currentY - startY) + figure->GetHeight());
-			ret = diagram->CheckOverlap(cRect1, selection);
+			ret = diagram->CheckOverlapSelection(cRect1, selection);
 		}
 		i++;
 	}
