@@ -13,6 +13,12 @@
 #include"SelfRelation.h"
 #include "Relation.h"
 
+#include "Dependency.h"
+#include "Composition.h"
+#include "Compositions.h"
+#include "Generalization.h"
+#include "Realization.h"
+
 WritingVisitor::WritingVisitor() {
 }
 WritingVisitor::~WritingVisitor() {
@@ -30,67 +36,75 @@ void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 }
 
 void  WritingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
-	CFont font;
-	font.CreateFont(10, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
-	CFont*  oldFont;
-	oldFont = cPaintDc->SelectObject(&font);
-	Long i = 0;
-	while (i < 5) {
-		if (i == 0) {
-			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 10 , selfRelation->rollNamePoints->GetAt(i).y - 10,
-				selfRelation->rollNamePoints->GetAt(i).x + 20,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
-			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+	if (!dynamic_cast<Generalization*>(selfRelation) && !dynamic_cast<Composition*>(selfRelation) &&
+		!dynamic_cast<Compositions*>(selfRelation) && !dynamic_cast<Dependency*>(selfRelation) &&
+		!dynamic_cast<Realization*>(selfRelation)) {
+		CFont font;
+		font.CreateFont(10, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
+		CFont*  oldFont;
+		oldFont = cPaintDc->SelectObject(&font);
+		Long i = 0;
+		while (i < 5) {
+			if (i == 0) {
+				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 10 , selfRelation->rollNamePoints->GetAt(i).y - 10,
+					selfRelation->rollNamePoints->GetAt(i).x + 20,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
+				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+			}
+			else if (i == 1) {
+				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 30  , selfRelation->rollNamePoints->GetAt(i).y - 10,
+					selfRelation->rollNamePoints->GetAt(i).x + 30,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
+				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+			}
+			else if (i == 2 || i == 3) {
+				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 , selfRelation->rollNamePoints->GetAt(i).y - 10,
+					selfRelation->rollNamePoints->GetAt(i).x + 50,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
+				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+			}
+			else if (i == 4) {
+				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 , selfRelation->rollNamePoints->GetAt(i).y - 10,
+					selfRelation->rollNamePoints->GetAt(i).x + 10,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
+				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+			}
+			i++;
 		}
-		else if (i == 1) {
-			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 30  , selfRelation->rollNamePoints->GetAt(i).y - 10,
-				selfRelation->rollNamePoints->GetAt(i).x + 30,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
-			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
-		}
-		else if (i == 2||i==3) {
-			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 , selfRelation->rollNamePoints->GetAt(i).y - 10,
-				selfRelation->rollNamePoints->GetAt(i).x + 50,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
-			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
-		}
-		else if(i == 4){
-			RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 , selfRelation->rollNamePoints->GetAt(i).y - 10,
-				selfRelation->rollNamePoints->GetAt(i).x + 10,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
-			cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
-		}
-		i++;
+		cPaintDc->SelectObject(oldFont);
+		font.DeleteObject();
 	}
-	cPaintDc->SelectObject(oldFont);
-	font.DeleteObject();
 }
 
 void  WritingVisitor::Visit(Relation *relation, CDC *pDC) {
-	CFont font;
-	font.CreateFont(10, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
-	CFont*  oldFont;
-	oldFont = pDC->SelectObject(&font);
-	Long i = 0;
-	while (i < 5) {
-		if (i == 1) {
-			RECT rt = { relation->rollNamePoints->GetAt(i).x - 40, relation->rollNamePoints->GetAt(i).y - 10 ,
-				relation->rollNamePoints->GetAt(i).x + 40,  relation->rollNamePoints->GetAt(i).y + 10 };
-			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+	if (!dynamic_cast<Generalization*>(relation) && !dynamic_cast<Composition*>(relation) &&
+		!dynamic_cast<Compositions*>(relation) && !dynamic_cast<Dependency*>(relation) &&
+		!dynamic_cast<Realization*>(relation)) {
+		CFont font;
+		font.CreateFont(10, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
+		CFont*  oldFont;
+		oldFont = pDC->SelectObject(&font);
+		Long i = 0;
+		while (i < 5) {
+			if (i == 1) {
+				RECT rt = { relation->rollNamePoints->GetAt(i).x - 40, relation->rollNamePoints->GetAt(i).y - 10 ,
+					relation->rollNamePoints->GetAt(i).x + 40,  relation->rollNamePoints->GetAt(i).y + 10 };
+				pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+			}
+			else if (i == 3 || i == 4) {
+				RECT rt = { relation->rollNamePoints->GetAt(i).x - 25, relation->rollNamePoints->GetAt(i).y - 10 ,
+					relation->rollNamePoints->GetAt(i).x + 25,  relation->rollNamePoints->GetAt(i).y + 10 };
+				pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+			}
+
+			else {
+				RECT rt = { relation->rollNamePoints->GetAt(i).x - 20, relation->rollNamePoints->GetAt(i).y - 10,
+					relation->rollNamePoints->GetAt(i).x + 20,  relation->rollNamePoints->GetAt(i).y + 10 - GabX };
+				pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+			}
+			i++;
 		}
-		else if (i == 3|| i == 4) {
-			RECT rt = { relation->rollNamePoints->GetAt(i).x - 25, relation->rollNamePoints->GetAt(i).y - 10 ,
-				relation->rollNamePoints->GetAt(i).x + 25,  relation->rollNamePoints->GetAt(i).y + 10 };
-			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
-		}
-		
-		else {
-			RECT rt = { relation->rollNamePoints->GetAt(i).x - 20, relation->rollNamePoints->GetAt(i).y - 10,
-				relation->rollNamePoints->GetAt(i).x + 20,  relation->rollNamePoints->GetAt(i).y + 10 - GabX };
-			pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
-		}
-		i++;
+		pDC->SelectObject(oldFont);
+		font.DeleteObject();
 	}
-	pDC->SelectObject(oldFont);
-	font.DeleteObject();
 }
 
 void WritingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { //접힌부분아래로 적히게
@@ -104,10 +118,10 @@ void WritingVisitor::Visit(Template *object, CDC *cPaintDc) {
 	cPaintDc->DrawText((CString)object->GetContent().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
 }
 
-	void WritingVisitor::Visit(ClassName* className, CDC* cPaintDc) {
-		RECT rt = { className->GetX() + GabX , className->GetY() + MemoGab + GabY, className->GetX() + className->GetWidth() - GabX, className->GetY() + className->GetHeight() - GabY };
-		cPaintDc->DrawText((CString)className->GetContent().c_str(), &rt, DT_CENTER | DT_NOCLIP | DT_EXPANDTABS);
-	}
+void WritingVisitor::Visit(ClassName* className, CDC* cPaintDc) {
+	RECT rt = { className->GetX() + GabX , className->GetY() + MemoGab + GabY, className->GetX() + className->GetWidth() - GabX, className->GetY() + className->GetHeight() - GabY };
+	cPaintDc->DrawText((CString)className->GetContent().c_str(), &rt, DT_CENTER | DT_NOCLIP | DT_EXPANDTABS);
+}
 
 void WritingVisitor::Visit(Attribute* attribute, CDC* cPaintDc) {
 	RECT rt = { attribute->GetX() + GabX , attribute->GetY() + GabY, attribute->GetX() + attribute->GetWidth() - GabX, attribute->GetY() + attribute->GetHeight() - GabY };

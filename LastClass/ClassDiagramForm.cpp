@@ -734,6 +734,7 @@ void ClassDiagramForm::OnPaint() {
 	dc.SetViewportExt(this->zoomRate, this->zoomRate);
 
 	dc.BitBlt(0, 0, rect.right * 100 / this->zoomRate, rect.bottom * 100 / this->zoomRate, &memDC, horzCurPos, vertCurPos, SRCCOPY);
+
 }
 
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -840,7 +841,45 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 	if (this->selection->GetLength() > 0) {
 		menu = this->classDiagramFormMenu->menu2;
 		Figure *figure = this->selection->GetAt(0);
-		if (!(dynamic_cast<Class*>(figure))) {
+		if ((dynamic_cast<Class*>(figure))) {
+			Class *object = static_cast<Class*>(figure);
+			if (object->GetAttributePosition() != -1) {
+				menu->EnableMenuItem(135, MF_DISABLED);
+				menu->EnableMenuItem(131, MF_ENABLED);//135추가 131 제거
+			}
+			else {
+				menu->EnableMenuItem(131, MF_DISABLED);
+				menu->EnableMenuItem(135, MF_ENABLED);
+			}
+			if (object->GetMethodPosition() != -1) {
+				menu->EnableMenuItem(130, MF_DISABLED);
+				menu->EnableMenuItem(132, MF_ENABLED);//130 추가 132 제거
+			}
+			else {
+				menu->EnableMenuItem(132, MF_DISABLED);
+				menu->EnableMenuItem(130, MF_ENABLED);
+			}
+			if (object->GetReceptionPosition() != -1) {
+				menu->EnableMenuItem(134, MF_ENABLED);
+				menu->EnableMenuItem(133, MF_DISABLED);
+				//133추가 134 제거
+			}
+			else {
+				menu->EnableMenuItem(134, MF_DISABLED);
+				menu->EnableMenuItem(133, MF_ENABLED);
+			}
+			if (object->GetTempletePosition() != -1) {
+				//127 추가 128 제거
+				menu->EnableMenuItem(128, MF_ENABLED);
+				menu->EnableMenuItem(127, MF_DISABLED);
+			}
+			else {
+				menu->EnableMenuItem(128, MF_DISABLED);
+				menu->EnableMenuItem(127, MF_ENABLED);
+			}
+		
+		}
+		else {
 			menu->EnableMenuItem(127, MF_DISABLED);
 			menu->EnableMenuItem(135, MF_DISABLED);
 			menu->EnableMenuItem(130, MF_DISABLED);
@@ -849,16 +888,6 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 			menu->EnableMenuItem(131, MF_DISABLED);
 			menu->EnableMenuItem(132, MF_DISABLED);
 			menu->EnableMenuItem(134, MF_DISABLED);
-		}
-		else {
-			menu->EnableMenuItem(127, MF_ENABLED);
-			menu->EnableMenuItem(135, MF_ENABLED);
-			menu->EnableMenuItem(130, MF_ENABLED);
-			menu->EnableMenuItem(133, MF_ENABLED);
-			menu->EnableMenuItem(128, MF_ENABLED);
-			menu->EnableMenuItem(131, MF_ENABLED);
-			menu->EnableMenuItem(132, MF_ENABLED);
-			menu->EnableMenuItem(134, MF_ENABLED);
 		}
 	}
 	else {
@@ -1041,30 +1070,34 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			Long left;
 			Long top;
 			Long bottom;
-			while (i < 5 && index == 0) {
-				if (i == 0 || i == 2) {
-					right = relation->rollNamePoints->GetAt(i).x + 20;
-					left = relation->rollNamePoints->GetAt(i).x - 20;
-					top = relation->rollNamePoints->GetAt(i).y - 10;
-					bottom = relation->rollNamePoints->GetAt(i).y + 10;
-				}
-				else if (i == 1) {
-					right = relation->rollNamePoints->GetAt(i).x + 40;
-					left = relation->rollNamePoints->GetAt(i).x - 40;
-					top = relation->rollNamePoints->GetAt(i).y - 10;
-					bottom = relation->rollNamePoints->GetAt(i).y + 10;
-				}
-				else if (i == 3 || i == 4) {
-					right = relation->rollNamePoints->GetAt(i).x + 25;
-					left = relation->rollNamePoints->GetAt(i).x - 25;
-					top = relation->rollNamePoints->GetAt(i).y - 10;
-					bottom = relation->rollNamePoints->GetAt(i).y + 10;
-				}
+			if (!dynamic_cast<Generalization*>(this->selection->GetAt(0)) && !dynamic_cast<Composition*>(this->selection->GetAt(0)) &&
+				!dynamic_cast<Compositions*>(this->selection->GetAt(0)) && !dynamic_cast<Dependency*>(this->selection->GetAt(0)) &&
+				!dynamic_cast<Realization*>(this->selection->GetAt(0))) {
+				while (i < 5 && index == 0) {
+					if (i == 0 || i == 2) {
+						right = relation->rollNamePoints->GetAt(i).x + 20;
+						left = relation->rollNamePoints->GetAt(i).x - 20;
+						top = relation->rollNamePoints->GetAt(i).y - 10;
+						bottom = relation->rollNamePoints->GetAt(i).y + 10;
+					}
+					else if (i == 1) {
+						right = relation->rollNamePoints->GetAt(i).x + 40;
+						left = relation->rollNamePoints->GetAt(i).x - 40;
+						top = relation->rollNamePoints->GetAt(i).y - 10;
+						bottom = relation->rollNamePoints->GetAt(i).y + 10;
+					}
+					else if (i == 3 || i == 4) {
+						right = relation->rollNamePoints->GetAt(i).x + 25;
+						left = relation->rollNamePoints->GetAt(i).x - 25;
+						top = relation->rollNamePoints->GetAt(i).y - 10;
+						bottom = relation->rollNamePoints->GetAt(i).y + 10;
+					}
 
-				if (startX < right && startX > left && startY > top && startY < bottom) {
-					index++;
+					if (startX < right && startX > left && startY > top && startY < bottom) {
+						index++;
+					}
+					i++;
 				}
-				i++;
 			}
 			if (index > 0) {
 				this->textEdit = new TextEdit(this, relation, i - 1);
@@ -1084,42 +1117,46 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			Long left;
 			Long top;
 			Long bottom;
-			while (i < 5 && index == 0) {
-				if (i == 0) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 20;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 10;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
-				}
-				else if (i == 1) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 30;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 30;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
-				}
-				else if (i == 2) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 50;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 20;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
-				}
-				else if (i == 3) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 50;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 20;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
-				}
-				else if (i == 4) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 10;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 20;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
-				}
+			if (!dynamic_cast<Generalization*>(this->selection->GetAt(0)) && !dynamic_cast<Composition*>(this->selection->GetAt(0)) &&
+				!dynamic_cast<Compositions*>(this->selection->GetAt(0)) && !dynamic_cast<Dependency*>(this->selection->GetAt(0)) &&
+				!dynamic_cast<Realization*>(this->selection->GetAt(0))) {
+				while (i < 5 && index == 0) {
+					if (i == 0) {
+						right = selfRelation->rollNamePoints->GetAt(i).x + 20;
+						left = selfRelation->rollNamePoints->GetAt(i).x - 10;
+						top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+						bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					}
+					else if (i == 1) {
+						right = selfRelation->rollNamePoints->GetAt(i).x + 30;
+						left = selfRelation->rollNamePoints->GetAt(i).x - 30;
+						top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+						bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					}
+					else if (i == 2) {
+						right = selfRelation->rollNamePoints->GetAt(i).x + 50;
+						left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+						top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+						bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					}
+					else if (i == 3) {
+						right = selfRelation->rollNamePoints->GetAt(i).x + 50;
+						left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+						top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+						bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					}
+					else if (i == 4) {
+						right = selfRelation->rollNamePoints->GetAt(i).x + 10;
+						left = selfRelation->rollNamePoints->GetAt(i).x - 20;
+						top = selfRelation->rollNamePoints->GetAt(i).y - 10;
+						bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					}
 
-				if (startX < right && startX > left && startY > top && startY < bottom) {
-					index++;
+					if (startX < right && startX > left && startY > top && startY < bottom) {
+						index++;
+					}
+					i++;
 				}
-				i++;
 			}
 			// 확인해서 있으면 그 index 기억해두고 그 박스 사이즈로 textEdit 연다 (textEdit 생성자 따로 만들어야할듯)
 
