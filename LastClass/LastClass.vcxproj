@@ -159,6 +159,7 @@
     <ClInclude Include="PrintPreview.h" />
     <ClInclude Include="PrintPreviewZoomInButton.h" />
     <ClInclude Include="PrintPreviewZoomOutButton.h" />
+    <ClInclude Include="PrintScrollView.h" />
     <ClInclude Include="RealizationMenuAction.h" />
     <ClInclude Include="RemoveReceptionKey.h" />
     <ClInclude Include="FontSet.h" />
@@ -374,6 +375,7 @@
     <ClCompile Include="PrintPreview.cpp" />
     <ClCompile Include="PrintPreviewZoomInButton.cpp" />
     <ClCompile Include="PrintPreviewZoomOutButton.cpp" />
+    <ClCompile Include="PrintScrollView.cpp" />
     <ClCompile Include="RealizationMenuAction.cpp" />
     <ClCompile Include="RemoveReceptionKey.cpp" />
     <ClCompile Include="FontSet.cpp" />
