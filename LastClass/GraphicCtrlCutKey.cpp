@@ -50,7 +50,7 @@ void GraphicCtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 	Long d;
 	Figure *object3;
 	classDiagramForm->copyBuffer = new Selection(*classDiagramForm->selection);
-	if (classDiagramForm->selection->GetLength() == 1) {
+	/*if (classDiagramForm->selection->GetLength() == 1) {
 		//Figure *parent;
 		Finder finder;
 		CBitmap bitmap;
@@ -90,7 +90,7 @@ void GraphicCtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 					}
 					if (minY == 0 ||smartPointer_->Current()->GetY() < minY ) {
 					minY = smartPointer_->Current()->GetY();
-					}*/
+					}
 					if (bigHeight == 0 || (smartPointer_->Current()->GetY() + smartPointer_->Current()->GetHeight()) > bigHeight) {
 						bigHeight = smartPointer_->Current()->GetY() + smartPointer_->Current()->GetHeight();
 					}
@@ -226,8 +226,8 @@ void GraphicCtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 					memDC.FillSolidRect(CRect(0, 0, objectMemoBox->GetX() + objectMemoBox->GetWidth(), objectMemoBox->GetY() + objectMemoBox->GetHeight()), RGB(255, 255, 255));
 				}
 				/*if (previous != 0) {
-				}
-				else {*/
+
+				else {
 				x = objectMemoBox->GetX();
 				y = objectMemoBox->GetY();
 				//}
@@ -257,7 +257,7 @@ void GraphicCtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 				parent = static_cast<Class*>(finder.GetParents(classDiagramForm->diagram, objectRelation));
 				objectRelation->SetX(parent->GetWidth());
 				objectRelation->SetY(objectRelation->GetY() - parent->GetY());
-				}*/
+				}
 				if (dynamic_cast<Generalization*>(objectRelation)) {
 					static_cast<Generalization*>(objectRelation)->Accept(drawingVisitor, &memDC);
 				}
@@ -323,7 +323,7 @@ void GraphicCtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 			}
 			/*if (dynamic_cast<MemoBox*>(smartPointer_->Current()) || dynamic_cast<Class*>(smartPointer_->Current())) {
 			previous = smartPointer_->Current();
-			}*/
+			}
 		}
 		OpenClipboard(NULL);
 		EmptyClipboard();
@@ -335,6 +335,25 @@ void GraphicCtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 		memDC.DeleteDC();
 
 	}
+	while (classDiagramForm->selection->GetLength() != 0) {
+		d = 0;
+		object3 = 0;
+		if (classDiagramForm->diagram->GetLength() > 0) {
+			while (d <= classDiagramForm->diagram->GetLength() && classDiagramForm->selection->GetAt(classDiagramForm->selection->GetLength() - 1) != object3) {
+				object3 = classDiagramForm->diagram->GetAt(d);
+				d++;
+			}
+
+			//classDiagramForm->selection->Remove(classDiagramForm->diagram, classDiagramForm->selection->GetAt(classDiagramForm->selection->GetLength() - 1));
+			classDiagramForm->selection->Remove(classDiagramForm->selection->GetLength() - 1);
+			if (d <= classDiagramForm->diagram->GetLength()) {
+				classDiagramForm->diagram->Remove(d - 1);
+			}
+		}
+		if (classDiagramForm->isCut == 0) {
+			classDiagramForm->isCut = 1;
+		}
+	}*/
 	while (classDiagramForm->selection->GetLength() != 0) {
 		d = 0;
 		object3 = 0;

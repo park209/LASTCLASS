@@ -209,15 +209,24 @@ Figure* Finder::GetParents(Diagram *diagram, Figure *figure) {
 	Long i = 0;
 	Figure *object = 0;
 	Long j;
+	Long k = 0;
 	FigureComposite *figures = 0;
 	while (i < diagram->GetLength() && object == 0) {
 		j = 0;
+		k = 0;
 		figures = static_cast<FigureComposite*>(diagram->GetAt(i));
-		//while (j < figures->GetLength() && figure->GetX() != figures->GetAt(j)->GetX()|| figure->GetY() != figures->GetAt(j)->GetY()) {
-		while (j < figures->GetLength() && figure != figures->GetAt(j)) {
-			j++;
+		/*while (j < figures->GetLength() && figure->GetX() != static_cast<Figure*>(figures->GetAt(j))->GetX()||
+			figure->GetY() != static_cast<Figure*>(figures->GetAt(j))->GetY()) {*/
+		//while (j < figures->GetLength() && figure != figures->GetAt(j)) {
+		while (k< figures->GetLength()){
+			if (figure->GetX() != static_cast<Figure*>(figures->GetAt(k))->GetX() ||
+				figure->GetY() != static_cast<Figure*>(figures->GetAt(k))->GetY()) {
+				j++;
+			}
+			k++;
 		}
-		if (j < figures->GetLength()) {
+		//if (j< figures->GetLength()) {
+		if(j< figures->GetLength()){
 			object = static_cast<Figure*>(figures);
 		}
 		i++;
