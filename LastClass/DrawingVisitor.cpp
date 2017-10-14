@@ -283,15 +283,19 @@ void DrawingVisitor::Visit(Selection *selection, CDC *pDC) {
 			CPoint cPoint;
 			Relation* relationLine = static_cast<Relation*>(selection->GetAt(i));
 			if (!dynamic_cast<MemoLine*>(relationLine)) {
-				if (relationLine->GetLength() > 0) { // 꺾인선이 있으면
-					drawRollNameBoxes->DrawFirstRollNameBox(relationLine, pDC);
-					drawRollNameBoxes->DrawSecondRollNameBox(relationLine, pDC);
-					drawRollNameBoxes->DrawThirdRollNameBox(relationLine, pDC);
-					drawRollNameBoxes->DrawFourthRollNameBox(relationLine, pDC);
-					drawRollNameBoxes->DrawFifthRollNameBox(relationLine, pDC);
-				}
-				else { // 꺾인선이 없으면
-					drawRollNameBoxes->DrawBoxesWithoutCurvedLine(relationLine, pDC);
+				if (!dynamic_cast<Generalization*>(selection->GetAt(i)) && !dynamic_cast<Composition*>(selection->GetAt(i)) &&
+					!dynamic_cast<Compositions*>(selection->GetAt(i)) && !dynamic_cast<Dependency*>(selection->GetAt(i)) &&
+					!dynamic_cast<Realization*>(selection->GetAt(i))) {
+					if (relationLine->GetLength() > 0) { // 꺾인선이 있으면
+						drawRollNameBoxes->DrawFirstRollNameBox(relationLine, pDC);
+						drawRollNameBoxes->DrawSecondRollNameBox(relationLine, pDC);
+						drawRollNameBoxes->DrawThirdRollNameBox(relationLine, pDC);
+						drawRollNameBoxes->DrawFourthRollNameBox(relationLine, pDC);
+						drawRollNameBoxes->DrawFifthRollNameBox(relationLine, pDC);
+					}
+					else { // 꺾인선이 없으면
+						drawRollNameBoxes->DrawBoxesWithoutCurvedLine(relationLine, pDC);
+					}
 				}
 			}
 		}

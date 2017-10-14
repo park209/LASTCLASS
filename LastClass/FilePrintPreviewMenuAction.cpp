@@ -24,4 +24,4 @@ void FilePrintPreviewMenuAction::MenuPress(LastClass* lastClass) {
 	lastClass->printPreview->ShowWindow(SW_MAXIMIZE);
 
 	lastClass->printPreview->UpdateWindow();
-}
+} 

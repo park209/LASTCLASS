@@ -12,6 +12,12 @@
 #include "MemoBox.h"
 #include "SelectionState.h"
 
+#include "Generalization.h"
+#include "Composition.h"
+#include "Compositions.h"
+#include "Dependency.h"
+#include "Realization.h"
+
 MultipleSelectionState* MultipleSelectionState::instance = 0;
 
 MouseLButtonAction* MultipleSelectionState::Instance() {
@@ -74,57 +80,60 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 						relation->Move(m, point);
 						m++;
 					}
-					if (relation->GetLength() == 0) {
-						CPoint startPoint{ relation->GetX(), relation->GetY() };
-						CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
-						cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-						cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
-						cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
-						cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-						cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-						relation->rollNamePoints->Modify(0, cPoint1);
-						relation->rollNamePoints->Modify(1, cPoint2);
-						relation->rollNamePoints->Modify(2, cPoint3);
-						relation->rollNamePoints->Modify(3, cPoint4);
-						relation->rollNamePoints->Modify(4, cPoint5);
-					}
-					else {
-						CPoint startPoint{ relation->GetX(), relation->GetY() };
-						CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
-						cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-						cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-						relation->rollNamePoints->Modify(0, cPoint1);
-						relation->rollNamePoints->Modify(3, cPoint4);
-
-						CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
-							relation->GetAt(relation->GetLength() - 1).y };
-						CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
-						cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
-						cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
-						relation->rollNamePoints->Modify(2, cPoint3);
-						relation->rollNamePoints->Modify(4, cPoint5);
-
-						if (relation->GetLength() % 2 == 0) {//Â¦¼ö
-
-							CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
-								relation->GetAt((relation->GetLength() - 1) / 2).y };
-							CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
-								relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
-							cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
+					//if (!dynamic_cast<Generalization*>(selection->GetAt(i)) && !dynamic_cast<Composition*>(selection->GetAt(i)) &&
+						//!dynamic_cast<Compositions*>(selection->GetAt(i)) && !dynamic_cast<Dependency*>(selection->GetAt(i)) &&
+						//!dynamic_cast<Realization*>(selection->GetAt(i))) {
+						if (relation->GetLength() == 0) {
+							CPoint startPoint{ relation->GetX(), relation->GetY() };
+							CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+							cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+							cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+							cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+							cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+							cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+							relation->rollNamePoints->Modify(0, cPoint1);
 							relation->rollNamePoints->Modify(1, cPoint2);
-
+							relation->rollNamePoints->Modify(2, cPoint3);
+							relation->rollNamePoints->Modify(3, cPoint4);
+							relation->rollNamePoints->Modify(4, cPoint5);
 						}
-						else {//È¦¼ö
+						else {
+							CPoint startPoint{ relation->GetX(), relation->GetY() };
+							CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+							cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+							cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+							relation->rollNamePoints->Modify(0, cPoint1);
+							relation->rollNamePoints->Modify(3, cPoint4);
 
-							CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
-								relation->GetAt((relation->GetLength() - 1) / 2).y };
-							cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
-							relation->rollNamePoints->Modify(1, cPoint2);
+							CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+								relation->GetAt(relation->GetLength() - 1).y };
+							CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+							cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+							cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+							relation->rollNamePoints->Modify(2, cPoint3);
+							relation->rollNamePoints->Modify(4, cPoint5);
 
-						}
+							if (relation->GetLength() % 2 == 0) {//Â¦¼ö
+
+								CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+									relation->GetAt((relation->GetLength() - 1) / 2).y };
+								CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
+									relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
+								cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
+								relation->rollNamePoints->Modify(1, cPoint2);
+
+							}
+							else {//È¦¼ö
+
+								CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+									relation->GetAt((relation->GetLength() - 1) / 2).y };
+								cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
+								relation->rollNamePoints->Modify(1, cPoint2);
+
+							}
+						//}
+						//
 					}
-					//
-
 				}
 				if (dynamic_cast<SelfRelation*>(figureComposite->GetAt(j))) {
 					//
@@ -160,8 +169,8 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 						Relation *relation = static_cast<Relation*>(figureComposite->GetAt(l));
 						Long relationEndX = relation->GetX() + relation->GetWidth();
 						Long relationEndY = relation->GetY() + relation->GetHeight();
-						if (startX <= relationEndX &&  relationEndX <= endX &&
-							startY <= relationEndY &&  relationEndY <= endY) {
+						if ((startX <= relationEndX && relationEndX <= endX && (startY == relationEndY || endY == relationEndY)) ||
+							(startY <= relationEndY && relationEndY <= endY && (startX == relationEndX || endX == relationEndX))) {
 							relation->EndPointMove(distanceX, distanceY);
 							//
 							if (relation->GetLength() == 0) {
@@ -213,7 +222,7 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 
 								}
 							}
-							Long h = 0;
+							
 
 						}
 
