@@ -729,6 +729,7 @@ void ClassDiagramForm::OnPaint() {
 	dc.SetViewportExt(this->zoomRate, this->zoomRate);
 
 	dc.BitBlt(0, 0, rect.right * 100 / this->zoomRate, rect.bottom * 100 / this->zoomRate, &memDC, horzCurPos, vertCurPos, SRCCOPY);
+
 }
 
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
