@@ -191,13 +191,13 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 		Long height = figure->GetHeight();
 		Long relationX = currentX;
 		Long relationY = currentY;
-		if (x + width < currentX) {
+		if (x + width <=currentX) {
 			relationX = x + width - 1;
 		}
 		else if (x > currentX) {
 			relationX = x +1;
 		}
-		if (y + height < currentY) {
+		if (y + height <= currentY) {
 			relationY = y + height - 1;
 		}
 		else if (figure->GetY() > currentY) {

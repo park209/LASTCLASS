@@ -16,6 +16,7 @@ public:
 	void OnBeginPrinting(CDC *pDc, CPrintInfo *pInfo);	
 	BOOL DoModal();
 	LastClass *lastClass;
+	//void OnInitialUpdate();
 	afx_msg void OnClose();
 
 private:
@@ -45,5 +46,7 @@ public:
 	Long zoomRate;
 	Long horizontalPaperSize;
 	Long verticalPaperSize;
+	Long totalPage;
+	Long currentPage;
 };
 #endif // !_PRINTPREVIEW_H
