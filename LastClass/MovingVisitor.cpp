@@ -203,3 +203,17 @@ void MovingVisitor::Visit(Relation *relation, CDC *cPaintDc) {
 }
 void MovingVisitor::Visit(Text* text, CDC* pDC) {
 }
+void MovingVisitor::Visit(Diagram *diagram, Long zoomRate) {}
+void MovingVisitor::Visit(Class *object, Long zoomRate) {}
+void MovingVisitor::Visit(Relation *relation, Long zoomRate) {}
+void MovingVisitor::Visit(MemoBox *memoBox, Long zoomRate) {}
+void MovingVisitor::Visit(Line *line, Long zoomRate) {}
+void MovingVisitor::Visit(SelfRelation *selfRelation, Long zoomRate) {}
+void MovingVisitor::Visit(ClassName *className, Long zoomRate) {}
+void MovingVisitor::Visit(Attribute *attribute, Long zoomRate) {}
+void MovingVisitor::Visit(Method *method, Long zoomRate) {}
+void MovingVisitor::Visit(Reception *reception, Long zoomRate) {}
+void MovingVisitor::Visit(Template *object, Long zoomRate) {}
+
+//리사이즈 텍스트
+void MovingVisitor::Visit(Text *text, Long zoomRate) {}
