@@ -14,9 +14,9 @@ PrintPreviewNextButton::~PrintPreviewNextButton() {
 
 void PrintPreviewNextButton::ButtonPress(PrintPreview *printPreview) {
 	printPreview->verticalPage += printPreview->verticalPageSize;
-	if (printPreview->verticalPage >= 2000) {
+	if (printPreview->verticalPage >= printPreview->verticalPaperSize) {
 		printPreview->horizontalPage += printPreview->horizontalPageSize;;
-		if (printPreview->horizontalPage >= 4000) {
+		if (printPreview->horizontalPage >= printPreview->horizontalPaperSize) {
 			printPreview->horizontalPage -= printPreview->horizontalPageSize;
 			printPreview->verticalPage -= printPreview->verticalPageSize;
 		}

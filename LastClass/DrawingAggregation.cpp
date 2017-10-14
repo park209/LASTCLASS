@@ -10,6 +10,7 @@
 #include "ClassDiagramForm.h"
 #include "HistoryGraphic.h"
 #include "SelfRelation.h"
+
 DrawingAggregation* DrawingAggregation::instance = 0;
 
 MouseLButtonAction* DrawingAggregation::Instance() {

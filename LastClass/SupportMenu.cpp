@@ -101,6 +101,7 @@ void SupportMenu::OnpreviousButton() {
 }
 
 void SupportMenu::OnOkButton() {
+	Invalidate(false);
 	if (this->nextButton != 0) {
 		delete this->nextButton;
 	}
