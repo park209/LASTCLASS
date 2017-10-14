@@ -678,7 +678,6 @@
     <ClInclude Include="TextEdit.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
-    <ClInclude Include="PrintScrollView.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">
@@ -1306,9 +1305,6 @@
     </ClCompile>
     <ClCompile Include="TextEdit.cpp">
       <Filter>TextEdit</Filter>
-    </ClCompile>
-    <ClCompile Include="PrintScrollView.cpp">
-      <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
