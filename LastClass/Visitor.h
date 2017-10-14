@@ -78,8 +78,22 @@ public:
 	virtual void Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *pDC) = 0;
 	virtual void Visit(SelfComposition *selfComposition, CDC *pDC) = 0;
 	virtual void Visit(SelfCompositions *selfCompositions, CDC *pDC) = 0;
-
 	virtual void Visit(Text* text, CDC *pDC) = 0;
+	//리사이즈 그래픽
+	virtual void Visit(Diagram *diagram, Long zoomRate) = 0;
+	virtual void Visit(Class *object , Long zoomRate) = 0;
+	virtual void Visit(Relation *relation, Long zoomRate) = 0;
+	virtual void Visit(MemoBox *memoBox, Long zoomRate) = 0;
+	virtual void Visit(Line *line, Long zoomRate) = 0;
+	virtual void Visit(SelfRelation *selfRelation, Long zoomRate) = 0;
+	virtual void Visit(ClassName *className, Long zoomRate) = 0;
+	virtual void Visit(Attribute *attribute, Long zoomRate) = 0;
+	virtual void Visit(Method *method, Long zoomRate) = 0;
+	virtual void Visit(Reception *reception, Long zoomRate) = 0;
+	virtual void Visit(Template *object, Long zoomRate) = 0;
+
+	//리사이즈 텍스트
+	virtual void Visit(Text *text, Long zoomRate) = 0;
 protected:
 	Visitor();
 };

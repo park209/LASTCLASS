@@ -1,15 +1,14 @@
-//DrawingVisitor.h
+//ResizeVisitor.h
 
-#ifndef _DRAWINGVISITOR_H
-#define _DRAWINGVISITOR_H
+#ifndef _RESIZEVISITOR_H
+#define _RESIZEVISITOR_H
 
-#include "Visitor.h"
+#include "Visitor.h" 
 
-class DrawingVisitor :public Visitor {
+class ResizeVisitor : public Visitor {
 public:
-	DrawingVisitor();
-	~DrawingVisitor();
-
+	ResizeVisitor();
+	~ResizeVisitor();
 	void Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY);
 	void Visit(Class *object, CDC* pDC);
 	void Visit(MemoBox* memoBox, CDC* pDC);
@@ -41,26 +40,26 @@ public:
 	void Visit(SelfComposition *selfComposition, CDC *pDC);
 	void Visit(SelfCompositions *selfCompositions, CDC *pDC);
 
-	void Visit(SelfRelation *selfRelation, CDC *cPaintDc);
-	void Visit(Relation *relation, CDC *cPaintDc);
+	void Visit(SelfRelation *selfRelation, CDC *pDC);
+	void Visit(Relation *relation, CDC *pDC);
 
 	void Visit(Text* text, CDC* pDC);
 
 
-	 void Visit(Diagram *diagram, Long zoomRate);
-	 void Visit(Class *object, Long zoomRate)  ;
-	 void Visit(Relation *relation, Long zoomRate)  ;
-	 void Visit(MemoBox *memoBox, Long zoomRate)  ;
-	 void Visit(Line *line, Long zoomRate)  ;
-	 void Visit(SelfRelation *selfRelation, Long zoomRate) ;
-	 void Visit(ClassName *className, Long zoomRate)  ;
-	 void Visit(Attribute *attribute, Long zoomRate)  ;
-	 void Visit(Method *method, Long zoomRate)  ;
-	 void Visit(Reception *reception, Long zoomRate) ;
-	 void Visit(Template *object, Long zoomRate) ;
+	void Visit(Diagram *diagram, Long zoomRate);
+	void Visit(Class *object, Long zoomRate);
+	void Visit(Relation *relation, Long zoomRate);
+	void Visit(MemoBox *memoBox, Long zoomRate);
+	void Visit(Line *line, Long zoomRate);
+	void Visit(SelfRelation *selfRelation, Long zoomRate);
+	void Visit(ClassName *className, Long zoomRate);
+	void Visit(Attribute *attribute, Long zoomRate);
+	void Visit(Method *method, Long zoomRate);
+	void Visit(Reception *reception, Long zoomRate);
+	void Visit(Template *object, Long zoomRate);
 
 	//리사이즈 텍스트
-	 void Visit(Text *text, Long zoomRate)  ;
+	void Visit(Text *text, Long zoomRate);
 };
 
-#endif // _DRAWINGVISITOR_H
+#endif // _RESIZEVISITOR_H
