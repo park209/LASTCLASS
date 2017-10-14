@@ -99,6 +99,11 @@ ClassDiagramForm::ClassDiagramForm(LastClass *lastClass) { // 생성자 맞는듯
 	this->capsLockFlag = 0;
 	this->numLockFlag = 0;
 	this->zoomRate = 100;
+	this->isDown = 0;
+	this->startX_ = 0;
+	this->startY_ = 0;
+	this->currentX_ = 0;
+	this->currentY_ = 0;
 }
 
 Long ClassDiagramForm::Load() {
@@ -1167,6 +1172,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		}
 		Invalidate(false);
 	}
+	this->isDown = 0;
 }
 
 void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
@@ -1185,7 +1191,10 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		this->currentY = point.y + vertCurPos;
 
 		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-
+		this->startX_ = this->startX;
+		this->startY_ = this->startY;
+		this->currentX_ = this->currentX;
+		this->currentY_ = this->currentY;
 		this->startX = 0;
 		this->startY = 0;
 		this->currentX = 0;
@@ -1196,6 +1205,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 		ReleaseCapture();
 		Invalidate(false);
 	}
+	this->isDown = 1;
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
