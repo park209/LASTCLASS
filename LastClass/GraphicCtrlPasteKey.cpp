@@ -71,15 +71,15 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		}
 		SmartPointer<Figure*>CopyBufferSmartPointer(classDiagramForm->copyBuffer->CreateIterator());
 		for (CopyBufferSmartPointer->First();!CopyBufferSmartPointer->IsDone();CopyBufferSmartPointer->Next()) {
-			if (dynamic_cast<Class*>(CopyBufferSmartPointer->Current())) {//or memobox
+			if (dynamic_cast<FigureComposite*>(CopyBufferSmartPointer->Current())) {//or memobox
 				if (minX == 0 || CopyBufferSmartPointer->Current()->GetX() < minX) {
 					minX = CopyBufferSmartPointer->Current()->GetX();
 					//isFirst = 1;
 				}
 			}
 		}
-		if (lastObject != 0 && dynamic_cast<Class*>(lastObject)) {
-			SmartPointer<Figure*>lastObjectSmartPointer(dynamic_cast<Class*>(lastObject)->CreateIterator());
+		if (lastObject != 0 && dynamic_cast<FigureComposite*>(lastObject)) {
+			SmartPointer<Figure*>lastObjectSmartPointer(dynamic_cast<FigureComposite*>(lastObject)->CreateIterator());
 			for (lastObjectSmartPointer->First();!lastObjectSmartPointer->IsDone();lastObjectSmartPointer->Next()) {
 				if (dynamic_cast<Relation*>(lastObjectSmartPointer->Current())) {
 					if (lineLength == 0 || lastObjectSmartPointer->Current()->GetWidth() > lineLength) {
@@ -89,7 +89,7 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 			}
 		}
 		if (lineLength < 0) {
-			lineLength = 0;
+			lineLength = -lineLength;
 		}
 		Figure *object_ = classDiagramForm->copyBuffer->GetAt(0);
 		Long condition = 0;
@@ -182,8 +182,69 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 					}
 				}
 				else if (dynamic_cast<MemoBox*>(smartPointer->Current())) {
+					/*MemoBox *object = static_cast<MemoBox*>(smartPointer->Current());
+					MemoBox *object2 = new MemoBox(*object);
+					if (isOne == 1) {
+						object2->Move((bigWidth + 10) + lineLength - object->GetX(), 0);
+					}
+					else {
+						object2->Move((bigWidth + 10) + lineLength - minX, 0);
+					}
+					classDiagramForm->diagram->Add(static_cast<Figure*>(object2));
+					classDiagramForm->copyBuffer->Correct(static_cast<Figure*>(object2), i);
+					if (isHave == 1) {
+						classDiagramForm->selection->Correct(static_cast<Figure*>(object2), i);
+					}
+					else {
+						classDiagramForm->selection->Add(static_cast<Figure*>(object2));
+					}
+					*/
 					MemoBox *object = static_cast<MemoBox*>(smartPointer->Current());
 					MemoBox *object2 = new MemoBox(*object);
+					tmp = object->GetLength();
+					c = 0;
+					if (isOne == 1) {
+						Long k = 0;
+						Long e;
+						while (k < tmp) {
+							j = 0;
+							e = 0;
+							while (j < object2->GetLength() && e == 0) {
+								if (dynamic_cast<Relation*>(object2->GetAt(j))) {
+									object2->Remove(j);
+									e = 1;
+								}
+								j++;
+							}
+							k++;
+						}
+					}
+					else {
+						Long s = 0;
+						Relation * relation_ = 0;
+						Long isRemove;
+						while (s < tmp) {
+							isRemove = 1;
+							relation_ = static_cast<Relation*>(object->GetAt(c));
+							for (CopyBufferSmartPointer->First();!CopyBufferSmartPointer->IsDone();CopyBufferSmartPointer->Next()) {
+								if (dynamic_cast<Relation*>(CopyBufferSmartPointer->Current())) {
+									if (relation_->GetX() == static_cast<Relation*>(CopyBufferSmartPointer->Current())->GetX() &&
+										relation_->GetY() == static_cast<Relation*>(CopyBufferSmartPointer->Current())->GetY()) {
+										isRemove = 0;
+									}
+								}
+							}
+							if (isRemove == 1) {
+								object->Remove(c);
+								object2->Remove(c);
+							}
+							else
+							{
+								c++;
+							}
+							s++;
+						}
+					}
 					if (isOne == 1) {
 						object2->Move((bigWidth + 10) + lineLength - object->GetX(), 0);
 					}
@@ -205,6 +266,23 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 					Class *parent = 0;
 					Long z;
 					CPoint point_;
+					FigureComposite *parent_ = 0;
+					Long canPaste = 0;
+					parent_ = static_cast<FigureComposite*>(finder.GetParents(classDiagramForm->diagram, smartPointer->Current()));
+					SmartPointer<Figure*>tempsmartPointer(classDiagramForm->copyBuffer->CreateIterator());
+					for (tempsmartPointer->First();!tempsmartPointer->IsDone();tempsmartPointer->Next()) {
+						if (dynamic_cast<FigureComposite*>(tempsmartPointer->Current())) {
+							if(static_cast<FigureComposite*>(tempsmartPointer->Current())->GetX() == parent_->GetX()&&
+							 static_cast<FigureComposite*>(tempsmartPointer->Current())->GetY() == parent_->GetY()){
+								canPaste = 1;
+								}
+							if (static_cast<FigureComposite*>(tempsmartPointer->Current())->GetX() -(bigWidth + 10 + lineLength - minX) == parent_->GetX() &&
+								static_cast<FigureComposite*>(tempsmartPointer->Current())->GetY() == parent_->GetY()) {
+								canPaste = 1;
+							}
+						}
+					}
+					if(canPaste==1){
 					if (dynamic_cast<Generalization*>(objectRelation)) {
 						Generalization* object = static_cast<Generalization*>(smartPointer->Current());
 						Generalization* object2 = new Generalization(*object);
@@ -1267,12 +1345,12 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 							classDiagramForm->selection->Add(temp);
 						}
 					}
-						else if (dynamic_cast<MemoLine*>(objectRelation)) {
+					else if (dynamic_cast<MemoLine*>(objectRelation)) {
 							MemoLine* object = static_cast<MemoLine*>(smartPointer->Current());
 							MemoLine* object2 = new MemoLine(*object);
-					parent = static_cast<Class*>(finder.GetParents(classDiagramForm->diagram, object));
+					parent_ = static_cast<FigureComposite*>(finder.GetParents(classDiagramForm->diagram, object));
 					if (isOne == 1) {
-						if (object2->GetY() < parent->GetY() + parent->GetHeight() - 10) {
+						if (object2->GetY() < parent_->GetY() + parent_->GetHeight() - 10) {
 							static_cast<Figure*>(object2)->Move(0, 30);
 							z = 0;
 							while (z < object2->GetLength()) {
@@ -1292,13 +1370,13 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 							object2->rollNamePoints->Modify(h, pointR);
 							h++;
 						}
-						static_cast<Class*>(parent)->Add(object2->Clone());
-						temp = static_cast<Class*>(parent)->GetAt(parent->GetLength() - 1);
+						static_cast<FigureComposite*>(parent_)->Add(object2->Clone());
+						temp = static_cast<FigureComposite*>(parent_)->GetAt(parent->GetLength() - 1);
 					}
 					else {
 						SmartPointer<Figure*> ResmartPointer(classDiagramForm->copyBuffer->CreateIterator());
 						for (ResmartPointer->First();!ResmartPointer->IsDone();ResmartPointer->Next()) {
-							if (dynamic_cast<Class*>(ResmartPointer->Current())) {
+							if (dynamic_cast<FigureComposite*>(ResmartPointer->Current())) {
 								Long condition_ = 0;
 								if (isOne == 1) {
 									condition_ = (bigWidth + 10) + lineLength - object->GetX();
@@ -1306,10 +1384,10 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 								else {
 									condition_ = (bigWidth + 10) + lineLength - minX;
 								}
-								if (ResmartPointer->Current()->GetX() - condition_ == parent->GetX() &&//새로붙여넣기할때 너비만바뀜
-									ResmartPointer->Current()->GetY() == parent->GetY()) {
-									while (static_cast<Class*>(ResmartPointer->Current())->GetAt(f)->GetX() != object->GetX()
-										|| static_cast<Class*>(ResmartPointer->Current())->GetAt(f)->GetY() != object->GetY()) {
+								if (ResmartPointer->Current()->GetX() - condition_ == parent_->GetX() &&//새로붙여넣기할때 너비만바뀜
+									ResmartPointer->Current()->GetY() == parent_->GetY()) {
+									while (static_cast<FigureComposite*>(ResmartPointer->Current())->GetAt(f)->GetX() != object->GetX()
+										|| static_cast<FigureComposite*>(ResmartPointer->Current())->GetAt(f)->GetY() != object->GetY()) {
 										f++;//xy 다 같을때만 빠져나옴
 									}
 									//if (isOne == 1) {isOne이 1일때는 클래스일땐 선다지우고 선한개일떈위에서 처리해줌
@@ -1336,14 +1414,14 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 										object2->rollNamePoints->Modify(h, pointR);
 										h++;
 									}
-									static_cast<Class*>(ResmartPointer->Current())->Correct(object2->Clone(), f);
-									temp = static_cast<Class*>(ResmartPointer->Current())->GetAt(f);
+									static_cast<FigureComposite*>(ResmartPointer->Current())->Correct(f,object2->Clone());
+									temp = static_cast<FigureComposite*>(ResmartPointer->Current())->GetAt(f);
 								}
 								//if (isCut == 1) {
-								else if (ResmartPointer->Current()->GetX() == parent->GetX()
-									&& ResmartPointer->Current()->GetY() == parent->GetY()) {
-									while (static_cast<Class*>(ResmartPointer->Current())->GetAt(f)->GetX() != object->GetX()
-										|| static_cast<Class*>(ResmartPointer->Current())->GetAt(f)->GetY() != object->GetY()) {
+								else if (ResmartPointer->Current()->GetX() == parent_->GetX()
+									&& ResmartPointer->Current()->GetY() == parent_->GetY()) {
+									while (static_cast<FigureComposite*>(ResmartPointer->Current())->GetAt(f)->GetX() != object->GetX()
+										|| static_cast<FigureComposite*>(ResmartPointer->Current())->GetAt(f)->GetY() != object->GetY()) {
 										f++;
 									}
 									if (isOne == 1) {
@@ -1370,8 +1448,8 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 										object2->rollNamePoints->Modify(h, pointR);
 										h++;
 									}
-									static_cast<Class*>(ResmartPointer->Current())->Correct(object2->Clone(), f);
-									temp = static_cast<Class*>(ResmartPointer->Current())->GetAt(f);
+									static_cast<FigureComposite*>(ResmartPointer->Current())->Correct(f, object2->Clone());
+									temp = static_cast<FigureComposite*>(ResmartPointer->Current())->GetAt(f);
 								}
 								//}
 							}
@@ -1386,6 +1464,7 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 					}
 		          }
 				}
+			}
 				i++;
 			}
 			if (isCut == 1) {

@@ -200,6 +200,9 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 	return this;
 }
 
+Long FigureComposite::Correct(Long index, Figure *figure) {
+	return index = this->figures.Modify(index, figure);
+}
 
 Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long distanceY) {
 	Long i = 0;
