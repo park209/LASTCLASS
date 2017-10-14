@@ -169,8 +169,8 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 						Relation *relation = static_cast<Relation*>(figureComposite->GetAt(l));
 						Long relationEndX = relation->GetX() + relation->GetWidth();
 						Long relationEndY = relation->GetY() + relation->GetHeight();
-						if (startX <= relationEndX &&  relationEndX <= endX &&
-							startY <= relationEndY &&  relationEndY <= endY) {
+						if ((startX <= relationEndX && relationEndX <= endX && (startY == relationEndY || endY == relationEndY)) ||
+							(startY <= relationEndY && relationEndY <= endY && (startX == relationEndX || endX == relationEndX))) {
 							relation->EndPointMove(distanceX, distanceY);
 							//
 							if (relation->GetLength() == 0) {
@@ -222,7 +222,7 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 
 								}
 							}
-							Long h = 0;
+							
 
 						}
 

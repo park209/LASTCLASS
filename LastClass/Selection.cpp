@@ -6,6 +6,10 @@
 #include "Class.h"
 #include "Template.h"
 #include "HistoryGraphic.h"
+#include "Association.h"
+#include  "Aggregation.h"
+#include "Aggregations.h"
+#include "DirectedAssociation.h"
 Selection::Selection(Long capacity) :FigureComposite(capacity) {
 	this->x = 0;
 	this->y = 0;
@@ -746,31 +750,34 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
 				}
 				//여기 부터 바깥 사각박스 찾기
-				Long l = 0;
-				while (l < 5 && ret == false) {
-					if (l == 1) {
-						rect.left = relation->rollNamePoints->GetAt(l).x - 40;
-						rect.right = relation->rollNamePoints->GetAt(l).x + 40;
-						rect.top = relation->rollNamePoints->GetAt(l).y - 10;
-						rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
+				if (dynamic_cast<DirectedAssociation*>(relation) || dynamic_cast<Association*>(relation) ||
+					dynamic_cast<Aggregation*>(relation) || dynamic_cast<Aggregations*>(relation)) {
+					Long l = 0;
+					while (l < 5 && ret == false) {
+						if (l == 1) {
+							rect.left = relation->rollNamePoints->GetAt(l).x - 40;
+							rect.right = relation->rollNamePoints->GetAt(l).x + 40;
+							rect.top = relation->rollNamePoints->GetAt(l).y - 10;
+							rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
+						}
+						else if (l == 0 || l == 2) {
+							rect.left = relation->rollNamePoints->GetAt(l).x - 20;
+							rect.right = relation->rollNamePoints->GetAt(l).x + 20;
+							rect.top = relation->rollNamePoints->GetAt(l).y - 10;
+							rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
+						}
+						else if (l == 3 || l == 4) {
+							rect.left = relation->rollNamePoints->GetAt(l).x - 25;
+							rect.right = relation->rollNamePoints->GetAt(l).x + 25;
+							rect.top = relation->rollNamePoints->GetAt(l).y - 10;
+							rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
+						}
+
+						if (ret == false) {
+							ret = finder.FindRectangleByPoint(rect, x, y);
+						}
+						l++;
 					}
-					else if(l == 0|| l == 2){
-						rect.left = relation->rollNamePoints->GetAt(l).x - 20;
-						rect.right = relation->rollNamePoints->GetAt(l).x + 20;
-						rect.top = relation->rollNamePoints->GetAt(l).y - 10;
-						rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
-					}
-					else if (l == 3||l==4) {
-						rect.left = relation->rollNamePoints->GetAt(l).x - 25;
-						rect.right = relation->rollNamePoints->GetAt(l).x + 25;
-						rect.top = relation->rollNamePoints->GetAt(l).y - 10;
-						rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
-					}
-					
-					if (ret == false) {
-						ret = finder.FindRectangleByPoint(rect, x, y);
-					}
-					l++;
 				}
 				if (ret == true) {
 					if (this->length < this->capacity) {
