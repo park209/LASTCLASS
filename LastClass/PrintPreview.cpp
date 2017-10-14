@@ -48,11 +48,11 @@ int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
    this->ModifyStyle(0, WS_OVERLAPPEDWINDOW  );
    this->nextButton = new CButton;
-   this->nextButton->Create("다음 페이지", WS_CHILD|WS_VISIBLE|BS_PUSHBUTTON|BS_CENTER|BS_VCENTER,CRect(50,100,200,140), this, 1);
+   this->nextButton->Create("다음 페이지", WS_CHILD|WS_VISIBLE|BS_PUSHBUTTON|BS_CENTER|BS_VCENTER,CRect(775,10,925,50), this, 1);
    this->previousButton = new CButton;
-   this->previousButton->Create("이전 페이지", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 150, 200, 190), this, 2);
+   this->previousButton->Create("이전 페이지", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(420, 10, 570, 50), this, 2);
    this->printButton = new CButton;
-   this->printButton->Create("인쇄하기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 200, 200, 240), this, 3);
+   this->printButton->Create("인쇄하기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(600, 10, 745, 50), this, 3);
    this->printZoomIn = new CButton;
    //this->printZoomIn->Create("확 대", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 250, 200, 290), this, 4);
    this->printZoomOut = new CButton;
@@ -125,13 +125,6 @@ void PrintPreview::OnPaint() {
 	//회색바탕에 흰종이 같이 출력
 	dc.BitBlt(0, 0, rec.Width(), rec.Height(), &memDCOne, 0, 0, SRCCOPY);
 
-	CString tempString = _T("");
-	tempString.Format(_T("해상도 (가로:%d 세로:%d), 모니터길이 (가로:%d 세로:%d)"),
-		dc.GetDeviceCaps(HORZRES),
-		dc.GetDeviceCaps(VERTRES),
-		dc.GetDeviceCaps(HORZSIZE),
-		dc.GetDeviceCaps(VERTSIZE));
-	dc.TextOutA(10, 10, tempString);
 
 	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
