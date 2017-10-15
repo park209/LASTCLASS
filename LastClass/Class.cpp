@@ -999,6 +999,10 @@ void Class::Accept(Visitor& visitor, CDC *pDC) {
 	}
 }
 
+void Class::Accept(Visitor& visitor, Long distanceX, Long distanceY) {
+	visitor.Visit(this, distanceX, distanceY);
+}
+
 Long Class::SetMinimumWidth() {
 	this->minimumWidth = 120;
 

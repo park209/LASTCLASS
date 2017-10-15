@@ -10,6 +10,8 @@ void ResizeVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 }
 void ResizeVisitor::Visit(Class *object, CDC* cPaintDc) {
 }
+void ResizeVisitor::Visit(Class *object, Long distanceX, Long distanceY) {
+}
 void ResizeVisitor::Visit(Text* text, CDC* cPaintDc) {
 }
 
@@ -18,7 +20,8 @@ void  ResizeVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
 
 void  ResizeVisitor::Visit(Relation *relation, CDC *pDC) {
 }
-
+void ResizeVisitor::Visit(MemoBox *memoBox, Long distanceX, Long distanceY) {
+}
 void ResizeVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) {
 }
 void ResizeVisitor::Visit(Selection *selection, CDC *cPaintDc) {

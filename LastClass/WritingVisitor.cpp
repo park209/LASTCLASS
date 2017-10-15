@@ -27,6 +27,8 @@ void WritingVisitor::Visit(Diagram *diagram, Selection *selection, Long distance
 }
 void WritingVisitor::Visit(Class *object, CDC* cPaintDc) {
 }
+void WritingVisitor::Visit(Class *object, Long distanceX, Long distanceY) {
+}
 void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 	Long fontHeight = cPaintDc->GetTextExtent("아").cy; // rowHeight 구하는방법
 	Long textWidth = text->MaxWidth(cPaintDc);
@@ -178,6 +180,7 @@ void WritingVisitor::Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) {
 
 void WritingVisitor::Visit(Diagram *diagram, Long zoomRate) {}
 void WritingVisitor::Visit(Class *object, Long zoomRate) {}
+void WritingVisitor::Visit(MemoBox *memoBox, Long distanceX, Long distanceY){}
 void WritingVisitor::Visit(Relation *relation, Long zoomRate) {}
 void WritingVisitor::Visit(MemoBox *memoBox, Long zoomRate) {}
 void WritingVisitor::Visit(Line *line, Long zoomRate) {}

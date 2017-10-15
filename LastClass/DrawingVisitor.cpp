@@ -41,6 +41,8 @@ DrawingVisitor::~DrawingVisitor() {
 }
 void DrawingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY) {
 }
+void DrawingVisitor::Visit(Class *object, Long distanceX, Long distanceY) {
+}
 void DrawingVisitor::Visit(Class *object, CDC* pDC) { //template
 	//ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)(CFrameWnd::FindWindow(NULL, "classDiagram"));
 	//Long vPos = classDiagramForm->verticalScrollBar->GetScrollPos();
@@ -50,6 +52,8 @@ void DrawingVisitor::Visit(Class *object, CDC* pDC) { //template
 	Long height = object->GetHeight();
 	
 	pDC->Rectangle(x, y, x + width, y + height);
+}
+void DrawingVisitor::Visit(MemoBox *memoBox, Long distanceX, Long distanceY) {
 }
 void DrawingVisitor::Visit(MemoBox *memoBox, CDC *pDC) {
 	Long x = memoBox->GetX();
