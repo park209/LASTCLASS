@@ -35,7 +35,8 @@
 
 using namespace std;
 
-DrawingVisitor::DrawingVisitor() {
+DrawingVisitor::DrawingVisitor(Long zoomRate) {
+	this->zoomRate = zoomRate;
 }
 DrawingVisitor::~DrawingVisitor() {
 }
@@ -960,26 +961,26 @@ void DrawingVisitor::Visit(MemoLine *memoLine, CDC *pDC) {
 void DrawingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *pDC) {
 
 	pDC->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY());
-	pDC->LineTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 40);
+	pDC->LineTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 40);
-	pDC->LineTo(selfGeneralization->GetX() + 80, selfGeneralization->GetY() - 40);
+	pDC->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 40 * this->zoomRate / 100);
+	pDC->LineTo(selfGeneralization->GetX() + 80 * this->zoomRate / 100, selfGeneralization->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfGeneralization->GetX() + 80, selfGeneralization->GetY() - 40);
-	pDC->LineTo(selfGeneralization->GetX() + 80, selfGeneralization->GetY() + 40);
+	pDC->MoveTo(selfGeneralization->GetX() + 80 * this->zoomRate / 100, selfGeneralization->GetY() - 40 * this->zoomRate / 100);
+	pDC->LineTo(selfGeneralization->GetX() + 80 * this->zoomRate / 100, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfGeneralization->GetX() + 80, selfGeneralization->GetY() + 40);
-	pDC->LineTo(selfGeneralization->GetX() + 30, selfGeneralization->GetY() + 40);
+	pDC->MoveTo(selfGeneralization->GetX() + 80 * this->zoomRate / 100, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
+	pDC->LineTo(selfGeneralization->GetX() + 30 * this->zoomRate / 100, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
 
 	CBrush white(RGB(255, 255, 255));
 	CBrush myBrush;
 	myBrush.CreateSolidBrush(RGB(255, 255, 255));
 	CBrush *oldBrush = pDC->SelectObject(&myBrush);
 
-	Long startX = selfGeneralization->GetX() + 60;
-	Long startY = selfGeneralization->GetY() + 40;
-	Long endX = selfGeneralization->GetX() + 30;
-	Long endY = selfGeneralization->GetY() + 40;
+	Long startX = selfGeneralization->GetX() + 60 * this->zoomRate / 100;
+	Long startY = selfGeneralization->GetY() + 40 * this->zoomRate / 100;
+	Long endX = selfGeneralization->GetX() + 30 * this->zoomRate / 100;
+	Long endY = selfGeneralization->GetY() + 40 * this->zoomRate / 100;
 
 	double degree = atan2(endX - startX, startY - endY); // 기울기
 
@@ -1012,21 +1013,21 @@ void DrawingVisitor::Visit(SelfDependency *selfDependency, CDC *pDC) {
 	pDC->SetBkMode(TRANSPARENT);
 
 	pDC->MoveTo(selfDependency->GetX(), selfDependency->GetY());
-	pDC->LineTo(selfDependency->GetX(), selfDependency->GetY() - 40);
+	pDC->LineTo(selfDependency->GetX(), selfDependency->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfDependency->GetX(), selfDependency->GetY() - 40);
-	pDC->LineTo(selfDependency->GetX() + 80, selfDependency->GetY() - 40);
+	pDC->MoveTo(selfDependency->GetX(), selfDependency->GetY() - 40 * this->zoomRate / 100);
+	pDC->LineTo(selfDependency->GetX() + 80 * this->zoomRate / 100, selfDependency->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfDependency->GetX() + 80, selfDependency->GetY() - 40);
-	pDC->LineTo(selfDependency->GetX() + 80, selfDependency->GetY() + 40);
+	pDC->MoveTo(selfDependency->GetX() + 80 * this->zoomRate / 100, selfDependency->GetY() - 40 * this->zoomRate / 100);
+	pDC->LineTo(selfDependency->GetX() + 80 * this->zoomRate / 100, selfDependency->GetY() + 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfDependency->GetX() + 80, selfDependency->GetY() + 40);
-	pDC->LineTo(selfDependency->GetX() + 30, selfDependency->GetY() + 40);
+	pDC->MoveTo(selfDependency->GetX() + 80 * this->zoomRate / 100, selfDependency->GetY() + 40 * this->zoomRate / 100);
+	pDC->LineTo(selfDependency->GetX() + 30 * this->zoomRate / 100, selfDependency->GetY() + 40 * this->zoomRate / 100);
 
-	Long startX = selfDependency->GetX() + 60;
-	Long startY = selfDependency->GetY() + 40;
-	Long endX = selfDependency->GetX() + 30;
-	Long endY = selfDependency->GetY() + 40;
+	Long startX = selfDependency->GetX() + 60 * this->zoomRate / 100;
+	Long startY = selfDependency->GetY() + 40 * this->zoomRate / 100;
+	Long endX = selfDependency->GetX() + 30 * this->zoomRate / 100;
+	Long endY = selfDependency->GetY() + 40 * this->zoomRate / 100;
 
 	pDC->SelectObject(oldPen);
 	pen.DeleteObject();
@@ -1063,21 +1064,21 @@ void DrawingVisitor::Visit(SelfAggregation *selfAggregation, CDC *pDC) {
 	CBrush *oldBrush = pDC->SelectObject(&myBrush);
 
 	pDC->MoveTo(selfAggregation->GetX(), selfAggregation->GetY());
-	pDC->LineTo(selfAggregation->GetX(), selfAggregation->GetY() - 40);
+	pDC->LineTo(selfAggregation->GetX(), selfAggregation->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfAggregation->GetX(), selfAggregation->GetY() - 40);
-	pDC->LineTo(selfAggregation->GetX() + 80, selfAggregation->GetY() - 40);
+	pDC->MoveTo(selfAggregation->GetX(), selfAggregation->GetY() - 40 * this->zoomRate / 100);
+	pDC->LineTo(selfAggregation->GetX() + 80 * this->zoomRate / 100, selfAggregation->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfAggregation->GetX() + 80, selfAggregation->GetY() - 40);
-	pDC->LineTo(selfAggregation->GetX() + 80, selfAggregation->GetY() + 40);
+	pDC->MoveTo(selfAggregation->GetX() + 80 * this->zoomRate / 100, selfAggregation->GetY() - 40 * this->zoomRate / 100);
+	pDC->LineTo(selfAggregation->GetX() + 80 * this->zoomRate / 100, selfAggregation->GetY() + 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfAggregation->GetX() + 80, selfAggregation->GetY() + 40);
-	pDC->LineTo(selfAggregation->GetX() + 30, selfAggregation->GetY() + 40);
+	pDC->MoveTo(selfAggregation->GetX() + 80 * this->zoomRate / 100, selfAggregation->GetY() + 40 * this->zoomRate / 100);
+	pDC->LineTo(selfAggregation->GetX() + 30 * this->zoomRate / 100, selfAggregation->GetY() + 40 * this->zoomRate / 100);
 
 	Long startX = selfAggregation->GetX();
 	Long startY = selfAggregation->GetY();
 	Long endX = selfAggregation->GetX();
-	Long endY = selfAggregation->GetY() - 30;
+	Long endY = selfAggregation->GetY() - 30 * this->zoomRate / 100;
 
 	double degree = atan2(endX - startX, startY - endY); // 기울기
 
@@ -1112,16 +1113,17 @@ void DrawingVisitor::Visit(SelfAggregation *selfAggregation, CDC *pDC) {
 void DrawingVisitor::Visit(SelfAssociation *selfAssociation, CDC *pDC) {
 
 	pDC->MoveTo(selfAssociation->GetX(), selfAssociation->GetY());
-	pDC->LineTo(selfAssociation->GetX(), selfAssociation->GetY() - 40);
+	pDC->LineTo(selfAssociation->GetX(), selfAssociation->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfAssociation->GetX(), selfAssociation->GetY() - 40);
-	pDC->LineTo(selfAssociation->GetX() + 80, selfAssociation->GetY() - 40);
+	pDC->MoveTo(selfAssociation->GetX(), selfAssociation->GetY() - 40 * this->zoomRate / 100);
+	pDC->LineTo(selfAssociation->GetX() + 80 * this->zoomRate / 100, selfAssociation->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfAssociation->GetX() + 80, selfAssociation->GetY() - 40);
-	pDC->LineTo(selfAssociation->GetX() + 80, selfAssociation->GetY() + 40);
+	pDC->MoveTo(selfAssociation->GetX() + 80 * this->zoomRate / 100, selfAssociation->GetY() - 40 * this->zoomRate / 100);
+	pDC->LineTo(selfAssociation->GetX() + 80 * this->zoomRate / 100, selfAssociation->GetY() + 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfAssociation->GetX() + 80, selfAssociation->GetY() + 40);
-	pDC->LineTo(selfAssociation->GetX() + 30, selfAssociation->GetY() + 40);
+	pDC->MoveTo(selfAssociation->GetX() + 80 * this->zoomRate / 100, selfAssociation->GetY() + 40 * this->zoomRate / 100);
+	pDC->LineTo(selfAssociation->GetX() + 30 * this->zoomRate / 100, selfAssociation->GetY() + 40 * this->zoomRate / 100);
+
 }
 
 void DrawingVisitor::Visit(SelfAggregations *selfAggregations, CDC *pDC) {
@@ -1131,21 +1133,21 @@ void DrawingVisitor::Visit(SelfAggregations *selfAggregations, CDC *pDC) {
 	CBrush *oldBrush = pDC->SelectObject(&myBrush);
 
 	pDC->MoveTo(selfAggregations->GetX(), selfAggregations->GetY());
-	pDC->LineTo(selfAggregations->GetX(), selfAggregations->GetY() - 40);
+	pDC->LineTo(selfAggregations->GetX(), selfAggregations->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfAggregations->GetX(), selfAggregations->GetY() - 40);
-	pDC->LineTo(selfAggregations->GetX() + 80, selfAggregations->GetY() - 40);
+	pDC->MoveTo(selfAggregations->GetX(), selfAggregations->GetY() - 40 * this->zoomRate / 100);
+	pDC->LineTo(selfAggregations->GetX() + 80 * this->zoomRate / 100, selfAggregations->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfAggregations->GetX() + 80, selfAggregations->GetY() - 40);
-	pDC->LineTo(selfAggregations->GetX() + 80, selfAggregations->GetY() + 40);
+	pDC->MoveTo(selfAggregations->GetX() + 80 * this->zoomRate / 100, selfAggregations->GetY() - 40 * this->zoomRate / 100);
+	pDC->LineTo(selfAggregations->GetX() + 80 * this->zoomRate / 100, selfAggregations->GetY() + 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfAggregations->GetX() + 80, selfAggregations->GetY() + 40);
-	pDC->LineTo(selfAggregations->GetX() + 30, selfAggregations->GetY() + 40);
+	pDC->MoveTo(selfAggregations->GetX() + 80 * this->zoomRate / 100, selfAggregations->GetY() + 40 * this->zoomRate / 100);
+	pDC->LineTo(selfAggregations->GetX() + 30 * this->zoomRate / 100, selfAggregations->GetY() + 40 * this->zoomRate / 100);
 
-	Long startX = selfAggregations->GetX() + 60;
-	Long startY = selfAggregations->GetY() + 40;
-	Long endX = selfAggregations->GetX() + 30;
-	Long endY = selfAggregations->GetY() + 40;
+	Long startX = selfAggregations->GetX() + 60 * this->zoomRate / 100;
+	Long startY = selfAggregations->GetY() + 40 * this->zoomRate / 100;
+	Long endX = selfAggregations->GetX() + 30 * this->zoomRate / 100;
+	Long endY = selfAggregations->GetY() + 40 * this->zoomRate / 100;
 
 	double degree = atan2(endX - startX, startY - endY); // 기울기
 
@@ -1177,7 +1179,7 @@ void DrawingVisitor::Visit(SelfAggregations *selfAggregations, CDC *pDC) {
 	startX = selfAggregations->GetX();
 	startY = selfAggregations->GetY();
 	endX = selfAggregations->GetX();
-	endY = selfAggregations->GetY() - 30;
+	endY = selfAggregations->GetY() - 30 * this->zoomRate / 100;
 
 	degree = atan2(endX - startX, startY - endY); // 기울기
 
@@ -1211,21 +1213,21 @@ void DrawingVisitor::Visit(SelfAggregations *selfAggregations, CDC *pDC) {
 void DrawingVisitor::Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *pDC) {
 
 	pDC->MoveTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY());
-	pDC->LineTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 40);
+	pDC->LineTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 40);
-	pDC->LineTo(selfDirectedAssociation->GetX() + 80, selfDirectedAssociation->GetY() - 40);
+	pDC->MoveTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 40 * this->zoomRate / 100);
+	pDC->LineTo(selfDirectedAssociation->GetX() + 80 * this->zoomRate / 100, selfDirectedAssociation->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfDirectedAssociation->GetX() + 80, selfDirectedAssociation->GetY() - 40);
-	pDC->LineTo(selfDirectedAssociation->GetX() + 80, selfDirectedAssociation->GetY() + 40);
+	pDC->MoveTo(selfDirectedAssociation->GetX() + 80 * this->zoomRate / 100, selfDirectedAssociation->GetY() - 40 * this->zoomRate / 100);
+	pDC->LineTo(selfDirectedAssociation->GetX() + 80 * this->zoomRate / 100, selfDirectedAssociation->GetY() + 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfDirectedAssociation->GetX() + 80, selfDirectedAssociation->GetY() + 40);
-	pDC->LineTo(selfDirectedAssociation->GetX() + 30, selfDirectedAssociation->GetY() + 40);
+	pDC->MoveTo(selfDirectedAssociation->GetX() + 80 * this->zoomRate / 100, selfDirectedAssociation->GetY() + 40 * this->zoomRate / 100);
+	pDC->LineTo(selfDirectedAssociation->GetX() + 30 * this->zoomRate / 100, selfDirectedAssociation->GetY() + 40 * this->zoomRate / 100);
 
-	Long startX = selfDirectedAssociation->GetX() + 60;
-	Long startY = selfDirectedAssociation->GetY() + 40;
-	Long endX = selfDirectedAssociation->GetX() + 30;
-	Long endY = selfDirectedAssociation->GetY() + 40;
+	Long startX = selfDirectedAssociation->GetX() + 60 * this->zoomRate / 100;
+	Long startY = selfDirectedAssociation->GetY() + 40 * this->zoomRate / 100;
+	Long endX = selfDirectedAssociation->GetX() + 30 * this->zoomRate / 100;
+	Long endY = selfDirectedAssociation->GetY() + 40 * this->zoomRate / 100;
 
 	pDC->MoveTo(startX, startY);
 	pDC->LineTo(endX, endY);
@@ -1262,21 +1264,21 @@ void DrawingVisitor::Visit(SelfComposition *selfComposition, CDC *pDC) {
 	CBrush *oldBrush = pDC->SelectObject(&myBrush);
 
 	pDC->MoveTo(selfComposition->GetX(), selfComposition->GetY());
-	pDC->LineTo(selfComposition->GetX(), selfComposition->GetY() - 40);
+	pDC->LineTo(selfComposition->GetX(), selfComposition->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfComposition->GetX(), selfComposition->GetY() - 40);
-	pDC->LineTo(selfComposition->GetX() + 80, selfComposition->GetY() - 40);
+	pDC->MoveTo(selfComposition->GetX(), selfComposition->GetY() - 40 * this->zoomRate / 100);
+	pDC->LineTo(selfComposition->GetX() + 80 * this->zoomRate / 100, selfComposition->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfComposition->GetX() + 80, selfComposition->GetY() - 40);
-	pDC->LineTo(selfComposition->GetX() + 80, selfComposition->GetY() + 40);
+	pDC->MoveTo(selfComposition->GetX() + 80 * this->zoomRate / 100, selfComposition->GetY() - 40 * this->zoomRate / 100);
+	pDC->LineTo(selfComposition->GetX() + 80 * this->zoomRate / 100, selfComposition->GetY() + 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfComposition->GetX() + 80, selfComposition->GetY() + 40);
-	pDC->LineTo(selfComposition->GetX() + 30, selfComposition->GetY() + 40);
+	pDC->MoveTo(selfComposition->GetX() + 80 * this->zoomRate / 100, selfComposition->GetY() + 40 * this->zoomRate / 100);
+	pDC->LineTo(selfComposition->GetX() + 30 * this->zoomRate / 100, selfComposition->GetY() + 40 * this->zoomRate / 100);
 
 	Long startX = selfComposition->GetX();
 	Long startY = selfComposition->GetY();
 	Long endX = selfComposition->GetX();
-	Long endY = selfComposition->GetY() - 30;
+	Long endY = selfComposition->GetY() - 30 * this->zoomRate / 100;
 	double degree = atan2(endX - startX, startY - endY); // 기울기
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
@@ -1314,21 +1316,21 @@ void DrawingVisitor::Visit(SelfCompositions *selfCompositions, CDC *pDC) {
 	CBrush *oldBrush = pDC->SelectObject(&myBrush);
 
 	pDC->MoveTo(selfCompositions->GetX(), selfCompositions->GetY());
-	pDC->LineTo(selfCompositions->GetX(), selfCompositions->GetY() - 40);
+	pDC->LineTo(selfCompositions->GetX(), selfCompositions->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfCompositions->GetX(), selfCompositions->GetY() - 40);
-	pDC->LineTo(selfCompositions->GetX() + 80, selfCompositions->GetY() - 40);
+	pDC->MoveTo(selfCompositions->GetX(), selfCompositions->GetY() - 40 * this->zoomRate / 100);
+	pDC->LineTo(selfCompositions->GetX() + 80 * this->zoomRate / 100, selfCompositions->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfCompositions->GetX() + 80, selfCompositions->GetY() - 40);
-	pDC->LineTo(selfCompositions->GetX() + 80, selfCompositions->GetY() + 40);
+	pDC->MoveTo(selfCompositions->GetX() + 80 * this->zoomRate / 100, selfCompositions->GetY() - 40 * this->zoomRate / 100);
+	pDC->LineTo(selfCompositions->GetX() + 80 * this->zoomRate / 100, selfCompositions->GetY() + 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfCompositions->GetX() + 80, selfCompositions->GetY() + 40);
-	pDC->LineTo(selfCompositions->GetX() + 30, selfCompositions->GetY() + 40);
+	pDC->MoveTo(selfCompositions->GetX() + 80 * this->zoomRate / 100, selfCompositions->GetY() + 40 * this->zoomRate / 100);
+	pDC->LineTo(selfCompositions->GetX() + 30 * this->zoomRate / 100, selfCompositions->GetY() + 40 * this->zoomRate / 100);
 
-	Long startX = selfCompositions->GetX() + 60;
-	Long startY = selfCompositions->GetY() + 40;
-	Long endX = selfCompositions->GetX() + 30;
-	Long endY = selfCompositions->GetY() + 40;
+	Long startX = selfCompositions->GetX() + 60 * this->zoomRate / 100;
+	Long startY = selfCompositions->GetY() + 40 * this->zoomRate / 100;
+	Long endX = selfCompositions->GetX() + 30 * this->zoomRate / 100;
+	Long endY = selfCompositions->GetY() + 40 * this->zoomRate / 100;
 	double degree = atan2(endX - startX, startY - endY); // 기울기
 
 	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
@@ -1359,7 +1361,7 @@ void DrawingVisitor::Visit(SelfCompositions *selfCompositions, CDC *pDC) {
 	startX = selfCompositions->GetX();
 	startY = selfCompositions->GetY();
 	endX = selfCompositions->GetX();
-	endY = selfCompositions->GetY() - 30;
+	endY = selfCompositions->GetY() - 30 * this->zoomRate / 100;
 
 	degree = atan2(endX - startX, startY - endY); // 기울기
 

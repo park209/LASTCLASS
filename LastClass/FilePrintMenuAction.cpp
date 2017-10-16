@@ -269,9 +269,9 @@ if (int_ptr == IDOK) {
 			lastClass->SetFont(&cFont, TRUE);
 			CFont *oldFont = memDC.SelectObject(&cFont);
 
-			DrawingVisitor drawingVisitor;
+			DrawingVisitor drawingVisitor(100);
 			lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &memDC);
-			WritingVisitor writingVisitor;
+			WritingVisitor writingVisitor(100);
 			lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 
 

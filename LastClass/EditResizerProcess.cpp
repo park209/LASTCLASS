@@ -187,7 +187,7 @@ void EditResizerProcess::AffectedRelation(TextEdit *textEdit) {
 	CPoint cPoint5;
 
 	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
-	Class *object = dynamic_cast<Class*>(classDiagramForm->selection->GetAt(0));
+	Class *object = static_cast<Class*>(classDiagramForm->selection->GetAt(0));
 	Long startX = object->GetX();
 	Long startY = object->GetY();
 	Long endX = object->GetX() + object->GetWidth();
