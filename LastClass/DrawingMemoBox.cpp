@@ -22,7 +22,7 @@ void DrawingMemoBox::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 	Long index;
 	bool ret;
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 
 	CRect rect = diagram->GetCorrectRect(startX, startY, currentX, currentY);
 
