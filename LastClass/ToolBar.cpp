@@ -223,6 +223,7 @@ void ToolBar::ChangeAnotherToolBarSize(RECT *rect) {
 }
 
 void ToolBar::DestroyToolBar() {
-	DestroyWindow(this->hTool1);
-	this->hTool1 = 0;
+		DestroyWindow(this->hTool1);
+		this->hTool1 = 0;
+
 }
