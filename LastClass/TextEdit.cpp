@@ -106,7 +106,7 @@ void TextEdit::OnPaint() {
 	bitmap.CreateCompatibleBitmap(&dc, rt.right, rt.bottom);
 	pOldBitmap = memDC.SelectObject(&bitmap);
 	memDC.FillSolidRect(CRect(0, 0, rt.right, rt.bottom), RGB(255, 255, 255));
-	WritingVisitor writingVisitor;
+	WritingVisitor writingVisitor(this->classDiagramForm->zoomRate);
 	CFont cFont;
 	CFont *oldFont = 0;
 	CFont *m_oldFont = 0;

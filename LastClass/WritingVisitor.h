@@ -7,7 +7,7 @@
 
 class WritingVisitor : public Visitor {
 public:
-	WritingVisitor();
+	WritingVisitor(Long zoomRate);
 	~WritingVisitor();
 	void Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY);
 	void Visit(Class *object, CDC* pDC);
@@ -59,6 +59,8 @@ public:
 
 	//리사이즈 텍스트
 	void Visit(Text *text, Long zoomRate);
+private:
+	Long zoomRate;
 };
 
 #endif // _WRITINGVISITOR_H

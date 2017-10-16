@@ -149,9 +149,9 @@ void PrintPreview::OnPaint() {
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "¸¼Àº °íµñ");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
-	DrawingVisitor drawingVisitor;
+	DrawingVisitor drawingVisitor(100);
 	this->lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &memDC);
-	WritingVisitor writingVisitor;
+	WritingVisitor writingVisitor(100);
 	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 	// ÈòÁ¾ÀÌ »çÀÌÁî
 	Long a = (rec.CenterPoint().x)* 5 / 8;
@@ -237,9 +237,9 @@ void PrintPreview::OnPrint(CDC *cdc, CPrintInfo *pInfo, UINT page) {
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
 
-	DrawingVisitor drawingVisitor;
+	DrawingVisitor drawingVisitor(100);
 	this->lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &memDC);
-	WritingVisitor writingVisitor;
+	WritingVisitor writingVisitor(100);
 	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 	Long horiPage = 0;
 	Long verPage = 0;
