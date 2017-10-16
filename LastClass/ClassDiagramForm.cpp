@@ -59,6 +59,10 @@
 
 using namespace std;
 
+Long MemoGab = 20;
+Long GabX = 8;
+Long GabY = 2;
+Long CaretWidth = 2;
 
 BEGIN_MESSAGE_MAP(ClassDiagramForm, CWnd)
 	ON_WM_CREATE()
@@ -949,6 +953,11 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 			}
 		}
 		nextZoomRate = this->zoomRate;
+
+		this->SetMemoGab(20 * this->zoomRate / 100);
+		this->SetGabX(8 * this->zoomRate / 100);
+		this->SetGabY(4 * this->zoomRate / 100);
+		this->SetCaretWidth(2 * this->zoomRate / 100);
 
 		SCROLLINFO vScinfo;
 		SCROLLINFO hScinfo;

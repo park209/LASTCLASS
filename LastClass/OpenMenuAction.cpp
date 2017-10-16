@@ -7,6 +7,9 @@
 #include "HistoryGraphic.h"
 #include "KeyBoard.h"
 
+#include "ResizeVisitor.h"
+#include "StatusBar.h"
+
 #include <afxdlgs.h>
 using namespace std;
 
@@ -27,8 +30,15 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 				CFileDialog  dlgFile(false, "txt", "*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT, "텍스트 문서(*.txt)");
 				int_ptr = dlgFile.DoModal();
 				if (int_ptr == IDOK) {
+					ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100);
+					CDC dc;
+					lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
+					
 					lastClass->classDiagramForm->fileName = dlgFile.GetPathName();
 					lastClass->classDiagramForm->Save();
+
+					ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
+					lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 				}
 			}
 			else if (messageBox == IDCANCEL) {
@@ -42,7 +52,14 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			object.Append("에 저장하시겠습니까?");
 			messageBox = lastClass->MessageBox(object, "ClassDiagram", MB_YESNOCANCEL);
 			if (messageBox == IDYES) {
+				ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100);
+				CDC dc;
+				lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
+
 				lastClass->classDiagramForm->Save();
+
+				ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
+				lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 			}
 			else if (messageBox == IDCANCEL) {
 				int_ptr = IDCANCEL;
@@ -83,6 +100,11 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			lastClass->classDiagramForm->keyBoard = new KeyBoard;
 			lastClass->classDiagramForm->fileName = dlgFile.GetPathName();
 			lastClass->classDiagramForm->Load();
+
+			lastClass->classDiagramForm->zoomRate = 100;
+
+			lastClass->statusBar->DestroyStatus();
+			lastClass->statusBar->MakeStatusBar(lastClass, lastClass->GetSafeHwnd(), 0, 0, 5);
 		}
 	}
 }
