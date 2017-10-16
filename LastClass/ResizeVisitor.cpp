@@ -84,6 +84,7 @@ void ResizeVisitor::Visit(Template *object, CDC *cPaintDc) {
 }
 
 void ResizeVisitor::Visit(ClassName* className, CDC* cPaintDc) {
+
 	className->SetX(className->GetX() * this->nextZoomRate / this->previousZoomRate);
 	className->SetY(className->GetY() * this->nextZoomRate / this->previousZoomRate);
 	className->SetWidth(className->GetWidth() * this->nextZoomRate / this->previousZoomRate);
