@@ -56,7 +56,7 @@ TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Figure *figure, Long roll
 	this->fontSet = NULL;
 	this->figure = figure;
 	this->rollNameBoxIndex = rollNameBoxIndex;
-	this->rowHeight = 25; // 폰트 사이즈
+	this->rowHeight = 25 * this->classDiagramForm->zoomRate / 100; // 폰트 사이즈
 	this->koreanEnglish = 0;
 	this->flagBuffer = 0;
 	this->flagInsert = 0;
@@ -112,7 +112,7 @@ void TextEdit::OnPaint() {
 	CFont *m_oldFont = 0;
 
 	if (this->rollNameBoxIndex == -1) {
-		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight()* this->classDiagramForm->zoomRate / 100, FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 		SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
