@@ -46,15 +46,6 @@ GraphicCtrlCutKey::~GraphicCtrlCutKey() {
 }
 
 void GraphicCtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
-	Long i = 0;
-	Long j;
-	Long k;
-	FigureComposite *selectedComposite;
-	FigureComposite *composite;
-	Figure *relation;
-	Long relationEndX;
-	Long relationEndY;
-
 	if (classDiagramForm->copyBuffer != 0) {
 		delete classDiagramForm->copyBuffer;
 		classDiagramForm->copyBuffer = 0;
