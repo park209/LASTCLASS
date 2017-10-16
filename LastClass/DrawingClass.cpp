@@ -32,16 +32,16 @@ void DrawingClass::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 	}
 
 	//클래스를 안겹치게 할려면 여기에 정의
-	Long i = 0;
-	Finder finder;
-	bool ret = false;
-	while (i < diagram->GetLength() && ret == false) {
-		FigureComposite *figures = static_cast<FigureComposite*>(diagram->GetAt(i));
-		CRect cRect1(figures->GetX(), figures->GetY(), figures->GetWidth() + figures->GetX(), figures->GetY() + figures->GetHeight());
-		ret = finder.FindRectangleByArea(rect, cRect1);
-		i++;
-	}
-
+	//Long i = 0;
+	//Finder finder;
+	//bool ret = false;
+	//while (i < diagram->GetLength() && ret == false) {
+	//	FigureComposite *figures = static_cast<FigureComposite*>(diagram->GetAt(i));
+	//	CRect cRect1(figures->GetX(), figures->GetY(), figures->GetWidth() + figures->GetX(), figures->GetY() + figures->GetHeight());
+	//	ret = finder.FindRectangleByArea(rect, cRect1);
+	//	i++;
+	//}
+	bool ret = diagram->CheckOverlap(rect, 0);
 	if (ret == false) {
 		Long index = diagram->AddClass(rect.left, rect.top, rect.Width(), rect.Height());
 		Class *object = static_cast<Class*>(diagram->GetAt(index));

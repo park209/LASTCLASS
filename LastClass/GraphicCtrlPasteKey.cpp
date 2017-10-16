@@ -45,27 +45,10 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		Long j = 0;
 		Long k = 0;
 		Finder finder;
-		Figure *temp = 0;
-		Long isHave = 0;
-		Long isOne = 0;
-		Long bigWidth = 0;
-		Long minX = 0;
-		Long isCut = 0;
-		Long lineLength = 0;
-		Long diagramMinX = 0;
-		Long copyBufferMinX = 0;
 
 		int vertCurPos = classDiagramForm->GetScrollPos(SB_VERT);
 		int horzCurPos = classDiagramForm->GetScrollPos(SB_HORZ);
 
-		if (classDiagramForm->selection->GetLength() > 0) {
-			isHave = 1;
-		}if (classDiagramForm->copyBuffer->GetLength() == 1) {
-			isOne = 1;
-		}
-		if (classDiagramForm->isCut == 1) {
-			isCut = 1;
-		}
 		CPoint point;
 		::GetCursorPos(&point); // 바탕화면 커서위치 Get
 		::ScreenToClient(classDiagramForm->GetSafeHwnd(), &point); // 폼영역의 좌표로 변환
@@ -93,43 +76,51 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 				i++;
 			}
 		}
-		j = 0;
-		CopyBufferSmartPointer->First();
-		while (!CopyBufferSmartPointer->IsDone()) {
-			if (dynamic_cast<Relation*>(CopyBufferSmartPointer->Current())) {
-				if (CopyBufferSmartPointer->Current()->GetX() >= rt.left && CopyBufferSmartPointer->Current()->GetX() <= rt.right &&
-					CopyBufferSmartPointer->Current()->GetY() >= rt.top && CopyBufferSmartPointer->Current()->GetY() <= rt.bottom &&
-					CopyBufferSmartPointer->Current()->GetX() + CopyBufferSmartPointer->Current()->GetWidth() >= rt.left &&
-					CopyBufferSmartPointer->Current()->GetX() + CopyBufferSmartPointer->Current()->GetWidth() <= rt.bottom &&
-					CopyBufferSmartPointer->Current()->GetY() + CopyBufferSmartPointer->Current()->GetHeight() >= rt.top &&
-					CopyBufferSmartPointer->Current()->GetY() + CopyBufferSmartPointer->Current()->GetHeight() <= rt.bottom) {
-					j++;
-					CopyBufferSmartPointer->Next();
-				}
-				else {
-					Figure *figure = CopyBufferSmartPointer->Current();
-					classDiagramForm->copyBuffer->Remove(j);
-					SmartPointer<Figure*>bufferIterator(classDiagramForm->copyBuffer->CreateIterator());
-					for (bufferIterator->First();!bufferIterator->IsDone();bufferIterator->Next()) {
-						if (dynamic_cast<FigureComposite*>(bufferIterator->Current())) {
-							SmartPointer<Figure*>classIterator(static_cast<FigureComposite*>(bufferIterator->Current())->CreateIterator());
+		for (CopyBufferSmartPointer->First();!CopyBufferSmartPointer->IsDone();CopyBufferSmartPointer->Next()) {
+			if (dynamic_cast<FigureComposite*>(CopyBufferSmartPointer->Current())) {
+				SmartPointer<Figure*>compositeIterator(static_cast<FigureComposite*>(CopyBufferSmartPointer->Current())->CreateIterator());
+				j = 0;
+				while (!compositeIterator->IsDone()) {
+					if (dynamic_cast<Relation*>(compositeIterator->Current())) {
+						if (compositeIterator->Current()->GetX() >= rt.left && compositeIterator->Current()->GetX() <= rt.right &&
+							compositeIterator->Current()->GetY() >= rt.top && compositeIterator->Current()->GetY() <= rt.bottom &&
+							compositeIterator->Current()->GetX() + compositeIterator->Current()->GetWidth() >= rt.left &&
+							compositeIterator->Current()->GetX() + compositeIterator->Current()->GetWidth() <= rt.right &&
+							compositeIterator->Current()->GetY() + compositeIterator->Current()->GetHeight() >= rt.top &&
+							compositeIterator->Current()->GetY() + compositeIterator->Current()->GetHeight() <= rt.bottom) {
+							j++;
+							compositeIterator->Next();
+						}
+						else {
+							Figure *figure = compositeIterator->Current();
 							k = 0;
-							for (classIterator->First();!classIterator->IsDone();classIterator->Next()) {
-								if (figure->GetX() == classIterator->Current()->GetX()&&
-									figure->GetY() == classIterator->Current()->GetY() && 
-									figure->GetX() + figure->GetWidth() == classIterator->Current()->GetX() + classIterator->Current()->GetWidth() &&
-									figure->GetY() + figure->GetHeight() == classIterator->Current()->GetY() + classIterator->Current()->GetHeight()) {
-									static_cast<FigureComposite*>(bufferIterator->Current())->Remove(k);
+							SmartPointer<Figure*>bufferIterator(classDiagramForm->copyBuffer->CreateIterator());
+							while (!bufferIterator->IsDone()) {
+								if (dynamic_cast<Relation*>(bufferIterator->Current())) {
+									if (figure->GetX() == bufferIterator->Current()->GetX() &&
+										figure->GetY() == bufferIterator->Current()->GetY() &&
+										figure->GetX() + figure->GetWidth() == bufferIterator->Current()->GetX() + bufferIterator->Current()->GetWidth() &&
+										figure->GetY() + figure->GetHeight() == bufferIterator->Current()->GetY() + bufferIterator->Current()->GetHeight()) {
+										classDiagramForm->copyBuffer->Remove(k);
+									}
+									else {
+										k++;
+										bufferIterator->Next();
+									}
 								}
-								k++;
+								else {
+									k++;
+									bufferIterator->Next();
+								}
 							}
+							static_cast<FigureComposite*>(CopyBufferSmartPointer->Current())->Remove(j);
 						}
 					}
+					else {
+						j++;
+						compositeIterator->Next();
+					}
 				}
-			}
-			else {
-				j++;
-				CopyBufferSmartPointer->Next();
 			}
 		}
 		Long distanceX = point.x + horzCurPos - rt.left;
@@ -165,30 +156,16 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		bool ret = classDiagramForm->diagram->CheckOverlap(rt, 0);
 		//없으면 기호들을 이동시킨다
 		if (ret == false) {
-			Long k = 0;
-			Long l = 0;
 			Figure *figure;
-			RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
-			CPoint cPoint1;
-			CPoint cPoint2;
-			CPoint cPoint3;
-			CPoint cPoint4;
-			CPoint cPoint5;
 			MovingVisitor movingVisitor;
 			for (CopyBufferSmartPointer->First();!CopyBufferSmartPointer->IsDone();CopyBufferSmartPointer->Next()) {
 				figure = CopyBufferSmartPointer->Current();
 				if (dynamic_cast<Class*>(figure)) { //클래스나 메모면
 					static_cast<Class*>(figure)->Accept(movingVisitor, distanceX, distanceY);
-
 					classDiagramForm->diagram->Add(figure->Clone());
 				}
 				else if (dynamic_cast<MemoBox*>(figure)) {
 					static_cast<MemoBox*>(figure)->Accept(movingVisitor, distanceX, distanceY);
-
-					classDiagramForm->diagram->Add(figure->Clone());
-				}
-				else {
-
 					classDiagramForm->diagram->Add(figure->Clone());
 				}
 			}

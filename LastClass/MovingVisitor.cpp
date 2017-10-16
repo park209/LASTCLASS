@@ -160,7 +160,14 @@ void MovingVisitor::Visit(Class *object, Long distanceX, Long distanceY) {
 		figure = classIterator->Current();
 		figure->Move(distanceX, distanceY);
 		if (dynamic_cast<Relation*>(figure)) {
+			figure->EndPointMove(distanceX, distanceY);
 			Relation *relation = static_cast<Relation*>(figure);
+			Long m = 0;
+			while (m < relation->GetLength()) {
+				CPoint point(relation->GetAt(m).x + distanceX, relation->GetAt(m).y + distanceY);
+				relation->Move(m, point);
+				m++;
+			}
 			if (relation->GetLength() == 0) {
 				CPoint startPoint(figure->GetX(), figure->GetY());
 				CPoint endPoint(figure->GetX() + figure->GetWidth(), figure->GetY() + figure->GetHeight());
@@ -207,10 +214,8 @@ void MovingVisitor::Visit(Class *object, Long distanceX, Long distanceY) {
 						relation->GetAt((relation->GetLength() - 1) / 2).y };
 					cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
 					relation->rollNamePoints->Modify(1, cPoint2);
-
 				}
 			}
-
 		}
 		else if (dynamic_cast<SelfRelation*>(figure)) {
 			SelfRelation *selfRelation = static_cast<SelfRelation*>(figure);
@@ -239,11 +244,19 @@ void MovingVisitor::Visit(Class *object, CDC* pDC) {
 
 }
 void MovingVisitor::Visit(MemoBox *memoBox, Long distanceX, Long distanceY) {
-	Figure *figure;
+	Relation *relation;
 	SmartPointer<Figure*>memoBoxIterator(memoBox->CreateIterator());
+	memoBox->Move(distanceX, distanceY);
 	for (memoBoxIterator->First();!memoBoxIterator->IsDone();memoBoxIterator->Next()) {
-		figure = memoBoxIterator->Current();
-		figure->Move(distanceX, distanceY);
+		memoBoxIterator->Current()->Move(distanceX, distanceY);
+		memoBoxIterator->Current()->EndPointMove(distanceX, distanceY);
+		relation = static_cast<Relation*>(memoBoxIterator->Current());
+		Long i = 0;
+		while (i < memoBox->GetLength()) {
+			CPoint point(relation->GetAt(i).x + distanceX, relation->GetAt(i).y + distanceY);
+			relation->Move(i, point);
+			i++;
+		}
 	}
 }
 void MovingVisitor::Visit(MemoBox *memoBox, CDC *pDC) {

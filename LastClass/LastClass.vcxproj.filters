@@ -679,6 +679,7 @@
       <Filter>TextEdit</Filter>
     </ClInclude>
     <ClInclude Include="ResizeVisitor.h" />
+    <ClInclude Include="PrintPreviewState.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">
@@ -1308,6 +1309,9 @@
       <Filter>TextEdit</Filter>
     </ClCompile>
     <ClCompile Include="ResizeVisitor.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreviewState.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>
