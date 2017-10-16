@@ -12,7 +12,7 @@ AboutMenuAction::~AboutMenuAction() {
 void AboutMenuAction::MenuPress(LastClass* lastClass) {
 	CRect rect;
 	lastClass->GetClientRect(&rect);
-	AboutMenu *aboutMenu = new AboutMenu();
+	AboutMenu *aboutMenu = new AboutMenu(lastClass);
 	aboutMenu->Create(NULL, "정보", WS_CAPTION | WS_SYSMENU | WS_VISIBLE); //CFrameWnd 꺼 갖다쓰는듯??
 	aboutMenu->ShowWindow(SW_SHOW);
 	aboutMenu->UpdateWindow();

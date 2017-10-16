@@ -43,6 +43,8 @@ public:
 	void Visit(SelfRelation *selfRelation, CDC *pDC);
 	void Visit(Relation *relation, CDC *pDC);
 
+	void Visit(Class *object, Long distanceX, Long distanceY);
+	void Visit(MemoBox *memoBox, Long distanceX, Long distanceY);
 	void Visit(Text* text, CDC* pDC);
 
 	void Visit(Diagram *diagram, Long zoomRate);

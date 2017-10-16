@@ -114,6 +114,10 @@ void MemoBox::Accept (Visitor& visitor, CDC *pDC) {
 	}
 }
 
+void MemoBox::Accept(Visitor& visitor, Long distanceX, Long distanceY) {
+	visitor.Visit(this, distanceX, distanceY);
+}
+
 Long MemoBox::Correct(Long index, Figure *figure) {
 	return index = this->figures.Modify(index, figure);
 }
