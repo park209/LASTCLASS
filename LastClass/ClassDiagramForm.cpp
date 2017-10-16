@@ -937,13 +937,13 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		Long nextZoomRate;
 		previousZoomRate = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
-			this->zoomRate -= 50;
-			if (this->zoomRate < 50) {
-				this->zoomRate = 50;
+			this->zoomRate -= 20;
+			if (this->zoomRate < 80) {
+				this->zoomRate = 80;
 			}
 		}
 		else {  //마우스 휠 업
-			this->zoomRate += 50;
+			this->zoomRate += 20;
 			if (this->zoomRate > 200) {
 				this->zoomRate = 200;
 			}
@@ -953,7 +953,9 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		CDC memDC;
 		ResizeVisitor resizeVisitor(previousZoomRate, nextZoomRate);
 		this->diagram->Accept(resizeVisitor, &memDC);
-
+		if (this->copyBuffer != NULL) {
+			this->copyBuffer->Accept(resizeVisitor, &memDC);
+		}
 		this->lastClass->statusBar->DestroyStatus();
 		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		ret = true;
