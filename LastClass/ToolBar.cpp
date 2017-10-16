@@ -18,7 +18,7 @@ void ToolBar::MakeToolBar(HWND hWndParent) {
 		hWndParent, NULL, GetModuleHandle(NULL), NULL);
 	this->hTool1 = hTool;
 	SendMessage(hTool, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
-	TBBUTTON tbb[24];
+	TBBUTTON tbb[22];
 	TBADDBITMAP tbab;
 	Long iNew, iopen, iSave, iredo, iundo, idelete_, icut, icopy, ipaste, iprint, iprintpre, ihelp;
 	TCHAR newfile[10] = "ªı∆ƒ¿œ";
@@ -118,33 +118,33 @@ void ToolBar::MakeToolBar(HWND hWndParent) {
 	tbb[14].iString = icopy;
 	tbb[15].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
 
-	tbb[16].iBitmap = STD_PASTE;
+	/*tbb[16].iBitmap = STD_PASTE;
 	tbb[16].fsState = TBSTATE_ENABLED;
 	tbb[16].fsStyle = TBSTYLE_BUTTON;
 	tbb[16].idCommand = ID_BUTTON40010;
 	tbb[16].iString = ipaste;
+	tbb[17].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;*/
+
+	tbb[16].iBitmap = STD_PRINT;
+	tbb[16].fsState = TBSTATE_ENABLED;
+	tbb[16].fsStyle = TBSTYLE_BUTTON;
+	tbb[16].idCommand = ID_BUTTON40011;
+	tbb[16].iString = iprint;
 	tbb[17].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
 
-	tbb[18].iBitmap = STD_PRINT;
+	tbb[18].iBitmap = STD_PRINTPRE;
 	tbb[18].fsState = TBSTATE_ENABLED;
 	tbb[18].fsStyle = TBSTYLE_BUTTON;
-	tbb[18].idCommand = ID_BUTTON40011;
-	tbb[18].iString = iprint;
+	tbb[18].idCommand = ID_BUTTON40012;
+	tbb[18].iString = iprintpre;
 	tbb[19].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
 
-	tbb[20].iBitmap = STD_PRINTPRE;
+	tbb[20].iBitmap = STD_HELP;
 	tbb[20].fsState = TBSTATE_ENABLED;
 	tbb[20].fsStyle = TBSTYLE_BUTTON;
-	tbb[20].idCommand = ID_BUTTON40012;
-	tbb[20].iString = iprintpre;
+	tbb[20].idCommand = ID_BUTTON40013;
+	tbb[20].iString = ihelp;
 	tbb[21].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
-
-	tbb[22].iBitmap = STD_HELP;
-	tbb[22].fsState = TBSTATE_ENABLED;
-	tbb[22].fsStyle = TBSTYLE_BUTTON;
-	tbb[22].idCommand = ID_BUTTON40013;
-	tbb[22].iString = ihelp;
-	tbb[23].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
 
 
 	SendMessage(hTool, TB_ADDBUTTONS, sizeof(tbb) / sizeof(TBBUTTON), (LPARAM)tbb);
