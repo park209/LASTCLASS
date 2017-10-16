@@ -934,9 +934,6 @@
     <ClCompile Include="CtrlPasteKey.cpp">
       <Filter>KeyAction\TextEdit</Filter>
     </ClCompile>
-    <ClCompile Include="CtrlRedoKey.cpp">
-      <Filter>KeyAction\TextEdit</Filter>
-    </ClCompile>
     <ClCompile Include="CtrlUndoTextKey.cpp">
       <Filter>KeyAction\TextEdit</Filter>
     </ClCompile>
@@ -1314,6 +1311,9 @@
     </ClCompile>
     <ClCompile Include="PrintPreviewState.cpp">
       <Filter>Print</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlRedoTextKey.cpp">
+      <Filter>KeyAction\TextEdit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
