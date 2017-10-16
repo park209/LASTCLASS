@@ -27,7 +27,7 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 	Long quadrant;
 	Long quadrant2;
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 	selection->SelectByPointForRelation(diagram, currentX, currentY);
 
 	if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && dynamic_cast<Class*>(selection->GetAt(1)) 

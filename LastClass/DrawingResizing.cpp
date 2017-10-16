@@ -28,14 +28,13 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;
 	Long i = 0;
-	Figure *(*figures) = new Figure*[32];
 	Finder finder;
 	Long length = 0;
 	Long k = 0;
 	bool overlapCheck;
 	CRect objectRect(object->GetX(), object->GetY(), object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 
 	CRect rect = diagram->GetCorrectRect(startX, startY, currentX, currentY);
 	ret = diagram->CheckOverlap(rect, object);

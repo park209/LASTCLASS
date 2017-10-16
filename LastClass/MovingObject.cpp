@@ -26,7 +26,7 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 	CPoint cPoint3;
 	CPoint cPoint4;
 	CPoint cPoint5;
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 
 	if (dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
 		MovingVisitor movingVisitor;

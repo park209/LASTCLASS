@@ -22,15 +22,15 @@ void DrawingMemoBox::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 	Long index;
 	bool ret;
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 
 	CRect rect = diagram->GetCorrectRect(startX, startY, currentX, currentY);
 
-	if (rect.Width() < 100) {
-		rect.right = rect.left + 100;
+	if (rect.Width() < 100 * classDiagramForm->zoomRate / 100) {
+		rect.right = rect.left + 100 * classDiagramForm->zoomRate / 100;
 	}
-	if (rect.Height() < 80) {
-		rect.bottom = rect.top + 80;
+	if (rect.Height() < 80 * classDiagramForm->zoomRate / 100) {
+		rect.bottom = rect.top + 80* classDiagramForm->zoomRate / 100;
 	}
 
 	ret = diagram->CheckOverlap(rect, 0);
