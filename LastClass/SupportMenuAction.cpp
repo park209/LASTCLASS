@@ -10,7 +10,7 @@ SupportMenuAction::~SupportMenuAction() {
 void SupportMenuAction::MenuPress(LastClass* lastClass) {
 	CRect rect;
 	lastClass->GetClientRect(&rect);
-	SupportMenu *supportMenu = new SupportMenu();
+	SupportMenu *supportMenu = new SupportMenu(lastClass);
 	supportMenu->Create(NULL, "도  움  말", WS_CAPTION | WS_SYSMENU | WS_VISIBLE); //CFrameWnd 꺼 갖다쓰는듯??
 	supportMenu->ShowWindow(SW_SHOW);
 	supportMenu->UpdateWindow();

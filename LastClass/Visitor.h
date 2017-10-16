@@ -78,6 +78,9 @@ public:
 	virtual void Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *pDC) = 0;
 	virtual void Visit(SelfComposition *selfComposition, CDC *pDC) = 0;
 	virtual void Visit(SelfCompositions *selfCompositions, CDC *pDC) = 0;
+
+	virtual void Visit(Class *object, Long distanceX, Long distanceY) = 0;
+	virtual void Visit(MemoBox *memoBox, Long distanceX, Long distanceY) = 0;
 	virtual void Visit(Text* text, CDC *pDC) = 0;
 	//리사이즈 그래픽
 	virtual void Visit(Diagram *diagram, Long zoomRate) = 0;

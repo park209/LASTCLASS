@@ -27,6 +27,7 @@ public:
 
 
 	void Accept(Visitor& visitor, CDC *pDC);
+	void Accept(Visitor& visitor, Long distanceX, Long distanceY);
 };
 
 #endif // !_MEMOBOX_H

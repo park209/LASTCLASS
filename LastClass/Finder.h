@@ -25,6 +25,7 @@ public:
 	void FindRelationEndPoints(Diagram *diagram, FigureComposite *figureComposite, Figure *(*figures), Long *length);
 	Figure* GetParents(Diagram *diagram, Figure *figure);
 	Long FindQuadrant(Long x, Long y, Long left, Long top, Long right, Long bottom);
+	Long FindQuadrant(Long pointX, Long pointY, Long x, Long y);
 
 };
 

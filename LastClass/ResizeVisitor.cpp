@@ -234,6 +234,9 @@ void ResizeVisitor::Visit(Template *object, Long zoomRate) {
 	object->SetHeight(object->GetHeight() * zoomRate / 100);
 }
 
+void ResizeVisitor::Visit(Class *object, Long distanceX, Long distanceY) {}
+void ResizeVisitor::Visit(MemoBox *memoBox, Long distanceX, Long distanceY) {}
+
 //리사이즈 텍스트
 void ResizeVisitor::Visit(Text *text, Long zoomRate) {
 
