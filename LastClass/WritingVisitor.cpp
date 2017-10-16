@@ -100,7 +100,7 @@ void  WritingVisitor::Visit(Relation *relation, CDC *pDC) {
 
 			else {
 				RECT rt = { relation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
-					relation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 - GabX * this->zoomRate / 100 };
+					relation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
 				pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 			}
 			i++;
