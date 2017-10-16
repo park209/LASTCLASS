@@ -695,9 +695,9 @@ void ClassDiagramForm::OnPaint() {
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
 	memDC.CreateCompatibleDC(&dc);
-	bitmap.CreateCompatibleBitmap(&dc, 4000, 2000);
+	bitmap.CreateCompatibleBitmap(&dc, 4000*this->zoomRate/100 , 2000 * this->zoomRate / 100);
 	pOldBitmap = memDC.SelectObject(&bitmap);
-	memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
+	memDC.FillSolidRect(CRect(0, 0, 4000 * this->zoomRate / 100, 2000 * this->zoomRate / 100), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	cFont.CreateFont(25 * this->zoomRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
@@ -754,7 +754,7 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	CClientDC dc(this);
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+	cFont.CreateFont(25 * this->zoomRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont);
@@ -949,6 +949,26 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 			}
 		}
 		nextZoomRate = this->zoomRate;
+
+		SCROLLINFO vScinfo;
+		SCROLLINFO hScinfo;
+
+		this->GetScrollInfo(SB_VERT, &vScinfo);
+		this->GetScrollInfo(SB_HORZ, &hScinfo);
+		CRect rect;
+		this->GetClientRect(&rect);
+		vScinfo.nPage = rect.Height();
+		hScinfo.nPage = rect.Width();
+		vScinfo.nMax = 2000 * this->zoomRate / 100;
+		hScinfo.nMax = 4000 * this->zoomRate / 100;
+		if (vScinfo.nPos > vScinfo.nMax - vScinfo.nPage) {
+			vScinfo.nPos = vScinfo.nMax - vScinfo.nPage;
+		}
+		if (hScinfo.nPos > hScinfo.nMax - hScinfo.nPage) {
+			hScinfo.nPos = hScinfo.nMax - hScinfo.nPage;
+		}
+		this->SetScrollInfo(SB_VERT, &vScinfo);
+		this->SetScrollInfo(SB_HORZ, &hScinfo);
 
 		CDC memDC;
 		ResizeVisitor resizeVisitor(previousZoomRate, nextZoomRate);
