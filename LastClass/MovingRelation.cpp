@@ -40,7 +40,7 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 	currentCPoint.x = currentX;
 	currentCPoint.y = currentY;
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 
 	CRect object(relation->GetX() - 10, relation->GetY() - 10, relation->GetX() + 10, relation->GetY() + 10);
 	startLine = finder.FindRectangleByPoint(object, startX, startY);

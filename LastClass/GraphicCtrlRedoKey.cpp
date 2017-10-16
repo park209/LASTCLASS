@@ -15,13 +15,16 @@ GraphicCtrlRedoKey::~GraphicCtrlRedoKey() {
 
 void GraphicCtrlRedoKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 	if (classDiagramForm->historyGraphic->redoGraphicArray->GetLength() > 0) {
-		Diagram *diagram_ = classDiagramForm->historyGraphic->PopRedoGraphic();
+		Diagram *diagram_;
+		Long zoomRate_;
+		classDiagramForm->historyGraphic->PopRedoGraphic(&diagram_, &zoomRate_);
 
 		Diagram *tempDiagram = new Diagram(*(classDiagramForm->diagram));
-		classDiagramForm->historyGraphic->PushUndo(tempDiagram);
+		classDiagramForm->historyGraphic->PushUndo(tempDiagram, zoomRate_);
 
 		delete classDiagramForm->diagram;
 		classDiagramForm->diagram = diagram_;
+		classDiagramForm->zoomRate = zoomRate_;
 	}
 	classDiagramForm->selection->DeleteAllItems();
 }

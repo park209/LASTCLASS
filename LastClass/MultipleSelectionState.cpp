@@ -54,7 +54,7 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 		}
 		i++;
 	}
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 	i = 0;
 	while (i < length && GetKeyState(VK_SHIFT) >= 0 && ret==false) { // 선택된 개수만큼 반복
 		figure = selection->GetAt(i);

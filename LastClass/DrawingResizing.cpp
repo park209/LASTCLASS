@@ -34,7 +34,7 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 	bool overlapCheck;
 	CRect objectRect(object->GetX(), object->GetY(), object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 
 	CRect rect = diagram->GetCorrectRect(startX, startY, currentX, currentY);
 	ret = diagram->CheckOverlap(rect, object);
