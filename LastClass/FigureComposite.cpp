@@ -196,7 +196,6 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 	}
 
 	this->width = this->width + distanceX;
-
 	return this;
 }
 
