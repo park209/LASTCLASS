@@ -250,6 +250,23 @@ Long Finder::FindQuadrant(Long x, Long y, Long left, Long top, Long right, Long 
 	return Quadrant;
 }
 
+Long Finder::FindQuadrant(Long pointX, Long pointY, Long x, Long y) {
+	Long quadrant;
+	if (pointX >= x && pointY <= y) {
+		quadrant = 1;
+	}
+	if (pointX >= x && pointY >= y) {
+		quadrant = 2;
+	}
+	if (pointX <= x && pointY >= y) {
+		quadrant = 3;
+	}
+	if (pointX <= x && pointY <= y) {
+		quadrant = 4;
+	}
+	return quadrant;
+}
+
 bool IsLineCross(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End) {
 	double t;
 	double s;

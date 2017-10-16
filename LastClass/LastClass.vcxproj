@@ -157,6 +157,7 @@
     <ClInclude Include="OnVScrollTop.h" />
     <ClInclude Include="OpenMenuAction.h" />
     <ClInclude Include="PrintPreview.h" />
+    <ClInclude Include="PrintPreviewState.h" />
     <ClInclude Include="PrintPreviewZoomInButton.h" />
     <ClInclude Include="PrintPreviewZoomOutButton.h" />
     <ClInclude Include="RealizationMenuAction.h" />
@@ -296,7 +297,7 @@
     <ClCompile Include="CtrlCutKey.cpp" />
     <ClCompile Include="CtrlEnterKey.cpp" />
     <ClCompile Include="CtrlPasteKey.cpp" />
-    <ClCompile Include="CtrlRedoKey.cpp" />
+    <ClCompile Include="CtrlRedoTextKey.cpp" />
     <ClCompile Include="CtrlUndoTextKey.cpp" />
     <ClCompile Include="DefaultState.cpp" />
     <ClCompile Include="DeleteKey.cpp" />
@@ -373,6 +374,7 @@
     <ClCompile Include="OnVScrollTop.cpp" />
     <ClCompile Include="OpenMenuAction.cpp" />
     <ClCompile Include="PrintPreview.cpp" />
+    <ClCompile Include="PrintPreviewState.cpp" />
     <ClCompile Include="PrintPreviewZoomInButton.cpp" />
     <ClCompile Include="PrintPreviewZoomOutButton.cpp" />
     <ClCompile Include="RealizationMenuAction.cpp" />

@@ -50,6 +50,7 @@ public:
 
 	virtual Figure* Clone() const;
 	void Accept(Visitor& visitor, CDC *pDC);
+	void Accept(Visitor& visitor, Long distanceX, Long distanceY);
 
 	Long GetAttributePosition()const;
 	Long GetMethodPosition()const;
