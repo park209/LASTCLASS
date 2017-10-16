@@ -71,11 +71,29 @@ void ResizeVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) {
 	memoBox->SetHeight(memoBox->GetHeight() * this->nextZoomRate / this->previousZoomRate);
 }
 
+#include "SmartPointer.h"
+
 void ResizeVisitor::Visit(Selection *selection, CDC *cPaintDc) {
-	selection->SetX(selection->GetX() * this->nextZoomRate / this->previousZoomRate);
-	selection->SetY(selection->GetY() * this->nextZoomRate / this->previousZoomRate);
-	selection->SetWidth(selection->GetWidth() * this->nextZoomRate / this->previousZoomRate);
-	selection->SetHeight(selection->GetHeight() * this->nextZoomRate / this->previousZoomRate);
+	SmartPointer<Figure*> smartPointer(selection->CreateIterator());
+	while (!smartPointer->IsDone()) {
+		if (dynamic_cast<Class*>(smartPointer->Current())) {
+			static_cast<Class*>(smartPointer->Current())->Accept(*this, cPaintDc);
+			Long  i = 0;
+			while (i < static_cast<Class*>(smartPointer->Current())->GetLength()) {
+				if (dynamic_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
+					static_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(*this, cPaintDc);
+				}
+				if (dynamic_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
+					static_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(*this, cPaintDc);
+				}
+				i++;
+			}
+		}
+		if (dynamic_cast<MemoBox*>(smartPointer->Current())) {
+			static_cast<MemoBox*>(smartPointer->Current())->Accept(*this, cPaintDc);
+		}
+		smartPointer->Next();
+	}
 }
 
 void ResizeVisitor::Visit(Template *object, CDC *cPaintDc) {
