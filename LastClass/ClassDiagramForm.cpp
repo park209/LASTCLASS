@@ -682,10 +682,6 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	else {
 		this->numLockFlag = 0;
 	}
-	//1.2. 적재한다
-	//this->Load();
-	//1.3. 윈도우를 갱신한다
-	//Invalidate();
 
 
 	return 0;
@@ -1200,7 +1196,9 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			OnKillFocus(NULL);
 		}
 	}
-	this->textEdit->SetCapture();
+	if (this->textEdit != NULL) {
+		this->textEdit->SetCapture();
+	}
 
 	Invalidate(false);
 	this->isDown = 0;
@@ -1302,6 +1300,10 @@ void ClassDiagramForm::OnClose() {
 		if (this->copyBuffer != NULL) {
 			delete this->copyBuffer;
 			this->copyBuffer = NULL;
+		}
+		if (this->classDiagramFormMenu != NULL) {
+			delete this->classDiagramFormMenu;
+			this->classDiagramFormMenu = NULL;
 		}
 		CWnd::OnClose();
 }
