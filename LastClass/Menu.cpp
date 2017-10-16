@@ -123,9 +123,9 @@ MenuAction* Menu::MenuSelected( UINT parm_control_id) {
 	case 120: this->menuAction = new CompositionsMenuAction; break;
 	case 121: this->menuAction = new MemoLineMenuAction; break;
 	case 122: this->menuAction = new SupportMenuAction; break;
-	case 106:this->menuAction = new ExitKeyMenuAction; break;
-	case 107:this->menuAction = new GraphicCtrlCopyMenuAction; break;
-	case 108:this->menuAction = new GraphicCtrlPasteMenuAction; break;
+	case 106:this->menuAction =  new ExitKeyMenuAction; break;
+	case 107:this->menuAction =  new GraphicCtrlCopyMenuAction; break;
+	case 108:this->menuAction =  new GraphicCtrlPasteMenuAction; break;
 	case 109: this->menuAction = new GraphicCtrlCutMenuAction; break;
 	case 123: this->menuAction = new GraphicCtrlUndoMenuAction; break;
 	case 124: this->menuAction = new GraphicCtrlRedoMenuAction; break;

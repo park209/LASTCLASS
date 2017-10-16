@@ -10,6 +10,8 @@
 #include "ToolBar.h"
 #include "PrintPreview.h"
 #include "resource.h"
+#include "ResizeVisitor.h"
+#include "Diagram.h"
 #include <afxdlgs.h>
 #include <afxext.h>
 #include <afxstatusbar.h>
@@ -64,7 +66,14 @@ int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 }
 
 void LastClass::OnMyMenu(UINT parm_control_id) {
-
+	if (parm_control_id == 104 || parm_control_id == 105) {
+		ResizeVisitor visitor(this->classDiagramForm->zoomRate, 100);
+		this->classDiagramForm->zoomRate = 100;
+		CDC memDC;
+		this->classDiagramForm->diagram->Accept(visitor, &memDC);
+		this->statusBar->DestroyStatus();
+		this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
+	}
 	MenuAction* menuAction = this->menu->MenuSelected(parm_control_id);
 	if (menuAction != 0) {
 		menuAction->MenuPress(this);
@@ -136,6 +145,14 @@ void LastClass::OnMouseMove(UINT nFlags, CPoint point) {
 	CFrameWnd::OnMouseMove(nFlags, point);
 }
 void LastClass::OnMyToolBar(UINT parm_control_id) {
+	if (parm_control_id == 40011 || parm_control_id == 40012) {
+		ResizeVisitor visitor(this->classDiagramForm->zoomRate, 100);
+		this->classDiagramForm->zoomRate = 100;
+		CDC memDC;
+		this->classDiagramForm->diagram->Accept(visitor, &memDC);
+		this->statusBar->DestroyStatus();
+		this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
+	}
 	CClientDC dc(this);
 	this->toolBar->ButtonSelected(parm_control_id, this, this->classDiagramForm, &dc);
 }
@@ -152,6 +169,10 @@ void LastClass::OnClose() {
 				CFileDialog  dlgFile(false, "txt", "*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT, "텍스트 문서(*.txt)");
 				int_ptr = dlgFile.DoModal();
 				if (int_ptr == IDOK) {
+					ResizeVisitor visitor(this->classDiagramForm->zoomRate, 100);
+					this->classDiagramForm->zoomRate = 100;
+					CDC memDC;
+					this->classDiagramForm->diagram->Accept(visitor, &memDC);
 					this->classDiagramForm->fileName = dlgFile.GetPathName();
 					this->classDiagramForm->Save();
 				}
@@ -167,6 +188,10 @@ void LastClass::OnClose() {
 			object.Append("에 저장하시겠습니까?");
 			messageBox = MessageBox(object, "ClassDiagram", MB_YESNOCANCEL);
 			if (messageBox == IDYES) {
+				ResizeVisitor visitor(this->classDiagramForm->zoomRate, 100);
+				this->classDiagramForm->zoomRate = 100;
+				CDC memDC;
+				this->classDiagramForm->diagram->Accept(visitor, &memDC);
 				this->classDiagramForm->Save();
 			}
 		}
@@ -183,10 +208,12 @@ void LastClass::OnClose() {
 			this->menu = NULL;
 		}
 		if (this->toolBar != NULL) {
+			this->toolBar->DestroyToolBar();
 			delete this->toolBar;
 			this->toolBar = NULL;
 		}
 		if (this->statusBar != NULL) {
+			this->statusBar->DestroyStatus();
 			delete this->statusBar;
 			this->statusBar = NULL;
 		}
