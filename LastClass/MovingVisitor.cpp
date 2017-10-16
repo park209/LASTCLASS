@@ -144,6 +144,7 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 		i++;
 	}
 }
+
 void MovingVisitor::Visit(Class *object, Long distanceX, Long distanceY) {
 	Figure *figure;
 	CPoint cPoint1;
