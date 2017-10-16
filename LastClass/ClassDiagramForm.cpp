@@ -1200,6 +1200,8 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			OnKillFocus(NULL);
 		}
 	}
+	this->textEdit->SetCapture();
+
 	Invalidate(false);
 	this->isDown = 0;
 }
