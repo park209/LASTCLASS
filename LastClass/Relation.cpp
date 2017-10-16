@@ -207,3 +207,5 @@ void Relation::MovePaste(Long distanceX, Long distanceY) {
 Long Relation::Correct(Long index, CPoint point) {
 	return this->points.Modify(index, point);
 }
+
+

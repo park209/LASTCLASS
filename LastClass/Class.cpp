@@ -87,27 +87,58 @@ Class::~Class() {
 		i++;
 	}
 }
+//void Class::Initialize() {
+//	ClassName className(this->x, this->y, this->width, 50, "");
+//	this->figures.Store(this->length, className.Clone());
+//	this->length++;
+//
+//	Line line1(this->x, this->y + 50, width, 0);
+//	this->figures.Store(this->length, line1.Clone());
+//	this->length++;
+//
+//	Attribute attribute(this->x, this->y + 50, this->width, ((this->y + 50 + this->y + this->height) / 2) - (this->y + 50), "");
+//	this->attributePosition = this->figures.Store(this->length, attribute.Clone());
+//	this->length++;
+//
+//	Line line2(this->x, (this->y + 50 + this->y + this->height) / 2, this->width, 0);
+//	this->figures.Store(this->length, line2.Clone());
+//	this->length++;
+//
+//	Method method(this->x, (this->y + 50 + this->y + this->height) / 2, this->width, ((this->y + 50 + this->y + this->height) / 2) - (this->y + 50), "");
+//	this->methodPosition = this->figures.Store(this->length, method.Clone());
+//	this->length++;
+//}
 void Class::Initialize() {
-	ClassName className(this->x, this->y, this->width, 50, "");
+	Long firstlineHeight = 50;
+	if (this->height < 150) {
+		 firstlineHeight = 25;//40
+	}
+	if (this->height == 225) {
+		firstlineHeight = 75;
+	}
+	if (this->height == 300) {
+		firstlineHeight = 100;
+	}
+	Long lineHeight = (this->height - firstlineHeight) / 2;
+	ClassName className(this->x, this->y, this->width, firstlineHeight, "");
 	this->figures.Store(this->length, className.Clone());
 	this->length++;
 
-	Line line1(this->x, this->y + 50, width, 0);
+	Line line1(this->x, this->y + firstlineHeight, width, 0);
 	this->figures.Store(this->length, line1.Clone());
 	this->length++;
 
-	Attribute attribute(this->x, this->y + 50, this->width, ((this->y + 50 + this->y + this->height) / 2) - (this->y + 50), "");
+	Attribute attribute(this->x, this->y + firstlineHeight, this->width, lineHeight, "");
 	this->attributePosition = this->figures.Store(this->length, attribute.Clone());
 	this->length++;
 
-	Line line2(this->x, (this->y + 50 + this->y + this->height) / 2, this->width, 0);
+	Line line2(this->x, this->y + firstlineHeight + lineHeight, this->width, 0);
 	this->figures.Store(this->length, line2.Clone());
 	this->length++;
 
-	Method method(this->x, (this->y + 50 + this->y + this->height) / 2, this->width, ((this->y + 50 + this->y + this->height) / 2) - (this->y + 50), "");
+	Method method(this->x, this->y + firstlineHeight + lineHeight, this->width, lineHeight, "");
 	this->methodPosition = this->figures.Store(this->length, method.Clone());
 	this->length++;
-
 }
 Figure* Class::Move(Long distanceX, Long distanceY) {
 	Figure::Move(distanceX, distanceY);
@@ -1019,7 +1050,6 @@ void Class::Accept(Visitor& visitor, Long distanceX, Long distanceY) {
 
 Long Class::SetMinimumWidth() {
 	this->minimumWidth = 120;
-
 	SmartPointer<Figure*> iterator(this->CreateIterator());
 	for (iterator->First();!iterator->IsDone();iterator->Next()) {
 		if (iterator->Current()->GetMinimumWidth() > this->minimumWidth) {
