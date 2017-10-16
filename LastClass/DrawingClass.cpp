@@ -24,11 +24,11 @@ void DrawingClass::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 
 	CRect rect = diagram->GetCorrectRect(startX, startY, currentX, currentY);
 
-	if (rect.Width() < 120) {
-		rect.right = rect.left + 120;
+	if (rect.Width() < 120 * classDiagramForm->zoomRate / 100) {
+		rect.right = rect.left + 120 * classDiagramForm->zoomRate / 100;
 	}
-	if (rect.Height() < 150) {
-		rect.bottom = rect.top + 150;
+	if (rect.Height() < 150 * classDiagramForm->zoomRate / 100) {
+		rect.bottom = rect.top + 150 * classDiagramForm->zoomRate / 100;
 	}
 
 	//클래스를 안겹치게 할려면 여기에 정의
