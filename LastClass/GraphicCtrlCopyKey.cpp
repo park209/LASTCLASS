@@ -29,6 +29,8 @@
 #include "SmartPointer.h"
 #include "MemoLine.h"
 #include "Finder.h"
+#include "SmartPointer.h"
+#include "ArrayIterator.h"
 
 GraphicCtrlCopyKey::GraphicCtrlCopyKey() {
 }
@@ -48,6 +50,41 @@ void GraphicCtrlCopyKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) 
 	if (classDiagramForm->isCut == 1) {
 		classDiagramForm->isCut = 0;
 	}
+	Long i = 0;
+	Long condition;
+	Figure *object = 0;
+	Long j = 0;
+	Long length = classDiagramForm->copyBuffer->GetLength();
+	while (j< length) {
+		object = classDiagramForm->copyBuffer->GetAt(i);
+		if (dynamic_cast<Relation*>(object)) {
+			condition = 0;
+			SmartPointer<Figure*>copyBufferPointer(classDiagramForm->copyBuffer->CreateIterator());
+			for (copyBufferPointer->First();!copyBufferPointer->IsDone();copyBufferPointer->Next()) {
+				if (dynamic_cast<FigureComposite*>(copyBufferPointer->Current())) {
+					if ((object->GetX() + object->GetWidth()) == copyBufferPointer->Current()->GetX()//부모아니라 향하는쪽구하기
+						|| (object->GetX() + object->GetWidth()) == (copyBufferPointer->Current()->GetX()+ copyBufferPointer->Current()->GetWidth())){
+						condition++;
+					}
+					if (object->GetX() == (copyBufferPointer->Current()->GetX() + copyBufferPointer->Current()->GetWidth())
+						|| object->GetX() == copyBufferPointer->Current()->GetX()) {//부모구하기
+						condition++;
+					}
+				}
+			}
+			if (condition<2) {
+				classDiagramForm->copyBuffer->Remove(i);
+			}
+			else {
+				i++;
+			}
+		}
+		else {
+			i++;
+		}
+		j++;
+	}
+	
 	/*if (classDiagramForm->selection->GetLength() == 1) {
 		//Figure *parent;
 		Finder finder;

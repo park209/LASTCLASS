@@ -373,6 +373,36 @@ void GraphicCtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 			classDiagramForm->isCut = 1;
 		}
 	}
+	Long i = 0;
+	Long isRemove;
+	Figure *object = 0;
+	Long j = 0;
+	Long length = classDiagramForm->copyBuffer->GetLength();
+	while (j< length) {
+		object = classDiagramForm->copyBuffer->GetAt(i);
+		if (dynamic_cast<Relation*>(object)) {
+			isRemove = 1;
+			SmartPointer<Figure*>copyBufferPointer(classDiagramForm->copyBuffer->CreateIterator());
+			for (copyBufferPointer->First();!copyBufferPointer->IsDone();copyBufferPointer->Next()) {
+				if (dynamic_cast<FigureComposite*>(copyBufferPointer->Current())) {
+					if ((object->GetX() + object->GetWidth()) == copyBufferPointer->Current()->GetX() ||
+						(object->GetX() + object->GetWidth()) == (copyBufferPointer->Current()->GetX() + copyBufferPointer->Current()->GetWidth())) {
+						isRemove = 0;
+					}
+				}
+			}
+			if (isRemove == 1) {
+				classDiagramForm->copyBuffer->Remove(i);
+			}
+			else {
+				i++;
+			}
+		}
+		else {
+			i++;
+		}
+		j++;
+	}
 }
 
 void GraphicCtrlCutKey::KeyPress(TextEdit *textEdit) {

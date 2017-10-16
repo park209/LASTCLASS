@@ -53,6 +53,11 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		Long c;
 		Long diagramMinX = 0;
 		Long copyBufferMinX = 0;
+		if (classDiagramForm->selection != 0) {
+			delete classDiagramForm->selection;
+			classDiagramForm->selection = 0;
+		}
+		classDiagramForm->selection = new Selection(*classDiagramForm->copyBuffer);
 		if (classDiagramForm->selection->GetLength() > 0) {
 			isHave = 1;
 		}if (classDiagramForm->copyBuffer->GetLength() == 1) {
@@ -61,6 +66,7 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		if (classDiagramForm->isCut == 1) {
 			isCut = 1;
 		}
+	
 		Figure * lastObject = 0;
 		SmartPointer<Figure*>diagramSmartPointer(classDiagramForm->diagram->CreateIterator());
 		for (diagramSmartPointer->First();!diagramSmartPointer->IsDone();diagramSmartPointer->Next()) {
@@ -88,9 +94,10 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 				}
 			}
 		}
-		if (lineLength < 0) {
+		/*if (lineLength < 0) {
 			lineLength = -lineLength;
-		}
+		}*/
+		lineLength = 0;
 		Figure *object_ = classDiagramForm->copyBuffer->GetAt(0);
 		Long condition = 0;
 		if (isOne == 1) {
@@ -282,6 +289,11 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 							}
 						}
 					}
+					//if (canPaste == 0) {
+					//	classDiagramForm->copyBuffer->Remove(i);
+						//classDiagramForm->selection->Remove(i);
+					//}
+					
 					if(canPaste==1){
 					if (dynamic_cast<Generalization*>(objectRelation)) {
 						Generalization* object = static_cast<Generalization*>(smartPointer->Current());
@@ -333,6 +345,7 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 											//}
 											//else {
 												object2->MovePaste((bigWidth + 10) + lineLength - minX, 0);
+											//static_cast<Figure*>(object2)->Move((bigWidth + 10) + lineLength - minX-parent->GetWidth(), 0);
 											//}
 											z = 0;
 											while (z < object2->GetLength()) {
@@ -362,12 +375,13 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 											|| static_cast<Class*>(ResmartPointer->Current())->GetAt(f)->GetY() != object->GetY()) {
 											f++;
 										}
-										if (isOne == 1) {
-											object2->MovePaste((bigWidth + 10) + lineLength - object->GetX(), 0);
-										}
-										else {
+										//if (isOne == 1) {
+										//	object2->MovePaste((bigWidth + 10) + lineLength - object->GetX(), 0);
+										//}
+										//else {
 											object2->MovePaste((bigWidth + 10) + lineLength - minX, 0);
-										}
+										//static_cast<Figure*>(object2)->Move((bigWidth + 10) + lineLength - minX-parent->GetWidth(), 0);
+										//}
 										z = 0;
 										while (z < object2->GetLength()) {
 											point_.x = object2->GetAt(z).x;
@@ -1462,11 +1476,11 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 					else {
 						classDiagramForm->selection->Add(temp);
 					}
-		          }
-				}
-			}
-				i++;
-			}
+		          }//memoline
+				}//copypaste가 1일때
+			  }//relation
+			  i++;
+			}//for
 			if (isCut == 1) {
 				classDiagramForm->isCut = 0;
 			}
@@ -1475,9 +1489,9 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 				classDiagramForm->copyBuffer = 0;
 			}
 			classDiagramForm->copyBuffer = new Selection(*classDiagramForm->selection);
-		}
-	}
-}
+		}//condition
+	}//copybuffer가 null이 아닐떄
+}//끝
 
 void GraphicCtrlPasteKey::KeyPress(TextEdit *textEdit) {
 }
