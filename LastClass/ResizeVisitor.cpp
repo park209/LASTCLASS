@@ -60,6 +60,8 @@ void  ResizeVisitor::Visit(Relation *relation, CDC *pDC) {
 		relation->Correct(i, tempPoint);
 		i++;
 	}
+
+
 }
 
 void ResizeVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) {
