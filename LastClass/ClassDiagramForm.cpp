@@ -941,13 +941,13 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		Long nextZoomRate;
 		previousZoomRate = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
-			this->zoomRate -= 50;
-			if (this->zoomRate < 50) {
-				this->zoomRate = 50;
+			this->zoomRate -= 20;
+			if (this->zoomRate < 80) {
+				this->zoomRate = 80;
 			}
 		}
 		else {  //마우스 휠 업
-			this->zoomRate += 50;
+			this->zoomRate += 20;
 			if (this->zoomRate > 200) {
 				this->zoomRate = 200;
 			}
@@ -1105,22 +1105,22 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			!dynamic_cast<Realization*>(this->selection->GetAt(0))) {
 			while (i < 5 && index == 0) {
 				if (i == 0 || i == 2) {
-					right = relation->rollNamePoints->GetAt(i).x + 20;
-					left = relation->rollNamePoints->GetAt(i).x - 20;
-					top = relation->rollNamePoints->GetAt(i).y - 10;
-					bottom = relation->rollNamePoints->GetAt(i).y + 10;
+					right = relation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100;
+					left = relation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100;
+					top = relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+					bottom = relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 				else if (i == 1) {
-					right = relation->rollNamePoints->GetAt(i).x + 40;
-					left = relation->rollNamePoints->GetAt(i).x - 40;
-					top = relation->rollNamePoints->GetAt(i).y - 10;
-					bottom = relation->rollNamePoints->GetAt(i).y + 10;
+					right = relation->rollNamePoints->GetAt(i).x + 40 * this->zoomRate / 100;
+					left = relation->rollNamePoints->GetAt(i).x - 40 * this->zoomRate / 100;
+					top = relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+					bottom = relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 				else if (i == 3 || i == 4) {
-					right = relation->rollNamePoints->GetAt(i).x + 25;
-					left = relation->rollNamePoints->GetAt(i).x - 25;
-					top = relation->rollNamePoints->GetAt(i).y - 10;
-					bottom = relation->rollNamePoints->GetAt(i).y + 10;
+					right = relation->rollNamePoints->GetAt(i).x + 25 * this->zoomRate / 100;
+					left = relation->rollNamePoints->GetAt(i).x - 25 * this->zoomRate / 100;
+					top = relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+					bottom = relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 
 				if (startX < right && startX > left && startY > top && startY < bottom) {
@@ -1152,34 +1152,34 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			!dynamic_cast<Realization*>(this->selection->GetAt(0))) {
 			while (i < 5 && index == 0) {
 				if (i == 0) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 20;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 10;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					right = selfRelation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100;
+					left = selfRelation->rollNamePoints->GetAt(i).x - 10 * this->zoomRate / 100;
+					top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 				else if (i == 1) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 30;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 30;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					right = selfRelation->rollNamePoints->GetAt(i).x + 30 * this->zoomRate / 100;
+					left = selfRelation->rollNamePoints->GetAt(i).x - 30 * this->zoomRate / 100;
+					top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 				else if (i == 2) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 50;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 20;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					right = selfRelation->rollNamePoints->GetAt(i).x + 50 * this->zoomRate / 100;
+					left = selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100;
+					top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 				else if (i == 3) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 50;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 20;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					right = selfRelation->rollNamePoints->GetAt(i).x + 50 * this->zoomRate / 100;
+					left = selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100;
+					top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 				else if (i == 4) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 10;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 20;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					right = selfRelation->rollNamePoints->GetAt(i).x + 10 * this->zoomRate / 100;
+					left = selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100;
+					top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 
 				if (startX < right && startX > left && startY > top && startY < bottom) {
@@ -1200,7 +1200,9 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			OnKillFocus(NULL);
 		}
 	}
-	this->textEdit->SetCapture();
+	if (this->textEdit != NULL) {
+		this->textEdit->SetCapture();
+	}
 
 	Invalidate(false);
 	this->isDown = 0;

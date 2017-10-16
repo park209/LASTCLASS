@@ -16,14 +16,14 @@ public:
 	DrawRollNameBoxes(const DrawRollNameBoxes& source);
 	~DrawRollNameBoxes();
 public:
-	void DrawFirstRollNameBox(Relation *relationLine, CDC *pDC);
-	void DrawSecondRollNameBox(Relation *relationLine, CDC *pDC);
-	void DrawThirdRollNameBox(Relation *relationLine, CDC *pDC);
-	void DrawFourthRollNameBox(Relation *relationLine, CDC *pDC);
-	void DrawFifthRollNameBox(Relation *relationLine, CDC *pDC);
-	void DrawBoxesWithoutCurvedLine(Relation *relationLine, CDC *pDC);
+	void DrawFirstRollNameBox(Relation *relationLine, CDC *pDC, Long zoomRate);
+	void DrawSecondRollNameBox(Relation *relationLine, CDC *pDC, Long zoomRate);
+	void DrawThirdRollNameBox(Relation *relationLine, CDC *pDC, Long zoomRate);
+	void DrawFourthRollNameBox(Relation *relationLine, CDC *pDC, Long zoomRate);
+	void DrawFifthRollNameBox(Relation *relationLine, CDC *pDC, Long zoomRate);
+	void DrawBoxesWithoutCurvedLine(Relation *relationLine, CDC *pDC, Long zoomRate);
 
-	void DrawSelfRelationRollNameBox(SelfRelation *SelfRelationLine, CDC *pDC);
+	void DrawSelfRelationRollNameBox(SelfRelation *SelfRelationLine, CDC *pDC, Long zoomRate);
 
 private:
 	static DrawRollNameBoxes* instance;
