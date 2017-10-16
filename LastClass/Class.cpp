@@ -770,13 +770,27 @@ Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
 }
 
 Long Class::Remove(Long index) {
+	Long ret = 0;
 
 	if (this->figures[index] != 0) {
+		if (this->attributePosition > index) {
+			this->attributePosition--;
+		}
+		if (this->methodPosition > index) {
+			this->methodPosition--;
+		}
+		if (this->receptionPosition > index) {
+			this->receptionPosition--;
+		}
+		if (this->templetePosition > index) {
+			this->templetePosition--;
+		}
 		delete this->figures[index];
+		this->length--;
+		this->capacity--;
+		ret = this->figures.Delete(index);
 	}
-	this->length--;
-	this->capacity--;
-	return this->figures.Delete(index);
+	return ret;
 }
 Long Class::RemoveAttribute() {
 
