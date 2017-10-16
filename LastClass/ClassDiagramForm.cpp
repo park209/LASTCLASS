@@ -682,10 +682,6 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	else {
 		this->numLockFlag = 0;
 	}
-	//1.2. 적재한다
-	//this->Load();
-	//1.3. 윈도우를 갱신한다
-	//Invalidate();
 
 
 	return 0;
@@ -941,13 +937,13 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		Long nextZoomRate;
 		previousZoomRate = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
-			this->zoomRate -= 20;
-			if (this->zoomRate < 80) {
-				this->zoomRate = 80;
+			this->zoomRate -= 50;
+			if (this->zoomRate < 50) {
+				this->zoomRate = 50;
 			}
 		}
 		else {  //마우스 휠 업
-			this->zoomRate += 20;
+			this->zoomRate += 50;
 			if (this->zoomRate > 200) {
 				this->zoomRate = 200;
 			}
@@ -957,9 +953,7 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		CDC memDC;
 		ResizeVisitor resizeVisitor(previousZoomRate, nextZoomRate);
 		this->diagram->Accept(resizeVisitor, &memDC);
-		if (this->copyBuffer != NULL) {
-			this->copyBuffer->Accept(resizeVisitor, &memDC);
-		}
+
 		this->lastClass->statusBar->DestroyStatus();
 		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		ret = true;
@@ -1079,7 +1073,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		if (dynamic_cast<MemoBox*>(figure) || dynamic_cast<ClassName*>(figure)) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX() + GabX - horzCurPos,
-				figure->GetY() + GabY  + MemoGab - vertCurPos,
+				figure->GetY() + GabY + MemoGab - vertCurPos,
 				figure->GetX() + figure->GetWidth() - GabX - horzCurPos,
 				figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
 		}
@@ -1202,7 +1196,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			OnKillFocus(NULL);
 		}
 	}
-	if (textEdit != NULL) {
+	if (this->textEdit != NULL) {
 		this->textEdit->SetCapture();
 	}
 
@@ -1306,6 +1300,10 @@ void ClassDiagramForm::OnClose() {
 		if (this->copyBuffer != NULL) {
 			delete this->copyBuffer;
 			this->copyBuffer = NULL;
+		}
+		if (this->classDiagramFormMenu != NULL) {
+			delete this->classDiagramFormMenu;
+			this->classDiagramFormMenu = NULL;
 		}
 		CWnd::OnClose();
 }

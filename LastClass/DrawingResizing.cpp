@@ -28,7 +28,6 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;
 	Long i = 0;
-	Figure *(*figures) = new Figure*[32];
 	Finder finder;
 	Long length = 0;
 	Long k = 0;
