@@ -173,12 +173,16 @@ void LastClass::OnClose() {
 				CFileDialog  dlgFile(false, "txt", "*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT, "텍스트 문서(*.txt)");
 				int_ptr = dlgFile.DoModal();
 				if (int_ptr == IDOK) {
-					ResizeVisitor visitor(this->classDiagramForm->zoomRate, 100);
-					this->classDiagramForm->zoomRate = 100;
-					CDC memDC;
-					this->classDiagramForm->diagram->Accept(visitor, &memDC);
+					ResizeVisitor resizeVisitor1(this->classDiagramForm->zoomRate, 100);
+					CDC dc;
+					this->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
+
+					this->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
 					this->classDiagramForm->fileName = dlgFile.GetPathName();
 					this->classDiagramForm->Save();
+
+					ResizeVisitor resizeVisitor2(100, this->classDiagramForm->zoomRate);
+					this->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 				}
 				//else {
 				//return;  //보류
@@ -192,11 +196,14 @@ void LastClass::OnClose() {
 			object.Append("에 저장하시겠습니까?");
 			messageBox = MessageBox(object, "ClassDiagram", MB_YESNOCANCEL);
 			if (messageBox == IDYES) {
-				ResizeVisitor visitor(this->classDiagramForm->zoomRate, 100);
-				this->classDiagramForm->zoomRate = 100;
-				CDC memDC;
-				this->classDiagramForm->diagram->Accept(visitor, &memDC);
+				ResizeVisitor resizeVisitor1(this->classDiagramForm->zoomRate, 100);
+				CDC dc;
+				this->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
+
 				this->classDiagramForm->Save();
+
+				ResizeVisitor resizeVisitor2(100, this->classDiagramForm->zoomRate);
+				this->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 			}
 		}
 	}
