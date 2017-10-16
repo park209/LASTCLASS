@@ -7,7 +7,7 @@
 
 class ResizeVisitor : public Visitor {
 public:
-	ResizeVisitor();
+	ResizeVisitor(Long previousZoomRate, Long nextZoomRate);
 	~ResizeVisitor();
 	void Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY);
 	void Visit(Class *object, CDC* pDC);
@@ -60,6 +60,9 @@ public:
 
 	//리사이즈 텍스트
 	void Visit(Text *text, Long zoomRate);
+private:
+	Long previousZoomRate;
+	Long nextZoomRate;
 };
 
 #endif // _RESIZEVISITOR_H

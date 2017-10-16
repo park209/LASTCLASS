@@ -1163,16 +1163,10 @@
       <Filter>Menu</Filter>
     </ClCompile>
     <ClCompile Include="ClassDiagramForm.cpp" />
-    <ClCompile Include="EditResizerBlocker.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicCtrlCopyKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="GraphicCtrlCutKey.cpp">
-      <Filter>KeyAction\ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicCtrlPasteKey.cpp">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="StatusBar.cpp">
@@ -1307,8 +1301,10 @@
     <ClCompile Include="TextEdit.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
-    <ClCompile Include="ResizeVisitor.cpp">
-      <Filter>ClassDiagram</Filter>
+    <ClCompile Include="ResizeVisitor.cpp" />
+    <ClCompile Include="GraphicCtrlPasteKey.cpp" />
+    <ClCompile Include="EditResizerBlocker.cpp">
+      <Filter>TextEdit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

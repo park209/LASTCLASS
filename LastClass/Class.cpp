@@ -1011,6 +1011,8 @@ Long Class::SetMinimumWidth() {
 	return this->minimumWidth;
 }
 
+
+
 Long Class::Correct(Figure *figure, Long index) {
 	return index = this->figures.Modify(index, figure);
 }
