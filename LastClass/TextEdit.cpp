@@ -56,7 +56,7 @@ TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Figure *figure, Long roll
 	this->fontSet = NULL;
 	this->figure = figure;
 	this->rollNameBoxIndex = rollNameBoxIndex;
-	this->rowHeight = 25 * this->classDiagramForm->zoomRate / 100; // ÆùÆ® »çÀÌÁî
+	this->rowHeight = 120 * this->classDiagramForm->zoomRate / 100; // ÆùÆ® »çÀÌÁî
 	this->koreanEnglish = 0;
 	this->flagBuffer = 0;
 	this->flagInsert = 0;
@@ -112,8 +112,9 @@ void TextEdit::OnPaint() {
 	CFont *m_oldFont = 0;
 
 	if (this->rollNameBoxIndex == -1) {
-		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight()* this->classDiagramForm->zoomRate / 100, FALSE, FALSE, 0, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+		cFont.CreatePointFont(this->rowHeight, "¸¼Àº °íµñ", &memDC);
+		//cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight()* this->classDiagramForm->zoomRate / 100, FALSE, FALSE, 0, DEFAULT_CHARSET,
+		//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 		SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);   // ÆùÆ® ½ÃÀÛ
 		CFont *m_oldFont = memDC.SelectObject(&cFont);
@@ -187,8 +188,9 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	
 	CDC *dc = GetDC();
 	CFont cFont;
-	cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+	cFont.CreatePointFont(this->rowHeight, "¸¼Àº °íµñ", dc);
+	//cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+	//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 	SetFont(&cFont, TRUE);
 	dc->SelectObject(cFont);
 
@@ -217,8 +219,9 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 
 	CDC *dc = GetDC();
 	CFont cFont;
-	cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+	cFont.CreatePointFont(this->rowHeight, "¸¼Àº °íµñ", dc);
+	//cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+	//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 	SetFont(&cFont, TRUE);
 	dc->SelectObject(cFont);
 	EditResizerBlocker editResizer;
@@ -250,13 +253,15 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 
 	CFont cFont;
 	if (this->rollNameBoxIndex == -1) {
-		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+		cFont.CreatePointFont(this->rowHeight, "¸¼Àº °íµñ", &dc);
+		//cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 		SetFont(&cFont, TRUE);
 	}
 	else {
-		cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "±¼¸²Ã¼");
+		cFont.CreatePointFont(this->rowHeight, "¸¼Àº °íµñ", &dc);
+		//cFont.CreateFont(13, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "±¼¸²Ã¼");
 		SetFont(&cFont, TRUE);
 	}
 
@@ -315,8 +320,9 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 		//SetCursor(LoadCursor(NULL, IDC_IBEAM));
 		CFont cFont;
 		CClientDC dc(this);
-		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str()); 
+		cFont.CreatePointFont(this->rowHeight, "¸¼Àº °íµñ", &dc);
+		//cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str()); 
 		this->SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);// ÆùÆ® ½ÃÀÛ
 
@@ -375,8 +381,9 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (nChar != VK_RETURN && nChar != VK_ESCAPE && nChar != VK_F1 && nChar != 0x46 && nChar != 0x50 && nChar != 0x4F && nChar != 0x4E && nChar != 0x53) {
 		CDC *dc = GetDC();
 		CFont cFont;
-		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+		cFont.CreatePointFont(this->rowHeight, "¸¼Àº °íµñ", dc);
+		//cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 		SetFont(&cFont, TRUE);
 		dc->SelectObject(cFont);
 		EditResizerBlocker editResizer;

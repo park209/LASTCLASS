@@ -59,6 +59,10 @@
 
 using namespace std;
 
+Long MemoGab = 20;
+Long GabX = 8;
+Long GabY = 2;
+Long CaretWidth = 2;
 
 BEGIN_MESSAGE_MAP(ClassDiagramForm, CWnd)
 	ON_WM_CREATE()
@@ -699,8 +703,9 @@ void ClassDiagramForm::OnPaint() {
 	pOldBitmap = memDC.SelectObject(&bitmap);
 	memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
 	CFont cFont;//CreateFont¿¡ °ª18À» textEditÀÇ rowHight·Î ¹Ù²ã¾ßÇÔ
-	cFont.CreateFont(25 * this->zoomRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// ±Û²Ã ¼³Á¤
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "¸¼Àº °íµñ");
+	cFont.CreatePointFont(120 * this->zoomRate / 100, "¸¼Àº °íµñ", &memDC);
+	//cFont.CreateFont(25 * this->zoomRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// ±Û²Ã ¼³Á¤
+		//OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "¸¼Àº °íµñ");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
 
@@ -754,8 +759,9 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	CClientDC dc(this);
 	CFont cFont;//CreateFont¿¡ °ª18À» textEditÀÇ rowHight·Î ¹Ù²ã¾ßÇÔ
-	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// ±Û²Ã ¼³Á¤
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "¸¼Àº °íµñ");
+	cFont.CreatePointFont(120 * (this->zoomRate / 100), "¸¼Àº °íµñ", &dc);
+	//cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// ±Û²Ã ¼³Á¤
+	//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "¸¼Àº °íµñ");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont);
 	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
@@ -938,8 +944,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		previousZoomRate = this->zoomRate;
 		if (zDelta <= 0) { //¸¶¿ì½º ÈÙ ´Ù¿î
 			this->zoomRate -= 20;
-			if (this->zoomRate < 80) {
-				this->zoomRate = 80;
+			if (this->zoomRate < 60) {
+				this->zoomRate = 60;
 			}
 		}
 		else {  //¸¶¿ì½º ÈÙ ¾÷
@@ -948,7 +954,13 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 				this->zoomRate = 200;
 			}
 		}
+
 		nextZoomRate = this->zoomRate;
+
+		this->SetMemoGab(20 * this->zoomRate / 100);
+		this->SetGabX(8 * this->zoomRate / 100);
+		this->SetGabY(4 * this->zoomRate / 100);
+		this->SetCaretWidth(2 * this->zoomRate / 100);
 
 		CDC memDC;
 		ResizeVisitor resizeVisitor(previousZoomRate, nextZoomRate);
