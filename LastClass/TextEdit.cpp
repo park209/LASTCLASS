@@ -187,7 +187,7 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	
 	CDC *dc = GetDC();
 	CFont cFont;
-	cFont.CreateFont(this->rowHeight* this->classDiagramForm->zoomRate / 100, 0, 0, 0, this->fontSet->GetFontWeight()* this->classDiagramForm->zoomRate / 100, FALSE, FALSE, 0, DEFAULT_CHARSET,
+	cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 	SetFont(&cFont, TRUE);
 	dc->SelectObject(cFont);
@@ -315,7 +315,7 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 		//SetCursor(LoadCursor(NULL, IDC_IBEAM));
 		CFont cFont;
 		CClientDC dc(this);
-		cFont.CreateFont(this->rowHeight * this->classDiagramForm->zoomRate, 0, 0, 0, this->fontSet->GetFontWeight() * this->classDiagramForm->zoomRate, FALSE, FALSE, 0, DEFAULT_CHARSET,
+		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str()); 
 		this->SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);// 폰트 시작
@@ -375,7 +375,7 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (nChar != VK_RETURN && nChar != VK_ESCAPE && nChar != VK_F1 && nChar != 0x46 && nChar != 0x50 && nChar != 0x4F && nChar != 0x4E && nChar != 0x53) {
 		CDC *dc = GetDC();
 		CFont cFont;
-		cFont.CreateFont(this->rowHeight * this->classDiagramForm->zoomRate, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 		SetFont(&cFont, TRUE);
 		dc->SelectObject(cFont);
