@@ -7,7 +7,7 @@
 
 class DrawingVisitor :public Visitor {
 public:
-	DrawingVisitor();
+	DrawingVisitor(Long zoomRate);
 	~DrawingVisitor();
 
 	void Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY);
@@ -61,6 +61,8 @@ public:
 
 	//리사이즈 텍스트
 	 void Visit(Text *text, Long zoomRate)  ;
+private:
+	Long zoomRate;
 };
 
 #endif // _DRAWINGVISITOR_H

@@ -708,19 +708,9 @@ void ClassDiagramForm::OnPaint() {
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
 
-	//memDC.SetMapMode(MM_ISOTROPIC);
-	//memDC.SetWindowExt(100, 100);
-	//memDC.SetViewportExt(this->zoomRate, this->zoomRate);
-	/*if (this->zoomRate != 100) {
-		CRect rectTemp = { 0, 0, 4000, 2000 };
-		dc.FillSolidRect(rectTemp, RGB(255, 255, 255));
-	}*/
-
-	//ResizeVisitor resizeVisitor(this->zoomRate);
-	//this->diagram->Accept(resizeVisitor, &memDC);
-	DrawingVisitor drawingVisitor;
+	DrawingVisitor drawingVisitor(this->zoomRate);
 	this->diagram->Accept(drawingVisitor, &memDC);
-	WritingVisitor writingVisitor;
+	WritingVisitor writingVisitor(this->zoomRate);
 	this->diagram->Accept(writingVisitor, &memDC);
 	this->selection->Accept(drawingVisitor, &memDC); // selectionFlag 추가 확인
 	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
