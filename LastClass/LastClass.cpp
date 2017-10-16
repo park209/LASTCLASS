@@ -98,13 +98,16 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 	CFrameWnd::OnSize(nType, cx, cy);
 	CRect rect;
 	this->GetClientRect(&rect);
-	this->toolBar->DestroyToolBar();
-	this->toolBar->MakeToolBar(this->GetSafeHwnd());
+	if (this->classDiagramForm != NULL) {
+		this->toolBar->DestroyToolBar();
+		this->toolBar->MakeToolBar(this->GetSafeHwnd());
+		this->toolBar->ChangeToolBarSize(&rect);
+	}
 	//this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
-	this->statusBar->DestroyStatus();
-	this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
-
-	this->toolBar->ChangeToolBarSize(&rect);
+	if (this->classDiagramForm != NULL) {
+		this->statusBar->DestroyStatus();
+		this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
+	}
 	//this->toolBar->ChangeAnotherToolBarSize(&rect);
 	//this->statusBar->ChangeStatusBarSize(&rect);
 	rect.top += 45;
@@ -112,10 +115,11 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 	//rect.right -= 60;
 	rect.bottom -= 73;
 	//this->classDiagramForm->MoveWindow(rect.left, rect.top, rect.right, rect.bottom, 1);
-	this->classDiagramForm->SetWindowPos(this, rect.left, rect.top, rect.right, rect.bottom, SWP_NOMOVE | SWP_NOZORDER);
-	this->RedrawWindow();
-	this->classDiagramForm->Invalidate(FALSE);
-
+	if (this->classDiagramForm != NULL) {
+		this->classDiagramForm->SetWindowPos(this, rect.left, rect.top, rect.right, rect.bottom, SWP_NOMOVE | SWP_NOZORDER);
+		this->RedrawWindow();
+		this->classDiagramForm->Invalidate(FALSE);
+	}
 	CRect rect1;
 	this->GetClientRect(&rect1);
 	rect1.top = rect1.bottom - 20;
