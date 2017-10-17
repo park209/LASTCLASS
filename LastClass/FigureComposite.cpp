@@ -66,6 +66,9 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 	CPoint cPoint3;
 	CPoint cPoint4;
 	CPoint cPoint5;
+
+
+
 	if (this->GetWidth() + distanceX < this->minimumWidth) {
 		distanceX = this->minimumWidth - this->GetWidth();
 	}
@@ -199,6 +202,9 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 	return this;
 }
 
+Long FigureComposite::Correct(Long index, Figure *figure) {
+	return index = this->figures.Modify(index, figure);
+}
 
 Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long distanceY) {
 	Long i = 0;

@@ -699,13 +699,12 @@ void ClassDiagramForm::OnPaint() {
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
 	memDC.CreateCompatibleDC(&dc);
-	bitmap.CreateCompatibleBitmap(&dc, 4000, 2000);
+	bitmap.CreateCompatibleBitmap(&dc, 4000 * this->zoomRate/100 , 2000 * this->zoomRate / 100);
 	pOldBitmap = memDC.SelectObject(&bitmap);
-	memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
+	memDC.FillSolidRect(CRect(0, 0, 4000 * this->zoomRate / 100, 2000 * this->zoomRate / 100), RGB(255, 255, 255));
 	CFont cFont;//CreateFont¿¡ °ª18À» textEditÀÇ rowHight·Î ¹Ù²ã¾ßÇÔ
-	cFont.CreatePointFont(120 * this->zoomRate / 100, "¸¼Àº °íµñ", &memDC);
-	//cFont.CreateFont(25 * this->zoomRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// ±Û²Ã ¼³Á¤
-		//OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "¸¼Àº °íµñ");
+	cFont.CreateFont(25 * this->zoomRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// ±Û²Ã ¼³Á¤
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "¸¼Àº °íµñ");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
 
@@ -759,9 +758,8 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	CClientDC dc(this);
 	CFont cFont;//CreateFont¿¡ °ª18À» textEditÀÇ rowHight·Î ¹Ù²ã¾ßÇÔ
-	cFont.CreatePointFont(120 * (this->zoomRate / 100), "¸¼Àº °íµñ", &dc);
-	//cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// ±Û²Ã ¼³Á¤
-	//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "¸¼Àº °íµñ");
+	cFont.CreateFont(25 * this->zoomRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// ±Û²Ã ¼³Á¤
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "¸¼Àº °íµñ");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont);
 	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
@@ -954,7 +952,6 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 				this->zoomRate = 200;
 			}
 		}
-
 		nextZoomRate = this->zoomRate;
 
 		this->SetMemoGab(20 * this->zoomRate / 100);
@@ -962,12 +959,32 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		this->SetGabY(4 * this->zoomRate / 100);
 		this->SetCaretWidth(2 * this->zoomRate / 100);
 
+		SCROLLINFO vScinfo;
+		SCROLLINFO hScinfo;
+
+		this->GetScrollInfo(SB_VERT, &vScinfo);
+		this->GetScrollInfo(SB_HORZ, &hScinfo);
+		CRect rect;
+		this->GetClientRect(&rect);
+		vScinfo.nPage = rect.Height();
+		hScinfo.nPage = rect.Width();
+
+		vScinfo.nMax = 2000 * this->zoomRate / 100;
+		hScinfo.nMax = 4000 * this->zoomRate / 100;
+
+		if (vScinfo.nPos > vScinfo.nMax - vScinfo.nPage) {
+			vScinfo.nPos = vScinfo.nMax - vScinfo.nPage;
+		}
+		if (hScinfo.nPos > hScinfo.nMax - hScinfo.nPage) {
+			hScinfo.nPos = hScinfo.nMax - hScinfo.nPage;
+		}
+		this->SetScrollInfo(SB_VERT, &vScinfo);
+		this->SetScrollInfo(SB_HORZ, &hScinfo);
+
 		CDC memDC;
 		ResizeVisitor resizeVisitor(previousZoomRate, nextZoomRate);
 		this->diagram->Accept(resizeVisitor, &memDC);
-		if (this->copyBuffer != NULL) {
-			this->copyBuffer->Accept(resizeVisitor, &memDC);
-		}
+
 		this->lastClass->statusBar->DestroyStatus();
 		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		ret = true;
@@ -1115,22 +1132,22 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			!dynamic_cast<Realization*>(this->selection->GetAt(0))) {
 			while (i < 5 && index == 0) {
 				if (i == 0 || i == 2) {
-					right = relation->rollNamePoints->GetAt(i).x + 20;
-					left = relation->rollNamePoints->GetAt(i).x - 20;
-					top = relation->rollNamePoints->GetAt(i).y - 10;
-					bottom = relation->rollNamePoints->GetAt(i).y + 10;
+					right = relation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100;
+					left = relation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100;
+					top = relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+					bottom = relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 				else if (i == 1) {
-					right = relation->rollNamePoints->GetAt(i).x + 40;
-					left = relation->rollNamePoints->GetAt(i).x - 40;
-					top = relation->rollNamePoints->GetAt(i).y - 10;
-					bottom = relation->rollNamePoints->GetAt(i).y + 10;
+					right = relation->rollNamePoints->GetAt(i).x + 40 * this->zoomRate / 100;
+					left = relation->rollNamePoints->GetAt(i).x - 40 * this->zoomRate / 100;
+					top = relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+					bottom = relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 				else if (i == 3 || i == 4) {
-					right = relation->rollNamePoints->GetAt(i).x + 25;
-					left = relation->rollNamePoints->GetAt(i).x - 25;
-					top = relation->rollNamePoints->GetAt(i).y - 10;
-					bottom = relation->rollNamePoints->GetAt(i).y + 10;
+					right = relation->rollNamePoints->GetAt(i).x + 25 * this->zoomRate / 100;
+					left = relation->rollNamePoints->GetAt(i).x - 25 * this->zoomRate / 100;
+					top = relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+					bottom = relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 
 				if (startX < right && startX > left && startY > top && startY < bottom) {
@@ -1162,34 +1179,34 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			!dynamic_cast<Realization*>(this->selection->GetAt(0))) {
 			while (i < 5 && index == 0) {
 				if (i == 0) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 20;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 10;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					right = selfRelation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100;
+					left = selfRelation->rollNamePoints->GetAt(i).x - 10 * this->zoomRate / 100;
+					top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 				else if (i == 1) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 30;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 30;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					right = selfRelation->rollNamePoints->GetAt(i).x + 30 * this->zoomRate / 100;
+					left = selfRelation->rollNamePoints->GetAt(i).x - 30 * this->zoomRate / 100;
+					top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 				else if (i == 2) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 50;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 20;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					right = selfRelation->rollNamePoints->GetAt(i).x + 50 * this->zoomRate / 100;
+					left = selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100;
+					top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 				else if (i == 3) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 50;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 20;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					right = selfRelation->rollNamePoints->GetAt(i).x + 50 * this->zoomRate / 100;
+					left = selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100;
+					top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 				else if (i == 4) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 10;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 20;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10;
+					right = selfRelation->rollNamePoints->GetAt(i).x + 10 * this->zoomRate / 100;
+					left = selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100;
+					top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 
 				if (startX < right && startX > left && startY > top && startY < bottom) {

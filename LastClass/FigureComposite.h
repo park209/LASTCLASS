@@ -31,6 +31,7 @@ public:
 	virtual	Long Add(Figure *figure) = 0; //2개가 좋을듯
 	virtual Long Remove(Long index) = 0;
 	virtual Figure* GetAt(Long index) = 0;
+	Long Correct(Long index, Figure *figure);
 
 
 	Long GetCapacity();

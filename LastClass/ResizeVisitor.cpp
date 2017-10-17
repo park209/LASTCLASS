@@ -15,6 +15,7 @@
 #include "Template.h"
 #include "Selection.h"
 #include "MemoLine.h"
+#include "RollNameBox.h"
 
 ResizeVisitor::ResizeVisitor(Long previousZoomRate, Long nextZoomRate) {
 	this->previousZoomRate = previousZoomRate;
@@ -27,14 +28,12 @@ void ResizeVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 }
 
 void ResizeVisitor::Visit(Class *object, CDC* cPaintDc) {
-	Long endPointX = (object->GetX() + object->GetWidth())*this->nextZoomRate / this->previousZoomRate;
-	Long endPointY = (object->GetY() + object->GetHeight())*this->nextZoomRate / this->previousZoomRate;
 	object->SetX(object->GetX() * this->nextZoomRate / this->previousZoomRate);
 	object->SetY(object->GetY() * this->nextZoomRate / this->previousZoomRate);
-	object->SetWidth(endPointX - object->GetX());
-	object->SetHeight(endPointY - object->GetY());
-	//object->SetWidth(object->GetWidth() * this->nextZoomRate / this->previousZoomRate);
-	//object->SetHeight(object->GetHeight() * this->nextZoomRate / this->previousZoomRate);
+	object->SetWidth(object->GetWidth() * this->nextZoomRate / this->previousZoomRate);
+	object->SetHeight(object->GetHeight() *this->nextZoomRate / this->previousZoomRate);
+	//object->SetMinimumWidth(object->GetMinimumWidth() * zoomRate / 100);
+	//object->SetMinimumWidth(object->GetMinimumHeight() * zoomRate / 100);
 	static_cast<Figure*>(object)->SetMinimumWidth(object->GetMinimumWidth() * this->nextZoomRate / this->previousZoomRate);
 	object->SetMinimumHeight(object->GetMinimumHeight() * this->nextZoomRate / this->previousZoomRate);
 }
@@ -47,14 +46,34 @@ void  ResizeVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
 	selfRelation->SetY(selfRelation->GetY() * this->nextZoomRate / this->previousZoomRate);
 	selfRelation->SetWidth(selfRelation->GetWidth() * this->nextZoomRate / this->previousZoomRate);
 	selfRelation->SetHeight(selfRelation->GetHeight() * this->nextZoomRate / this->previousZoomRate);
+
+	Long x = selfRelation->GetX();
+	Long y = selfRelation->GetY();
+
+	CPoint startPoint1And4{ x, y };
+	CPoint endPoint1And4{ x , y - 40 * this->nextZoomRate / 100 };
+
+	CPoint startPoint2{ x, y - 40 * this->nextZoomRate / 100 };
+	CPoint endPoint2{ x + 80 * this->nextZoomRate / 100,  y - 40 * this->nextZoomRate / 100 };
+
+	CPoint startPoint3And5{ x + 80 * this->nextZoomRate / 100, y + 40 * this->nextZoomRate / 100 };
+	CPoint endPoint3And5{ x + 30 * this->nextZoomRate / 100,  y + 40 * this->nextZoomRate / 100 };
+
+	RollNameBox *rollNameBox = RollNameBox::Instance();
+	selfRelation->rollNamePoints->Store(0, rollNameBox->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4));
+	selfRelation->rollNamePoints->Store(1, rollNameBox->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2));
+	selfRelation->rollNamePoints->Store(2, rollNameBox->GetSelfRelationThirdRollNamePoint(startPoint3And5, endPoint3And5));
+	selfRelation->rollNamePoints->Store(3, rollNameBox->GetSelfRelationFourthRollNamePoint(startPoint1And4, endPoint1And4));
+	selfRelation->rollNamePoints->Store(4, rollNameBox->GetSelfRelationFifthRollNamePoint(startPoint3And5, endPoint3And5));
 }
 
 void  ResizeVisitor::Visit(Relation *relation, CDC *pDC) {
-	relation->SetX(relation->GetX() * this->nextZoomRate / this->previousZoomRate);
-	relation->SetY(relation->GetY() * this->nextZoomRate / this->previousZoomRate);
-	relation->SetWidth(relation->GetWidth() * this->nextZoomRate / this->previousZoomRate);
-	relation->SetHeight(relation->GetHeight() * this->nextZoomRate / this->previousZoomRate);
-	
+	Long relationX = relation->GetX() * this->nextZoomRate / this->previousZoomRate;
+	Long relationY = relation->GetY() * this->nextZoomRate / this->previousZoomRate;
+	relation->Modify(relationX, relationY,
+		((relation->GetX() + relation->GetWidth()) * this->nextZoomRate / this->previousZoomRate) - relationX,
+		((relation->GetY() + relation->GetHeight()) * this->nextZoomRate / this->previousZoomRate) - relationY);
+
 	Long i = 0;
 	CPoint tempPoint;
 	while (i < relation->GetLength()) {
@@ -65,7 +84,62 @@ void  ResizeVisitor::Visit(Relation *relation, CDC *pDC) {
 		i++;
 	}
 
+	CPoint cPoint1;
+	CPoint cPoint2;
+	CPoint cPoint3;
+	CPoint cPoint4;
+	CPoint cPoint5;
+	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
+	
+	if (relation->GetLength() == 0) {
+		CPoint startPoint{ relation->GetX(), relation->GetY() };
+		CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+		cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+		cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+		cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+		cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+		cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+		relation->rollNamePoints->Modify(0, cPoint1);
+		relation->rollNamePoints->Modify(1, cPoint2);
+		relation->rollNamePoints->Modify(2, cPoint3);
+		relation->rollNamePoints->Modify(3, cPoint4);
+		relation->rollNamePoints->Modify(4, cPoint5);
+	}
+	else {
+		CPoint startPoint{ relation->GetX(), relation->GetY() };
+		CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+		cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+		cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+		relation->rollNamePoints->Modify(0, cPoint1);
+		relation->rollNamePoints->Modify(3, cPoint4);
 
+		CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+			relation->GetAt(relation->GetLength() - 1).y };
+		CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+		cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+		cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+		relation->rollNamePoints->Modify(2, cPoint3);
+		relation->rollNamePoints->Modify(4, cPoint5);
+
+		if (relation->GetLength() % 2 == 0) {//Â¦¼ö
+
+			CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+				relation->GetAt((relation->GetLength() - 1) / 2).y };
+			CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
+				relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
+			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
+			relation->rollNamePoints->Modify(1, cPoint2);
+
+		}
+		else {//È¦¼ö
+
+			CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+				relation->GetAt((relation->GetLength() - 1) / 2).y };
+			cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
+			relation->rollNamePoints->Modify(1, cPoint2);
+
+		}
+	}
 }
 
 void ResizeVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) {
@@ -77,39 +151,21 @@ void ResizeVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) {
 	memoBox->SetMinimumHeight(memoBox->GetMinimumHeight() * this->nextZoomRate / this->previousZoomRate);
 }
 
-#include "SmartPointer.h"
-
 void ResizeVisitor::Visit(Selection *selection, CDC *cPaintDc) {
-	SmartPointer<Figure*> smartPointer(selection->CreateIterator());
-	while (!smartPointer->IsDone()) {
-		if (dynamic_cast<Class*>(smartPointer->Current())) {
-			static_cast<Class*>(smartPointer->Current())->Accept(*this, cPaintDc);
-			Long  i = 0;
-			while (i < static_cast<Class*>(smartPointer->Current())->GetLength()) {
-				if (dynamic_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
-					static_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(*this, cPaintDc);
-				}
-				if (dynamic_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
-					static_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(*this, cPaintDc);
-				}
-				i++;
-			}
-		}
-		if (dynamic_cast<MemoBox*>(smartPointer->Current())) {
-			static_cast<MemoBox*>(smartPointer->Current())->Accept(*this, cPaintDc);
-		}
-		smartPointer->Next();
-	}
+	selection->SetX(selection->GetX() * this->nextZoomRate / this->previousZoomRate);
+	selection->SetY(selection->GetY() * this->nextZoomRate / this->previousZoomRate);
+	selection->SetWidth(selection->GetWidth() * this->nextZoomRate / this->previousZoomRate);
+	selection->SetHeight(selection->GetHeight() * this->nextZoomRate / this->previousZoomRate);
 }
 
 void ResizeVisitor::Visit(Template *object, CDC *cPaintDc) {
-	Long endPointX = (object->GetX()+ object->GetWidth())*this->nextZoomRate / this->previousZoomRate;
+	Long endPointX = (object->GetX() + object->GetWidth())*this->nextZoomRate / this->previousZoomRate;
 	Long endPointY = (object->GetY() + object->GetHeight())*this->nextZoomRate / this->previousZoomRate;
 
 	object->SetX(object->GetX() * this->nextZoomRate / this->previousZoomRate);
 	object->SetY(object->GetY() * this->nextZoomRate / this->previousZoomRate);
 	object->SetWidth(endPointX - object->GetX());
-	object->SetHeight(endPointY -object->GetY());
+	object->SetHeight(endPointY - object->GetY());
 	object->SetMinimumWidth(object->GetMinimumWidth() * this->nextZoomRate / this->previousZoomRate);
 	object->SetMinimumHeight(object->GetMinimumHeight() * this->nextZoomRate / this->previousZoomRate);
 }

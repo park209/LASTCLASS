@@ -33,6 +33,9 @@ void WritingVisitor::Visit(Class *object, Long distanceX, Long distanceY) {
 void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 	Long fontHeight = cPaintDc->GetTextExtent("아").cy; // rowHeight 구하는방법
 	Long textWidth = text->MaxWidth(cPaintDc);
+
+	fontHeight = fontHeight;
+	textWidth = textWidth;
 	
 	RECT rt = { 0 , 0, textWidth, text->GetLength() * fontHeight };
 	cPaintDc->DrawText((CString)text->MakeText().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
@@ -43,30 +46,30 @@ void  WritingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
 		!dynamic_cast<Compositions*>(selfRelation) && !dynamic_cast<Dependency*>(selfRelation) &&
 		!dynamic_cast<Realization*>(selfRelation)) {
 		CFont font;
-		font.CreateFont(10, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		font.CreateFont(10 * this->zoomRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		CFont*  oldFont;
 		oldFont = cPaintDc->SelectObject(&font);
 		Long i = 0;
 		while (i < 5) {
 			if (i == 0) {
-				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 10 , selfRelation->rollNamePoints->GetAt(i).y - 10,
-					selfRelation->rollNamePoints->GetAt(i).x + 20,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
+				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 10 * this->zoomRate / 100 , selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					selfRelation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
 				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 			}
 			else if (i == 1) {
-				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 30  , selfRelation->rollNamePoints->GetAt(i).y - 10,
-					selfRelation->rollNamePoints->GetAt(i).x + 30,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
+				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 30 * this->zoomRate / 100 , selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					selfRelation->rollNamePoints->GetAt(i).x + 30 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
 				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 			}
 			else if (i == 2 || i == 3) {
-				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 , selfRelation->rollNamePoints->GetAt(i).y - 10,
-					selfRelation->rollNamePoints->GetAt(i).x + 50,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
+				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					selfRelation->rollNamePoints->GetAt(i).x + 50 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
 				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 			}
 			else if (i == 4) {
-				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 , selfRelation->rollNamePoints->GetAt(i).y - 10,
-					selfRelation->rollNamePoints->GetAt(i).x + 10,  selfRelation->rollNamePoints->GetAt(i).y + 10 };
+				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					selfRelation->rollNamePoints->GetAt(i).x + 10 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
 				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 			}
 			i++;
@@ -81,26 +84,26 @@ void  WritingVisitor::Visit(Relation *relation, CDC *pDC) {
 		!dynamic_cast<Compositions*>(relation) && !dynamic_cast<Dependency*>(relation) &&
 		!dynamic_cast<Realization*>(relation)) {
 		CFont font;
-		font.CreateFont(10, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		font.CreateFont(10 * this->zoomRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		CFont*  oldFont;
 		oldFont = pDC->SelectObject(&font);
 		Long i = 0;
 		while (i < 5) {
 			if (i == 1) {
-				RECT rt = { relation->rollNamePoints->GetAt(i).x - 40, relation->rollNamePoints->GetAt(i).y - 10 ,
-					relation->rollNamePoints->GetAt(i).x + 40,  relation->rollNamePoints->GetAt(i).y + 10 };
+				RECT rt = { relation->rollNamePoints->GetAt(i).x - 40 * this->zoomRate / 100, relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					relation->rollNamePoints->GetAt(i).x + 40 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
 				pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 			}
 			else if (i == 3 || i == 4) {
-				RECT rt = { relation->rollNamePoints->GetAt(i).x - 25, relation->rollNamePoints->GetAt(i).y - 10 ,
-					relation->rollNamePoints->GetAt(i).x + 25,  relation->rollNamePoints->GetAt(i).y + 10 };
+				RECT rt = { relation->rollNamePoints->GetAt(i).x - 25 * this->zoomRate / 100, relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					relation->rollNamePoints->GetAt(i).x + 25 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
 				pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 			}
 
 			else {
-				RECT rt = { relation->rollNamePoints->GetAt(i).x - 20, relation->rollNamePoints->GetAt(i).y - 10,
-					relation->rollNamePoints->GetAt(i).x + 20,  relation->rollNamePoints->GetAt(i).y + 10 - GabX };
+				RECT rt = { relation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					relation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
 				pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
 			}
 			i++;
@@ -114,8 +117,10 @@ void WritingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { //접힌부분아래로 �
 	RECT rt = { memoBox->GetX() + GabX , memoBox->GetY() + MemoGab + GabY, memoBox->GetX() + memoBox->GetWidth() - GabX, memoBox->GetY() + memoBox->GetHeight() - GabY };
 	cPaintDc->DrawText((CString)memoBox->GetContent().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
 }
+
 void WritingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 }
+
 void WritingVisitor::Visit(Template *object, CDC *cPaintDc) {
 	RECT rt = { object->GetX() + GabX , object->GetY() + GabY, object->GetX() + object->GetWidth() - GabX, object->GetY() + object->GetHeight() - GabY };
 	cPaintDc->DrawText((CString)object->GetContent().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
