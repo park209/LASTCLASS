@@ -941,22 +941,22 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		Long nextZoomRate;
 		previousZoomRate = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
-			this->zoomRate -= 20;
-			if (this->zoomRate < 60) {
-				this->zoomRate = 60;
+			this->zoomRate -= 10;
+			if (this->zoomRate < 70) {
+				this->zoomRate = 70;
 			}
 		}
 		else {  //마우스 휠 업
-			this->zoomRate += 20;
-			if (this->zoomRate > 160) {
-				this->zoomRate = 160;
+			this->zoomRate += 10;
+			if (this->zoomRate > 150) {
+				this->zoomRate = 150;
 			}
 		}
 		nextZoomRate = this->zoomRate;
 
 		this->SetMemoGab(20 * this->zoomRate / 100);
-		this->SetGabX(8 * this->zoomRate / 100);
-		this->SetGabY(4 * this->zoomRate / 100);
+		this->SetGabX(13 * this->zoomRate / 100);
+		this->SetGabY(2 * this->zoomRate / 100);
 		this->SetCaretWidth(2 * this->zoomRate / 100);
 
 		SCROLLINFO vScinfo;
@@ -981,9 +981,13 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		this->SetScrollInfo(SB_VERT, &vScinfo);
 		this->SetScrollInfo(SB_HORZ, &hScinfo);
 
-		CDC memDC;
+		CDC memDC; 
 		ResizeVisitor resizeVisitor(previousZoomRate, nextZoomRate);
 		this->diagram->Accept(resizeVisitor, &memDC);
+
+		if (this->copyBuffer != NULL) {
+			this->copyBuffer->Accept(resizeVisitor, &memDC);
+		}
 		////////////////////////////////////////////////////////////////////////////////////////////////////////
 		this->lastClass->statusBar->DestroyStatus();
 		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
