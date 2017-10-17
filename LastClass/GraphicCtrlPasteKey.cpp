@@ -175,6 +175,11 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 				}
 			}
 		}
+		/*if (classDiagramForm->selection != 0) {
+			delete classDiagramForm->selection;
+			classDiagramForm->selection = 0;
+		}
+		classDiagramForm->selection = new Selection(*classDiagramForm->copyBuffer);*/
 	}
 }
 
