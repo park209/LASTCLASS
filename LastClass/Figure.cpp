@@ -26,7 +26,7 @@ Figure::Figure(Long x, Long y, Long width, Long height) {
 	this->height = height;
 	this->content = "";
 	this->minimumWidth = 120 * test->classDiagramForm->zoomRate / 100;
-	this->minimumHeight = 29;
+	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;;
 	this->fontSize = 25;
 }
 
@@ -38,7 +38,7 @@ Figure::Figure(Long x, Long y, Long width, Long height, string content) {
 	this->height = height;
 	this->content = content;
 	this->minimumWidth = 120 * test->classDiagramForm->zoomRate / 100; //여기도
-	this->minimumHeight = 29; // 입력받을 문자열에 맞게 값 줘야하는데
+	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;; // 입력받을 문자열에 맞게 값 줘야하는데
 	this->fontSize = 25;
 }
 
