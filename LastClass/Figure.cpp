@@ -9,7 +9,7 @@ Figure::Figure() {
 	this->width = 0;
 	this->height = 0;
 	this->content = "";
-	this->minimumWidth = 120;
+	this->minimumWidth = 96;
 	this->minimumHeight = 29;
 	this->fontSize = 25;
 }

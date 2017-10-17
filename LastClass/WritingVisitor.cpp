@@ -122,7 +122,7 @@ void WritingVisitor::Visit(Template *object, CDC *cPaintDc) {
 }
 
 void WritingVisitor::Visit(ClassName* className, CDC* cPaintDc) {
-	RECT rt = { className->GetX() + GabX , className->GetY() + MemoGab * this->zoomRate / 100 + GabY, className->GetX() + className->GetWidth() - GabX, className->GetY() + className->GetHeight() - GabY };
+	RECT rt = { className->GetX() + GabX , className->GetY() + MemoGab /** this->zoomRate / 100*/ + GabY, className->GetX() + className->GetWidth() - GabX, className->GetY() + className->GetHeight() - GabY };
 	cPaintDc->DrawText((CString)className->GetContent().c_str(), &rt, DT_CENTER | DT_NOCLIP | DT_EXPANDTABS);
 }
 

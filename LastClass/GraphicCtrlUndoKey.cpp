@@ -5,6 +5,8 @@
 #include "HistoryGraphic.h"
 #include "Diagram.h"
 #include "Selection.h"
+#include "LastClass.h"
+#include "StatusBar.h"
 
 GraphicCtrlUndoKey::GraphicCtrlUndoKey() {
 }
@@ -25,6 +27,8 @@ void GraphicCtrlUndoKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) 
 		delete classDiagramForm->diagram;
 		classDiagramForm->diagram = diagram_;
 		classDiagramForm->zoomRate = zoomRate_;
+		classDiagramForm->lastClass->statusBar->DestroyStatus();
+		classDiagramForm->lastClass->statusBar->MakeStatusBar(classDiagramForm->lastClass, classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
 	}
 	classDiagramForm->selection->DeleteAllItems();
 }
