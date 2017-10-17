@@ -66,6 +66,9 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 	CPoint cPoint3;
 	CPoint cPoint4;
 	CPoint cPoint5;
+
+
+
 	if (this->GetWidth() + distanceX < this->minimumWidth) {
 		distanceX = this->minimumWidth - this->GetWidth();
 	}

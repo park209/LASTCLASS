@@ -699,7 +699,7 @@ void ClassDiagramForm::OnPaint() {
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
 	memDC.CreateCompatibleDC(&dc);
-	bitmap.CreateCompatibleBitmap(&dc, 4000*this->zoomRate/100 , 2000 * this->zoomRate / 100);
+	bitmap.CreateCompatibleBitmap(&dc, 4000 * this->zoomRate/100 , 2000 * this->zoomRate / 100);
 	pOldBitmap = memDC.SelectObject(&bitmap);
 	memDC.FillSolidRect(CRect(0, 0, 4000 * this->zoomRate / 100, 2000 * this->zoomRate / 100), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
@@ -942,8 +942,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		previousZoomRate = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
 			this->zoomRate -= 20;
-			if (this->zoomRate < 80) {
-				this->zoomRate = 80;
+			if (this->zoomRate < 60) {
+				this->zoomRate = 60;
 			}
 		}
 		else {  //마우스 휠 업
@@ -968,8 +968,10 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		this->GetClientRect(&rect);
 		vScinfo.nPage = rect.Height();
 		hScinfo.nPage = rect.Width();
+
 		vScinfo.nMax = 2000 * this->zoomRate / 100;
 		hScinfo.nMax = 4000 * this->zoomRate / 100;
+
 		if (vScinfo.nPos > vScinfo.nMax - vScinfo.nPage) {
 			vScinfo.nPos = vScinfo.nMax - vScinfo.nPage;
 		}

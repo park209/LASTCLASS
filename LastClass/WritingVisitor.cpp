@@ -33,6 +33,9 @@ void WritingVisitor::Visit(Class *object, Long distanceX, Long distanceY) {
 void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 	Long fontHeight = cPaintDc->GetTextExtent("아").cy; // rowHeight 구하는방법
 	Long textWidth = text->MaxWidth(cPaintDc);
+
+	fontHeight = fontHeight;
+	textWidth = textWidth;
 	
 	RECT rt = { 0 , 0, textWidth, text->GetLength() * fontHeight };
 	cPaintDc->DrawText((CString)text->MakeText().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
@@ -111,18 +114,20 @@ void  WritingVisitor::Visit(Relation *relation, CDC *pDC) {
 }
 
 void WritingVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) { //접힌부분아래로 적히게
-	RECT rt = { memoBox->GetX() + GabX , memoBox->GetY() + MemoGab * this->zoomRate / 100 + GabY, memoBox->GetX() + memoBox->GetWidth() - GabX, memoBox->GetY() + memoBox->GetHeight() - GabY };
+	RECT rt = { memoBox->GetX() + GabX , memoBox->GetY() + MemoGab + GabY, memoBox->GetX() + memoBox->GetWidth() - GabX, memoBox->GetY() + memoBox->GetHeight() - GabY };
 	cPaintDc->DrawText((CString)memoBox->GetContent().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
 }
+
 void WritingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 }
+
 void WritingVisitor::Visit(Template *object, CDC *cPaintDc) {
 	RECT rt = { object->GetX() + GabX , object->GetY() + GabY, object->GetX() + object->GetWidth() - GabX, object->GetY() + object->GetHeight() - GabY };
 	cPaintDc->DrawText((CString)object->GetContent().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
 }
 
 void WritingVisitor::Visit(ClassName* className, CDC* cPaintDc) {
-	RECT rt = { className->GetX() + GabX , className->GetY() + MemoGab * this->zoomRate / 100 + GabY, className->GetX() + className->GetWidth() - GabX, className->GetY() + className->GetHeight() - GabY };
+	RECT rt = { className->GetX() + GabX , className->GetY() + MemoGab + GabY, className->GetX() + className->GetWidth() - GabX, className->GetY() + className->GetHeight() - GabY };
 	cPaintDc->DrawText((CString)className->GetContent().c_str(), &rt, DT_CENTER | DT_NOCLIP | DT_EXPANDTABS);
 }
 
