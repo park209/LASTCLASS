@@ -209,6 +209,7 @@ Long FigureComposite::Correct(Long index, Figure *figure) {
 }
 
 Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long distanceY) {
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 	Long i = 0;
 	Long length = 0;
 	Long Quadrant;
@@ -246,11 +247,16 @@ Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long d
 
 		minimumHeight = this->GetAt(editPosition)->GetMinimumHeight();
 		limitY = this->GetAt(editPosition)->GetY() + minimumHeight;
-
-		if (this->y + this->height + distanceY < limitY) {
-			distanceY = limitY - this->y - this->height;
+		if (editPosition == 0) {
+			if (this->y + this->height + distanceY < limitY+25 * test->classDiagramForm->zoomRate / 100) {
+				distanceY = limitY - this->y - this->height+25 * test->classDiagramForm->zoomRate / 100;
+			}
 		}
-
+		else {
+			if (this->y + this->height + distanceY < limitY) {
+				distanceY = limitY - this->y - this->height;
+			}
+		}
 		this->GetAt(editPosition)->Modify(this->GetAt(editPosition)->GetX(), this->GetAt(editPosition)->GetY(), this->GetAt(editPosition)->GetWidth(),
 			this->GetAt(editPosition)->GetHeight() + distanceY);
 	}
