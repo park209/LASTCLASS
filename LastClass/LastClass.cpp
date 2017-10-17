@@ -53,7 +53,7 @@ int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	rect.top += 45;
 	//rect.left += 60;
 	//rect.right -= 60;
-	rect.bottom -= 73;
+	rect.bottom -= 66;
 	this->classDiagramForm = new ClassDiagramForm(this);
 	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
 	this->menu = new Menu(this);
@@ -113,7 +113,7 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 	rect.top += 45;
 	//rect.left += 60;
 	//rect.right -= 60;
-	rect.bottom -= 73;
+	rect.bottom -= 66;
 	//this->classDiagramForm->MoveWindow(rect.left, rect.top, rect.right, rect.bottom, 1);
 	if (this->classDiagramForm != NULL) {
 		this->classDiagramForm->SetWindowPos(this, rect.left, rect.top, rect.right, rect.bottom, SWP_NOMOVE | SWP_NOZORDER);

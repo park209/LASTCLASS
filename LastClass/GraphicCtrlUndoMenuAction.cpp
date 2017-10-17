@@ -6,6 +6,7 @@
 #include "TextEdit.h"
 #include "GraphicCtrlUndoKey.h"
 #include "CtrlUndoTextKey.h"
+#include "StatusBar.h"
 
 GraphicCtrlUndoMenuAction::GraphicCtrlUndoMenuAction() {
 }
@@ -32,4 +33,6 @@ void GraphicCtrlUndoMenuAction::MenuPress(LastClass *lastClass) {
 			delete ctrlTextUndo;
 		}
 	}
+	lastClass->statusBar->DestroyStatus();
+	lastClass->statusBar->MakeStatusBar(lastClass, lastClass->GetSafeHwnd(), 0, 0, 5);
 }
