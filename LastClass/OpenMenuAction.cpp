@@ -6,7 +6,7 @@
 #include "Selection.h"
 #include "HistoryGraphic.h"
 #include "KeyBoard.h"
-
+#include "ResizeVisitor.h"
 #include <afxdlgs.h>
 using namespace std;
 
@@ -74,6 +74,9 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			//if (lastClass->classDiagramForm->horizontalScroll != NULL) {
 				//delete lastClass->classDiagramForm->horizontalScroll;
 		//	}
+			ResizeVisitor resizeVisitor(lastClass->classDiagramForm->zoomRate, 100);
+			lastClass->classDiagramForm->zoomRate = 100;
+			lastClass->classDiagramForm->diagram->Accept(resizeVisitor, NULL);
 			lastClass->classDiagramForm->diagram = new Diagram();
 			lastClass->classDiagramForm->selection = new Selection;
 			lastClass->classDiagramForm->mouseLButton = new MouseLButton;
