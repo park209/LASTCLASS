@@ -76,10 +76,10 @@ void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit) {
 	FigureComposite *object = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
 	Long distanceX;
 	if (rt.right + GabX * 2 > textEdit->GetCriteriaWidth()) {
-		distanceX = object->GetMinimumWidth() * classDiagramForm->zoomRate / 100 - object->GetWidth();
+		distanceX = object->GetMinimumWidth() - object->GetWidth();
 	}
 	else {
-		distanceX = textEdit->GetCriteriaWidth() * classDiagramForm->zoomRate / 100 - object->GetWidth();
+		distanceX = textEdit->GetCriteriaWidth() - object->GetWidth();
 	}
 	object->ModifyComponetsToRightDirection(classDiagramForm->diagram, distanceX);
 }

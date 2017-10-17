@@ -13,6 +13,8 @@
 #include"SelfRelation.h"
 #include"RollNameBox.h"
 
+#include "LastClass.h"
+#include "ClassDiagramForm.h"
 
 FigureComposite::FigureComposite(Long capacity) : figures(capacity) {
 	this->capacity = capacity;
@@ -68,8 +70,8 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 	CPoint cPoint5;
 
 
-
-	if (this->GetWidth() + distanceX < this->minimumWidth) {
+	//LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+	if (this->GetWidth() + distanceX < this->minimumWidth) { // * test->classDiagramForm->zoomRate / 100) {
 		distanceX = this->minimumWidth - this->GetWidth();
 	}
 

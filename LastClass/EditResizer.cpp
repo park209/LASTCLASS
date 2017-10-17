@@ -16,6 +16,7 @@
 #include "SelfRelation.h"
 #include "ClassName.h"
 #include "Template.h"
+#include "ClassDiagramForm.h"
 
 EditResizer::EditResizer() {
 
@@ -72,12 +73,20 @@ void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
 		Long gabY_ = GabY * 2;
 
 		if (dynamic_cast<Class*>(classDiagramForm->selection->GetAt(0))) {
-			textEdit->figure->SetMinimumWidth(textEdit->text->MaxWidth(cdc) + GabX * 2);
-			static_cast<Class*>(classDiagramForm->selection->GetAt(0))->SetMinimumWidth();
+			if (textEdit->text->MaxWidth(cdc) + GabX * 2 < 120 * classDiagramForm->zoomRate / 100) {
+				textEdit->figure->SetMinimumWidth(120 * classDiagramForm->zoomRate / 100);
+			}
+			else {
+				textEdit->figure->SetMinimumWidth(textEdit->text->MaxWidth(cdc) + GabX * 2);
+				static_cast<Class*>(classDiagramForm->selection->GetAt(0))->SetMinimumWidth(classDiagramForm->zoomRate);
+			}
 		}
 		else {
 			gabY_ += MemoGab;
-			if (textEdit->text->MaxWidth(cdc) + GabX * 2 > 120) {
+			if (textEdit->text->MaxWidth(cdc) + GabX * 2 < 120 * classDiagramForm->zoomRate / 100) {
+				textEdit->figure->SetMinimumWidth(120 * classDiagramForm->zoomRate / 100);
+			}
+			else {
 				textEdit->figure->SetMinimumWidth(textEdit->text->MaxWidth(cdc) + GabX * 2);
 			}
 		}
