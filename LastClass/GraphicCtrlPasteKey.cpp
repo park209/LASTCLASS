@@ -62,7 +62,7 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 
 		i = 0;
 		SmartPointer<Figure*>CopyBufferSmartPointer(classDiagramForm->copyBuffer->CreateIterator());
-		for (CopyBufferSmartPointer->First();!CopyBufferSmartPointer->IsDone();CopyBufferSmartPointer->Next()) {
+		for (CopyBufferSmartPointer->First(); !CopyBufferSmartPointer->IsDone(); CopyBufferSmartPointer->Next()) {
 			if (dynamic_cast<FigureComposite*>(CopyBufferSmartPointer->Current())) {
 				if (i == 0 || CopyBufferSmartPointer->Current()->GetX() < rt.left) {//minimumX
 					rt.left = CopyBufferSmartPointer->Current()->GetX();
@@ -81,9 +81,9 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 				i++;
 			}
 		}
-		
+
 		bool connect;
-		for (CopyBufferSmartPointer->First();!CopyBufferSmartPointer->IsDone();CopyBufferSmartPointer->Next()) {
+		for (CopyBufferSmartPointer->First(); !CopyBufferSmartPointer->IsDone(); CopyBufferSmartPointer->Next()) {
 			if (dynamic_cast<FigureComposite*>(CopyBufferSmartPointer->Current())) {
 				SmartPointer<Figure*>compositeIterator(static_cast<FigureComposite*>(CopyBufferSmartPointer->Current())->CreateIterator());
 				j = 0;
@@ -153,17 +153,17 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 			Figure *figure;
 			MovingVisitor movingVisitor;
 			classDiagramForm->selection->DeleteAllItems();
-			for (CopyBufferSmartPointer->First();!CopyBufferSmartPointer->IsDone();CopyBufferSmartPointer->Next()) {
+			for (CopyBufferSmartPointer->First(); !CopyBufferSmartPointer->IsDone(); CopyBufferSmartPointer->Next()) {
 				figure = CopyBufferSmartPointer->Current();
 				if (dynamic_cast<Class*>(figure)) { //클래스나 메모면
 					static_cast<Class*>(figure)->Accept(movingVisitor, distanceX, distanceY);
 					classDiagramForm->diagram->Add(figure->Clone());
-					classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(classDiagramForm->diagram->GetLength()-1));
+					classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(classDiagramForm->diagram->GetLength() - 1));
 				}
 				else if (dynamic_cast<MemoBox*>(figure)) {
 					static_cast<MemoBox*>(figure)->Accept(movingVisitor, distanceX, distanceY);
 					classDiagramForm->diagram->Add(figure->Clone());
-					classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(classDiagramForm->diagram->GetLength()-1));
+					classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(classDiagramForm->diagram->GetLength() - 1));
 				}
 			}
 		}
