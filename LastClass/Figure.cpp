@@ -14,7 +14,7 @@ Figure::Figure() {
 	this->height = 0;
 	this->content = "";
 	this->minimumWidth = 120 * test->classDiagramForm->zoomRate / 100;
-	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;;
+	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;
 	this->fontSize = 25;
 }
 
@@ -26,7 +26,7 @@ Figure::Figure(Long x, Long y, Long width, Long height) {
 	this->height = height;
 	this->content = "";
 	this->minimumWidth = 120 * test->classDiagramForm->zoomRate / 100;
-	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;;
+	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;
 	this->fontSize = 25;
 }
 
@@ -38,7 +38,7 @@ Figure::Figure(Long x, Long y, Long width, Long height, string content) {
 	this->height = height;
 	this->content = content;
 	this->minimumWidth = 120 * test->classDiagramForm->zoomRate / 100; //여기도
-	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;; // 입력받을 문자열에 맞게 값 줘야하는데
+	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100; // 입력받을 문자열에 맞게 값 줘야하는데
 	this->fontSize = 25;
 }
 
@@ -139,4 +139,21 @@ Figure& Figure::operator = (const Figure& source) {
 }
 
 Figure::~Figure() {
+}
+
+Long Figure::GetPointToReal(Long point, Long nextZoomRate, Long previousZoomRate) {
+	double double_ = static_cast<double>(point) * nextZoomRate / previousZoomRate;
+	Long remainder = (point * nextZoomRate) % previousZoomRate;
+	if (nextZoomRate < previousZoomRate) {
+		point = static_cast<Long>(double_ + 0.5);
+	}
+	else {
+		if (remainder >= previousZoomRate / 2) {
+			point = static_cast<Long>(double_ + 0.5);
+		}
+		else {
+			point = static_cast<Long>(double_);
+		}
+	}
+	return point;
 }
