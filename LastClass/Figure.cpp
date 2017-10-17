@@ -14,7 +14,7 @@ Figure::Figure() {
 	this->height = 0;
 	this->content = "";
 	this->minimumWidth = 120 * test->classDiagramForm->zoomRate / 100;
-	this->minimumHeight = 29;
+	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;;
 	this->fontSize = 25;
 }
 
