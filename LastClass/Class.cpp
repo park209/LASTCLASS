@@ -34,6 +34,8 @@
 #include "Finder.h"
 #include "RollNameBox.h"
 
+#include "LastClass.h"
+
 Class::Class(Long capacity) :FigureComposite(capacity) {
 	this->x = 0;
 	this->y = 0;
@@ -109,9 +111,10 @@ Class::~Class() {
 //	this->length++;
 //}
 void Class::Initialize() {
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 	Long firstlineHeight = 50;
 	if (this->height < 150) {
-		 firstlineHeight = 25;//40
+		 firstlineHeight = 25; //40
 	}
 	if (this->height == 225) {
 		firstlineHeight = 75;
