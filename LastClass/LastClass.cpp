@@ -180,9 +180,6 @@ void LastClass::OnClose() {
 					this->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
 					this->classDiagramForm->fileName = dlgFile.GetPathName();
 					this->classDiagramForm->Save();
-
-					ResizeVisitor resizeVisitor2(100, this->classDiagramForm->zoomRate);
-					this->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 				}
 				//else {
 				//return;  //º¸·ù
@@ -201,9 +198,6 @@ void LastClass::OnClose() {
 				this->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
 
 				this->classDiagramForm->Save();
-
-				ResizeVisitor resizeVisitor2(100, this->classDiagramForm->zoomRate);
-				this->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 			}
 		}
 	}
