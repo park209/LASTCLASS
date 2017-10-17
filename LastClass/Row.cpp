@@ -70,7 +70,7 @@ Long Row::Insert(Long index, TextComponent *textComponent) {
 }
 
 string Row::PrintRowString() {
-	char tempChar[256] = { 0, };
+	char tempChar[512] = { 0, };
 	Long i = 0;
 
 	SmartPointer<TextComponent*> iterator = this->CreateIterator();
