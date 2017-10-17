@@ -33,7 +33,8 @@
 #include "Diagram.h"
 #include "Finder.h"
 #include "RollNameBox.h"
-#include "ClassDiagramForm.h"
+
+#include "LastClass.h"
 
 Class::Class(Long capacity) :FigureComposite(capacity) {
 	this->x = 0;
@@ -110,46 +111,35 @@ Class::~Class() {
 //	this->length++;
 //}
 void Class::Initialize() {
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 	Long firstlineHeight = 50;
-	this->minimumWidth = 96;
 	if (this->height < 150) {
-		 firstlineHeight = 40;//40
+		 firstlineHeight = 25; //40
 	}
-	if (this->height == 180) {
-		firstlineHeight = 60;
-	}
-	if (this->height == 210) {
-		firstlineHeight = 70;
-	}
-	if (this->height == 240) {
-		firstlineHeight = 80;
-	}
-	if (this->height == 270) {
-		firstlineHeight = 90;
+	if (this->height == 225) {
+		firstlineHeight = 75;
 	}
 	if (this->height == 300) {
 		firstlineHeight = 100;
 	}
-	
 	Long lineHeight = (this->height - firstlineHeight) / 2;
-	ClassName className(this->x, this->y, this->width, firstlineHeight, 96,29,"");
+	ClassName className(this->x, this->y, this->width, firstlineHeight, "");
 	this->figures.Store(this->length, className.Clone());
 	this->length++;
 
-	Line line1(this->x, this->y + firstlineHeight, width , 0, 96, 29,"");
+	Line line1(this->x, this->y + firstlineHeight, width, 0);
 	this->figures.Store(this->length, line1.Clone());
 	this->length++;
 
-	Attribute attribute(this->x, this->y + firstlineHeight, this->width , lineHeight, 96, 29, "");
+	Attribute attribute(this->x, this->y + firstlineHeight, this->width, lineHeight, "");
 	this->attributePosition = this->figures.Store(this->length, attribute.Clone());
 	this->length++;
 
-	Line line2(this->x, this->y + firstlineHeight + lineHeight , this->width , 0 ,96, 29,"");
-
+	Line line2(this->x, this->y + firstlineHeight + lineHeight, this->width, 0);
 	this->figures.Store(this->length, line2.Clone());
 	this->length++;
 
-	Method method(this->x , this->y + firstlineHeight + lineHeight, this->width , lineHeight, 96, 29, "");
+	Method method(this->x, this->y + firstlineHeight + lineHeight, this->width, lineHeight, "");
 	this->methodPosition = this->figures.Store(this->length, method.Clone());
 	this->length++;
 }
@@ -1061,15 +1051,14 @@ void Class::Accept(Visitor& visitor, Long distanceX, Long distanceY) {
 	visitor.Visit(this, distanceX, distanceY);
 }
 
-Long Class::SetMinimumWidth() {
-	this->minimumWidth = 96;
+Long Class::SetMinimumWidth(Long zoomRate) {
+	this->minimumWidth = 120 * zoomRate / 100;
 	SmartPointer<Figure*> iterator(this->CreateIterator());
 	for (iterator->First();!iterator->IsDone();iterator->Next()) {
 		if (iterator->Current()->GetMinimumWidth() > this->minimumWidth) {
 			this->minimumWidth = iterator->Current()->GetMinimumWidth();
 		}
 	}
-
 	return this->minimumWidth;
 }
 

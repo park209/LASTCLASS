@@ -62,7 +62,7 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 
 		i = 0;
 		SmartPointer<Figure*>CopyBufferSmartPointer(classDiagramForm->copyBuffer->CreateIterator());
-		for (CopyBufferSmartPointer->First();!CopyBufferSmartPointer->IsDone();CopyBufferSmartPointer->Next()) {
+		for (CopyBufferSmartPointer->First(); !CopyBufferSmartPointer->IsDone(); CopyBufferSmartPointer->Next()) {
 			if (dynamic_cast<FigureComposite*>(CopyBufferSmartPointer->Current())) {
 				if (i == 0 || CopyBufferSmartPointer->Current()->GetX() < rt.left) {//minimumX
 					rt.left = CopyBufferSmartPointer->Current()->GetX();
@@ -81,43 +81,31 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 				i++;
 			}
 		}
-		for (CopyBufferSmartPointer->First();!CopyBufferSmartPointer->IsDone();CopyBufferSmartPointer->Next()) {
+
+		bool connect;
+		for (CopyBufferSmartPointer->First(); !CopyBufferSmartPointer->IsDone(); CopyBufferSmartPointer->Next()) {
 			if (dynamic_cast<FigureComposite*>(CopyBufferSmartPointer->Current())) {
 				SmartPointer<Figure*>compositeIterator(static_cast<FigureComposite*>(CopyBufferSmartPointer->Current())->CreateIterator());
 				j = 0;
 				while (!compositeIterator->IsDone()) {
 					if (dynamic_cast<Relation*>(compositeIterator->Current())) {
-						if (compositeIterator->Current()->GetX() >= rt.left && compositeIterator->Current()->GetX() <= rt.right &&
-							compositeIterator->Current()->GetY() >= rt.top && compositeIterator->Current()->GetY() <= rt.bottom &&
-							compositeIterator->Current()->GetX() + compositeIterator->Current()->GetWidth() >= rt.left &&
-							compositeIterator->Current()->GetX() + compositeIterator->Current()->GetWidth() <= rt.right &&
-							compositeIterator->Current()->GetY() + compositeIterator->Current()->GetHeight() >= rt.top &&
-							compositeIterator->Current()->GetY() + compositeIterator->Current()->GetHeight() <= rt.bottom) {
+						SmartPointer<Figure*>bufferIterator(classDiagramForm->copyBuffer->CreateIterator());
+						connect = false;
+						while (!bufferIterator->IsDone()) {
+							if (dynamic_cast<FigureComposite*>(bufferIterator->Current()) &&
+								compositeIterator->Current()->GetX() + compositeIterator->Current()->GetWidth() >= bufferIterator->Current()->GetX() &&
+								compositeIterator->Current()->GetX() + compositeIterator->Current()->GetWidth() <= bufferIterator->Current()->GetX() + bufferIterator->Current()->GetWidth() &&
+								compositeIterator->Current()->GetY() + compositeIterator->Current()->GetHeight() >= bufferIterator->Current()->GetY() &&
+								compositeIterator->Current()->GetY() + compositeIterator->Current()->GetHeight() <= bufferIterator->Current()->GetY() + bufferIterator->Current()->GetHeight()) {
+								connect = true;
+							}
+							bufferIterator->Next();
+						}
+						if (connect == true) {
 							j++;
 							compositeIterator->Next();
 						}
 						else {
-							Figure *figure = compositeIterator->Current();
-							k = 0;
-							SmartPointer<Figure*>bufferIterator(classDiagramForm->copyBuffer->CreateIterator());
-							while (!bufferIterator->IsDone()) {
-								if (dynamic_cast<Relation*>(bufferIterator->Current())) {
-									if (figure->GetX() == bufferIterator->Current()->GetX() &&
-										figure->GetY() == bufferIterator->Current()->GetY() &&
-										figure->GetX() + figure->GetWidth() == bufferIterator->Current()->GetX() + bufferIterator->Current()->GetWidth() &&
-										figure->GetY() + figure->GetHeight() == bufferIterator->Current()->GetY() + bufferIterator->Current()->GetHeight()) {
-										classDiagramForm->copyBuffer->Remove(k);
-									}
-									else {
-										k++;
-										bufferIterator->Next();
-									}
-								}
-								else {
-									k++;
-									bufferIterator->Next();
-								}
-							}
 							static_cast<FigureComposite*>(CopyBufferSmartPointer->Current())->Remove(j);
 						}
 					}
@@ -128,6 +116,7 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 				}
 			}
 		}
+
 		Long distanceX = point.x + horzCurPos - rt.left;
 		Long distanceY = point.y + vertCurPos - rt.top;
 
@@ -163,15 +152,18 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		if (ret == false) {
 			Figure *figure;
 			MovingVisitor movingVisitor;
-			for (CopyBufferSmartPointer->First();!CopyBufferSmartPointer->IsDone();CopyBufferSmartPointer->Next()) {
+			classDiagramForm->selection->DeleteAllItems();
+			for (CopyBufferSmartPointer->First(); !CopyBufferSmartPointer->IsDone(); CopyBufferSmartPointer->Next()) {
 				figure = CopyBufferSmartPointer->Current();
 				if (dynamic_cast<Class*>(figure)) { //클래스나 메모면
 					static_cast<Class*>(figure)->Accept(movingVisitor, distanceX, distanceY);
 					classDiagramForm->diagram->Add(figure->Clone());
+					classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(classDiagramForm->diagram->GetLength() - 1));
 				}
 				else if (dynamic_cast<MemoBox*>(figure)) {
 					static_cast<MemoBox*>(figure)->Accept(movingVisitor, distanceX, distanceY);
 					classDiagramForm->diagram->Add(figure->Clone());
+					classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(classDiagramForm->diagram->GetLength() - 1));
 				}
 			}
 		}
