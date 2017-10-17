@@ -66,9 +66,15 @@ int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 }
 
 void LastClass::OnMyMenu(UINT parm_control_id) {
+
 	if (parm_control_id == 104 || parm_control_id == 105) {
+
 		ResizeVisitor visitor(this->classDiagramForm->zoomRate, 100);
 		this->classDiagramForm->zoomRate = 100;
+		this->classDiagramForm->SetMemoGab(20 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetGabX(8 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetGabY(4 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetCaretWidth(2 * this->classDiagramForm->zoomRate / 100);
 		CDC memDC;
 		this->classDiagramForm->diagram->Accept(visitor, &memDC);
 		this->statusBar->DestroyStatus();
@@ -174,6 +180,10 @@ void LastClass::OnMyToolBar(UINT parm_control_id) {
 	if (parm_control_id == 40011 || parm_control_id == 40012) {
 		ResizeVisitor visitor(this->classDiagramForm->zoomRate, 100);
 		this->classDiagramForm->zoomRate = 100;
+		this->classDiagramForm->SetMemoGab(20 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetGabX(8 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetGabY(4 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetCaretWidth(2 * this->classDiagramForm->zoomRate / 100);
 		CDC memDC;
 		this->classDiagramForm->diagram->Accept(visitor, &memDC);
 		this->statusBar->DestroyStatus();
