@@ -29,10 +29,10 @@
 #include "Finder.h"
 #include "RollNameBox.h"
 #include "SelfRelation.h"
-
+#include "LastClass.h"
 #include "RollNameBox.h"
 #include "SelfRelation.h"
-
+#include "StatusBar.h"
 #include "HistoryGraphic.h"
 
 GraphicCtrlPasteKey::GraphicCtrlPasteKey() {
@@ -167,6 +167,8 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 				}
 			}
 		}
+		classDiagramForm->lastClass->statusBar->DestroyStatus();
+		classDiagramForm->lastClass->statusBar->MakeStatusBar(classDiagramForm->lastClass, classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
 	}
 }
 

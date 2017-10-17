@@ -107,7 +107,7 @@ void SupportMenu::OnpreviousButton() {
 }
 
 void SupportMenu::OnOkButton() {
-	this->lastClass->EnableWindow(FALSE);
+	this->lastClass->EnableWindow(TRUE);
 
 	Invalidate(false);
 	if (this->nextButton != 0) {
