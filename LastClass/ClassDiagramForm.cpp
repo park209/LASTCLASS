@@ -729,7 +729,6 @@ void ClassDiagramForm::OnPaint() {
 	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, horzCurPos, vertCurPos, SRCCOPY);
 
 }
-
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (nChar == 0 || nChar == 49 || nChar == 81 || nChar == 50 || nChar == 55 || nChar == 56 || nChar == 53 ||
 		nChar == 57 || nChar == 48 || nChar == 52 || nChar == 54 || nChar == 87 || nChar == 51) {
@@ -770,8 +769,6 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	dc.SelectObject(oldFont);
 	cFont.DeleteObject();
 }
-
-
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	CWnd::OnSetFocus(pOldWnd);
 	CWnd::SetFocus();
@@ -797,7 +794,6 @@ void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
 
 	Invalidate(false);
 }
-
 void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
 	SetFocus();
 	CWnd::OnVScroll(nSBCode, nPos, pScrollBar);
@@ -807,7 +803,6 @@ void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 	}
 	Invalidate(false);
 }
-
 void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
 	SetFocus();
 	CWnd::OnHScroll(nSBCode, nPos, pScrollBar);
@@ -905,6 +900,7 @@ void ClassDiagramForm::OnRButtonDown(UINT nFlags, CPoint point) {
 
 	Invalidate(false);
 }
+
 BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	CWnd::SetFocus();
 	SetFocus();
@@ -942,8 +938,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		previousZoomRate = this->zoomRate;
 		if (zDelta <= 0) { //¸¶¿ì½º ÈÙ ´Ù¿î
 			this->zoomRate -= 10;
-			if (this->zoomRate < 70) {
-				this->zoomRate = 70;
+			if (this->zoomRate < 60) {
+				this->zoomRate = 60;
 			}
 		}
 		else {  //¸¶¿ì½º ÈÙ ¾÷
@@ -955,9 +951,9 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		nextZoomRate = this->zoomRate;
 
 		this->SetMemoGab(20 * this->zoomRate / 100);
-		this->SetGabX(13 * this->zoomRate / 100);
+		this->SetGabX(8 * this->zoomRate / 100);
 		this->SetGabY(2 * this->zoomRate / 100);
-		this->SetCaretWidth(2 * this->zoomRate / 100);
+		this->SetCaretWidth(2);
 
 		SCROLLINFO vScinfo;
 		SCROLLINFO hScinfo;
@@ -989,6 +985,64 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 			this->copyBuffer->Accept(resizeVisitor, &memDC);
 		}
 		////////////////////////////////////////////////////////////////////////////////////////////////////////
+		CPaintDC dc(this);
+		CFont font;
+		font.CreateFont(25 * this->zoomRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// ±Û²Ã ¼³Á¤
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "¸¼Àº °íµñ");
+		CFont*  oldFont;
+		oldFont = dc.SelectObject(&font);
+
+		Long i = 0;
+		Long j;
+		Long k;
+		while (i < this->diagram->GetLength()) {
+			if (dynamic_cast<Class*>(this->diagram->GetAt(i))) {
+				Class *tempClass = static_cast<Class*>(this->diagram->GetAt(i));
+				j = 0;
+				while (j < tempClass->GetLength()) {
+					if (dynamic_cast<ClassName*>(tempClass->GetAt(j)) ||
+						dynamic_cast<Attribute*>(tempClass->GetAt(j)) ||
+						dynamic_cast<Method*>(tempClass->GetAt(j)) ||
+						dynamic_cast<Reception*>(tempClass->GetAt(j))) {
+						Figure *tempFigure = static_cast<Figure*>(tempClass->GetAt(j));
+						/*CRect testRect;
+						dc.DrawText((CString)tempFigure->GetContent().c_str(), &testRect, DT_CALCRECT);*/
+						string longString = this->diagram->FindLongString(tempFigure->GetContent());
+						if (tempFigure->GetWidth() <= dc.GetTextExtent(longString.c_str()).cx) {
+							tempClass->SetWidth(dc.GetTextExtent(longString.c_str()).cx + GabX * 2 );
+							tempClass->SetMinimumWidth(tempClass->GetWidth() - GabX * 2);
+							k = 0;
+							while (k < tempClass->GetLength()) { // 
+								if (!dynamic_cast<Line*>(tempClass->GetAt(k)) && !dynamic_cast<Relation*>(tempClass->GetAt(k)) && !dynamic_cast<SelfRelation*>(tempClass->GetAt(k))) {
+									//tempFigure->SetX(tempClass->GetX() + GabX);
+									//tempFigure->SetY(tempClass->GetY() + GabY);
+									tempFigure->SetWidth(tempClass->GetWidth() - GabX * 2);
+									//tempFigure->SetMinimumWidth(tempClass->GetMinimumWidth());
+								}
+								else if (dynamic_cast<Line*>(tempClass->GetAt(k))) {
+									tempClass->GetAt(k)->SetWidth(tempClass->GetWidth());
+								}
+								k++;
+							}
+						}
+					}
+					j++;
+				}
+			}
+			else if (dynamic_cast<MemoBox*>(this->diagram->GetAt(i))) {
+				MemoBox *tempMemo = static_cast<MemoBox*>(this->diagram->GetAt(i));
+				string longString = this->diagram->FindLongString(tempMemo->GetContent());
+				if (tempMemo->GetWidth() <= dc.GetTextExtent(longString.c_str()).cx) {
+					tempMemo->SetWidth(dc.GetTextExtent(longString.c_str()).cx + GabX * 2);
+					tempMemo->SetMinimumWidth(tempMemo->GetWidth());
+				}
+			}
+			i++;
+		}
+
+		dc.SelectObject(oldFont);
+		font.DeleteObject();
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////
 		this->lastClass->statusBar->DestroyStatus();
 		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		ret = true;
@@ -998,6 +1052,7 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 
 	return ret;
 }
+
 void ClassDiagramForm::OnNcMouseMove(UINT nHitTest, CPoint point) {
 
 	CRect rect;
