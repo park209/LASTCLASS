@@ -11,6 +11,7 @@
 #include"RollNameBox.h"
 #include "Finder.h"
 #include "Diagram.h"
+
 AddTemplateKey::AddTemplateKey() {
 }
 

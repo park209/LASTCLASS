@@ -705,25 +705,28 @@ void ClassDiagramForm::OnPaint() {
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	
 	Long fontRate = this->zoomRate;
-	if (this->zoomRate == 70) {
-		fontRate = 60;
-	}
-	else if (this->zoomRate == 80) {
-		fontRate = 70;
-	}
-	else if (this->zoomRate == 90) {
+	if (this->zoomRate == 80) {
 		fontRate = 80;
 	}
-	else if (this->zoomRate == 110) {
+	else if (this->zoomRate == 90) {
+		fontRate = 90;
+	}
+	//else if (this->zoomRate == 95) {
+	//	fontRate = 80;
+	//}
+	else if (this->zoomRate == 100) {
 		fontRate = 100;
 	}
-	else if (this->zoomRate == 120) {
+	else if (this->zoomRate == 110) {
 		fontRate = 110;
 	}
-	else if (this->zoomRate == 130) {
-		fontRate = 115;
+	else if (this->zoomRate == 120) {
+		fontRate = 120;
 	}
-	cFont.CreateFont(25 * fontRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+	//else if (this->zoomRate == 115) {
+	//	fontRate = 100;
+	//}
+	cFont.CreateFont(18 * fontRate / 100 * 100 / 72, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
@@ -958,14 +961,14 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		previousZoomRate = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
 			this->zoomRate -= 10;
-			if (this->zoomRate < 70) {
-				this->zoomRate = 70;
+			if (this->zoomRate < 80) {
+				this->zoomRate = 80;
 			}
 		}
 		else {  //마우스 휠 업
 			this->zoomRate += 10;
-			if (this->zoomRate > 130) {
-				this->zoomRate = 130;
+			if (this->zoomRate > 120) {
+				this->zoomRate = 120;
 			}
 		}
 		nextZoomRate = this->zoomRate;
