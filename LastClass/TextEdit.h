@@ -66,6 +66,7 @@ public:
 	Long flagBuffer; //flag
 	Figure *figure;
 	Long rollNameBoxIndex;
+	Long fontRate;
 private:
 	Long koreanEnglish; //flag
 	Long currentX;

@@ -699,11 +699,31 @@ void ClassDiagramForm::OnPaint() {
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
 	memDC.CreateCompatibleDC(&dc);
-	bitmap.CreateCompatibleBitmap(&dc, 4000 * this->zoomRate/100 , 2000 * this->zoomRate / 100);
+	bitmap.CreateCompatibleBitmap(&dc, 4000 * this->zoomRate / 100 , 2000 * this->zoomRate / 100);
 	pOldBitmap = memDC.SelectObject(&bitmap);
 	memDC.FillSolidRect(CRect(0, 0, 4000 * this->zoomRate / 100, 2000 * this->zoomRate / 100), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-	cFont.CreateFont(25 * this->zoomRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+	
+	Long fontRate = this->zoomRate;
+	if (this->zoomRate == 70) {
+		fontRate = 60;
+	}
+	else if (this->zoomRate == 80) {
+		fontRate = 70;
+	}
+	else if (this->zoomRate == 90) {
+		fontRate = 80;
+	}
+	else if (this->zoomRate == 110) {
+		fontRate = 100;
+	}
+	else if (this->zoomRate == 120) {
+		fontRate = 110;
+	}
+	else if (this->zoomRate == 130) {
+		fontRate = 115;
+	}
+	cFont.CreateFont(25 * fontRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
@@ -905,7 +925,7 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	CWnd::SetFocus();
 	SetFocus();
 	bool ret = false;
-	
+
 	// nWheelScrollLines 휠 한번에 이동하는 줄 수 (Reg에서 읽어 온다)
 	HKEY hKey = 0;
 	DWORD dwType = REG_BINARY;
@@ -932,20 +952,20 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		}
 		ret = true;
 	}
-	else {
+	else { //컨트롤이 눌려있으면
 		Long previousZoomRate;
 		Long nextZoomRate;
 		previousZoomRate = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
 			this->zoomRate -= 10;
-			if (this->zoomRate < 60) {
-				this->zoomRate = 60;
+			if (this->zoomRate < 70) {
+				this->zoomRate = 70;
 			}
 		}
 		else {  //마우스 휠 업
 			this->zoomRate += 10;
-			if (this->zoomRate > 150) {
-				this->zoomRate = 150;
+			if (this->zoomRate > 130) {
+				this->zoomRate = 130;
 			}
 		}
 		nextZoomRate = this->zoomRate;
@@ -977,71 +997,13 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		this->SetScrollInfo(SB_VERT, &vScinfo);
 		this->SetScrollInfo(SB_HORZ, &hScinfo);
 
-		CDC memDC; 
+		CDC memDC;
 		ResizeVisitor resizeVisitor(previousZoomRate, nextZoomRate);
 		this->diagram->Accept(resizeVisitor, &memDC);
 
 		if (this->copyBuffer != NULL) {
 			this->copyBuffer->Accept(resizeVisitor, &memDC);
 		}
-		////////////////////////////////////////////////////////////////////////////////////////////////////////
-		CPaintDC dc(this);
-		CFont font;
-		font.CreateFont(25 * this->zoomRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
-		CFont*  oldFont;
-		oldFont = dc.SelectObject(&font);
-
-		Long i = 0;
-		Long j;
-		Long k;
-		while (i < this->diagram->GetLength()) {
-			if (dynamic_cast<Class*>(this->diagram->GetAt(i))) {
-				Class *tempClass = static_cast<Class*>(this->diagram->GetAt(i));
-				j = 0;
-				while (j < tempClass->GetLength()) {
-					if (dynamic_cast<ClassName*>(tempClass->GetAt(j)) ||
-						dynamic_cast<Attribute*>(tempClass->GetAt(j)) ||
-						dynamic_cast<Method*>(tempClass->GetAt(j)) ||
-						dynamic_cast<Reception*>(tempClass->GetAt(j))) {
-						Figure *tempFigure = static_cast<Figure*>(tempClass->GetAt(j));
-						/*CRect testRect;
-						dc.DrawText((CString)tempFigure->GetContent().c_str(), &testRect, DT_CALCRECT);*/
-						string longString = this->diagram->FindLongString(tempFigure->GetContent());
-						if (tempFigure->GetWidth() <= dc.GetTextExtent(longString.c_str()).cx) {
-							tempClass->SetWidth(dc.GetTextExtent(longString.c_str()).cx + GabX * 2 );
-							tempClass->SetMinimumWidth(tempClass->GetWidth() - GabX * 2);
-							k = 0;
-							while (k < tempClass->GetLength()) { // 
-								if (!dynamic_cast<Line*>(tempClass->GetAt(k)) && !dynamic_cast<Relation*>(tempClass->GetAt(k)) && !dynamic_cast<SelfRelation*>(tempClass->GetAt(k))) {
-									//tempFigure->SetX(tempClass->GetX() + GabX);
-									//tempFigure->SetY(tempClass->GetY() + GabY);
-									tempFigure->SetWidth(tempClass->GetWidth() - GabX * 2);
-									//tempFigure->SetMinimumWidth(tempClass->GetMinimumWidth());
-								}
-								else if (dynamic_cast<Line*>(tempClass->GetAt(k))) {
-									tempClass->GetAt(k)->SetWidth(tempClass->GetWidth());
-								}
-								k++;
-							}
-						}
-					}
-					j++;
-				}
-			}
-			else if (dynamic_cast<MemoBox*>(this->diagram->GetAt(i))) {
-				MemoBox *tempMemo = static_cast<MemoBox*>(this->diagram->GetAt(i));
-				string longString = this->diagram->FindLongString(tempMemo->GetContent());
-				if (tempMemo->GetWidth() <= dc.GetTextExtent(longString.c_str()).cx) {
-					tempMemo->SetWidth(dc.GetTextExtent(longString.c_str()).cx + GabX * 2);
-					tempMemo->SetMinimumWidth(tempMemo->GetWidth());
-				}
-			}
-			i++;
-		}
-
-		dc.SelectObject(oldFont);
-		font.DeleteObject();
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////
 		this->lastClass->statusBar->DestroyStatus();
 		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);

@@ -56,7 +56,27 @@ TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Figure *figure, Long roll
 	this->fontSet = NULL;
 	this->figure = figure;
 	this->rollNameBoxIndex = rollNameBoxIndex;
-	this->rowHeight = 25 * this->classDiagramForm->zoomRate / 100; // 폰트 사이즈
+	this->fontRate = 100;
+	if (this->classDiagramForm->zoomRate == 70) {
+		this->fontRate = 60;
+	}
+	else if (this->classDiagramForm->zoomRate == 80) {
+		this->fontRate = 70;
+	}
+	else if (this->classDiagramForm->zoomRate == 90) {
+		this->fontRate = 80;
+	}
+	else if (this->classDiagramForm->zoomRate == 110) {
+		this->fontRate = 100;
+	}
+	else if (this->classDiagramForm->zoomRate == 120) {
+		this->fontRate = 110;
+	}
+	else if (this->classDiagramForm->zoomRate == 130) {
+		this->fontRate = 115;
+	}
+
+	this->rowHeight = 25 * this->fontRate / 100; // 폰트 사이즈
 	this->koreanEnglish = 0;
 	this->flagBuffer = 0;
 	this->flagInsert = 0;
