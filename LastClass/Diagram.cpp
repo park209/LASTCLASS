@@ -8,6 +8,7 @@
 #include "Relation.h"
 #include "SelfRelation.h"
 #include "Finder.h"
+#include "Line.h"
 
 Diagram::Diagram(Long capacity) {
 	this->capacity = capacity;
@@ -222,6 +223,24 @@ Figure* Diagram::GetAt(Long index) {
 Figure* Diagram::Clone() const {
 	return new Diagram(*this);
 }
+
+//void Diagram::SetClassWidth(CDC *pDC) {
+//	RECT rt = { 0, };
+//	SmartPointer<Figure*>diagramIterator(this->CreateIterator());
+//	for (diagramIterator->First();!diagramIterator->IsDone();diagramIterator->Next()) {
+//		if (dynamic_cast<FigureComposite*>(diagramIterator->Current())) {
+//			FigureComposite *figure = static_cast< FigureComposite*>(diagramIterator->Current());
+//			SmartPointer<Figure*>classIterator(figure->CreateIterator());
+//			for (classIterator->First();!classIterator->IsDone();classIterator->Next()) {
+//				if (!dynamic_cast<Line*>(classIterator->Current()) && !dynamic_cast<Relation*>(classIterator->Current()) && !dynamic_cast<SelfRelation*>(classIterator->Current())) {
+//					Figure *figure_ = classIterator->Current();
+//					if (rt.right)
+//					pDC->DrawTextEx((CString)figure_->GetContent.c_str(), &rt, DT_WORDBREAK | DT_CALCRECT, NULL);
+//					
+//				}
+//		}
+//	}
+//}
 
 void Diagram::Accept(Visitor& visitor, CDC *pDC) {
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());

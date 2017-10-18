@@ -56,7 +56,7 @@ TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Figure *figure, Long roll
 	this->fontSet = NULL;
 	this->figure = figure;
 	this->rollNameBoxIndex = rollNameBoxIndex;
-	this->rowHeight = 25 * this->classDiagramForm->zoomRate / 100; // ÆùÆ® »çÀÌÁî
+	this->rowHeight = (18 + (10 * (static_cast<double>(this->classDiagramForm->zoomRate) / 100 - 1))) * 100 / 72;  // ÆùÆ® »çÀÌÁî
 	this->koreanEnglish = 0;
 	this->flagBuffer = 0;
 	this->flagInsert = 0;
@@ -112,6 +112,7 @@ void TextEdit::OnPaint() {
 	CFont *m_oldFont = 0;
 
 	if (this->rollNameBoxIndex == -1) {
+		//cFont.CreatePointFont(this->rowHeight, _T("¸¼Àº °íµñ"), &memDC);
 		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 		SetFont(&cFont, TRUE);
@@ -187,6 +188,7 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	
 	CDC *dc = GetDC();
 	CFont cFont;
+	//cFont.CreatePointFont(this->rowHeight, _T("¸¼Àº °íµñ"), dc);
 	cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 	SetFont(&cFont, TRUE);

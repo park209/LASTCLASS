@@ -107,9 +107,9 @@ if (int_ptr == IDOK) {
 			pOldBitmap = memDC.SelectObject(&bitmap);
 			memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
 			CFont cFont;//CreateFont¿¡ °ª18À» textEditÀÇ rowHight·Î ¹Ù²ã¾ßÇÔ
-			cFont.CreatePointFont(100 * lastClass->classDiagramForm->zoomRate / 100, "¸¼Àº °íµñ", &memDC);
+			cFont.CreatePointFont(100 * lastClass->classDiagramForm->zoomRate / 100, _T("¸¼Àº °íµñ"), &memDC);
 			//cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// ±Û²Ã ¼³Á¤
-			//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "¸¼Àº °íµñ");
+			//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("¸¼Àº °íµñ"));
 			lastClass->SetFont(&cFont, TRUE);
 			CFont *oldFont = memDC.SelectObject(&cFont);
 

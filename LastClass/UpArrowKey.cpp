@@ -33,7 +33,7 @@ void UpArrowKey::KeyPress(TextEdit *textEdit) {
 		}
 	}
 	CFont cFont;
-	cFont.CreatePointFont(textEdit->rowHeight, "¸¼Àº °íµñ", &dc);
+	cFont.CreatePointFont(textEdit->rowHeight, _T("¸¼Àº °íµñ"), &dc);
 	//cFont.CreateFont(textEdit->rowHeight, 0, 0, 0, textEdit->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,// ±Û²Ã ¼³Á¤
 	//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, textEdit->fontSet->GetFaceName().c_str());
 	textEdit->SetFont(&cFont, TRUE);

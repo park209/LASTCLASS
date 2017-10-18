@@ -126,6 +126,23 @@ Figure* Figure::Modify(Long x, Long y, Long width, Long height) {
 	return this;
 }
 
+Long Figure::GetPointToReal(Long point, Long nextZoomRate, Long previousZoomRate) {
+	double double_ = static_cast<double>(point) * nextZoomRate / previousZoomRate;
+	Long remainder = (point * nextZoomRate) % previousZoomRate;
+	if (nextZoomRate < previousZoomRate) {
+		point = static_cast<Long>(double_ + 0.5);
+	}
+	else {
+		if (remainder >= previousZoomRate / 2) {
+			point = static_cast<Long>(double_ + 0.5);
+		}
+		else {
+			point = static_cast<Long>(double_);
+		}
+	}
+	return point;
+}
+
 Figure& Figure::operator = (const Figure& source) {
 	this->x = source.x;
 	this->y = source.y;
