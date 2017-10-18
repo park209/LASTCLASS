@@ -909,7 +909,7 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	CWnd::SetFocus();
 	SetFocus();
 	bool ret = false;
-	
+	Long zoomRate_ = this->zoomRate;
 	// nWheelScrollLines 휠 한번에 이동하는 줄 수 (Reg에서 읽어 온다)
 	HKEY hKey = 0;
 	DWORD dwType = REG_BINARY;
@@ -989,8 +989,10 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 			this->copyBuffer->Accept(resizeVisitor, &memDC);
 		}
 		////////////////////////////////////////////////////////////////////////////////////////////////////////
-		this->lastClass->statusBar->DestroyStatus();
-		this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
+		if ((zoomRate_!=70||this->zoomRate!=70)&&(zoomRate_!=150||this->zoomRate!=150)) {
+			this->lastClass->statusBar->DestroyStatus();
+			this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
+		}
 		ret = true;
 	}
 	SetScrollPos(SB_VERT, vertCurPos);
