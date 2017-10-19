@@ -25,14 +25,11 @@ ResizeVisitor::~ResizeVisitor() {
 
 void ResizeVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY) {
 }
-
 void ResizeVisitor::Visit(Class *object, CDC* cPaintDc) {
-	Long endPointX = (object->GetX() + object->GetWidth())*this->nextZoomRate / this->previousZoomRate;
-	Long endPointY = (object->GetY() + object->GetHeight())*this->nextZoomRate / this->previousZoomRate;
 	object->SetX(object->GetX() * this->nextZoomRate / this->previousZoomRate);
 	object->SetY(object->GetY() * this->nextZoomRate / this->previousZoomRate);
-	object->SetWidth(endPointX - object->GetX());
-	object->SetHeight(endPointY - object->GetY());
+	object->SetWidth(object->GetWidth() * this->nextZoomRate / this->previousZoomRate);
+	object->SetHeight(object->GetHeight() *this->nextZoomRate / this->previousZoomRate);
 	//object->SetWidth(object->GetWidth() * this->nextZoomRate / this->previousZoomRate);
 	//object->SetHeight(object->GetHeight() * this->nextZoomRate / this->previousZoomRate);
 	static_cast<Figure*>(object)->SetMinimumWidth(object->GetMinimumWidth() * this->nextZoomRate / this->previousZoomRate);

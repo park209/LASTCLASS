@@ -759,7 +759,7 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	CClientDC dc(this);
 	CFont cFont;//CreateFont¿¡ °ª18À» textEditÀÇ rowHight·Î ¹Ù²ã¾ßÇÔ
-	cFont.CreatePointFont(120 * (this->zoomRate / 100), "¸¼Àº °íµñ", &dc);
+	cFont.CreatePointFont(120 * this->zoomRate / 100, "¸¼Àº °íµñ", &dc);
 	//cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// ±Û²Ã ¼³Á¤
 	//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "¸¼Àº °íµñ");
 	SetFont(&cFont, TRUE);
@@ -939,8 +939,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		ret = true;
 	}
 	else {
-		Long previousZoomRate;
-		Long nextZoomRate;
+		double previousZoomRate;
+		double nextZoomRate;
 		previousZoomRate = this->zoomRate;
 		if (zDelta <= 0) { //¸¶¿ì½º ÈÙ ´Ù¿î
 			this->zoomRate -= 20;
