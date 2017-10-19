@@ -3,8 +3,8 @@
 #include "FontSet.h"
 
 FontSet::FontSet() {
-	this->fontWeight = 700;
-	this->faceName = "¸¼Àº °íµñ";
+	this->fontWeight = 400;
+	this->faceName = "±¼¸²Ã¼";
 }
 
 FontSet::FontSet(const FontSet& source) {

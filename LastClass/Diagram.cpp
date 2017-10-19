@@ -29,7 +29,6 @@ Diagram::Diagram(const Diagram& source) : FigureComposite(source) {
 		i++;
 	}*/
 }
-
 Diagram& Diagram::operator = (const Diagram& source) {
 	this->figures = source.figures;
 	Long i = 0;
@@ -245,7 +244,6 @@ void Diagram::Accept(Visitor& visitor, CDC *pDC) {
 		smartPointer->Next();
 	}
 }
-
 string Diagram::FindLongString(string str) {
 	int i = 0;
 	int startIndex = 0;
