@@ -32,7 +32,7 @@
 #include <iostream>
 #include "Scroll.h"
 #include "DrawRollNameBoxes.h"
-
+#include "LastClass.h"
 using namespace std;
 
 DrawingVisitor::DrawingVisitor(Long zoomRate) {
@@ -963,6 +963,7 @@ void DrawingVisitor::Visit(MemoLine *memoLine, CDC *pDC) {
 	pen.DeleteObject();
 }
 void DrawingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *pDC) {
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 
 	pDC->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY());
 	pDC->LineTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 40 * this->zoomRate / 100);
@@ -974,16 +975,16 @@ void DrawingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *pDC) {
 	pDC->LineTo(selfGeneralization->GetX() + 80 * this->zoomRate / 100, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
 
 	pDC->MoveTo(selfGeneralization->GetX() + 80 * this->zoomRate / 100, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
-	pDC->LineTo(selfGeneralization->GetX() + 30 * this->zoomRate / 100, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
+	pDC->LineTo(selfGeneralization->GetX() + test->classDiagramForm->thirty, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
 
 	CBrush white(RGB(255, 255, 255));
 	CBrush myBrush;
 	myBrush.CreateSolidBrush(RGB(255, 255, 255));
 	CBrush *oldBrush = pDC->SelectObject(&myBrush);
 
-	Long startX = selfGeneralization->GetX() + 60 * this->zoomRate / 100;
+	Long startX = selfGeneralization->GetX() + 80 * this->zoomRate / 100;
 	Long startY = selfGeneralization->GetY() + 40 * this->zoomRate / 100;
-	Long endX = selfGeneralization->GetX() + 30 * this->zoomRate / 100;
+	Long endX = selfGeneralization->GetX() + test->classDiagramForm->thirty;
 	Long endY = selfGeneralization->GetY() + 40 * this->zoomRate / 100;
 
 	double degree = atan2(endX - startX, startY - endY); // ±â¿ï±â

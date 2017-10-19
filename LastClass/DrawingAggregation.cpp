@@ -86,10 +86,10 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 			SelfAggregation  selfAggregation(object->GetX() + object->GetWidth() - 30 * classDiagramForm->zoomRate / 100,
 				object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
 			if (object->GetTempletePosition() != -1) {
-				selfAggregation.Move(0, -17);
+				selfAggregation.Move(0, -classDiagramForm->seventeen);
 				Long k = 0;
 				while (k < 5) {
-					CPoint cPoint(selfAggregation.rollNamePoints->GetAt(k).x, selfAggregation.rollNamePoints->GetAt(k).y - 17);
+					CPoint cPoint(selfAggregation.rollNamePoints->GetAt(k).x, selfAggregation.rollNamePoints->GetAt(k).y - classDiagramForm->seventeen);
 					selfAggregation.rollNamePoints->Modify(k, cPoint);
 					k++;
 				}

@@ -83,10 +83,10 @@ void DrawingCompositions::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagra
 			SelfCompositions selfCompositions(object->GetX() + object->GetWidth() - 30 * classDiagramForm->zoomRate / 100, 
 				object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
 			if (object->GetTempletePosition() != -1) {
-				selfCompositions.Move(0, -17);
+				selfCompositions.Move(0, -classDiagramForm->seventeen);
 				Long k = 0;
 				while (k < 5) {
-					CPoint cPoint(selfCompositions.rollNamePoints->GetAt(k).x, selfCompositions.rollNamePoints->GetAt(k).y - 17);
+					CPoint cPoint(selfCompositions.rollNamePoints->GetAt(k).x, selfCompositions.rollNamePoints->GetAt(k).y - classDiagramForm->seventeen);
 					selfCompositions.rollNamePoints->Modify(k, cPoint);
 					k++;
 				}
