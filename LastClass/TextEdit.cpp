@@ -56,30 +56,7 @@ TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Figure *figure, Long roll
 	this->fontSet = NULL;
 	this->figure = figure;
 	this->rollNameBoxIndex = rollNameBoxIndex;
-	this->fontRate = 25 * this->fontRate / 100; //100;
-	//if (this->classDiagramForm->zoomRate == 80) {
-	//	this->fontRate = 80;
-	//}
-	/*if (this->classDiagramForm->zoomRate == 90) {
-		this->fontRate = 90;
-	}
-	else if (this->classDiagramForm->zoomRate == 95) {
-		this->fontRate = 95;
-	}
-	else if (this->classDiagramForm->zoomRate == 100) {
-		this->fontRate = 100;
-	}
-	else if (this->classDiagramForm->zoomRate == 105) {
-		this->fontRate = 105;
-	}
-	else if (this->classDiagramForm->zoomRate == 110) {
-		this->fontRate = 110;
-	}*/
-	//else if (this->classDiagramForm->zoomRate == 115) {
-	//	this->fontRate = 115;
-	//}
-
-	this->rowHeight = 25 * this->classDiagramForm->zoomRate / 100;// *100 / 72; // 폰트 사이즈
+	this->rowHeight = 24 * this->classDiagramForm->zoomRate/ 100;// 폰트 사이즈
 	this->koreanEnglish = 0;
 	this->flagBuffer = 0;
 	this->flagInsert = 0;
@@ -135,7 +112,8 @@ void TextEdit::OnPaint() {
 	CFont *m_oldFont = 0;
 
 	if (this->rollNameBoxIndex == -1) {
-		cFont.CreateFont(this->rowHeight, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		int ih = -MulDiv(14 * this->classDiagramForm->zoomRate / 100, GetDeviceCaps(dc, LOGPIXELSY), 72);
+		cFont.CreateFont(ih, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 		SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작

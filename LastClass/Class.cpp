@@ -1063,7 +1063,7 @@ void Class::Accept(Visitor& visitor, Long distanceX, Long distanceY) {
 	visitor.Visit(this, distanceX, distanceY);
 }
 
-Long Class::SetMinimumWidth(Long zoomRate) {
+Long Class::SetMinimumWidthR(Long zoomRate) {
 	this->minimumWidth = 120 * zoomRate / 100;
 	SmartPointer<Figure*> iterator(this->CreateIterator());
 	for (iterator->First();!iterator->IsDone();iterator->Next()) {

@@ -71,7 +71,7 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 
 
 	//LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
-	if (this->GetWidth() + distanceX < this->minimumWidth) { // * test->classDiagramForm->zoomRate / 100) {
+	if (this->GetWidth() + distanceX <= this->minimumWidth) { // * test->classDiagramForm->zoomRate / 100) {
 		distanceX = this->minimumWidth - this->GetWidth();
 	}
 
@@ -261,7 +261,7 @@ Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long d
 			this->GetAt(editPosition)->GetHeight() + distanceY);
 	}
 
-	else if (this->height + distanceY < this->minimumHeight) {
+	else if (this->height + distanceY <= this->minimumHeight) {
 		distanceY = this->minimumHeight - this->height;
 	}
 
