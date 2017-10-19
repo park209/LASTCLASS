@@ -32,9 +32,10 @@ void WritingVisitor::Visit(Class *object, Long distanceX, Long distanceY) {
 }
 void WritingVisitor::Visit(Text* text, CDC* cPaintDc) {
 	Long fontHeight = cPaintDc->GetTextExtent("아").cy; // rowHeight 구하는방법
-	Long textWidth = text->MaxWidth(cPaintDc) - 50;
+	Long textWidth = text->MaxWidth(cPaintDc);// -50;
 	
 	RECT rt = { 0 , 0, textWidth, text->GetLength() * fontHeight };
+	cPaintDc->DrawTextEx((CString)text->MakeText().c_str(), &rt, DT_CALCRECT, NULL);
 	cPaintDc->DrawText((CString)text->MakeText().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
 }
 

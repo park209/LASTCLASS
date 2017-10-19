@@ -49,7 +49,6 @@
 #include "ScrollAction.h"
 #include "GraphicCtrlCopyKey.h"
 #include "ResizeVisitor.h"
-#include "ResizeCheck.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
@@ -721,7 +720,7 @@ void ClassDiagramForm::OnPaint() {
 
 	int vertCurPos = GetScrollPos(SB_VERT);
 	int horzCurPos = GetScrollPos(SB_HORZ);
-
+	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, horzCurPos, vertCurPos, SRCCOPY);
 }
 
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -752,7 +751,7 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	CClientDC dc(this);
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-	cFont.CreateFont(24 * this->zoomRate / 100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET,// 글꼴 설정
+	cFont.CreateFont(-14 * this->zoomRate / 100*120/72, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont);
@@ -936,22 +935,22 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		this->preZoom = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
 			this->zoomRate -= 10;
-			if (this->zoomRate < 80) {
-				this->zoomRate = 80;
+			if (this->zoomRate < 70) {
+				this->zoomRate = 70;
 			}
 		}
 		else {  //마우스 휠 업
 			this->zoomRate += 10;
-			if (this->zoomRate > 140) {
-				this->zoomRate = 140;
+			if (this->zoomRate > 130) {
+				this->zoomRate = 130;
 			}
 		}
 		nextZoomRate = this->zoomRate;
 
 		this->SetMemoGab(20 * this->zoomRate / 100);
 		this->SetGabX(8 * this->zoomRate / 100);
-		this->SetGabY(2 * this->zoomRate / 100);
-	this->SetCaretWidth(2);
+		//this->SetGabY(2 * this->zoomRate / 100);
+		this->SetCaretWidth(2);
 
 		SCROLLINFO vScinfo;
 		SCROLLINFO hScinfo;
@@ -986,7 +985,7 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		CPaintDC dc(this);
 		CFont font;
 		
-		font.CreateFont(24 * this->zoomRate / 100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		font.CreateFont(-14 * this->zoomRate / 100*120/72, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		CFont*  oldFont;
 		oldFont = dc.SelectObject(&font);

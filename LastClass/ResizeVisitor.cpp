@@ -248,6 +248,13 @@ void ResizeVisitor::Visit(Reception* reception, CDC* cPaintDc) {
 void ResizeVisitor::Visit(Line *line, CDC* cPaintDc) {
 	Long x1 = line->GetX();
 	Long y1 = line->GetY();
+	/*double y3 = static_cast<double>(y1);
+	y3 = y3 * this->nextZoomRate / this->previousZoomRate;
+	Long remainder = y1*this->nextZoomRate&this->previousZoomRate;
+	if (remainder >= this->previousZoomRate / 2) {
+		y3 += 0.5;
+	}
+	y1 = (Long)y3;*/
 	Long x2 = line->GetX() + line->GetWidth();
 	Long y2 = line->GetY() + line->GetHeight();
 	line->SetX(x1*this->nextZoomRate / this->previousZoomRate);

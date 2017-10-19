@@ -1316,9 +1316,6 @@
     <ClCompile Include="PrintPreviewState.cpp">
       <Filter>MouseAction</Filter>
     </ClCompile>
-    <ClCompile Include="ResizeCheck.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc">
