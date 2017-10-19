@@ -144,8 +144,9 @@ void PrintPreview::OnPaint() {
 	pOldBitmap = memDC.SelectObject(&bitmap);
 	memDC.FillSolidRect(CRect(0, 0, horiPaper, verPaper), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-	cFont.CreateFont(25, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
+	int ih = MulDiv(14 * lastClass->classDiagramForm->zoomRate / 100, GetDeviceCaps(dc, LOGPIXELSY), 72);
+	cFont.CreateFont(ih, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
 	DrawingVisitor drawingVisitor(100);
@@ -231,8 +232,9 @@ void PrintPreview::OnPrint(CDC *cdc, CPrintInfo *pInfo, UINT page) {
 	pOldBitmap = memDC.SelectObject(&bitmap);
 	memDC.FillSolidRect(CRect(0, 0, horiPaper, verPaper), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-	cFont.CreateFont(25, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
+	int ih = MulDiv(14 * lastClass->classDiagramForm->zoomRate / 100, GetDeviceCaps(dc, LOGPIXELSY), 72);
+	cFont.CreateFont(ih, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
 
@@ -317,20 +319,6 @@ BOOL PrintPreview::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	}
 	else {
 		if (zDelta <= 0) { //마우스 휠 다운
-			this->zoomRate -= 10;
-			this->verticalPageSize -= 100;
-			if (this->verticalPageSize < 1000) {
-				this->verticalPageSize = 1000;
-			}
-			this->horizontalPageSize -= 100;
-			if (this->horizontalPageSize < 1000) {
-				this->horizontalPageSize = 1000;
-			}
-			if (this->zoomRate < 50) {
-				this->zoomRate = 50;
-			}
-		}
-		else {  //마우스 휠 업
 			this->zoomRate += 10;
 			this->verticalPageSize += 100;
 			if (this->verticalPageSize > 3000) {
@@ -339,6 +327,20 @@ BOOL PrintPreview::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 			this->horizontalPageSize += 100;
 			if (this->horizontalPageSize > 3000) {
 				this->horizontalPageSize = 3000;
+			}
+			if (this->zoomRate < 50) {
+				this->zoomRate = 50;
+			}
+		}
+		else {  //마우스 휠 업
+			this->zoomRate -= 10;
+			this->verticalPageSize -= 100;
+			if (this->verticalPageSize < 1000) {
+				this->verticalPageSize = 1000;
+			}
+			this->horizontalPageSize -= 100;
+			if (this->horizontalPageSize < 1000) {
+				this->horizontalPageSize = 1000;
 			}
 			if (this->zoomRate > 190) {
 				this->zoomRate = 190;
