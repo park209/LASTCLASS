@@ -7,6 +7,7 @@
 #include "HistoryGraphic.h"
 #include "KeyBoard.h"
 
+#include "KnockKnock.h"
 #include "ResizeVisitor.h"
 #include "StatusBar.h"
 
@@ -101,7 +102,13 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			lastClass->classDiagramForm->fileName = dlgFile.GetPathName();
 			lastClass->classDiagramForm->Load();
 
+			KnockKnock *knocking = new KnockKnock;
+			knocking->Knocking(lastClass->classDiagramForm);
+			if (knocking != NULL) {
+				delete knocking;
+			}
 			lastClass->classDiagramForm->zoomRate = 100;
+
 
 			lastClass->statusBar->DestroyStatus();
 			lastClass->statusBar->MakeStatusBar(lastClass, lastClass->GetSafeHwnd(), 0, 0, 5);
