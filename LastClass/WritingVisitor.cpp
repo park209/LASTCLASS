@@ -43,7 +43,7 @@ void  WritingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
 		!dynamic_cast<Compositions*>(selfRelation) && !dynamic_cast<Dependency*>(selfRelation) &&
 		!dynamic_cast<Realization*>(selfRelation)) {
 		CFont font;
-		font.CreateFont(10 * this->zoomRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		font.CreateFont(10 * this->zoomRate / 100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		CFont*  oldFont;
 		oldFont = cPaintDc->SelectObject(&font);
@@ -81,7 +81,7 @@ void  WritingVisitor::Visit(Relation *relation, CDC *pDC) {
 		!dynamic_cast<Compositions*>(relation) && !dynamic_cast<Dependency*>(relation) &&
 		!dynamic_cast<Realization*>(relation)) {
 		CFont font;
-		font.CreateFont(10 * this->zoomRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		font.CreateFont(10 * this->zoomRate / 100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		CFont*  oldFont;
 		oldFont = pDC->SelectObject(&font);
@@ -119,13 +119,14 @@ void WritingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 }
 
 void WritingVisitor::Visit(Template *object, CDC *cPaintDc) {
+	//CRect rt(object->GetX() + GabX, object->GetY() + GabY, object->GetWidth() - GabX, object->GetHeight() - GabY);
 	RECT rt = { object->GetX() + GabX , object->GetY() + GabY, object->GetX() + object->GetWidth() - GabX, object->GetY() + object->GetHeight() - GabY };
 	cPaintDc->DrawText((CString)object->GetContent().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
 }
 
 void WritingVisitor::Visit(ClassName* className, CDC* cPaintDc) {
 	RECT rt = { className->GetX() + GabX , className->GetY() + MemoGab + GabY, className->GetX() + className->GetWidth() - GabX, className->GetY() + className->GetHeight() - GabY };
-	cPaintDc->DrawText((CString)className->GetContent().c_str(), &rt, DT_CENTER | DT_NOCLIP | DT_EXPANDTABS);
+	cPaintDc->DrawText((CString)className->GetContent().c_str(), &rt, DT_CENTER  | DT_NOCLIP | DT_EXPANDTABS);
 }
 
 void WritingVisitor::Visit(Attribute* attribute, CDC* cPaintDc) {
@@ -134,10 +135,10 @@ void WritingVisitor::Visit(Attribute* attribute, CDC* cPaintDc) {
 }
 void WritingVisitor::Visit(Method* method, CDC* cPaintDc) {
 	RECT rt = { method->GetX() + GabX , method->GetY() + GabY, method->GetX() + method->GetWidth() - GabX, method->GetY() + method->GetHeight() - GabY };
-	cPaintDc->DrawText((CString)method->GetContent().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+	cPaintDc->DrawText((CString)method->GetContent().c_str(), &rt, DT_NOCLIP|  DT_EXPANDTABS);
 }
 void WritingVisitor::Visit(Reception* reception, CDC* cPaintDc) {
-	RECT rt = { reception->GetX() + GabX , reception->GetY() + GabY, reception->GetX() + reception->GetWidth() - GabX, reception->GetY() + reception->GetHeight() - GabX };
+	RECT rt = { reception->GetX() + GabX , reception->GetY() + GabY, reception->GetX() + reception->GetWidth() - GabX, reception->GetY() + reception->GetHeight() - GabY };
 	cPaintDc->DrawText((CString)reception->GetContent().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
 }
 

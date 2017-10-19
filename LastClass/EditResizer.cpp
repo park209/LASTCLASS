@@ -78,7 +78,7 @@ void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
 			}
 			else {
 				textEdit->figure->SetMinimumWidth(textEdit->text->MaxWidth(cdc) + GabX * 2);
-				static_cast<Class*>(classDiagramForm->selection->GetAt(0))->SetMinimumWidth(classDiagramForm->zoomRate);
+				static_cast<Class*>(classDiagramForm->selection->GetAt(0))->SetMinimumWidthR(classDiagramForm->zoomRate);
 			}
 		}
 		else {
