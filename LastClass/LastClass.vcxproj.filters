@@ -616,7 +616,6 @@
     <ClInclude Include="GraphicCtrlDeleteKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="LastClassApp.h" />
     <ClInclude Include="DeleteAttributeMenuAction.h">
       <Filter>Menu</Filter>
     </ClInclude>
@@ -683,9 +682,16 @@
     <ClInclude Include="PrintPreviewState.h">
       <Filter>MouseAction</Filter>
     </ClInclude>
-    <ClInclude Include="LeftSelfAggregation.h" />
-    <ClInclude Include="LeftSelfRelation.h" />
     <ClInclude Include="KnockKnock.h" />
+    <ClInclude Include="LastClassApp.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="LeftSelfRelation.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="LeftSelfAggregation.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">
@@ -1263,7 +1269,6 @@
     <ClCompile Include="EditResizerBlocker.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
-    <ClCompile Include="LastClassApp.cpp" />
     <ClCompile Include="AddAttributeMenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
@@ -1324,7 +1329,8 @@
     <ClCompile Include="LeftSelfRelation.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="KnockKnock.cpp">
+    <ClCompile Include="KnockKnock.cpp" />
+    <ClCompile Include="LastClassApp.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>

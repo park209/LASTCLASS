@@ -59,6 +59,7 @@ void KnockKnock::Knocking(ClassDiagramForm *classDiagramForm) {
 			}
 		}
 		else if (dynamic_cast<MemoBox*>(classDiagramForm->diagram->GetAt(i)) && classDiagramForm->diagram->GetAt(i)->GetContent() != "") {
+			classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(i));
 			classDiagramForm->textEdit = new TextEdit(classDiagramForm, classDiagramForm->diagram->GetAt(i));
 			classDiagramForm->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				classDiagramForm->diagram->GetAt(i)->GetX() + GabX - horzCurPos,
@@ -68,7 +69,7 @@ void KnockKnock::Knocking(ClassDiagramForm *classDiagramForm) {
 			classDiagramForm->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
 			classDiagramForm->textEdit->OnClose();
 		}
-		i++;
 		classDiagramForm->selection->DeleteAllItems();
+		i++;
 	}
 }
