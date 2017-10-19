@@ -699,11 +699,22 @@ void ClassDiagramForm::OnPaint() {
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
 	memDC.CreateCompatibleDC(&dc);
-	bitmap.CreateCompatibleBitmap(&dc, 4000 * this->zoomRate/100 , 2000 * this->zoomRate / 100);
+	bitmap.CreateCompatibleBitmap(&dc, 4000 * this->zoomRate / 100, 2000 * this->zoomRate / 100);
 	pOldBitmap = memDC.SelectObject(&bitmap);
 	memDC.FillSolidRect(CRect(0, 0, 4000 * this->zoomRate / 100, 2000 * this->zoomRate / 100), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-	cFont.CreateFont(25 * this->zoomRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+
+	Long fontRate = this->zoomRate;
+	if (this->zoomRate == 85) {
+		fontRate = 80;
+	}
+	else if (this->zoomRate == 90) {
+		fontRate = 85;
+	}
+	else if (this->zoomRate == 95) {
+		fontRate = 90;
+	}
+	cFont.CreateFont(25 * fontRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
@@ -905,6 +916,7 @@ void ClassDiagramForm::OnRButtonDown(UINT nFlags, CPoint point) {
 
 	Invalidate(false);
 }
+
 BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	CWnd::SetFocus();
 	SetFocus();
@@ -942,8 +954,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		previousZoomRate = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
 			this->zoomRate -= 10;
-			if (this->zoomRate < 70) {
-				this->zoomRate = 70;
+			if (this->zoomRate < 60) {
+				this->zoomRate = 60;
 			}
 		}
 		else {  //마우스 휠 업
@@ -955,9 +967,9 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		nextZoomRate = this->zoomRate;
 
 		this->SetMemoGab(20 * this->zoomRate / 100);
-		this->SetGabX(13 * this->zoomRate / 100);
+		this->SetGabX(8 * this->zoomRate / 100);
 		this->SetGabY(2 * this->zoomRate / 100);
-		this->SetCaretWidth(2 * this->zoomRate / 100);
+		this->SetCaretWidth(2);
 
 		SCROLLINFO vScinfo;
 		SCROLLINFO hScinfo;
@@ -981,7 +993,7 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		this->SetScrollInfo(SB_VERT, &vScinfo);
 		this->SetScrollInfo(SB_HORZ, &hScinfo);
 
-		CDC memDC; 
+		CDC memDC;
 		ResizeVisitor resizeVisitor(previousZoomRate, nextZoomRate);
 		this->diagram->Accept(resizeVisitor, &memDC);
 
@@ -989,7 +1001,126 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 			this->copyBuffer->Accept(resizeVisitor, &memDC);
 		}
 		////////////////////////////////////////////////////////////////////////////////////////////////////////
-		if ((zoomRate_!=70||this->zoomRate!=70)&&(zoomRate_!=150||this->zoomRate!=150)) {
+		CPaintDC dc(this);
+		CFont font;
+		font.CreateFont(25 * this->zoomRate / 100, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		   OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
+		CFont*  oldFont;
+		oldFont = dc.SelectObject(&font);
+
+		Long i = 0;
+		Long j;
+		Long k;
+		Figure *tempFigure_ = 0;
+		bool isBigger;
+		while (i < this->diagram->GetLength()) { // 다이어그램 전체 반복
+		   isBigger = false;
+		   if (dynamic_cast<Class*>(this->diagram->GetAt(i))) { // 클래스인지 메모인지 확인해서 클래스이면
+		      Class *tempClass = static_cast<Class*>(this->diagram->GetAt(i));
+		      j = 0;
+		      while (j < tempClass->GetLength()) { // 클래스 안에 글자 들어있는 칸인지 확인한다
+		         if (dynamic_cast<ClassName*>(tempClass->GetAt(j)) ||
+		            dynamic_cast<Attribute*>(tempClass->GetAt(j)) ||
+		            dynamic_cast<Method*>(tempClass->GetAt(j)) ||
+		            dynamic_cast<Reception*>(tempClass->GetAt(j))) {
+		            Figure *tempFigure = static_cast<Figure*>(tempClass->GetAt(j));
+		            CRect testRect;
+		            dc.DrawText((CString)tempFigure->GetContent().c_str(), &testRect, DT_CALCRECT);
+		           string longString = this->diagram->FindLongString(tempFigure->GetContent());
+		            if (tempFigure->GetWidth() <= dc.GetTextExtent(longString.c_str()).cx) { // 클래스 너비보다 글자너비가 커지는지 확인
+		               tempClass->SetWidth(dc.GetTextExtent(longString.c_str()).cx + GabX * 3);
+		               static_cast<Figure*>(tempClass)->SetMinimumWidth(tempClass->GetWidth());
+		               isBigger = true;
+		            }
+		            if (isBigger == true) {
+		               k = 0;
+					   ClassName *className = 0;
+					   Attribute *attribute = 0;
+					   Method *method = 0;
+		               while (k < tempClass->GetLength()) { // 클래스 너비 바꿔준 다음에 그 내부 칸들 너비 바꿔주는 반복문
+						   tempFigure_ = tempClass->GetAt(k);
+		                  if (dynamic_cast<ClassName*>(tempClass->GetAt(k))) {
+							  className = static_cast<ClassName*>(tempClass->GetAt(k));
+							  tempFigure_->SetX(tempClass->GetX() + GabX);
+							  //tempFigure_->SetY(tempClass->GetY() + GabY);
+							  tempFigure_->SetY(tempClass->GetY() + GabY);
+							  tempFigure_->SetWidth(tempClass->GetWidth()- GabX*2);
+							 // tempFigure_->SetHeight(tempClass->GetHeight() - (attribute->GetHeight()) - (method->GetHeight()) - (GabY * 3));
+							  tempFigure_->SetMinimumWidth(tempClass->GetMinimumWidth() - 8 * 2);
+		                  }
+		                  else if (dynamic_cast<Attribute*>(tempClass->GetAt(k))) {
+							  attribute= static_cast<Attribute*>(tempClass->GetAt(k));
+							  tempFigure_->SetX(tempClass->GetX() + GabX);
+							 // tempFigure_->SetY(tempClass->GetY() + GabY+ className->GetHeight()+GabY);
+							  tempFigure_->SetY(tempClass->GetY() + GabY + className->GetHeight());
+							  tempFigure_->SetWidth(tempClass->GetWidth() - GabX * 2);
+							 // tempFigure_->SetHeight((tempFigure_->GetHeight() - (GabY * 3) - (className->GetHeight())) / 2);
+							  tempFigure_->SetMinimumWidth(tempClass->GetMinimumWidth() - 8 * 2);
+		                  }
+		                  else if (dynamic_cast<Method*>(tempClass->GetAt(k))) {
+							  method = static_cast<Method*>(tempClass->GetAt(k));
+							  tempFigure_->SetX(tempClass->GetX() + GabX);
+							 if (attribute!=0) {//속성이 있을때
+								// tempFigure_->SetY(tempClass->GetY() + GabY + className->GetHeight() + GabY + attribute->GetHeight() + GabY);
+								 tempFigure_->SetY(tempClass->GetY() + GabY + className->GetHeight() + attribute->GetHeight());
+							 }
+							 else{//속성없을떄
+								 //tempFigure_->SetY(tempClass->GetY() + GabY + className->GetHeight() + GabY);
+								 tempFigure_->SetY(tempClass->GetY() + GabY + className->GetHeight() );
+							 }
+							 tempFigure_->SetWidth(tempClass->GetWidth() - GabX * 2);
+							// tempFigure_->SetHeight(attribute->GetHeight());
+							 tempFigure_->SetMinimumWidth(tempClass->GetMinimumWidth() - 8 * 2);
+		                  }
+		                  else if (dynamic_cast<Reception*>(tempClass->GetAt(k))) {
+							  tempFigure_->SetX(tempClass->GetX() + GabX);
+							 if (attribute!=0 && method!=0) {//속성 연산둘다있을떄
+								// tempFigure_->SetY(tempClass->GetY() + GabY + className->GetHeight() + GabY + attribute->GetHeight() + GabY
+								// + method->GetHeight()+GabY);
+								 tempFigure_->SetY(tempClass->GetY() + GabY + className->GetHeight()  + attribute->GetHeight()
+									 + method->GetHeight());
+							 }
+							 if (attribute!=0 &&method==0) {//속성있고 연산은 없을때
+								// tempFigure_->SetY(tempClass->GetY() + GabY + className->GetHeight() + GabY + attribute->GetHeight() + GabY);
+								 tempFigure_->SetY(tempClass->GetY()+GabY+className->GetHeight() + attribute->GetHeight() );
+							 }
+							 if (attribute == 0 && method != 0) {//속성없고 연산은 있을때
+								// tempFigure_->SetY(tempClass->GetY() + GabY + className->GetHeight() + GabY +method->GetHeight() + GabY);
+								 tempFigure_->SetY(tempClass->GetY() +GabY + className->GetHeight() + method->GetHeight());
+							 }
+							 else {//속성 연산 둘다 없을떄
+								// tempFigure_->SetY(tempClass->GetY() + GabY + className->GetHeight() + GabY);
+								 tempFigure_->SetY(tempClass->GetY() + className->GetHeight()+GabY);
+							 }
+							 tempFigure_->SetWidth(tempClass->GetWidth() - GabX * 2);
+							// tempFigure_->SetHeight(tempFigure_->GetHeight()*this->zoomRate / 100);
+							 tempFigure_->SetMinimumWidth(tempClass->GetMinimumWidth() - 8 * 2);
+		                  }
+		                  else if (dynamic_cast<Line*>(tempClass->GetAt(k))) {
+		                     tempClass->GetAt(k)->SetWidth(tempClass->GetWidth());
+		                  }
+		                  k++;
+		               }
+		            }
+		         }
+		         j++;
+		      }
+		   }
+		   else if (dynamic_cast<MemoBox*>(this->diagram->GetAt(i))) { // 메모박스였으면
+		      MemoBox *tempMemo = static_cast<MemoBox*>(this->diagram->GetAt(i));
+		      string longString = this->diagram->FindLongString(tempMemo->GetContent());
+		      if (tempMemo->GetWidth() <= dc.GetTextExtent(longString.c_str()).cx) {
+		         tempMemo->SetWidth(dc.GetTextExtent(longString.c_str()).cx + GabX * 2);
+		         tempMemo->SetMinimumWidth(tempMemo->GetWidth());
+		      }
+		   }
+		   i++;
+		}
+		
+		dc.SelectObject(oldFont);
+		font.DeleteObject();
+
+		if ((zoomRate_ != 60 || this->zoomRate != 60) && (zoomRate_ != 150 || this->zoomRate != 150)) {
 			this->lastClass->statusBar->DestroyStatus();
 			this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		}

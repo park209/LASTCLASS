@@ -113,6 +113,9 @@ Class::~Class() {
 void Class::Initialize() {
 	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 	Long firstlineHeight = 50;
+	if (this->height == 90) {
+		firstlineHeight = 30; //40
+	}
 	if (this->height == 105) {
 		 firstlineHeight = 35; //40
 	}
