@@ -410,7 +410,6 @@
     <ClCompile Include="Realization.cpp" />
     <ClCompile Include="Reception.cpp" />
     <ClCompile Include="Relation.cpp" />
-    <ClCompile Include="ResizeCheck.cpp" />
     <ClCompile Include="ResizeVisitor.cpp" />
     <ClCompile Include="RightArrowKey.cpp" />
     <ClCompile Include="RollNameBox.cpp" />
