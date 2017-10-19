@@ -25,10 +25,10 @@ public:
 	CRect GetCorrectRect(Long startX, Long startY, Long currentX, Long currentY);
 	bool CheckOverlap(CRect object, FigureComposite *execpt);
 	bool CheckOverlapSelection(CRect object, FigureComposite *execpt);
-	void SetClassWidth(CDC *pDC);
+
+	string FindLongString(string str);
 
 	virtual Figure* GetAt(Long index);
-	
 	virtual Figure* Clone() const;
 	void Accept(Visitor& visitor, CDC *pDC);
 

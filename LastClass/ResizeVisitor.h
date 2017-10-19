@@ -65,6 +65,7 @@ public:
 private:
 	Long previousZoomRate;
 	Long nextZoomRate;
+	Long tempBar;
 };
 
 #endif // _RESIZEVISITOR_H

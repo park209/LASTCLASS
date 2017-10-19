@@ -33,9 +33,8 @@ void UpArrowKey::KeyPress(TextEdit *textEdit) {
 		}
 	}
 	CFont cFont;
-	cFont.CreatePointFont(textEdit->rowHeight, _T("맑은 고딕"), &dc);
-	//cFont.CreateFont(textEdit->rowHeight, 0, 0, 0, textEdit->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-	//	OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, textEdit->fontSet->GetFaceName().c_str());
+	cFont.CreateFont(textEdit->rowHeight, 0, 0, 0, textEdit->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, textEdit->fontSet->GetFaceName().c_str());
 	textEdit->SetFont(&cFont, TRUE);
 
 	CFont *oldFont = dc.SelectObject(&cFont); // 폰트 시작

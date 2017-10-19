@@ -14,7 +14,7 @@ Figure::Figure() {
 	this->height = 0;
 	this->content = "";
 	this->minimumWidth = 120 * test->classDiagramForm->zoomRate / 100;
-	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;;
+	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;
 	this->fontSize = 25;
 }
 
@@ -26,7 +26,7 @@ Figure::Figure(Long x, Long y, Long width, Long height) {
 	this->height = height;
 	this->content = "";
 	this->minimumWidth = 120 * test->classDiagramForm->zoomRate / 100;
-	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;;
+	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;
 	this->fontSize = 25;
 }
 
@@ -38,7 +38,7 @@ Figure::Figure(Long x, Long y, Long width, Long height, string content) {
 	this->height = height;
 	this->content = content;
 	this->minimumWidth = 120 * test->classDiagramForm->zoomRate / 100; //여기도
-	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;; // 입력받을 문자열에 맞게 값 줘야하는데
+	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100; // 입력받을 문자열에 맞게 값 줘야하는데
 	this->fontSize = 25;
 }
 
@@ -126,6 +126,21 @@ Figure* Figure::Modify(Long x, Long y, Long width, Long height) {
 	return this;
 }
 
+Figure& Figure::operator = (const Figure& source) {
+	this->x = source.x;
+	this->y = source.y;
+	this->width = source.width;
+	this->height = source.height;
+	this->minimumWidth = source.minimumWidth;
+	this->minimumHeight = source.minimumHeight;
+	this->fontSize = source.fontSize;
+
+	return *this;
+}
+
+Figure::~Figure() {
+}
+
 Long Figure::GetPointToReal(Long point, Long nextZoomRate, Long previousZoomRate) {
 	double double_ = static_cast<double>(point) * nextZoomRate / previousZoomRate;
 	Long remainder = (point * nextZoomRate) % previousZoomRate;
@@ -141,19 +156,4 @@ Long Figure::GetPointToReal(Long point, Long nextZoomRate, Long previousZoomRate
 		}
 	}
 	return point;
-}
-
-Figure& Figure::operator = (const Figure& source) {
-	this->x = source.x;
-	this->y = source.y;
-	this->width = source.width;
-	this->height = source.height;
-	this->minimumWidth = source.minimumWidth;
-	this->minimumHeight = source.minimumHeight;
-	this->fontSize = source.fontSize;
-
-	return *this;
-}
-
-Figure::~Figure() {
 }

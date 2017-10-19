@@ -29,10 +29,10 @@ void RemoveTemplateKey::KeyPress(ClassDiagramForm *classDiagramForm,CDC *cdc) {
 				if (object->GetTempletePosition() == -1) {
 					if (dynamic_cast<SelfRelation*>(object->GetAt(i))) {
 						SelfRelation* selfRelation = static_cast<SelfRelation*>(object->GetAt(i));
-						selfRelation->Move(0, +17);
+						selfRelation->Move(0, classDiagramForm->seventeen);
 						Long k = 0;
 						while (k < 5) {
-							CPoint cPoint(selfRelation->rollNamePoints->GetAt(k).x, selfRelation->rollNamePoints->GetAt(k).y + 17);
+							CPoint cPoint(selfRelation->rollNamePoints->GetAt(k).x, selfRelation->rollNamePoints->GetAt(k).y + classDiagramForm->seventeen);
 							selfRelation->rollNamePoints->Modify(k, cPoint);
 							k++;
 						}

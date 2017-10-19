@@ -32,7 +32,7 @@ void EditResizer::ResizeEdit(TextEdit *textEdit, CDC *cdc) {
 	EditResizerProcess resizer;
 	RECT rt;
 	textEdit->GetClientRect(&rt);
-	Long gabY_ = GabY * 2;
+	Long gabY_ = GabY + GabY;
 	if (dynamic_cast<MemoBox*>(textEdit->figure) || dynamic_cast<ClassName*>(textEdit->figure)) {
 		gabY_ += MemoGab;
 	}
@@ -70,7 +70,7 @@ void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
 	}
 	else {
 		ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
-		Long gabY_ = GabY * 2;
+		Long gabY_ = GabY * 4;
 
 		if (dynamic_cast<Class*>(classDiagramForm->selection->GetAt(0))) {
 			if (textEdit->text->MaxWidth(cdc) + GabX * 2 < 120 * classDiagramForm->zoomRate / 100) {
@@ -78,7 +78,7 @@ void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
 			}
 			else {
 				textEdit->figure->SetMinimumWidth(textEdit->text->MaxWidth(cdc) + GabX * 2);
-				static_cast<Class*>(classDiagramForm->selection->GetAt(0))->SetMinimumWidth(classDiagramForm->zoomRate);
+				static_cast<Class*>(classDiagramForm->selection->GetAt(0))->SetMinimumWidthR(classDiagramForm->zoomRate);
 			}
 		}
 		else {

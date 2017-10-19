@@ -40,12 +40,14 @@ public:
 	Long capsLockFlag;
 	Long numLockFlag;
 	Long zoomRate;
+	Long preZoom;
 	Long isDown;
 	Long startX_;
 	Long startY_;
 	Long currentX_;
 	Long currentY_;
-
+	Long thirty;
+	Long seventeen;
 public:
 	ClassDiagramForm(LastClass *lastClass);
 public:

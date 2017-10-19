@@ -27,9 +27,10 @@ public:
 	void SetHeight(Long height);
 	void SetMinimumWidth(Long minimumWidth);
 	void SetMinimumHeight(Long minimumHeight);
-	Long GetPointToReal(Long point, Long nextZoomRate, Long previousZoomRate);
 	Figure* Move(Long distanceX, Long distanceY);
 	Figure* EndPointMove(Long distanceX, Long distanceY);
+
+	Long GetPointToReal(Long point, Long nextZoomRate, Long previousZoomRate);
 
 	Figure* Modify(Long x, Long y, Long width, Long height);
 

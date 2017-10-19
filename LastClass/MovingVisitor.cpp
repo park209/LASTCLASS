@@ -104,8 +104,8 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 						figure = figureComposite->GetAt(l);
 						Long relationEndX = figure->GetX() + figure->GetWidth();
 						Long relationEndY = figure->GetY() + figure->GetHeight();
-						if (startX <= relationEndX &&  relationEndX <= endX &&
-							startY <= relationEndY &&  relationEndY <= endY) {
+						if (startX -1<= relationEndX &&  relationEndX <= endX+1 &&
+							startY -1<= relationEndY &&  relationEndY <= endY+1) {
 							figure->EndPointMove(distanceX, distanceY);
 
 							RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
