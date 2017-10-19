@@ -10,6 +10,8 @@
 #include "ToolBar.h"
 #include "PrintPreview.h"
 #include "resource.h"
+#include "ResizeVisitor.h"
+#include "Diagram.h"
 #include <afxdlgs.h>
 #include <afxext.h>
 #include <afxstatusbar.h>
@@ -51,7 +53,7 @@ int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	rect.top += 45;
 	//rect.left += 60;
 	//rect.right -= 60;
-	rect.bottom -= 73;
+	rect.bottom -= 66;
 	this->classDiagramForm = new ClassDiagramForm(this);
 	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
 	this->menu = new Menu(this);
@@ -65,6 +67,41 @@ int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 void LastClass::OnMyMenu(UINT parm_control_id) {
 
+	if (parm_control_id == 104 || parm_control_id == 105) {
+
+		ResizeVisitor visitor(this->classDiagramForm->zoomRate, 100);
+		this->classDiagramForm->zoomRate = 100;
+		this->classDiagramForm->SetMemoGab(20 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetGabX(8 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetGabY(4 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetCaretWidth(2 * this->classDiagramForm->zoomRate / 100);
+		CDC memDC;
+		this->classDiagramForm->diagram->Accept(visitor, &memDC);
+		this->statusBar->DestroyStatus();
+		this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
+
+		SCROLLINFO vScinfo;
+		SCROLLINFO hScinfo;
+
+		this->classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
+		this->classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
+		CRect rect;
+		this->GetClientRect(&rect);
+		vScinfo.nPage = rect.Height();
+		hScinfo.nPage = rect.Width();
+
+		vScinfo.nMax = 2000 * this->classDiagramForm->zoomRate / 100;
+		hScinfo.nMax = 4000 * this->classDiagramForm->zoomRate / 100;
+
+		if (vScinfo.nPos > vScinfo.nMax - (int)vScinfo.nPage) {
+			vScinfo.nPos = vScinfo.nMax - (int)vScinfo.nPage;
+		}
+		if (hScinfo.nPos > hScinfo.nMax - (int)hScinfo.nPage) {
+			hScinfo.nPos = hScinfo.nMax - (int)hScinfo.nPage;
+		}
+		this->classDiagramForm->SetScrollInfo(SB_VERT, &vScinfo);
+		this->classDiagramForm->SetScrollInfo(SB_HORZ, &hScinfo);
+	}
 	MenuAction* menuAction = this->menu->MenuSelected(parm_control_id);
 	if (menuAction != 0) {
 		menuAction->MenuPress(this);
@@ -89,24 +126,28 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 	CFrameWnd::OnSize(nType, cx, cy);
 	CRect rect;
 	this->GetClientRect(&rect);
-	this->toolBar->DestroyToolBar();
-	this->toolBar->MakeToolBar(this->GetSafeHwnd());
+	if (this->classDiagramForm != NULL) {
+		this->toolBar->DestroyToolBar();
+		this->toolBar->MakeToolBar(this->GetSafeHwnd());
+		this->toolBar->ChangeToolBarSize(&rect);
+	}
 	//this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
-	this->statusBar->DestroyStatus();
-	this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
-
-	this->toolBar->ChangeToolBarSize(&rect);
+	if (this->classDiagramForm != NULL) {
+		this->statusBar->DestroyStatus();
+		this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
+	}
 	//this->toolBar->ChangeAnotherToolBarSize(&rect);
 	//this->statusBar->ChangeStatusBarSize(&rect);
 	rect.top += 45;
 	//rect.left += 60;
 	//rect.right -= 60;
-	rect.bottom -= 73;
+	rect.bottom -= 66;
 	//this->classDiagramForm->MoveWindow(rect.left, rect.top, rect.right, rect.bottom, 1);
-	this->classDiagramForm->SetWindowPos(this, rect.left, rect.top, rect.right, rect.bottom, SWP_NOMOVE | SWP_NOZORDER);
-	this->RedrawWindow();
-	this->classDiagramForm->Invalidate(FALSE);
-
+	if (this->classDiagramForm != NULL) {
+		this->classDiagramForm->SetWindowPos(this, rect.left, rect.top, rect.right, rect.bottom, SWP_NOMOVE | SWP_NOZORDER);
+		this->RedrawWindow();
+		this->classDiagramForm->Invalidate(FALSE);
+	}
 	CRect rect1;
 	this->GetClientRect(&rect1);
 	rect1.top = rect1.bottom - 20;
@@ -136,6 +177,39 @@ void LastClass::OnMouseMove(UINT nFlags, CPoint point) {
 	CFrameWnd::OnMouseMove(nFlags, point);
 }
 void LastClass::OnMyToolBar(UINT parm_control_id) {
+	if (parm_control_id == 40011 || parm_control_id == 40012) {
+		ResizeVisitor visitor(this->classDiagramForm->zoomRate, 100);
+		this->classDiagramForm->zoomRate = 100;
+		this->classDiagramForm->SetMemoGab(20 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetGabX(8 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetGabY(4 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetCaretWidth(2 * this->classDiagramForm->zoomRate / 100);
+		CDC memDC;
+		this->classDiagramForm->diagram->Accept(visitor, &memDC);
+		this->statusBar->DestroyStatus();
+		this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
+		SCROLLINFO vScinfo;
+		SCROLLINFO hScinfo;
+
+		this->classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
+		this->classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
+		CRect rect;
+		this->GetClientRect(&rect);
+		vScinfo.nPage = rect.Height();
+		hScinfo.nPage = rect.Width();
+
+		vScinfo.nMax = 2000 * this->classDiagramForm->zoomRate / 100;
+		hScinfo.nMax = 4000 * this->classDiagramForm->zoomRate / 100;
+
+		if (vScinfo.nPos > vScinfo.nMax - (int)vScinfo.nPage) {
+			vScinfo.nPos = vScinfo.nMax - (int)vScinfo.nPage;
+		}
+		if (hScinfo.nPos > hScinfo.nMax - (int)hScinfo.nPage) {
+			hScinfo.nPos = hScinfo.nMax - (int)hScinfo.nPage;
+		}
+		this->classDiagramForm->SetScrollInfo(SB_VERT, &vScinfo);
+		this->classDiagramForm->SetScrollInfo(SB_HORZ, &hScinfo);
+	}
 	CClientDC dc(this);
 	this->toolBar->ButtonSelected(parm_control_id, this, this->classDiagramForm, &dc);
 }
@@ -152,6 +226,11 @@ void LastClass::OnClose() {
 				CFileDialog  dlgFile(false, "txt", "*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT, "텍스트 문서(*.txt)");
 				int_ptr = dlgFile.DoModal();
 				if (int_ptr == IDOK) {
+					ResizeVisitor resizeVisitor1(this->classDiagramForm->zoomRate, 100);
+					CDC dc;
+					this->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
+
+					this->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
 					this->classDiagramForm->fileName = dlgFile.GetPathName();
 					this->classDiagramForm->Save();
 				}
@@ -167,6 +246,10 @@ void LastClass::OnClose() {
 			object.Append("에 저장하시겠습니까?");
 			messageBox = MessageBox(object, "ClassDiagram", MB_YESNOCANCEL);
 			if (messageBox == IDYES) {
+				ResizeVisitor resizeVisitor1(this->classDiagramForm->zoomRate, 100);
+				CDC dc;
+				this->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
+
 				this->classDiagramForm->Save();
 			}
 		}
@@ -183,10 +266,12 @@ void LastClass::OnClose() {
 			this->menu = NULL;
 		}
 		if (this->toolBar != NULL) {
+			this->toolBar->DestroyToolBar();
 			delete this->toolBar;
 			this->toolBar = NULL;
 		}
 		if (this->statusBar != NULL) {
+			this->statusBar->DestroyStatus();
 			delete this->statusBar;
 			this->statusBar = NULL;
 		}

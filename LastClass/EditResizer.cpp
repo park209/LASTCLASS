@@ -16,6 +16,7 @@
 #include "SelfRelation.h"
 #include "ClassName.h"
 #include "Template.h"
+#include "ClassDiagramForm.h"
 
 EditResizer::EditResizer() {
 
@@ -31,7 +32,7 @@ void EditResizer::ResizeEdit(TextEdit *textEdit, CDC *cdc) {
 	EditResizerProcess resizer;
 	RECT rt;
 	textEdit->GetClientRect(&rt);
-	Long gabY_ = GabY * 2;
+	Long gabY_ = GabY + GabY;
 	if (dynamic_cast<MemoBox*>(textEdit->figure) || dynamic_cast<ClassName*>(textEdit->figure)) {
 		gabY_ += MemoGab;
 	}
@@ -69,15 +70,23 @@ void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
 	}
 	else {
 		ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
-		Long gabY_ = GabY * 2;
+		Long gabY_ = GabY * 4;
 
 		if (dynamic_cast<Class*>(classDiagramForm->selection->GetAt(0))) {
-			textEdit->figure->SetMinimumWidth(textEdit->text->MaxWidth(cdc) + GabX * 2);
-			static_cast<Class*>(classDiagramForm->selection->GetAt(0))->SetMinimumWidth();
+			if (textEdit->text->MaxWidth(cdc) + GabX * 2 < 120 * classDiagramForm->zoomRate / 100) {
+				textEdit->figure->SetMinimumWidth(120 * classDiagramForm->zoomRate / 100);
+			}
+			else {
+				textEdit->figure->SetMinimumWidth(textEdit->text->MaxWidth(cdc) + GabX * 2);
+				static_cast<Class*>(classDiagramForm->selection->GetAt(0))->SetMinimumWidthR(classDiagramForm->zoomRate);
+			}
 		}
 		else {
 			gabY_ += MemoGab;
-			if (textEdit->text->MaxWidth(cdc) + GabX * 2 > 120) {
+			if (textEdit->text->MaxWidth(cdc) + GabX * 2 < 120 * classDiagramForm->zoomRate / 100) {
+				textEdit->figure->SetMinimumWidth(120 * classDiagramForm->zoomRate / 100);
+			}
+			else {
 				textEdit->figure->SetMinimumWidth(textEdit->text->MaxWidth(cdc) + GabX * 2);
 			}
 		}

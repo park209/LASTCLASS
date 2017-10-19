@@ -36,18 +36,18 @@ void TextAreaSelected::SelectTextArea(TextEdit *textEdit, CDC *pDC) {
 	selected->GetRange(textEdit);
 	if (textEdit->selectedY == textEdit->caret->GetRowIndex()) {
 		this->selected->SingleLineSelected(textEdit, pDC, &TopCstr, &rt);
-		pDC->DrawText(TopCstr, &rt, DT_NOCLIP | DT_EXPANDTABS);
+		pDC->DrawText(TopCstr, &rt, DT_EXPANDTABS);
 	}
 	else {
 		this->selected->FirstMultiLineSelected(textEdit, pDC, &TopCstr, &rt);
-		pDC->DrawText(TopCstr, &rt, DT_NOCLIP | DT_EXPANDTABS);
+		pDC->DrawText(TopCstr, &rt, DT_EXPANDTABS);
 		if (this->selected->GetStartRowIndex() + 1 < this->selected->GetEndRowIndex()) {
 			this->selected->MiddleMultiLineSelected(textEdit, pDC, &middleCstr, &rt);
-			pDC->DrawText(middleCstr, &rt, DT_NOCLIP | DT_EXPANDTABS);
+			pDC->DrawText(middleCstr, &rt, DT_EXPANDTABS);
 		}
 
 		this->selected->EndMultiLineSelected(textEdit, pDC, &BottomCstr, &rt);
-		pDC->DrawText(BottomCstr, &rt, DT_NOCLIP | DT_EXPANDTABS);
+		pDC->DrawText(BottomCstr, &rt, DT_EXPANDTABS);
 	}
 
 	

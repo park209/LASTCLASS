@@ -25,7 +25,7 @@ void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiag
 	Long quadrant;
 	Long quadrant2;
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 	selection->SelectByPointForRelation(diagram, currentX, currentY);
 
 	if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && dynamic_cast<Class*>(selection->GetAt(1))
@@ -80,13 +80,13 @@ void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiag
 			i++;
 		}
 		if (ret == false) {
-			SelfGeneralization selfGeneralization(object->GetX() + object->GetWidth() - 30 * classDiagramForm->zoomRate / 100, 
+			SelfGeneralization selfGeneralization(object->GetX() + object->GetWidth() -  classDiagramForm->thirty, 
 				object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
 			if (object->GetTempletePosition() != -1) {
-				selfGeneralization.Move(0, -17);
+				selfGeneralization.Move(0, -classDiagramForm->seventeen);
 				Long k = 0;
 				while (k < 5) {
-					CPoint cPoint(selfGeneralization.rollNamePoints->GetAt(k).x, selfGeneralization.rollNamePoints->GetAt(k).y - 17);
+					CPoint cPoint(selfGeneralization.rollNamePoints->GetAt(k).x, selfGeneralization.rollNamePoints->GetAt(k).y - classDiagramForm->seventeen);
 					selfGeneralization.rollNamePoints->Modify(k, cPoint);
 					k++;
 				}

@@ -1,4 +1,6 @@
-#include  "Selection.h"
+#include "Selection.h"
+#include "LastClass.h"
+#include "ClassDiagramForm.h"
 #include "Diagram.h"
 #include "Relation.h"
 #include "Finder.h"
@@ -10,6 +12,11 @@
 #include  "Aggregation.h"
 #include "Aggregations.h"
 #include "DirectedAssociation.h"
+#include "SelfAggregation.h"
+#include "SelfAggregations.h"
+#include "SelfAssociation.h"
+#include "SelfDirectedAssociation.h"
+
 Selection::Selection(Long capacity) :FigureComposite(capacity) {
 	this->x = 0;
 	this->y = 0;
@@ -495,6 +502,8 @@ Long Selection::SelectByPoint(Long x, Long y) {
 
 
 Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
+	LastClass *lastClass = (LastClass*)CFrameWnd::FindWindow(NULL, "LastClass");
+	Long zoomRate = lastClass->classDiagramForm->zoomRate;
 	Finder finder;
 	CRect rect;
 	FigureComposite *composite;
@@ -755,22 +764,22 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 					Long l = 0;
 					while (l < 5 && ret == false) {
 						if (l == 1) {
-							rect.left = relation->rollNamePoints->GetAt(l).x - 40;
-							rect.right = relation->rollNamePoints->GetAt(l).x + 40;
-							rect.top = relation->rollNamePoints->GetAt(l).y - 10;
-							rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
+							rect.left = relation->rollNamePoints->GetAt(l).x - 40 * zoomRate / 100;
+							rect.right = relation->rollNamePoints->GetAt(l).x + 40 * zoomRate / 100;
+							rect.top = relation->rollNamePoints->GetAt(l).y - 10 * zoomRate / 100;
+							rect.bottom = relation->rollNamePoints->GetAt(l).y + 10 * zoomRate / 100;
 						}
 						else if (l == 0 || l == 2) {
-							rect.left = relation->rollNamePoints->GetAt(l).x - 20;
-							rect.right = relation->rollNamePoints->GetAt(l).x + 20;
-							rect.top = relation->rollNamePoints->GetAt(l).y - 10;
-							rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
+							rect.left = relation->rollNamePoints->GetAt(l).x - 20 * zoomRate / 100;
+							rect.right = relation->rollNamePoints->GetAt(l).x + 20 * zoomRate / 100;
+							rect.top = relation->rollNamePoints->GetAt(l).y - 10 * zoomRate / 100;
+							rect.bottom = relation->rollNamePoints->GetAt(l).y + 10 * zoomRate / 100;
 						}
 						else if (l == 3 || l == 4) {
-							rect.left = relation->rollNamePoints->GetAt(l).x - 25;
-							rect.right = relation->rollNamePoints->GetAt(l).x + 25;
-							rect.top = relation->rollNamePoints->GetAt(l).y - 10;
-							rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
+							rect.left = relation->rollNamePoints->GetAt(l).x - 25 * zoomRate / 100;
+							rect.right = relation->rollNamePoints->GetAt(l).x + 25 * zoomRate / 100;
+							rect.top = relation->rollNamePoints->GetAt(l).y - 10 * zoomRate / 100;
+							rect.bottom = relation->rollNamePoints->GetAt(l).y + 10 * zoomRate / 100;
 						}
 
 						if (ret == false) {
@@ -797,69 +806,73 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 				lineStart.x = selfRelation->GetX();
 				lineStart.y = selfRelation->GetY();
 				lineEnd.x = selfRelation->GetX();
-				lineEnd.y = selfRelation->GetY() - 40;
+				lineEnd.y = selfRelation->GetY() - 40 * zoomRate / 100;
 				if (ret == false) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
 				}
 
 				lineStart.x = selfRelation->GetX();
-				lineStart.y = selfRelation->GetY() - 40;
-				lineEnd.x = selfRelation->GetX() + 80;
-				lineEnd.y = selfRelation->GetY() - 40;
+				lineStart.y = selfRelation->GetY() - 40 * zoomRate / 100;
+				lineEnd.x = selfRelation->GetX() + 80 * zoomRate / 100;
+				lineEnd.y = selfRelation->GetY() - 40 * zoomRate / 100;
 				if (ret == false) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
 				}
 
-				lineStart.x = selfRelation->GetX() + 80;
-				lineStart.y = selfRelation->GetY() - 40;
-				lineEnd.x = selfRelation->GetX() + 80;
-				lineEnd.y = selfRelation->GetY() + 40;
+				lineStart.x = selfRelation->GetX() + 80 * zoomRate / 100;
+				lineStart.y = selfRelation->GetY() - 40 * zoomRate / 100;
+				lineEnd.x = selfRelation->GetX() + 80 * zoomRate / 100;
+				lineEnd.y = selfRelation->GetY() + 40 * zoomRate / 100;
 				if (ret == false) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
 				}
 
-				lineStart.x = selfRelation->GetX() + 80;
-				lineStart.y = selfRelation->GetY() + 40;
-				lineEnd.x = selfRelation->GetX() + 30;
-				lineEnd.y = selfRelation->GetY() + 40;
+				lineStart.x = selfRelation->GetX() + 80 * zoomRate / 100;
+				lineStart.y = selfRelation->GetY() + 40 * zoomRate / 100;
+				lineEnd.x = selfRelation->GetX() + 30 * zoomRate / 100;
+				lineEnd.y = selfRelation->GetY() + 40 * zoomRate / 100;
 				if (ret == false) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
 				}
 				//여기 부터 바깥 사각박스 찾기
-				rect.left = selfRelation->rollNamePoints->GetAt(0).x - 10;
-				rect.right = selfRelation->rollNamePoints->GetAt(0).x + 20;
-				rect.top = selfRelation->rollNamePoints->GetAt(0).y - 10;
-				rect.bottom = selfRelation->rollNamePoints->GetAt(0).y + 10;
-				if (ret == false) {
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				rect.left = selfRelation->rollNamePoints->GetAt(1).x - 30;
-				rect.right = selfRelation->rollNamePoints->GetAt(1).x + 30;
-				rect.top = selfRelation->rollNamePoints->GetAt(1).y - 10;
-				rect.bottom = selfRelation->rollNamePoints->GetAt(1).y + 10;
-				if (ret == false) {
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				rect.left = selfRelation->rollNamePoints->GetAt(2).x - 20;
-				rect.right = selfRelation->rollNamePoints->GetAt(2).x + 50;
-				rect.top = selfRelation->rollNamePoints->GetAt(2).y - 10;
-				rect.bottom = selfRelation->rollNamePoints->GetAt(2).y + 10;
-				if (ret == false) {
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				rect.left = selfRelation->rollNamePoints->GetAt(3).x - 20;
-				rect.right = selfRelation->rollNamePoints->GetAt(3).x + 50;
-				rect.top = selfRelation->rollNamePoints->GetAt(3).y - 10;
-				rect.bottom = selfRelation->rollNamePoints->GetAt(3).y + 10;
-				if (ret == false) {
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				rect.left = selfRelation->rollNamePoints->GetAt(4).x - 20;
-				rect.right = selfRelation->rollNamePoints->GetAt(4).x + 10;
-				rect.top = selfRelation->rollNamePoints->GetAt(4).y - 10;
-				rect.bottom = selfRelation->rollNamePoints->GetAt(4).y + 10;
-				if (ret == false) {
-					ret = finder.FindRectangleByPoint(rect, x, y);
+				if (dynamic_cast<SelfDirectedAssociation*>(selfRelation) || dynamic_cast<SelfAssociation*>(selfRelation) ||
+					dynamic_cast<SelfAggregation*>(selfRelation) || dynamic_cast<SelfAggregations*>(selfRelation)) {
+					//여기 부터 바깥 사각박스 찾기
+					rect.left = selfRelation->rollNamePoints->GetAt(0).x - 10 * zoomRate / 100;
+					rect.right = selfRelation->rollNamePoints->GetAt(0).x + 20 * zoomRate / 100;
+					rect.top = selfRelation->rollNamePoints->GetAt(0).y - 10 * zoomRate / 100;
+					rect.bottom = selfRelation->rollNamePoints->GetAt(0).y + 10 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindRectangleByPoint(rect, x, y);
+					}
+					rect.left = selfRelation->rollNamePoints->GetAt(1).x - 30 * zoomRate / 100;
+					rect.right = selfRelation->rollNamePoints->GetAt(1).x + 30 * zoomRate / 100;
+					rect.top = selfRelation->rollNamePoints->GetAt(1).y - 10 * zoomRate / 100;
+					rect.bottom = selfRelation->rollNamePoints->GetAt(1).y + 10 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindRectangleByPoint(rect, x, y);
+					}
+					rect.left = selfRelation->rollNamePoints->GetAt(2).x - 20 * zoomRate / 100;
+					rect.right = selfRelation->rollNamePoints->GetAt(2).x + 50 * zoomRate / 100;
+					rect.top = selfRelation->rollNamePoints->GetAt(2).y - 10 * zoomRate / 100;
+					rect.bottom = selfRelation->rollNamePoints->GetAt(2).y + 10 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindRectangleByPoint(rect, x, y);
+					}
+					rect.left = selfRelation->rollNamePoints->GetAt(3).x - 20 * zoomRate / 100;
+					rect.right = selfRelation->rollNamePoints->GetAt(3).x + 50 * zoomRate / 100;
+					rect.top = selfRelation->rollNamePoints->GetAt(3).y - 10 * zoomRate / 100;
+					rect.bottom = selfRelation->rollNamePoints->GetAt(3).y + 10 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindRectangleByPoint(rect, x, y);
+					}
+					rect.left = selfRelation->rollNamePoints->GetAt(4).x - 20 * zoomRate / 100;
+					rect.right = selfRelation->rollNamePoints->GetAt(4).x + 10 * zoomRate / 100;
+					rect.top = selfRelation->rollNamePoints->GetAt(4).y - 10 * zoomRate / 100;
+					rect.bottom = selfRelation->rollNamePoints->GetAt(4).y + 10 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindRectangleByPoint(rect, x, y);
+					}
 				}
 				if (ret == true) {
 					if (this->length < this->capacity) {

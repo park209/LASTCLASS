@@ -25,7 +25,7 @@ void DrawingAssociation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 	Long quadrant;
 	Long quadrant2;
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 	selection->SelectByPointForRelation(diagram, currentX, currentY);
 
 	if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && dynamic_cast<Class*>(selection->GetAt(1)) 
@@ -84,10 +84,10 @@ void DrawingAssociation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 			SelfAssociation selfAssociation(object->GetX() + object->GetWidth() - 30 * classDiagramForm->zoomRate / 100,
 				object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
 			if (object->GetTempletePosition() != -1) {
-				selfAssociation.Move(0, -17);
+				selfAssociation.Move(0, -classDiagramForm->seventeen);
 				Long k = 0;
 				while (k < 5) {
-					CPoint cPoint(selfAssociation.rollNamePoints->GetAt(k).x, selfAssociation.rollNamePoints->GetAt(k).y - 17);
+					CPoint cPoint(selfAssociation.rollNamePoints->GetAt(k).x, selfAssociation.rollNamePoints->GetAt(k).y - classDiagramForm->seventeen);
 					selfAssociation.rollNamePoints->Modify(k, cPoint);
 					k++;
 				}

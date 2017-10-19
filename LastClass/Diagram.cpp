@@ -245,3 +245,36 @@ void Diagram::Accept(Visitor& visitor, CDC *pDC) {
 		smartPointer->Next();
 	}
 }
+
+string Diagram::FindLongString(string str) {
+	int i = 0;
+	int startIndex = 0;
+	int endIndex = 0;
+	int length = 0;
+	int j;
+	while (str[i] != '\0') {
+		j = i;
+		while (str[i] != '\n' && str[i] != '\0') {
+			i++;
+		}
+		if (i - j>length) {
+			startIndex = j;
+			endIndex = i;
+			length = i - j;
+		}
+		if (i < int(str.length())) {
+			i++;
+		}
+	}
+	char temp[100];
+	int k = 0;
+	while (startIndex < endIndex) {
+		temp[k] = str[startIndex];
+		k++;
+		startIndex++;
+	}
+	temp[k] = '\0';
+	string str_ = temp;
+
+	return str_;
+}

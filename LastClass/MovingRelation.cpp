@@ -40,7 +40,7 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 	currentCPoint.x = currentX;
 	currentCPoint.y = currentY;
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 
 	CRect object(relation->GetX() - 10, relation->GetY() - 10, relation->GetX() + 10, relation->GetY() + 10);
 	startLine = finder.FindRectangleByPoint(object, startX, startY);
@@ -228,40 +228,7 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 			i++;
 		}
 		if (endLine == true) {
-			//³¡Á¡ 
-			/*Long x = figures->GetX();
-			Long y = figures->GetY();
-			Long width = figures->GetWidth();
-			Long height = figures->GetHeight();
-			Long relationX = currentX;
-			Long relationY = currentY;
-			if (x + width < currentX) {
-				relationX = x+width - 1;
-			}
-			else if (x > currentX) {
-				relationX = x;
-			}
-			if (y + height < currentY) {
-				relationY = y + height ;
-			}
-			else if (y > currentY) {
-				relationY = y;
-			}
-
-
-
-			if (relation->GetLength() > 0) {
-				lineStart.x = relation->GetAt(relation->GetLength() - 1).x;
-				lineStart.y = relation->GetAt(relation->GetLength() - 1).y;
-			}
-			else {
-
-				lineStart.x = relation->GetX();
-				lineStart.y = relation->GetY();
-			}
-			lineEnd.x = relationX;
-			lineEnd.y = relationY;
-		}*/
+		
 			Long x = figures->GetX();
 			Long y = figures->GetY();
 			Long width = figures->GetWidth();
@@ -283,10 +250,20 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 
 			CRect rect(x, y, x + width, y + height);
 			Finder finder;
-			lineStart.x = relation->GetX();
-			lineStart.y = relation->GetY();
+			
+
+			if (relation->GetLength() > 0) {
+				lineStart.x = relation->GetAt(relation->GetLength() - 1).x;
+				lineStart.y = relation->GetAt(relation->GetLength() - 1).y;
+			}
+			else {
+
+				lineStart.x = relation->GetX();
+				lineStart.y = relation->GetY();
+			}
 			lineEnd.x = relationX;
 			lineEnd.y = relationY;
+
 
 			lineEnd = finder.GetCrossPoint(lineStart, lineEnd, rect);
 		}

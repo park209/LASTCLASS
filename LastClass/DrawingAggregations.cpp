@@ -25,7 +25,7 @@ void DrawingAggregations::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagra
 	Long quadrant;
 	Long quadrant2;
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 	selection->SelectByPointForRelation(diagram, currentX, currentY);
 
 	if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && dynamic_cast<Class*>(selection->GetAt(1)) 
@@ -82,10 +82,10 @@ void DrawingAggregations::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagra
 			SelfAggregations selfAggregations(object->GetX() + object->GetWidth() - 30 * classDiagramForm->zoomRate / 100, 
 				object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
 			if (object->GetTempletePosition() != -1) {
-				selfAggregations.Move(0, -17);
+				selfAggregations.Move(0, -classDiagramForm->seventeen);
 				Long k = 0;
 				while (k < 5) {
-					CPoint cPoint(selfAggregations.rollNamePoints->GetAt(k).x, selfAggregations.rollNamePoints->GetAt(k).y - 17);
+					CPoint cPoint(selfAggregations.rollNamePoints->GetAt(k).x, selfAggregations.rollNamePoints->GetAt(k).y - classDiagramForm->seventeen);
 					selfAggregations.rollNamePoints->Modify(k, cPoint);
 					k++;
 				}

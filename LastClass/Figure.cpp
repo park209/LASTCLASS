@@ -3,40 +3,47 @@
 #include "Figure.h"
 #include "Relation.h"
 
+#include "LastClass.h"
+#include "ClassDiagramForm.h"
+
 Figure::Figure() {
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 	this->x = 0;
 	this->y = 0;
 	this->width = 0;
 	this->height = 0;
 	this->content = "";
-	this->minimumWidth = 120;
-	this->minimumHeight = 29;
+	this->minimumWidth = 120 * test->classDiagramForm->zoomRate / 100;
+	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;
 	this->fontSize = 25;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height) {
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 	this->x = x;
 	this->y = y;
 	this->width = width;
 	this->height = height;
 	this->content = "";
-	this->minimumWidth = 120;
-	this->minimumHeight = 29;
+	this->minimumWidth = 120 * test->classDiagramForm->zoomRate / 100;
+	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;
 	this->fontSize = 25;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height, string content) {
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 	this->x = x;
 	this->y = y;
 	this->width = width;
 	this->height = height;
 	this->content = content;
-	this->minimumWidth = 120; //여기도
-	this->minimumHeight = 29; // 입력받을 문자열에 맞게 값 줘야하는데
+	this->minimumWidth = 120 * test->classDiagramForm->zoomRate / 100; //여기도
+	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100; // 입력받을 문자열에 맞게 값 줘야하는데
 	this->fontSize = 25;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight, string content) {
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 	this->x = x;
 	this->y = y;
 	this->width = width;
@@ -132,4 +139,21 @@ Figure& Figure::operator = (const Figure& source) {
 }
 
 Figure::~Figure() {
+}
+
+Long Figure::GetPointToReal(Long point, Long nextZoomRate, Long previousZoomRate) {
+	double double_ = static_cast<double>(point) * nextZoomRate / previousZoomRate;
+	Long remainder = (point * nextZoomRate) % previousZoomRate;
+	if (nextZoomRate < previousZoomRate) {
+		point = static_cast<Long>(double_ + 0.5);
+	}
+	else {
+		if (remainder >= previousZoomRate / 2) {
+			point = static_cast<Long>(double_ + 0.5);
+		}
+		else {
+			point = static_cast<Long>(double_);
+		}
+	}
+	return point;
 }

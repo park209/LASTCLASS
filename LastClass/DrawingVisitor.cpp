@@ -32,7 +32,7 @@
 #include <iostream>
 #include "Scroll.h"
 #include "DrawRollNameBoxes.h"
-
+#include "LastClass.h"
 using namespace std;
 
 DrawingVisitor::DrawingVisitor(Long zoomRate) {
@@ -292,14 +292,14 @@ void DrawingVisitor::Visit(Selection *selection, CDC *pDC) {
 					!dynamic_cast<Compositions*>(selection->GetAt(i)) && !dynamic_cast<Dependency*>(selection->GetAt(i)) &&
 					!dynamic_cast<Realization*>(selection->GetAt(i))) {
 					if (relationLine->GetLength() > 0) { // 꺾인선이 있으면
-						drawRollNameBoxes->DrawFirstRollNameBox(relationLine, pDC);
-						drawRollNameBoxes->DrawSecondRollNameBox(relationLine, pDC);
-						drawRollNameBoxes->DrawThirdRollNameBox(relationLine, pDC);
-						drawRollNameBoxes->DrawFourthRollNameBox(relationLine, pDC);
-						drawRollNameBoxes->DrawFifthRollNameBox(relationLine, pDC);
+						drawRollNameBoxes->DrawFirstRollNameBox(relationLine, pDC, this->zoomRate);
+						drawRollNameBoxes->DrawSecondRollNameBox(relationLine, pDC, this->zoomRate);
+						drawRollNameBoxes->DrawThirdRollNameBox(relationLine, pDC, this->zoomRate);
+						drawRollNameBoxes->DrawFourthRollNameBox(relationLine, pDC, this->zoomRate);
+						drawRollNameBoxes->DrawFifthRollNameBox(relationLine, pDC, this->zoomRate);
 					}
 					else { // 꺾인선이 없으면
-						drawRollNameBoxes->DrawBoxesWithoutCurvedLine(relationLine, pDC);
+						drawRollNameBoxes->DrawBoxesWithoutCurvedLine(relationLine, pDC, this->zoomRate);
 					}
 				}
 			}
@@ -312,28 +312,32 @@ void DrawingVisitor::Visit(Selection *selection, CDC *pDC) {
 			Long x1;
 			Long y1;
 
-			x = selfRelation->GetX() - 5;
-			y = selfRelation->GetY() - 45;
-			x1 = selfRelation->GetX() + 5;
-			y1 = selfRelation->GetY() - 35;
+			x = selfRelation->GetX() - 5 * this->zoomRate / 100;
+			y = selfRelation->GetY() - 45 * this->zoomRate / 100;
+			x1 = selfRelation->GetX() + 5 * this->zoomRate / 100;
+			y1 = selfRelation->GetY() - 35 * this->zoomRate / 100;
 			pDC->Rectangle(x, y, x1, y1);
 
-			x = selfRelation->GetX() + 75;
-			y = selfRelation->GetY() - 45;
-			x1 = selfRelation->GetX() + 85;
-			y1 = selfRelation->GetY() - 35;
+			x = selfRelation->GetX() + 75 * this->zoomRate / 100;
+			y = selfRelation->GetY() - 45 * this->zoomRate / 100;
+			x1 = selfRelation->GetX() + 85 * this->zoomRate / 100;
+			y1 = selfRelation->GetY() - 35 * this->zoomRate / 100;
 			pDC->Rectangle(x, y, x1, y1);
 
-			x = selfRelation->GetX() + 75;
-			y = selfRelation->GetY() + 35;
-			x1 = selfRelation->GetX() + 85;
-			y1 = selfRelation->GetY() + 45;
+			x = selfRelation->GetX() + 75 * this->zoomRate / 100;
+			y = selfRelation->GetY() + 35 * this->zoomRate / 100;
+			x1 = selfRelation->GetX() + 85 * this->zoomRate / 100;
+			y1 = selfRelation->GetY() + 45 * this->zoomRate / 100;
 			pDC->Rectangle(x, y, x1, y1);
 
 			DrawRollNameBoxes *drawRollNameBoxes = DrawRollNameBoxes::Instance();
 			CPoint cPoint;
 			SelfRelation* selfRelationLine = static_cast<SelfRelation*>(selection->GetAt(i));
-			drawRollNameBoxes->DrawSelfRelationRollNameBox(selfRelationLine, pDC);
+			if (!dynamic_cast<SelfGeneralization*>(selection->GetAt(i)) && !dynamic_cast<SelfComposition*>(selection->GetAt(i)) &&
+				!dynamic_cast<SelfCompositions*>(selection->GetAt(i)) && !dynamic_cast<SelfDependency*>(selection->GetAt(i))) {
+
+				drawRollNameBoxes->DrawSelfRelationRollNameBox(selfRelationLine, pDC, this->zoomRate);
+			}
 		}
 		i++;
 	}
@@ -959,6 +963,7 @@ void DrawingVisitor::Visit(MemoLine *memoLine, CDC *pDC) {
 	pen.DeleteObject();
 }
 void DrawingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *pDC) {
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 
 	pDC->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY());
 	pDC->LineTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 40 * this->zoomRate / 100);
@@ -970,16 +975,16 @@ void DrawingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *pDC) {
 	pDC->LineTo(selfGeneralization->GetX() + 80 * this->zoomRate / 100, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
 
 	pDC->MoveTo(selfGeneralization->GetX() + 80 * this->zoomRate / 100, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
-	pDC->LineTo(selfGeneralization->GetX() + 30 * this->zoomRate / 100, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
+	pDC->LineTo(selfGeneralization->GetX() + test->classDiagramForm->thirty, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
 
 	CBrush white(RGB(255, 255, 255));
 	CBrush myBrush;
 	myBrush.CreateSolidBrush(RGB(255, 255, 255));
 	CBrush *oldBrush = pDC->SelectObject(&myBrush);
 
-	Long startX = selfGeneralization->GetX() + 60 * this->zoomRate / 100;
+	Long startX = selfGeneralization->GetX() + 80 * this->zoomRate / 100;
 	Long startY = selfGeneralization->GetY() + 40 * this->zoomRate / 100;
-	Long endX = selfGeneralization->GetX() + 30 * this->zoomRate / 100;
+	Long endX = selfGeneralization->GetX() + test->classDiagramForm->thirty;
 	Long endY = selfGeneralization->GetY() + 40 * this->zoomRate / 100;
 
 	double degree = atan2(endX - startX, startY - endY); // 기울기

@@ -4,7 +4,7 @@
 
 FontSet::FontSet() {
 	this->fontWeight = 400;
-	this->faceName = "¸¼Àº °íµñ";
+	this->faceName = "±¼¸²Ã¼";
 }
 
 FontSet::FontSet(const FontSet& source) {

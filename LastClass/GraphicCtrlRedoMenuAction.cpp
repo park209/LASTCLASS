@@ -6,6 +6,7 @@
 #include "TextEdit.h"
 #include "GraphicCtrlRedoKey.h"
 #include "CtrlRedoTextKey.h"
+#include "StatusBar.h"
 
 GraphicCtrlRedoMenuAction::GraphicCtrlRedoMenuAction() {
 }
@@ -32,4 +33,6 @@ void GraphicCtrlRedoMenuAction::MenuPress(LastClass *lastClass) {
 			delete ctrlTextRedo;
 		}
 	}
+	lastClass->statusBar->DestroyStatus();
+	lastClass->statusBar->MakeStatusBar(lastClass, lastClass->GetSafeHwnd(), 0, 0, 5);
 }

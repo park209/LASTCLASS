@@ -13,6 +13,8 @@
 #include"SelfRelation.h"
 #include"RollNameBox.h"
 
+#include "LastClass.h"
+#include "ClassDiagramForm.h"
 
 FigureComposite::FigureComposite(Long capacity) : figures(capacity) {
 	this->capacity = capacity;
@@ -66,7 +68,10 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 	CPoint cPoint3;
 	CPoint cPoint4;
 	CPoint cPoint5;
-	if (this->GetWidth() + distanceX < this->minimumWidth) {
+
+
+	//LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+	if (this->GetWidth() + distanceX <= this->minimumWidth) { // * test->classDiagramForm->zoomRate / 100) {
 		distanceX = this->minimumWidth - this->GetWidth();
 	}
 
@@ -199,8 +204,12 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 	return this;
 }
 
+Long FigureComposite::Correct(Long index, Figure *figure) {
+	return index = this->figures.Modify(index, figure);
+}
 
 Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long distanceY) {
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 	Long i = 0;
 	Long length = 0;
 	Long Quadrant;
@@ -238,16 +247,21 @@ Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long d
 
 		minimumHeight = this->GetAt(editPosition)->GetMinimumHeight();
 		limitY = this->GetAt(editPosition)->GetY() + minimumHeight;
-
-		if (this->y + this->height + distanceY < limitY) {
-			distanceY = limitY - this->y - this->height;
+		if (editPosition == 0) {
+			if (this->y + this->height + distanceY < limitY+25 * test->classDiagramForm->zoomRate / 100) {
+				distanceY = limitY - this->y - this->height+25 * test->classDiagramForm->zoomRate / 100;
+			}
 		}
-
+		else {
+			if (this->y + this->height + distanceY < limitY) {
+				distanceY = limitY - this->y - this->height;
+			}
+		}
 		this->GetAt(editPosition)->Modify(this->GetAt(editPosition)->GetX(), this->GetAt(editPosition)->GetY(), this->GetAt(editPosition)->GetWidth(),
 			this->GetAt(editPosition)->GetHeight() + distanceY);
 	}
 
-	else if (this->height + distanceY < this->minimumHeight) {
+	else if (this->height + distanceY <= this->minimumHeight) {
 		distanceY = this->minimumHeight - this->height;
 	}
 

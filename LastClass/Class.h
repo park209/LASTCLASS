@@ -40,7 +40,7 @@ public:
 	Long RemoveReception();
 	Long RemoveTemplate();
 
-	Long SetMinimumWidth();
+	Long SetMinimumWidthR(Long zoomRate);
 	
 	virtual Long Add(Figure *figure);
 	virtual Long Remove(Long index);

@@ -8,8 +8,10 @@
 
 typedef signed long int Long;
 
-//enum gab { GabX = 8, GabY = 2, MemoGab = 20, CaretWidth = 2};
-enum page { pageHeight = 3000  ,pageWidth = 1000 };
+extern Long MemoGab;
+extern Long GabX;
+extern Long GabY;
+extern Long CaretWidth;
 
 class Diagram; //전방선언
 class TextEdit;
@@ -38,12 +40,14 @@ public:
 	Long capsLockFlag;
 	Long numLockFlag;
 	Long zoomRate;
+	Long preZoom;
 	Long isDown;
 	Long startX_;
 	Long startY_;
 	Long currentX_;
 	Long currentY_;
-
+	Long thirty;
+	Long seventeen;
 public:
 	ClassDiagramForm(LastClass *lastClass);
 public:
@@ -55,6 +59,7 @@ public:
 public:
 	Long GetCurrentX() const;
 	Long GetCurrentY() const;
+public:
 	void SetMemoGab(Long memoGab) const;
 	void SetGabX(Long gabX) const;
 	void SetGabY(Long gabY) const;
@@ -85,17 +90,13 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
-extern Long MemoGab;
-extern Long GabX;
-extern Long GabY;
-extern Long CaretWidth;
-
 Long inline ClassDiagramForm::GetCurrentX() const {
 	return this->currentX;
 }
 Long inline ClassDiagramForm::GetCurrentY() const {
 	return this->currentY;
 }
+
 void inline ClassDiagramForm::SetMemoGab(Long memoGab) const {
 	if (MemoGab == 0) {
 		MemoGab = 1;
@@ -112,7 +113,7 @@ void inline ClassDiagramForm::SetGabX(Long gabX) const {
 		GabX = gabX;
 	}
 }
-void inline ClassDiagramForm::SetGabY (Long gabY) const {
+void inline ClassDiagramForm::SetGabY(Long gabY) const {
 	if (gabY == 0) {
 		GabY = 0;
 	}
