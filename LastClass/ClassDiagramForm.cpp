@@ -888,6 +888,12 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 	else {
 		menu->EnableMenuItem(123, MF_ENABLED);
 	}
+	if (this->historyGraphic->redoGraphicArray->GetLength() == 0) {
+		menu->EnableMenuItem(136, MF_DISABLED);
+	}
+	else {
+		menu->EnableMenuItem(136, MF_ENABLED);
+	}
 	ClientToScreen(&point); //스크린 기준으로 들어가야함.
 	menu->TrackPopupMenu(TPM_LEFTBUTTON | TPM_LEFTALIGN, point.x, point.y, this);
 
