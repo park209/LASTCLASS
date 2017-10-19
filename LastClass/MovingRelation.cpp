@@ -58,13 +58,13 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 		if (x + width <= currentX) {
 			relationX = x + width - 1;
 		}
-		else if (x > currentX) {
+		else if (x >= currentX) {
 			relationX = x + 1;
 		}
 		if (y + height <= currentY) {
 			relationY = y + height - 1;
 		}
-		else if (figure->GetY() > currentY) {
+		else if (figure->GetY() >= currentY) {
 			relationY =figure->GetY()+ 1;
 		}
 
@@ -214,13 +214,13 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 		if (x + width <=currentX) {
 			relationX = x + width - 1;
 		}
-		else if (x > currentX) {
+		else if (x >= currentX) {
 			relationX = x +1;
 		}
 		if (y + height <= currentY) {
 			relationY = y + height - 1;
 		}
-		else if (figure->GetY() > currentY) {
+		else if (figure->GetY() >= currentY) {
 			relationY = figure->GetY()+1;
 		}
 		lineStart.x = relationX;

@@ -683,6 +683,7 @@
     <ClInclude Include="PrintPreviewState.h">
       <Filter>MouseAction</Filter>
     </ClInclude>
+    <ClInclude Include="MovingSelfRelation.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">
@@ -1314,6 +1315,9 @@
     </ClCompile>
     <ClCompile Include="PrintPreviewState.cpp">
       <Filter>MouseAction</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingSelfRelation.cpp">
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

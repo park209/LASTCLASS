@@ -72,6 +72,7 @@
     <ClInclude Include="GraphicCtrlPasteMenuAction.h" />
     <ClInclude Include="GraphicCtrlRedoMenuAction.h" />
     <ClInclude Include="GraphicCtrlUndoMenuAction.h" />
+    <ClInclude Include="MovingSelfRelation.h" />
     <ClInclude Include="PrintPreviewButton.h" />
     <ClInclude Include="PrintPreviewButtonAction.h" />
     <ClInclude Include="PrintPreviewNextButton.h" />
@@ -287,6 +288,7 @@
     <ClCompile Include="GraphicCtrlCutMenuAction.cpp" />
     <ClCompile Include="GraphicCtrlDeleteKey.cpp" />
     <ClCompile Include="GraphicCtrlPasteMenuAction.cpp" />
+    <ClCompile Include="MovingSelfRelation.cpp" />
     <ClCompile Include="PrintPreviewButton.cpp" />
     <ClCompile Include="PrintPreviewButtonAction.cpp" />
     <ClCompile Include="PrintPreviewNextButton.cpp" />
