@@ -26,8 +26,9 @@ public:
 	bool CheckOverlap(CRect object, FigureComposite *execpt);
 	bool CheckOverlapSelection(CRect object, FigureComposite *execpt);
 
+	string FindLongString(string str);
+
 	virtual Figure* GetAt(Long index);
-	string  FindLongString(string str);
 	virtual Figure* Clone() const;
 	void Accept(Visitor& visitor, CDC *pDC);
 

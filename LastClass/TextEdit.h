@@ -32,10 +32,10 @@ protected:
 
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg Long OnComposition(WPARAM wParam, LPARAM lParam);
-	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg LRESULT OnIMENotify(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 public:
+	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnClose();
 	Long GetFlagInsert() const;
 	Long GetSelectedX() const;
@@ -66,6 +66,7 @@ public:
 	Long flagBuffer; //flag
 	Figure *figure;
 	Long rollNameBoxIndex;
+	Long fontRate;
 private:
 	Long koreanEnglish; //flag
 	Long currentX;

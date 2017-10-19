@@ -46,7 +46,8 @@ public:
 	Long startY_;
 	Long currentX_;
 	Long currentY_;
-
+	Long thirty;
+	Long seventeen;
 public:
 	ClassDiagramForm(LastClass *lastClass);
 public:

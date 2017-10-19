@@ -683,7 +683,6 @@
     <ClInclude Include="PrintPreviewState.h">
       <Filter>MouseAction</Filter>
     </ClInclude>
-    <ClInclude Include="ResizeCheck.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">

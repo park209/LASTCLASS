@@ -193,7 +193,6 @@
     <ClInclude Include="Realization.h" />
     <ClInclude Include="Reception.h" />
     <ClInclude Include="Relation.h" />
-    <ClInclude Include="ResizeCheck.h" />
     <ClInclude Include="ResizeVisitor.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RightArrowKey.h" />
