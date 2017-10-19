@@ -40,6 +40,7 @@ public:
 	Long capsLockFlag;
 	Long numLockFlag;
 	Long zoomRate;
+	Long preZoom;
 	Long isDown;
 	Long startX_;
 	Long startY_;
