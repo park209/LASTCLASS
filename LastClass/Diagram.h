@@ -21,7 +21,6 @@ public:
 	Long AddMemoBox(Long x, Long y, Long width, Long height);
 	Figure* FindItem(Long x, Long y);
 	virtual Long Remove(Long index);
-	string FindLongString(string str);
 	CRect GetCorrectRect(Long startX, Long startY, Long currentX, Long currentY);
 	bool CheckOverlap(CRect object, FigureComposite *execpt);
 	bool CheckOverlapSelection(CRect object, FigureComposite *execpt);
