@@ -3,6 +3,7 @@
 #include "ClassDiagramForm.h"
 #include "Selection.h"
 #include "PrintPreview.h"
+#include "KnockKnock.h"
 #include <afxwin.h>
 #include <afxext.h>
 using namespace std;
@@ -17,7 +18,7 @@ void FilePrintPreviewMenuAction::MenuPress(LastClass* lastClass) {
 	CRect rect;
 	lastClass->GetClientRect(&rect);
 	rect.bottom += 300;
-
+	 
 	lastClass->printPreview = new PrintPreview(lastClass);
 	lastClass->printPreview->Create(NULL, "printPreview", WS_VSCROLL| WS_HSCROLL, rect, NULL, NULL);
 
