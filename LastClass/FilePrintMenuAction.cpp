@@ -7,6 +7,7 @@
 #include "PrintPreview.h"
 #include "Finder.h"
 #include "FigureComposite.h"
+#include "KnockKnock.h"
 #include "Relation.h"
 FilePrintMenuAction::FilePrintMenuAction() {
 }
@@ -107,7 +108,8 @@ if (int_ptr == IDOK) {
 			pOldBitmap = memDC.SelectObject(&bitmap);
 			memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
 			CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-			cFont.CreateFont(23, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+			Long ih = MulDiv(14 * lastClass->classDiagramForm->zoomRate / 100, GetDeviceCaps(pdc, LOGPIXELSY), 72);
+			cFont.CreateFont(ih, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 				OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 			lastClass->SetFont(&cFont, TRUE);
 			CFont *oldFont = memDC.SelectObject(&cFont);
