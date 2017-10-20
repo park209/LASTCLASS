@@ -24,7 +24,7 @@ KnockKnock::~KnockKnock() {
 void KnockKnock::Knocking(ClassDiagramForm *classDiagramForm) {
 	int vertCurPos = classDiagramForm->GetScrollPos(SB_VERT);
 	int horzCurPos = classDiagramForm->GetScrollPos(SB_HORZ);
-
+	classDiagramForm->selection->DeleteAllItems();
 	Long i = 0;
 	Long j;
 	while (i < classDiagramForm->diagram->GetLength()) {
