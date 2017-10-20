@@ -26,7 +26,12 @@ DeleteTextArea::~DeleteTextArea() {
 }
 
 void DeleteTextArea::DeleteArea(TextEdit *textEdit) {
-	DeleteTextAreaSelected *deleteLines = new DeleteTextAreaSelected();
+	DeleteTextAreaSelected *deleteLines = 0;
+	if (deleteLines != 0) {
+		delete deleteLines;
+		deleteLines = 0;
+	}
+	deleteLines = new DeleteTextAreaSelected();
 	Long i = 0;
 	if (textEdit->textAreaSelected->selected->GetStartRowIndex() == textEdit->textAreaSelected->selected->GetEndRowIndex()) {
 		textEdit->historyText->PushUndo(textEdit->text, textEdit->caret);

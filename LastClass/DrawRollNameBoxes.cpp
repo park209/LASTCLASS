@@ -232,8 +232,7 @@ void DrawRollNameBoxes::DrawSelfRelationRollNameBox(SelfRelation *SelfRelationLi
 		k++;
 	}
 	// 오른쪽 셀프선이면
-	if (SelfRelationLine->GetX() == 
-		last->classDiagramForm->diagram->GetAt(temp)->GetX() + last->classDiagramForm->diagram->GetAt(temp)->GetWidth() - last->classDiagramForm->thirty) {
+	if (SelfRelationLine->leftRigtFlag == 0) {
 
 		CPoint startPoint1And4{ SelfRelationLine->GetX(), SelfRelationLine->GetY() };
 		CPoint endPoint1And4{ SelfRelationLine->GetX() ,  SelfRelationLine->GetY() - 40 * zoomRate / 100 };
