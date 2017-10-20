@@ -13,6 +13,7 @@
 #include "ResizeVisitor.h"
 #include "KnockKnock.h"
 #include "Diagram.h"
+#include "TextEdit.h"
 #include <afxdlgs.h>
 #include <afxext.h>
 #include <afxstatusbar.h>
@@ -67,7 +68,10 @@ int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 }
 
 void LastClass::OnMyMenu(UINT parm_control_id) {
-
+	if (this->classDiagramForm->textEdit != NULL) {
+		this->classDiagramForm->textEdit->OnClose();
+		this->classDiagramForm->textEdit = NULL;
+	}
 	if (parm_control_id == 104 || parm_control_id == 105) {
 
 		ResizeVisitor visitor(this->classDiagramForm->zoomRate, 100);
@@ -185,6 +189,12 @@ void LastClass::OnMouseMove(UINT nFlags, CPoint point) {
 	CFrameWnd::OnMouseMove(nFlags, point);
 }
 void LastClass::OnMyToolBar(UINT parm_control_id) {
+
+	if (this->classDiagramForm->textEdit != NULL) {
+		this->classDiagramForm->textEdit->OnClose();
+		this->classDiagramForm->textEdit = NULL;
+	}
+
 	if (parm_control_id == 40011 || parm_control_id == 40012) {
 
 
