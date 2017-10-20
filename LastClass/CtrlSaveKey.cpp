@@ -24,6 +24,7 @@ void CtrlSaveKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 
 void CtrlSaveKey::KeyPress(TextEdit *textEdit) {
 	SaveMenuAction *save = new SaveMenuAction;
+	
 	save->MenuPress(textEdit->classDiagramForm->lastClass);
 	if (save != 0) {
 		delete save;
