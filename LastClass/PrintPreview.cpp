@@ -10,7 +10,7 @@
 #include "Finder.h"
 #include "PrintPreviewButton.h"
 #include "PrintPreviewButtonAction.h"
-
+#include "KnockKnock.h"
 //#include <afxwin.h>
 //#include <afxdlgs.h>
 
@@ -400,6 +400,14 @@ BOOL PrintPreview::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 
 void PrintPreview::OnClose() {
 	this->lastClass->EnableWindow(true);
+	KnockKnock *knocking = new KnockKnock;
+	knocking->Knocking(lastClass->classDiagramForm);
+	if (knocking != NULL) {
+		delete knocking;
+	}
+	lastClass->classDiagramForm->zoomRate = 100;
+
+
 	if (this->nextButton != 0) {
 		delete this->nextButton;
 		this->nextButton = NULL;
