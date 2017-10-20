@@ -21,6 +21,7 @@ BEGIN_MESSAGE_MAP(PrintPreview, CWnd)
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEWHEEL()
 	ON_WM_CLOSE()
+	ON_WM_SIZE()
 	ON_COMMAND_RANGE(1, 5, OnCommandButton)
 END_MESSAGE_MAP()
 
@@ -462,6 +463,11 @@ void PrintPreview::OnEndPrinting(CDC *pDc, CPrintInfo *pInfo) {
 }
 
 void PrintPreview::OnSize(UINT nType, int cx, int cy) {
+	CRect rect;
+	this->GetClientRect(&rect);
+	this->printButton->MoveWindow(rect.CenterPoint().x*11/12, 10, rect.CenterPoint().x*2/12, 50);
+	this->nextButton->MoveWindow(rect.CenterPoint().x*11/8- rect.CenterPoint().x * 2 / 12, 10, rect.CenterPoint().x * 2 / 12, 50);
+	this->previousButton->MoveWindow(rect.CenterPoint().x *5/8, 10, rect.CenterPoint().x * 2 / 12, 50);
 	Invalidate(false);
 }
 BOOL PrintPreview::DoModal() {

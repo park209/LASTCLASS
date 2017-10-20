@@ -398,6 +398,9 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 			editPosition = 0;
 		}
 		minimumHeight = this->GetAt(editPosition)->GetMinimumHeight();
+		if (editPosition == 0) {
+			minimumHeight += 20;
+		}
 
 		if (this->GetAt(editPosition)->GetHeight() - minimumHeight < distanceY) {
 			distanceY = this->GetAt(editPosition)->GetHeight() - minimumHeight;
@@ -526,7 +529,7 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 		}
 		if (dynamic_cast<Class*>(this)) {
 			Class *object = static_cast<Class*>(this);
-			if (dynamic_cast<Line*>(this->GetAt(i)) || dynamic_cast<ClassName*>(this->GetAt(i)) || dynamic_cast<Template*>(this->GetAt(i))) {
+			if (dynamic_cast<Line*>(this->GetAt(i)) || dynamic_cast<ClassName*>(this->GetAt(i)) && editPosition != 0 || dynamic_cast<Template*>(this->GetAt(i))) {
 				this->GetAt(i)->Move(0, distanceY);
 			}
 
