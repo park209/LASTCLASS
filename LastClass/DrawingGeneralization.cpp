@@ -68,7 +68,7 @@ void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiag
 		index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
 	}
-
+	/*
 	else if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
 		Long i = 0;
@@ -96,6 +96,7 @@ void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiag
 			figure = object->GetAt(index);
 		}
 	}
+	*/
 	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
 }
