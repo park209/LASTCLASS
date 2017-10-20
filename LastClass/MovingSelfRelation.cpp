@@ -27,7 +27,7 @@ void MovingSelfRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 	Long temp = -1;
 	Class *object;
 	Long i = 0;
-	while (k < diagram->GetLength() && temp == -1) { 
+	while (k < diagram->GetLength() && temp == -1) {
 		if (dynamic_cast<Class*>(diagram->GetAt(k))) { // 클래스에서 셀프선 찾는다
 			object = static_cast<Class*>(diagram->GetAt(k));
 			l = 0;
@@ -91,25 +91,25 @@ void MovingSelfRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 			selfRelation->leftRigtFlag = 0;
 		}
 		else { // 오른쪽이면서 템플릿기호가 있으면
-			/*selfRelation->Modify(diagram->GetAt(temp)->GetX() + diagram->GetAt(temp)->GetWidth() - 30 * classDiagramForm->zoomRate / 100, diagram->GetAt(temp)->GetY() - classDiagramForm->seventeen,
-				selfRelation->GetWidth(), selfRelation->GetHeight());
-			CPoint startPoint1And4{ selfRelation->GetX(), selfRelation->GetY() };
-			CPoint endPoint1And4{ selfRelation->GetX() ,  selfRelation->GetY() - 40 * classDiagramForm->zoomRate / 100 };
-			CPoint startPoint2{ selfRelation->GetX(), selfRelation->GetY() - 40 * classDiagramForm->zoomRate / 100 };
-			CPoint endPoint2{ selfRelation->GetX() + 80 * classDiagramForm->zoomRate / 100,  selfRelation->GetY() - 40 * classDiagramForm->zoomRate / 100 };
-			CPoint startPoint3And5{ selfRelation->GetX() + 80 * classDiagramForm->zoomRate / 100, selfRelation->GetY() + 40 * classDiagramForm->zoomRate / 100 };
-			CPoint endPoint3And5{ selfRelation->GetX() + 30 * classDiagramForm->zoomRate / 100,  selfRelation->GetY() + 40 * classDiagramForm->zoomRate / 100 };
+			   /*selfRelation->Modify(diagram->GetAt(temp)->GetX() + diagram->GetAt(temp)->GetWidth() - 30 * classDiagramForm->zoomRate / 100, diagram->GetAt(temp)->GetY() - classDiagramForm->seventeen,
+			   selfRelation->GetWidth(), selfRelation->GetHeight());
+			   CPoint startPoint1And4{ selfRelation->GetX(), selfRelation->GetY() };
+			   CPoint endPoint1And4{ selfRelation->GetX() ,  selfRelation->GetY() - 40 * classDiagramForm->zoomRate / 100 };
+			   CPoint startPoint2{ selfRelation->GetX(), selfRelation->GetY() - 40 * classDiagramForm->zoomRate / 100 };
+			   CPoint endPoint2{ selfRelation->GetX() + 80 * classDiagramForm->zoomRate / 100,  selfRelation->GetY() - 40 * classDiagramForm->zoomRate / 100 };
+			   CPoint startPoint3And5{ selfRelation->GetX() + 80 * classDiagramForm->zoomRate / 100, selfRelation->GetY() + 40 * classDiagramForm->zoomRate / 100 };
+			   CPoint endPoint3And5{ selfRelation->GetX() + 30 * classDiagramForm->zoomRate / 100,  selfRelation->GetY() + 40 * classDiagramForm->zoomRate / 100 };
 
-			cPoint = rollNameBoxesPoint->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4);
-			selfRelation->rollNamePoints->Modify(0, cPoint);
-			cPoint = rollNameBoxesPoint->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2);
-			selfRelation->rollNamePoints->Modify(1, cPoint);
-			cPoint = rollNameBoxesPoint->GetSelfRelationThirdRollNamePoint(startPoint3And5, endPoint3And5);
-			selfRelation->rollNamePoints->Modify(2, cPoint);
-			cPoint = rollNameBoxesPoint->GetSelfRelationFourthRollNamePoint(startPoint1And4, endPoint1And4);
-			selfRelation->rollNamePoints->Modify(3, cPoint);
-			cPoint = rollNameBoxesPoint->GetSelfRelationFifthRollNamePoint(startPoint3And5, endPoint3And5);
-			selfRelation->rollNamePoints->Modify(4, cPoint);*/
+			   cPoint = rollNameBoxesPoint->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4);
+			   selfRelation->rollNamePoints->Modify(0, cPoint);
+			   cPoint = rollNameBoxesPoint->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2);
+			   selfRelation->rollNamePoints->Modify(1, cPoint);
+			   cPoint = rollNameBoxesPoint->GetSelfRelationThirdRollNamePoint(startPoint3And5, endPoint3And5);
+			   selfRelation->rollNamePoints->Modify(2, cPoint);
+			   cPoint = rollNameBoxesPoint->GetSelfRelationFourthRollNamePoint(startPoint1And4, endPoint1And4);
+			   selfRelation->rollNamePoints->Modify(3, cPoint);
+			   cPoint = rollNameBoxesPoint->GetSelfRelationFifthRollNamePoint(startPoint3And5, endPoint3And5);
+			   selfRelation->rollNamePoints->Modify(4, cPoint);*/
 
 			selfRelation->Modify(diagram->GetAt(temp)->GetX() + 30 * classDiagramForm->zoomRate / 100, diagram->GetAt(temp)->GetY(),
 				-selfRelation->GetWidth(), -selfRelation->GetHeight());
