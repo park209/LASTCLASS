@@ -8,6 +8,7 @@
 #include "Relation.h"
 #include "SelfRelation.h"
 #include "Finder.h"
+#include "MemoLine.h"
 
 Diagram::Diagram(Long capacity) {
 	this->capacity = capacity;
@@ -229,14 +230,15 @@ void Diagram::Accept(Visitor& visitor, CDC *pDC) {
 		if (dynamic_cast<Class*>(smartPointer->Current())) {
 			static_cast<Class*>(smartPointer->Current())->Accept(visitor, pDC);
 			Long  i = 0;
+			
 			while (i < static_cast<Class*>(smartPointer->Current())->GetLength()) {
-				if (dynamic_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
+				if (dynamic_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i)) &&  !dynamic_cast<MemoLine*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
 					static_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(visitor, pDC);
 				}
 				if (dynamic_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
 					static_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(visitor, pDC);
 				}
-				i++;
+					i++;
 			}
 		}
 		if (dynamic_cast<MemoBox*>(smartPointer->Current())) {
