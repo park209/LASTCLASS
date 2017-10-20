@@ -7,6 +7,7 @@
 #include "PrintPreview.h"
 #include "Finder.h"
 #include "FigureComposite.h"
+#include "KnockKnock.h"
 #include "Relation.h"
 FilePrintMenuAction::FilePrintMenuAction() {
 }

@@ -1021,7 +1021,8 @@ void DrawingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *pDC) {
 		}
 		k++;
 	}
-	if (selfGeneralization->GetX() == test->classDiagramForm->diagram->GetAt(temp)->GetX() + test->classDiagramForm->diagram->GetAt(temp)->GetWidth() - test->classDiagramForm->thirty) {
+	//if (selfGeneralization->GetX() == test->classDiagramForm->diagram->GetAt(temp)->GetX() + test->classDiagramForm->diagram->GetAt(temp)->GetWidth() - test->classDiagramForm->thirty) {
+	if (selfGeneralization->leftRigtFlag == 0) {
 		pDC->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY());
 		pDC->LineTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 40 * this->zoomRate / 100);
 
@@ -1137,7 +1138,7 @@ void DrawingVisitor::Visit(SelfDependency *selfDependency, CDC *pDC) {
 		}
 		k++;
 	}
-	if (selfDependency->GetX() == test->classDiagramForm->diagram->GetAt(temp)->GetX() + test->classDiagramForm->diagram->GetAt(temp)->GetWidth() - test->classDiagramForm->thirty) {
+	if (selfDependency->leftRigtFlag == 0) {
 		CPen pen;
 		pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 		CPen *oldPen = pDC->SelectObject(&pen);
@@ -1261,7 +1262,7 @@ void DrawingVisitor::Visit(SelfAggregation *selfAggregation, CDC *pDC) {
 		}
 		k++;
 	}
-	if (selfAggregation->GetX() == test->classDiagramForm->diagram->GetAt(temp)->GetX() + test->classDiagramForm->diagram->GetAt(temp)->GetWidth() - test->classDiagramForm->thirty) {
+	if (selfAggregation->leftRigtFlag == 0) {
 		CBrush white(RGB(255, 255, 255));
 		CBrush myBrush;
 		myBrush.CreateSolidBrush(RGB(255, 255, 255));
@@ -1388,7 +1389,7 @@ void DrawingVisitor::Visit(SelfAssociation *selfAssociation, CDC *pDC) {
 		}
 		k++;
 	}
-	if (selfAssociation->GetX() == test->classDiagramForm->diagram->GetAt(temp)->GetX() + test->classDiagramForm->diagram->GetAt(temp)->GetWidth() - test->classDiagramForm->thirty) {
+	if (selfAssociation->leftRigtFlag == 0) {
 		pDC->MoveTo(selfAssociation->GetX(), selfAssociation->GetY());
 		pDC->LineTo(selfAssociation->GetX(), selfAssociation->GetY() - 40 * this->zoomRate / 100);
 
@@ -1437,7 +1438,7 @@ void DrawingVisitor::Visit(SelfAggregations *selfAggregations, CDC *pDC) {
 		}
 		k++;
 	}
-	if (selfAggregations->GetX() == test->classDiagramForm->diagram->GetAt(temp)->GetX() + test->classDiagramForm->diagram->GetAt(temp)->GetWidth() - test->classDiagramForm->thirty) {
+	if (selfAggregations->leftRigtFlag == 0) {
 		CBrush white(RGB(255, 255, 255));
 		CBrush myBrush;
 		myBrush.CreateSolidBrush(RGB(255, 255, 255));
@@ -1627,7 +1628,7 @@ void DrawingVisitor::Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC
 		}
 		k++;
 	}
-	if (selfDirectedAssociation->GetX() == test->classDiagramForm->diagram->GetAt(temp)->GetX() + test->classDiagramForm->diagram->GetAt(temp)->GetWidth() - test->classDiagramForm->thirty) {
+	if (selfDirectedAssociation->leftRigtFlag == 0) {
 		pDC->MoveTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY());
 		pDC->LineTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 40 * this->zoomRate / 100);
 
@@ -1741,7 +1742,7 @@ void DrawingVisitor::Visit(SelfComposition *selfComposition, CDC *pDC) {
 		}
 		k++;
 	}
-	if (selfComposition->GetX() == test->classDiagramForm->diagram->GetAt(temp)->GetX() + test->classDiagramForm->diagram->GetAt(temp)->GetWidth() - test->classDiagramForm->thirty) {
+	if (selfComposition->leftRigtFlag == 0) {
 		CBrush black(RGB(000, 000, 000));
 		CBrush myBrush;
 		myBrush.CreateSolidBrush(RGB(255, 255, 255));
@@ -1865,7 +1866,7 @@ void DrawingVisitor::Visit(SelfCompositions *selfCompositions, CDC *pDC) {
 		}
 		k++;
 	}
-	if (selfCompositions->GetX() == test->classDiagramForm->diagram->GetAt(temp)->GetX() + test->classDiagramForm->diagram->GetAt(temp)->GetWidth() - test->classDiagramForm->thirty) {
+	if (selfCompositions->leftRigtFlag == 0) {
 
 		CBrush black(RGB(000, 000, 000));
 		CBrush myBrush;
