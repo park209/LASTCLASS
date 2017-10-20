@@ -72,6 +72,9 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CWnd::OnCreate(lpCreateStruct); //override
 	CWnd::SetFocus();
 
+	CDC *pDC = this->GetDC();
+	this->rowHeight = MulDiv(14 * this->classDiagramForm->zoomRate / 100, GetDeviceCaps(pDC->m_hDC, LOGPIXELSY), 72);// 폰트 사이즈
+
 	this->text = new Text;
 	this->caret = new Caret;
 	this->keyBoard = new KeyBoard;
@@ -98,7 +101,6 @@ void TextEdit::OnPaint() {
 	CPaintDC dc(this);
 	RECT rt;
 	this->GetClientRect(&rt);
-
 	CDC memDC;
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
@@ -286,10 +288,10 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 
 	cFont.DeleteObject(); // 폰트 끝
 
-	//CWnd::HideCaret();
+	
 
 	SetCapture();
-
+	//CWnd::HideCaret();
 	KillTimer(1);
 	Invalidate(false);
 }
@@ -304,12 +306,12 @@ void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 		return;
 	}
 
-	//CWnd::HideCaret();
+	
 
 	KillTimer(1);
 
 	ReleaseCapture();
-
+	//CWnd::HideCaret();
 	Invalidate(false);
 }
 
@@ -336,8 +338,9 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 
 		dc.SelectObject(oldFont);
 		cFont.DeleteObject(); // 폰트 끝
-
+		SetCapture();
 		Invalidate(false);
+
 	}
 	this->currentX = point.x;
 }

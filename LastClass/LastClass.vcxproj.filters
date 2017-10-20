@@ -692,6 +692,7 @@
     <ClInclude Include="LeftSelfAggregation.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
+    <ClInclude Include="MovingSelfRelation.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">
@@ -1331,6 +1332,9 @@
     </ClCompile>
     <ClCompile Include="KnockKnock.cpp" />
     <ClCompile Include="LastClassApp.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingSelfRelation.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>

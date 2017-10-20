@@ -881,6 +881,19 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 	else {
 		menu = this->classDiagramFormMenu->menu1;
 	}
+
+	if (this->historyGraphic->undoGraphicArray->GetLength() == 0) {
+		menu->EnableMenuItem(123, MF_DISABLED);
+	}
+	else {
+		menu->EnableMenuItem(123, MF_ENABLED);
+	}
+	if (this->historyGraphic->redoGraphicArray->GetLength() == 0) {
+		menu->EnableMenuItem(136, MF_DISABLED);
+	}
+	else {
+		menu->EnableMenuItem(136, MF_ENABLED);
+	}
 	ClientToScreen(&point); //스크린 기준으로 들어가야함.
 	menu->TrackPopupMenu(TPM_LEFTBUTTON | TPM_LEFTALIGN, point.x, point.y, this);
 
@@ -940,8 +953,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		this->preZoom = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
 			this->zoomRate -= 10;
-			if (this->zoomRate < 70) {
-				this->zoomRate = 70;
+			if (this->zoomRate < 60) {
+				this->zoomRate = 60;
 			}
 		}
 		else {  //마우스 휠 업

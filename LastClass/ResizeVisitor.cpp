@@ -145,6 +145,7 @@ void  ResizeVisitor::Visit(Relation *relation, CDC *pDC) {
 
 		}
 	}
+	
 }
 
 void ResizeVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) {
@@ -157,7 +158,7 @@ void ResizeVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) {
 	memoBox->SetWidth((x2*this->nextZoomRate / this->previousZoomRate) - memoBox->GetX());
 	memoBox->SetHeight((y2*this->nextZoomRate / this->previousZoomRate) - memoBox->GetY());
 	memoBox->SetMinimumWidth(memoBox->GetMinimumWidth()*this->nextZoomRate / this->previousZoomRate);
-	memoBox->SetMinimumHeight(memoBox->GetPointToReal(memoBox->GetMinimumHeight(), this->nextZoomRate, this->previousZoomRate));
+	memoBox->SetMinimumHeight(memoBox->GetMinimumHeight()*this->nextZoomRate / this->previousZoomRate);
 }
 
 #include "SmartPointer.h"
@@ -297,6 +298,7 @@ void ResizeVisitor::Visit(Composition *composition, CDC* cPaintDc) {
 void ResizeVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 }
 void ResizeVisitor::Visit(MemoLine *memoLine, CDC *cPaintDc) {
+	
 	Long x1 = memoLine->GetX();
 	Long y1 = memoLine->GetY();
 	Long x2 = memoLine->GetX() + memoLine->GetWidth();
@@ -315,6 +317,7 @@ void ResizeVisitor::Visit(MemoLine *memoLine, CDC *cPaintDc) {
 		memoLine->Correct(i, tempPoint);
 		i++;
 	}
+	
 }
 void ResizeVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *cPaintDc) {
 }
