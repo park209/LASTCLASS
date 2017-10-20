@@ -165,22 +165,33 @@ void ResizeVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) {
 
 void ResizeVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 	SmartPointer<Figure*> smartPointer(selection->CreateIterator());
+	Long i;
 	while (!smartPointer->IsDone()) {
 		if (dynamic_cast<Class*>(smartPointer->Current())) {
 			static_cast<Class*>(smartPointer->Current())->Accept(*this, cPaintDc);
-			Long  i = 0;
+			i = 0;
 			while (i < static_cast<Class*>(smartPointer->Current())->GetLength()) {
 				if (dynamic_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
 					static_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(*this, cPaintDc);
 				}
-				if (dynamic_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
+				else if (dynamic_cast<MemoLine*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
+					static_cast<MemoLine*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(*this, cPaintDc);
+				}
+				else if (dynamic_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
 					static_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(*this, cPaintDc);
 				}
 				i++;
 			}
 		}
-		if (dynamic_cast<MemoBox*>(smartPointer->Current())) {
+		else if (dynamic_cast<MemoBox*>(smartPointer->Current())) {
 			static_cast<MemoBox*>(smartPointer->Current())->Accept(*this, cPaintDc);
+			i = 0;
+			while (i < static_cast<MemoBox*>(smartPointer->Current())->GetLength()) {
+				if (dynamic_cast<MemoLine*>(static_cast<MemoBox*>(smartPointer->Current())->GetAt(i))) {
+					static_cast<MemoLine*>(static_cast<MemoBox*>(smartPointer->Current())->GetAt(i))->Accept(*this, cPaintDc);
+				}
+				i++;
+			}
 		}
 		smartPointer->Next();
 	}
