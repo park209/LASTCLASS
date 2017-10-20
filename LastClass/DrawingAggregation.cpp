@@ -78,23 +78,37 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 		bool ret = false;
 		while (i < object->GetLength()) {
 			if (dynamic_cast<SelfRelation*>(object->GetAt(i))) {
-				ret = true;
+				ret = true; // 셀프선 있다
 			}
 			i++;
 		}
-		if (ret == false) {
-			SelfAggregation  selfAggregation(object->GetX() + object->GetWidth() - 30 * classDiagramForm->zoomRate / 100,
-				object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
-			if (object->GetTempletePosition() != -1) {
-				selfAggregation.Move(0, -classDiagramForm->seventeen);
-				Long k = 0;
-				while (k < 5) {
+		if (ret == false) { // 셀프선이 없으면
+			Long k;
+			if (object->GetTempletePosition() != -1) { // 템플릿기호가 있으면
+				SelfAggregation  selfAggregation(object->GetX() + 30 * classDiagramForm->zoomRate / 100,
+					object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
+				//k = 0;
+				//while (k < 5) {
+				//	CPoint cPoint(selfAggregation.rollNamePoints->GetAt(k).x, selfAggregation.rollNamePoints->GetAt(k).y - classDiagramForm->seventeen);
+				//	selfAggregation.rollNamePoints->Modify(k, cPoint);
+				//	k++;
+				//}
+				index = object->Add(selfAggregation.Clone());
+				static_cast<SelfRelation*>(object->GetAt(index))->leftRigtFlag = 1;
+			}
+			else if (object->GetTempletePosition() == -1) {
+				SelfAggregation  selfAggregation(object->GetX() + object->GetWidth() - 30 * classDiagramForm->zoomRate / 100,
+					object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
+				//selfAggregation.Move(0, -classDiagramForm->seventeen);
+				k = 0;
+				/*while (k < 5) {
 					CPoint cPoint(selfAggregation.rollNamePoints->GetAt(k).x, selfAggregation.rollNamePoints->GetAt(k).y - classDiagramForm->seventeen);
 					selfAggregation.rollNamePoints->Modify(k, cPoint);
 					k++;
-				}
+				}*/
+				index = object->Add(selfAggregation.Clone());
+				static_cast<SelfRelation*>(object->GetAt(index))->leftRigtFlag = 0;
 			}
-			index = object->Add(selfAggregation.Clone());
 			figure = object->GetAt(index);
 		}
 	}

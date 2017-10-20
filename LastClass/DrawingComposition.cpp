@@ -79,19 +79,33 @@ void DrawingComposition::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 			}
 			i++;
 		}
-		if (ret == false) {
-			SelfComposition selfComposition(object->GetX() + object->GetWidth() - 30 * classDiagramForm->zoomRate / 100,
-				object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
-			if (object->GetTempletePosition() != -1) {
-				selfComposition.Move(0, -classDiagramForm->seventeen);
-				Long k = 0;
-				while (k < 5) {
-					CPoint cPoint(selfComposition.rollNamePoints->GetAt(k).x, selfComposition.rollNamePoints->GetAt(k).y - classDiagramForm->seventeen);
-					selfComposition.rollNamePoints->Modify(k, cPoint);
-					k++;
-				}
+		if (ret == false) { // 셀프선이 없으면
+			Long k;
+			if (object->GetTempletePosition() != -1) { // 템플릿기호가 있으면
+				SelfComposition  selfComposition(object->GetX() + 30 * classDiagramForm->zoomRate / 100,
+					object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
+				//k = 0;
+				//while (k < 5) {
+				//	CPoint cPoint(selfAggregation.rollNamePoints->GetAt(k).x, selfAggregation.rollNamePoints->GetAt(k).y - classDiagramForm->seventeen);
+				//	selfAggregation.rollNamePoints->Modify(k, cPoint);
+				//	k++;
+				//}
+				index = object->Add(selfComposition.Clone());
+				static_cast<SelfRelation*>(object->GetAt(index))->leftRigtFlag = 1;
 			}
-			index = object->Add(selfComposition.Clone());
+			else if (object->GetTempletePosition() == -1) {
+				SelfComposition  selfComposition(object->GetX() + object->GetWidth() - 30 * classDiagramForm->zoomRate / 100,
+					object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
+				//selfAggregation.Move(0, -classDiagramForm->seventeen);
+				k = 0;
+				/*while (k < 5) {
+				CPoint cPoint(selfAggregation.rollNamePoints->GetAt(k).x, selfAggregation.rollNamePoints->GetAt(k).y - classDiagramForm->seventeen);
+				selfAggregation.rollNamePoints->Modify(k, cPoint);
+				k++;
+				}*/
+				index = object->Add(selfComposition.Clone());
+				static_cast<SelfRelation*>(object->GetAt(index))->leftRigtFlag = 0;
+			}
 			figure = object->GetAt(index);
 		}
 	}

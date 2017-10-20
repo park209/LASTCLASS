@@ -31,32 +31,52 @@ void KnockKnock::Knocking(ClassDiagramForm *classDiagramForm) {
 		if (dynamic_cast<Class*>(classDiagramForm->diagram->GetAt(i))) { // 클래스이면
 			Class* testClass = static_cast<Class*>(classDiagramForm->diagram->GetAt(i));
 			classDiagramForm->selection->Add(testClass);
-			j = 0;
-			while (j < testClass->GetLength()) {
-				Figure* figure = testClass->GetAt(j);
-				if ((dynamic_cast<Attribute*>(figure) || dynamic_cast<Method*>(figure)
-					|| dynamic_cast<Reception*>(figure)) && figure->GetContent() != "") {
+		
+			Figure* figure = testClass->GetAt(0);
+			
 					classDiagramForm->textEdit = new TextEdit(classDiagramForm, figure);
 					classDiagramForm->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 						figure->GetX() + GabX - horzCurPos,
 						figure->GetY() + GabY - vertCurPos,
-						figure->GetX() + figure->GetWidth() - GabX - horzCurPos,
+						figure->GetX() + figure->GetWidth() - GabX - horzCurPos - 2,
+						figure->GetY() + figure->GetHeight() - GabY - vertCurPos), classDiagramForm, 10000, NULL);
+					classDiagramForm->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
+					classDiagramForm->textEdit->OnClose();
+				
+				 if(testClass->GetAttributePosition() != -1 ){
+					 figure = testClass->GetAt(testClass->GetAttributePosition());
+					classDiagramForm->textEdit = new TextEdit(classDiagramForm, figure);
+					classDiagramForm->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+						figure->GetX() + GabX - horzCurPos,
+						figure->GetY() + GabY - vertCurPos,
+						figure->GetX() + figure->GetWidth() - GabX - horzCurPos - 2,
+						figure->GetY() + figure->GetHeight() - GabY - vertCurPos), classDiagramForm, 10000, NULL);
+					classDiagramForm->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
+					classDiagramForm->textEdit->OnClose();
+				}	
+				 if (testClass->GetMethodPosition() != -1) {
+					 figure = testClass->GetAt(testClass->GetMethodPosition());
+					classDiagramForm->textEdit = new TextEdit(classDiagramForm, figure);
+					classDiagramForm->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+						figure->GetX() + GabX - horzCurPos,
+						figure->GetY() + GabY - vertCurPos,
+						figure->GetX() + figure->GetWidth() - GabX - horzCurPos - 2,
 						figure->GetY() + figure->GetHeight() - GabY - vertCurPos), classDiagramForm, 10000, NULL);
 					classDiagramForm->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
 					classDiagramForm->textEdit->OnClose();
 				}
-				else if (dynamic_cast<ClassName*>(figure) && figure->GetContent() != "") {
+				  if (testClass->GetReceptionPosition() != -1) {
+					  figure = testClass->GetAt(testClass->GetReceptionPosition());
 					classDiagramForm->textEdit = new TextEdit(classDiagramForm, figure);
 					classDiagramForm->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 						figure->GetX() + GabX - horzCurPos,
 						figure->GetY() + GabY + MemoGab - vertCurPos,
-						figure->GetX() + figure->GetWidth() - GabX - horzCurPos,
+						figure->GetX() + figure->GetWidth() - GabX - horzCurPos - 2,
 						figure->GetY() + figure->GetHeight() - GabY - vertCurPos), classDiagramForm, 10000, NULL);
 					classDiagramForm->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
 					classDiagramForm->textEdit->OnClose();
 				}
-				j++;
-			}
+				
 		}
 		else if (dynamic_cast<MemoBox*>(classDiagramForm->diagram->GetAt(i)) && classDiagramForm->diagram->GetAt(i)->GetContent() != "") {
 			classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(i));
@@ -64,7 +84,7 @@ void KnockKnock::Knocking(ClassDiagramForm *classDiagramForm) {
 			classDiagramForm->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				classDiagramForm->diagram->GetAt(i)->GetX() + GabX - horzCurPos,
 				classDiagramForm->diagram->GetAt(i)->GetY() + GabY + MemoGab - vertCurPos,
-				classDiagramForm->diagram->GetAt(i)->GetX() + classDiagramForm->diagram->GetAt(i)->GetWidth() - GabX - horzCurPos,
+				classDiagramForm->diagram->GetAt(i)->GetX() + classDiagramForm->diagram->GetAt(i)->GetWidth() - GabX - horzCurPos - 2,
 				classDiagramForm->diagram->GetAt(i)->GetY() + classDiagramForm->diagram->GetAt(i)->GetHeight() - GabY - vertCurPos), classDiagramForm, 10000, NULL);
 			classDiagramForm->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
 			classDiagramForm->textEdit->OnClose();
