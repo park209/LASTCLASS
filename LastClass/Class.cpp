@@ -1054,7 +1054,9 @@ void Class::Accept(Visitor& visitor, CDC *pDC) {
 		else if (dynamic_cast<SelfCompositions*>(smartPointer->Current())) {
 			static_cast<SelfCompositions*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
+		else if (dynamic_cast<Relation*>(smartPointer->Current())) {
+			static_cast<Relation*>(smartPointer->Current())->Accept(visitor, pDC);
+		}
 		smartPointer->Next();
 	}
 }
