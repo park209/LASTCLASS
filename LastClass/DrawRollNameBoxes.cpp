@@ -231,7 +231,9 @@ void DrawRollNameBoxes::DrawSelfRelationRollNameBox(SelfRelation *SelfRelationLi
 		}
 		k++;
 	}
-	if (SelfRelationLine->GetX() == last->classDiagramForm->diagram->GetAt(temp)->GetX() + last->classDiagramForm->diagram->GetAt(temp)->GetWidth() - last->classDiagramForm->thirty) {
+	// ¿À¸¥ÂÊ ¼¿ÇÁ¼±ÀÌ¸é
+	if (SelfRelationLine->GetX() == 
+		last->classDiagramForm->diagram->GetAt(temp)->GetX() + last->classDiagramForm->diagram->GetAt(temp)->GetWidth() - last->classDiagramForm->thirty) {
 
 		CPoint startPoint1And4{ SelfRelationLine->GetX(), SelfRelationLine->GetY() };
 		CPoint endPoint1And4{ SelfRelationLine->GetX() ,  SelfRelationLine->GetY() - 40 * zoomRate / 100 };
@@ -278,11 +280,12 @@ void DrawRollNameBoxes::DrawSelfRelationRollNameBox(SelfRelation *SelfRelationLi
 		pDC->LineTo(cPoint.x - 20 * zoomRate / 100, cPoint.y - 10 * zoomRate / 100);
 		//pDC->Rectangle(cPoint.x - 20, cPoint.y - 10, cPoint.x + 10, cPoint.y + 10);
 	}
+	// ¿ÞÂÊ ¼¿ÇÁ¼±ÀÌ¸é
 	else {
 		CPoint startPoint1And4{ SelfRelationLine->GetX(), SelfRelationLine->GetY() };
 		CPoint endPoint1And4{ SelfRelationLine->GetX() ,  SelfRelationLine->GetY() - 40 * zoomRate / 100 };
 
-		CPoint startPoint2{ SelfRelationLine->GetX() - 90, SelfRelationLine->GetY() - 40 * zoomRate / 100 };
+		CPoint startPoint2{ SelfRelationLine->GetX() - 90 * zoomRate / 100, SelfRelationLine->GetY() - 40 * zoomRate / 100 };
 		CPoint endPoint2{ SelfRelationLine->GetX() - 80 * zoomRate / 100,  SelfRelationLine->GetY() - 40 * zoomRate / 100 };
 
 		CPoint startPoint5{ SelfRelationLine->GetX() - 30 * zoomRate / 100,  SelfRelationLine->GetY() + 40 * zoomRate / 100 };

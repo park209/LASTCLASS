@@ -8,6 +8,7 @@
 #include "ClassDiagramForm.h"
 #include "HistoryGraphic.h"
 #include "RollNameBox.h"
+
 DrawingRealization* DrawingRealization::instance = 0;
 
 MouseLButtonAction* DrawingRealization::Instance() {
