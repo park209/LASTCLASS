@@ -897,15 +897,15 @@ Long Class::RemoveMethod() {
 Long Class::RemoveReception() {
 	if (this->receptionPosition != -1) {
 		if (this->methodPosition != -1) {
-			this->figures.GetAt(this->methodPosition)->SetMinimumHeight(this->figures.GetAt(this->methodPosition)->GetMinimumHeight() + this->figures.GetAt(this->receptionPosition)->GetMinimumHeight());
+			
 		this->figures.GetAt(this->methodPosition)->Modify(this->x, this->figures.GetAt(this->methodPosition)->GetY(), this->width, this->figures.GetAt(this->methodPosition)->GetHeight() + this->figures.GetAt(this->receptionPosition)->GetHeight());
 		}
 		else if (this->attributePosition != -1) {
-			this->figures.GetAt(this->attributePosition)->SetMinimumHeight(this->figures.GetAt(this->attributePosition)->GetMinimumHeight() + this->figures.GetAt(this->receptionPosition)->GetMinimumHeight());
+		
 			this->figures.GetAt(this->attributePosition)->Modify(this->x, this->figures.GetAt(this->attributePosition)->GetY(), this->width, this->figures.GetAt(attributePosition)->GetHeight() + this->figures.GetAt(this->receptionPosition)->GetHeight());
 		}
 		else {
-			this->figures.GetAt(0)->SetMinimumHeight(this->figures.GetAt(0)->GetMinimumHeight() + this->figures.GetAt(this->receptionPosition)->GetMinimumHeight());
+			
 			this->figures.GetAt(0)->Modify(this->x, this->y, this->width, this->figures.GetAt(0)->GetHeight() + this->figures.GetAt(this->receptionPosition)->GetHeight());
 		}
 		if (this->receptionPosition < this->attributePosition) {
