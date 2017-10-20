@@ -35,6 +35,8 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 	CPoint cPoint3;
 	CPoint cPoint4;
 	CPoint cPoint5;
+	CPoint startLinePoint;
+	CPoint endLinePoint;
 	startCPoint.x = startX;
 	startCPoint.y = startY;
 	currentCPoint.x = currentX;
@@ -62,16 +64,25 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 		if (y + height <= currentY) {
 			relationY = y + height - 1;
 		}
-		else if (y >= currentY) {
-			relationY = y + 1;
+		else if (figure->GetY() >= currentY) {
+			relationY =figure->GetY()+ 1;
 		}
 
 		CRect rect(x, y, x + width, y + height);
 		Finder finder;
-		CPoint startLine(relationX, relationY);
-		CPoint endLine(relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight());
-		CPoint cross = finder.GetCrossPoint(startLine, endLine, rect);
-		relation->Modify(cross.x, cross.y, relation->GetWidth() + relation->GetX() - cross.x, relation->GetHeight() + relation->GetY() - cross.y);
+		startLinePoint.x = relationX;
+		startLinePoint.y = relationY;
+	
+		if (relation->GetLength() == 0) {
+			endLinePoint.x = relation->GetX() + relation->GetWidth();
+			endLinePoint.y= relation->GetY() + relation->GetHeight();
+		}
+		else {
+			endLinePoint.x = relation->GetAt(0).x;
+			endLinePoint.y= relation->GetAt(0).y;
+		}
+		CPoint cross = finder.GetCrossPoint(startLinePoint, endLinePoint, rect);
+		 relation->Modify(cross.x, cross.y, relation->GetWidth() + relation->GetX() - cross.x, relation->GetHeight() + relation->GetY() - cross.y);
 
 		if (relation->GetLength() == 0) {
 			CPoint startPoint{ relation->GetX(), relation->GetY() };
@@ -129,9 +140,18 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 
 			CRect rect(x, y, x + width, y + height);
 			Finder finder;
-			CPoint startLine(relation->GetX(), relation->GetY());
-			CPoint endLine(relationX, relationY);
-			CPoint cross = finder.GetCrossPoint(startLine, endLine, rect);
+
+			endLinePoint.x = relationX;
+			endLinePoint.y = relationY;
+			if (relation->GetLength() == 0) {
+				startLinePoint.x = relation->GetX();
+				startLinePoint.y = relation->GetY();
+			}
+			else {
+				startLinePoint.x = relation->GetAt(relation->GetLength() - 1).x;
+				startLinePoint.y = relation->GetAt(relation->GetLength() - 1).y;
+			}
+			CPoint cross = finder.GetCrossPoint(startLinePoint, endLinePoint, rect);
 			relation->Modify(relation->GetX(), relation->GetY(), cross.x - relation->GetX(), cross.y - relation->GetY());
 
 			if (relation->GetLength() == 0) {
@@ -194,13 +214,13 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagr
 		if (x + width <=currentX) {
 			relationX = x + width - 1;
 		}
-		else if (x > currentX) {
+		else if (x >= currentX) {
 			relationX = x +1;
 		}
 		if (y + height <= currentY) {
 			relationY = y + height - 1;
 		}
-		else if (figure->GetY() > currentY) {
+		else if (figure->GetY() >= currentY) {
 			relationY = figure->GetY()+1;
 		}
 		lineStart.x = relationX;

@@ -26,6 +26,8 @@
 #include "DeleteMethodMenuAction.h"
 #include "AddReceptionMenuAction.h"
 #include "DeleteReceptionMenuAction.h"
+#include "GraphicCtrlRedoMenuAction.h"
+
 ClassDiagramFormMenu::ClassDiagramFormMenu(ClassDiagramForm* classDiagramForm) {
 	this->classDiagramForm = classDiagramForm;
 	this->menu1 = new CMenu;  //선택된게 없을때 
@@ -43,6 +45,7 @@ ClassDiagramFormMenu::ClassDiagramFormMenu(ClassDiagramForm* classDiagramForm) {
 
 //////////////////////////////////////////////////////////////////////////
 	this->menu1->AppendMenu(MF_STRING, 123, "되돌리기(Z)");
+	this->menu1->AppendMenu(MF_STRING, 136, "재실행(Y)");
 	this->menu1->AppendMenu(MF_STRING, 108, "붙여넣기(V)");
 	this->menu1->AppendMenu(MF_SEPARATOR);
 	this->menu1->AppendMenu(MF_POPUP, (UINT_PTR)this->drawMenu->m_hMenu, "그리기(D)");
@@ -114,6 +117,7 @@ MenuAction* ClassDiagramFormMenu::MenuSelected(UINT parm_control_id) {
 	case 132: this->menuAction = new DeleteMethodMenuAction; break;
 	case 133: this->menuAction = new AddReceptionMenuAction; break;
 	case 134: this->menuAction = new DeleteReceptionMenuAction; break;
+	case 136: this->menuAction = new GraphicCtrlRedoMenuAction; break;
 
 	default: break;
 	}
