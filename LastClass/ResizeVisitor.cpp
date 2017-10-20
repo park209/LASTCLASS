@@ -37,7 +37,7 @@ void ResizeVisitor::Visit(Class *object, CDC* cPaintDc) {
 	object->SetWidth((x2*this->nextZoomRate / this->previousZoomRate) - object->GetX());
 	object->SetHeight((y2*this->nextZoomRate / this->previousZoomRate) - object->GetY());
 	object->SetMinimumWidth(object->GetMinimumWidth()*this->nextZoomRate / this->previousZoomRate);
-	object->SetMinimumHeight(object->GetPointToReal(object->GetMinimumHeight(), this->nextZoomRate, this->previousZoomRate));
+	object->SetMinimumHeight(object->GetMinimumHeight()* this->nextZoomRate/ this->previousZoomRate);
 }
 
 void ResizeVisitor::Visit(Text* text, CDC* cPaintDc) {
@@ -83,8 +83,8 @@ void  ResizeVisitor::Visit(Relation *relation, CDC *pDC) {
 	CPoint tempPoint;
 	while (i < relation->GetLength()) {
 		tempPoint = relation->GetAt(i);
-		tempPoint.x = relation->GetPointToReal(tempPoint.x, this->nextZoomRate, this->previousZoomRate);
-		tempPoint.y = relation->GetPointToReal(tempPoint.y, this->nextZoomRate, this->previousZoomRate);
+		tempPoint.x = tempPoint.x * this->nextZoomRate / this->previousZoomRate;
+		tempPoint.y = tempPoint.y* this->nextZoomRate / this->previousZoomRate;
 		relation->Correct(i, tempPoint);
 		i++;
 	}
@@ -157,7 +157,7 @@ void ResizeVisitor::Visit(MemoBox *memoBox, CDC *cPaintDc) {
 	memoBox->SetWidth((x2*this->nextZoomRate / this->previousZoomRate) - memoBox->GetX());
 	memoBox->SetHeight((y2*this->nextZoomRate / this->previousZoomRate) - memoBox->GetY());
 	memoBox->SetMinimumWidth(memoBox->GetMinimumWidth()*this->nextZoomRate / this->previousZoomRate);
-	memoBox->SetMinimumHeight(memoBox->GetPointToReal(memoBox->GetMinimumHeight(), this->nextZoomRate, this->previousZoomRate));
+	memoBox->SetMinimumHeight(memoBox->GetMinimumHeight() * this->nextZoomRate/ this->previousZoomRate);
 }
 
 #include "SmartPointer.h"
@@ -195,8 +195,8 @@ void ResizeVisitor::Visit(Template *object, CDC *cPaintDc) {
 	object->SetY(y1*this->nextZoomRate / this->previousZoomRate);
 	object->SetWidth((x2*this->nextZoomRate / this->previousZoomRate) - object->GetX());
 	object->SetHeight((y2*this->nextZoomRate / this->previousZoomRate) - object->GetY());
-	object->SetMinimumWidth(object->GetPointToReal(object->GetMinimumWidth(), this->nextZoomRate, this->previousZoomRate));
-	object->SetMinimumHeight(object->GetPointToReal(object->GetMinimumHeight(), this->nextZoomRate, this->previousZoomRate));
+	object->SetMinimumWidth(object->GetMinimumWidth() * this->nextZoomRate / this->previousZoomRate);
+	object->SetMinimumHeight(object->GetMinimumHeight() * this->nextZoomRate / this->previousZoomRate);
 }
 
 void ResizeVisitor::Visit(ClassName* className, CDC* cPaintDc) {
@@ -208,8 +208,8 @@ void ResizeVisitor::Visit(ClassName* className, CDC* cPaintDc) {
 	className->SetY(y1*this->nextZoomRate / this->previousZoomRate);
 	className->SetWidth((x2*this->nextZoomRate / this->previousZoomRate) - className->GetX());
 	className->SetHeight((y2*this->nextZoomRate / this->previousZoomRate) - className->GetY());
-	className->SetMinimumWidth(className->GetPointToReal(className->GetMinimumWidth(), this->nextZoomRate, this->previousZoomRate));
-	className->SetMinimumHeight(className->GetPointToReal(className->GetMinimumHeight(), this->nextZoomRate, this->previousZoomRate));
+	className->SetMinimumWidth(className->GetMinimumWidth() * this->nextZoomRate / this->previousZoomRate);
+	className->SetMinimumHeight(className->GetMinimumHeight() * this->nextZoomRate / this->previousZoomRate);
 }
 
 void ResizeVisitor::Visit(Attribute* attribute, CDC* cPaintDc) {
@@ -221,8 +221,8 @@ void ResizeVisitor::Visit(Attribute* attribute, CDC* cPaintDc) {
 	attribute->SetY(y1*this->nextZoomRate / this->previousZoomRate);
 	attribute->SetWidth((x2*this->nextZoomRate / this->previousZoomRate) - attribute->GetX());
 	attribute->SetHeight((y2*this->nextZoomRate / this->previousZoomRate) - attribute->GetY());
-	attribute->SetMinimumWidth(attribute->GetPointToReal(attribute->GetMinimumWidth(), this->nextZoomRate, this->previousZoomRate));
-	attribute->SetMinimumHeight(attribute->GetPointToReal(attribute->GetMinimumHeight(), this->nextZoomRate, this->previousZoomRate));
+	attribute->SetMinimumWidth(attribute->GetMinimumWidth() * this->nextZoomRate / this->previousZoomRate);
+	attribute->SetMinimumHeight(attribute->GetMinimumHeight() * this->nextZoomRate / this->previousZoomRate);
 }
 void ResizeVisitor::Visit(Method* method, CDC* cPaintDc) {
 	Long x1 = method->GetX();
@@ -233,8 +233,8 @@ void ResizeVisitor::Visit(Method* method, CDC* cPaintDc) {
 	method->SetY(y1*this->nextZoomRate / this->previousZoomRate);
 	method->SetWidth((x2*this->nextZoomRate / this->previousZoomRate) - method->GetX());
 	method->SetHeight((y2*this->nextZoomRate / this->previousZoomRate) - method->GetY());
-	method->SetMinimumWidth(method->GetPointToReal(method->GetMinimumWidth(), this->nextZoomRate, this->previousZoomRate));
-	method->SetMinimumHeight(method->GetPointToReal(method->GetMinimumHeight(), this->nextZoomRate, this->previousZoomRate));
+	method->SetMinimumWidth(method->GetMinimumWidth() * this->nextZoomRate / this->previousZoomRate);
+	method->SetMinimumHeight(method->GetMinimumHeight() * this->nextZoomRate / this->previousZoomRate);
 }
 void ResizeVisitor::Visit(Reception* reception, CDC* cPaintDc) {
 	Long x1 = reception->GetX();
@@ -245,20 +245,13 @@ void ResizeVisitor::Visit(Reception* reception, CDC* cPaintDc) {
 	reception->SetY(y1*this->nextZoomRate / this->previousZoomRate);
 	reception->SetWidth((x2*this->nextZoomRate / this->previousZoomRate) - reception->GetX());
 	reception->SetHeight((y2*this->nextZoomRate / this->previousZoomRate) - reception->GetY());
-	reception->SetMinimumWidth(reception->GetPointToReal(reception->GetMinimumWidth(), this->nextZoomRate, this->previousZoomRate));
-	reception->SetMinimumHeight(reception->GetPointToReal(reception->GetMinimumHeight(), this->nextZoomRate, this->previousZoomRate));
+	reception->SetMinimumWidth(reception->GetMinimumWidth() * this->nextZoomRate / this->previousZoomRate);
+	reception->SetMinimumHeight(reception->GetMinimumHeight() * this->nextZoomRate / this->previousZoomRate);
 }
 
 void ResizeVisitor::Visit(Line *line, CDC* cPaintDc) {
 	Long x1 = line->GetX();
 	Long y1 = line->GetY();
-	/*double y3 = static_cast<double>(y1);
-	y3 = y3 * this->nextZoomRate / this->previousZoomRate;
-	Long remainder = y1*this->nextZoomRate&this->previousZoomRate;
-	if (remainder >= this->previousZoomRate / 2) {
-		y3 += 0.5;
-	}
-	y1 = (Long)y3;*/
 	Long x2 = line->GetX() + line->GetWidth();
 	Long y2 = line->GetY() + line->GetHeight();
 	line->SetX(x1*this->nextZoomRate / this->previousZoomRate);
@@ -299,8 +292,8 @@ void ResizeVisitor::Visit(MemoLine *memoLine, CDC *cPaintDc) {
 	CPoint tempPoint;
 	while (i < memoLine->GetLength()) {
 		tempPoint = memoLine->GetAt(i);
-		tempPoint.x = memoLine->GetPointToReal(tempPoint.x, this->nextZoomRate, this->previousZoomRate);
-		tempPoint.y = memoLine->GetPointToReal(tempPoint.y, this->nextZoomRate, this->previousZoomRate);
+		tempPoint.x = tempPoint.x * this->nextZoomRate / this->previousZoomRate;
+		tempPoint.y = tempPoint.y * this->nextZoomRate / this->previousZoomRate;
 		memoLine->Correct(i, tempPoint);
 		i++;
 	}
