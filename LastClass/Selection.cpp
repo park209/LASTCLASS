@@ -810,30 +810,57 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 				if (ret == false) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
 				}
+				if (composite->GetX() + composite->GetWidth() - 30 * zoomRate / 100 == selfRelation->GetX()) {
+					lineStart.x = selfRelation->GetX();
+					lineStart.y = selfRelation->GetY() - 40 * zoomRate / 100;
+					lineEnd.x = selfRelation->GetX() + 80 * zoomRate / 100;
+					lineEnd.y = selfRelation->GetY() - 40 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+					}
 
-				lineStart.x = selfRelation->GetX();
-				lineStart.y = selfRelation->GetY() - 40 * zoomRate / 100;
-				lineEnd.x = selfRelation->GetX() + 80 * zoomRate / 100;
-				lineEnd.y = selfRelation->GetY() - 40 * zoomRate / 100;
-				if (ret == false) {
-					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+					lineStart.x = selfRelation->GetX() + 80 * zoomRate / 100;
+					lineStart.y = selfRelation->GetY() - 40 * zoomRate / 100;
+					lineEnd.x = selfRelation->GetX() + 80 * zoomRate / 100;
+					lineEnd.y = selfRelation->GetY() + 40 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+					}
+
+					lineStart.x = selfRelation->GetX() + 80 * zoomRate / 100;
+					lineStart.y = selfRelation->GetY() + 40 * zoomRate / 100;
+					lineEnd.x = selfRelation->GetX() + 30 * zoomRate / 100;
+					lineEnd.y = selfRelation->GetY() + 40 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+					}
+				}
+				else {
+					lineStart.x = selfRelation->GetX();
+					lineStart.y = selfRelation->GetY() - 40 * zoomRate / 100;
+					lineEnd.x = selfRelation->GetX() - 80 * zoomRate / 100;
+					lineEnd.y = selfRelation->GetY() - 40 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+					}
+
+					lineStart.x = selfRelation->GetX() - 80 * zoomRate / 100;
+					lineStart.y = selfRelation->GetY() - 40 * zoomRate / 100;
+					lineEnd.x = selfRelation->GetX() - 80 * zoomRate / 100;
+					lineEnd.y = selfRelation->GetY() + 40 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+					}
+
+					lineStart.x = selfRelation->GetX() - 80 * zoomRate / 100;
+					lineStart.y = selfRelation->GetY() + 40 * zoomRate / 100;
+					lineEnd.x = selfRelation->GetX() - 30 * zoomRate / 100;
+					lineEnd.y = selfRelation->GetY() + 40 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+					}
 				}
 
-				lineStart.x = selfRelation->GetX() + 80 * zoomRate / 100;
-				lineStart.y = selfRelation->GetY() - 40 * zoomRate / 100;
-				lineEnd.x = selfRelation->GetX() + 80 * zoomRate / 100;
-				lineEnd.y = selfRelation->GetY() + 40 * zoomRate / 100;
-				if (ret == false) {
-					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
-				}
-
-				lineStart.x = selfRelation->GetX() + 80 * zoomRate / 100;
-				lineStart.y = selfRelation->GetY() + 40 * zoomRate / 100;
-				lineEnd.x = selfRelation->GetX() + 30 * zoomRate / 100;
-				lineEnd.y = selfRelation->GetY() + 40 * zoomRate / 100;
-				if (ret == false) {
-					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
-				}
 				//여기 부터 바깥 사각박스 찾기
 				if (dynamic_cast<SelfDirectedAssociation*>(selfRelation) || dynamic_cast<SelfAssociation*>(selfRelation) ||
 					dynamic_cast<SelfAggregation*>(selfRelation) || dynamic_cast<SelfAggregations*>(selfRelation)) {
