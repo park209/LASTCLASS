@@ -107,8 +107,8 @@ void MovingSelfRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 
 	}
 
-	//this->ChangeState(mouseLButton, SelectionState::Instance());
-	this->ChangeDefault(mouseLButton);
+	this->ChangeState(mouseLButton, SelectionState::Instance());
+	//this->ChangeDefault(mouseLButton);
 }
 
 
