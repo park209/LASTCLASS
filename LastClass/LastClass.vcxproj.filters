@@ -692,7 +692,9 @@
     <ClInclude Include="LeftSelfAggregation.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="MovingSelfRelation.h" />
+    <ClInclude Include="MovingSelfRelation.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">

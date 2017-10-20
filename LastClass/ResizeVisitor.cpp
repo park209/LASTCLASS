@@ -17,6 +17,9 @@
 #include "MemoLine.h"
 #include "RollNameBox.h"
 
+#include "LastClass.h"
+#include "ClassDiagramForm.h"
+
 ResizeVisitor::ResizeVisitor(Long previousZoomRate, Long nextZoomRate) {
 	this->previousZoomRate = previousZoomRate;
 	this->nextZoomRate = nextZoomRate;
@@ -52,21 +55,45 @@ void  ResizeVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
 	Long x = selfRelation->GetX();
 	Long y = selfRelation->GetY();
 
-	CPoint startPoint1And4{ x, y };
-	CPoint endPoint1And4{ x , y - 40 * this->nextZoomRate / 100 };
-
-	CPoint startPoint2{ x, y - 40 * this->nextZoomRate / 100 };
-	CPoint endPoint2{ x + 80 * this->nextZoomRate / 100,  y - 40 * this->nextZoomRate / 100 };
-
-	CPoint startPoint3And5{ x + 80 * this->nextZoomRate / 100, y + 40 * this->nextZoomRate / 100 };
-	CPoint endPoint3And5{ x + 30 * this->nextZoomRate / 100,  y + 40 * this->nextZoomRate / 100 };
-
+	LastClass *lastClass = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 	RollNameBox *rollNameBox = RollNameBox::Instance();
-	selfRelation->rollNamePoints->Store(0, rollNameBox->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4));
-	selfRelation->rollNamePoints->Store(1, rollNameBox->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2));
-	selfRelation->rollNamePoints->Store(2, rollNameBox->GetSelfRelationThirdRollNamePoint(startPoint3And5, endPoint3And5));
-	selfRelation->rollNamePoints->Store(3, rollNameBox->GetSelfRelationFourthRollNamePoint(startPoint1And4, endPoint1And4));
-	selfRelation->rollNamePoints->Store(4, rollNameBox->GetSelfRelationFifthRollNamePoint(startPoint3And5, endPoint3And5));
+	// 우측이면
+	if (selfRelation->leftRigtFlag == 0) {
+		CPoint startPoint1And4{ x, y };
+		CPoint endPoint1And4{ x , y - 40 * this->nextZoomRate / 100 };
+
+		CPoint startPoint2{ x, y - 40 * this->nextZoomRate / 100 };
+		CPoint endPoint2{ x + 80 * this->nextZoomRate / 100,  y - 40 * this->nextZoomRate / 100 };
+
+		CPoint startPoint3And5{ x + 80 * this->nextZoomRate / 100, y + 40 * this->nextZoomRate / 100 };
+		CPoint endPoint3And5{ x + 30 * this->nextZoomRate / 100,  y + 40 * this->nextZoomRate / 100 };
+
+		selfRelation->rollNamePoints->Modify(0, rollNameBox->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4));
+		selfRelation->rollNamePoints->Modify(1, rollNameBox->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2));
+		selfRelation->rollNamePoints->Modify(2, rollNameBox->GetSelfRelationThirdRollNamePoint(startPoint3And5, endPoint3And5));
+		selfRelation->rollNamePoints->Modify(3, rollNameBox->GetSelfRelationFourthRollNamePoint(startPoint1And4, endPoint1And4));
+		selfRelation->rollNamePoints->Modify(4, rollNameBox->GetSelfRelationFifthRollNamePoint(startPoint3And5, endPoint3And5));
+	}
+	// 좌측이면
+	else {
+		CPoint startPoint1And4{ x, y };
+		CPoint endPoint1And4{ x , y - 40 * this->nextZoomRate / 100 };
+
+		CPoint startPoint2{ x - 90 * this->nextZoomRate / 100, y - 40 * this->nextZoomRate / 100 };
+		CPoint endPoint2{ x - 80 * this->nextZoomRate / 100,  y - 40 * this->nextZoomRate / 100 };
+
+		CPoint startPoint5{ x - 30 * this->nextZoomRate / 100,  y + 40 * this->nextZoomRate / 100 };
+		CPoint endPoint5{ x - 80 * this->nextZoomRate / 100, y + 40 * this->nextZoomRate / 100 };
+
+		CPoint startPoint3{ x - 80 * this->nextZoomRate / 100, y + 40 * this->nextZoomRate / 100 };
+		CPoint endPoint3{ x - 120 * this->nextZoomRate / 100, y + 40 * this->nextZoomRate / 100 };
+
+		selfRelation->rollNamePoints->Modify(0, rollNameBox->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4));
+		selfRelation->rollNamePoints->Modify(1, rollNameBox->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2));
+		selfRelation->rollNamePoints->Modify(2, rollNameBox->GetSelfRelationThirdRollNamePoint(startPoint3, endPoint3));
+		selfRelation->rollNamePoints->Modify(3, rollNameBox->GetSelfRelationFourthRollNamePoint(startPoint1And4, endPoint1And4));
+		selfRelation->rollNamePoints->Modify(4, rollNameBox->GetSelfRelationFifthRollNamePoint(startPoint5, endPoint5));
+	}
 }
 
 void  ResizeVisitor::Visit(Relation *relation, CDC *pDC) {

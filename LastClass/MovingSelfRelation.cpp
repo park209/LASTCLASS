@@ -9,6 +9,7 @@
 #include "Selection.h"
 #include "LastClass.h"
 #include "RollNameBox.h"
+
 MovingSelfRelation* MovingSelfRelation::instance = 0;
 
 MouseLButtonAction* MovingSelfRelation::Instance() {
@@ -26,12 +27,12 @@ void MovingSelfRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 	Long temp = -1;
 	Class *object;
 	Long i = 0;
-	while (k < diagram->GetLength() && temp == -1) {
-		if (dynamic_cast<Class*>(diagram->GetAt(k))) {
+	while (k < diagram->GetLength() && temp == -1) { 
+		if (dynamic_cast<Class*>(diagram->GetAt(k))) { // 클래스에서 셀프선 찾는다
 			object = static_cast<Class*>(diagram->GetAt(k));
 			l = 0;
 			while (l < object->GetLength() && temp == -1) {
-				if (dynamic_cast<SelfRelation*>(object->GetAt(l)) == selfRelation) {
+				if (static_cast<SelfRelation*>(object->GetAt(l)) == selfRelation) {
 					temp = k;
 				}
 
@@ -40,17 +41,18 @@ void MovingSelfRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 		}
 		k++;
 	}
-	if (currentX < diagram->GetAt(temp)->GetX() + diagram->GetAt(temp)->GetWidth() / 2) {
+	if (currentX < diagram->GetAt(temp)->GetX() + diagram->GetAt(temp)->GetWidth() / 2) { // 왼쪽으로 끌어다가 놓으면
 		selfRelation->Modify(diagram->GetAt(temp)->GetX() + 30 * classDiagramForm->zoomRate / 100, diagram->GetAt(temp)->GetY(),
 			-selfRelation->GetWidth(), -selfRelation->GetHeight());
 		CPoint startPoint1And4{ selfRelation->GetX(), selfRelation->GetY() };
 		CPoint endPoint1And4{ selfRelation->GetX() ,  selfRelation->GetY() - 40 * classDiagramForm->zoomRate / 100 };
-		CPoint startPoint2{ selfRelation->GetX() - 90, selfRelation->GetY() - 40 * classDiagramForm->zoomRate / 100 };
+		CPoint startPoint2{ selfRelation->GetX() - 90 * classDiagramForm->zoomRate / 100, selfRelation->GetY() - 40 * classDiagramForm->zoomRate / 100 };
 		CPoint endPoint2{ selfRelation->GetX() - 80 * classDiagramForm->zoomRate / 100,  selfRelation->GetY() - 40 * classDiagramForm->zoomRate / 100 };
 		CPoint startPoint5{ selfRelation->GetX() - 30 * classDiagramForm->zoomRate / 100,  selfRelation->GetY() + 40 * classDiagramForm->zoomRate / 100 };
 		CPoint endPoint5{ selfRelation->GetX() - 80 * classDiagramForm->zoomRate / 100, selfRelation->GetY() + 40 * classDiagramForm->zoomRate / 100 };
 		CPoint startPoint3{ selfRelation->GetX() - 80 * classDiagramForm->zoomRate / 100, selfRelation->GetY() + 40 * classDiagramForm->zoomRate / 100 };
 		CPoint endPoint3{ selfRelation->GetX() - 120 * classDiagramForm->zoomRate / 100, selfRelation->GetY() + 40 * classDiagramForm->zoomRate / 100 };
+
 		cPoint = rollNameBoxesPoint->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4);
 		selfRelation->rollNamePoints->Modify(0, cPoint);
 		cPoint = rollNameBoxesPoint->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2);
@@ -61,9 +63,11 @@ void MovingSelfRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 		selfRelation->rollNamePoints->Modify(3, cPoint);
 		cPoint = rollNameBoxesPoint->GetSelfRelationFifthRollNamePoint(startPoint5, endPoint5);
 		selfRelation->rollNamePoints->Modify(4, cPoint);
+
+		selfRelation->leftRigtFlag = 1;
 	}
-	else {
-		if (dynamic_cast<Class*>(diagram->GetAt(temp))->GetTempletePosition() == -1) {
+	else { // 오른쪽으로 끌어다놓으면서
+		if (static_cast<Class*>(diagram->GetAt(temp))->GetTempletePosition() == -1) { // 템플릿기호가 없으면
 			selfRelation->Modify(diagram->GetAt(temp)->GetX() + diagram->GetAt(temp)->GetWidth() - 30 * classDiagramForm->zoomRate / 100, diagram->GetAt(temp)->GetY(),
 				selfRelation->GetWidth(), selfRelation->GetHeight());
 			CPoint startPoint1And4{ selfRelation->GetX(), selfRelation->GetY() };
@@ -72,6 +76,7 @@ void MovingSelfRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 			CPoint endPoint2{ selfRelation->GetX() + 80 * classDiagramForm->zoomRate / 100,  selfRelation->GetY() - 40 * classDiagramForm->zoomRate / 100 };
 			CPoint startPoint3And5{ selfRelation->GetX() + 80 * classDiagramForm->zoomRate / 100, selfRelation->GetY() + 40 * classDiagramForm->zoomRate / 100 };
 			CPoint endPoint3And5{ selfRelation->GetX() + 30 * classDiagramForm->zoomRate / 100,  selfRelation->GetY() + 40 * classDiagramForm->zoomRate / 100 };
+
 			cPoint = rollNameBoxesPoint->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4);
 			selfRelation->rollNamePoints->Modify(0, cPoint);
 			cPoint = rollNameBoxesPoint->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2);
@@ -83,7 +88,7 @@ void MovingSelfRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 			cPoint = rollNameBoxesPoint->GetSelfRelationFifthRollNamePoint(startPoint3And5, endPoint3And5);
 			selfRelation->rollNamePoints->Modify(4, cPoint);
 		}
-		else {
+		else { // 오른쪽이면서 템플릿기호가 있으면
 			selfRelation->Modify(diagram->GetAt(temp)->GetX() + diagram->GetAt(temp)->GetWidth() - 30 * classDiagramForm->zoomRate / 100, diagram->GetAt(temp)->GetY() - classDiagramForm->seventeen,
 				selfRelation->GetWidth(), selfRelation->GetHeight());
 			CPoint startPoint1And4{ selfRelation->GetX(), selfRelation->GetY() };
@@ -92,6 +97,7 @@ void MovingSelfRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 			CPoint endPoint2{ selfRelation->GetX() + 80 * classDiagramForm->zoomRate / 100,  selfRelation->GetY() - 40 * classDiagramForm->zoomRate / 100 };
 			CPoint startPoint3And5{ selfRelation->GetX() + 80 * classDiagramForm->zoomRate / 100, selfRelation->GetY() + 40 * classDiagramForm->zoomRate / 100 };
 			CPoint endPoint3And5{ selfRelation->GetX() + 30 * classDiagramForm->zoomRate / 100,  selfRelation->GetY() + 40 * classDiagramForm->zoomRate / 100 };
+
 			cPoint = rollNameBoxesPoint->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4);
 			selfRelation->rollNamePoints->Modify(0, cPoint);
 			cPoint = rollNameBoxesPoint->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2);
@@ -104,9 +110,8 @@ void MovingSelfRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 			selfRelation->rollNamePoints->Modify(4, cPoint);
 
 		}
-
+		selfRelation->leftRigtFlag = 0;
 	}
-
 	//this->ChangeState(mouseLButton, SelectionState::Instance());
 	this->ChangeDefault(mouseLButton);
 }
