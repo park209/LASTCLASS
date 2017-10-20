@@ -48,7 +48,13 @@ PrintPreview::PrintPreview(LastClass *lastClass) {
 
 int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) { 
    CFrameWnd::OnCreate(lpCreateStruct);
+
+
   
+   lastClass->classDiagramForm->zoomRate = 100;
+
+
+
    this->printPreviewButton = new PrintPreviewButton;
 
    this->ModifyStyle(0, WS_OVERLAPPEDWINDOW  );
@@ -400,13 +406,7 @@ BOOL PrintPreview::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 
 void PrintPreview::OnClose() {
 	this->lastClass->EnableWindow(true);
-	KnockKnock *knocking = new KnockKnock;
-	knocking->Knocking(lastClass->classDiagramForm);
-	if (knocking != NULL) {
-		delete knocking;
-	}
-	lastClass->classDiagramForm->zoomRate = 100;
-
+	
 
 	if (this->nextButton != 0) {
 		delete this->nextButton;
