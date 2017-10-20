@@ -140,20 +140,3 @@ Figure& Figure::operator = (const Figure& source) {
 
 Figure::~Figure() {
 }
-
-Long Figure::GetPointToReal(Long point, Long nextZoomRate, Long previousZoomRate) {
-	double double_ = static_cast<double>(point) * nextZoomRate / previousZoomRate;
-	Long remainder = (point * nextZoomRate) % previousZoomRate;
-	if (nextZoomRate < previousZoomRate) {
-		point = static_cast<Long>(double_ + 0.5);
-	}
-	else {
-		if (remainder >= previousZoomRate / 2) {
-			point = static_cast<Long>(double_ + 0.5);
-		}
-		else {
-			point = static_cast<Long>(double_);
-		}
-	}
-	return point;
-}
