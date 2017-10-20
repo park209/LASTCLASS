@@ -75,6 +75,7 @@ void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
 		if (dynamic_cast<Class*>(classDiagramForm->selection->GetAt(0))) {
 			if (textEdit->text->MaxWidth(cdc) + GabX * 2 < 120 * classDiagramForm->zoomRate / 100) {
 				textEdit->figure->SetMinimumWidth(120 * classDiagramForm->zoomRate / 100);
+				static_cast<Class*>(classDiagramForm->selection->GetAt(0))->SetMinimumWidthR(classDiagramForm->zoomRate);
 			}
 			else {
 				textEdit->figure->SetMinimumWidth(textEdit->text->MaxWidth(cdc) + GabX * 2);

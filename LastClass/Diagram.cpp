@@ -239,10 +239,7 @@ void Diagram::Accept(Visitor& visitor, CDC *pDC) {
 					static_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(visitor, pDC);
 				}
 					i++;
-				
 			}
-			
-			
 		}
 		if (dynamic_cast<MemoBox*>(smartPointer->Current())) {
 			static_cast<MemoBox*>(smartPointer->Current())->Accept(visitor, pDC);

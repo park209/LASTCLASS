@@ -30,8 +30,6 @@ public:
 	Figure* Move(Long distanceX, Long distanceY);
 	Figure* EndPointMove(Long distanceX, Long distanceY);
 
-	Long GetPointToReal(Long point, Long nextZoomRate, Long previousZoomRate);
-
 	Figure* Modify(Long x, Long y, Long width, Long height);
 
 	Long GetX() const;
