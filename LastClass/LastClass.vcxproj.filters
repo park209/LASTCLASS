@@ -693,7 +693,7 @@
       <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="MovingSelfRelation.h">
-      <Filter>ClassDiagram</Filter>
+      <Filter>Relationship</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1337,7 +1337,7 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="MovingSelfRelation.cpp">
-      <Filter>ClassDiagram</Filter>
+      <Filter>Relationship</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1135,14 +1135,14 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX() + GabX - horzCurPos,
 				figure->GetY() + GabY + MemoGab - vertCurPos,
-				figure->GetX() + figure->GetWidth() - GabX - horzCurPos,
+				figure->GetX() + figure->GetWidth() - GabX - horzCurPos + 2,
 				figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
 		}
 		else /*if (!dynamic_cast<SelfRelation*>(figure))*/ {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX() + GabX - horzCurPos,
 				figure->GetY() + GabY - vertCurPos,
-				figure->GetX() + figure->GetWidth() - GabX - horzCurPos,
+				figure->GetX() + figure->GetWidth() - GabX - horzCurPos + 2,
 				figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
 		}
 	}
@@ -1191,7 +1191,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				left + 1 - horzCurPos,
 				top + 1 - vertCurPos,
-				right - 1 - horzCurPos,
+				right - 1 - horzCurPos + 2,
 				bottom - 1 - vertCurPos), this, 10000, NULL);
 		}
 	}
