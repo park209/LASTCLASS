@@ -4,7 +4,6 @@
 #include "ClassDiagramForm.h"
 #include "Selection.h"
 #include "Class.h"
-#include "Diagram.h"
 #include "TextEdit.h"
 #include "DrawingVisitor.h"
 #include "WritingVisitor.h"
@@ -30,7 +29,6 @@
 #include "SmartPointer.h"
 #include "MemoLine.h"
 #include "Finder.h"
-#include "ResizeVisitor.h"
 
 GraphicCtrlCopyKey::GraphicCtrlCopyKey() {
 }

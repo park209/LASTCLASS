@@ -50,6 +50,7 @@
     <ClInclude Include="GraphicLeftArrowKey.h" />
     <ClInclude Include="GraphicRightArrowKey.h" />
     <ClInclude Include="GraphicUpArrowKey.h" />
+    <ClInclude Include="KnockKnock.h" />
     <ClInclude Include="LastClassApp.h" />
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="ClassMenuAction.h" />
@@ -72,6 +73,9 @@
     <ClInclude Include="GraphicCtrlPasteMenuAction.h" />
     <ClInclude Include="GraphicCtrlRedoMenuAction.h" />
     <ClInclude Include="GraphicCtrlUndoMenuAction.h" />
+    <ClInclude Include="LeftSelfAggregation.h" />
+    <ClInclude Include="LeftSelfRelation.h" />
+    <ClInclude Include="MovingSelfRelation.h" />
     <ClInclude Include="PrintPreviewButton.h" />
     <ClInclude Include="PrintPreviewButtonAction.h" />
     <ClInclude Include="PrintPreviewNextButton.h" />
@@ -267,6 +271,7 @@
     <ClCompile Include="GraphicleftArrowKey.cpp" />
     <ClCompile Include="GraphicRightArrowKey.cpp" />
     <ClCompile Include="GraphicUpArrowKey.cpp" />
+    <ClCompile Include="KnockKnock.cpp" />
     <ClCompile Include="LastClassApp.cpp" />
     <ClCompile Include="ClassDiagramForm.cpp" />
     <ClCompile Include="ClassMenuAction.cpp" />
@@ -287,6 +292,9 @@
     <ClCompile Include="GraphicCtrlCutMenuAction.cpp" />
     <ClCompile Include="GraphicCtrlDeleteKey.cpp" />
     <ClCompile Include="GraphicCtrlPasteMenuAction.cpp" />
+    <ClCompile Include="LeftSelfAggregation.cpp" />
+    <ClCompile Include="LeftSelfRelation.cpp" />
+    <ClCompile Include="MovingSelfRelation.cpp" />
     <ClCompile Include="PrintPreviewButton.cpp" />
     <ClCompile Include="PrintPreviewButtonAction.cpp" />
     <ClCompile Include="PrintPreviewNextButton.cpp" />

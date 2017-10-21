@@ -35,7 +35,8 @@ public:
 	void ChangeDrawingGeneralizationState();
 	void ChangeDrawingMemoLineState();
 	void ChangeDrawingRealizationState();
-
+	void ChangeSelectionState();
+	void ChangeMultipleState();
 	void ChangeDefault();
 
 

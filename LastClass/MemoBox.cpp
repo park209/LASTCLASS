@@ -108,7 +108,7 @@ void MemoBox::Accept (Visitor& visitor, CDC *pDC) {
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 	while (!smartPointer->IsDone()) {
 		if (dynamic_cast<MemoLine*>(smartPointer->Current())) {
-			dynamic_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, pDC); 
+			static_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, pDC); 
 		}
 		smartPointer->Next();
 	}

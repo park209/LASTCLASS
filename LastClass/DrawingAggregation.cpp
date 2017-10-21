@@ -30,7 +30,7 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 	selection->SelectByPointForRelation(diagram, currentX, currentY);
 
-	if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && dynamic_cast<Class*>(selection->GetAt(1)) 
+	if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && dynamic_cast<Class*>(selection->GetAt(1))
 		&& selection->GetAt(0) != selection->GetAt(1)) {
 		Class * classObject = dynamic_cast<Class*>(selection->GetAt(0));
 		Class * classObject2 = dynamic_cast<Class*>(selection->GetAt(1));
@@ -70,7 +70,7 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 		index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
 	}
-	
+
 
 	else if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
@@ -78,7 +78,7 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 		bool ret = false;
 		while (i < object->GetLength()) {
 			if (dynamic_cast<SelfRelation*>(object->GetAt(i))) {
-				ret = true;
+				ret = true; // ºø«¡º± ¿÷¥Ÿ
 			}
 			i++;
 		}

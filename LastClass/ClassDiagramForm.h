@@ -22,7 +22,6 @@ class HistoryGraphic;
 class Menu;
 class Scroll;
 class LastClass;
-class Menu;
 class ClassDiagramFormMenu;
 class ClassDiagramForm : public CWnd { //CFrameWnd 에 상속관계 표기
 public:

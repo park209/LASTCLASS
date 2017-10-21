@@ -10,7 +10,7 @@
 #include "Finder.h"
 #include "PrintPreviewButton.h"
 #include "PrintPreviewButtonAction.h"
-
+#include "KnockKnock.h"
 //#include <afxwin.h>
 //#include <afxdlgs.h>
 
@@ -21,6 +21,7 @@ BEGIN_MESSAGE_MAP(PrintPreview, CWnd)
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEWHEEL()
 	ON_WM_CLOSE()
+	ON_WM_SIZE()
 	ON_COMMAND_RANGE(1, 5, OnCommandButton)
 END_MESSAGE_MAP()
 
@@ -47,7 +48,13 @@ PrintPreview::PrintPreview(LastClass *lastClass) {
 
 int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) { 
    CFrameWnd::OnCreate(lpCreateStruct);
+
+
   
+   lastClass->classDiagramForm->zoomRate = 100;
+
+
+
    this->printPreviewButton = new PrintPreviewButton;
 
    this->ModifyStyle(0, WS_OVERLAPPEDWINDOW  );
@@ -399,6 +406,8 @@ BOOL PrintPreview::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 
 void PrintPreview::OnClose() {
 	this->lastClass->EnableWindow(true);
+	
+
 	if (this->nextButton != 0) {
 		delete this->nextButton;
 		this->nextButton = NULL;
@@ -462,6 +471,11 @@ void PrintPreview::OnEndPrinting(CDC *pDc, CPrintInfo *pInfo) {
 }
 
 void PrintPreview::OnSize(UINT nType, int cx, int cy) {
+	CRect rect;
+	this->GetClientRect(&rect);
+	this->printButton->MoveWindow(rect.CenterPoint().x*11/12, 10, rect.CenterPoint().x*2/12, 50);
+	this->nextButton->MoveWindow(rect.CenterPoint().x*11/8- rect.CenterPoint().x * 2 / 12, 10, rect.CenterPoint().x * 2 / 12, 50);
+	this->previousButton->MoveWindow(rect.CenterPoint().x *5/8, 10, rect.CenterPoint().x * 2 / 12, 50);
 	Invalidate(false);
 }
 BOOL PrintPreview::DoModal() {

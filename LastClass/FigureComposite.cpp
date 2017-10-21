@@ -7,11 +7,12 @@
 #include "Template.h"
 #include "Line.h"
 #include "SmartPointer.h"
-#include  "ClassName.h"
+#include "ClassName.h"
 #include "Attribute.h"
 #include "Method.h"
-#include"SelfRelation.h"
-#include"RollNameBox.h"
+#include "Reception.h"
+#include "SelfRelation.h"
+#include "RollNameBox.h"
 
 #include "LastClass.h"
 #include "ClassDiagramForm.h"
@@ -169,7 +170,7 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 		else if (dynamic_cast<Template*>(this->GetAt(i))) {
 			this->GetAt(i)->Move(distanceX, 0);
 		}
-		else if (dynamic_cast<SelfRelation*>(this->GetAt(i))) {
+		else if (dynamic_cast<SelfRelation*>(this->GetAt(i)) && this->GetAt(i)->GetX() > this->GetX() + this->GetWidth()/2) {
 			this->GetAt(i)->Move(distanceX, 0);
 			SelfRelation *selfRelation = static_cast<SelfRelation*>(this->GetAt(i));
 			//자기자신 에디트 이동
@@ -397,6 +398,9 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 			editPosition = 0;
 		}
 		minimumHeight = this->GetAt(editPosition)->GetMinimumHeight();
+		if (editPosition == 0) {
+			minimumHeight += 20;
+		}
 
 		if (this->GetAt(editPosition)->GetHeight() - minimumHeight < distanceY) {
 			distanceY = this->GetAt(editPosition)->GetHeight() - minimumHeight;
@@ -525,7 +529,7 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 		}
 		if (dynamic_cast<Class*>(this)) {
 			Class *object = static_cast<Class*>(this);
-			if (dynamic_cast<Line*>(this->GetAt(i)) || dynamic_cast<ClassName*>(this->GetAt(i)) || dynamic_cast<Template*>(this->GetAt(i))) {
+			if (dynamic_cast<Line*>(this->GetAt(i)) || dynamic_cast<ClassName*>(this->GetAt(i)) && editPosition != 0 || dynamic_cast<Template*>(this->GetAt(i))) {
 				this->GetAt(i)->Move(0, distanceY);
 			}
 
@@ -661,9 +665,31 @@ Figure* FigureComposite::ModifyComponetsToLeftDirection(Diagram *diagram, Long d
 				relation->rollNamePoints->Modify(3, cPoint4);
 			}
 		}
-		else if (dynamic_cast<Template*>(this->GetAt(i)) || dynamic_cast<SelfRelation*>(this->GetAt(i))) {
+		else if (dynamic_cast<SelfRelation*>(this->GetAt(i)) && this->GetAt(i)->GetX() < this->GetX() + this->GetWidth() / 2) {
+			this->GetAt(i)->Move(distanceX, 0);
+			SelfRelation *selfRelation = static_cast<SelfRelation*>(this->GetAt(i));
+			//자기자신 에디트 이동
+			CPoint startPoint1And4{ selfRelation->GetX(), selfRelation->GetY() };
+			CPoint endPoint1And4{ selfRelation->GetX() ,  selfRelation->GetY() - 40 };
+
+			CPoint startPoint2{ selfRelation->GetX(), selfRelation->GetY() - 40 };
+			CPoint endPoint2{ selfRelation->GetX() + 80,  selfRelation->GetY() - 40 };
+
+			CPoint startPoint3And5{ selfRelation->GetX() + 80, selfRelation->GetY() + 40 };
+			CPoint endPoint3And5{ selfRelation->GetX() + 30,  selfRelation->GetY() + 40 };
+			cPoint1 = rollNameBoxesPoint->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4);
+			cPoint2 = rollNameBoxesPoint->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2);
+			cPoint3 = rollNameBoxesPoint->GetSelfRelationThirdRollNamePoint(startPoint3And5, endPoint3And5);
+			cPoint4 = rollNameBoxesPoint->GetSelfRelationFourthRollNamePoint(startPoint1And4, endPoint1And4);
+			cPoint5 = rollNameBoxesPoint->GetSelfRelationFifthRollNamePoint(startPoint3And5, endPoint3And5);
+			selfRelation->rollNamePoints->Modify(0, cPoint1);
+			selfRelation->rollNamePoints->Modify(1, cPoint2);
+			selfRelation->rollNamePoints->Modify(2, cPoint3);
+			selfRelation->rollNamePoints->Modify(3, cPoint4);
+			selfRelation->rollNamePoints->Modify(4, cPoint5);
 		}
-		else { // Line 이랑 에딧영역
+		else if (dynamic_cast<Line*>(this->GetAt(i)) || dynamic_cast<ClassName*>(this->GetAt(i)) || dynamic_cast<Attribute*>(this->GetAt(i))
+			|| dynamic_cast<Method*>(this->GetAt(i)) || dynamic_cast<Reception*>(this->GetAt(i))) { // Line 이랑 에딧영역
 			this->GetAt(i)->Modify(this->GetAt(i)->GetX() + distanceX, this->GetAt(i)->GetY(), this->GetAt(i)->GetWidth() - distanceX, this->GetAt(i)->GetHeight());
 		}
 		i++;

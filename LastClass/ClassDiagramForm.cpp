@@ -49,6 +49,9 @@
 #include "ScrollAction.h"
 #include "GraphicCtrlCopyKey.h"
 #include "ResizeVisitor.h"
+#include "KnockKnock.h"
+
+#include "SelectionState.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
@@ -823,8 +826,10 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x + horzCurPos;
 	this->currentY = point.y + vertCurPos;
 
-	CMenu *menu;
-	if (this->selection->GetLength() > 0) {
+
+	
+	CMenu *menu = 0;
+	if (this->selection->GetLength() ==1) {
 		menu = this->classDiagramFormMenu->menu2;
 		Figure *figure = this->selection->GetAt(0);
 		if ((dynamic_cast<Class*>(figure))) {
@@ -876,12 +881,28 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 			menu->EnableMenuItem(134, MF_DISABLED);
 		}
 	}
-	else {
+	else  if(this->selection->GetLength() == 0){
 		menu = this->classDiagramFormMenu->menu1;
 	}
+	else if (this->selection->GetLength() > 1) {
+		menu = this->classDiagramFormMenu->menu3;
+	}
+
+	if (this->historyGraphic->undoGraphicArray->GetLength() == 0) {
+		menu->EnableMenuItem(123, MF_DISABLED);
+	}
+	else {
+		menu->EnableMenuItem(123, MF_ENABLED);
+	}
+	if (this->historyGraphic->redoGraphicArray->GetLength() == 0) {
+		menu->EnableMenuItem(136, MF_DISABLED);
+	}
+	else {
+		menu->EnableMenuItem(136, MF_ENABLED);
+	}
+
 	ClientToScreen(&point); //스크린 기준으로 들어가야함.
 	menu->TrackPopupMenu(TPM_LEFTBUTTON | TPM_LEFTALIGN, point.x, point.y, this);
-
 	Invalidate(false);
 }
 void ClassDiagramForm::OnRButtonDown(UINT nFlags, CPoint point) {
@@ -895,11 +916,15 @@ void ClassDiagramForm::OnRButtonDown(UINT nFlags, CPoint point) {
 	this->currentX = point.x + horzCurPos;
 	this->currentY = point.y + vertCurPos;
 
-	this->selection->DeleteAllItems();
-	this->selection->SelectByPoint(this->diagram, this->currentX, this->currentY);
-
+	Long index= this->selection->SelectByPoint(startX, startY);
+	if (index == -1) {
+		this->selection->DeleteAllItems();
+		this->selection->SelectByPoint(this->diagram, this->currentX, this->currentY);
+	 }
+	
 	Invalidate(false);
 }
+
 BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	CWnd::SetFocus();
 	SetFocus();
@@ -937,8 +962,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		this->preZoom = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
 			this->zoomRate -= 10;
-			if (this->zoomRate < 70) {
-				this->zoomRate = 70;
+			if (this->zoomRate < 60) {
+				this->zoomRate = 60;
 			}
 		}
 		else {  //마우스 휠 업
@@ -987,66 +1012,12 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 			this->copyBuffer->Accept(resizeVisitor, &memDC);
 		}
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////
-		int vertCurPos = GetScrollPos(SB_VERT);
-		int horzCurPos = GetScrollPos(SB_HORZ);
-
-		Long i = 0;
-		Long j;
-		while (i < this->diagram->GetLength()) {
-			if (dynamic_cast<Class*>(this->diagram->GetAt(i))) { // 클래스이면
-				Class* testClass = static_cast<Class*>(this->diagram->GetAt(i));
-				this->selection->Add(testClass);
-				j = 0;
-				while (j < testClass->GetLength()) {
-					Figure* figure = testClass->GetAt(j);
-					if ((dynamic_cast<Attribute*>(figure) || dynamic_cast<Method*>(figure)
-						|| dynamic_cast<Reception*>(figure)) && figure->GetContent() != "") {
-						this->textEdit = new TextEdit(this, figure);
-						this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-							figure->GetX() + GabX - horzCurPos,
-							figure->GetY() + GabY - vertCurPos,
-							figure->GetX() + figure->GetWidth() - GabX - horzCurPos,
-							figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
-						this->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
-						this->textEdit->OnClose();
-					}
-					else if (dynamic_cast<ClassName*>(figure) && figure->GetContent() != "") {
-						this->textEdit = new TextEdit(this, figure);
-						this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-							figure->GetX() + GabX - horzCurPos,
-							figure->GetY() + GabY + MemoGab - vertCurPos,
-							figure->GetX() + figure->GetWidth() - GabX - horzCurPos,
-							figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
-						this->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
-						this->textEdit->OnClose();
-					}
-					j++;
-				}
-			}
-			else if (dynamic_cast<MemoBox*>(this->diagram->GetAt(i)) && this->diagram->GetAt(i)->GetContent() != "") {
-				this->textEdit = new TextEdit(this, this->diagram->GetAt(i));
-				this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-					this->diagram->GetAt(i)->GetX() + GabX - horzCurPos,
-					this->diagram->GetAt(i)->GetY() + GabY + MemoGab - vertCurPos,
-					this->diagram->GetAt(i)->GetX() + this->diagram->GetAt(i)->GetWidth() - GabX - horzCurPos,
-					this->diagram->GetAt(i)->GetY() + this->diagram->GetAt(i)->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
-				this->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
-				this->textEdit->OnClose();
-			}
-			i++;
-			this->selection->DeleteAllItems();
+		KnockKnock *knocking = new KnockKnock;
+		knocking->Knocking(this);
+		if (knocking != NULL) {
+			delete knocking;
 		}
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		CPaintDC dc(this);
-		CFont font;
-		
-		font.CreateFont(14 * this->zoomRate / 100*120/72, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
-		CFont*  oldFont;
-		oldFont = dc.SelectObject(&font);
-		dc.SelectObject(oldFont);
-		font.DeleteObject();
 		if ((zoomRate_!=70 ||this->zoomRate!=70)&& (zoomRate_ != 130 || this->zoomRate != 130)) {
 			this->lastClass->statusBar->DestroyStatus();
 			this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
@@ -1152,6 +1123,13 @@ void ClassDiagramForm::OnMyMenu(UINT parm_control_id) {
 	if (menuAction != 0) {
 		menuAction->MenuPress(this->lastClass);
 	}
+	if (this->selection->GetLength() > 1) {
+		this->mouseLButton->ChangeMultipleState();
+	}
+	else if (this->selection->GetLength() ==1 ) {
+		this->mouseLButton->ChangeSelectionState();
+	}
+	//this->selection->DeleteAllItems();
 }
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
@@ -1165,7 +1143,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->currentY = point.y + vertCurPos;
 
 	Figure* figure = this->diagram->FindItem(startX, startY);
-	if (figure != NULL && this->selection->GetLength() != 0) {
+	if (figure != NULL && this->selection->GetLength() != 0 && !dynamic_cast<SelfRelation*>(figure)) {
 
 		this->textEdit = new TextEdit(this, figure);
 
@@ -1173,20 +1151,20 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX() + GabX - horzCurPos,
 				figure->GetY() + GabY + MemoGab - vertCurPos,
-				figure->GetX() + figure->GetWidth() - GabX - horzCurPos,
+				figure->GetX() + figure->GetWidth() - GabX - horzCurPos + 2,
 				figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
 		}
-		else {
+		else /*if (!dynamic_cast<SelfRelation*>(figure))*/ {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX() + GabX - horzCurPos,
 				figure->GetY() + GabY - vertCurPos,
-				figure->GetX() + figure->GetWidth() - GabX - horzCurPos,
+				figure->GetX() + figure->GetWidth() - GabX - horzCurPos + 2,
 				figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
 		}
 	}
 
 	//선택된 relationLine 이 있으면
-	if (this->selection->GetLength() == 1 && dynamic_cast<Relation*>(this->selection->GetAt(0)) && !dynamic_cast<MemoLine*>(this->selection->GetAt(0))) {
+	if (this->selection->GetLength() == 1 && dynamic_cast<Relation*>(this->selection->GetAt(0))) {//&& !dynamic_cast<MemoLine*>(this->selection->GetAt(0))) {
 		// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
 		Long i = 0;
 		Long index = 0;
@@ -1229,7 +1207,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				left + 1 - horzCurPos,
 				top + 1 - vertCurPos,
-				right - 1 - horzCurPos,
+				right - 1 - horzCurPos + 2,
 				bottom - 1 - vertCurPos), this, 10000, NULL);
 		}
 	}

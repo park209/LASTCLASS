@@ -80,7 +80,7 @@ void DrawingDirectedAssociation::MouseLButtonUp(MouseLButton *mouseLButton, Clas
 			i++;
 		}
 		if (ret == false) {
-			SelfDirectedAssociation selfDirectedAssociation(object->GetX() + object->GetWidth() - 30 * classDiagramForm->zoomRate / 100, 
+			SelfDirectedAssociation selfDirectedAssociation(object->GetX() + object->GetWidth() - 30 * classDiagramForm->zoomRate / 100,
 				object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
 			if (object->GetTempletePosition() != -1) {
 				selfDirectedAssociation.Move(0, -classDiagramForm->seventeen);

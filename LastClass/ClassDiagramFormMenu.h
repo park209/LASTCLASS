@@ -18,7 +18,9 @@ public:
 private:
 	CMenu *drawMenu; 
 public:
-	CMenu *menu2;	//선택된게 있을때
+	CMenu *menu2;	//선택된게 1개
+public:
+	CMenu *menu3;  //선택된게 2개
 public:
 	MenuAction *menuAction;
 	ClassDiagramForm *classDiagramForm;

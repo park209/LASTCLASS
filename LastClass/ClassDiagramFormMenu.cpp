@@ -26,12 +26,15 @@
 #include "DeleteMethodMenuAction.h"
 #include "AddReceptionMenuAction.h"
 #include "DeleteReceptionMenuAction.h"
+#include "GraphicCtrlRedoMenuAction.h"
+
 ClassDiagramFormMenu::ClassDiagramFormMenu(ClassDiagramForm* classDiagramForm) {
 	this->classDiagramForm = classDiagramForm;
 	this->menu1 = new CMenu;  //선택된게 없을때 
 	this->drawMenu = new CMenu; // 그리기 메뉴
 
-	this->menu2 = new CMenu; // 선택된게 있을때
+	this->menu2 = new CMenu; // 선택된게 1개
+	this->menu3 = new CMenu;
 	
 	
 //////////////////////////////////////////////////////////////////////
@@ -40,9 +43,10 @@ ClassDiagramFormMenu::ClassDiagramFormMenu(ClassDiagramForm* classDiagramForm) {
 	//this->undoMenu->CreatePopupMenu(); 없어도 되는지
 //////////////////////////////////////////////////////////////////////
 	this->menu2->CreatePopupMenu();
-
+	this->menu3->CreatePopupMenu();
 //////////////////////////////////////////////////////////////////////////
 	this->menu1->AppendMenu(MF_STRING, 123, "되돌리기(Z)");
+	this->menu1->AppendMenu(MF_STRING, 136, "재실행(Y)");
 	this->menu1->AppendMenu(MF_STRING, 108, "붙여넣기(V)");
 	this->menu1->AppendMenu(MF_SEPARATOR);
 	this->menu1->AppendMenu(MF_POPUP, (UINT_PTR)this->drawMenu->m_hMenu, "그리기(D)");
@@ -75,6 +79,12 @@ ClassDiagramFormMenu::ClassDiagramFormMenu(ClassDiagramForm* classDiagramForm) {
 	this->menu2->AppendMenu(MF_STRING, 131, "속성 제거");
 	this->menu2->AppendMenu(MF_STRING, 132, "연산 제거");
 	this->menu2->AppendMenu(MF_STRING, 134, "리셉션 제거");
+/////////////////////////////////////////////////////////////////////////
+	this->menu3->AppendMenu(MF_STRING, 123, "되돌리기(Z)");
+	this->menu3->AppendMenu(MF_STRING, 136, "재실행(Y)");
+	this->menu3->AppendMenu(MF_SEPARATOR);
+	this->menu3->AppendMenu(MF_STRING, 109, "자르기(X)");
+	this->menu3->AppendMenu(MF_STRING, 107, "복사하기(C)");
 
 }
 
@@ -114,6 +124,7 @@ MenuAction* ClassDiagramFormMenu::MenuSelected(UINT parm_control_id) {
 	case 132: this->menuAction = new DeleteMethodMenuAction; break;
 	case 133: this->menuAction = new AddReceptionMenuAction; break;
 	case 134: this->menuAction = new DeleteReceptionMenuAction; break;
+	case 136: this->menuAction = new GraphicCtrlRedoMenuAction; break;
 
 	default: break;
 	}
@@ -137,6 +148,12 @@ ClassDiagramFormMenu& ClassDiagramFormMenu::operator=(const ClassDiagramFormMenu
 ClassDiagramFormMenu::~ClassDiagramFormMenu() {
 	if (this->menu1 != NULL) {
 		delete this->menu1;
+	}
+	if (this->menu2 != NULL) {
+		delete this->menu2;
+	}
+	if (this->menu3 != NULL) {
+		delete this->menu3;
 	}
 	if (this->drawMenu != NULL) {
 		delete this->drawMenu;

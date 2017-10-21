@@ -20,14 +20,11 @@ CtrlPasteKey::~CtrlPasteKey() {
 }
 
 void CtrlPasteKey::KeyPress(TextEdit *textEdit) {
+	textEdit->historyText->PushUndo(textEdit->text, textEdit->caret);
 	if (textEdit->flagSelection == 1) {
-		DeleteTextArea *deleteArea = new DeleteTextArea();
+		DeleteTextArea *deleteArea = DeleteTextArea::Instance();
 		deleteArea->DeleteArea(textEdit);
-		if (deleteArea != 0) {
-			delete deleteArea;
-		}
 	}
-
 	unsigned int priority_list = CF_TEXT;
 	char *p_string = NULL;
 	if (::GetPriorityClipboardFormat(&priority_list, 1) == CF_TEXT) {

@@ -8,6 +8,7 @@
 #include "Relation.h"
 #include "SelfRelation.h"
 #include "Finder.h"
+#include "MemoLine.h"
 
 Diagram::Diagram(Long capacity) {
 	this->capacity = capacity;
@@ -173,10 +174,10 @@ bool Diagram::CheckOverlap(CRect object, FigureComposite *execpt) {
 	Long i = 0;
 
 	Finder finder;
-	object.left -= 2;
-	object.top -= 2;
-	object.right += 2;
-	object.bottom += 2;
+	object.left -= 9;
+	object.top -= 9;
+	object.right += 9;
+	object.bottom += 9;
 	while (i < this->length && ret == false) {
 		FigureComposite *figureComposite = static_cast<FigureComposite*>(this->GetAt(i));
 		if (figureComposite != execpt) {
@@ -193,10 +194,10 @@ bool Diagram::CheckOverlapSelection(CRect object, FigureComposite *execpt) {
 	Long i = 0;
 
 	Finder finder;
-	object.left -= 2;
-	object.top -= 2;
-	object.right += 2;
-	object.bottom += 2;
+	object.left -= 9;
+	object.top -= 9;
+	object.right += 9;
+	object.bottom += 9;
 	while (i < this->length && ret == false) {
 		FigureComposite *figureComposite = static_cast<FigureComposite*>(this->GetAt(i));
 		Long j = 0;
@@ -229,14 +230,15 @@ void Diagram::Accept(Visitor& visitor, CDC *pDC) {
 		if (dynamic_cast<Class*>(smartPointer->Current())) {
 			static_cast<Class*>(smartPointer->Current())->Accept(visitor, pDC);
 			Long  i = 0;
+			
 			while (i < static_cast<Class*>(smartPointer->Current())->GetLength()) {
-				if (dynamic_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
+				if (dynamic_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i)) &&  !dynamic_cast<MemoLine*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
 					static_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(visitor, pDC);
 				}
 				if (dynamic_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
 					static_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(visitor, pDC);
 				}
-				i++;
+					i++;
 			}
 		}
 		if (dynamic_cast<MemoBox*>(smartPointer->Current())) {
