@@ -8,6 +8,7 @@
 #include "KeyBoard.h"
 #include "ResizeVisitor.h"
 #include "StatusBar.h"
+#include "TextEdit.h"
 
 #include <afxdlgs.h>
 
@@ -19,6 +20,10 @@ NewMenuAction::~NewMenuAction() {
 }
 void NewMenuAction::MenuPress(LastClass* lastClass) {
 	int messageBox = IDNO;
+	if (lastClass->classDiagramForm->textEdit != NULL) {
+		lastClass->classDiagramForm->textEdit->OnClose();
+		lastClass->classDiagramForm->textEdit = NULL;
+	}
 	if (lastClass->classDiagramForm->historyGraphic->undoGraphicArray->GetLength() != 0
 		|| lastClass->classDiagramForm->historyGraphic->redoGraphicArray->GetLength() != 0) {
 		if (lastClass->classDiagramForm->fileName != "") { //저장된 이름이 있으면

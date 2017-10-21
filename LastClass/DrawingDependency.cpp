@@ -68,7 +68,7 @@ void DrawingDependency::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramF
 		index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
 	}
-
+	/*
 	else if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
 		Long i = 0;
@@ -94,7 +94,9 @@ void DrawingDependency::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramF
 			index = object->Add(selfDependency.Clone());
 			figure = object->GetAt(index);
 		}
+		
 	}
+	*/
 	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
 }

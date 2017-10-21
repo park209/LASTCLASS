@@ -96,10 +96,10 @@ void Caret::SetRowIndex(Long index) {
 }
 
 Caret& Caret::operator = (const Caret& source) {
-	characterIndex = source.characterIndex;
-	rowIndex = source.rowIndex;
-	currentCaretX = source.currentCaretX;
-	currentCaretY = source.currentCaretY;
+	this->characterIndex = source.characterIndex;
+	this->rowIndex = source.rowIndex;
+	this->currentCaretX = source.currentCaretX;
+	this->currentCaretY = source.currentCaretY;
 
 	return *this;
 }

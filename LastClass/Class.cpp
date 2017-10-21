@@ -139,7 +139,7 @@ void Class::Initialize() {
 	this->figures.Store(this->length, className.Clone());
 	this->length++;
 
-	Line line1(this->x, this->y + firstlineHeight, width, 0);
+	Line line1(this->x, this->y + firstlineHeight, this->width, 0);
 	this->figures.Store(this->length, line1.Clone());
 	this->length++;
 

@@ -51,6 +51,7 @@
 #include "ResizeVisitor.h"
 #include "KnockKnock.h"
 
+#include "SelectionState.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
@@ -825,8 +826,10 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x + horzCurPos;
 	this->currentY = point.y + vertCurPos;
 
-	CMenu *menu;
-	if (this->selection->GetLength() > 0) {
+
+	
+	CMenu *menu = 0;
+	if (this->selection->GetLength() ==1) {
 		menu = this->classDiagramFormMenu->menu2;
 		Figure *figure = this->selection->GetAt(0);
 		if ((dynamic_cast<Class*>(figure))) {
@@ -878,8 +881,11 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 			menu->EnableMenuItem(134, MF_DISABLED);
 		}
 	}
-	else {
+	else  if(this->selection->GetLength() == 0){
 		menu = this->classDiagramFormMenu->menu1;
+	}
+	else if (this->selection->GetLength() > 1) {
+		menu = this->classDiagramFormMenu->menu3;
 	}
 
 	if (this->historyGraphic->undoGraphicArray->GetLength() == 0) {
@@ -894,9 +900,9 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 	else {
 		menu->EnableMenuItem(136, MF_ENABLED);
 	}
+
 	ClientToScreen(&point); //스크린 기준으로 들어가야함.
 	menu->TrackPopupMenu(TPM_LEFTBUTTON | TPM_LEFTALIGN, point.x, point.y, this);
-
 	Invalidate(false);
 }
 void ClassDiagramForm::OnRButtonDown(UINT nFlags, CPoint point) {
@@ -910,9 +916,12 @@ void ClassDiagramForm::OnRButtonDown(UINT nFlags, CPoint point) {
 	this->currentX = point.x + horzCurPos;
 	this->currentY = point.y + vertCurPos;
 
-	this->selection->DeleteAllItems();
-	this->selection->SelectByPoint(this->diagram, this->currentX, this->currentY);
-
+	Long index= this->selection->SelectByPoint(startX, startY);
+	if (index == -1) {
+		this->selection->DeleteAllItems();
+		this->selection->SelectByPoint(this->diagram, this->currentX, this->currentY);
+	 }
+	
 	Invalidate(false);
 }
 
@@ -1114,6 +1123,13 @@ void ClassDiagramForm::OnMyMenu(UINT parm_control_id) {
 	if (menuAction != 0) {
 		menuAction->MenuPress(this->lastClass);
 	}
+	if (this->selection->GetLength() > 1) {
+		this->mouseLButton->ChangeMultipleState();
+	}
+	else if (this->selection->GetLength() ==1 ) {
+		this->mouseLButton->ChangeSelectionState();
+	}
+	//this->selection->DeleteAllItems();
 }
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
