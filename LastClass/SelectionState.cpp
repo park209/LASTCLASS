@@ -79,10 +79,14 @@ void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagr
 	}
 	if (GetKeyState(VK_SHIFT) >= 0) {
 		Long index = selection->SelectByPoint(startX, startY);
-		if (index == 3) { // 크기조절
+		if (index >= 3 && index <= 10) {
+			index = 15; // 크기조절상태
+		}
+
+		if (index == 15) { // 크기조절
 			this->ChangeState(mouseLButton, DrawingResizing::Instance());
 		}
-		if (index == 5) { // 내부 선이동
+		if (index == 12) { // 내부 선이동
 			this->ChangeState(mouseLButton, MovingLine::Instance());
 		}
 		if (index == 6) {
@@ -104,22 +108,40 @@ void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagr
 void SelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	if (startX != currentX && startY != currentY) {
 		Long index = selection->SelectByPoint(startX, startY);
+		/*
+	1번  끝점이동
+	2번  선분리
+	3 ~ 10 번 크기조절 
+	좌상 3번
+	중상단 4번
+	우상 5번
+	좌중 6번
+	우중 7번
+	좌하 8번
+	중하 9번 
+	우하 10번	
+	11번 기호이동
+	12번 내부선 이동
+	13번 셀프선 이동
+*/
 		if (dynamic_cast<SelfRelation*>(selection->GetAt(0))) {
-			index = 6;
+			index = 13;
 			}
+		if (index >= 3 && index <= 10) {
+			index = 15; // 크기조절상태
+		}
 
-
-		if (index == 1) { // 끝점이동
+		if (index == 1) { 
 			this->ChangeState(mouseLButton, MovingRelation::Instance());
 		}
-		if (index == 2) { // 선분리
+		if (index == 2) { 
 			this->ChangeState(mouseLButton, DrawingRelationPoint::Instance());
 		}
 		
-		if (index == 4 || index ==3 || index== 5) { // 기호 이동
+		if (index == 11 || index == 15 || index== 12) { // 기호 이동
 			this->ChangeState(mouseLButton, MovingObject::Instance());
 		}
-		if (index == 6) {
+		if (index == 13) {
 			this->ChangeState(mouseLButton, MovingSelfRelation::Instance());
 		}
 		if (index == -1) {
