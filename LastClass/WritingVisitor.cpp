@@ -91,18 +91,18 @@ void  WritingVisitor::Visit(Relation *relation, CDC *pDC) {
 			if (i == 1) {
 				RECT rt = { relation->rollNamePoints->GetAt(i).x - 40 * this->zoomRate / 100, relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
 					relation->rollNamePoints->GetAt(i).x + 40 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
-				pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+				pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
 			}
 			else if (i == 3 || i == 4) {
 				RECT rt = { relation->rollNamePoints->GetAt(i).x - 25 * this->zoomRate / 100, relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
 					relation->rollNamePoints->GetAt(i).x + 25 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
-				pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+				pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
 			}
 
 			else {
 				RECT rt = { relation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
 					relation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
-				pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_EXPANDTABS);
+				pDC->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
 			}
 			i++;
 		}
