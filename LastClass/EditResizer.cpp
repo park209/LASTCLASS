@@ -49,7 +49,7 @@ void EditResizer::ResizeEdit(TextEdit *textEdit, CDC *cdc) {
 
 		}
 	}                                                                           //글너비가 클래스를 안넘어가는데
-	else if (textEdit->GetRowHeight()*textEdit->text->GetLength() + gabY_ > textEdit->GetCriteriaHeight()) {
+	else if (textEdit->GetRowHeight() * textEdit->text->GetLength() + gabY_ > textEdit->GetCriteriaHeight()) {
 		resizer.ResizeEditHeight(textEdit, cdc);
 	}
 	else {

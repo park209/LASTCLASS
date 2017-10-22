@@ -35,6 +35,7 @@
 #include "RollNameBox.h"
 
 #include "LastClass.h"
+#include "ClassDiagramForm.h"
 
 Class::Class(Long capacity) :FigureComposite(capacity) {
 	this->x = 0;
@@ -112,40 +113,34 @@ Class::~Class() {
 //}
 void Class::Initialize() {
 	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
-	Long firstlineHeight = 50;
-	if (this->height == 90) {
-		firstlineHeight = 30; //40
+	Long firstlineHeight = 50 * test->classDiagramForm->zoomRate / 100;
+	if (this->height == 90 * test->classDiagramForm->zoomRate / 100) {
+		 firstlineHeight = 30 * test->classDiagramForm->zoomRate / 100; //40
 	}
-	if (this->height == 105) {
-		 firstlineHeight = 35; //40
+	if (this->height == 120 * test->classDiagramForm->zoomRate / 100) {
+		firstlineHeight = 40 * test->classDiagramForm->zoomRate / 100;
 	}
-	if (this->height == 120) {
-		firstlineHeight = 40;
+	if (this->height == 180 * test->classDiagramForm->zoomRate / 100) {
+		firstlineHeight = 60 * test->classDiagramForm->zoomRate / 100;
 	}
-	if (this->height == 135) {
-		firstlineHeight = 45;
+	if (this->height == 210 * test->classDiagramForm->zoomRate / 100) {
+		firstlineHeight = 70 * test->classDiagramForm->zoomRate / 100;
 	}
-	if (this->height == 165) {
-		firstlineHeight = 55;
+	if (this->height == 240 * test->classDiagramForm->zoomRate / 100) {
+		firstlineHeight = 80 * test->classDiagramForm->zoomRate / 100;
 	}
-	if (this->height == 180) {
-		firstlineHeight = 60;
+	if (this->height == 270 * test->classDiagramForm->zoomRate / 100) {
+		firstlineHeight = 90 * test->classDiagramForm->zoomRate / 100;
 	}
-	if (this->height == 195) {
-		firstlineHeight = 65;
-	}
-	if (this->height == 210) {
-		firstlineHeight = 70;
-	}
-	if (this->height == 225) {
-		firstlineHeight = 75;
+	if (this->height == 300 * test->classDiagramForm->zoomRate / 100) {
+		firstlineHeight = 100 * test->classDiagramForm->zoomRate / 100;
 	}
 	Long lineHeight = (this->height - firstlineHeight) / 2;
 	ClassName className(this->x, this->y, this->width, firstlineHeight, "");
 	this->figures.Store(this->length, className.Clone());
 	this->length++;
 
-	Line line1(this->x, this->y + firstlineHeight, width, 0);
+	Line line1(this->x, this->y + firstlineHeight, this->width, 0);
 	this->figures.Store(this->length, line1.Clone());
 	this->length++;
 

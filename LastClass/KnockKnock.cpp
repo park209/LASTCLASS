@@ -43,7 +43,7 @@ void KnockKnock::Knocking(ClassDiagramForm *classDiagramForm) {
 				classDiagramForm->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
 				classDiagramForm->textEdit->OnClose();
 			}
-			if (testClass->GetAttributePosition() != -1 && testClass->GetAt(testClass->GetAttributePosition())->GetContent() != "") {
+			if (testClass->GetAttributePosition() != -1) {
 				figure = testClass->GetAt(testClass->GetAttributePosition());
 
 				classDiagramForm->textEdit = new TextEdit(classDiagramForm, figure);
@@ -55,7 +55,7 @@ void KnockKnock::Knocking(ClassDiagramForm *classDiagramForm) {
 				classDiagramForm->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
 				classDiagramForm->textEdit->OnClose();
 			}
-			if (testClass->GetMethodPosition() != -1 && testClass->GetAt(testClass->GetMethodPosition())->GetContent() != "") {
+			if (testClass->GetMethodPosition() != -1) {
 				figure = testClass->GetAt(testClass->GetMethodPosition());
 				classDiagramForm->textEdit = new TextEdit(classDiagramForm, figure);
 				classDiagramForm->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
@@ -66,7 +66,7 @@ void KnockKnock::Knocking(ClassDiagramForm *classDiagramForm) {
 				classDiagramForm->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
 				classDiagramForm->textEdit->OnClose();
 			}
-			if (testClass->GetReceptionPosition() != -1 && testClass->GetAt(testClass->GetReceptionPosition())->GetContent() != "") {
+			if (testClass->GetReceptionPosition() != -1 ) {
 				figure = testClass->GetAt(testClass->GetReceptionPosition());
 				classDiagramForm->textEdit = new TextEdit(classDiagramForm, figure);
 				classDiagramForm->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
@@ -79,7 +79,7 @@ void KnockKnock::Knocking(ClassDiagramForm *classDiagramForm) {
 			}
 				
 		}
-		else if (dynamic_cast<MemoBox*>(classDiagramForm->diagram->GetAt(i)) && classDiagramForm->diagram->GetAt(i)->GetContent() != "") {
+		else if (dynamic_cast<MemoBox*>(classDiagramForm->diagram->GetAt(i))) {
 			classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(i));
 			classDiagramForm->textEdit = new TextEdit(classDiagramForm, classDiagramForm->diagram->GetAt(i));
 			classDiagramForm->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(

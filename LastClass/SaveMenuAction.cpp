@@ -1,7 +1,7 @@
 #include "SaveMenuAction.h"
 #include "LastClass.h"
 #include "ClassDiagramForm.h"
-
+#include "TextEdit.h"
 #include "ResizeVisitor.h"
 #include "Diagram.h"
 
@@ -14,6 +14,10 @@ SaveMenuAction::SaveMenuAction() {
 SaveMenuAction::~SaveMenuAction() {
 }
 void SaveMenuAction::MenuPress(LastClass* lastClass) {
+	if (lastClass->classDiagramForm->textEdit != NULL) {
+		lastClass->classDiagramForm->textEdit->OnClose();
+		lastClass->classDiagramForm->textEdit = NULL;
+	}
 	if (lastClass->classDiagramForm->fileName == "") {
 		int messageBox = lastClass->MessageBox(_T("변경 내용을 제목 없음에 저장하시겠습니까?"), "ClassDiagram", MB_YESNOCANCEL);
 		if (messageBox == IDYES) {

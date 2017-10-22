@@ -68,7 +68,7 @@ void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiag
 		index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
 	}
-
+	/*
 	else if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
 		Long i = 0;
@@ -79,36 +79,24 @@ void DrawingGeneralization::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiag
 			}
 			i++;
 		}
-		if (ret == false) { // 셀프선이 없으면
-			Long k;
-			if (object->GetTempletePosition() != -1) { // 템플릿기호가 있으면
-				SelfGeneralization  selfGeneralization(object->GetX() + 30 * classDiagramForm->zoomRate / 100,
-					object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
-				//k = 0;
-				//while (k < 5) {
-				//	CPoint cPoint(selfAggregation.rollNamePoints->GetAt(k).x, selfAggregation.rollNamePoints->GetAt(k).y - classDiagramForm->seventeen);
-				//	selfAggregation.rollNamePoints->Modify(k, cPoint);
-				//	k++;
-				//}
-				index = object->Add(selfGeneralization.Clone());
-				static_cast<SelfRelation*>(object->GetAt(index))->leftRigtFlag = 1;
+		if (ret == false) {
+			SelfGeneralization selfGeneralization(object->GetX() + object->GetWidth() - 30 * classDiagramForm->zoomRate / 100,
+				object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
+			if (object->GetTempletePosition() != -1) {
+				selfGeneralization.Move(0, -classDiagramForm->seventeen);
+				Long k = 0;
+				while (k < 5) {
+					CPoint cPoint(selfGeneralization.rollNamePoints->GetAt(k).x, selfGeneralization.rollNamePoints->GetAt(k).y - classDiagramForm->seventeen);
+					selfGeneralization.rollNamePoints->Modify(k, cPoint);
+					k++;
+				}
 			}
-			else if (object->GetTempletePosition() == -1) {
-				SelfGeneralization  selfGeneralization(object->GetX() + object->GetWidth() - 30 * classDiagramForm->zoomRate / 100,
-					object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
-				//selfAggregation.Move(0, -classDiagramForm->seventeen);
-				k = 0;
-				/*while (k < 5) {
-				CPoint cPoint(selfAggregation.rollNamePoints->GetAt(k).x, selfAggregation.rollNamePoints->GetAt(k).y - classDiagramForm->seventeen);
-				selfAggregation.rollNamePoints->Modify(k, cPoint);
-				k++;
-				}*/
-				index = object->Add(selfGeneralization.Clone());
-				static_cast<SelfRelation*>(object->GetAt(index))->leftRigtFlag = 0;
-			}
+
+			index = object->Add(selfGeneralization.Clone());
 			figure = object->GetAt(index);
 		}
 	}
+	*/
 	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
 }

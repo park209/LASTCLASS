@@ -158,17 +158,9 @@ void EditResizerProcess::ResizeEditWidthToLeft(TextEdit *textEdit, CDC *cdc) {
 		textEdit->figure->GetY() + GabY - vertCurPos,
 		rt.right + (textEdit->text->MaxWidth(cdc) - rt.right) + CaretWidth,
 		rt.bottom, SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
-
 }
 
 void EditResizerProcess::ResizeTemplateWidth(TextEdit *textEdit) {
-	//RECT rt;
-	//textEdit->GetWindowRect(&rt);
-	//
-	//textEdit->figure->Modify(rt.left - GabX,
-	//	textEdit->figure->GetY(),
-	//	rt.right - rt.left + GabX*2,
-	//	textEdit->figure->GetHeight());
 	RECT rt;
 	textEdit->GetClientRect(&rt);
 

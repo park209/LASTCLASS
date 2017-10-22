@@ -74,6 +74,9 @@ void SelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagr
 	else if (object == 51) {
 		this->ChangeState(mouseLButton, DrawingRealization::Instance(), 51);
 	}
+	else if (object == 87) {
+		this->ChangeState(mouseLButton, DrawingMemoLine::Instance(), 87);
+	}
 	if (GetKeyState(VK_SHIFT) >= 0) {
 		Long index = selection->SelectByPoint(startX, startY);
 		if (index == 3) { // 크기조절

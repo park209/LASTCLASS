@@ -17,7 +17,8 @@
 #include "DrawingDirectedAssociation.h"
 #include "DrawingMemoLine.h"
 #include "DrawingRealization.h"
-
+#include "SelectionState.h"
+#include "MultipleSelectionState.h"
 MouseLButton::MouseLButton() {
 	this->state = DefaultState::Instance();
 	this->buttonState = 0;
@@ -73,6 +74,14 @@ void MouseLButton::ChangeDrawingMemoLineState() {
 void MouseLButton::ChangeDrawingRealizationState() {
 	this->state = DrawingRealization::Instance();
 }
+void MouseLButton::ChangeMultipleState() {
+	this->state = MultipleSelectionState::Instance();
+}
+
+void MouseLButton::ChangeSelectionState() {
+	this->state = SelectionState::Instance();
+}
+
 
 void MouseLButton::ChangeDefault() {
 	this->buttonState = 0;

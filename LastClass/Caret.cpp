@@ -5,6 +5,7 @@
 #include "Text.h"
 #include "Row.h"
 #include "Character.h"
+#include "ClassDiagramForm.h"
 
 Caret::Caret() {
 	characterIndex = 0;
@@ -33,7 +34,7 @@ void Caret::MoveToIndex(TextEdit *textEdit, CDC *pDC) {
 
 	pointX += textEdit->text->GetAt((this->rowIndex))->GetRowWidth(pDC, this->characterIndex);
 
-	textEdit->CreateSolidCaret(2, textEdit->GetRowHeight());
+	textEdit->CreateSolidCaret(CaretWidth, textEdit->GetRowHeight());
 	if (textEdit->GetFlagBuffer() == 1) {
 		textEdit->CreateSolidCaret(-pDC->GetTextExtent(textEdit->text->GetAt(this->rowIndex)->GetAt(this->characterIndex - 1)->MakeCString()).cx, textEdit->GetRowHeight());
 	}
@@ -96,10 +97,10 @@ void Caret::SetRowIndex(Long index) {
 }
 
 Caret& Caret::operator = (const Caret& source) {
-	characterIndex = source.characterIndex;
-	rowIndex = source.rowIndex;
-	currentCaretX = source.currentCaretX;
-	currentCaretY = source.currentCaretY;
+	this->characterIndex = source.characterIndex;
+	this->rowIndex = source.rowIndex;
+	this->currentCaretX = source.currentCaretX;
+	this->currentCaretY = source.currentCaretY;
 
 	return *this;
 }
