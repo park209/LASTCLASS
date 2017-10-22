@@ -104,12 +104,6 @@
     <ClInclude Include="FontSet.h">
       <Filter>Separator\TextEdit</Filter>
     </ClInclude>
-    <ClInclude Include="EditResizerProcess.h">
-      <Filter>Separator\TextEdit</Filter>
-    </ClInclude>
-    <ClInclude Include="EditResizer.h">
-      <Filter>Separator\TextEdit</Filter>
-    </ClInclude>
     <ClInclude Include="BackSpaceKey.h">
       <Filter>Separator\KeyAction\TextEditKeyAction</Filter>
     </ClInclude>
@@ -188,39 +182,6 @@
     <ClInclude Include="DeleteKey.h">
       <Filter>Separator\KeyAction\TextEditKeyAction</Filter>
     </ClInclude>
-    <ClInclude Include="AddTemplateKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="AddReceptionKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="RemoveReceptionKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="AddAttributeKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="RemoveAttributeKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="AddMethodKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="RemoveMethodKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="RemoveTemplateKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicCtrlAllKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicCtrlRedoKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicCtrlUndoKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
     <ClInclude Include="OnHScrollEnd.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
@@ -262,54 +223,6 @@
     </ClInclude>
     <ClInclude Include="OnVScrollEnd.h">
       <Filter>ScrollBar</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicCtrlPasteKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicCtrlCopyKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicCtrlCutKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="EditResizerBlocker.h">
-      <Filter>Separator\TextEdit</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlNewKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlOpenKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlPreviewKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlPrintKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="CtrlSaveKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="DeleteGraphicKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="F1HelpKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicCtrlDeleteKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicDownArrowKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicLeftArrowKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicRightArrowKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicUpArrowKey.h">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
     </ClInclude>
     <ClInclude Include="TextEdit.h">
       <Filter>Separator\TextEdit</Filter>
@@ -391,12 +304,6 @@
     <ClCompile Include="FontSet.cpp">
       <Filter>Separator\TextEdit</Filter>
     </ClCompile>
-    <ClCompile Include="EditResizer.cpp">
-      <Filter>Separator\TextEdit</Filter>
-    </ClCompile>
-    <ClCompile Include="EditResizerProcess.cpp">
-      <Filter>Separator\TextEdit</Filter>
-    </ClCompile>
     <ClCompile Include="BackSpaceKey.cpp">
       <Filter>Separator\KeyAction\TextEditKeyAction</Filter>
     </ClCompile>
@@ -472,39 +379,6 @@
     <ClCompile Include="DeleteKey.cpp">
       <Filter>Separator\KeyAction\TextEditKeyAction</Filter>
     </ClCompile>
-    <ClCompile Include="AddTemplateKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="AddReceptionKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="RemoveReceptionKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="AddAttributeKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="RemoveAttributeKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="AddMethodKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="RemoveMethodKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="RemoveTemplateKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicCtrlRedoKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicCtrlUndoKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicCtrlAllKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
     <ClCompile Include="WritingVisitor.cpp">
       <Filter>Separator\TextEdit</Filter>
     </ClCompile>
@@ -550,56 +424,8 @@
     <ClCompile Include="OnVScrollEnd.cpp">
       <Filter>ScrollBar</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicCtrlCopyKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicCtrlCutKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlNewKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlOpenKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlPreviewKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlPrintKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="CtrlSaveKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="DeleteGraphicKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="F1HelpKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicCtrlDeleteKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
     <ClCompile Include="TextEdit.cpp">
       <Filter>Separator\TextEdit</Filter>
-    </ClCompile>
-    <ClCompile Include="EditResizerBlocker.cpp">
-      <Filter>Separator\TextEdit</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicUpArrowKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicDownArrowKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicleftArrowKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicRightArrowKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicCtrlPasteKey.cpp">
-      <Filter>Separator\KeyAction\GraphicKeyAction</Filter>
     </ClCompile>
     <ClCompile Include="CtrlRedoTextKey.cpp">
       <Filter>Separator\KeyAction\TextEditKeyAction</Filter>

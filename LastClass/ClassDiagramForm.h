@@ -13,28 +13,28 @@ extern Long GabX;
 extern Long GabY;
 extern Long CaretWidth;
 
-class Diagram; //전방선언
 class TextEdit;
-class Selection;
-class MouseLButton;
-class KeyBoard;
-class HistoryGraphic;
-class Menu;
+//class Diagram; //전방선언
+//class Selection;
+//class MouseLButton;
+//class KeyBoard;
+//class HistoryGraphic;
+//class Menu;
+//class ClassDiagramFormMenu;
 class Scroll;
 class LastClass;
-class ClassDiagramFormMenu;
 class ClassDiagramForm : public CWnd { //CFrameWnd 에 상속관계 표기
 public:
 	LastClass *lastClass;
-	Diagram *diagram;
+	//Diagram *diagram;
 	TextEdit *textEdit;
-	Selection *selection;
-	MouseLButton *mouseLButton;
-	KeyBoard *keyBoard;
-	HistoryGraphic *historyGraphic;
+	//Selection *selection;
+	//MouseLButton *mouseLButton;
+	//KeyBoard *keyBoard;
+	//HistoryGraphic *historyGraphic;
 	Scroll *scroll;
-	Selection *copyBuffer;
-	ClassDiagramFormMenu *classDiagramFormMenu;
+	//Selection *copyBuffer;
+	//ClassDiagramFormMenu *classDiagramFormMenu;
 	Long isCut;
 	Long capsLockFlag;
 	Long numLockFlag;
