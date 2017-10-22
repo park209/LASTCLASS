@@ -26,6 +26,7 @@
 #include "Relation.h"
 #include "SelfRelation.h"
 #include "StatusBar.h"
+#include "Template.h"
 
 //#include <iostream>
 
@@ -66,6 +67,10 @@ TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Figure *figure, Long roll
 	this->criteriaWidth = figure->GetWidth();
 	this->criteriaHeight = figure->GetHeight();
 	this->criteriaX = figure->GetX();
+	if (dynamic_cast<Template*>(figure)) {
+		this->criteriaWidth = classDiagramForm->seventeen + 30 * classDiagramForm->zoomRate / 100;
+		this->criteriaX = classDiagramForm->selection->GetAt(0)->GetX() + classDiagramForm->selection->GetAt(0)->GetWidth() - 30 * classDiagramForm->zoomRate / 100;
+	}
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -84,6 +89,7 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 	if (this->rollNameBoxIndex == -1) {
 		this->text->SprayString(this->figure->GetContent()); // 넘겨받아온거 자료구조로 뿌려줌 ㅇㅇㅇㅇㅇ
+		this->figure->ReplaceString("", this->rowHeight);
 	}
 	else if (dynamic_cast<Relation*>(this->figure)) {
 		this->text->SprayString(static_cast<Relation*>(this->figure)->rollNames->GetAt(this->rollNameBoxIndex));

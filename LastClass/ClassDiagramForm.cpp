@@ -976,8 +976,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 
 		this->SetMemoGab(20 * this->zoomRate / 100);
 		this->SetGabX(8 * this->zoomRate / 100);
-		//this->SetGabY(2 * this->zoomRate / 100);
-		this->SetCaretWidth(2);
+		this->SetGabY(2 * this->zoomRate / 100);
+		this->SetCaretWidth(2 * this->zoomRate / 100);
 
 		this->thirty = this->thirty*this->zoomRate / this->preZoom;
 		this->seventeen = this->seventeen*this->zoomRate / this->preZoom;
@@ -1018,7 +1018,7 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 			delete knocking;
 		}
 
-		if ((zoomRate_!=70 ||this->zoomRate!=70)&& (zoomRate_ != 130 || this->zoomRate != 130)) {
+		if ((zoomRate_!=60 ||this->zoomRate!=60)&& (zoomRate_ != 130 || this->zoomRate != 130)) {
 			this->lastClass->statusBar->DestroyStatus();
 			this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		}
@@ -1151,14 +1151,14 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX() + GabX - horzCurPos,
 				figure->GetY() + GabY + MemoGab - vertCurPos,
-				figure->GetX() + figure->GetWidth() - GabX - horzCurPos + 2,
+				figure->GetX() + figure->GetWidth() - GabX - horzCurPos + CaretWidth,
 				figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
 		}
 		else /*if (!dynamic_cast<SelfRelation*>(figure))*/ {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX() + GabX - horzCurPos,
 				figure->GetY() + GabY - vertCurPos,
-				figure->GetX() + figure->GetWidth() - GabX - horzCurPos + 2,
+				figure->GetX() + figure->GetWidth() - GabX - horzCurPos + CaretWidth,
 				figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
 		}
 	}

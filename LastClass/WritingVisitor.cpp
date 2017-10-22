@@ -120,7 +120,6 @@ void WritingVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 }
 
 void WritingVisitor::Visit(Template *object, CDC *cPaintDc) {
-	//CRect rt(object->GetX() + GabX, object->GetY() + GabY, object->GetWidth() - GabX, object->GetHeight() - GabY);
 	RECT rt = { object->GetX() + GabX , object->GetY() + GabY, object->GetX() + object->GetWidth() - GabX, object->GetY() + object->GetHeight() - GabY };
 	cPaintDc->DrawText((CString)object->GetContent().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
 }

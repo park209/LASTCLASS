@@ -31,7 +31,7 @@ void EditResizerBlocker::Block(TextEdit *textEdit, CDC *pDC) {
 	textEdit->GetClientRect(&editRect);
 
 
-	if (/*!dynamic_cast<Template*>(textEdit->figure) && */!dynamic_cast<Relation*>(textEdit->figure) && !dynamic_cast<SelfRelation*>(textEdit->figure)) {
+	if (!dynamic_cast<Relation*>(textEdit->figure) && !dynamic_cast<SelfRelation*>(textEdit->figure)) {
 		FigureComposite *object = dynamic_cast<FigureComposite*>(((ClassDiagramForm*)(textEdit->GetParent()))->selection->GetAt(0));
 		bool progress = false;
 		if (dynamic_cast<Template*>(textEdit->figure) && textEdit->text->MaxWidth(pDC) + GabY * 2 + CaretWidth < object->GetWidth() - 30) {
