@@ -1207,7 +1207,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				left + 1 - horzCurPos,
 				top + 1 - vertCurPos,
-				right - 1 - horzCurPos + 2,
+				right - 1 - horzCurPos,
 				bottom - 1 - vertCurPos), this, 10000, NULL);
 		}
 	}

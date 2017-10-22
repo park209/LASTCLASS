@@ -19,7 +19,7 @@ CtrlEnterKey::~CtrlEnterKey() {
 }
 
 void CtrlEnterKey::KeyPress(TextEdit *textEdit) {
-	if (textEdit->flagSelection == 1) {
+	/*if (textEdit->flagSelection == 1) {
 		DeleteTextArea *deleteArea = new DeleteTextArea();
 		deleteArea->DeleteArea(textEdit);
 		if (deleteArea != 0) {
@@ -47,7 +47,7 @@ void CtrlEnterKey::KeyPress(TextEdit *textEdit) {
 
 		}
 		textEdit->caret->SetCharacterIndex(0);
-	}
+	}*/
 }
 
 void CtrlEnterKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
