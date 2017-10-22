@@ -9,6 +9,7 @@
 #include "SelfRelation.h"
 #include "Finder.h"
 #include "MemoLine.h"
+#include "Template.h"
 
 Diagram::Diagram(Long capacity) {
 	this->capacity = capacity;
@@ -101,6 +102,8 @@ Figure* Diagram::FindItem(Long x, Long y) {
 	Long endX;
 	Long endY;
 	Long index = -1;
+	Long j = 0;
+
 	smartPointer->First();
 	while (!smartPointer->IsDone() && index != 0) {
 		endX = smartPointer->Current()->GetX() + smartPointer->Current()->GetWidth();
@@ -123,8 +126,11 @@ Figure* Diagram::FindItem(Long x, Long y) {
 		SmartPointer<Figure*> smartPointer_(static_cast<FigureComposite*>(figure)->CreateIterator()); //클래스 배열 반복자
 		for (smartPointer_->First(); !smartPointer_->IsDone(); smartPointer_->Next()) {
 			if (smartPointer_->Current()->GetX() <= x && smartPointer_->Current()->GetX() + smartPointer_->Current()->GetWidth() >= x
-				&& smartPointer_->Current()->GetY() <= y && smartPointer_->Current()->GetY() + smartPointer_->Current()->GetHeight() >= y) {
+				&& smartPointer_->Current()->GetY() <= y && smartPointer_->Current()->GetY() + smartPointer_->Current()->GetHeight() >= y && j == 0) {
 				figure = smartPointer_->Current();
+				if (dynamic_cast<Template*>(smartPointer_->Current())) {
+					j++;
+				}
 			}
 		}
 	}
