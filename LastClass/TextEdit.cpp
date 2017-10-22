@@ -27,6 +27,7 @@
 #include "Finder.h"
 #include "SelfRelation.h"
 #include "StatusBar.h"
+#include "Template.h"
 
 //#include <iostream>
 
@@ -67,6 +68,10 @@ TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Figure *figure, Long roll
 	this->criteriaWidth = figure->GetWidth();
 	this->criteriaHeight = figure->GetHeight();
 	this->criteriaX = figure->GetX();
+	if (dynamic_cast<Template*>(figure)) {
+		this->criteriaWidth = classDiagramForm->seventeen + 30 * classDiagramForm->zoomRate / 100;
+		this->criteriaX = classDiagramForm->selection->GetAt(0)->GetX() + classDiagramForm->selection->GetAt(0)->GetWidth() - 30 * classDiagramForm->zoomRate / 100;
+	}
 }
 
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -85,6 +90,7 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 	if (this->rollNameBoxIndex == -1) {
 		this->text->SprayString(this->figure->GetContent()); // 넘겨받아온거 자료구조로 뿌려줌 ㅇㅇㅇㅇㅇ
+		this->figure->ReplaceString("", this->rowHeight);
 	}
 	else if (dynamic_cast<Relation*>(this->figure)) {
 		this->text->SprayString(static_cast<Relation*>(this->figure)->rollNames->GetAt(this->rollNameBoxIndex));
@@ -264,7 +270,7 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 		SetFont(&cFont, TRUE);
 	}
 	else {
-		cFont.CreateFont(13 * this->classDiagramForm->zoomRate, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+		cFont.CreateFont(10 * this->classDiagramForm->zoomRate / 100, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		SetFont(&cFont, TRUE);
 	}
@@ -323,12 +329,19 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 	
 	if (nFlags == MK_LBUTTON) {
 		//SetCursor(LoadCursor(NULL, IDC_IBEAM));
-		CFont cFont;
 		CClientDC dc(this);
-		int ih = MulDiv(14 * this->classDiagramForm->zoomRate / 100, GetDeviceCaps(dc, LOGPIXELSY), 72);
-		cFont.CreateFont(ih, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str()); 
-		this->SetFont(&cFont, TRUE);
+		CFont cFont;
+		if (this->rollNameBoxIndex == -1) {
+			int ih = MulDiv(14 * this->classDiagramForm->zoomRate / 100, GetDeviceCaps(dc, LOGPIXELSY), 72);
+			cFont.CreateFont(ih, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+				OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
+			SetFont(&cFont, TRUE);
+		}
+		else {
+			cFont.CreateFont(10 * this->classDiagramForm->zoomRate / 100, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+				OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
+			SetFont(&cFont, TRUE);
+		}
 		CFont *oldFont = dc.SelectObject(&cFont);// 폰트 시작
 
 		if (this->flagSelection == 0 && this->currentX != 0) {// && this->) { // 왼마우스 눌려있는데 이동시에 flag 진행중인지 확인해서
