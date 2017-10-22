@@ -32,9 +32,9 @@ void AddTemplateKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 		Class *object = static_cast<Class*>(classDiagramForm->selection->GetAt(0));
 		if (object->GetTempletePosition() == -1) {
 			classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram, classDiagramForm->zoomRate);
-			object->AddTemplate((object->GetX() + object->GetWidth()) - 30 * classDiagramForm->zoomRate / 100, //object->GetWidth()/4,
-				object->GetY() - classDiagramForm->seventeen,
-				((object->GetX() + object->GetWidth() + classDiagramForm->seventeen) - ((object->GetX() + object->GetWidth()) - 30 * classDiagramForm->zoomRate / 100)),
+			object->AddTemplate((object->GetX() + object->GetWidth()) - 30 * classDiagramForm->zoomRate / 100,
+				object->GetY() - 17 * classDiagramForm->zoomRate / 100,
+				(17 * classDiagramForm->zoomRate / 100 + 30 * classDiagramForm->zoomRate / 100),
 				34 * classDiagramForm->zoomRate / 100);
 			Long i = 0;
 			Long startX = object->GetX();
