@@ -248,6 +248,157 @@
     <ClInclude Include="LastClass.h" />
     <ClInclude Include="ClassDiagramForm.h" />
     <ClInclude Include="LastClassApp.h" />
+    <ClInclude Include="AboutMenu.h" />
+    <ClInclude Include="AboutMenuAction.h" />
+    <ClInclude Include="AddAttributeKey.h" />
+    <ClInclude Include="AddAttributeMenuAction.h" />
+    <ClInclude Include="AddMethodKey.h" />
+    <ClInclude Include="AddMethodMenuAction.h" />
+    <ClInclude Include="AddReceptionKey.h" />
+    <ClInclude Include="AddReceptionMenuAction.h" />
+    <ClInclude Include="AddTemplateKey.h" />
+    <ClInclude Include="AddTemplateMenuAction.h" />
+    <ClInclude Include="Aggregation.h" />
+    <ClInclude Include="AggregationMenuAction.h" />
+    <ClInclude Include="Aggregations.h" />
+    <ClInclude Include="AggregationsMenuAction.h" />
+    <ClInclude Include="Association.h" />
+    <ClInclude Include="AssociationMenuAction.h" />
+    <ClInclude Include="Attribute.h" />
+    <ClInclude Include="Class.h" />
+    <ClInclude Include="ClassDiagramFormMenu.h" />
+    <ClInclude Include="ClassMenuAction.h" />
+    <ClInclude Include="ClassName.h" />
+    <ClInclude Include="Composition.h" />
+    <ClInclude Include="CompositionMenuAction.h" />
+    <ClInclude Include="Compositions.h" />
+    <ClInclude Include="CompositionsMenuAction.h" />
+    <ClInclude Include="CtrlNewKey.h" />
+    <ClInclude Include="CtrlOpenKey.h" />
+    <ClInclude Include="CtrlPreviewKey.h" />
+    <ClInclude Include="CtrlPrintKey.h" />
+    <ClInclude Include="CtrlSaveKey.h" />
+    <ClInclude Include="DefaultState.h" />
+    <ClInclude Include="DeleteAttributeMenuAction.h" />
+    <ClInclude Include="DeleteGraphicKey.h" />
+    <ClInclude Include="DeleteGraphicKeyMenuAction.h" />
+    <ClInclude Include="DeleteMenuAction.h" />
+    <ClInclude Include="DeleteMethodMenuAction.h" />
+    <ClInclude Include="DeleteReceptionMenuAction.h" />
+    <ClInclude Include="DeleteTemplateMenuAction.h" />
+    <ClInclude Include="Dependency.h" />
+    <ClInclude Include="DependencyMenuAction.h" />
+    <ClInclude Include="Diagram.h" />
+    <ClInclude Include="DirectedAssociation.h" />
+    <ClInclude Include="DirectedAssociationMenuAction.h" />
+    <ClInclude Include="DrawingAggregation.h" />
+    <ClInclude Include="DrawingAggregations.h" />
+    <ClInclude Include="DrawingAssociation.h" />
+    <ClInclude Include="DrawingClass.h" />
+    <ClInclude Include="DrawingComposition.h" />
+    <ClInclude Include="DrawingCompositions.h" />
+    <ClInclude Include="DrawingDependency.h" />
+    <ClInclude Include="DrawingDirectedAssociation.h" />
+    <ClInclude Include="DrawingGeneralization.h" />
+    <ClInclude Include="DrawingMemoBox.h" />
+    <ClInclude Include="DrawingMemoLine.h" />
+    <ClInclude Include="DrawingRealization.h" />
+    <ClInclude Include="DrawingRelation.h" />
+    <ClInclude Include="DrawingRelationPoint.h" />
+    <ClInclude Include="DrawingResize.h" />
+    <ClInclude Include="DrawingResizing.h" />
+    <ClInclude Include="DrawingVisitor.h" />
+    <ClInclude Include="DrawRollNameBoxes.h" />
+    <ClInclude Include="EditResizer.h" />
+    <ClInclude Include="EditResizerBlocker.h" />
+    <ClInclude Include="EditResizerProcess.h" />
+    <ClInclude Include="ExitKeyMenuAction.h" />
+    <ClInclude Include="F1HelpKey.h" />
+    <ClInclude Include="Figure.h" />
+    <ClInclude Include="FigureComposite.h" />
+    <ClInclude Include="FigureFactory.h" />
+    <ClInclude Include="FilePrintMenuAction.h" />
+    <ClInclude Include="FilePrintPreviewMenuAction.h" />
+    <ClInclude Include="Finder.h" />
+    <ClInclude Include="Generalization.h" />
+    <ClInclude Include="GeneralizationMenuAction.h" />
+    <ClInclude Include="GraphicCtrlAllKey.h" />
+    <ClInclude Include="GraphicCtrlCopyKey.h" />
+    <ClInclude Include="GraphicCtrlCopyMenuAction.h" />
+    <ClInclude Include="GraphicCtrlCutKey.h" />
+    <ClInclude Include="GraphicCtrlCutMenuAction.h" />
+    <ClInclude Include="GraphicCtrlDeleteKey.h" />
+    <ClInclude Include="GraphicCtrlPasteKey.h" />
+    <ClInclude Include="GraphicCtrlPasteMenuAction.h" />
+    <ClInclude Include="GraphicCtrlRedoKey.h" />
+    <ClInclude Include="GraphicCtrlRedoMenuAction.h" />
+    <ClInclude Include="GraphicCtrlUndoKey.h" />
+    <ClInclude Include="GraphicCtrlUndoMenuAction.h" />
+    <ClInclude Include="GraphicDownArrowKey.h" />
+    <ClInclude Include="GraphicLeftArrowKey.h" />
+    <ClInclude Include="GraphicRightArrowKey.h" />
+    <ClInclude Include="GraphicUpArrowKey.h" />
+    <ClInclude Include="HistoryGraphic.h" />
+    <ClInclude Include="KnockKnock.h" />
+    <ClInclude Include="LeftSelfAggregation.h" />
+    <ClInclude Include="LeftSelfRelation.h" />
+    <ClInclude Include="Line.h" />
+    <ClInclude Include="MemoBox.h" />
+    <ClInclude Include="MemoBoxMenuAction.h" />
+    <ClInclude Include="MemoLine.h" />
+    <ClInclude Include="MemoLineMenuAction.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="MenuAction.h" />
+    <ClInclude Include="Method.h" />
+    <ClInclude Include="MouseLButton.h" />
+    <ClInclude Include="MouseLButtonAction.h" />
+    <ClInclude Include="MovingLine.h" />
+    <ClInclude Include="MovingLineProcess.h" />
+    <ClInclude Include="MovingObject.h" />
+    <ClInclude Include="MovingRelation.h" />
+    <ClInclude Include="MovingSelfRelation.h" />
+    <ClInclude Include="MovingVisitor.h" />
+    <ClInclude Include="MultipleSelectionState.h" />
+    <ClInclude Include="NewMenuAction.h" />
+    <ClInclude Include="OpenMenuAction.h" />
+    <ClInclude Include="PrintPreview.h" />
+    <ClInclude Include="PrintPreviewButton.h" />
+    <ClInclude Include="PrintPreviewButtonAction.h" />
+    <ClInclude Include="PrintPreviewNextButton.h" />
+    <ClInclude Include="PrintPreviewPreviousButton.h" />
+    <ClInclude Include="PrintPreviewPrintButton.h" />
+    <ClInclude Include="PrintPreviewState.h" />
+    <ClInclude Include="PrintPreviewZoomInButton.h" />
+    <ClInclude Include="PrintPreviewZoomOutButton.h" />
+    <ClInclude Include="Realization.h" />
+    <ClInclude Include="RealizationMenuAction.h" />
+    <ClInclude Include="Reception.h" />
+    <ClInclude Include="Relation.h" />
+    <ClInclude Include="RemoveAttributeKey.h" />
+    <ClInclude Include="RemoveMethodKey.h" />
+    <ClInclude Include="RemoveReceptionKey.h" />
+    <ClInclude Include="RemoveTemplateKey.h" />
+    <ClInclude Include="ResizeVisitor.h" />
+    <ClInclude Include="RollNameBox.h" />
+    <ClInclude Include="SaveAsMenuAction.h" />
+    <ClInclude Include="SaveMenuAction.h" />
+    <ClInclude Include="Selection.h" />
+    <ClInclude Include="SelectionState.h" />
+    <ClInclude Include="SelfAggregation.h" />
+    <ClInclude Include="SelfAggregations.h" />
+    <ClInclude Include="SelfAssociation.h" />
+    <ClInclude Include="SelfComposition.h" />
+    <ClInclude Include="SelfCompositions.h" />
+    <ClInclude Include="SelfDependency.h" />
+    <ClInclude Include="SelfDirectedAssociation.h" />
+    <ClInclude Include="SelfGeneralization.h" />
+    <ClInclude Include="SelfRelation.h" />
+    <ClInclude Include="StatusBar.h" />
+    <ClInclude Include="SupportMenu.h" />
+    <ClInclude Include="SupportMenuAction.h" />
+    <ClInclude Include="Template.h" />
+    <ClInclude Include="ToolBar.h" />
+    <ClInclude Include="ToolBarProcess.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Text.cpp">
@@ -439,10 +590,466 @@
     <ClCompile Include="ClassDiagramForm.cpp" />
     <ClCompile Include="LastClass.cpp" />
     <ClCompile Include="LastClassApp.cpp" />
+    <ClCompile Include="AboutMenu.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AboutMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AddAttributeKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AddAttributeMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AddMethodKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AddMethodMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AddReceptionKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AddReceptionMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AddTemplateKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AddTemplateMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Aggregation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AggregationMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Aggregations.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AggregationsMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Association.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="AssociationMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Attribute.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Class.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassDiagramFormMenu.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassName.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Composition.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositionMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Compositions.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositionsMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlNewKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlOpenKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlPreviewKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlPrintKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlSaveKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultState.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteAttributeMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteGraphicKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteGraphicKeyMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteMethodMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteReceptionMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteTemplateMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependency.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DependencyMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Diagram.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectedAssociation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectedAssociationMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingAggregation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingAggregations.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingAssociation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingClass.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingComposition.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingCompositions.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingDependency.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingDirectedAssociation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingGeneralization.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingMemoBox.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingMemoLine.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingRealization.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingRelation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingRelationPoint.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingResize.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingResizing.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingVisitor.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawRollNameBoxes.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="EditResizer.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="EditResizerBlocker.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="EditResizerProcess.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="ExitKeyMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="F1HelpKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Figure.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="FigureComposite.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="FigureFactory.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="FilePrintMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="FilePrintPreviewMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Finder.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Generalization.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneralizationMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlAllKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlCopyKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlCopyMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlCutKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlCutMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlDeleteKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlPasteKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlPasteMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlRedoKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlRedoMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlUndoKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCtrlUndoMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicDownArrowKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicleftArrowKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicRightArrowKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicUpArrowKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="HistoryGraphic.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="KnockKnock.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="LeftSelfAggregation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="LeftSelfRelation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Line.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoBox.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoBoxMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoLine.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoLineMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Method.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseLButton.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseLButtonAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingLine.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingLineProcess.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingObject.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingRelation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingSelfRelation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingVisitor.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="MultipleSelectionState.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="NewMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreview.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreviewButton.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreviewButtonAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreviewNextButton.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreviewPreviousButton.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreviewPrintButton.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreviewState.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreviewZoomInButton.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreviewZoomOutButton.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Realization.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="RealizationMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Reception.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Relation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="RemoveAttributeKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="RemoveMethodKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="RemoveReceptionKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="RemoveTemplateKey.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="ResizeVisitor.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="RollNameBox.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveAsMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Selection.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectionState.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfAggregation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfAggregations.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfAssociation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfComposition.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfCompositions.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfDependency.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfDirectedAssociation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfGeneralization.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfRelation.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="StatusBar.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SupportMenu.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="SupportMenuAction.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Template.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBar.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBarProcess.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc">
       <Filter>Resource</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LastClass.filters" />
   </ItemGroup>
 </Project>
