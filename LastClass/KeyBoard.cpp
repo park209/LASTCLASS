@@ -25,36 +25,35 @@
 #include "CtrlRedoTextKey.h"
 #include "CtrlCutKey.h"
 #include "ClassDiagramForm.h"
+#include "AddTemplateKey.h"
+#include "DeleteGraphicKey.h"
+#include "AddReceptionKey.h"
+#include "RemoveReceptionKey.h"
+#include "AddAttributeKey.h"
+#include "AddAttributeKey.h"
+#include "RemoveAttributeKey.h"
+#include "AddMethodKey.h"
+#include "RemoveMethodKey.h"
+#include "RemoveTemplateKey.h"
+#include "GraphicCtrlUndoKey.h"
+#include "GraphicCtrlRedoKey.h"
+#include "GraphicCtrlAllKey.h"
+#include "GraphicCtrlCopyKey.h"
+#include "GraphicCtrlPasteKey.h"
+#include "GraphicCtrlCutKey.h"
+#include "GraphicCtrlRedoKey.h"
 
-//#include "AddTemplateKey.h"
-//#include "DeleteGraphicKey.h"
-//#include "AddReceptionKey.h"
-//#include "RemoveReceptionKey.h"
-//#include "AddAttributeKey.h"
-//#include "AddAttributeKey.h"
-//#include "RemoveAttributeKey.h"
-//#include "AddMethodKey.h"
-//#include "RemoveMethodKey.h"
-//#include "RemoveTemplateKey.h"
-//#include "GraphicCtrlUndoKey.h"
-//#include "GraphicCtrlRedoKey.h"
-//#include "GraphicCtrlAllKey.h"
-//#include "GraphicCtrlCopyKey.h"
-//#include "GraphicCtrlPasteKey.h"
-//#include "GraphicCtrlCutKey.h"
-//#include "GraphicCtrlRedoKey.h"
-//
-//#include "CtrlSaveKey.h"
-//#include "F1HelpKey.h"
-//#include "CtrlNewKey.h"
-//#include "CtrlOpenKey.h"
-//#include "CtrlPreviewKey.h"
-//#include "CtrlPrintKey.h"
-//#include "GraphicCtrlDeleteKey.h"
-//#include "GraphicRightArrowKey.h"
-//#include "GraphicUpArrowKey.h"
-//#include "GraphicDownArrowKey.h"
-//#include "GraphicLeftArrowKey.h"
+#include "CtrlSaveKey.h"
+#include "F1HelpKey.h"
+#include "CtrlNewKey.h"
+#include "CtrlOpenKey.h"
+#include "CtrlPreviewKey.h"
+#include "CtrlPrintKey.h"
+#include "GraphicCtrlDeleteKey.h"
+#include "GraphicRightArrowKey.h"
+#include "GraphicUpArrowKey.h"
+#include "GraphicDownArrowKey.h"
+#include "GraphicLeftArrowKey.h"
 
 
 KeyBoard::KeyBoard() {
@@ -131,41 +130,41 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 	case 0x53: // S
 		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
 		}
-		/*else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlSaveKey;
-		}*/
+		}
 		break;
 		//////////////////////////////////////////////////////////////////////////////
-	//case VK_F1: // F1
-	//	this->keyAction = new F1HelpKey;
-	//	break;
+	case VK_F1: // F1
+		this->keyAction = new F1HelpKey;
+		break;
 	case 0x46: // F
 		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
 		}
-		/*else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlPreviewKey;
-		}*/
+		}
 		break;
 	case 0x50: // P
 		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
 		}
-		/*else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlPrintKey;
-		}*/
+		}
 		break;
 	case 0x4E: // N
 		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
 		}
-		/*else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlNewKey;
-		}*/
+		}
 		break;
 	case 0x4F: // O
 		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
 		}
-		/*else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlOpenKey;
-		}*/
+		}
 		break;
 		/////////////////////////////////////////////////////////////////////////////////////////////
 	case  VK_OEM_PLUS:
@@ -220,117 +219,117 @@ KeyAction* KeyBoard::KeyDown(ClassDiagramForm *classDiagramForm, UINT nChar, UIN
 		this->keyAction = 0;
 	}
 	switch (nChar) {
-	//case VK_DELETE:
-	//	this->keyAction = new DeleteGraphicKey;
-	//	break;
-	//case 0x59: // y
-	//	if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-	//		//this->keyAction = new ;
-	//	}
-	//	else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-	//		this->keyAction = new GraphicCtrlRedoKey;
-	//	}
-	//	break;
-	//case 0x41: // a
-	//	if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-	//		this->keyAction = new AddTemplateKey;
-	//	}
-	//	else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-	//		this->keyAction = new GraphicCtrlAllKey;
-	//	}
-	//	break;
-	//case VK_F1: // F1
-	//	this->keyAction = new F1HelpKey;
-	//	break;
-	//case 0x50: // P
-	//	if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-	//	}
-	//	else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-	//		this->keyAction = new CtrlPrintKey;
-	//	}
-	//	break;
-	//case 0x4E: // N
-	//	if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-	//	}
-	//	else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-	//		this->keyAction = new CtrlNewKey;
-	//	}
-	//	break;
-	//case 0x4F: // O
-	//	if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-	//	}
-	//	else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-	//		this->keyAction = new CtrlOpenKey;
-	//	}
-	//	break;
-	//case 0x46: // f 
-	//	if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-	//		this->keyAction = new AddReceptionKey;
-	//	}
-	//	else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-	//		this->keyAction = new CtrlPreviewKey;
-	//	}
-	//	break;
-	//case 0x53: // S
-	//	if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-	//		this->keyAction = new AddAttributeKey;
-	//	}
-	//	else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-	//		this->keyAction = new CtrlSaveKey;
-	//	}
-	//	break;
-	//case 0x44: // D
-	//	if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-	//		this->keyAction = new AddMethodKey;
-	//	}
-	//	else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-	//		this->keyAction = new GraphicCtrlDeleteKey;
-	//	}
-	//	break;
-	//case 0x5A: // z
-	//	if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-	//		this->keyAction = new RemoveTemplateKey;
-	//	}
-	//	else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-	//		this->keyAction = new GraphicCtrlUndoKey;
-	//	}
-	//	break;
-	//case 0x58: // x  
-	//	if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-	//		this->keyAction = new GraphicCtrlCutKey;
-	//	}
-	//	else if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-	//		this->keyAction = new RemoveAttributeKey;
-	//	}
-	//    break;  
-	// case 0x43:  // c  
-	//	 if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-	//		 this->keyAction = new GraphicCtrlCopyKey;
-	//	 }
-	//	 else if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-	//		 this->keyAction = new RemoveMethodKey;
-	//	 }
-	//	break; 
-	//case 0x56: // v  208   +	case 0x43: // v  
-	//	if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-	//		this->keyAction = new GraphicCtrlPasteKey;
-	//	}
-	//	else if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-	//		this->keyAction = new RemoveReceptionKey;
-	//		}
-	//	break;
-	//case VK_LEFT:
-	//	this->keyAction = new GraphicLeftArrowKey;
-	//	break;
-	//case VK_RIGHT:
-	//	this->keyAction = new GraphicRightArrowKey;
-	//	break;
-	//case VK_UP:
-	//	this->keyAction = new GraphicUpArrowKey;
-	//	break;
-	//case VK_DOWN:
-	//	this->keyAction = new GraphicDownArrowKey;
-	//	break;
+	case VK_DELETE:
+		this->keyAction = new DeleteGraphicKey;
+		break;
+	case 0x59: // y
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			//this->keyAction = new ;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new GraphicCtrlRedoKey;
+		}
+		break;
+	case 0x41: // a
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			this->keyAction = new AddTemplateKey;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new GraphicCtrlAllKey;
+		}
+		break;
+	case VK_F1: // F1
+		this->keyAction = new F1HelpKey;
+		break;
+	case 0x50: // P
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlPrintKey;
+		}
+		break;
+	case 0x4E: // N
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlNewKey;
+		}
+		break;
+	case 0x4F: // O
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlOpenKey;
+		}
+		break;
+	case 0x46: // f 
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			this->keyAction = new AddReceptionKey;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlPreviewKey;
+		}
+		break;
+	case 0x53: // S
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			this->keyAction = new AddAttributeKey;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlSaveKey;
+		}
+		break;
+	case 0x44: // D
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			this->keyAction = new AddMethodKey;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new GraphicCtrlDeleteKey;
+		}
+		break;
+	case 0x5A: // z
+		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			this->keyAction = new RemoveTemplateKey;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new GraphicCtrlUndoKey;
+		}
+		break;
+	case 0x58: // x  
+		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new GraphicCtrlCutKey;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			this->keyAction = new RemoveAttributeKey;
+		}
+	    break;  
+	 case 0x43:  // c  
+		 if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			 this->keyAction = new GraphicCtrlCopyKey;
+		 }
+		 else if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			 this->keyAction = new RemoveMethodKey;
+		 }
+		break; 
+	case 0x56: // v  208   +	case 0x43: // v  
+		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new GraphicCtrlPasteKey;
+		}
+		else if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
+			this->keyAction = new RemoveReceptionKey;
+			}
+		break;
+	case VK_LEFT:
+		this->keyAction = new GraphicLeftArrowKey;
+		break;
+	case VK_RIGHT:
+		this->keyAction = new GraphicRightArrowKey;
+		break;
+	case VK_UP:
+		this->keyAction = new GraphicUpArrowKey;
+		break;
+	case VK_DOWN:
+		this->keyAction = new GraphicDownArrowKey;
+		break;
 	default:
 		break;
 	}

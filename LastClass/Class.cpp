@@ -52,8 +52,6 @@ Class::Class(Long x, Long y, Long width, Long height) : FigureComposite(64) {
 	this->y = y;
 	this->width = width;
 	this->height = height;
-	this->minimumWidth = width;
-	this->minimumHeight = height;
 	this->attributePosition = -1;
 	this->methodPosition = -1;
 	this->receptionPosition = -1;
@@ -116,13 +114,13 @@ Class::~Class() {
 void Class::Initialize() {
 	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 	Long firstlineHeight = 50 * test->classDiagramForm->zoomRate / 100;
-	//if (this->height == 90 * test->classDiagramForm->zoomRate / 100) {
-	//	 firstlineHeight = 30 * test->classDiagramForm->zoomRate / 100; //40
-	//}
+	if (this->height == 90 * test->classDiagramForm->zoomRate / 100) {
+		 firstlineHeight = 30 * test->classDiagramForm->zoomRate / 100; //40
+	}
 	if (this->height == 120 * test->classDiagramForm->zoomRate / 100) {
 		firstlineHeight = 40 * test->classDiagramForm->zoomRate / 100;
 	}
-	/*if (this->height == 180 * test->classDiagramForm->zoomRate / 100) {
+	if (this->height == 180 * test->classDiagramForm->zoomRate / 100) {
 		firstlineHeight = 60 * test->classDiagramForm->zoomRate / 100;
 	}
 	if (this->height == 210 * test->classDiagramForm->zoomRate / 100) {
@@ -136,7 +134,7 @@ void Class::Initialize() {
 	}
 	if (this->height == 300 * test->classDiagramForm->zoomRate / 100) {
 		firstlineHeight = 100 * test->classDiagramForm->zoomRate / 100;
-	}*/
+	}
 	Long lineHeight = (this->height - firstlineHeight) / 2;
 	ClassName className(this->x, this->y, this->width, firstlineHeight, "");
 	this->figures.Store(this->length, className.Clone());
