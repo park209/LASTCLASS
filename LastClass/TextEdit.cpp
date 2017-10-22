@@ -24,6 +24,7 @@
 #include "EditResizerBlocker.h"
 #include "Class.h"
 #include "Relation.h"
+#include "Finder.h"
 #include "SelfRelation.h"
 #include "StatusBar.h"
 
@@ -317,8 +318,9 @@ void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 
 void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 	//bool ret = IsOntheText(this, point);
-	//SetCursor(LoadCursor(NULL, IDC_IBEAM));
+	
 
+	
 	if (nFlags == MK_LBUTTON) {
 		//SetCursor(LoadCursor(NULL, IDC_IBEAM));
 		CFont cFont;
@@ -335,13 +337,20 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 			this->selectedY = this->caret->GetRowIndex();
 		}
 		this->caret->MoveToPoint(this, &dc, point); // 새로운 위치로 캐럿 이동한다
-
-		dc.SelectObject(oldFont);
+		SetCapture();		dc.SelectObject(oldFont);
 		cFont.DeleteObject(); // 폰트 끝
-		SetCapture();
 		Invalidate(false);
-
 	}
+
+	Figure *figure = this->GetFigure();
+	CRect rect(figure->GetX(), figure->GetY(), figure->GetX() + figure->GetWidth(), figure->GetY() + figure->GetHeight());
+	Finder finder;
+	bool ret = finder.FindRectangleByPoint(rect, point.x, point.y);
+	if (ret == false) {
+		SetCursor(LoadCursor(NULL, IDC_IBEAM));
+	}
+
+	
 	this->currentX = point.x;
 }
 

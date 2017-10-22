@@ -33,6 +33,7 @@
 #include "SelfGeneralization.h"
 #include "SelfRelation.h"
 #include "Figure.h"
+#include "Finder.h"
 #include "FigureFactory.h"
 #include "DrawingVisitor.h"
 #include "WritingVisitor.h"
@@ -1342,6 +1343,10 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 		else if (index == 6 || index == 7) {
 			SetCursor(LoadCursor(NULL, IDC_SIZEWE));
 		}
+		
+			
+			
+		
 	}
 }
 
