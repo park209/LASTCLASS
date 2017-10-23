@@ -49,6 +49,9 @@ public:
 	Long currentY_2;
 	Long thirty;
 	Long seventeen;
+	Long widthGab;
+	Long heightGab;
+	Long firstDrag;
 public:
 	ClassDiagramForm(LastClass *lastClass);
 public:

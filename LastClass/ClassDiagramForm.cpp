@@ -115,6 +115,9 @@ ClassDiagramForm::ClassDiagramForm(LastClass *lastClass) { // 생성자 맞는듯
 	this->currentY_ = 0;
 	this->thirty = 30;
 	this->seventeen = 17;
+	this->widthGab = 0;
+	this->heightGab = 0;
+	this->firstDrag = 0;
 }
 
 Long ClassDiagramForm::Load() {
@@ -773,7 +776,6 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	cFont.DeleteObject();
 }
 
-
 void ClassDiagramForm::OnSetFocus(CWnd* pOldWnd) {
 	CWnd::OnSetFocus(pOldWnd);
 	CWnd::SetFocus();
@@ -1081,8 +1083,8 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->startY = point.y + vertCurPos;
 	this->currentX = point.x + horzCurPos;
 	this->currentY = point.y + vertCurPos;
-	this->currentX_2 = this->currentX;
-	this->currentY_2 = this->currentY;
+	this->currentX_2 = point.x + horzCurPos;
+	this->currentY_2 = point.y + vertCurPos;
 
 	this->mouseLButton->MouseLButtonDown(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 
@@ -1114,7 +1116,7 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->startY = 0;
 	this->currentX = 0;
 	this->currentY = 0;
-
+	this->firstDrag = 0;
 	KillTimer(1);
 
 	ReleaseCapture();
@@ -1289,6 +1291,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	if (nFlags == MK_LBUTTON) {
+
 		int vertCurPos = GetScrollPos(SB_VERT);
 		int horzCurPos = GetScrollPos(SB_HORZ);
 
@@ -1332,9 +1335,8 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 
 		Invalidate(false);
 	}
-
 	//커서모양
-	if (nFlags != MK_LBUTTON && this->selection->GetLength() == 1) {
+	/*if (nFlags != MK_LBUTTON && this->selection->GetLength() == 1) {
 		Long index;
 		index = this->selection->SelectByPoint(point.x, point.y);
 		if (index == 12 || index == 4 || index == 9 ) {
@@ -1349,11 +1351,7 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 		else if (index == 6 || index == 7) {
 			SetCursor(LoadCursor(NULL, IDC_SIZEWE));
 		}
-		
-			
-			
-		
-	}
+	}*/
 }
 
 void ClassDiagramForm::OnClose() {
