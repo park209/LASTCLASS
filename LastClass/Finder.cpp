@@ -177,21 +177,14 @@ CPoint Finder::GetCrossPoint(const CPoint& lineStart, const CPoint& lineEnd, CRe
 void Finder::FindRelationEndPoints(Diagram *diagram, FigureComposite *figureComposite, Figure *(*figures), Long *length) {
 	Long i = 0;
 	Long k = 0;
-	Long startX = figureComposite->GetX();
-	Long startY = figureComposite->GetY();
-	Long endX = figureComposite->GetX() + figureComposite->GetWidth();
-	Long endY = figureComposite->GetY() + figureComposite->GetHeight();
-
+	Figure *endPointFigure = static_cast<Figure*>(figureComposite);
 	while (k < diagram->GetLength()) {
 		figureComposite = static_cast<FigureComposite*>(diagram->GetAt(k));
 		Long l = 0;
 		while (l < figureComposite->GetLength()) {
 			if (dynamic_cast<Relation*>(figureComposite->GetAt(l))) {
 				Figure *figure = figureComposite->GetAt(l);
-				Long relationEndX = figure->GetX() + figure->GetWidth();
-				Long relationEndY = figure->GetY() + figure->GetHeight();
-				if (startX <= relationEndX &&  relationEndX <= endX &&
-					startY <= relationEndY &&  relationEndY <= endY) {
+				if(figure->GetEndPointFigure() == endPointFigure) {
 					figures[i] = figure;
 					(*length)++;
 					i++;
@@ -234,7 +227,7 @@ Figure* Finder::GetParents(Diagram *diagram, Figure *figure) {
 	return object;
 }
 Long Finder::FindQuadrant(Long x, Long y, Long left, Long top, Long right, Long bottom) {
-	Long Quadrant;
+	Long Quadrant = -1 ;
 	if (x >= left && x <= right && y == top) {
 		Quadrant = 1;
 	}

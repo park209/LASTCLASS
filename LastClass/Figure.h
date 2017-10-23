@@ -36,11 +36,16 @@ public:
 	Long GetY() const;
 	Long GetWidth() const;
 	Long GetHeight() const;
+	Long GetLeft() const;
+	Long GetTop() const;
+	Long GetRight() const;
+	Long GetBottom() const;
 	string& GetContent() const;
 	Long GetMinimumHeight() const;
 	Long GetMinimumWidth() const;
 	Long GetFontSize() const;
-
+	Figure* GetEndPointFigure() const;
+	Figure* SetEndPointFigure(Figure *figure) ;
 protected:
 	Long x;
 	Long y;
@@ -50,6 +55,7 @@ protected:
 	Long minimumWidth;
 	Long minimumHeight;
 	Long fontSize;
+	Figure *endPointFigure;
 };
 
 inline Long Figure::GetX() const {
@@ -64,19 +70,31 @@ inline Long Figure::GetWidth() const {
 inline Long Figure::GetHeight() const {
 	return this->height;
 }
+inline Long Figure::GetLeft() const {
+	return this->x;
+}
+inline Long Figure::GetTop() const {
+	return this->y;
+}
+inline Long Figure::GetRight() const {
+	return this->x + this->width;
+}
+inline Long Figure::GetBottom() const {
+	return this->y + this->height;
+}
 inline string& Figure::GetContent() const {
 	return const_cast<string&>(this->content);
 }
-
 inline Long Figure::GetMinimumWidth() const {
 	return this->minimumWidth;
 }
-
 inline Long Figure::GetMinimumHeight() const {
 	return this->minimumHeight;
 }
 inline Long Figure::GetFontSize()const {
 	return this->fontSize;
 }
-
+inline Figure* Figure::GetEndPointFigure()const {
+	return this->endPointFigure;
+}
 #endif //_FIGURE_H

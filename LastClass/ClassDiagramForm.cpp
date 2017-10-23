@@ -33,6 +33,7 @@
 #include "SelfGeneralization.h"
 #include "SelfRelation.h"
 #include "Figure.h"
+#include "Finder.h"
 #include "FigureFactory.h"
 #include "DrawingVisitor.h"
 #include "WritingVisitor.h"
@@ -723,7 +724,7 @@ void ClassDiagramForm::OnPaint() {
 	this->diagram->Accept(writingVisitor, &memDC);
 	this->selection->Accept(drawingVisitor, &memDC); // selectionFlag 추가 확인
 	if (this->currentX_2 != 0 && this->currentY_2 != 0 && this->currentX != 0 && this->currentY != 0) {
-		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->currentX_2, this->currentY_2, this->currentX, this->currentY, &memDC);
+		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
 	}
 
 	int vertCurPos = GetScrollPos(SB_VERT);
@@ -1016,7 +1017,7 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		}
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////
 		KnockKnock *knocking = new KnockKnock;
-		knocking->Knocking(this);
+		//knocking->Knocking(this);
 		if (knocking != NULL) {
 			delete knocking;
 		}
@@ -1333,20 +1334,26 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	}
 
 	//커서모양
-	/*Long index;
-	index = this->selection->SelectByPoint(point.x, point.y);
-	if (index == 1) {
-	SetCursor(LoadCursor(NULL, IDC_HAND));
+	if (nFlags != MK_LBUTTON && this->selection->GetLength() == 1) {
+		Long index;
+		index = this->selection->SelectByPoint(point.x, point.y);
+		if (index == 12 || index == 4 || index == 9 ) {
+			SetCursor(LoadCursor(NULL, IDC_SIZENS));
+		}
+		else if (index == 3  || index == 10) {
+			SetCursor(LoadCursor(NULL, IDC_SIZENWSE));
+		}
+		else if (index == 5 || index == 8) {
+			SetCursor(LoadCursor(NULL, IDC_SIZENESW));
+		}
+		else if (index == 6 || index == 7) {
+			SetCursor(LoadCursor(NULL, IDC_SIZEWE));
+		}
+		
+			
+			
+		
 	}
-	else if (index == 2) {
-	SetCursor(LoadCursor(NULL, IDC_CROSS));
-	}
-	else if (index == 3 || index == 5) {
-	SetCursor(LoadCursor(NULL, IDC_HELP));
-	}
-	else if (index == 4) {
-	SetCursor(LoadCursor(NULL, IDC_SIZEALL));
-	}*/
 }
 
 void ClassDiagramForm::OnClose() {
