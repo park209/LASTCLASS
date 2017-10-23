@@ -91,3 +91,51 @@ void ToolBarProcess::OnAboutFileClicked(LastClass *lastClass) {
 	AboutMenuAction aboutMenuAction;
 	aboutMenuAction.MenuPress(lastClass);
 }
+void ToolBarProcess::OnClassClicked(LastClass *lastClass) {
+	ClassMenuAction classMenuAction;
+	classMenuAction.MenuPress(lastClass);
+}
+void ToolBarProcess::OnMemoBoxClicked(LastClass *lastClass) {
+	MemoBoxMenuAction memoBoxMenuAction;
+	memoBoxMenuAction.MenuPress(lastClass);
+}
+void ToolBarProcess::OnGeneralizationClicked(LastClass *lastClass) {
+	GeneralizationMenuAction generalizationMenuAction;
+	generalizationMenuAction.MenuPress(lastClass);
+}
+void ToolBarProcess::OnRelizationClicked(LastClass *lastClass) {
+	RealizationMenuAction realizationMenuAction;
+	realizationMenuAction.MenuPress(lastClass);
+}
+void ToolBarProcess::OnDependencyClicked(LastClass *lastClass) {
+	DependencyMenuAction dependencyMenuAction;
+	dependencyMenuAction.MenuPress(lastClass);
+}
+void ToolBarProcess::OnAssociationClicked(LastClass *lastClass) {
+	AssociationMenuAction associationMenuAction;
+	associationMenuAction.MenuPress(lastClass);
+}
+void ToolBarProcess::OnDirectedAssociationClicked(LastClass *lastClass) {
+	DirectedAssociationMenuAction directedAssociationMenuAction;
+	directedAssociationMenuAction.MenuPress(lastClass);
+}
+void ToolBarProcess::OnAggregationClicked(LastClass *lastClass) {
+	AggregationMenuAction aggregationMenuAction;
+	aggregationMenuAction.MenuPress(lastClass);
+}
+void ToolBarProcess::OnAggregationsClicked(LastClass *lastClass) {
+	AggregationsMenuAction aggregationsMenuAction;
+	aggregationsMenuAction.MenuPress(lastClass);
+}
+void ToolBarProcess::OnCompositionClicked(LastClass *lastClass) {
+	CompositionMenuAction compositionMenuAction;
+	compositionMenuAction.MenuPress(lastClass);
+}
+void ToolBarProcess::OnCompositionsClicked(LastClass *lastClass) {
+	CompositionsMenuAction compositionsMenuAction;
+	compositionsMenuAction.MenuPress(lastClass);
+}
+void ToolBarProcess::OnMemoLineClicked(LastClass *lastClass) {
+	MemoLineMenuAction memoLineMenuAction;
+	memoLineMenuAction.MenuPress(lastClass);
+}

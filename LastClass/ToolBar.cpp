@@ -3,6 +3,7 @@
 #include "ToolBar.h"
 #include "resource.h"
 #include "ToolBarProcess.h"
+//#define IDB_BITMAP1                     105
 
 ToolBar::ToolBar() {
 	this->hTool1 = 0;
@@ -64,7 +65,7 @@ void ToolBar::MakeToolBar(HWND hWndParent) {
 	ZeroMemory(tbb, sizeof(tbb));
 	tbb[0].iBitmap = STD_FILENEW;
 	tbb[0].fsState = TBSTATE_ENABLED;
-	tbb[0].fsStyle = TBSTYLE_BUTTON;
+	tbb[0].fsStyle = TBSTYLE_BUTTON ;
 	tbb[0].idCommand = ID_BUTTON40001;
 	tbb[0].iString = iNew;
 	tbb[1].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
@@ -146,39 +147,124 @@ void ToolBar::MakeToolBar(HWND hWndParent) {
 	tbb[20].iString = ihelp;
 	tbb[21].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
 
-
 	SendMessage(hTool, TB_ADDBUTTONS, sizeof(tbb) / sizeof(TBBUTTON), (LPARAM)tbb);
 }
 void ToolBar::MakeAnotherToolBar(HWND hWndParent) {
 	InitCommonControls();
-	HWND hTool = CreateWindowEx(0, TOOLBARCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | CCS_VERT | CCS_NORESIZE | WS_BORDER, 0, 45, 60, 614,
+	HWND hTool = CreateWindowEx(0, TOOLBARCLASSNAME, NULL, WS_CHILD | TBSTYLE_FLAT| TBSTYLE_TRANSPARENT | WS_VISIBLE | CCS_VERT  |CCS_NORESIZE | WS_BORDER, 0, 45, 60, 614,
 		hWndParent, NULL, GetModuleHandle(NULL), NULL);
+	
 	this->hTool2 = hTool;
 	SendMessage(hTool, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
-	TBBUTTON tbb[5];
-	SendMessage(hTool, TB_SETBUTTONSIZE, 0, MAKELPARAM(58, 47));
-	SendMessage(hTool, TB_SETBITMAPSIZE, 0, (LPARAM)MAKELPARAM(50, 44));
+	//DWORD dwExStyle = TBSTYLE_EX_DRAWDDARROWS;
+	//SendMessage(hTool, TB_SETEXTENDEDSTYLE, 0, (LPARAM)dwExStyle);
+	TBBUTTON tbb[12];
+	SendMessage(hTool, TB_SETBUTTONSIZE, 0, MAKELPARAM(48, 44));
+	SendMessage(hTool, TB_SETBITMAPSIZE, 0, (LPARAM)MAKELPARAM(48, 44));
 	DWORD backgroundColor = GetSysColor(COLOR_BTNFACE);///여기부터
 	COLORMAP colorMap;
-	colorMap.from = RGB(0, 0, 0);
+	colorMap.from = RGB(255, 255, 255);
 	colorMap.to = backgroundColor;
-	//HBITMAP hbm = CreateMappedBitmap(NULL, IDB_BITMAP2, 0, &colorMap, 1);
-	/*BITMAP bitInfo;
-	CBitmap bmp;
-	bmp.LoadBitmapA(IDB_BITMAP2);
-	bmp.GetBitmap(&bitInfo);
-	HBITMAP hbm = bmp.operator HBITMAP(); */
+	HBITMAP hbm = CreateMappedBitmap(NULL, IDB_BITMAP1, 0, &colorMap, 1);
 	TBADDBITMAP tb;
 	tb.hInst = NULL;
-	//tb.nID = (UINT_PTR)hbm;
-	int index = SendMessage(hTool, TB_ADDBITMAP, 0, (LPARAM)&tb);
+	tb.nID = (UINT_PTR)hbm;
+	int index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
 	ZeroMemory(tbb, sizeof(tbb));
 	tbb[0].iBitmap = index;
 	tbb[0].fsState = TBSTATE_ENABLED | TBSTATE_WRAP;
 	tbb[0].fsStyle = TBSTYLE_BUTTON;
-	tbb[0].idCommand = ID_BUTTON40001;
-
+	tbb[0].idCommand = ID_BUTTON40017;
+	hbm = CreateMappedBitmap(NULL, IDB_BITMAP2, 0, &colorMap, 1);
+	tb.hInst = NULL;
+	tb.nID = (UINT_PTR)hbm;
+	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
+	tbb[1].iBitmap = index;
+	tbb[1].fsState = TBSTATE_ENABLED | TBSTATE_WRAP;
+	tbb[1].fsStyle = TBSTYLE_BUTTON;
+	tbb[1].idCommand = ID_BUTTON40018;
+	hbm = CreateMappedBitmap(NULL, IDB_BITMAP3, 0, &colorMap, 1);
+	tb.hInst = NULL;
+	tb.nID = (UINT_PTR)hbm;
+	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
+	tbb[2].iBitmap = index;
+	tbb[2].fsState = TBSTATE_ENABLED | TBSTATE_WRAP;
+	tbb[2].fsStyle = TBSTYLE_BUTTON;
+	tbb[2].idCommand = ID_BUTTON40019;
+	hbm = CreateMappedBitmap(NULL, IDB_BITMAP4, 0, &colorMap, 1);
+	tb.hInst = NULL;
+	tb.nID = (UINT_PTR)hbm;
+	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
+	tbb[3].iBitmap = index;
+	tbb[3].fsState = TBSTATE_ENABLED | TBSTATE_WRAP;
+	tbb[3].fsStyle = TBSTYLE_BUTTON;
+	tbb[3].idCommand = ID_BUTTON40020;
+	hbm = CreateMappedBitmap(NULL, IDB_BITMAP7, 0, &colorMap, 1);
+	tb.hInst = NULL;
+	tb.nID = (UINT_PTR)hbm;
+	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
+	tbb[4].iBitmap = index;
+	tbb[4].fsState = TBSTATE_ENABLED | TBSTATE_WRAP;
+	tbb[4].fsStyle = TBSTYLE_BUTTON;
+	tbb[4].idCommand = ID_BUTTON40021;
+	hbm = CreateMappedBitmap(NULL, IDB_BITMAP6, 0, &colorMap, 1);
+	tb.hInst = NULL;
+	tb.nID = (UINT_PTR)hbm;
+	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
+	tbb[5].iBitmap = index;
+	tbb[5].fsState = TBSTATE_ENABLED | TBSTATE_WRAP;
+	tbb[5].fsStyle = TBSTYLE_BUTTON;
+	tbb[5].idCommand = ID_BUTTON40022;
+	hbm = CreateMappedBitmap(NULL, IDB_BITMAP5, 0, &colorMap, 1);
+	tb.hInst = NULL;
+	tb.nID = (UINT_PTR)hbm;
+	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
+	tbb[6].iBitmap = index;
+	tbb[6].fsState = TBSTATE_ENABLED | TBSTATE_WRAP;
+	tbb[6].fsStyle = TBSTYLE_BUTTON;
+	tbb[6].idCommand = ID_BUTTON40023;
+	hbm = CreateMappedBitmap(NULL, IDB_BITMAP8, 0, &colorMap, 1);
+	tb.hInst = NULL;
+	tb.nID = (UINT_PTR)hbm;
+	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
+	tbb[7].iBitmap = index;
+	tbb[7].fsState = TBSTATE_ENABLED | TBSTATE_WRAP;
+	tbb[7].fsStyle = TBSTYLE_BUTTON;
+	tbb[7].idCommand = ID_BUTTON40024;
+	hbm = CreateMappedBitmap(NULL, IDB_BITMAP9, 0, &colorMap, 1);
+	tb.hInst = NULL;
+	tb.nID = (UINT_PTR)hbm;
+	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
+	tbb[8].iBitmap = index;
+	tbb[8].fsState = TBSTATE_ENABLED | TBSTATE_WRAP;
+	tbb[8].fsStyle = TBSTYLE_BUTTON;
+	tbb[8].idCommand = ID_BUTTON40025;
+	hbm = CreateMappedBitmap(NULL, IDB_BITMAP10, 0, &colorMap, 1);
+	tb.hInst = NULL;
+	tb.nID = (UINT_PTR)hbm;
+	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
+	tbb[9].iBitmap = index;
+	tbb[9].fsState = TBSTATE_ENABLED | TBSTATE_WRAP;
+	tbb[9].fsStyle = TBSTYLE_BUTTON;
+	tbb[9].idCommand = ID_BUTTON40026;
+	hbm = CreateMappedBitmap(NULL, IDB_BITMAP11, 0, &colorMap, 1);
+	tb.hInst = NULL;
+	tb.nID = (UINT_PTR)hbm;
+	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
+	tbb[10].iBitmap = index;
+	tbb[10].fsState = TBSTATE_ENABLED | TBSTATE_WRAP;
+	tbb[10].fsStyle = TBSTYLE_BUTTON;
+	tbb[10].idCommand = ID_BUTTON40027;
+	hbm = CreateMappedBitmap(NULL, IDB_BITMAP12, 0, &colorMap, 1);
+	tb.hInst = NULL;
+	tb.nID = (UINT_PTR)hbm;
+	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
+	tbb[11].iBitmap = index;
+	tbb[11].fsState = TBSTATE_ENABLED | TBSTATE_WRAP;
+	tbb[11].fsStyle = TBSTYLE_BUTTON;
+	tbb[11].idCommand = ID_BUTTON40028;
 	SendMessage(hTool, TB_ADDBUTTONS, sizeof(tbb) / sizeof(TBBUTTON), (LPARAM)tbb);
+	
 }
 
 void ToolBar::ButtonSelected(UINT parm_control_id, LastClass *lastClass, ClassDiagramForm *classDiagramForm, CDC *cdc) {
@@ -208,6 +294,30 @@ void ToolBar::ButtonSelected(UINT parm_control_id, LastClass *lastClass, ClassDi
 		break;
 	case 40013:toolBarProcess.OnSupportFileClicked(lastClass);
 		break;
+	case  40017:toolBarProcess.OnClassClicked(lastClass);
+		break;
+	case 40018:toolBarProcess.OnMemoBoxClicked(lastClass);
+		break;
+	case 40019:toolBarProcess.OnGeneralizationClicked(lastClass);
+		break;
+	case 40020:toolBarProcess.OnRelizationClicked(lastClass);
+		break;
+	case 40021:toolBarProcess.OnDependencyClicked(lastClass);
+		break;
+	case 40022:toolBarProcess.OnAssociationClicked(lastClass);
+		break;
+	case 40023:toolBarProcess.OnDirectedAssociationClicked(lastClass);
+		break;
+	case 40024:toolBarProcess.OnAggregationClicked(lastClass);
+		break;
+	case 40025:toolBarProcess.OnAggregationsClicked(lastClass);
+		break;
+	case 40026:toolBarProcess.OnCompositionClicked(lastClass);
+		break;
+	case 40027:toolBarProcess.OnCompositionsClicked(lastClass);
+		break;
+	case 40028:toolBarProcess.OnMemoLineClicked(lastClass);
+		break;
 	default:
 		break;
 	}
@@ -225,6 +335,8 @@ void ToolBar::ChangeAnotherToolBarSize(RECT *rect) {
 void ToolBar::DestroyToolBar() {
 	if (this != NULL) {
 		DestroyWindow(this->hTool1);
+		DestroyWindow(this->hTool2);
 		this->hTool1 = 0;
+		this->hTool2 = 0;
 	}
 }

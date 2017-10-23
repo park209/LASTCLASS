@@ -63,6 +63,13 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram, classDiagramForm->zoomRate);
 
 		i = 0;
+		Class *object =static_cast<Class*>( classDiagramForm->copyBuffer->GetAt(0));
+		SmartPointer<Figure*>CopyBufferSmartPointer_(object->CreateIterator());
+		for (CopyBufferSmartPointer_->First(); !CopyBufferSmartPointer_->IsDone(); CopyBufferSmartPointer_->Next()) {
+			if (dynamic_cast<Attribute*>(CopyBufferSmartPointer_->Current())) {
+			}
+		}
+
 		SmartPointer<Figure*>CopyBufferSmartPointer(classDiagramForm->copyBuffer->CreateIterator());
 		for (CopyBufferSmartPointer->First(); !CopyBufferSmartPointer->IsDone(); CopyBufferSmartPointer->Next()) {
 			if (dynamic_cast<FigureComposite*>(CopyBufferSmartPointer->Current())) {

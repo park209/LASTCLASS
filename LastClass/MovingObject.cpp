@@ -88,15 +88,12 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 			i++;
 		}
 		if (ret == false) {
-			Long distanceX = currentX - classDiagramForm->currentX_2;
-			Long distanceY = currentY - classDiagramForm->currentY_2;
-			selection->Accept(diagram, movingVisitor, distanceX, distanceY);
+			//Long distanceX = currentX - classDiagramForm->currentX_2;
+			//Long distanceY = currentY - classDiagramForm->currentY_2;
+			//Long distanceX = (currentX - (startX - selection->GetAt(0)->GetX())) - selection->GetAt(0)->GetX();
+			//Long distanceY = (currentY - (startY - selection->GetAt(0)->GetY())) - selection->GetAt(0)->GetY();
+			//selection->Accept(diagram, movingVisitor, distanceX, distanceY);
 		}
-		/*else if (ret == true) {
-			Long distanceX = classDiagramForm->currentX_2 - startX;
-			Long distanceY = classDiagramForm->currentY_2 - startX;
-			selection->Accept(diagram, movingVisitor, distanceX, distanceY);
-		}*/
 	}
 	this->ChangeState(mouseLButton, SelectionState::Instance());
 }
@@ -188,11 +185,19 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm
 			}
 			i++;
 		}
-		if (ret == false) {
-			Long distanceX = currentX - classDiagramForm->currentX_2;
-			Long distanceY = currentY - classDiagramForm->currentY_2;
-			selection->Accept(diagram, movingVisitor, distanceX, distanceY);
+		if (classDiagramForm->firstDrag == 0) {
+			classDiagramForm->widthGab = startX - selection->GetAt(0)->GetX();
+			classDiagramForm->heightGab = startY - selection->GetAt(0)->GetY();
+			classDiagramForm->firstDrag = 1;
 		}
+
+		Long nextX = currentX - classDiagramForm->widthGab;
+		Long nextY = currentY - classDiagramForm->heightGab;
+
+		Long distanceX = (nextX - selection->GetAt(0)->GetX());
+		Long distanceY = (nextY - selection->GetAt(0)->GetY());
+		selection->Accept(diagram, movingVisitor, distanceX, distanceY);
+
 	}
 	//this->ChangeState(mouseLButton, SelectionState::Instance());
 }
