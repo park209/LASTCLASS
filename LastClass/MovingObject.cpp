@@ -104,8 +104,8 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 			selection->Accept(diagram, movingVisitor, distanceX, distanceY);
 		}
 		else if (ret == true) {
-			Long distanceX = classDiagramForm->currentX_2 - startX;
-			Long distanceY = classDiagramForm->currentY_2 - startX;
+			Long distanceX = startX - currentX;
+			Long distanceY = startY - currentY;
 			selection->Accept(diagram, movingVisitor, distanceX, distanceY);
 		}
 	}
@@ -202,7 +202,9 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm
 		if (ret == false) {
 			Long distanceX = currentX - classDiagramForm->currentX_2;
 			Long distanceY = currentY - classDiagramForm->currentY_2;
-			selection->Accept(diagram, movingVisitor, distanceX, distanceY);
+			selection->GetAt(0)->SetX(currentX);
+			selection->GetAt(0)->SetY(currentY);
+			//selection->Accept(diagram, movingVisitor, distanceX, distanceY);
 		}
 	}
 	//this->ChangeState(mouseLButton, SelectionState::Instance());

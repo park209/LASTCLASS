@@ -1080,8 +1080,8 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->startY = point.y + vertCurPos;
 	this->currentX = point.x + horzCurPos;
 	this->currentY = point.y + vertCurPos;
-	this->currentX_2 = this->currentX;
-	this->currentY_2 = this->currentY;
+	this->currentX_2 = point.x + horzCurPos;
+	this->currentY_2 = point.y + vertCurPos;
 
 	this->mouseLButton->MouseLButtonDown(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 
