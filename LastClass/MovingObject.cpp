@@ -37,18 +37,7 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 		bool ret = false;
 
 		CRect cRect1(figures->GetX() + (currentX - startX), figures->GetY() + (currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
-		ret = diagram->CheckOverlapSelection(cRect1, selection);
-
-		//CRect cRect1(figures->GetX() + (currentX - startX), figures->GetY() + (currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
-		//while (i < diagram->GetLength() && ret != true) {
-		//	FigureComposite *figureComposite = static_cast<FigureComposite*>(diagram->GetAt(i));
-		//	CRect cRect2(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
-		//	ret = finder.FindRectangleByArea(cRect2, cRect1);
-		//	if (figures == figureComposite) {
-		//		ret = false;
-		//	}
-		//	i++;
-		//}
+		//ret = diagram->CheckOverlapSelection(cRect1, selection);
 
 		// FigureComposite에 관계선 점 겹치면 점 Remove
 		i = 0;
@@ -103,11 +92,11 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 			Long distanceY = currentY - classDiagramForm->currentY_2;
 			selection->Accept(diagram, movingVisitor, distanceX, distanceY);
 		}
-		else if (ret == true) {
+		/*else if (ret == true) {
 			Long distanceX = classDiagramForm->currentX_2 - startX;
 			Long distanceY = classDiagramForm->currentY_2 - startX;
 			selection->Accept(diagram, movingVisitor, distanceX, distanceY);
-		}
+		}*/
 	}
 	this->ChangeState(mouseLButton, SelectionState::Instance());
 }
@@ -137,7 +126,7 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm
 		bool ret = false;
 
 		CRect cRect1(figures->GetX() + (currentX - classDiagramForm->currentX_2), figures->GetY() + (currentY - classDiagramForm->currentY_2), figures->GetX() + (currentX - classDiagramForm->currentX_2) + figures->GetWidth(), figures->GetY() + (currentY - classDiagramForm->currentY_2) + figures->GetHeight());
-		ret = diagram->CheckOverlapSelection(cRect1, selection);
+		//ret = diagram->CheckOverlapSelection(cRect1, selection);
 
 		//CRect cRect1(figures->GetX() + (currentX - startX), figures->GetY() + (currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
 		//while (i < diagram->GetLength() && ret != true) {

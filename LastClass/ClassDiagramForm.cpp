@@ -33,6 +33,7 @@
 #include "SelfGeneralization.h"
 #include "SelfRelation.h"
 #include "Figure.h"
+#include "Finder.h"
 #include "FigureFactory.h"
 #include "DrawingVisitor.h"
 #include "WritingVisitor.h"
@@ -1333,20 +1334,26 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	}
 
 	//커서모양
-	/*Long index;
-	index = this->selection->SelectByPoint(point.x, point.y);
-	if (index == 1) {
-	SetCursor(LoadCursor(NULL, IDC_HAND));
+	if (nFlags != MK_LBUTTON && this->selection->GetLength() == 1) {
+		Long index;
+		index = this->selection->SelectByPoint(point.x, point.y);
+		if (index == 12 || index == 4 || index == 9 ) {
+			SetCursor(LoadCursor(NULL, IDC_SIZENS));
+		}
+		else if (index == 3  || index == 10) {
+			SetCursor(LoadCursor(NULL, IDC_SIZENWSE));
+		}
+		else if (index == 5 || index == 8) {
+			SetCursor(LoadCursor(NULL, IDC_SIZENESW));
+		}
+		else if (index == 6 || index == 7) {
+			SetCursor(LoadCursor(NULL, IDC_SIZEWE));
+		}
+		
+			
+			
+		
 	}
-	else if (index == 2) {
-	SetCursor(LoadCursor(NULL, IDC_CROSS));
-	}
-	else if (index == 3 || index == 5) {
-	SetCursor(LoadCursor(NULL, IDC_HELP));
-	}
-	else if (index == 4) {
-	SetCursor(LoadCursor(NULL, IDC_SIZEALL));
-	}*/
 }
 
 void ClassDiagramForm::OnClose() {

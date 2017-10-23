@@ -40,7 +40,8 @@ public:
 	Long GetMinimumHeight() const;
 	Long GetMinimumWidth() const;
 	Long GetFontSize() const;
-
+	Figure* GetEndPointFigure() const;
+	Figure* SetEndPointFigure(Figure *figure) ;
 protected:
 	Long x;
 	Long y;
@@ -50,6 +51,7 @@ protected:
 	Long minimumWidth;
 	Long minimumHeight;
 	Long fontSize;
+	Figure *endPointFigure;
 };
 
 inline Long Figure::GetX() const {
@@ -78,5 +80,7 @@ inline Long Figure::GetMinimumHeight() const {
 inline Long Figure::GetFontSize()const {
 	return this->fontSize;
 }
-
+inline Figure* Figure::GetEndPointFigure()const {
+	return this->endPointFigure;
+}
 #endif //_FIGURE_H
