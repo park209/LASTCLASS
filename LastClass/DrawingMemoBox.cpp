@@ -46,7 +46,7 @@ void DrawingMemoBox::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 void DrawingMemoBox::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 	selection->DeleteAllItems();
 }
-void DrawingMemoBox::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
+void DrawingMemoBox::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = pDC->SelectObject(&pen);

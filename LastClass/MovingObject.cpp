@@ -36,7 +36,7 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 		Long j = 0;
 		bool ret = false;
 
-		CRect cRect1(figures->GetX() + (currentX - classDiagramForm->currentX_2), figures->GetY() + (currentY - classDiagramForm->currentY_2), figures->GetX() + (currentX - classDiagramForm->currentX_2) + figures->GetWidth(), figures->GetY() + (currentY - classDiagramForm->currentY_2) + figures->GetHeight());
+		CRect cRect1(figures->GetX() + (currentX - startX), figures->GetY() + (currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
 		ret = diagram->CheckOverlapSelection(cRect1, selection);
 
 		//CRect cRect1(figures->GetX() + (currentX - startX), figures->GetY() + (currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
@@ -103,6 +103,11 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 			Long distanceY = currentY - classDiagramForm->currentY_2;
 			selection->Accept(diagram, movingVisitor, distanceX, distanceY);
 		}
+		else if (ret == true) {
+			Long distanceX = classDiagramForm->currentX_2 - startX;
+			Long distanceY = classDiagramForm->currentY_2 - startX;
+			selection->Accept(diagram, movingVisitor, distanceX, distanceY);
+		}
 	}
 	this->ChangeState(mouseLButton, SelectionState::Instance());
 }
@@ -115,7 +120,7 @@ void MovingObject::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	}
 }
 
-void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
+void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 	CPoint cPoint1;
 	CPoint cPoint2;
@@ -131,7 +136,7 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram
 		Long j = 0;
 		bool ret = false;
 
-		CRect cRect1(figures->GetX() + (currentX - startX), figures->GetY() + (currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
+		CRect cRect1(figures->GetX() + (currentX - classDiagramForm->currentX_2), figures->GetY() + (currentY - classDiagramForm->currentY_2), figures->GetX() + (currentX - classDiagramForm->currentX_2) + figures->GetWidth(), figures->GetY() + (currentY - classDiagramForm->currentY_2) + figures->GetHeight());
 		ret = diagram->CheckOverlapSelection(cRect1, selection);
 
 		//CRect cRect1(figures->GetX() + (currentX - startX), figures->GetY() + (currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
@@ -153,6 +158,7 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram
 				j = 0;
 				while (j < object->GetLength()) {
 					CPoint cPoint = object->GetAt(j);
+					//bool ret2 = true;
 					bool ret1 = finder.FindRectangleByPoint(cRect1, cPoint.x, cPoint.y);
 					if (ret1 == true) {
 						object->Remove(j);
@@ -194,8 +200,8 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram
 			i++;
 		}
 		if (ret == false) {
-			Long distanceX = currentX - startX;
-			Long distanceY = currentY - startY;
+			Long distanceX = currentX - classDiagramForm->currentX_2;
+			Long distanceY = currentY - classDiagramForm->currentY_2;
 			selection->Accept(diagram, movingVisitor, distanceX, distanceY);
 		}
 	}

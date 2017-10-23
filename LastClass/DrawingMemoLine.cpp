@@ -61,7 +61,7 @@ void DrawingMemoLine::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diag
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingMemoLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
+void DrawingMemoLine::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);
