@@ -33,6 +33,8 @@ void MovingLine::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *cl
 	Finder finder;
 
 	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
+	classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+	classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
 
 	MovingLineProcess *moveLine = MovingLineProcess::Instance();
 

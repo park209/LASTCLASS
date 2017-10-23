@@ -255,8 +255,8 @@ Long ClassDiagramForm::Load() {
 					index = figureComposite->Add(figure);
 					SelfRelation *selfRelation = static_cast<SelfRelation*>(figureComposite->GetAt(index));
 					l = 0;
-					if (selfRelation->GetWidth() < 0) {
-						selfRelation->leftRigtFlag = 1;
+					if (selfRelation->GetX() < figureComposite->GetX() + (figureComposite->GetWidth()/2)) {
+						selfRelation->leftRightFlag = 1;
 					}
 					while (l < 5) {
 						getline(fTest, temp1);
