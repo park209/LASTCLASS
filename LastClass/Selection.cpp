@@ -881,7 +881,7 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 				if (ret == false) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
 				}
-				if (composite->GetX() + composite->GetWidth() - 30 * zoomRate / 100 == selfRelation->GetX()) {
+				if (selfRelation->leftRightFlag == 0) {
 					lineStart.x = selfRelation->GetX();
 					lineStart.y = selfRelation->GetY() - 40 * zoomRate / 100;
 					lineEnd.x = selfRelation->GetX() + 80 * zoomRate / 100;

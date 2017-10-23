@@ -4,11 +4,11 @@
 #include "SelfRelation.h"
 
 SelfRelation::SelfRelation() :Figure() {
-	this->leftRigtFlag = 0;
+	this->leftRightFlag = 0;
 }
 
 SelfRelation::SelfRelation(Long x, Long y, Long width, Long height) : Figure(x, y, width, height) {
-	this->leftRigtFlag = 0;
+	this->leftRightFlag = 0;
 	this->rollNamePoints = new Array<CPoint>(5);
 	this->rollNames = new Array<string>(5);
 
@@ -30,7 +30,7 @@ SelfRelation::SelfRelation(Long x, Long y, Long width, Long height) : Figure(x, 
 }
 
 SelfRelation::SelfRelation(const SelfRelation& source) : Figure(source) {
-	this->leftRigtFlag = source.leftRigtFlag;
+	this->leftRightFlag = source.leftRightFlag;
 	Long i = 0;
 
 	if (this->rollNamePoints != 0) {
@@ -62,7 +62,7 @@ SelfRelation& SelfRelation::operator=(const SelfRelation& source) {
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
-	this->leftRigtFlag = source.leftRigtFlag;
+	this->leftRightFlag = source.leftRightFlag;
 	return *this;
 }
 

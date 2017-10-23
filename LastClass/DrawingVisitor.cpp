@@ -330,7 +330,7 @@ void DrawingVisitor::Visit(Selection *selection, CDC *pDC) {
 			Long y;
 			Long x1;
 			Long y1;
-			if (selfRelation->GetX() == test->classDiagramForm->diagram->GetAt(temp)->GetX() + test->classDiagramForm->diagram->GetAt(temp)->GetWidth() - test->classDiagramForm->thirty) {
+			if (selfRelation->leftRightFlag == 0) {
 				x = selfRelation->GetX() - 5 * this->zoomRate / 100;
 				y = selfRelation->GetY() - 45 * this->zoomRate / 100;
 				x1 = selfRelation->GetX() + 5 * this->zoomRate / 100;
@@ -440,8 +440,7 @@ void DrawingVisitor::Visit(Generalization *generalization, CDC* pDC) {
 	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
 	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-														  // 수직 기울기
-
+			
 	CPoint pts[3];
 
 	pts[0].x = (endX); //마우스 현재위치 점
@@ -454,7 +453,9 @@ void DrawingVisitor::Visit(Generalization *generalization, CDC* pDC) {
 	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
 	pDC->SelectObject(&white);
-	pDC->Polygon(pts, 3);
+	if (pts[2].x != pts[2].y ) {
+		pDC->Polygon(pts, 3);
+	}
 	pDC->SelectObject(oldBrush);
 	myBrush.DeleteObject();
 }
@@ -1022,7 +1023,7 @@ void DrawingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *pDC) {
 		k++;
 	}
 	//if (selfGeneralization->GetX() == test->classDiagramForm->diagram->GetAt(temp)->GetX() + test->classDiagramForm->diagram->GetAt(temp)->GetWidth() - test->classDiagramForm->thirty) {
-	if (selfGeneralization->leftRigtFlag == 0) {
+	if (selfGeneralization->leftRightFlag == 0) {
 		pDC->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY());
 		pDC->LineTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 40 * this->zoomRate / 100);
 
@@ -1138,7 +1139,7 @@ void DrawingVisitor::Visit(SelfDependency *selfDependency, CDC *pDC) {
 		}
 		k++;
 	}
-	if (selfDependency->leftRigtFlag == 0) {
+	if (selfDependency->leftRightFlag == 0) {
 		CPen pen;
 		pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 		CPen *oldPen = pDC->SelectObject(&pen);
@@ -1262,7 +1263,7 @@ void DrawingVisitor::Visit(SelfAggregation *selfAggregation, CDC *pDC) {
 		}
 		k++;
 	}
-	if (selfAggregation->leftRigtFlag == 0) {
+	if (selfAggregation->leftRightFlag == 0) {
 		CBrush white(RGB(255, 255, 255));
 		CBrush myBrush;
 		myBrush.CreateSolidBrush(RGB(255, 255, 255));
@@ -1389,7 +1390,7 @@ void DrawingVisitor::Visit(SelfAssociation *selfAssociation, CDC *pDC) {
 		}
 		k++;
 	}
-	if (selfAssociation->leftRigtFlag == 0) {
+	if (selfAssociation->leftRightFlag == 0) {
 		pDC->MoveTo(selfAssociation->GetX(), selfAssociation->GetY());
 		pDC->LineTo(selfAssociation->GetX(), selfAssociation->GetY() - 40 * this->zoomRate / 100);
 
@@ -1438,7 +1439,7 @@ void DrawingVisitor::Visit(SelfAggregations *selfAggregations, CDC *pDC) {
 		}
 		k++;
 	}
-	if (selfAggregations->leftRigtFlag == 0) {
+	if (selfAggregations->leftRightFlag == 0) {
 		CBrush white(RGB(255, 255, 255));
 		CBrush myBrush;
 		myBrush.CreateSolidBrush(RGB(255, 255, 255));
@@ -1628,7 +1629,7 @@ void DrawingVisitor::Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC
 		}
 		k++;
 	}
-	if (selfDirectedAssociation->leftRigtFlag == 0) {
+	if (selfDirectedAssociation->leftRightFlag == 0) {
 		pDC->MoveTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY());
 		pDC->LineTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 40 * this->zoomRate / 100);
 
@@ -1742,7 +1743,7 @@ void DrawingVisitor::Visit(SelfComposition *selfComposition, CDC *pDC) {
 		}
 		k++;
 	}
-	if (selfComposition->leftRigtFlag == 0) {
+	if (selfComposition->leftRightFlag == 0) {
 		CBrush black(RGB(000, 000, 000));
 		CBrush myBrush;
 		myBrush.CreateSolidBrush(RGB(255, 255, 255));
@@ -1866,7 +1867,7 @@ void DrawingVisitor::Visit(SelfCompositions *selfCompositions, CDC *pDC) {
 		}
 		k++;
 	}
-	if (selfCompositions->leftRigtFlag == 0) {
+	if (selfCompositions->leftRightFlag == 0) {
 
 		CBrush black(RGB(000, 000, 000));
 		CBrush myBrush;

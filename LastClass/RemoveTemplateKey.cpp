@@ -23,6 +23,9 @@ void RemoveTemplateKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 		Class *object = static_cast<Class*>(classDiagramForm->selection->GetAt(0));
 		if (object->GetTempletePosition() != -1) {
 			classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram, classDiagramForm->zoomRate);
+			classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+			classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
+
 			object->RemoveTemplate();
 			Long i = 0;
 			while (i < object->GetLength()) {

@@ -6,7 +6,6 @@
 #include "Text.h"
 #include "Row.h"
 #include "Figure.h"
-#include "FigureComposite.h"
 #include "Diagram.h"
 #include "Class.h"
 #include "Finder.h"
@@ -92,7 +91,9 @@ void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
 			}
 		}
 		textEdit->figure->SetMinimumHeight(textEdit->GetRowHeight()*textEdit->text->GetLength() + gabY_);
-		resizer.ResizeClassWidth(textEdit);
-		resizer.ResizeClassHeight(textEdit);
+		if (!dynamic_cast<Relation*>(textEdit->GetFigure()) && !dynamic_cast<SelfRelation*>(textEdit->GetFigure())) {
+			resizer.ResizeClassWidth(textEdit);
+			resizer.ResizeClassHeight(textEdit);
+		}
 	}
 }

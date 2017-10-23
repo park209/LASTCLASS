@@ -22,7 +22,7 @@ public:
 	void Accept(Visitor& visitor, CDC *cPaintDc);
 	Figure* Clone()const = 0;
 public:
-	Long leftRigtFlag;
+	Long leftRightFlag;
 	Array<string>* rollNames;
 	Array<CPoint>* rollNamePoints;
 };
