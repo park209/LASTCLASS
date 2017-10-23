@@ -67,6 +67,7 @@ void DrawingRealization::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 		Realization object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 		index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
+		figure->SetEndPointFigure(classObject2);
 	}
 	
 	selection->DeleteAllItems();
