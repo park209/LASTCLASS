@@ -26,7 +26,6 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 	CPoint cPoint3;
 	CPoint cPoint4;
 	CPoint cPoint5;
-	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 
 	if (dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
 		MovingVisitor movingVisitor;
@@ -87,13 +86,13 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 			}
 			i++;
 		}
-		if (ret == false) {
+		//if (ret == false) {
 			//Long distanceX = currentX - classDiagramForm->currentX_2;
 			//Long distanceY = currentY - classDiagramForm->currentY_2;
 			//Long distanceX = (currentX - (startX - selection->GetAt(0)->GetX())) - selection->GetAt(0)->GetX();
 			//Long distanceY = (currentY - (startY - selection->GetAt(0)->GetY())) - selection->GetAt(0)->GetY();
 			//selection->Accept(diagram, movingVisitor, distanceX, distanceY);
-		}
+		//}
 	}
 	this->ChangeState(mouseLButton, SelectionState::Instance());
 }
@@ -186,6 +185,7 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm
 			i++;
 		}
 		if (classDiagramForm->firstDrag == 0) {
+			classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 			classDiagramForm->widthGab = startX - selection->GetAt(0)->GetX();
 			classDiagramForm->heightGab = startY - selection->GetAt(0)->GetY();
 			classDiagramForm->firstDrag = 1;
