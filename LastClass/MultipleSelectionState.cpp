@@ -54,7 +54,6 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 		}
 		i++;
 	}
-	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 	i = 0;
 	while (i < length && GetKeyState(VK_SHIFT) >= 0 && ret==false) { // 선택된 개수만큼 반복
 		figure = selection->GetAt(i);
@@ -338,6 +337,7 @@ void MultipleSelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, ClassD
 	CPoint cPoint5;
 
 	if (classDiagramForm->firstDrag == 0) {
+		classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 		classDiagramForm->widthGab = startX - selection->GetAt(0)->GetX();
 		classDiagramForm->heightGab = startY - selection->GetAt(0)->GetY();
 		classDiagramForm->firstDrag = 1;
@@ -359,7 +359,6 @@ void MultipleSelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, ClassD
 		}
 		i++;
 	}
-	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 	i = 0;
 	while (i < length && GetKeyState(VK_SHIFT) >= 0 && ret == false) { // 선택된 개수만큼 반복
 		figure = selection->GetAt(i);
