@@ -40,8 +40,6 @@ protected:
 	afx_msg void OnMyMenu(UINT parm_control_id);
 	afx_msg void OnMyToolBar(UINT parm_control_id);
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
-	afx_msg void OnToolbarDropDown(NMHDR*pNotifyStruct, LRESULT* result);
-	afx_msg void DropDown();
 	DECLARE_MESSAGE_MAP()
 };
 
