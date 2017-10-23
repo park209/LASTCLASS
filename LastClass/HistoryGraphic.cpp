@@ -2,6 +2,8 @@
 
 #include "HistoryGraphic.h"
 #include "Diagram.h"
+#include "FigureComposite.h"
+#include "Figure.h"
 #include "Text.h"
 
 HistoryGraphic* HistoryGraphic::instance = 0;
@@ -46,6 +48,28 @@ void HistoryGraphic::PushUndo(Diagram *diagram, Long zoomRate) {
 		this->undoGraphicZoomRateArray->Insert(0, zoomRate);
 		this->undoGraphicZoomRateArray->DeleteFromRear();
 	}
+	Long i = 0;
+	while ( i <diagram->GetLength()) {
+		FigureComposite *figureComposite = static_cast<FigureComposite*>(diagram->GetAt(i));
+		Long j = 0;
+		while (j < figureComposite->GetLength()) {
+			Figure *figure = figureComposite->GetAt(j);
+			if (figure->GetEndPointFigure() != 0) {
+				Long k = 0;
+				while (k < diagram->GetLength() && figure->GetEndPointFigure() != diagram->GetAt(k)) {
+					k++;
+				}
+				if (k < diagram->GetLength()) {
+					Diagram *diarams = this->undoGraphicArray->GetAt(0);
+					FigureComposite *tempFigureComposite = static_cast<FigureComposite*>(diarams->GetAt(i));//->GetAt(j);
+					Figure *temp = tempFigureComposite->GetAt(j);
+					temp->SetEndPointFigure(this->undoGraphicArray->GetAt(0)->GetAt(k));
+				}
+			}
+			j++;
+		}
+		i++;
+	}
 }
 
 void HistoryGraphic::PopUndoGraphic(Diagram*(*diagram), Long *zoomRate){
@@ -69,6 +93,28 @@ void HistoryGraphic::PushRedo(Diagram *diagram, Long zoomRate){
 		this->redoGraphicArray->DeleteFromRear();
 		this->redoGraphicZoomRateArray->Insert(0, zoomRate);
 		this->redoGraphicZoomRateArray->DeleteFromRear();
+	}
+	Long i = 0;
+	while (i <diagram->GetLength()) {
+		FigureComposite *figureComposite = static_cast<FigureComposite*>(diagram->GetAt(i));
+		Long j = 0;
+		while (j < figureComposite->GetLength()) {
+			Figure *figure = figureComposite->GetAt(j);
+			if (figure->GetEndPointFigure() != 0) {
+				Long k = 0;
+				while (k < diagram->GetLength() && figure->GetEndPointFigure() != diagram->GetAt(k)) {
+					k++;
+				}
+				if (k < diagram->GetLength()) {
+					Diagram *diarams = this->redoGraphicArray->GetAt(0);
+					FigureComposite *tempFigureComposite = static_cast<FigureComposite*>(diarams->GetAt(i));//->GetAt(j);
+					Figure *temp = tempFigureComposite->GetAt(j);
+					temp->SetEndPointFigure(this->redoGraphicArray->GetAt(0)->GetAt(k));
+				}
+			}
+			j++;
+		}
+		i++;
 	}
 }
 

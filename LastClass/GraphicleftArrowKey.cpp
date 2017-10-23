@@ -30,10 +30,8 @@ void GraphicLeftArrowKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 	else if (classDiagramForm->selection->GetLength() == 1) {
 		FigureComposite *object = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
 		CRect rect{ object->GetX() - 5,object->GetY(), object->GetX() + object->GetWidth() - 5,object->GetY() + object->GetHeight() };
-		BOOL isOverlap = classDiagramForm->diagram->CheckOverlap(rect, object);
-		if (isOverlap == FALSE) {
 			classDiagramForm->selection->Accept(classDiagramForm->diagram, movingVisitor, -1, 0);
-		}
+		
 	}
 }
 

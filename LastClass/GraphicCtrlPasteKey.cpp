@@ -155,10 +155,6 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 			rt.right -= abs(distanceX);
 			rt.bottom -= abs(distanceY);
 		}
-
-		bool ret = classDiagramForm->diagram->CheckOverlap(rt, 0);
-		//없으면 기호들을 이동시킨다
-		if (ret == false) {
 			Figure *figure;
 			MovingVisitor movingVisitor;
 			classDiagramForm->selection->DeleteAllItems();
@@ -174,7 +170,7 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 					classDiagramForm->diagram->Add(figure->Clone());
 					classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(classDiagramForm->diagram->GetLength() - 1));
 				}
-			}
+			
 		}
 		classDiagramForm->lastClass->statusBar->DestroyStatus();
 		classDiagramForm->lastClass->statusBar->MakeStatusBar(classDiagramForm->lastClass, classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
