@@ -296,6 +296,8 @@ void ResizeVisitor::Visit(Line *line, CDC* cPaintDc) {
 	line->SetY(y1*this->nextZoomRate / this->previousZoomRate);
 	line->SetWidth((x2*this->nextZoomRate / this->previousZoomRate) - line->GetX());
 	line->SetHeight((y2*this->nextZoomRate / this->previousZoomRate) - line->GetY());
+	line->SetMinimumWidth(line->GetMinimumWidth()*this->nextZoomRate / this->previousZoomRate);
+	line->SetMinimumHeight(line->GetMinimumHeight()* this->nextZoomRate / this->previousZoomRate);
 }
 
 void ResizeVisitor::Visit(Generalization *generalization, CDC* cPaintDc) {
