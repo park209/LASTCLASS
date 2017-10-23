@@ -1058,3 +1058,115 @@ Long Selection::SelectByPointForRelation(Diagram *diagram, Long x, Long y) {
 	}
 	return index;
 }
+
+#include "SmartPointer.h"
+
+Selection* Selection::MakeSelectionBuffer(Selection& selection) {
+	Long i;
+	Long j;
+	Long k;
+	Selection *copyBuffer = new Selection(selection);
+	i = 0;
+	SmartPointer<Figure*>SelectionSmartPointer(selection.CreateIterator());
+	//Selection 배열 반복자
+	for (SelectionSmartPointer->First(); !SelectionSmartPointer->IsDone(); SelectionSmartPointer->Next()) {
+		if (dynamic_cast<FigureComposite*>(SelectionSmartPointer->Current())) {
+			FigureComposite *figureComposite = static_cast<FigureComposite*>(SelectionSmartPointer->Current());
+			j = 0;
+			SmartPointer<Figure*>CompositeSmartPointer(figureComposite->CreateIterator());
+			//FigureCompsotie 배열 반복자
+			for (CompositeSmartPointer->First(); !CompositeSmartPointer->IsDone(); CompositeSmartPointer->Next()) {
+				Figure *figure = CompositeSmartPointer->Current();
+				if (figure->GetEndPointFigure() != 0) {
+					k = 0;
+					//EndPointFigure 위치(index)를 찾는다
+					while (k < selection.GetLength() && figure->GetEndPointFigure() != selection.GetAt(k)) {
+						k++;
+					}
+					if (k < selection.GetLength()) {
+						FigureComposite *bufferComposite = static_cast<FigureComposite*>(copyBuffer->GetAt(i));
+						Figure *bufferRelation = bufferComposite->GetAt(j);
+						bufferRelation->SetEndPointFigure(dynamic_cast<Class*>(copyBuffer->GetAt(k)));
+					}
+				}
+				j++;
+			}
+		}
+		i++;
+	}
+	return copyBuffer;
+}
+
+CRect Selection::GetSelectionRect(Selection& selection) {
+	Long i = 0;
+	CRect rt = { 0, };
+
+	//Selection배열에서 연결되지 않은 선들 제거하기 위해 선택범위 찾기
+	SmartPointer<Figure*>CopyBufferSmartPointer(selection.CreateIterator());
+	for (CopyBufferSmartPointer->First(); !CopyBufferSmartPointer->IsDone(); CopyBufferSmartPointer->Next()) {
+		if (dynamic_cast<FigureComposite*>(CopyBufferSmartPointer->Current())) {
+			if (i == 0 || CopyBufferSmartPointer->Current()->GetX() < rt.left) {//minimumX
+				rt.left = CopyBufferSmartPointer->Current()->GetX();
+			}
+			if (i == 0 || CopyBufferSmartPointer->Current()->GetX()            //maximumX
+				+ CopyBufferSmartPointer->Current()->GetWidth() > rt.right) {
+				rt.right = CopyBufferSmartPointer->Current()->GetX() + CopyBufferSmartPointer->Current()->GetWidth();
+			}
+			if (i == 0 || CopyBufferSmartPointer->Current()->GetY() < rt.top) {   //minimumY
+				rt.top = CopyBufferSmartPointer->Current()->GetY();
+			}
+			if (i == 0 || CopyBufferSmartPointer->Current()->GetY()            //maximumY
+				+ CopyBufferSmartPointer->Current()->GetHeight() > rt.bottom) {
+				rt.bottom = CopyBufferSmartPointer->Current()->GetY() + CopyBufferSmartPointer->Current()->GetHeight();
+			}
+			i++;
+		}
+	}
+
+	return rt;
+}
+
+void Selection::DeleteOutSideRelation(Selection& selection) {
+	Long i;
+	Long j;
+
+
+	bool connect;
+	//연결되지 않은 선 제거
+	SmartPointer<Figure*>SelectionSmartPointer(selection.CreateIterator());
+	for (SelectionSmartPointer->First(); !SelectionSmartPointer->IsDone(); SelectionSmartPointer->Next()) {
+		if (dynamic_cast<FigureComposite*>(SelectionSmartPointer->Current())) {
+			i = 0;
+			SmartPointer<Figure*>compositeIterator(static_cast<FigureComposite*>(SelectionSmartPointer->Current())->CreateIterator());
+			while (!compositeIterator->IsDone()) {
+				if (dynamic_cast<Relation*>(compositeIterator->Current())) {
+					connect = false;
+					SmartPointer<Figure*>bufferIterator(selection.CreateIterator());
+					while (!bufferIterator->IsDone()) {
+						if (dynamic_cast<FigureComposite*>(bufferIterator->Current())) {
+							j = 0;
+							while (j < selection.GetLength() && compositeIterator->Current()->GetEndPointFigure() != selection.GetAt(j)) {
+								j++;
+							}
+							if (j < selection.GetLength()) {
+								connect = true;
+							}
+						}
+						bufferIterator->Next();
+					}
+					if (connect == true) {
+						i++;
+						compositeIterator->Next();
+					}
+					else {
+						static_cast<FigureComposite*>(SelectionSmartPointer->Current())->Remove(i);
+					}
+				}
+				else {
+					i++;
+					compositeIterator->Next();
+				}
+			}
+		}
+	}
+}
