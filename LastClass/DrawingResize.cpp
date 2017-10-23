@@ -17,6 +17,6 @@ void DrawingResize::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagra
 
 }
 
-void DrawingResize::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
+void DrawingResize::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	
 }
