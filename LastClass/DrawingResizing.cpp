@@ -37,24 +37,20 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 
 	CRect rect = diagram->GetCorrectRect(startX, startY, currentX, currentY);
-	ret = diagram->CheckOverlap(rect, object);
+
 
 	if (dynamic_cast<Class*>(object) && static_cast<Class*>(object)->GetTempletePosition() != -1) {
 		Class *selectedClass = static_cast<Class*>(object);
-		Template *templete = static_cast<Template*>(selectedClass->GetAt(selectedClass->GetTempletePosition()));
-		if (ret == false) { // 좌상단
+			Template *templete = static_cast<Template*>(selectedClass->GetAt(selectedClass->GetTempletePosition()));
+	 // 좌상단
 			CRect rect(selectedClass->GetX() - 3, templete->GetY() - 3, selectedClass->GetX() + 6, templete->GetY() + 6);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
 				objectRect.left += distanceX;
 				objectRect.top += distanceY;
-				overlapCheck = diagram->CheckOverlap(objectRect, object);
-				if (overlapCheck == false) {
-					selectedClass->ModifyComponetsToLeftDirection(diagram, distanceX);
-					selectedClass->ModifyComponetsToUpDirection(diagram, distanceY);
-				}
+				selectedClass->ModifyComponetsToLeftDirection(diagram, distanceX);
+				selectedClass->ModifyComponetsToUpDirection(diagram, distanceY);
 			}
-		}
 		if (ret == false) { // 우상단
 			CRect rect(templete->GetX() + templete->GetWidth() - 6, templete->GetY() - 3,
 				templete->GetX() + templete->GetWidth() + 3, templete->GetY() + 6);
@@ -62,11 +58,9 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			if (ret == true) {
 				objectRect.top += distanceY;
 				objectRect.right += distanceX;
-				overlapCheck = diagram->CheckOverlap(objectRect, object);
-				if (overlapCheck == false) {
-					selectedClass->ModifyComponetsToRightDirection(diagram, distanceX);
-					selectedClass->ModifyComponetsToUpDirection(diagram, distanceY);
-				}
+				selectedClass->ModifyComponetsToRightDirection(diagram, distanceX);
+				selectedClass->ModifyComponetsToUpDirection(diagram, distanceY);
+				
 			}
 		}
 		if (ret == false) { // 좌하단
@@ -76,11 +70,9 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			if (ret == true) {
 				objectRect.left += distanceX;
 				objectRect.bottom += distanceY;
-				overlapCheck = diagram->CheckOverlap(objectRect, object);
-				if (overlapCheck == false) {
-					selectedClass->ModifyComponetsToLeftDirection(diagram, distanceX);
-					selectedClass->ModifyComponetsToDownDirection(diagram, distanceY);
-				}
+				selectedClass->ModifyComponetsToLeftDirection(diagram, distanceX);
+				selectedClass->ModifyComponetsToDownDirection(diagram, distanceY);
+			
 			}
 		}
 		if (ret == false) { // 우하단//
@@ -90,11 +82,9 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			if (ret == true) {
 				objectRect.right += distanceX;
 				objectRect.bottom += distanceY;
-				overlapCheck = diagram->CheckOverlap(objectRect, object);
-				if (overlapCheck == false) {
-					selectedClass->ModifyComponetsToRightDirection(diagram, distanceX);
-					selectedClass->ModifyComponetsToDownDirection(diagram, distanceY);
-				}
+				selectedClass->ModifyComponetsToRightDirection(diagram, distanceX);
+				selectedClass->ModifyComponetsToDownDirection(diagram, distanceY);
+			
 			}
 		}
 		if (ret == false) { // 상중단//
@@ -103,10 +93,7 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
 				objectRect.top += distanceY;
-				overlapCheck = diagram->CheckOverlap(objectRect, object);
-				if (overlapCheck == false) {
-					selectedClass->ModifyComponetsToUpDirection(diagram, distanceY);
-				}
+				selectedClass->ModifyComponetsToUpDirection(diagram, distanceY);
 			}
 		}
 
@@ -116,10 +103,7 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
 				objectRect.bottom += distanceY;
-				overlapCheck = diagram->CheckOverlap(objectRect, object);
-				if (overlapCheck == false) {
-					selectedClass->ModifyComponetsToDownDirection(diagram, distanceY);
-				}
+				selectedClass->ModifyComponetsToDownDirection(diagram, distanceY);
 			}
 		}
 
@@ -129,10 +113,7 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
 				objectRect.left += distanceX;
-				overlapCheck = diagram->CheckOverlap(objectRect, object);
-				if (overlapCheck == false) {
-					selectedClass->ModifyComponetsToLeftDirection(diagram, distanceX);
-				}
+				selectedClass->ModifyComponetsToLeftDirection(diagram, distanceX);
 			}
 		}
 
@@ -142,10 +123,7 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
 				objectRect.right += distanceX;
-				overlapCheck = diagram->CheckOverlap(objectRect, object);
-				if (overlapCheck == false) {
-					selectedClass->ModifyComponetsToRightDirection(diagram, distanceX);
-				}
+				selectedClass->ModifyComponetsToRightDirection(diagram, distanceX);
 			}
 		}
 	}
@@ -157,11 +135,9 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			if (ret == true) {
 				objectRect.left += distanceX;
 				objectRect.top += distanceY;
-				overlapCheck = diagram->CheckOverlap(objectRect, object);
-				if (overlapCheck == false) {
-					object->ModifyComponetsToLeftDirection(diagram, distanceX);
-					object->ModifyComponetsToUpDirection(diagram, distanceY);
-				}
+				object->ModifyComponetsToLeftDirection(diagram, distanceX);
+				object->ModifyComponetsToUpDirection(diagram, distanceY);
+				
 			}
 		}
 		if (ret == false) { // 우상단
@@ -170,11 +146,9 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			if (ret == true) {
 				objectRect.top += distanceY;
 				objectRect.right += distanceX;
-				overlapCheck = diagram->CheckOverlap(objectRect, object);
-				if (overlapCheck == false) {
-					object->ModifyComponetsToRightDirection(diagram, distanceX);
-					object->ModifyComponetsToUpDirection(diagram, distanceY);
-				}
+				object->ModifyComponetsToRightDirection(diagram, distanceX);
+				object->ModifyComponetsToUpDirection(diagram, distanceY);
+				
 			}
 		}
 		if (ret == false) { // 좌하단
@@ -183,11 +157,9 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			if (ret == true) {
 				objectRect.left += distanceX;
 				objectRect.bottom += distanceY;
-				overlapCheck = diagram->CheckOverlap(objectRect, object);
-				if (overlapCheck == false) {
-					object->ModifyComponetsToLeftDirection(diagram, distanceX);
-					object->ModifyComponetsToDownDirection(diagram, distanceY);
-				}
+				object->ModifyComponetsToLeftDirection(diagram, distanceX);
+				object->ModifyComponetsToDownDirection(diagram, distanceY);
+				
 			}
 		}
 		if (ret == false) { // 우하단
@@ -197,11 +169,9 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			if (ret == true) {
 				objectRect.right += distanceX;
 				objectRect.bottom += distanceY;
-				overlapCheck = diagram->CheckOverlap(objectRect, object);
-				if (overlapCheck == false) {
-					object->ModifyComponetsToRightDirection(diagram, distanceX);
-					object->ModifyComponetsToDownDirection(diagram, distanceY);
-				}
+				object->ModifyComponetsToRightDirection(diagram, distanceX);
+				object->ModifyComponetsToDownDirection(diagram, distanceY);
+				
 			}
 		}
 
@@ -210,10 +180,8 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
 				objectRect.top += distanceY;
-				overlapCheck = diagram->CheckOverlap(objectRect, object);
-				if (overlapCheck == false) {
-					object->ModifyComponetsToUpDirection(diagram, distanceY);
-				}
+				object->ModifyComponetsToUpDirection(diagram, distanceY);
+				
 			}
 		}
 
@@ -223,10 +191,7 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
 				objectRect.bottom += distanceY;
-				overlapCheck = diagram->CheckOverlap(objectRect, object);
-				if (overlapCheck == false) {
-					object->ModifyComponetsToDownDirection(diagram, distanceY);
-				}
+				object->ModifyComponetsToDownDirection(diagram, distanceY);
 			}
 		}
 		if (ret == false) { // 좌중단
@@ -234,10 +199,8 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
 				objectRect.left += distanceX;
-				overlapCheck = diagram->CheckOverlap(objectRect, object);
-				if (overlapCheck == false) {
-					object->ModifyComponetsToLeftDirection(diagram, distanceX);
-				}
+				object->ModifyComponetsToLeftDirection(diagram, distanceX);
+				
 			}
 		}
 		if (ret == false) { // 우중단
@@ -246,10 +209,7 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			ret = finder.FindRectangleByPoint(rect, startX, startY);
 			if (ret == true) {
 				objectRect.right += distanceX;
-				overlapCheck = diagram->CheckOverlap(objectRect, object);
-				if (overlapCheck == false) {
-					object->ModifyComponetsToRightDirection(diagram, distanceX);
-				}
+				object->ModifyComponetsToRightDirection(diagram, distanceX);
 			}
 		}
 	}

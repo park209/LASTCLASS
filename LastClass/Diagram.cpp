@@ -174,54 +174,6 @@ CRect Diagram::GetCorrectRect(Long startX, Long startY, Long currentX, Long curr
 
 	return rect;
 }
-
-bool Diagram::CheckOverlap(CRect object, FigureComposite *execpt) {
-	bool ret = false;
-	Long i = 0;
-
-	Finder finder;
-	object.left -= 9;
-	object.top -= 9;
-	object.right += 9;
-	object.bottom += 9;
-	while (i < this->length && ret == false) {
-		FigureComposite *figureComposite = static_cast<FigureComposite*>(this->GetAt(i));
-		if (figureComposite != execpt) {
-			CRect rect(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
-			ret = finder.FindRectangleByArea(rect, object);
-		}
-		i++;
-	}
-	return ret;
-}
-
-bool Diagram::CheckOverlapSelection(CRect object, FigureComposite *execpt) {
-	bool ret = false;
-	Long i = 0;
-
-	Finder finder;
-	object.left -= 9;
-	object.top -= 9;
-	object.right += 9;
-	object.bottom += 9;
-	while (i < this->length && ret == false) {
-		FigureComposite *figureComposite = static_cast<FigureComposite*>(this->GetAt(i));
-		Long j = 0;
-		if (dynamic_cast<Class*>(figureComposite) || dynamic_cast<MemoBox*>(figureComposite)) {
-			while (j < execpt->GetLength() && figureComposite != static_cast<FigureComposite*>(execpt->GetAt(j))) {
-				j++;
-			}
-
-			if (j >= execpt->GetLength()) {
-				CRect rect(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
-				ret = finder.FindRectangleByArea(rect, object);
-			}
-		}
-		i++;
-	}
-	return ret;
-}
-
 Figure* Diagram::GetAt(Long index) {
 	return static_cast<Figure*>(this->figures.GetAt(index));
 }
