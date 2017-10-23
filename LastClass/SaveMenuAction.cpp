@@ -4,7 +4,7 @@
 #include "TextEdit.h"
 #include "ResizeVisitor.h"
 #include "Diagram.h"
-
+#include "Figure.h"
 #include <afxdlgs.h>
 
 using namespace std;

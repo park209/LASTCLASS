@@ -30,7 +30,7 @@ void EditResizerBlocker::Block(TextEdit *textEdit, CDC *pDC) {
 
 	textEdit->GetClientRect(&editRect);
 
-
+	/*
 	if (!dynamic_cast<Relation*>(textEdit->figure) && !dynamic_cast<SelfRelation*>(textEdit->figure)) {
 		FigureComposite *object = dynamic_cast<FigureComposite*>(((ClassDiagramForm*)(textEdit->GetParent()))->selection->GetAt(0));
 		bool progress = false;
@@ -50,6 +50,7 @@ void EditResizerBlocker::Block(TextEdit *textEdit, CDC *pDC) {
 			}
 		}
 		if (progress == true) {
+
 			editResizer.ResizeEdit(textEdit, pDC);
 			editResizer.ResizeClass(textEdit, pDC);
 			textEdit->GetParent()->Invalidate(false);
@@ -57,5 +58,8 @@ void EditResizerBlocker::Block(TextEdit *textEdit, CDC *pDC) {
 		else {
 			undo.KeyPress(textEdit);
 		}
-	}
+		*/
+	editResizer.ResizeEdit(textEdit, pDC);
+	editResizer.ResizeClass(textEdit, pDC);
+	textEdit->GetParent()->Invalidate(false);
 }

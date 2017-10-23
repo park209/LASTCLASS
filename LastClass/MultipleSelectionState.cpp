@@ -50,7 +50,7 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 		figure = selection->GetAt(i);
 		if (dynamic_cast<Class*>(figure) || dynamic_cast<MemoBox*>(figure)) {
 			CRect cRect1(figure->GetX() + (currentX - startX), figure->GetY() + (currentY - startY), figure->GetX() + (currentX - startX) + figure->GetWidth(), figure->GetY() + (currentY - startY) + figure->GetHeight());
-			ret = diagram->CheckOverlapSelection(cRect1, selection);
+			//ret = diagram->CheckOverlapSelection(cRect1, selection);
 		}
 		i++;
 	}
@@ -164,8 +164,7 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 						Relation *relation = static_cast<Relation*>(figureComposite->GetAt(l));
 						Long relationEndX = relation->GetX() + relation->GetWidth();
 						Long relationEndY = relation->GetY() + relation->GetHeight();
-						if ((startX <= relationEndX && relationEndX <= endX && (startY == relationEndY || endY == relationEndY)) ||
-							(startY <= relationEndY && relationEndY <= endY && (startX == relationEndX || endX == relationEndX))) {
+						if (relation->GetEndPointFigure() == selection->GetAt(i)) {
 							relation->EndPointMove(distanceX, distanceY);
 							//
 							if (relation->GetLength() == 0) {
