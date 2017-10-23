@@ -116,6 +116,7 @@ Figure* Figure::Move(Long distanceX, Long distanceY) {
 	}
 	return this;
 }
+
 Figure *Figure::EndPointMove(Long distanceX, Long distanceY) {
 	this->width = this->width + distanceX;
 	this->height = this->height + distanceY;
