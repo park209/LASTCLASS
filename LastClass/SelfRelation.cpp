@@ -31,10 +31,27 @@ SelfRelation::SelfRelation(Long x, Long y, Long width, Long height) : Figure(x, 
 
 SelfRelation::SelfRelation(const SelfRelation& source) : Figure(source) {
 	this->leftRigtFlag = source.leftRigtFlag;
-	//this->capacity = source.capacity;
-	//this->length = source.length;
-	this->rollNamePoints = source.rollNamePoints;
-	this->rollNames = source.rollNames;
+	Long i = 0;
+
+	if (this->rollNamePoints != 0) {
+		rollNamePoints->Clear();
+	}
+	this->rollNamePoints = new Array<CPoint>(5);
+	i = 0;
+	while (i < source.rollNamePoints->GetLength()) {
+		this->rollNamePoints->Store(i, const_cast<SelfRelation&>(source).rollNamePoints->GetAt(i));
+		i++;
+	}
+
+	if (this->rollNames != 0) {
+		rollNames->Clear();
+	}
+	this->rollNames = new Array<string>(5);
+	i = 0;
+	while (i < 5) {
+		this->rollNames->Store(i, const_cast<SelfRelation&>(source).rollNames->GetAt(i));
+		i++;
+	}
 }
 
 SelfRelation::~SelfRelation() {

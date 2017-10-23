@@ -28,6 +28,7 @@ MovingVisitor::~MovingVisitor() {
 }
 void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY) {
 	Long length = selection->GetLength();
+	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 	Long i = 0;
 	Long j;
 	Long k = 0;
@@ -54,7 +55,6 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 				figure->Move(distanceX, distanceY);
 				if (dynamic_cast<Relation*>(figure)) {
 					Relation *relation = static_cast<Relation*>(figure);
-					RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 					if (relation->GetLength() == 0) {
 						CPoint startPoint(figure->GetX(), figure->GetY());
 						CPoint endPoint(figure->GetX() + figure->GetWidth(), figure->GetY() + figure->GetHeight());
@@ -82,11 +82,21 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 				}
 				else if (dynamic_cast<SelfRelation*>(figure)) {
 					SelfRelation *selfRelation = static_cast<SelfRelation*>(figure);
-					CPoint cPoint1(selfRelation->rollNamePoints->GetAt(0).x + distanceX, selfRelation->rollNamePoints->GetAt(0).y + distanceY);
-					CPoint cPoint2(selfRelation->rollNamePoints->GetAt(1).x + distanceX, selfRelation->rollNamePoints->GetAt(1).y + distanceY);
-					CPoint cPoint3(selfRelation->rollNamePoints->GetAt(2).x + distanceX, selfRelation->rollNamePoints->GetAt(2).y + distanceY);
-					CPoint cPoint4(selfRelation->rollNamePoints->GetAt(3).x + distanceX, selfRelation->rollNamePoints->GetAt(3).y + distanceY);
-					CPoint cPoint5(selfRelation->rollNamePoints->GetAt(4).x + distanceX, selfRelation->rollNamePoints->GetAt(4).y + distanceY);
+					cPoint1 = selfRelation->rollNamePoints->GetAt(0);
+					cPoint1.x += distanceX;
+					cPoint1.y += distanceY;
+					cPoint2 = selfRelation->rollNamePoints->GetAt(1);
+					cPoint2.x += distanceX;
+					cPoint2.y += distanceY;
+					cPoint3 = selfRelation->rollNamePoints->GetAt(2);
+					cPoint3.x += distanceX;
+					cPoint3.y += distanceY;
+					cPoint4 = selfRelation->rollNamePoints->GetAt(3);
+					cPoint4.x += distanceX;
+					cPoint4.y += distanceY;
+					cPoint5 = selfRelation->rollNamePoints->GetAt(4);
+					cPoint5.x += distanceX;
+					cPoint5.y += distanceY;
 					selfRelation->rollNamePoints->Modify(0, cPoint1);
 					selfRelation->rollNamePoints->Modify(1, cPoint2);
 					selfRelation->rollNamePoints->Modify(2, cPoint3);
@@ -219,19 +229,22 @@ void MovingVisitor::Visit(Class *object, Long distanceX, Long distanceY) {
 		}
 		else if (dynamic_cast<SelfRelation*>(figure)) {
 			SelfRelation *selfRelation = static_cast<SelfRelation*>(figure);
-			CPoint startPoint1And4{ selfRelation->GetX(), selfRelation->GetY() };
-			CPoint endPoint1And4{ selfRelation->GetX() ,  selfRelation->GetY() - 40 };
 
-			CPoint startPoint2{ selfRelation->GetX(), selfRelation->GetY() - 40 };
-			CPoint endPoint2{ selfRelation->GetX() + 80,  selfRelation->GetY() - 40 };
-
-			CPoint startPoint3And5{ selfRelation->GetX() + 80, selfRelation->GetY() + 40 };
-			CPoint endPoint3And5{ selfRelation->GetX() + 30,  selfRelation->GetY() + 40 };
-			cPoint1 = rollNameBoxesPoint->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4);
-			cPoint2 = rollNameBoxesPoint->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2);
-			cPoint3 = rollNameBoxesPoint->GetSelfRelationThirdRollNamePoint(startPoint3And5, endPoint3And5);
-			cPoint4 = rollNameBoxesPoint->GetSelfRelationFourthRollNamePoint(startPoint1And4, endPoint1And4);
-			cPoint5 = rollNameBoxesPoint->GetSelfRelationFifthRollNamePoint(startPoint3And5, endPoint3And5);
+			cPoint1 = selfRelation->rollNamePoints->GetAt(0);
+			cPoint1.x += distanceX;
+			cPoint1.y += distanceY;
+			cPoint2 = selfRelation->rollNamePoints->GetAt(1);
+			cPoint2.x += distanceX;
+			cPoint2.y += distanceY;
+			cPoint3 = selfRelation->rollNamePoints->GetAt(2);
+			cPoint3.x += distanceX;
+			cPoint3.y += distanceY;
+			cPoint4 = selfRelation->rollNamePoints->GetAt(3);
+			cPoint4.x += distanceX;
+			cPoint4.y += distanceY;
+			cPoint5 = selfRelation->rollNamePoints->GetAt(4);
+			cPoint5.x += distanceX;
+			cPoint5.y += distanceY;
 			selfRelation->rollNamePoints->Modify(0, cPoint1);
 			selfRelation->rollNamePoints->Modify(1, cPoint2);
 			selfRelation->rollNamePoints->Modify(2, cPoint3);
@@ -240,6 +253,7 @@ void MovingVisitor::Visit(Class *object, Long distanceX, Long distanceY) {
 		}
 	}
 }
+
 void MovingVisitor::Visit(Class *object, CDC* pDC) {
 
 }
