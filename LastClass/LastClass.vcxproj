@@ -461,6 +461,18 @@
     <None Include="LastClass.filters" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\..\Desktop\Copy.bmp" />
+    <Image Include="..\..\..\..\..\Desktop\Delete.bmp" />
+    <Image Include="..\..\..\..\..\Desktop\File.bmp" />
+    <Image Include="..\..\..\..\..\Desktop\Help.bmp" />
+    <Image Include="..\..\..\..\..\Desktop\icons8-Cut-48.bmp" />
+    <Image Include="..\..\..\..\..\Desktop\icons8-Open-48 (1).bmp" />
+    <Image Include="..\..\..\..\..\Desktop\icons8-Print-48.bmp" />
+    <Image Include="..\..\..\..\..\Desktop\Open.bmp" />
+    <Image Include="..\..\..\..\..\Desktop\Printer.bmp" />
+    <Image Include="..\..\..\..\..\Desktop\Redo.bmp" />
+    <Image Include="..\..\..\..\..\Desktop\Save.bmp" />
+    <Image Include="..\..\..\..\..\Desktop\Undo.bmp" />
     <Image Include="bitmap1.bmp" />
     <Image Include="bitmap10.bmp" />
     <Image Include="bitmap11.bmp" />

@@ -16,6 +16,17 @@
 #define IDB_BITMAP11                    115
 #define IDB_BITMAP12                    116
 #define IDB_BITMAP13                    117
+#define IDB_BITMAP14                    118
+#define IDB_BITMAP15                    119
+#define IDB_BITMAP16                    120
+#define IDB_BITMAP17                    121
+#define IDB_BITMAP18                    122
+#define IDB_BITMAP19                    123
+#define IDB_BITMAP20                    124
+#define IDB_BITMAP21                    125
+#define IDB_BITMAP22                    126
+#define IDB_BITMAP23                    127
+#define IDB_BITMAP24                    128
 #define ID_BUTTON40002                  40002
 #define ID_BUTTON40003                  40003
 #define ID_BUTTON40001                  40004
@@ -51,7 +62,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        118
+#define _APS_NEXT_RESOURCE_VALUE        130
 #define _APS_NEXT_COMMAND_VALUE         40032
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101
