@@ -45,7 +45,7 @@ void GraphicCtrlCopyKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) 
 		classDiagramForm->copyBuffer = 0;
 	}
 	classDiagramForm->copyBuffer = classDiagramForm->selection->MakeSelectionBuffer(*classDiagramForm->selection);
-	//classDiagramForm->selection->DeleteOutSideRelation(*classDiagramForm->copyBuffer);
+	classDiagramForm->selection->DeleteOutSideRelation(*classDiagramForm->copyBuffer);
 }
 
 void GraphicCtrlCopyKey::KeyPress(TextEdit *textEdit) {
