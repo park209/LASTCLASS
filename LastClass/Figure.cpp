@@ -139,7 +139,7 @@ Figure& Figure::operator = (const Figure& source) {
 	this->minimumWidth = source.minimumWidth;
 	this->minimumHeight = source.minimumHeight;
 	this->fontSize = source.fontSize;
-	this->endPointFigure = source.endPointFigure;
+	this->endPointFigure = const_cast<Figure*>(&source);
 
 	return *this;
 }
