@@ -16,6 +16,7 @@ Figure::Figure() {
 	this->minimumWidth = 120 * test->classDiagramForm->zoomRate / 100;
 	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;
 	this->fontSize = 25;
+	this->endPointFigure = 0;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height) {
@@ -28,6 +29,7 @@ Figure::Figure(Long x, Long y, Long width, Long height) {
 	this->minimumWidth = 120 * test->classDiagramForm->zoomRate / 100;
 	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100;
 	this->fontSize = 25;
+	this->endPointFigure = 0;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height, string content) {
@@ -40,6 +42,7 @@ Figure::Figure(Long x, Long y, Long width, Long height, string content) {
 	this->minimumWidth = 120 * test->classDiagramForm->zoomRate / 100; //여기도
 	this->minimumHeight = 29 * test->classDiagramForm->zoomRate / 100; // 입력받을 문자열에 맞게 값 줘야하는데
 	this->fontSize = 25;
+	this->endPointFigure = 0;
 }
 
 Figure::Figure(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight, string content) {
@@ -51,7 +54,8 @@ Figure::Figure(Long x, Long y, Long width, Long height, Long minimumWidth, Long 
 	this->content = content;
 	this->minimumWidth = minimumWidth;
 	this->minimumHeight = minimumHeight;
-	this->fontSize = 25;
+	this->fontSize = 25;	
+	this->endPointFigure = 0;
 }
 
 Figure::Figure(const Figure& source) {
@@ -63,6 +67,7 @@ Figure::Figure(const Figure& source) {
 	this->minimumWidth = source.minimumWidth;
 	this->minimumHeight = source.minimumHeight;
 	this->fontSize = source.fontSize;
+	this->endPointFigure = source.endPointFigure;
 }
 
 Long Figure::GetRowCount(string object) {
@@ -134,9 +139,13 @@ Figure& Figure::operator = (const Figure& source) {
 	this->minimumWidth = source.minimumWidth;
 	this->minimumHeight = source.minimumHeight;
 	this->fontSize = source.fontSize;
+	this->endPointFigure = source.endPointFigure;
 
 	return *this;
 }
-
+ Figure* Figure::SetEndPointFigure(Figure *figure) {
+	this->endPointFigure = figure;
+	return this->endPointFigure;
+}
 Figure::~Figure() {
 }

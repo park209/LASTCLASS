@@ -95,6 +95,7 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 				}
 				j++;
 			}
+			
 			k = 0;
 			while (k < diagram->GetLength()) {
 				figureComposite = static_cast<FigureComposite*>(diagram->GetAt(k));
@@ -102,12 +103,9 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 				while (l < figureComposite->GetLength()) {
 					if (dynamic_cast<Relation*>(figureComposite->GetAt(l))) {
 						figure = figureComposite->GetAt(l);
-						Long relationEndX = figure->GetX() + figure->GetWidth();
-						Long relationEndY = figure->GetY() + figure->GetHeight();
-						if (startX -1<= relationEndX &&  relationEndX <= endX+1 &&
-							startY -1<= relationEndY &&  relationEndY <= endY+1) {
+						if (figure->GetEndPointFigure() == selection->GetAt(i)) {
 							figure->EndPointMove(distanceX, distanceY);
-
+							
 							RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 							Relation *relation = static_cast<Relation*>(figure);
 							if (relation->GetLength() == 0) {
@@ -139,6 +137,7 @@ void MovingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX
 				}
 				k++;
 			}
+			
 
 		}
 		i++;
