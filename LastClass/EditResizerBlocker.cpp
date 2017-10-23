@@ -7,6 +7,7 @@
 #include "Selection.h"
 #include "Class.h"
 #include "Diagram.h"
+#include "SelfDirectedAssociation.h"
 #include "HistoryText.h"
 #include "CtrlUndoTextKey.h"
 #include "Relation.h"
@@ -59,7 +60,9 @@ void EditResizerBlocker::Block(TextEdit *textEdit, CDC *pDC) {
 			undo.KeyPress(textEdit);
 		}
 		*/
-	editResizer.ResizeEdit(textEdit, pDC);
-	editResizer.ResizeClass(textEdit, pDC);
-	textEdit->GetParent()->Invalidate(false);
+	
+		editResizer.ResizeEdit(textEdit, pDC);
+		editResizer.ResizeClass(textEdit, pDC);
+		textEdit->GetParent()->Invalidate(false);
+	
 }

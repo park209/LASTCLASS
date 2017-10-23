@@ -22,8 +22,6 @@ public:
 	Figure* FindItem(Long x, Long y);
 	virtual Long Remove(Long index);
 	CRect GetCorrectRect(Long startX, Long startY, Long currentX, Long currentY);
-	bool CheckOverlap(CRect object, FigureComposite *execpt);
-	bool CheckOverlapSelection(CRect object, FigureComposite *execpt);
 
 	string FindLongString(string str);
 

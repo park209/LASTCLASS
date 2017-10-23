@@ -440,8 +440,7 @@ void DrawingVisitor::Visit(Generalization *generalization, CDC* pDC) {
 	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
 	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-														  // 수직 기울기
-
+			
 	CPoint pts[3];
 
 	pts[0].x = (endX); //마우스 현재위치 점
@@ -454,7 +453,9 @@ void DrawingVisitor::Visit(Generalization *generalization, CDC* pDC) {
 	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
 	pDC->SelectObject(&white);
-	pDC->Polygon(pts, 3);
+	if (pts[2].x != pts[2].y ) {
+		pDC->Polygon(pts, 3);
+	}
 	pDC->SelectObject(oldBrush);
 	myBrush.DeleteObject();
 }

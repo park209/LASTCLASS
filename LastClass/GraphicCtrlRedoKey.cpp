@@ -7,6 +7,7 @@
 #include "Selection.h"
 #include "LastClass.h"
 #include "StatusBar.h"
+#include "ClassDiagramForm.h"
 
 GraphicCtrlRedoKey::GraphicCtrlRedoKey() {
 }
@@ -26,6 +27,27 @@ void GraphicCtrlRedoKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) 
 
 		delete classDiagramForm->diagram;
 		classDiagramForm->diagram = diagram_;
+		Long i = 0;
+		while (i < diagram_->GetLength()) {
+			FigureComposite *figureComposite = static_cast<FigureComposite*>(diagram_->GetAt(i));
+			Long j = 0;
+			while (j < figureComposite->GetLength()) {
+				Figure *figure = figureComposite->GetAt(j);
+				if (figure->GetEndPointFigure() != 0) {
+					Long k = 0;
+					while (k < diagram_->GetLength() && figure->GetEndPointFigure() != diagram_->GetAt(k)) {
+						k++;
+					}
+					if (k < diagram_->GetLength()) {
+						FigureComposite *tempFigureComposite = static_cast<FigureComposite* >(classDiagramForm->diagram->GetAt(i));
+						Figure *temp = tempFigureComposite->GetAt(j);
+						temp->SetEndPointFigure(classDiagramForm->diagram->GetAt(k));
+					}
+				}
+				j++;
+			}
+			i++;
+		}
 		classDiagramForm->zoomRate = zoomRate_;
 		classDiagramForm->lastClass->statusBar->DestroyStatus();
 		classDiagramForm->lastClass->statusBar->MakeStatusBar(classDiagramForm->lastClass, classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
