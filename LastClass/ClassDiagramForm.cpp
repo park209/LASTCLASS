@@ -1017,7 +1017,7 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		}
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////
 		KnockKnock *knocking = new KnockKnock;
-		knocking->Knocking(this);
+		//knocking->Knocking(this);
 		if (knocking != NULL) {
 			delete knocking;
 		}
