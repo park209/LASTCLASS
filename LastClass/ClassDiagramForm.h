@@ -45,6 +45,8 @@ public:
 	Long startY_;
 	Long currentX_;
 	Long currentY_;
+	Long currentX_2;
+	Long currentY_2;
 	Long thirty;
 	Long seventeen;
 public:
