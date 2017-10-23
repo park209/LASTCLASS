@@ -33,6 +33,8 @@ BEGIN_MESSAGE_MAP(LastClass, CFrameWnd)
 	ON_WM_CLOSE()
 	ON_COMMAND_RANGE(100, 125, OnMyMenu)
 	ON_COMMAND_RANGE(40002, 40015, OnMyToolBar)
+	//ON_NOTIFY(TBN_DROPDOWN, ID_BUTTON40017,OnToolbarDropDown)
+	ON_COMMAND(ID_BUTTON40017, DropDown)
 	ON_WM_SIZE()
 	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
@@ -53,8 +55,8 @@ int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->statusBar = new StatusBar;
 	this->toolBar = new ToolBar;
 	rect.top += 45;
-	//rect.left += 60;
-	//rect.right -= 60;
+	rect.left += 150;
+	rect.right -= 150;
 	rect.bottom -= 66;
 	this->classDiagramForm = new ClassDiagramForm(this);
 	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
@@ -132,7 +134,13 @@ void LastClass::OnSetFocus(CWnd* pOldWnd) {
 	CWnd::SetFocus();
 	Invalidate(false);
 }
+void LastClass::OnToolbarDropDown(NMHDR*pNotifyStruct, LRESULT* result) {
+	
+	AfxMessageBox("fdgdfgfdgfdgdfgdf");
+}
+void LastClass::DropDown() {
 
+}
 void LastClass::OnSize(UINT nType, int cx, int cy) {
 	//ModifyStyle(0, WS_CLIPCHILDREN);
 	CFrameWnd::OnSize(nType, cx, cy);
@@ -141,9 +149,11 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 	if (this->classDiagramForm != NULL) {
 		this->toolBar->DestroyToolBar();
 		this->toolBar->MakeToolBar(this->GetSafeHwnd());
+		this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
 		this->toolBar->ChangeToolBarSize(&rect);
+		//this->toolBar->ChangeAnotherToolBarSize(&rect);
 	}
-	//this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
+	
 	if (this->classDiagramForm != NULL) {
 		this->statusBar->DestroyStatus();
 		this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
@@ -151,9 +161,9 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 	//this->toolBar->ChangeAnotherToolBarSize(&rect);
 	//this->statusBar->ChangeStatusBarSize(&rect);
 	rect.top += 45;
-	//rect.left += 60;
-	//rect.right -= 60;
-	rect.bottom -= 66;
+	rect.left += 150;
+	rect.right -= 150;
+	rect.bottom -= 60;
 	//this->classDiagramForm->MoveWindow(rect.left, rect.top, rect.right, rect.bottom, 1);
 	if (this->classDiagramForm != NULL) {
 		this->classDiagramForm->SetWindowPos(this, rect.left, rect.top, rect.right, rect.bottom, SWP_NOMOVE | SWP_NOZORDER);

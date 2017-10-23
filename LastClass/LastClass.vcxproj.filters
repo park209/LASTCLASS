@@ -682,6 +682,7 @@
     <ClInclude Include="PrintPreviewState.h">
       <Filter>MouseAction</Filter>
     </ClInclude>
+    <ClInclude Include="KnockKnock.h" />
     <ClInclude Include="LastClassApp.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
@@ -694,7 +695,6 @@
     <ClInclude Include="MovingSelfRelation.h">
       <Filter>Relationship</Filter>
     </ClInclude>
-    <ClInclude Include="KnockKnock.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">
@@ -1332,17 +1332,28 @@
     <ClCompile Include="LeftSelfRelation.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
+    <ClCompile Include="KnockKnock.cpp" />
     <ClCompile Include="LastClassApp.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="MovingSelfRelation.cpp">
       <Filter>Relationship</Filter>
     </ClCompile>
-    <ClCompile Include="KnockKnock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc">
       <Filter>Resource</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="toolbar.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap1.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap2.bmp">
+      <Filter>Resource</Filter>
+    </Image>
   </ItemGroup>
 </Project>

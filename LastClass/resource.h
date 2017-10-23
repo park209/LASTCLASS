@@ -3,6 +3,8 @@
 // LastClass.rc에서 사용되고 있습니다.
 //
 #define IDR_TOOLBAR                     101
+#define IDB_BITMAP1                     105
+#define IDB_BITMAP2                     106
 #define ID_BUTTON40002                  40002
 #define ID_BUTTON40003                  40003
 #define ID_BUTTON40001                  40004
@@ -17,13 +19,15 @@
 #define ID_BUTTON40013                  40013
 #define ID_BUTTON40014                  40014
 #define ID_BUTTON40015                  40015
+#define ID_BUTTON40016                  40016
+#define ID_BUTTON40017                  40017
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        105
-#define _APS_NEXT_COMMAND_VALUE         40016
+#define _APS_NEXT_RESOURCE_VALUE        107
+#define _APS_NEXT_COMMAND_VALUE         40018
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

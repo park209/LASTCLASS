@@ -461,6 +461,11 @@
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="bitmap1.bmp" />
+    <Image Include="bitmap2.bmp" />
+    <Image Include="toolbar.bmp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{EE54C3EA-961D-4217-8B0F-44C954776CB5}</ProjectGuid>

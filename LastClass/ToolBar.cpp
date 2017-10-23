@@ -3,6 +3,7 @@
 #include "ToolBar.h"
 #include "resource.h"
 #include "ToolBarProcess.h"
+#define IDB_BITMAP1                     105
 
 ToolBar::ToolBar() {
 	this->hTool1 = 0;
@@ -64,7 +65,7 @@ void ToolBar::MakeToolBar(HWND hWndParent) {
 	ZeroMemory(tbb, sizeof(tbb));
 	tbb[0].iBitmap = STD_FILENEW;
 	tbb[0].fsState = TBSTATE_ENABLED;
-	tbb[0].fsStyle = TBSTYLE_BUTTON;
+	tbb[0].fsStyle = TBSTYLE_BUTTON ;
 	tbb[0].idCommand = ID_BUTTON40001;
 	tbb[0].iString = iNew;
 	tbb[1].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
@@ -151,34 +152,34 @@ void ToolBar::MakeToolBar(HWND hWndParent) {
 }
 void ToolBar::MakeAnotherToolBar(HWND hWndParent) {
 	InitCommonControls();
-	HWND hTool = CreateWindowEx(0, TOOLBARCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | CCS_VERT | CCS_NORESIZE | WS_BORDER, 0, 45, 60, 614,
+	/*HWND hTool = CreateWindowEx(0, TOOLBARCLASSNAME, NULL, WS_CHILD | TBSTYLE_FLAT | TBSTYLE_TRANSPARENT | WS_VISIBLE | CCS_VERT  |CCS_NORESIZE | WS_BORDER, 0, 45, 60, 614,
+		hWndParent, NULL, GetModuleHandle(NULL), NULL);*/
+	HWND hTool = CreateWindowEx(0, TOOLBARCLASSNAME, NULL, WS_CHILD | TBSTYLE_FLAT | TBSTYLE_TRANSPARENT | WS_VISIBLE | CCS_VERT | CCS_NORESIZE | WS_BORDER, 0, 150, 150, 100,
 		hWndParent, NULL, GetModuleHandle(NULL), NULL);
 	this->hTool2 = hTool;
 	SendMessage(hTool, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
-	TBBUTTON tbb[5];
-	SendMessage(hTool, TB_SETBUTTONSIZE, 0, MAKELPARAM(58, 47));
-	SendMessage(hTool, TB_SETBITMAPSIZE, 0, (LPARAM)MAKELPARAM(50, 44));
+	DWORD dwExStyle = TBSTYLE_EX_DRAWDDARROWS;
+	SendMessage(hTool, TB_SETEXTENDEDSTYLE, 0, (LPARAM)dwExStyle);
+	TBBUTTON tbb[2];
+	SendMessage(hTool, TB_SETBUTTONSIZE, 0, MAKELPARAM(40, 38));
+	SendMessage(hTool, TB_SETBITMAPSIZE, 0, (LPARAM)MAKELPARAM(38, 38));
 	DWORD backgroundColor = GetSysColor(COLOR_BTNFACE);///여기부터
 	COLORMAP colorMap;
-	colorMap.from = RGB(0, 0, 0);
+	colorMap.from = RGB(255, 255, 255);
 	colorMap.to = backgroundColor;
-	//HBITMAP hbm = CreateMappedBitmap(NULL, IDB_BITMAP2, 0, &colorMap, 1);
-	/*BITMAP bitInfo;
-	CBitmap bmp;
-	bmp.LoadBitmapA(IDB_BITMAP2);
-	bmp.GetBitmap(&bitInfo);
-	HBITMAP hbm = bmp.operator HBITMAP(); */
+	HBITMAP hbm = CreateMappedBitmap(NULL, IDB_BITMAP1, 0, &colorMap, 1);
 	TBADDBITMAP tb;
 	tb.hInst = NULL;
-	//tb.nID = (UINT_PTR)hbm;
+	tb.nID = (UINT_PTR)hbm;
 	int index = SendMessage(hTool, TB_ADDBITMAP, 0, (LPARAM)&tb);
 	ZeroMemory(tbb, sizeof(tbb));
 	tbb[0].iBitmap = index;
 	tbb[0].fsState = TBSTATE_ENABLED | TBSTATE_WRAP;
-	tbb[0].fsStyle = TBSTYLE_BUTTON;
-	tbb[0].idCommand = ID_BUTTON40001;
+	tbb[0].fsStyle = TBSTYLE_BUTTON | TBSTYLE_DROPDOWN;
+	tbb[0].idCommand = ID_BUTTON40017;
 
 	SendMessage(hTool, TB_ADDBUTTONS, sizeof(tbb) / sizeof(TBBUTTON), (LPARAM)tbb);
+	
 }
 
 void ToolBar::ButtonSelected(UINT parm_control_id, LastClass *lastClass, ClassDiagramForm *classDiagramForm, CDC *cdc) {
@@ -225,6 +226,8 @@ void ToolBar::ChangeAnotherToolBarSize(RECT *rect) {
 void ToolBar::DestroyToolBar() {
 	if (this != NULL) {
 		DestroyWindow(this->hTool1);
+		DestroyWindow(this->hTool2);
 		this->hTool1 = 0;
+		this->hTool2 = 0;
 	}
 }
