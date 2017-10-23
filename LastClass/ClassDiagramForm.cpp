@@ -251,6 +251,9 @@ Long ClassDiagramForm::Load() {
 					index = figureComposite->Add(figure);
 					SelfRelation *selfRelation = static_cast<SelfRelation*>(figureComposite->GetAt(index));
 					l = 0;
+					if (selfRelation->GetWidth() < 0) {
+						selfRelation->leftRigtFlag = 1;
+					}
 					while (l < 5) {
 						getline(fTest, temp1);
 						if (temp1 != "") {
@@ -719,8 +722,8 @@ void ClassDiagramForm::OnPaint() {
 	WritingVisitor writingVisitor(this->zoomRate);
 	this->diagram->Accept(writingVisitor, &memDC);
 	this->selection->Accept(drawingVisitor, &memDC); // selectionFlag 추가 확인
-	if (this->startX != 0 && this->startY != 0 && this->currentX != 0 && this->currentY != 0) {
-		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
+	if (this->currentX_2 != 0 && this->currentY_2 != 0 && this->currentX != 0 && this->currentY != 0) {
+		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
 	}
 
 	int vertCurPos = GetScrollPos(SB_VERT);
@@ -1077,6 +1080,8 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->startY = point.y + vertCurPos;
 	this->currentX = point.x + horzCurPos;
 	this->currentY = point.y + vertCurPos;
+	this->currentX_2 = this->currentX;
+	this->currentY_2 = this->currentY;
 
 	this->mouseLButton->MouseLButtonDown(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 
@@ -1316,7 +1321,8 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 				vertCurPos = maxpos;
 			}
 		}
-
+		this->currentX_2 = this->currentX;
+		this->currentY_2 = this->currentY;
 		this->currentX = point.x + horzCurPos;
 		this->currentY = point.y + vertCurPos;
 

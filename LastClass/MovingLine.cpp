@@ -69,7 +69,7 @@ void MovingLine::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, 
 
 }
 
-void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
+void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	bool ret = false;
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;
