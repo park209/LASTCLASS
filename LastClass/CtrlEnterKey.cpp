@@ -29,6 +29,8 @@ void CtrlEnterKey::KeyPress(TextEdit *textEdit) {
 	Row row;
 	if (!dynamic_cast<Template*>(textEdit->figure)) {
 		textEdit->historyText->PushUndo(textEdit->text, textEdit->caret);
+		textEdit->historyText->redoTextArray->Clear();
+		textEdit->historyText->redoCaretArray->Clear();
 		if (textEdit->caret->GetCharacterIndex() == 0) {
 			textEdit->text->Insert(textEdit->caret->GetRowIndex(), row.Clone());
 			textEdit->caret->MoveForwardRowIndex();

@@ -180,6 +180,8 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		}
 
 		this->historyText->PushUndo(this->text, this->caret);
+		this->historyText->redoTextArray->Clear();
+		this->historyText->redoCaretArray->Clear();
 
 		char nCharacter = nChar;
 		SingleByteCharacter singleByteCharacter(nCharacter);

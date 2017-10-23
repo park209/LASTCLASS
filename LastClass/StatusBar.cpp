@@ -72,11 +72,11 @@ HWND StatusBar::MakeStatusBar(LastClass *lastClass, HWND hwndParent, int idStatu
 	else {
 		SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)1, (LPARAM)" CapsLock On ");
 	}
-	if (lastClass->classDiagramForm->numLockFlag == 1) {
-		SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)2, (LPARAM)" NumLook On ");
+	if (lastClass->classDiagramForm->numLockFlag == 0) {
+		SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)2, (LPARAM)" NumLock On ");
 	}
 	else {
-		SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)2, (LPARAM)" NumLook Off ");
+		SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)2, (LPARAM)" NumLock Off ");
 	}
 	int a;
 	//확대 축소 기능 form 에 넣을거면 주석 풀면됨
