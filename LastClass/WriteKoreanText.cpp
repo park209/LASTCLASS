@@ -38,6 +38,8 @@ void WriteKoreanText::WriteHanguel(WPARAM wParam, LPARAM lParam, HIMC hIMC, Text
 		ImmGetCompositionString(hIMC, GCS_COMPSTR, buffer, bufferLength);
 		if (textEdit->flagBuffer == 0) { // 조합중에서 시작일때
 			textEdit->historyText->PushUndo(textEdit->text, textEdit->caret);
+			textEdit->historyText->redoTextArray->Clear();
+			textEdit->historyText->redoCaretArray->Clear();
 			WriteKoreanTextProcess *koreanProcess = new WriteKoreanTextProcess();
 			koreanProcess->StartComposition(textEdit, bufferLength, buffer);
 			if (koreanProcess != 0) {

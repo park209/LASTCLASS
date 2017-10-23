@@ -338,6 +338,9 @@ void MultipleSelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, ClassD
 
 	if (classDiagramForm->firstDrag == 0) {
 		classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
+		classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+		classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
+
 		classDiagramForm->widthGab = startX - selection->GetAt(0)->GetX();
 		classDiagramForm->heightGab = startY - selection->GetAt(0)->GetY();
 		classDiagramForm->firstDrag = 1;

@@ -61,6 +61,8 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		CRect rt = { 0, };
 
 		classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram, classDiagramForm->zoomRate);
+		classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+		classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
 
 		i = 0;
 		Class *object =static_cast<Class*>( classDiagramForm->copyBuffer->GetAt(0));

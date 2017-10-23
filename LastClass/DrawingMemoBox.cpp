@@ -22,6 +22,8 @@ void DrawingMemoBox::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 	Long index;
 
 	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
+	classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+	classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
 
 	CRect rect = diagram->GetCorrectRect(startX, startY, currentX, currentY);
 

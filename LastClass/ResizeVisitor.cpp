@@ -58,7 +58,7 @@ void  ResizeVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
 	LastClass *lastClass = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 	RollNameBox *rollNameBox = RollNameBox::Instance();
 	// 우측이면
-	if (selfRelation->leftRigtFlag == 0) {
+	if (selfRelation->leftRightFlag == 0) {
 		CPoint startPoint1And4{ x, y };
 		CPoint endPoint1And4{ x , y - 40 * this->nextZoomRate / 100 };
 
