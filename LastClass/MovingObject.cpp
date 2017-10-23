@@ -87,13 +87,13 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 			}
 			i++;
 		}
-		if (ret == false) {
+		//if (ret == false) {
 			//Long distanceX = currentX - classDiagramForm->currentX_2;
 			//Long distanceY = currentY - classDiagramForm->currentY_2;
 			//Long distanceX = (currentX - (startX - selection->GetAt(0)->GetX())) - selection->GetAt(0)->GetX();
 			//Long distanceY = (currentY - (startY - selection->GetAt(0)->GetY())) - selection->GetAt(0)->GetY();
 			//selection->Accept(diagram, movingVisitor, distanceX, distanceY);
-		}
+		//}
 	}
 	this->ChangeState(mouseLButton, SelectionState::Instance());
 }
