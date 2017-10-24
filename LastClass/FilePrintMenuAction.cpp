@@ -3,12 +3,13 @@
 #include "ClassDiagramForm.h"
 #include "Selection.h"
 #include "Diagram.h"
-#include "WritingVisitor.h"
+#include "DrawingVisitor.h"
 #include "PrintPreview.h"
 #include "Finder.h"
 #include "FigureComposite.h"
 #include "KnockKnock.h"
 #include "Relation.h"
+
 FilePrintMenuAction::FilePrintMenuAction() {
 }
 FilePrintMenuAction::~FilePrintMenuAction() {
@@ -116,8 +117,8 @@ if (int_ptr == IDOK) {
 
 			DrawingVisitor drawingVisitor(100);
 			lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &memDC);
-			WritingVisitor writingVisitor(100);
-			lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
+			//WritingVisitor writingVisitor(100);
+			//lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 
 
 			CBitmap *pOldBitmapOne;

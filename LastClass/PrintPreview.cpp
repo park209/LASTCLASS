@@ -5,7 +5,6 @@
 #include "ClassDiagramForm.h"
 #include "Relation.h"
 #include "DrawingVisitor.h"
-#include "WritingVisitor.h"
 #include "Diagram.h"
 #include "Finder.h"
 #include "PrintPreviewButton.h"
@@ -158,8 +157,8 @@ void PrintPreview::OnPaint() {
 	CFont *oldFont = memDC.SelectObject(&cFont);
 	DrawingVisitor drawingVisitor(100);
 	this->lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &memDC);
-	WritingVisitor writingVisitor(100);
-	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
+	//WritingVisitor writingVisitor(100);
+	//this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 	// 흰종이 사이즈
 	Long a = (rec.CenterPoint().x)* 5 / 8;
 	Long b = (rec.CenterPoint().y)* 1 / 6;
@@ -247,8 +246,8 @@ void PrintPreview::OnPrint(CDC *cdc, CPrintInfo *pInfo, UINT page) {
 
 	DrawingVisitor drawingVisitor(100);
 	this->lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &memDC);
-	WritingVisitor writingVisitor(100);
-	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
+	//WritingVisitor writingVisitor(100);
+	//this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 	Long horiPage = 0;
 	Long verPage = 0;
 	Long i = 0;

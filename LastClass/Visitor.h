@@ -45,19 +45,19 @@ class SelfRelation;
 class Visitor{
 public:
 	virtual ~Visitor();
-
+	//Composite
 	virtual void Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY) = 0;
 	virtual void Visit(Class *object, CDC* pDC) = 0;
 	virtual void Visit(MemoBox* memobox, CDC *pDC) = 0;
 	virtual void Visit(Selection *selection, CDC *pDC) = 0;
-
+	//Component
 	virtual void Visit(Template *object, CDC *pDC) = 0;
 	virtual void Visit(ClassName *className, CDC *pDC) = 0;
 	virtual void Visit(Method *method, CDC *pDC) = 0;
 	virtual void Visit(Attribute *attribute, CDC *pDC) = 0;
 	virtual void Visit(Reception* reception, CDC* pDC) = 0;
 	virtual void Visit(Line *line, CDC* pDC) = 0;
-
+	//RelationLines
 	virtual void Visit(SelfRelation *selfRelation, CDC *cPaintDc) = 0;
 	virtual void Visit(Relation *relation, CDC *cPaintDc) = 0;
 	virtual void Visit(Generalization *generalization, CDC* pDC) = 0;		//일반화
@@ -82,21 +82,8 @@ public:
 	virtual void Visit(Class *object, Long distanceX, Long distanceY) = 0;
 	virtual void Visit(MemoBox *memoBox, Long distanceX, Long distanceY) = 0;
 	virtual void Visit(Text* text, CDC *pDC) = 0;
-	//리사이즈 그래픽
-	virtual void Visit(Diagram *diagram, Long zoomRate) = 0;
-	virtual void Visit(Class *object , Long zoomRate) = 0;
-	virtual void Visit(Relation *relation, Long zoomRate) = 0;
-	virtual void Visit(MemoBox *memoBox, Long zoomRate) = 0;
-	virtual void Visit(Line *line, Long zoomRate) = 0;
-	virtual void Visit(SelfRelation *selfRelation, Long zoomRate) = 0;
-	virtual void Visit(ClassName *className, Long zoomRate) = 0;
-	virtual void Visit(Attribute *attribute, Long zoomRate) = 0;
-	virtual void Visit(Method *method, Long zoomRate) = 0;
-	virtual void Visit(Reception *reception, Long zoomRate) = 0;
-	virtual void Visit(Template *object, Long zoomRate) = 0;
 
 	//리사이즈 텍스트
-	virtual void Visit(Text *text, Long zoomRate) = 0;
 protected:
 	Visitor();
 };

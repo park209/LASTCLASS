@@ -6,7 +6,6 @@
 #include "Class.h"
 #include "TextEdit.h"
 #include "DrawingVisitor.h"
-#include "WritingVisitor.h"
 #include "SmartPointer.h"
 #include "ArrayIterator.h"
 #include "Line.h"
