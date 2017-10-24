@@ -15,7 +15,7 @@
 #include "EndKey.h"
 #include "TextAreaSelected.h"
 #include "HistoryText.h"
-#include "WritingVisitor.h"   
+#include "DrawingVisitor.h" 
 #include "DeleteTextArea.h"
 #include "WriteKoreanText.h"
 #include "DoubleClickTextArea.h"
@@ -115,7 +115,7 @@ void TextEdit::OnPaint() {
 	bitmap.CreateCompatibleBitmap(&dc, rt.right, rt.bottom);
 	pOldBitmap = memDC.SelectObject(&bitmap);
 	memDC.FillSolidRect(CRect(0, 0, rt.right, rt.bottom), RGB(255, 255, 255));
-	WritingVisitor writingVisitor(this->classDiagramForm->zoomRate);
+	DrawingVisitor drawingVisitor(this->classDiagramForm->zoomRate);
 	CFont cFont;
 	CFont *oldFont = 0;
 	CFont *m_oldFont = 0;
@@ -128,7 +128,7 @@ void TextEdit::OnPaint() {
 		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
 		CFont *m_oldFont = memDC.SelectObject(&cFont);
 
-		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
+		this->text->Accept(drawingVisitor, &memDC);// 받았던거 출력
 		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
 			this->textAreaSelected->SelectTextArea(this, &memDC);
 		}
@@ -140,7 +140,7 @@ void TextEdit::OnPaint() {
 		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
 		CFont *m_oldFont = memDC.SelectObject(&cFont);
 
-		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
+		this->text->Accept(drawingVisitor, &memDC);// 받았던거 출력
 		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
 			this->textAreaSelected->SelectTextArea(this, &memDC);
 		}
@@ -152,7 +152,7 @@ void TextEdit::OnPaint() {
 		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
 		CFont *m_oldFont = memDC.SelectObject(&cFont);
 
-		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
+		this->text->Accept(drawingVisitor, &memDC);// 받았던거 출력
 		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
 			this->textAreaSelected->SelectTextArea(this, &memDC);
 		}

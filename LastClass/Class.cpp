@@ -977,66 +977,45 @@ void Class::Accept(Visitor& visitor, CDC *pDC) {
 		else if (dynamic_cast<Template*>(smartPointer->Current())) {
 			static_cast<Template*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<ClassName*>(smartPointer->Current())) {
 			static_cast<ClassName*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Attribute*>(smartPointer->Current())) {
 			static_cast<Attribute*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Method*>(smartPointer->Current())) {
 			static_cast<Method*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Reception*>(smartPointer->Current())) {
 			static_cast<Reception*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Generalization*>(smartPointer->Current())) {
 			static_cast<Generalization*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Realization*>(smartPointer->Current())) {
 			static_cast<Realization*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Dependency*>(smartPointer->Current())) {
 			static_cast<Dependency*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Association*>(smartPointer->Current())) {
 			static_cast<Association*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<DirectedAssociation*>(smartPointer->Current())) {
 			static_cast<DirectedAssociation*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Aggregation*>(smartPointer->Current())) {
 			static_cast<Aggregation*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Aggregations*>(smartPointer->Current())) {
 			static_cast<Aggregations*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Composition*>(smartPointer->Current())) {
 			static_cast<Composition*>(smartPointer->Current())->Accept(visitor, pDC);
-
 		}
-
 		else if (dynamic_cast<Compositions*>(smartPointer->Current())) {
 			static_cast<Compositions*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<MemoLine*>(smartPointer->Current())) {
 			static_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, pDC);
 		}

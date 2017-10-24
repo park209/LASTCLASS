@@ -188,7 +188,7 @@ void Diagram::Accept(Visitor& visitor, CDC *pDC) {
 		if (dynamic_cast<Class*>(smartPointer->Current())) {
 			static_cast<Class*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-		if (dynamic_cast<MemoBox*>(smartPointer->Current())) {
+		else if (dynamic_cast<MemoBox*>(smartPointer->Current())) {
 			static_cast<MemoBox*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
 		smartPointer->Next();

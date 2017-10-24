@@ -45,8 +45,8 @@ public:
 
 	void Visit(Class *object, Long distanceX, Long distanceY);
 	void Visit(MemoBox *memoBox, Long distanceX, Long distanceY);
-	void Visit(Text* text, CDC* pDC);
 
+	void Visit(Text* text, CDC* pDC);
 private:
 	Long zoomRate;
 };
