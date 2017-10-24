@@ -108,6 +108,29 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 				delete knocking;
 			}
 			lastClass->classDiagramForm->zoomRate = 100;
+			lastClass->classDiagramForm->SetMemoGab(20 * lastClass->classDiagramForm->zoomRate / 100);
+			lastClass->classDiagramForm->SetGabX(8 * lastClass->classDiagramForm->zoomRate / 100);
+			lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
+			lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
+			SCROLLINFO vScinfo;
+			SCROLLINFO hScinfo;
+
+			lastClass->classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
+			lastClass->classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
+			CRect rect;
+			lastClass->classDiagramForm->GetClientRect(&rect);
+			vScinfo.nPage = rect.Height();
+			hScinfo.nPage = rect.Width();
+
+			vScinfo.nMax = 2000 ;
+			hScinfo.nMax = 4000;
+
+			
+			vScinfo.nPos = 0;
+			hScinfo.nPos = 0;
+			
+			lastClass->classDiagramForm->SetScrollInfo(SB_VERT, &vScinfo);
+			lastClass->classDiagramForm->SetScrollInfo(SB_HORZ, &hScinfo);
 
 
 			lastClass->statusBar->DestroyStatus();
