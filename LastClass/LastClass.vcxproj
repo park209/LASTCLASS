@@ -456,7 +456,6 @@
     <ResourceCompile Include="LastClass.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="class.bmp" />
     <Image Include="resource\Aggregation.bmp" />
     <Image Include="resource\Aggregations.bmp" />
     <Image Include="resource\Association.bmp" />
