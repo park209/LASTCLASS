@@ -1,6 +1,7 @@
 //SelfRelation.cpp
 
 #include "RollNameBox.h"
+#include "Visitor.h"
 #include "SelfRelation.h"
 
 SelfRelation::SelfRelation() :Figure() {

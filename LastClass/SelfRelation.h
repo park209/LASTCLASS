@@ -4,14 +4,14 @@
 #define _SELFRELATION_H
 
 #include "Array.h"
-#include <afxwin.h>
 #include "Figure.h"
-#include "WritingVisitor.h"
+
+#include <afxwin.h>
 
 typedef signed long int Long;
 
+class Visitor;
 class SelfRelation :public Figure {
-
 public:
 	SelfRelation();
 	SelfRelation(Long x, Long y, Long width, Long height);

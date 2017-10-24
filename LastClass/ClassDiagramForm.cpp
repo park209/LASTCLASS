@@ -36,7 +36,6 @@
 #include "Finder.h"
 #include "FigureFactory.h"
 #include "DrawingVisitor.h"
-#include "WritingVisitor.h"
 #include "MovingVisitor.h"
 #include "MouseLButton.h"
 #include "HistoryGraphic.h"
@@ -783,8 +782,8 @@ void ClassDiagramForm::OnPaint() {
 
 	DrawingVisitor drawingVisitor(this->zoomRate);
 	this->diagram->Accept(drawingVisitor, &memDC);
-	WritingVisitor writingVisitor(this->zoomRate);
-	this->diagram->Accept(writingVisitor, &memDC);
+	//WritingVisitor writingVisitor(this->zoomRate);
+	//this->diagram->Accept(writingVisitor, &memDC);
 	this->selection->Accept(drawingVisitor, &memDC); // selectionFlag 추가 확인
 	if (this->currentX_2 != 0 && this->currentY_2 != 0 && this->currentX != 0 && this->currentY != 0) {
 		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);

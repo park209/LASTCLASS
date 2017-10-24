@@ -235,7 +235,6 @@
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="WriteKoreanText.h" />
     <ClInclude Include="WriteKoreanTextProcess.h" />
-    <ClInclude Include="WritingVisitor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AboutMenu.cpp" />
@@ -450,7 +449,6 @@
     <ClCompile Include="Visitor.cpp" />
     <ClCompile Include="WriteKoreanText.cpp" />
     <ClCompile Include="WriteKoreanTextProcess.cpp" />
-    <ClCompile Include="WritingVisitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc" />
