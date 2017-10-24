@@ -65,7 +65,7 @@ TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Figure *figure, Long roll
 	this->flagSelection = 0;
 	this->currentX = 0;
 	this->copyBuffer = "";
-	this->criteriaWidth = figure->GetWidth();
+	this->criteriaWidth = figure->GetWidth() + CaretWidth;
 	this->criteriaHeight = figure->GetHeight();
 	this->criteriaX = figure->GetX();
 	if (dynamic_cast<Template*>(figure)) {
@@ -364,7 +364,7 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 	Finder finder;
 	bool ret = finder.FindRectangleByPoint(rect, point.x, point.y);
 	if (ret == false) {
-		//SetCursor(LoadCursor(NULL, IDC_IBEAM));
+		SetCursor(LoadCursor(NULL, IDC_IBEAM));
 	}
 
 	
