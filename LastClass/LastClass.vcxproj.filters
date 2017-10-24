@@ -362,9 +362,6 @@
     <ClInclude Include="Scroll.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
-    <ClInclude Include="DrawingRelation.h">
-      <Filter>Relationship</Filter>
-    </ClInclude>
     <ClInclude Include="RollNameBox.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
@@ -994,9 +991,6 @@
     </ClCompile>
     <ClCompile Include="MovingLine.cpp">
       <Filter>Diagram</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawingRelation.cpp">
-      <Filter>Relationship</Filter>
     </ClCompile>
     <ClCompile Include="DrawingRelationPoint.cpp">
       <Filter>Relationship</Filter>
