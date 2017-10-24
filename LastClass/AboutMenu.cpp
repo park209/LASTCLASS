@@ -24,7 +24,7 @@ int AboutMenu::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	int sysX = GetSystemMetrics(SM_CXSCREEN);
 	int sysY = GetSystemMetrics(SM_CYSCREEN);
 
-	this->SetWindowPos(&wndTop, (sysX - 822) / 2, (sysY - 634) / 2, 822, 634, SWP_NOZORDER);
+	this->SetWindowPos(&wndTop, (sysX - 822) / 2, (sysY - 634) / 2, 818, 624, SWP_NOZORDER);
 	return 0;
 }
 void AboutMenu::OnPaint() {
