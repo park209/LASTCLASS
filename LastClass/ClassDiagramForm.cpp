@@ -1031,7 +1031,9 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		ret = true;
 	}
 	else {
-		//Long previousZoomRate;
+		if (this->selection->GetLength() > 0) {
+			this->selection->DeleteAllItems();
+		}
 		Long nextZoomRate;
 		this->preZoom = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
