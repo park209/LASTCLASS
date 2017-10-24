@@ -51,6 +51,8 @@ void  ResizeVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
 	selfRelation->SetY(selfRelation->GetY() * this->nextZoomRate / this->previousZoomRate);
 	selfRelation->SetWidth(selfRelation->GetWidth() * this->nextZoomRate / this->previousZoomRate);
 	selfRelation->SetHeight(selfRelation->GetHeight() * this->nextZoomRate / this->previousZoomRate);
+	selfRelation->SetMinimumWidth(selfRelation->GetMinimumWidth() * this->nextZoomRate / this->previousZoomRate);
+	selfRelation->SetMinimumHeight(selfRelation->GetMinimumHeight() * this->nextZoomRate / this->previousZoomRate);
 
 	Long x = selfRelation->GetX();
 	Long y = selfRelation->GetY();
@@ -105,6 +107,8 @@ void  ResizeVisitor::Visit(Relation *relation, CDC *pDC) {
 	relation->SetY(y1*this->nextZoomRate / this->previousZoomRate);
 	relation->SetWidth((x2*this->nextZoomRate / this->previousZoomRate) - relation->GetX());
 	relation->SetHeight((y2*this->nextZoomRate / this->previousZoomRate) - relation->GetY());
+	relation->SetMinimumWidth(relation->GetMinimumWidth() * this->nextZoomRate / this->previousZoomRate);
+	relation->SetMinimumHeight(relation->GetMinimumHeight() * this->nextZoomRate / this->previousZoomRate);
 
 	Long i = 0;
 	CPoint tempPoint;
