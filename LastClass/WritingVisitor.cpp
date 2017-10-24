@@ -180,20 +180,5 @@ void WritingVisitor::Visit(SelfComposition *selfComposition, CDC *cPaintDc) {
 }
 void WritingVisitor::Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) {
 }
-
-
-void WritingVisitor::Visit(Diagram *diagram, Long zoomRate) {}
-void WritingVisitor::Visit(Class *object, Long zoomRate) {}
-void WritingVisitor::Visit(MemoBox *memoBox, Long distanceX, Long distanceY){}
-void WritingVisitor::Visit(Relation *relation, Long zoomRate) {}
-void WritingVisitor::Visit(MemoBox *memoBox, Long zoomRate) {}
-void WritingVisitor::Visit(Line *line, Long zoomRate) {}
-void WritingVisitor::Visit(SelfRelation *selfRelation, Long zoomRate) {}
-void WritingVisitor::Visit(ClassName *className, Long zoomRate) {}
-void WritingVisitor::Visit(Attribute *attribute, Long zoomRate) {}
-void WritingVisitor::Visit(Method *method, Long zoomRate) {}
-void WritingVisitor::Visit(Reception *reception, Long zoomRate) {}
-void WritingVisitor::Visit(Template *object, Long zoomRate) {}
-
-//리사이즈 텍스트
-void WritingVisitor::Visit(Text *text, Long zoomRate) {}
+void WritingVisitor::Visit(MemoBox *memoBox, Long distanceX, Long distanceY){
+}

@@ -964,10 +964,16 @@ void Class::Accept(Visitor& visitor, CDC *pDC) {
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 
 	while (!smartPointer->IsDone()) {
+		
+		if (dynamic_cast<Relation*>(smartPointer->Current())) {
+			static_cast<Relation*>(smartPointer->Current())->Accept(visitor, pDC);
+		}
+		if (dynamic_cast<SelfRelation*>(smartPointer->Current())) {
+			static_cast<SelfRelation*>(smartPointer->Current())->Accept(visitor, pDC);
+		}
 		if (dynamic_cast<Line*>(smartPointer->Current())) {
 			static_cast<Line*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Template*>(smartPointer->Current())) {
 			static_cast<Template*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
@@ -1058,9 +1064,7 @@ void Class::Accept(Visitor& visitor, CDC *pDC) {
 		else if (dynamic_cast<SelfCompositions*>(smartPointer->Current())) {
 			static_cast<SelfCompositions*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-		else if (dynamic_cast<Relation*>(smartPointer->Current())) {
-			static_cast<Relation*>(smartPointer->Current())->Accept(visitor, pDC);
-		}
+		
 		smartPointer->Next();
 	}
 }

@@ -1,4 +1,5 @@
 //DrawingVisitor.cpp
+
 #include "ClassDiagramForm.h"
 #include "DrawingVisitor.h"
 #include "Diagram.h"
@@ -33,12 +34,15 @@
 #include "Scroll.h"
 #include "DrawRollNameBoxes.h"
 #include "LastClass.h"
+
 using namespace std;
 
 DrawingVisitor::DrawingVisitor(Long zoomRate) {
 	this->zoomRate = zoomRate;
 }
 DrawingVisitor::~DrawingVisitor() {
+}
+void DrawingVisitor::Visit(Text* text, CDC* pDC) {
 }
 void DrawingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY) {
 }
@@ -2039,21 +2043,4 @@ void DrawingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
 }
 void DrawingVisitor::Visit(Relation *relation, CDC *cPaintDc) {
 }
-void DrawingVisitor::Visit(Text* text, CDC* pDC) {
-}
 
-
-void DrawingVisitor::Visit(Diagram *diagram, Long zoomRate) {}
-void DrawingVisitor::Visit(Class *object, Long zoomRate) {}
-void DrawingVisitor::Visit(Relation *relation, Long zoomRate) {}
-void DrawingVisitor::Visit(MemoBox *memoBox, Long zoomRate) {}
-void DrawingVisitor::Visit(Line *line, Long zoomRate) {}
-void DrawingVisitor::Visit(SelfRelation *selfRelation, Long zoomRate) {}
-void DrawingVisitor::Visit(ClassName *className, Long zoomRate) {}
-void DrawingVisitor::Visit(Attribute *attribute, Long zoomRate) {}
-void DrawingVisitor::Visit(Method *method, Long zoomRate) {}
-void DrawingVisitor::Visit(Reception *reception, Long zoomRate) {}
-void DrawingVisitor::Visit(Template *object, Long zoomRate) {}
-
-//리사이즈 텍스트
-void DrawingVisitor::Visit(Text *text, Long zoomRate) {}

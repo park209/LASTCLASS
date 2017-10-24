@@ -354,43 +354,7 @@ void ResizeVisitor::Visit(SelfComposition *selfComposition, CDC *cPaintDc) {
 }
 void ResizeVisitor::Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) {
 }
-
-
-
-void ResizeVisitor::Visit(Diagram *diagram, Long zoomRate) {
+void ResizeVisitor::Visit(Class *object, Long distanceX, Long distanceY) {
 }
-
-void ResizeVisitor::Visit(Class *object, Long zoomRate) {
-}
-
-void ResizeVisitor::Visit(MemoBox *memoBox, Long zoomRate) {
-}
-
-void ResizeVisitor::Visit(Relation *relation, Long zoomRate) {
-}
-
-void ResizeVisitor::Visit(Line *line, Long zoomRate) {
-}
-
-void ResizeVisitor::Visit(SelfRelation *selfRelation, Long zoomRate) {
-}
-
-void ResizeVisitor::Visit(ClassName *className, Long zoomRate) {
-}
-
-void ResizeVisitor::Visit(Attribute *attribute, Long zoomRate) {
-}
-void ResizeVisitor::Visit(Method *method, Long zoomRate) {
-}
-void ResizeVisitor::Visit(Reception *reception, Long zoomRate) {
-}
-void ResizeVisitor::Visit(Template *object, Long zoomRate) {
-}
-
-void ResizeVisitor::Visit(Class *object, Long distanceX, Long distanceY) {}
-void ResizeVisitor::Visit(MemoBox *memoBox, Long distanceX, Long distanceY) {}
-
-//리사이즈 텍스트
-void ResizeVisitor::Visit(Text *text, Long zoomRate) {
-
+void ResizeVisitor::Visit(MemoBox *memoBox, Long distanceX, Long distanceY) {
 }
