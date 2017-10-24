@@ -9,7 +9,7 @@ class ResizeVisitor : public Visitor {
 public:
 	ResizeVisitor(Long previousZoomRate, Long nextZoomRate);
 	~ResizeVisitor();
-	void Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY);
+
 	void Visit(Class *object, CDC* pDC);
 	void Visit(MemoBox* memoBox, CDC* pDC);
 	void Visit(Selection *selection, CDC *pDC);
@@ -43,25 +43,12 @@ public:
 	void Visit(SelfRelation *selfRelation, CDC *pDC);
 	void Visit(Relation *relation, CDC *pDC);
 
+	void Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY);
+
 	void Visit(Class *object, Long distanceX, Long distanceY);
 	void Visit(MemoBox *memoBox, Long distanceX, Long distanceY);
+
 	void Visit(Text* text, CDC* pDC);
-
-
-	void Visit(Diagram *diagram, Long zoomRate);
-	void Visit(Class *object, Long zoomRate);
-	void Visit(Relation *relation, Long zoomRate);
-	void Visit(MemoBox *memoBox, Long zoomRate);
-	void Visit(Line *line, Long zoomRate);
-	void Visit(SelfRelation *selfRelation, Long zoomRate);
-	void Visit(ClassName *className, Long zoomRate);
-	void Visit(Attribute *attribute, Long zoomRate);
-	void Visit(Method *method, Long zoomRate);
-	void Visit(Reception *reception, Long zoomRate);
-	void Visit(Template *object, Long zoomRate);
-
-	//리사이즈 텍스트
-	void Visit(Text *text, Long zoomRate);
 private:
 	Long previousZoomRate;
 	Long nextZoomRate;

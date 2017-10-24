@@ -201,9 +201,6 @@ void ResizeVisitor::Visit(Selection *selection, CDC *cPaintDc) {
 				if (dynamic_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
 					static_cast<Relation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(*this, cPaintDc);
 				}
-				else if (dynamic_cast<MemoLine*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
-					static_cast<MemoLine*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(*this, cPaintDc);
-				}
 				else if (dynamic_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))) {
 					static_cast<SelfRelation*>(static_cast<Class*>(smartPointer->Current())->GetAt(i))->Accept(*this, cPaintDc);
 				}
@@ -319,24 +316,6 @@ void ResizeVisitor::Visit(Composition *composition, CDC* cPaintDc) {
 void ResizeVisitor::Visit(Compositions *compositions, CDC* cPaintDc) {
 }
 void ResizeVisitor::Visit(MemoLine *memoLine, CDC *cPaintDc) {
-	Long x1 = memoLine->GetX();
-	Long y1 = memoLine->GetY();
-	Long x2 = memoLine->GetX() + memoLine->GetWidth();
-	Long y2 = memoLine->GetY() + memoLine->GetHeight();
-	memoLine->SetX(x1*this->nextZoomRate / this->previousZoomRate);
-	memoLine->SetY(y1*this->nextZoomRate / this->previousZoomRate);
-	memoLine->SetWidth((x2*this->nextZoomRate / this->previousZoomRate) - memoLine->GetX());
-	memoLine->SetHeight((y2*this->nextZoomRate / this->previousZoomRate) - memoLine->GetY());
-
-	Long i = 0;
-	CPoint tempPoint;
-	while (i < memoLine->GetLength()) {
-		tempPoint = memoLine->GetAt(i);
-		tempPoint.x = tempPoint.x * this->nextZoomRate / this->previousZoomRate;
-		tempPoint.y = tempPoint.y * this->nextZoomRate / this->previousZoomRate;
-		memoLine->Correct(i, tempPoint);
-		i++;
-	}
 }
 void ResizeVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *cPaintDc) {
 }
@@ -354,43 +333,7 @@ void ResizeVisitor::Visit(SelfComposition *selfComposition, CDC *cPaintDc) {
 }
 void ResizeVisitor::Visit(SelfCompositions *selfCompositions, CDC *cPaintDc) {
 }
-
-
-
-void ResizeVisitor::Visit(Diagram *diagram, Long zoomRate) {
+void ResizeVisitor::Visit(Class *object, Long distanceX, Long distanceY) {
 }
-
-void ResizeVisitor::Visit(Class *object, Long zoomRate) {
-}
-
-void ResizeVisitor::Visit(MemoBox *memoBox, Long zoomRate) {
-}
-
-void ResizeVisitor::Visit(Relation *relation, Long zoomRate) {
-}
-
-void ResizeVisitor::Visit(Line *line, Long zoomRate) {
-}
-
-void ResizeVisitor::Visit(SelfRelation *selfRelation, Long zoomRate) {
-}
-
-void ResizeVisitor::Visit(ClassName *className, Long zoomRate) {
-}
-
-void ResizeVisitor::Visit(Attribute *attribute, Long zoomRate) {
-}
-void ResizeVisitor::Visit(Method *method, Long zoomRate) {
-}
-void ResizeVisitor::Visit(Reception *reception, Long zoomRate) {
-}
-void ResizeVisitor::Visit(Template *object, Long zoomRate) {
-}
-
-void ResizeVisitor::Visit(Class *object, Long distanceX, Long distanceY) {}
-void ResizeVisitor::Visit(MemoBox *memoBox, Long distanceX, Long distanceY) {}
-
-//리사이즈 텍스트
-void ResizeVisitor::Visit(Text *text, Long zoomRate) {
-
+void ResizeVisitor::Visit(MemoBox *memoBox, Long distanceX, Long distanceY) {
 }

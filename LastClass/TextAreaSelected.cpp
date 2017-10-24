@@ -10,7 +10,7 @@
 #include "Character.h"
 #include "Figure.h"
 #include "FontSet.h"
-#include "WritingVisitor.h"
+#include "DrawingVisitor.h"
 
 TextAreaSelected::TextAreaSelected() {
 	this->selected = new TextAreaSelectedProcess;
