@@ -61,6 +61,8 @@ public:
 	Long Save();
 	CString fileName;
 public:
+	Long GetStartX() const;
+	Long GetStartY() const;
 	Long GetCurrentX() const;
 	Long GetCurrentY() const;
 public:
@@ -95,7 +97,12 @@ protected:
 	afx_msg void OnNcMouseMove(UINT nHitTest, CPoint point);
 	DECLARE_MESSAGE_MAP()
 };
-
+Long inline ClassDiagramForm::GetStartX() const {
+	return this->startX;
+}
+Long inline ClassDiagramForm::GetStartY() const {
+	return this->startY;
+}
 Long inline ClassDiagramForm::GetCurrentX() const {
 	return this->currentX;
 }

@@ -31,7 +31,7 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 	Finder finder;
 	Long length = 0;
 	Long k = 0;
-	bool overlapCheck;
+	//bool overlapCheck;
 	CRect objectRect(object->GetX(), object->GetY(), object->GetX() + object->GetWidth(), object->GetY() + object->GetHeight());
 
 	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
