@@ -473,6 +473,9 @@
     <Image Include="..\..\..\..\..\Desktop\Redo.bmp" />
     <Image Include="..\..\..\..\..\Desktop\Save.bmp" />
     <Image Include="..\..\..\..\..\Desktop\Undo.bmp" />
+    <Image Include="Aggregation.bmp" />
+    <Image Include="Aggregations.bmp" />
+    <Image Include="Association.bmp" />
     <Image Include="bitmap1.bmp" />
     <Image Include="bitmap10.bmp" />
     <Image Include="bitmap11.bmp" />
@@ -486,6 +489,27 @@
     <Image Include="bitmap7.bmp" />
     <Image Include="bitmap8.bmp" />
     <Image Include="bitmap9.bmp" />
+    <Image Include="class.bmp" />
+    <Image Include="Composition.bmp" />
+    <Image Include="Compositions.bmp" />
+    <Image Include="Dependency.bmp" />
+    <Image Include="DirectedAssociation.bmp" />
+    <Image Include="Generalization.bmp" />
+    <Image Include="MemoBox.bmp" />
+    <Image Include="Memoline.bmp" />
+    <Image Include="Realization.bmp" />
+    <Image Include="resource\Copy.bmp" />
+    <Image Include="resource\Cut.bmp" />
+    <Image Include="resource\Delete.bmp" />
+    <Image Include="resource\File.bmp" />
+    <Image Include="resource\Help.bmp" />
+    <Image Include="resource\NewFile.bmp" />
+    <Image Include="resource\Open.bmp" />
+    <Image Include="resource\Open_.bmp" />
+    <Image Include="resource\Print.bmp" />
+    <Image Include="resource\Redo.bmp" />
+    <Image Include="resource\Save.bmp" />
+    <Image Include="resource\Undo.bmp" />
     <Image Include="toolbar.bmp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
