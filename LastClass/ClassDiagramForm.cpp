@@ -1211,7 +1211,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->currentY = point.y + vertCurPos;
 
 	Figure* figure = this->diagram->FindItem(startX, startY);
-	if (figure != NULL && this->selection->GetLength() != 0 && !dynamic_cast<SelfRelation*>(figure)) {
+	if (figure != NULL && this->selection->GetLength() != 0 && !dynamic_cast<Relation*>(this->selection->GetAt(0)) && !dynamic_cast<SelfRelation*>(figure)) {
 
 		this->textEdit = new TextEdit(this, figure);
 
