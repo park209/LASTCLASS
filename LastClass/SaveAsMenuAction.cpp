@@ -19,11 +19,13 @@ void SaveAsMenuAction::MenuPress(LastClass* lastClass) {
 	{
 		ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100);
 		CDC dc;
+		CString fileName = lastClass->classDiagramForm->GetFileName();
 		lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
 
 		lastClass->classDiagramForm->fileName = dlgFile.GetPathName();
 		lastClass->classDiagramForm->Save();
-
+		
+		CString temp = lastClass->classDiagramForm->SetFileName(fileName);
 		ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
 		lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 	}
