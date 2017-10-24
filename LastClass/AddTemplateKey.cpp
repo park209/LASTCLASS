@@ -134,8 +134,9 @@ void AddTemplateKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 						Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
 						Long relationEndX = figure->GetX() + figure->GetWidth();
 						Long relationEndY = figure->GetY() + figure->GetHeight();
-						if (startX <= relationEndX &&  relationEndX <= endX &&
-							startY <= relationEndY &&  relationEndY <= endY) {
+						//if (startX <= relationEndX &&  relationEndX <= endX &&
+						//	startY <= relationEndY &&  relationEndY <= endY) {
+						if (relation->GetEndPointFigure() == static_cast<Figure*>(object)) {
 							quadrant = finder.FindQuadrant(relationEndX, relationEndY,
 								startX, startY, endX, endY);
 

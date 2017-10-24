@@ -78,7 +78,7 @@ void LastClass::OnMyMenu(UINT parm_control_id) {
 		this->classDiagramForm->zoomRate = 100;
 		this->classDiagramForm->SetMemoGab(20 * this->classDiagramForm->zoomRate / 100);
 		this->classDiagramForm->SetGabX(8 * this->classDiagramForm->zoomRate / 100);
-		this->classDiagramForm->SetGabY(4 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetGabY(2 * this->classDiagramForm->zoomRate / 100);
 		this->classDiagramForm->SetCaretWidth(2 * this->classDiagramForm->zoomRate / 100);
 		CDC memDC;
 		this->classDiagramForm->diagram->Accept(visitor, &memDC);
@@ -202,7 +202,7 @@ void LastClass::OnMyToolBar(UINT parm_control_id) {
 		this->classDiagramForm->zoomRate = 100;
 		this->classDiagramForm->SetMemoGab(20 * this->classDiagramForm->zoomRate / 100);
 		this->classDiagramForm->SetGabX(8 * this->classDiagramForm->zoomRate / 100);
-		this->classDiagramForm->SetGabY(4 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetGabY(2 * this->classDiagramForm->zoomRate / 100);
 		this->classDiagramForm->SetCaretWidth(2 * this->classDiagramForm->zoomRate / 100);
 		CDC memDC;
 		this->classDiagramForm->diagram->Accept(visitor, &memDC);

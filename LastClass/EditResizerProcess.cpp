@@ -74,9 +74,9 @@ void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit) {
 	textEdit->GetClientRect(&rt);
 	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
 	FigureComposite *object = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
-	Long distanceX;
-	if (rt.right + GabX * 2 > textEdit->GetCriteriaWidth()) {
-		distanceX = object->GetMinimumWidth() - object->GetWidth();
+	Long distanceX = 0;
+	if (rt.right + GabX * 2  >textEdit->GetCriteriaWidth()) {
+	    distanceX = object->GetMinimumWidth() - object->GetWidth();
 	}
 	else {
 		distanceX = textEdit->GetCriteriaWidth() - object->GetWidth();
@@ -119,8 +119,9 @@ void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 			if (dynamic_cast<Relation*>(iterator_->Current())) {
 				Long relationEndX = figure->GetX() + figure->GetWidth();
 				Long relationEndY = figure->GetY() + figure->GetHeight();
-				if (startX <= relationEndX &&  relationEndX <= endX &&
-					startY <= relationEndY &&  relationEndY <= endY) {
+				//if (startX <= relationEndX &&  relationEndX <= endX &&
+				//	startY <= relationEndY &&  relationEndY <= endY) {
+				if(figure->GetEndPointFigure()==static_cast<Figure*>(composite)){
 					quadrant = finder.FindQuadrant(relationEndX, relationEndY,
 						startX, startY, endX, endY);
 					if (quadrant == 3) {
@@ -269,8 +270,9 @@ void EditResizerProcess::AffectedRelation(TextEdit *textEdit) {
 				Long relationEndX = figure->GetX() + figure->GetWidth();
 				Long relationEndY = figure->GetY() + figure->GetHeight();
 				Long temp=0;
-				if (startX <= relationEndX &&  relationEndX <= endX &&
-					startY <= relationEndY &&  relationEndY <= endY) {
+				//if (startX <= relationEndX &&  relationEndX <= endX &&
+				//	startY <= relationEndY &&  relationEndY <= endY) {
+				if (relation->GetEndPointFigure() == static_cast<Figure*>(object)) {
 					quadrant = finder.FindQuadrant(relationEndX, relationEndY,
 						startX, startY, endX, endY);
 					if (relation->GetX()+ relation->GetWidth() >= textEdit->figure->GetX() - 10 && quadrant == 1) {

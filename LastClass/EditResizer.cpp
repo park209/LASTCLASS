@@ -36,7 +36,7 @@ void EditResizer::ResizeEdit(TextEdit *textEdit, CDC *cdc) {
 		gabY_ += MemoGab;
 	}
 
-	if (textEdit->text->MaxWidth(cdc) + GabX * 2 + CaretWidth > textEdit->GetCriteriaWidth()) {         //글너비가 클래스를 넘어가는데
+	if (textEdit->text->MaxWidth(cdc) + GabX * 2  > textEdit->GetCriteriaWidth()) {         //글너비가 클래스를 넘어가는데
 		if (textEdit->GetRowHeight()*textEdit->text->GetLength() + gabY_ > textEdit->GetCriteriaHeight()) {
 			resizer.ResizeEditAll(textEdit, cdc);                                          //글높이가 클래스를 넘어가면 둘다O
 		}
@@ -62,17 +62,17 @@ void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
 	RECT rt;
 	textEdit->GetClientRect(&rt);
 	if (dynamic_cast<Template*>(textEdit->figure)) {
-		if (rt.right + GabX * 2 + CaretWidth > textEdit->GetCriteriaWidth()) {
+		if (rt.right + GabX * 2  > textEdit->GetCriteriaWidth()) {
 			resizer.ResizeTemplateWidth(textEdit);
 			resizer.AffectedRelation(textEdit);
 		}
 	}
 	else {
 		ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
-		Long gabY_ = GabY * 4;
+		Long gabY_ = GabY * 2;
 
 		if (dynamic_cast<Class*>(classDiagramForm->selection->GetAt(0))) {
-			if (textEdit->text->MaxWidth(cdc) + GabX * 2 < 120 * classDiagramForm->zoomRate / 100) {
+			if (textEdit->text->MaxWidth(cdc) + GabX * 2 + CaretWidth < 120 * classDiagramForm->zoomRate / 100) {
 				textEdit->figure->SetMinimumWidth(120 * classDiagramForm->zoomRate / 100);
 				static_cast<Class*>(classDiagramForm->selection->GetAt(0))->SetMinimumWidthR(classDiagramForm->zoomRate);
 			}
@@ -90,10 +90,13 @@ void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
 				textEdit->figure->SetMinimumWidth(textEdit->text->MaxWidth(cdc) + GabX * 2);
 			}
 		}
+		if (dynamic_cast<ClassName*>(textEdit->figure)) {
+			gabY_ += MemoGab;
+		}
 		textEdit->figure->SetMinimumHeight(textEdit->GetRowHeight()*textEdit->text->GetLength() + gabY_);
 		if (!dynamic_cast<Relation*>(textEdit->GetFigure()) && !dynamic_cast<SelfRelation*>(textEdit->GetFigure())) {
-			resizer.ResizeClassWidth(textEdit);
-			resizer.ResizeClassHeight(textEdit);
+		resizer.ResizeClassWidth(textEdit);
+		resizer.ResizeClassHeight(textEdit);
 		}
 	}
 }
