@@ -535,9 +535,6 @@
     <ClInclude Include="GraphicCtrlCutKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="EditResizerBlocker.h">
-      <Filter>TextEdit</Filter>
-    </ClInclude>
     <ClInclude Include="StatusBar.h">
       <Filter>Menu</Filter>
     </ClInclude>
@@ -1263,9 +1260,6 @@
     <ClCompile Include="TextEdit.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
-    <ClCompile Include="EditResizerBlocker.cpp">
-      <Filter>TextEdit</Filter>
-    </ClCompile>
     <ClCompile Include="AddAttributeMenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
@@ -1334,7 +1328,48 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="LastClass.filters" />
+    <Image Include="resource\PrintPreview.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\toolbar.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\class.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\MemoBox.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Generalization.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Realization.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\DirectedAssociation.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Association.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Dependency.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Aggregation.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Aggregations.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Composition.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Compositions.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Memoline.bmp">
+      <Filter>Resource</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Image Include="bitmap1.bmp">
@@ -1379,85 +1414,10 @@
     <Image Include="toolbar.bmp">
       <Filter>Resource</Filter>
     </Image>
-    <Image Include="..\..\..\..\..\Desktop\icons8-Open-48 (1).bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Desktop\icons8-Cut-48.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Desktop\Open.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Desktop\Copy.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Desktop\Delete.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Desktop\File.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Desktop\Help.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Desktop\Printer.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Desktop\Redo.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Desktop\Save.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Desktop\Undo.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Desktop\icons8-Print-48.bmp">
-      <Filter>Resource</Filter>
-    </Image>
     <Image Include="class.bmp">
       <Filter>Resource</Filter>
     </Image>
-    <Image Include="Aggregation.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="Aggregations.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="Association.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="Composition.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="Compositions.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="Dependency.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="DirectedAssociation.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="Generalization.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="MemoBox.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="Memoline.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="Realization.bmp">
-      <Filter>Resource</Filter>
-    </Image>
     <Image Include="resource\Cut.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\NewFile.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Open.bmp">
       <Filter>Resource</Filter>
     </Image>
     <Image Include="resource\Open_.bmp">
