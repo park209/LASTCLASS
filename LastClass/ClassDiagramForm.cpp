@@ -986,6 +986,15 @@ void ClassDiagramForm::OnRButtonDown(UINT nFlags, CPoint point) {
 		this->selection->DeleteAllItems();
 		this->selection->SelectByPoint(this->diagram, this->currentX, this->currentY);
 	 }
+	if (this->selection->GetLength() == 0) {
+		this->mouseLButton->ChangeDefault();
+	}
+	else if (this->selection->GetLength() == 1) {
+		this->mouseLButton->ChangeSelectionState();
+	}
+	else if (this->selection->GetLength() >= 2) {
+		this->mouseLButton->ChangeMultipleState();
+	}
 	
 	Invalidate(false);
 }

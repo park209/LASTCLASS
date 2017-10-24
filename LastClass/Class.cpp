@@ -375,8 +375,9 @@ Long Class::AddAttribute(Diagram *diagram) {
 				Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
 				Long relationEndX = figure->GetX() + figure->GetWidth();
 				Long relationEndY = figure->GetY() + figure->GetHeight();
-				if (startX <= relationEndX &&  relationEndX <= endX &&
-					startY <= relationEndY &&  relationEndY <= endY) {
+				//if (startX <= relationEndX &&  relationEndX <= endX &&
+				//	startY <= relationEndY &&  relationEndY <= endY) {
+				if(relation->GetEndPointFigure()==static_cast<Figure*>(this)){
 					Quadrant = finder.FindQuadrant(relationEndX, relationEndY,
 						startX, startY, endX, endY - 50);
 					if (Quadrant == 3) {
@@ -560,8 +561,9 @@ Long Class::AddMethod(Diagram *diagram) {
 				Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
 				Long relationEndX = figure->GetX() + figure->GetWidth();
 				Long relationEndY = figure->GetY() + figure->GetHeight();
-				if (startX <= relationEndX &&  relationEndX <= endX &&
-					startY <= relationEndY &&  relationEndY <= endY) {
+				//if (startX <= relationEndX &&  relationEndX <= endX &&
+				//	startY <= relationEndY &&  relationEndY <= endY) {
+					if (relation->GetEndPointFigure() == static_cast<Figure*>(this)) {
 					Quadrant = finder.FindQuadrant(relationEndX, relationEndY,
 						startX, startY, endX, endY - 100);
 					if (Quadrant == 3) {
@@ -730,10 +732,12 @@ Long Class::AddReception(Diagram *diagram) {
 		while (j < figureComposite->GetLength()) {
 			Figure *figure = figureComposite->GetAt(j);
 			if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
+				Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
 				Long relationEndX = figure->GetX() + figure->GetWidth();
 				Long relationEndY = figure->GetY() + figure->GetHeight();
-				if (startX <= relationEndX &&  relationEndX <= endX &&
-					startY <= relationEndY &&  relationEndY <= endY) {
+				//if (startX <= relationEndX &&  relationEndX <= endX &&
+				//	startY <= relationEndY &&  relationEndY <= endY) {
+				if (relation->GetEndPointFigure() == static_cast<Figure*>(this)) {
 					Quadrant = finder.FindQuadrant(relationEndX, relationEndY,
 						startX, startY, endX, endY - 50);
 					if (Quadrant == 3) {
