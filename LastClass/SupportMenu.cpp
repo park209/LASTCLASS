@@ -14,7 +14,7 @@ END_MESSAGE_MAP()
 SupportMenu::SupportMenu(LastClass *lastClass) {
 	this->lastClass = lastClass;
 	this->page = 1;
-	this->menualCount = 2;
+	this->menualCount = 5;
 }
 int SupportMenu::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CFrameWnd::OnCreate(lpCreateStruct);
