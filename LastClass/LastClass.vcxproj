@@ -81,7 +81,6 @@
     <ClInclude Include="DrawingRealization.h" />
     <ClInclude Include="DrawingRelation.h" />
     <ClInclude Include="DrawingRelationPoint.h" />
-    <ClInclude Include="DrawingResize.h" />
     <ClInclude Include="DrawingResizing.h" />
     <ClInclude Include="DrawingVisitor.h" />
     <ClInclude Include="DrawRollNameBoxes.h" />
@@ -235,7 +234,6 @@
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="WriteKoreanText.h" />
     <ClInclude Include="WriteKoreanTextProcess.h" />
-    <ClInclude Include="WritingVisitor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AboutMenu.cpp" />
@@ -299,7 +297,6 @@
     <ClCompile Include="DrawingRealization.cpp" />
     <ClCompile Include="DrawingRelation.cpp" />
     <ClCompile Include="DrawingRelationPoint.cpp" />
-    <ClCompile Include="DrawingResize.cpp" />
     <ClCompile Include="DrawingResizing.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
     <ClCompile Include="DrawRollNameBoxes.cpp" />
@@ -450,7 +447,6 @@
     <ClCompile Include="Visitor.cpp" />
     <ClCompile Include="WriteKoreanText.cpp" />
     <ClCompile Include="WriteKoreanTextProcess.cpp" />
-    <ClCompile Include="WritingVisitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc" />

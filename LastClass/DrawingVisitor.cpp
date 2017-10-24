@@ -1,6 +1,8 @@
 //DrawingVisitor.cpp
+
 #include "ClassDiagramForm.h"
 #include "DrawingVisitor.h"
+#include "Text.h"
 #include "Diagram.h"
 #include "Class.h"
 #include "MemoBox.h"
@@ -29,16 +31,26 @@
 #include "SelfDirectedAssociation.h"
 #include "SelfComposition.h"
 #include "SelfCompositions.h"
+
 #include <iostream>
 #include "Scroll.h"
 #include "DrawRollNameBoxes.h"
 #include "LastClass.h"
+
 using namespace std;
 
 DrawingVisitor::DrawingVisitor(Long zoomRate) {
 	this->zoomRate = zoomRate;
 }
 DrawingVisitor::~DrawingVisitor() {
+}
+void DrawingVisitor::Visit(Text* text, CDC* pDC) {
+	Long fontHeight = pDC->GetTextExtent("아").cy; // rowHeight 구하는방법
+	Long textWidth = text->MaxWidth(pDC);// -50;
+
+	RECT rt = { 0 , 0, textWidth, text->GetLength() * fontHeight };
+	//cPaintDc->DrawTextEx((CString)text->MakeText().c_str(), &rt, DT_CALCRECT, NULL);
+	pDC->DrawText((CString)text->MakeText().c_str(), &rt, DT_EXPANDTABS);
 }
 void DrawingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY) {
 }
@@ -57,6 +69,7 @@ void DrawingVisitor::Visit(Class *object, CDC* pDC) { //template
 void DrawingVisitor::Visit(MemoBox *memoBox, Long distanceX, Long distanceY) {
 }
 void DrawingVisitor::Visit(MemoBox *memoBox, CDC *pDC) {
+	//drawing
 	Long x = memoBox->GetX();
 	Long y = memoBox->GetY();;
 	Long width = memoBox->GetWidth();
@@ -85,6 +98,10 @@ void DrawingVisitor::Visit(MemoBox *memoBox, CDC *pDC) {
 
 	pDC->MoveTo(pts2[1].x, pts2[1].y);
 	pDC->LineTo(pts2[0].x, pts2[0].y + 15);
+
+	//writing
+	RECT rt = { memoBox->GetX() + GabX , memoBox->GetY() + MemoGab + GabY, memoBox->GetX() + memoBox->GetWidth() - GabX, memoBox->GetY() + memoBox->GetHeight() - GabY };
+	pDC->DrawText((CString)memoBox->GetContent().c_str(), &rt, DT_EXPANDTABS);
 }
 void DrawingVisitor::Visit(Selection *selection, CDC *pDC) {
 	Long i = 0;
@@ -382,20 +399,39 @@ void DrawingVisitor::Visit(Selection *selection, CDC *pDC) {
 }
 
 void DrawingVisitor::Visit(Template *object, CDC *pDC) {
+	
+	//drawing
 	Long x = object->GetX();
 	Long y = object->GetY();;
 	Long width = object->GetWidth();
 	Long height = object->GetHeight();
 
 	pDC->Rectangle(x, y, x + width, y + height);
+
+	//writing
+	RECT rt = { object->GetX() + GabX , object->GetY() + GabY, object->GetX() + object->GetWidth() - GabX, object->GetY() + object->GetHeight() - GabY };
+	pDC->DrawText((CString)object->GetContent().c_str(), &rt, DT_EXPANDTABS);
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 void DrawingVisitor::Visit(ClassName* className, CDC* pDC) {
+	//writing
+	RECT rt = { className->GetX() + GabX , className->GetY() + MemoGab + GabY, className->GetX() + className->GetWidth() - GabX, className->GetY() + className->GetHeight() - GabY };
+	pDC->DrawText((CString)className->GetContent().c_str(), &rt, DT_CENTER | DT_EXPANDTABS);
 }
 void DrawingVisitor::Visit(Attribute* attribute, CDC* pDC) {
+	//writing
+	RECT rt = { attribute->GetX() + GabX , attribute->GetY() + GabY, attribute->GetX() + attribute->GetWidth() - GabX, attribute->GetY() + attribute->GetHeight() - GabY };
+	pDC->DrawText((CString)attribute->GetContent().c_str(), &rt, DT_EXPANDTABS);
 }
 void DrawingVisitor::Visit(Method* method, CDC* pDC) {
+	//writing
+	RECT rt = { method->GetX() + GabX , method->GetY() + GabY, method->GetX() + method->GetWidth() - GabX, method->GetY() + method->GetHeight() - GabY };
+	pDC->DrawText((CString)method->GetContent().c_str(), &rt, DT_EXPANDTABS);
 }
 void DrawingVisitor::Visit(Reception* reception, CDC* pDC) {
+	//writing
+	RECT rt = { reception->GetX() + GabX , reception->GetY() + GabY, reception->GetX() + reception->GetWidth() - GabX, reception->GetY() + reception->GetHeight() - GabY };
+	pDC->DrawText((CString)reception->GetContent().c_str(), &rt, DT_EXPANDTABS);
 }
 void DrawingVisitor::Visit(Line *line, CDC* pDC) {
 	Long x = line->GetX();
@@ -972,6 +1008,7 @@ void DrawingVisitor::Visit(Compositions *compositions, CDC* pDC) {
 	myBrush.DeleteObject();
 }
 void DrawingVisitor::Visit(MemoLine *memoLine, CDC *pDC) {
+	//drawing
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = pDC->SelectObject(&pen);
@@ -2036,24 +2073,73 @@ void DrawingVisitor::Visit(SelfCompositions *selfCompositions, CDC *pDC) {
 	}
 }
 void DrawingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
+	if (!dynamic_cast<Generalization*>(selfRelation) && !dynamic_cast<Composition*>(selfRelation) &&
+		!dynamic_cast<Compositions*>(selfRelation) && !dynamic_cast<Dependency*>(selfRelation) &&
+		!dynamic_cast<Realization*>(selfRelation)) {
+		CFont font;
+		font.CreateFont(10 * this->zoomRate / 100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
+		CFont*  oldFont;
+		oldFont = cPaintDc->SelectObject(&font);
+		Long i = 0;
+		while (i < 5) {
+			if (i == 0) {
+				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 10 * this->zoomRate / 100 , selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					selfRelation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			}
+			else if (i == 1) {
+				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 30 * this->zoomRate / 100 , selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					selfRelation->rollNamePoints->GetAt(i).x + 30 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			}
+			else if (i == 2 || i == 3) {
+				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					selfRelation->rollNamePoints->GetAt(i).x + 50 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			}
+			else if (i == 4) {
+				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					selfRelation->rollNamePoints->GetAt(i).x + 10 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			}
+			i++;
+		}
+		cPaintDc->SelectObject(oldFont);
+		font.DeleteObject();
+	}
 }
 void DrawingVisitor::Visit(Relation *relation, CDC *cPaintDc) {
+	if (!dynamic_cast<Generalization*>(relation) && !dynamic_cast<Composition*>(relation) &&
+		!dynamic_cast<Compositions*>(relation) && !dynamic_cast<Dependency*>(relation) &&
+		!dynamic_cast<Realization*>(relation) && !dynamic_cast<MemoLine*>(relation)) {
+		CFont font;
+		font.CreateFont(10 * this->zoomRate / 100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
+		CFont*  oldFont;
+		oldFont = cPaintDc->SelectObject(&font);
+		Long i = 0;
+		while (i < 5) {
+			if (i == 1) {
+				RECT rt = { relation->rollNamePoints->GetAt(i).x - 40 * this->zoomRate / 100, relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					relation->rollNamePoints->GetAt(i).x + 40 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+				cPaintDc->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			}
+			else if (i == 3 || i == 4) {
+				RECT rt = { relation->rollNamePoints->GetAt(i).x - 25 * this->zoomRate / 100, relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					relation->rollNamePoints->GetAt(i).x + 25 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+				cPaintDc->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			}
+
+			else {
+				RECT rt = { relation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					relation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+				cPaintDc->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			}
+			i++;
+		}
+		cPaintDc->SelectObject(oldFont);
+		font.DeleteObject();
+	}
 }
-void DrawingVisitor::Visit(Text* text, CDC* pDC) {
-}
 
-
-void DrawingVisitor::Visit(Diagram *diagram, Long zoomRate) {}
-void DrawingVisitor::Visit(Class *object, Long zoomRate) {}
-void DrawingVisitor::Visit(Relation *relation, Long zoomRate) {}
-void DrawingVisitor::Visit(MemoBox *memoBox, Long zoomRate) {}
-void DrawingVisitor::Visit(Line *line, Long zoomRate) {}
-void DrawingVisitor::Visit(SelfRelation *selfRelation, Long zoomRate) {}
-void DrawingVisitor::Visit(ClassName *className, Long zoomRate) {}
-void DrawingVisitor::Visit(Attribute *attribute, Long zoomRate) {}
-void DrawingVisitor::Visit(Method *method, Long zoomRate) {}
-void DrawingVisitor::Visit(Reception *reception, Long zoomRate) {}
-void DrawingVisitor::Visit(Template *object, Long zoomRate) {}
-
-//리사이즈 텍스트
-void DrawingVisitor::Visit(Text *text, Long zoomRate) {}

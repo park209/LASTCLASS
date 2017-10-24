@@ -19,7 +19,7 @@ Long DoubleClickTextAreaProcess::DoubleClickStartIndex(TextEdit *textEdit) {
 	Row *currentRow = textEdit->text->GetAt(textEdit->caret->GetRowIndex());
 	Long StartIndex = textEdit->caret->GetCharacterIndex();
 
-	while (StartIndex > 0 && currentRow->GetAt(StartIndex - 1)->MakeCString() != ' '&&currentRow->GetAt(StartIndex-1)->MakeCString() != ':'
+	while (StartIndex > 0 && currentRow->GetAt(StartIndex - 1)->MakeCString() != ' '&&currentRow->GetAt(StartIndex - 1)->MakeCString() != ':'
 		&&currentRow->GetAt(StartIndex - 1)->MakeCString() != '-'&&currentRow->GetAt(StartIndex - 1)->MakeCString() != '+'
 		&&currentRow->GetAt(StartIndex - 1)->MakeCString() != ')'&&currentRow->GetAt(StartIndex - 1)->MakeCString() != '('
 		&&currentRow->GetAt(StartIndex - 1)->MakeCString() != '*'&&currentRow->GetAt(StartIndex - 1)->MakeCString() != ',') {
@@ -41,4 +41,3 @@ Long DoubleClickTextAreaProcess::DoubleClickEndIndex(TextEdit *textEdit) {
 
 	return endIndex;
 }
-

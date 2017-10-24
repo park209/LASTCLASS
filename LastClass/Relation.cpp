@@ -3,6 +3,7 @@
 #include "Relation.h"
 #include "Finder.h"
 #include "RollNameBox.h"
+#include "DrawingVisitor.h"
 #include "Figure.h"
 
 Relation::Relation(Long capacity) :Figure(), points(capacity) {

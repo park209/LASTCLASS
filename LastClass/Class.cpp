@@ -375,8 +375,9 @@ Long Class::AddAttribute(Diagram *diagram) {
 				Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
 				Long relationEndX = figure->GetX() + figure->GetWidth();
 				Long relationEndY = figure->GetY() + figure->GetHeight();
-				if (startX <= relationEndX &&  relationEndX <= endX &&
-					startY <= relationEndY &&  relationEndY <= endY) {
+				//if (startX <= relationEndX &&  relationEndX <= endX &&
+				//	startY <= relationEndY &&  relationEndY <= endY) {
+				if(relation->GetEndPointFigure()==static_cast<Figure*>(this)){
 					Quadrant = finder.FindQuadrant(relationEndX, relationEndY,
 						startX, startY, endX, endY - 50);
 					if (Quadrant == 3) {
@@ -560,8 +561,9 @@ Long Class::AddMethod(Diagram *diagram) {
 				Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
 				Long relationEndX = figure->GetX() + figure->GetWidth();
 				Long relationEndY = figure->GetY() + figure->GetHeight();
-				if (startX <= relationEndX &&  relationEndX <= endX &&
-					startY <= relationEndY &&  relationEndY <= endY) {
+				//if (startX <= relationEndX &&  relationEndX <= endX &&
+				//	startY <= relationEndY &&  relationEndY <= endY) {
+					if (relation->GetEndPointFigure() == static_cast<Figure*>(this)) {
 					Quadrant = finder.FindQuadrant(relationEndX, relationEndY,
 						startX, startY, endX, endY - 100);
 					if (Quadrant == 3) {
@@ -730,10 +732,12 @@ Long Class::AddReception(Diagram *diagram) {
 		while (j < figureComposite->GetLength()) {
 			Figure *figure = figureComposite->GetAt(j);
 			if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
+				Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
 				Long relationEndX = figure->GetX() + figure->GetWidth();
 				Long relationEndY = figure->GetY() + figure->GetHeight();
-				if (startX <= relationEndX &&  relationEndX <= endX &&
-					startY <= relationEndY &&  relationEndY <= endY) {
+				//if (startX <= relationEndX &&  relationEndX <= endX &&
+				//	startY <= relationEndY &&  relationEndY <= endY) {
+				if (relation->GetEndPointFigure() == static_cast<Figure*>(this)) {
 					Quadrant = finder.FindQuadrant(relationEndX, relationEndY,
 						startX, startY, endX, endY - 50);
 					if (Quadrant == 3) {
@@ -964,73 +968,58 @@ void Class::Accept(Visitor& visitor, CDC *pDC) {
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 
 	while (!smartPointer->IsDone()) {
+		
+		if (dynamic_cast<Relation*>(smartPointer->Current())) {
+			static_cast<Relation*>(smartPointer->Current())->Accept(visitor, pDC);
+		}
+		if (dynamic_cast<SelfRelation*>(smartPointer->Current())) {
+			static_cast<SelfRelation*>(smartPointer->Current())->Accept(visitor, pDC);
+		}
 		if (dynamic_cast<Line*>(smartPointer->Current())) {
 			static_cast<Line*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Template*>(smartPointer->Current())) {
 			static_cast<Template*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<ClassName*>(smartPointer->Current())) {
 			static_cast<ClassName*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Attribute*>(smartPointer->Current())) {
 			static_cast<Attribute*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Method*>(smartPointer->Current())) {
 			static_cast<Method*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Reception*>(smartPointer->Current())) {
 			static_cast<Reception*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Generalization*>(smartPointer->Current())) {
 			static_cast<Generalization*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Realization*>(smartPointer->Current())) {
 			static_cast<Realization*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Dependency*>(smartPointer->Current())) {
 			static_cast<Dependency*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Association*>(smartPointer->Current())) {
 			static_cast<Association*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<DirectedAssociation*>(smartPointer->Current())) {
 			static_cast<DirectedAssociation*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Aggregation*>(smartPointer->Current())) {
 			static_cast<Aggregation*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Aggregations*>(smartPointer->Current())) {
 			static_cast<Aggregations*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Composition*>(smartPointer->Current())) {
 			static_cast<Composition*>(smartPointer->Current())->Accept(visitor, pDC);
-
 		}
-
 		else if (dynamic_cast<Compositions*>(smartPointer->Current())) {
 			static_cast<Compositions*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<MemoLine*>(smartPointer->Current())) {
 			static_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
@@ -1058,9 +1047,7 @@ void Class::Accept(Visitor& visitor, CDC *pDC) {
 		else if (dynamic_cast<SelfCompositions*>(smartPointer->Current())) {
 			static_cast<SelfCompositions*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-		else if (dynamic_cast<Relation*>(smartPointer->Current())) {
-			static_cast<Relation*>(smartPointer->Current())->Accept(visitor, pDC);
-		}
+		
 		smartPointer->Next();
 	}
 }
@@ -1073,7 +1060,7 @@ Long Class::SetMinimumWidthR(Long zoomRate) {
 	this->minimumWidth = 120 * zoomRate / 100;
 	SmartPointer<Figure*> iterator(this->CreateIterator());
 	for (iterator->First();!iterator->IsDone();iterator->Next()) {
-		if (iterator->Current()->GetMinimumWidth() > this->minimumWidth) {
+		if (!dynamic_cast<Line*>(iterator->Current()) && !dynamic_cast<Relation*>(iterator->Current()) && !dynamic_cast<SelfRelation*>(iterator->Current()) && iterator->Current()->GetMinimumWidth() > this->minimumWidth) {
 			this->minimumWidth = iterator->Current()->GetMinimumWidth();
 		}
 	}

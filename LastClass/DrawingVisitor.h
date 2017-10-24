@@ -47,22 +47,6 @@ public:
 	void Visit(Class *object, Long distanceX, Long distanceY);
 	void Visit(MemoBox *memoBox, Long distanceX, Long distanceY);
 	void Visit(Text* text, CDC* pDC);
-
-
-	 void Visit(Diagram *diagram, Long zoomRate);
-	 void Visit(Class *object, Long zoomRate)  ;
-	 void Visit(Relation *relation, Long zoomRate)  ;
-	 void Visit(MemoBox *memoBox, Long zoomRate)  ;
-	 void Visit(Line *line, Long zoomRate)  ;
-	 void Visit(SelfRelation *selfRelation, Long zoomRate) ;
-	 void Visit(ClassName *className, Long zoomRate)  ;
-	 void Visit(Attribute *attribute, Long zoomRate)  ;
-	 void Visit(Method *method, Long zoomRate)  ;
-	 void Visit(Reception *reception, Long zoomRate) ;
-	 void Visit(Template *object, Long zoomRate) ;
-
-	//리사이즈 텍스트
-	 void Visit(Text *text, Long zoomRate)  ;
 private:
 	Long zoomRate;
 };
