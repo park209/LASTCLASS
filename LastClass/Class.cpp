@@ -52,8 +52,6 @@ Class::Class(Long x, Long y, Long width, Long height) : FigureComposite(64) {
 	this->y = y;
 	this->width = width;
 	this->height = height;
-	this->minimumWidth = width;
-	this->minimumHeight = height;
 	this->attributePosition = -1;
 	this->methodPosition = -1;
 	this->receptionPosition = -1;

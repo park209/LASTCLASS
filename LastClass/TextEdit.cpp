@@ -21,7 +21,7 @@
 #include "DoubleClickTextArea.h"
 #include "FontSet.h"
 #include "Selection.h"
-#include "EditResizerBlocker.h"
+#include "EditResizer.h"
 #include "Class.h"
 #include "Relation.h"
 #include "Finder.h"
@@ -205,8 +205,9 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	SetFont(&cFont, TRUE);
 	dc->SelectObject(cFont);
 
-	EditResizerBlocker editResizer;
-	editResizer.Block(this, dc);
+	EditResizer editResizer;
+	editResizer.ResizeEdit(this, dc);
+	editResizer.ResizeClass(this, dc);
 
 	cFont.DeleteObject(); // 폰트
 
@@ -236,8 +237,9 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	SetFont(&cFont, TRUE);
 	dc->SelectObject(cFont);
 
-	EditResizerBlocker editResizer;
-	editResizer.Block(this, dc);
+	EditResizer editResizer;
+	editResizer.ResizeEdit(this, dc);
+	editResizer.ResizeClass(this, dc);
 
 	cFont.DeleteObject(); // 폰트
 
@@ -406,7 +408,7 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		this->classDiagramForm->lastClass->statusBar->MakeStatusBar(this->classDiagramForm->lastClass, this->classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
 	}
 
-	if (nChar != VK_RETURN && nChar != VK_ESCAPE && nChar != VK_F1 && nChar != 0x46 && nChar != 0x50 && nChar != 0x4F && nChar != 0x4E && nChar != 0x53) {
+	if (nChar != VK_ESCAPE && nChar != VK_F1 && nChar != 0x46 && nChar != 0x50 && nChar != 0x4F && nChar != 0x4E && nChar != 0x53) {
 		CDC *dc = GetDC();
 		CFont cFont;
 		int ih = MulDiv(14 * this->classDiagramForm->zoomRate / 100, GetDeviceCaps(dc->m_hDC, LOGPIXELSY), 72);
@@ -415,8 +417,9 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		SetFont(&cFont, TRUE);
 		dc->SelectObject(cFont);
 
-		EditResizerBlocker editResizer;
-		editResizer.Block(this, dc);
+		EditResizer editResizer;
+		editResizer.ResizeEdit(this, dc);
+		editResizer.ResizeClass(this, dc);
 
 		cFont.DeleteObject(); // 폰트
 
