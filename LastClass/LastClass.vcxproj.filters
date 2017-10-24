@@ -467,9 +467,6 @@
     <ClInclude Include="SupportMenu.h">
       <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="DrawingResize.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="OnHScrollEnd.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
@@ -1130,9 +1127,6 @@
     </ClCompile>
     <ClCompile Include="OnVScrollTop.cpp">
       <Filter>ScrollBar</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawingResize.cpp">
-      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="MenuAction.cpp">
       <Filter>Menu</Filter>

@@ -1,5 +1,6 @@
 //DefaultState.cpp
 
+#include "ClassDiagramForm.h"
 #include "Diagram.h"
 #include "Class.h"
 #include "DefaultState.h"
@@ -38,9 +39,17 @@ void DefaultState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 	if (startX != 0||startY!=0 ) {
 		selection->SelectByArea(diagram, area);
 	}
-
+	Long i;
 	if (selection->GetLength() == 1) {
 		this->ChangeState(mouseLButton, SelectionState::Instance());
+		i = 0;
+		while (i < classDiagramForm->diagram->GetLength()) {
+			FigureComposite *tempFigureComposite = static_cast<FigureComposite*>(classDiagramForm->diagram->GetAt(i));
+			if (static_cast<FigureComposite*>(selection->GetAt(0)) == tempFigureComposite) {
+				
+			}
+			i++;
+		}
 	}
 	if (selection->GetLength() > 1) {
 		this->ChangeState(mouseLButton, MultipleSelectionState::Instance());
