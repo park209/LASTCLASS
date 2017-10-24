@@ -80,9 +80,9 @@ ClassDiagramFormMenu::ClassDiagramFormMenu(ClassDiagramForm* classDiagramForm) {
 	this->menu2->AppendMenu(MF_STRING, 132, "연산 제거");
 	this->menu2->AppendMenu(MF_STRING, 134, "리셉션 제거");
 /////////////////////////////////////////////////////////////////////////
-	this->menu3->AppendMenu(MF_STRING, 123, "되돌리기(Z)");
-	this->menu3->AppendMenu(MF_STRING, 136, "재실행(Y)");
-	this->menu3->AppendMenu(MF_SEPARATOR);
+	//this->menu3->AppendMenu(MF_STRING, 123, "되돌리기(Z)");
+	//this->menu3->AppendMenu(MF_STRING, 136, "재실행(Y)");
+	//this->menu3->AppendMenu(MF_SEPARATOR);
 	this->menu3->AppendMenu(MF_STRING, 109, "자르기(X)");
 	this->menu3->AppendMenu(MF_STRING, 107, "복사하기(C)");
 
