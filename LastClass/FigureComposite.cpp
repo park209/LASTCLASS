@@ -503,7 +503,7 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 				relation->rollNamePoints->Modify(3, cPoint4);
 			}
 		}
-		else if (dynamic_cast<SelfRelation*>(this->GetAt(i))) {
+		else if (dynamic_cast<SelfRelation*>(this->GetAt(i)) && static_cast<SelfRelation*>(this->GetAt(i))->leftRightFlag == 0) {
 			this->GetAt(i)->Move(0, distanceY);
 			SelfRelation *selfRelation = static_cast<SelfRelation*>(this->GetAt(i));
 			//자기자신 에디트 이동
@@ -525,7 +525,29 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 			selfRelation->rollNamePoints->Modify(2, cPoint3);
 			selfRelation->rollNamePoints->Modify(3, cPoint4);
 			selfRelation->rollNamePoints->Modify(4, cPoint5);
+		}
+		else if (dynamic_cast<SelfRelation*>(this->GetAt(i)) && static_cast<SelfRelation*>(this->GetAt(i))->leftRightFlag == 1) {
+			this->GetAt(i)->Move(0, distanceY);
+			SelfRelation *selfRelation = static_cast<SelfRelation*>(this->GetAt(i));
+			CPoint startPoint1And4{ selfRelation->GetX(), selfRelation->GetY() };
+			CPoint endPoint1And4{ selfRelation->GetX() ,  selfRelation->GetY() - 40 };
+			CPoint startPoint2{ selfRelation->GetX() - 90 , selfRelation->GetY() - 40 };
+			CPoint endPoint2{ selfRelation->GetX() - 80 ,  selfRelation->GetY() - 40 };
+			CPoint startPoint5{ selfRelation->GetX() - 30,  selfRelation->GetY() + 40 };
+			CPoint endPoint5{ selfRelation->GetX() - 80 , selfRelation->GetY() + 40 };
+			CPoint startPoint3{ selfRelation->GetX() - 80 , selfRelation->GetY() + 40 };
+			CPoint endPoint3{ selfRelation->GetX() - 120 , selfRelation->GetY() + 40 };
 
+			cPoint1 = rollNameBoxesPoint->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4);
+			selfRelation->rollNamePoints->Modify(0, cPoint1);
+			cPoint2 = rollNameBoxesPoint->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2);
+			selfRelation->rollNamePoints->Modify(1, cPoint2);
+			cPoint3 = rollNameBoxesPoint->GetSelfRelationThirdRollNamePoint(startPoint3, endPoint3);
+			selfRelation->rollNamePoints->Modify(2, cPoint3);
+			cPoint4 = rollNameBoxesPoint->GetSelfRelationFourthRollNamePoint(startPoint1And4, endPoint1And4);
+			selfRelation->rollNamePoints->Modify(3, cPoint4);
+			cPoint5 = rollNameBoxesPoint->GetSelfRelationFifthRollNamePoint(startPoint5, endPoint5);
+			selfRelation->rollNamePoints->Modify(4, cPoint5);
 		}
 		if (dynamic_cast<Class*>(this)) {
 			Class *object = static_cast<Class*>(this);
@@ -665,7 +687,8 @@ Figure* FigureComposite::ModifyComponetsToLeftDirection(Diagram *diagram, Long d
 				relation->rollNamePoints->Modify(3, cPoint4);
 			}
 		}
-		else if (dynamic_cast<SelfRelation*>(this->GetAt(i)) && this->GetAt(i)->GetX() < this->GetX() + this->GetWidth() / 2) {
+		//else if (dynamic_cast<SelfRelation*>(this->GetAt(i)) && this->GetAt(i)->GetX() > this->GetX() + this->GetWidth() / 2) {
+		else if (dynamic_cast<SelfRelation*>(this->GetAt(i)) && static_cast<SelfRelation*>(this->GetAt(i))->leftRightFlag == 0) {
 			this->GetAt(i)->Move(distanceX, 0);
 			SelfRelation *selfRelation = static_cast<SelfRelation*>(this->GetAt(i));
 			//자기자신 에디트 이동
@@ -686,6 +709,29 @@ Figure* FigureComposite::ModifyComponetsToLeftDirection(Diagram *diagram, Long d
 			selfRelation->rollNamePoints->Modify(1, cPoint2);
 			selfRelation->rollNamePoints->Modify(2, cPoint3);
 			selfRelation->rollNamePoints->Modify(3, cPoint4);
+			selfRelation->rollNamePoints->Modify(4, cPoint5);
+		}
+		else if (dynamic_cast<SelfRelation*>(this->GetAt(i)) && static_cast<SelfRelation*>(this->GetAt(i))->leftRightFlag == 1) {
+			this->GetAt(i)->Move(distanceX, 0);
+			SelfRelation *selfRelation = static_cast<SelfRelation*>(this->GetAt(i));
+			CPoint startPoint1And4{ selfRelation->GetX(), selfRelation->GetY() };
+			CPoint endPoint1And4{ selfRelation->GetX() ,  selfRelation->GetY() - 40 };
+			CPoint startPoint2{ selfRelation->GetX() - 90 , selfRelation->GetY() - 40 };
+			CPoint endPoint2{ selfRelation->GetX() - 80 ,  selfRelation->GetY() - 40  };
+			CPoint startPoint5{ selfRelation->GetX() - 30,  selfRelation->GetY() + 40 };
+			CPoint endPoint5{ selfRelation->GetX() - 80 , selfRelation->GetY() + 40 };
+			CPoint startPoint3{ selfRelation->GetX() - 80 , selfRelation->GetY() + 40 };
+			CPoint endPoint3{ selfRelation->GetX() - 120 , selfRelation->GetY() + 40  };
+
+			cPoint1 = rollNameBoxesPoint->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4);
+			selfRelation->rollNamePoints->Modify(0, cPoint1);
+			cPoint2 = rollNameBoxesPoint->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2);
+			selfRelation->rollNamePoints->Modify(1, cPoint2);
+			cPoint3 = rollNameBoxesPoint->GetSelfRelationThirdRollNamePoint(startPoint3, endPoint3);
+			selfRelation->rollNamePoints->Modify(2, cPoint3);
+			cPoint4 = rollNameBoxesPoint->GetSelfRelationFourthRollNamePoint(startPoint1And4, endPoint1And4);
+			selfRelation->rollNamePoints->Modify(3, cPoint4);
+			cPoint5 = rollNameBoxesPoint->GetSelfRelationFifthRollNamePoint(startPoint5, endPoint5);
 			selfRelation->rollNamePoints->Modify(4, cPoint5);
 		}
 		else if (dynamic_cast<Line*>(this->GetAt(i)) || dynamic_cast<ClassName*>(this->GetAt(i)) || dynamic_cast<Attribute*>(this->GetAt(i))
