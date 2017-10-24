@@ -40,7 +40,7 @@ void EditResizerProcess::ResizeEditHeight(TextEdit *textEdit, CDC *cdc) {
 	RECT rt;
 	textEdit->GetClientRect(&rt);
 	textEdit->SetWindowPos(&textEdit->wndTopMost, 0, 0,
-		rt.right, textEdit->GetRowHeight()*textEdit->text->GetLength(), SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
+		textEdit->text->MaxWidth(cdc) + CaretWidth, textEdit->GetRowHeight()*textEdit->text->GetLength(), SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 }
 
 void EditResizerProcess::ResizeEditAll(TextEdit *textEdit, CDC *cdc) {

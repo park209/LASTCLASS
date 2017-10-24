@@ -410,7 +410,7 @@ void DrawingVisitor::Visit(Template *object, CDC *pDC) {
 
 	//writing
 	RECT rt = { object->GetX() + GabX , object->GetY() + GabY, object->GetX() + object->GetWidth() - GabX, object->GetY() + object->GetHeight() - GabY };
-	pDC->DrawText((CString)object->GetContent().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+	pDC->DrawText((CString)object->GetContent().c_str(), &rt, DT_EXPANDTABS);
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 void DrawingVisitor::Visit(ClassName* className, CDC* pDC) {
@@ -426,7 +426,7 @@ void DrawingVisitor::Visit(Attribute* attribute, CDC* pDC) {
 void DrawingVisitor::Visit(Method* method, CDC* pDC) {
 	//writing
 	RECT rt = { method->GetX() + GabX , method->GetY() + GabY, method->GetX() + method->GetWidth() - GabX, method->GetY() + method->GetHeight() - GabY };
-	pDC->DrawText((CString)method->GetContent().c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+	pDC->DrawText((CString)method->GetContent().c_str(), &rt, DT_EXPANDTABS);
 }
 void DrawingVisitor::Visit(Reception* reception, CDC* pDC) {
 	//writing
