@@ -52,8 +52,6 @@ Class::Class(Long x, Long y, Long width, Long height) : FigureComposite(64) {
 	this->y = y;
 	this->width = width;
 	this->height = height;
-	this->minimumWidth = width;
-	this->minimumHeight = height;
 	this->attributePosition = -1;
 	this->methodPosition = -1;
 	this->receptionPosition = -1;
@@ -970,73 +968,58 @@ void Class::Accept(Visitor& visitor, CDC *pDC) {
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 
 	while (!smartPointer->IsDone()) {
+		
+		if (dynamic_cast<Relation*>(smartPointer->Current())) {
+			static_cast<Relation*>(smartPointer->Current())->Accept(visitor, pDC);
+		}
+		if (dynamic_cast<SelfRelation*>(smartPointer->Current())) {
+			static_cast<SelfRelation*>(smartPointer->Current())->Accept(visitor, pDC);
+		}
 		if (dynamic_cast<Line*>(smartPointer->Current())) {
 			static_cast<Line*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Template*>(smartPointer->Current())) {
 			static_cast<Template*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<ClassName*>(smartPointer->Current())) {
 			static_cast<ClassName*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Attribute*>(smartPointer->Current())) {
 			static_cast<Attribute*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Method*>(smartPointer->Current())) {
 			static_cast<Method*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Reception*>(smartPointer->Current())) {
 			static_cast<Reception*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Generalization*>(smartPointer->Current())) {
 			static_cast<Generalization*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Realization*>(smartPointer->Current())) {
 			static_cast<Realization*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Dependency*>(smartPointer->Current())) {
 			static_cast<Dependency*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Association*>(smartPointer->Current())) {
 			static_cast<Association*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<DirectedAssociation*>(smartPointer->Current())) {
 			static_cast<DirectedAssociation*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Aggregation*>(smartPointer->Current())) {
 			static_cast<Aggregation*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Aggregations*>(smartPointer->Current())) {
 			static_cast<Aggregations*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Composition*>(smartPointer->Current())) {
 			static_cast<Composition*>(smartPointer->Current())->Accept(visitor, pDC);
-
 		}
-
 		else if (dynamic_cast<Compositions*>(smartPointer->Current())) {
 			static_cast<Compositions*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<MemoLine*>(smartPointer->Current())) {
 			static_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
@@ -1064,9 +1047,7 @@ void Class::Accept(Visitor& visitor, CDC *pDC) {
 		else if (dynamic_cast<SelfCompositions*>(smartPointer->Current())) {
 			static_cast<SelfCompositions*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-		else if (dynamic_cast<Relation*>(smartPointer->Current())) {
-			static_cast<Relation*>(smartPointer->Current())->Accept(visitor, pDC);
-		}
+		
 		smartPointer->Next();
 	}
 }

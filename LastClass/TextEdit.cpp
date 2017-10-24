@@ -15,13 +15,13 @@
 #include "EndKey.h"
 #include "TextAreaSelected.h"
 #include "HistoryText.h"
-#include "WritingVisitor.h"   
+#include "DrawingVisitor.h" 
 #include "DeleteTextArea.h"
 #include "WriteKoreanText.h"
 #include "DoubleClickTextArea.h"
 #include "FontSet.h"
 #include "Selection.h"
-#include "EditResizerBlocker.h"
+#include "EditResizer.h"
 #include "Class.h"
 #include "Relation.h"
 #include "Finder.h"
@@ -115,7 +115,7 @@ void TextEdit::OnPaint() {
 	bitmap.CreateCompatibleBitmap(&dc, rt.right, rt.bottom);
 	pOldBitmap = memDC.SelectObject(&bitmap);
 	memDC.FillSolidRect(CRect(0, 0, rt.right, rt.bottom), RGB(255, 255, 255));
-	WritingVisitor writingVisitor(this->classDiagramForm->zoomRate);
+	DrawingVisitor drawingVisitor(this->classDiagramForm->zoomRate);
 	CFont cFont;
 	CFont *oldFont = 0;
 	CFont *m_oldFont = 0;
@@ -128,7 +128,7 @@ void TextEdit::OnPaint() {
 		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
 		CFont *m_oldFont = memDC.SelectObject(&cFont);
 
-		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
+		this->text->Accept(drawingVisitor, &memDC);// 받았던거 출력
 		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
 			this->textAreaSelected->SelectTextArea(this, &memDC);
 		}
@@ -140,7 +140,7 @@ void TextEdit::OnPaint() {
 		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
 		CFont *m_oldFont = memDC.SelectObject(&cFont);
 
-		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
+		this->text->Accept(drawingVisitor, &memDC);// 받았던거 출력
 		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
 			this->textAreaSelected->SelectTextArea(this, &memDC);
 		}
@@ -152,7 +152,7 @@ void TextEdit::OnPaint() {
 		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
 		CFont *m_oldFont = memDC.SelectObject(&cFont);
 
-		this->text->Accept(writingVisitor, &memDC);// 받았던거 출력
+		this->text->Accept(drawingVisitor, &memDC);// 받았던거 출력
 		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
 			this->textAreaSelected->SelectTextArea(this, &memDC);
 		}
@@ -205,8 +205,9 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	SetFont(&cFont, TRUE);
 	dc->SelectObject(cFont);
 
-	EditResizerBlocker editResizer;
-	editResizer.Block(this, dc);
+	EditResizer editResizer;
+	editResizer.ResizeEdit(this, dc);
+	editResizer.ResizeClass(this, dc);
 
 	cFont.DeleteObject(); // 폰트
 
@@ -236,8 +237,9 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	SetFont(&cFont, TRUE);
 	dc->SelectObject(cFont);
 
-	EditResizerBlocker editResizer;
-	editResizer.Block(this, dc);
+	EditResizer editResizer;
+	editResizer.ResizeEdit(this, dc);
+	editResizer.ResizeClass(this, dc);
 
 	cFont.DeleteObject(); // 폰트
 
@@ -406,7 +408,7 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		this->classDiagramForm->lastClass->statusBar->MakeStatusBar(this->classDiagramForm->lastClass, this->classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
 	}
 
-	if (nChar != VK_RETURN && nChar != VK_ESCAPE && nChar != VK_F1 && nChar != 0x46 && nChar != 0x50 && nChar != 0x4F && nChar != 0x4E && nChar != 0x53) {
+	if (nChar != VK_ESCAPE && nChar != VK_F1 && nChar != 0x46 && nChar != 0x50 && nChar != 0x4F && nChar != 0x4E && nChar != 0x53) {
 		CDC *dc = GetDC();
 		CFont cFont;
 		int ih = MulDiv(14 * this->classDiagramForm->zoomRate / 100, GetDeviceCaps(dc->m_hDC, LOGPIXELSY), 72);
@@ -415,8 +417,9 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		SetFont(&cFont, TRUE);
 		dc->SelectObject(cFont);
 
-		EditResizerBlocker editResizer;
-		editResizer.Block(this, dc);
+		EditResizer editResizer;
+		editResizer.ResizeEdit(this, dc);
+		editResizer.ResizeClass(this, dc);
 
 		cFont.DeleteObject(); // 폰트
 

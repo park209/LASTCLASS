@@ -1060,6 +1060,8 @@ Long Selection::SelectByPointForRelation(Diagram *diagram, Long x, Long y) {
 }
 
 #include "SmartPointer.h"
+#include "MemoBox.h"
+#include "MemoLine.h"
 
 Selection* Selection::MakeSelectionBuffer(Selection& selection) {
 	Long i;
@@ -1086,7 +1088,12 @@ Selection* Selection::MakeSelectionBuffer(Selection& selection) {
 					if (k < selection.GetLength()) {
 						FigureComposite *bufferComposite = static_cast<FigureComposite*>(copyBuffer->GetAt(i));
 						Figure *bufferRelation = bufferComposite->GetAt(j);
-						bufferRelation->SetEndPointFigure(dynamic_cast<Class*>(copyBuffer->GetAt(k)));
+						if (dynamic_cast<Class*>(bufferComposite)) {
+							bufferRelation->SetEndPointFigure(static_cast<Class*>(copyBuffer->GetAt(k)));
+						}
+						else if (dynamic_cast<MemoBox*>(bufferComposite)) {
+							bufferRelation->SetEndPointFigure(static_cast<MemoBox*>(copyBuffer->GetAt(k)));
+						}
 					}
 				}
 				j++;
@@ -1139,7 +1146,7 @@ void Selection::DeleteOutSideRelation(Selection& selection) {
 			i = 0;
 			SmartPointer<Figure*>compositeIterator(static_cast<FigureComposite*>(SelectionSmartPointer->Current())->CreateIterator());
 			while (!compositeIterator->IsDone()) {
-				if (dynamic_cast<Relation*>(compositeIterator->Current())) {
+				if (dynamic_cast<Relation*>(compositeIterator->Current()) || dynamic_cast<MemoLine*>(compositeIterator->Current())) {
 					connect = false;
 					SmartPointer<Figure*>bufferIterator(selection.CreateIterator());
 					while (!bufferIterator->IsDone()) {

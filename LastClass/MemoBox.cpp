@@ -107,8 +107,11 @@ void MemoBox::Accept (Visitor& visitor, CDC *pDC) {
 	visitor.Visit(this, pDC);
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 	while (!smartPointer->IsDone()) {
+		if (dynamic_cast<Relation*>(smartPointer->Current())) {
+			static_cast<Relation*>(smartPointer->Current())->Accept(visitor, pDC); 
+		}
 		if (dynamic_cast<MemoLine*>(smartPointer->Current())) {
-			static_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, pDC); 
+			static_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
 		smartPointer->Next();
 	}

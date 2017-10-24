@@ -56,9 +56,6 @@
     <ClInclude Include="Finder.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="MovingVisitor.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="Selection.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
@@ -75,9 +72,6 @@
       <Filter>TextEdit</Filter>
     </ClInclude>
     <ClInclude Include="TextComposite.h">
-      <Filter>TextEdit</Filter>
-    </ClInclude>
-    <ClInclude Include="WritingVisitor.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
     <ClInclude Include="SingleByteCharacter.h">
@@ -179,9 +173,6 @@
     <ClInclude Include="MemoLine.h">
       <Filter>Relationship</Filter>
     </ClInclude>
-    <ClInclude Include="DrawingVisitor.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="MouseLButtonAction.h">
       <Filter>MouseAction</Filter>
     </ClInclude>
@@ -261,9 +252,6 @@
       <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="SmartPointer.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="Visitor.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="TextAreaSelectedProcess.h">
@@ -461,7 +449,6 @@
     <ClInclude Include="HistoryGraphic.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="LastClass.h" />
     <ClInclude Include="SaveAsMenuAction.h">
       <Filter>Menu</Filter>
     </ClInclude>
@@ -534,9 +521,6 @@
     </ClInclude>
     <ClInclude Include="GraphicCtrlCutKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
-    </ClInclude>
-    <ClInclude Include="EditResizerBlocker.h">
-      <Filter>TextEdit</Filter>
     </ClInclude>
     <ClInclude Include="StatusBar.h">
       <Filter>Menu</Filter>
@@ -676,9 +660,6 @@
     <ClInclude Include="resource.h">
       <Filter>Resource</Filter>
     </ClInclude>
-    <ClInclude Include="ResizeVisitor.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="PrintPreviewState.h">
       <Filter>MouseAction</Filter>
     </ClInclude>
@@ -688,7 +669,16 @@
     <ClInclude Include="MovingSelfRelation.h">
       <Filter>Relationship</Filter>
     </ClInclude>
-    <ClInclude Include="KnockKnock.h" />
+    <ClInclude Include="MovingVisitor.h" />
+    <ClInclude Include="ResizeVisitor.h" />
+    <ClInclude Include="DrawingVisitor.h" />
+    <ClInclude Include="KnockKnock.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="LastClass.h">
+      <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">
@@ -701,9 +691,6 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="Finder.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="MovingVisitor.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="Selection.cpp">
@@ -823,9 +810,6 @@
     <ClCompile Include="MemoLine.cpp">
       <Filter>Relationship</Filter>
     </ClCompile>
-    <ClCompile Include="DrawingVisitor.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
     <ClCompile Include="MouseLButtonAction.cpp">
       <Filter>MouseAction</Filter>
     </ClCompile>
@@ -900,9 +884,6 @@
     </ClCompile>
     <ClCompile Include="DoubleClickTextAreaProcess.cpp">
       <Filter>TextEdit</Filter>
-    </ClCompile>
-    <ClCompile Include="Visitor.cpp">
-      <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="TextAreaSelectedProcess.cpp">
       <Filter>TextEdit</Filter>
@@ -1093,10 +1074,6 @@
     <ClCompile Include="ClassMenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
-    <ClCompile Include="WritingVisitor.cpp">
-      <Filter>TextEdit</Filter>
-    </ClCompile>
-    <ClCompile Include="LastClass.cpp" />
     <ClCompile Include="OpenMenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
@@ -1263,9 +1240,6 @@
     <ClCompile Include="TextEdit.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
-    <ClCompile Include="EditResizerBlocker.cpp">
-      <Filter>TextEdit</Filter>
-    </ClCompile>
     <ClCompile Include="AddAttributeMenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
@@ -1314,9 +1288,6 @@
     <ClCompile Include="CtrlRedoTextKey.cpp">
       <Filter>KeyAction\TextEdit</Filter>
     </ClCompile>
-    <ClCompile Include="ResizeVisitor.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
     <ClCompile Include="PrintPreviewState.cpp">
       <Filter>MouseAction</Filter>
     </ClCompile>
@@ -1326,7 +1297,16 @@
     <ClCompile Include="MovingSelfRelation.cpp">
       <Filter>Relationship</Filter>
     </ClCompile>
-    <ClCompile Include="KnockKnock.cpp" />
+    <ClCompile Include="MovingVisitor.cpp" />
+    <ClCompile Include="ResizeVisitor.cpp" />
+    <ClCompile Include="DrawingVisitor.cpp" />
+    <ClCompile Include="KnockKnock.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="LastClass.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="Visitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc">
@@ -1334,6 +1314,79 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="LastClass.filters" />
+    <Image Include="resource\PrintPreview.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\toolbar.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\class.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\MemoBox.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Generalization.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Realization.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\DirectedAssociation.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Association.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Dependency.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Aggregation.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Aggregations.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Composition.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Compositions.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Memoline.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\Cut.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Open_.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Copy.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Delete.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\File.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Help.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Print.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Redo.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Save.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Undo.bmp">
+      <Filter>Resource</Filter>
+    </Image>
   </ItemGroup>
 </Project>
