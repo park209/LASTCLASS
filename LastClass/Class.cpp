@@ -1060,7 +1060,7 @@ Long Class::SetMinimumWidthR(Long zoomRate) {
 	this->minimumWidth = 120 * zoomRate / 100;
 	SmartPointer<Figure*> iterator(this->CreateIterator());
 	for (iterator->First();!iterator->IsDone();iterator->Next()) {
-		if (iterator->Current()->GetMinimumWidth() > this->minimumWidth) {
+		if (!dynamic_cast<Line*>(iterator->Current()) && !dynamic_cast<Relation*>(iterator->Current()) && !dynamic_cast<SelfRelation*>(iterator->Current()) && iterator->Current()->GetMinimumWidth() > this->minimumWidth) {
 			this->minimumWidth = iterator->Current()->GetMinimumWidth();
 		}
 	}
