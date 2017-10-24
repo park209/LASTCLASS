@@ -29,14 +29,16 @@ EditResizer::~EditResizer() {
 
 void EditResizer::ResizeEdit(TextEdit *textEdit, CDC *cdc) {
 	if (!dynamic_cast<Relation*>(textEdit->figure) && !dynamic_cast<SelfRelation*>(textEdit->figure)) {
+
 		EditResizerProcess resizer;
 		RECT rt;
+
 		textEdit->GetClientRect(&rt);
 		Long gabY_ = GabY + GabY;
 		if (dynamic_cast<MemoBox*>(textEdit->figure) || dynamic_cast<ClassName*>(textEdit->figure)) {
 			gabY_ += MemoGab;
 		}
-		if (textEdit->text->MaxWidth(cdc) + GabX * 2 + CaretWidth > textEdit->GetCriteriaWidth()) {         //글너비가 클래스를 넘어가는데
+		if (textEdit->text->MaxWidth(cdc) + GabX * 2 + CaretWidth > textEdit->GetCriteriaWidth()) {   //GetCriteriaWidth      //글너비가 클래스를 넘어가는데
 			if (textEdit->GetRowHeight()*textEdit->text->GetLength() + gabY_ > textEdit->GetCriteriaHeight()) {
 				resizer.ResizeEditAll(textEdit, cdc);                                          //글높이가 클래스를 넘어가면 둘다O
 			}
@@ -45,7 +47,6 @@ void EditResizer::ResizeEdit(TextEdit *textEdit, CDC *cdc) {
 			}
 			else {                                                                     //템플릿이면 템플릿너비만
 				resizer.ResizeEditWidthToLeft(textEdit, cdc);
-
 			}
 		}                                                                           //글너비가 클래스를 안넘어가는데
 		else if (textEdit->GetRowHeight() * textEdit->text->GetLength() + gabY_ > textEdit->GetCriteriaHeight()) {
