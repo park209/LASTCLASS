@@ -1371,4 +1371,156 @@
       <Filter>Resource</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="bitmap1.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap10.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap11.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap12.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap13.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap2.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap3.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap4.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap5.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap6.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap7.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap8.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap9.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="toolbar.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\icons8-Open-48 (1).bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\icons8-Cut-48.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\Open.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\Copy.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\Delete.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\File.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\Help.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\Printer.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\Redo.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\Save.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\Undo.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\icons8-Print-48.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="class.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="Aggregation.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="Aggregations.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="Association.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="Composition.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="Compositions.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="Dependency.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="DirectedAssociation.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="Generalization.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="MemoBox.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="Memoline.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="Realization.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Cut.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\NewFile.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Open.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Open_.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Copy.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Delete.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\File.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Help.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Print.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Redo.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Save.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Undo.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

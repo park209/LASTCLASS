@@ -52,10 +52,10 @@ int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 	this->statusBar = new StatusBar;
 	this->toolBar = new ToolBar;
-	rect.top += 45;
-	rect.left += 60;
-	rect.right -= 60;
-	rect.bottom -= 66;
+	rect.top += 55;
+	//rect.left += 60;
+	//rect.right -= 60;
+	rect.bottom -= 76;
 	this->classDiagramForm = new ClassDiagramForm(this);
 	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
 	this->menu = new Menu(this);
@@ -98,7 +98,7 @@ void LastClass::OnMyMenu(UINT parm_control_id) {
 		this->classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
 		this->classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
 		CRect rect;
-		this->GetClientRect(&rect);
+		this->classDiagramForm->GetClientRect(&rect);
 		vScinfo.nPage = rect.Height();
 		hScinfo.nPage = rect.Width();
 
@@ -141,7 +141,7 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 	if (this->classDiagramForm != NULL) {
 		this->toolBar->DestroyToolBar();
 		this->toolBar->MakeToolBar(this->GetSafeHwnd());
-		this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
+		//this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
 		this->toolBar->ChangeToolBarSize(&rect);
 		//this->toolBar->ChangeAnotherToolBarSize(&rect);
 	}
@@ -152,10 +152,10 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 	}
 	//this->toolBar->ChangeAnotherToolBarSize(&rect);
 	//this->statusBar->ChangeStatusBarSize(&rect);
-	rect.top += 45;
-	rect.left += 60;
-	rect.right -= 60;
-	rect.bottom -= 66;
+	rect.top += 55;
+	//rect.left += 60;
+	//rect.right -= 60;
+	rect.bottom -= 76;
 	//this->classDiagramForm->MoveWindow(rect.left, rect.top, rect.right, rect.bottom, 1);
 	if (this->classDiagramForm != NULL) {
 		this->classDiagramForm->SetWindowPos(this, rect.left, rect.top, rect.right, rect.bottom, SWP_NOMOVE | SWP_NOZORDER);
@@ -168,7 +168,7 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 	//rect1.right = rect1.left + 10;
 	this->InvalidateRect(rect1);
 
-	//ModifyStyle(WS_CLIPCHILDREN, 0);
+	ModifyStyle(WS_CLIPCHILDREN, 0);
 }
 
 BOOL LastClass::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
@@ -198,9 +198,6 @@ void LastClass::OnMyToolBar(UINT parm_control_id) {
 	}
 
 	if (parm_control_id == 40011 || parm_control_id == 40012) {
-
-
-
 		ResizeVisitor visitor(this->classDiagramForm->zoomRate, 100);
 		this->classDiagramForm->zoomRate = 100;
 		this->classDiagramForm->SetMemoGab(20 * this->classDiagramForm->zoomRate / 100);
@@ -215,10 +212,6 @@ void LastClass::OnMyToolBar(UINT parm_control_id) {
 		if (knocking != NULL) {
 			delete knocking;
 		}
-
-
-
-
 		this->statusBar->DestroyStatus();
 		this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
 		SCROLLINFO vScinfo;
@@ -227,7 +220,8 @@ void LastClass::OnMyToolBar(UINT parm_control_id) {
 		this->classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
 		this->classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
 		CRect rect;
-		this->GetClientRect(&rect);
+		this->classDiagramForm->GetClientRect(&rect);
+
 		vScinfo.nPage = rect.Height();
 		hScinfo.nPage = rect.Width();
 
