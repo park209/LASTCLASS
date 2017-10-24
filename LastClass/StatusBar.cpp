@@ -29,7 +29,7 @@ HWND StatusBar::MakeStatusBar(LastClass *lastClass, HWND hwndParent, int idStatu
 	Long tempZoomRate1 = lastClass->classDiagramForm->zoomRate;
 	CString mainString;
 	if (tempZoomRate1 == 100) {
-		mainString = " Draw ClassDiagram!!!  Version 2.27     Learn more about Software in ParkCom 02)587-9424               Ready";
+		mainString = " Draw ClassDiagram!!!  Version 2.27     Learn more about Software in ParkCom 02)587-9424";
 	}
 	else {
 		mainString = " Draw ClassDiagram!!!  Version 2.27     Learn more about Software in ParkCom 02)587-9424";
