@@ -52,6 +52,7 @@ ArrayIterator<Figure*>* FigureComposite::CreateIterator() const {
 	return new ArrayIterator<Figure*>(&this->figures);
 }
 Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long distanceX) {
+	LastClass *last = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 	Long i = 0;
 	Long length = 0;
 	Long Quadrant;
@@ -175,13 +176,13 @@ Figure* FigureComposite::ModifyComponetsToRightDirection(Diagram *diagram, Long 
 			SelfRelation *selfRelation = static_cast<SelfRelation*>(this->GetAt(i));
 			//자기자신 에디트 이동
 			CPoint startPoint1And4{ selfRelation->GetX(), selfRelation->GetY() };
-			CPoint endPoint1And4{ selfRelation->GetX() ,  selfRelation->GetY() - 40 };
+			CPoint endPoint1And4{ selfRelation->GetX() ,  selfRelation->GetY() - 40 * last->classDiagramForm->zoomRate / 100 };
 
-			CPoint startPoint2{ selfRelation->GetX(), selfRelation->GetY() - 40 };
-			CPoint endPoint2{ selfRelation->GetX() + 80,  selfRelation->GetY() - 40 };
+			CPoint startPoint2{ selfRelation->GetX(), selfRelation->GetY() - 40 * last->classDiagramForm->zoomRate / 100 };
+			CPoint endPoint2{ selfRelation->GetX() + 80 * last->classDiagramForm->zoomRate / 100,  selfRelation->GetY() - 40 * last->classDiagramForm->zoomRate / 100 };
 
-			CPoint startPoint3And5{ selfRelation->GetX() + 80, selfRelation->GetY() + 40 };
-			CPoint endPoint3And5{ selfRelation->GetX() + 30,  selfRelation->GetY() + 40 };
+			CPoint startPoint3And5{ selfRelation->GetX() + 80 * last->classDiagramForm->zoomRate / 100, selfRelation->GetY() + 40 * last->classDiagramForm->zoomRate / 100 };
+			CPoint endPoint3And5{ selfRelation->GetX() + 30 * last->classDiagramForm->zoomRate / 100,  selfRelation->GetY() + 40 * last->classDiagramForm->zoomRate / 100 };
 			cPoint1 = rollNameBoxesPoint->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4);
 			cPoint2 = rollNameBoxesPoint->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2);
 			cPoint3 = rollNameBoxesPoint->GetSelfRelationThirdRollNamePoint(startPoint3And5, endPoint3And5);
@@ -363,6 +364,7 @@ Figure* FigureComposite::ModifyComponetsToDownDirection(Diagram *diagram, Long d
 	return this;
 }
 Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long distanceY) {
+	LastClass *last = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 	Long i = 0;
 	Long length = 0;
 	Long Quadrant;
@@ -508,13 +510,13 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 			SelfRelation *selfRelation = static_cast<SelfRelation*>(this->GetAt(i));
 			//자기자신 에디트 이동
 			CPoint startPoint1And4{ selfRelation->GetX(), selfRelation->GetY() };
-			CPoint endPoint1And4{ selfRelation->GetX() ,  selfRelation->GetY() - 40 };
+			CPoint endPoint1And4{ selfRelation->GetX() ,  selfRelation->GetY() - 40 * last->classDiagramForm->zoomRate / 100 };
 
-			CPoint startPoint2{ selfRelation->GetX(), selfRelation->GetY() - 40 };
-			CPoint endPoint2{ selfRelation->GetX() + 80,  selfRelation->GetY() - 40 };
+			CPoint startPoint2{ selfRelation->GetX(), selfRelation->GetY() - 40 * last->classDiagramForm->zoomRate / 100 };
+			CPoint endPoint2{ selfRelation->GetX() + 80 * last->classDiagramForm->zoomRate / 100,  selfRelation->GetY() - 40 * last->classDiagramForm->zoomRate / 100 };
 
-			CPoint startPoint3And5{ selfRelation->GetX() + 80, selfRelation->GetY() + 40 };
-			CPoint endPoint3And5{ selfRelation->GetX() + 30,  selfRelation->GetY() + 40 };
+			CPoint startPoint3And5{ selfRelation->GetX() + 80 * last->classDiagramForm->zoomRate / 100, selfRelation->GetY() + 40 * last->classDiagramForm->zoomRate / 100 };
+			CPoint endPoint3And5{ selfRelation->GetX() + 30 * last->classDiagramForm->zoomRate / 100,  selfRelation->GetY() + 40 * last->classDiagramForm->zoomRate / 100 };
 			cPoint1 = rollNameBoxesPoint->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4);
 			cPoint2 = rollNameBoxesPoint->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2);
 			cPoint3 = rollNameBoxesPoint->GetSelfRelationThirdRollNamePoint(startPoint3And5, endPoint3And5);
@@ -532,14 +534,14 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 			SelfRelation *selfRelation = static_cast<SelfRelation*>(this->GetAt(i));
 			//자기자신 에디트 이동
 			CPoint startPoint1And4{ selfRelation->GetX(), selfRelation->GetY() };
-			CPoint endPoint1And4{ selfRelation->GetX() ,  selfRelation->GetY() - 40 };
+			CPoint endPoint1And4{ selfRelation->GetX() ,  selfRelation->GetY() - 40 * last->classDiagramForm->zoomRate / 100 };
 
-			CPoint startPoint2{ selfRelation->GetX() - 90, selfRelation->GetY() - 40 };
-			CPoint endPoint2{ selfRelation->GetX() - 80,  selfRelation->GetY() - 40 };
-			CPoint startPoint3{ selfRelation->GetX() - 80,  selfRelation->GetY() + 40 };
-			CPoint endPoint3{ selfRelation->GetX() - 120,  selfRelation->GetY() + 40 };
-			CPoint startPoint5{ selfRelation->GetX() - 30, selfRelation->GetY() + 40 };
-			CPoint endPoint5{ selfRelation->GetX() - 80,  selfRelation->GetY() + 40 };
+			CPoint startPoint2{ selfRelation->GetX() - 90 * last->classDiagramForm->zoomRate / 100, selfRelation->GetY() - 40 * last->classDiagramForm->zoomRate / 100 };
+			CPoint endPoint2{ selfRelation->GetX() - 80 * last->classDiagramForm->zoomRate / 100,  selfRelation->GetY() - 40 * last->classDiagramForm->zoomRate / 100 };
+			CPoint startPoint3{ selfRelation->GetX() - 80 * last->classDiagramForm->zoomRate / 100,  selfRelation->GetY() + 40 * last->classDiagramForm->zoomRate / 100 };
+			CPoint endPoint3{ selfRelation->GetX() - 120 * last->classDiagramForm->zoomRate / 100,  selfRelation->GetY() + 40 * last->classDiagramForm->zoomRate / 100 };
+			CPoint startPoint5{ selfRelation->GetX() - 30 * last->classDiagramForm->zoomRate / 100, selfRelation->GetY() + 40 * last->classDiagramForm->zoomRate / 100 };
+			CPoint endPoint5{ selfRelation->GetX() - 80 * last->classDiagramForm->zoomRate / 100,  selfRelation->GetY() + 40 * last->classDiagramForm->zoomRate / 100 };
 			cPoint1 = rollNameBoxesPoint->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4);
 			cPoint2 = rollNameBoxesPoint->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2);
 			cPoint3 = rollNameBoxesPoint->GetSelfRelationThirdRollNamePoint(startPoint3, endPoint3);
@@ -580,6 +582,7 @@ Figure* FigureComposite::ModifyComponetsToUpDirection(Diagram *diagram, Long dis
 }
 
 Figure* FigureComposite::ModifyComponetsToLeftDirection(Diagram *diagram, Long distanceX) {
+	LastClass *last = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
 	Long i = 0;
 	Long length = 0;
 	Long Quadrant;
@@ -696,12 +699,12 @@ Figure* FigureComposite::ModifyComponetsToLeftDirection(Diagram *diagram, Long d
 			CPoint startPoint1And4{ selfRelation->GetX(), selfRelation->GetY() };
 			CPoint endPoint1And4{ selfRelation->GetX() ,  selfRelation->GetY() - 40 };
 
-			CPoint startPoint2{ selfRelation->GetX()-90, selfRelation->GetY() - 40 };
-			CPoint endPoint2{ selfRelation->GetX() - 80,  selfRelation->GetY() - 40 };
-			CPoint startPoint3{ selfRelation->GetX() - 80,  selfRelation->GetY() + 40 };
-			CPoint endPoint3{ selfRelation->GetX() - 120,  selfRelation->GetY() + 40 };
-			CPoint startPoint5{ selfRelation->GetX() - 30, selfRelation->GetY() + 40 };
-			CPoint endPoint5{ selfRelation->GetX() - 80,  selfRelation->GetY() + 40 };
+			CPoint startPoint2{ selfRelation->GetX()-90 * last->classDiagramForm->zoomRate / 100, selfRelation->GetY() - 40 * last->classDiagramForm->zoomRate / 100 };
+			CPoint endPoint2{ selfRelation->GetX() - 80 * last->classDiagramForm->zoomRate / 100,  selfRelation->GetY() - 40 * last->classDiagramForm->zoomRate / 100 };
+			CPoint startPoint3{ selfRelation->GetX() - 80 * last->classDiagramForm->zoomRate / 100,  selfRelation->GetY() + 40 * last->classDiagramForm->zoomRate / 100 };
+			CPoint endPoint3{ selfRelation->GetX() - 120 * last->classDiagramForm->zoomRate / 100,  selfRelation->GetY() + 40 * last->classDiagramForm->zoomRate / 100 };
+			CPoint startPoint5{ selfRelation->GetX() - 30 * last->classDiagramForm->zoomRate / 100, selfRelation->GetY() + 40 * last->classDiagramForm->zoomRate / 100 };
+			CPoint endPoint5{ selfRelation->GetX() - 80 * last->classDiagramForm->zoomRate / 100,  selfRelation->GetY() + 40 * last->classDiagramForm->zoomRate / 100 };
 			cPoint1 = rollNameBoxesPoint->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4);
 			cPoint2 = rollNameBoxesPoint->GetSelfRelationSecondRollNamePoint(startPoint2, endPoint2);
 			cPoint3 = rollNameBoxesPoint->GetSelfRelationThirdRollNamePoint(startPoint3, endPoint3);
