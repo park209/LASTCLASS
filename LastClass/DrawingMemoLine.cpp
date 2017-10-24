@@ -24,6 +24,8 @@ void DrawingMemoLine::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 	Figure *figure = 0;
 
 	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
+	classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+	classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
 
 	if (selection->GetLength() == 1 && dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
 

@@ -59,6 +59,8 @@ void DeleteGraphicKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 
 	if (classDiagramForm->selection->GetLength() > 0) {
 		classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram, classDiagramForm->zoomRate);
+		classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+		classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
 		while (classDiagramForm->selection->GetLength() != 0) {
 			classDiagramForm->selection->Remove(classDiagramForm->diagram, classDiagramForm->selection->GetAt(classDiagramForm->selection->GetLength() - 1));
 		}

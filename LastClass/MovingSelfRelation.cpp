@@ -9,6 +9,7 @@
 #include "Selection.h"
 #include "LastClass.h"
 #include "RollNameBox.h"
+#include "HistoryGraphic.h"
 
 MovingSelfRelation* MovingSelfRelation::instance = 0;
 
@@ -41,6 +42,10 @@ void MovingSelfRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 		}
 		k++;
 	}
+	classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram, classDiagramForm->zoomRate);
+	classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+	classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
+
 	if (currentX < diagram->GetAt(temp)->GetX() + diagram->GetAt(temp)->GetWidth() / 2) { // 왼쪽으로 끌어다가 놓으면
 		selfRelation->Modify(diagram->GetAt(temp)->GetX() + 30 * classDiagramForm->zoomRate / 100, diagram->GetAt(temp)->GetY(),
 			-selfRelation->GetWidth(), -selfRelation->GetHeight());
@@ -64,7 +69,7 @@ void MovingSelfRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 		cPoint = rollNameBoxesPoint->GetSelfRelationFifthRollNamePoint(startPoint5, endPoint5);
 		selfRelation->rollNamePoints->Modify(4, cPoint);
 
-		selfRelation->leftRigtFlag = 1;
+		selfRelation->leftRightFlag = 1;
 	}
 	else { // 오른쪽으로 끌어다놓으면서
 		if (static_cast<Class*>(diagram->GetAt(temp))->GetTempletePosition() == -1) { // 템플릿기호가 없으면
@@ -88,7 +93,7 @@ void MovingSelfRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 			cPoint = rollNameBoxesPoint->GetSelfRelationFifthRollNamePoint(startPoint3And5, endPoint3And5);
 			selfRelation->rollNamePoints->Modify(4, cPoint);
 
-			selfRelation->leftRigtFlag = 0;
+			selfRelation->leftRightFlag = 0;
 		}
 		else { // 오른쪽이면서 템플릿기호가 있으면
 			   /*selfRelation->Modify(diagram->GetAt(temp)->GetX() + diagram->GetAt(temp)->GetWidth() - 30 * classDiagramForm->zoomRate / 100, diagram->GetAt(temp)->GetY() - classDiagramForm->seventeen,
@@ -133,7 +138,7 @@ void MovingSelfRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 			cPoint = rollNameBoxesPoint->GetSelfRelationFifthRollNamePoint(startPoint5, endPoint5);
 			selfRelation->rollNamePoints->Modify(4, cPoint);
 
-			selfRelation->leftRigtFlag = 1;
+			selfRelation->leftRightFlag = 1;
 		}
 	}
 	//this->ChangeState(mouseLButton, SelectionState::Instance());

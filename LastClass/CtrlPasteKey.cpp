@@ -21,6 +21,8 @@ CtrlPasteKey::~CtrlPasteKey() {
 
 void CtrlPasteKey::KeyPress(TextEdit *textEdit) {
 	textEdit->historyText->PushUndo(textEdit->text, textEdit->caret);
+	textEdit->historyText->redoTextArray->Clear();
+	textEdit->historyText->redoCaretArray->Clear();
 	if (textEdit->flagSelection == 1) {
 		DeleteTextArea *deleteArea = DeleteTextArea::Instance();
 		deleteArea->DeleteArea(textEdit);

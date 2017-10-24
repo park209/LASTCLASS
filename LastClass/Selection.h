@@ -27,6 +27,9 @@ public:
 	Long SelectByPoint(Diagram *diagram, Long x, Long y);
 	Long SelectByPointForRelation(Diagram *diagram, Long x, Long y);
 	Long SelectByPoint(Long x, Long y);
+	Selection* MakeSelectionBuffer(Selection& selection);
+	CRect GetSelectionRect(Selection& selection);
+	void DeleteOutSideRelation(Selection& selection);
 
 	virtual Long Correct(Figure *figure, Long index);
 
