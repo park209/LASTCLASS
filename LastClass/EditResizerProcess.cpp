@@ -58,10 +58,10 @@ void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
 		gabY_ += MemoGab;
 	}
 	textEdit->SetWindowPos(&textEdit->wndTopMost,0, 0,
-		textEdit->GetCriteriaWidth() - GabX *2, textEdit->GetCriteriaHeight() - gabY_, SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
+		textEdit->GetCriteriaWidth() - GabX * 2, textEdit->GetCriteriaHeight() - gabY_, SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 	if (dynamic_cast<Template*>(textEdit->figure)) {
 		textEdit->SetWindowPos(&textEdit->wndTopMost,
-			textEdit->GetCriteriaX()+GabX - horzCurPos,
+			textEdit->GetCriteriaX() + GabX - horzCurPos,
 			textEdit->figure->GetY() + GabY - vertCurPos,
 			textEdit->GetCriteriaWidth() - GabX * 2,
 			textEdit->GetCriteriaHeight() - gabY_,
@@ -75,7 +75,7 @@ void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit) {
 	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
 	FigureComposite *object = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
 	Long distanceX = 0;
-	if (rt.right + GabX * 2  >textEdit->GetCriteriaWidth()) {
+	if (rt.right + GabX * 2  > textEdit->GetCriteriaWidth() + CaretWidth) {
 	    distanceX = object->GetMinimumWidth() - object->GetWidth();
 	}
 	else {
