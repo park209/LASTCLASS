@@ -35,10 +35,14 @@ void DeleteTextArea::DeleteArea(TextEdit *textEdit) {
 	Long i = 0;
 	if (textEdit->textAreaSelected->selected->GetStartRowIndex() == textEdit->textAreaSelected->selected->GetEndRowIndex()) {
 		textEdit->historyText->PushUndo(textEdit->text, textEdit->caret);
+		textEdit->historyText->redoTextArray->Clear();
+		textEdit->historyText->redoCaretArray->Clear();
 		deleteLines->DeleteSingleLineSelected(textEdit);
 	}
 	else if (textEdit->textAreaSelected->selected->GetStartRowIndex() < textEdit->textAreaSelected->selected->GetEndRowIndex()) { // 여러줄이면
 		textEdit->historyText->PushUndo(textEdit->text, textEdit->caret);
+		textEdit->historyText->redoTextArray->Clear();
+		textEdit->historyText->redoCaretArray->Clear();
 		deleteLines->DeleteFirstMultiLineSelected(textEdit);
 		deleteLines->DeleteMiddleMultiLineSelected(textEdit);
 		Long copyCount = textEdit->text->GetAt(textEdit->textAreaSelected->selected->GetStartRowIndex() + 1)->GetLength() - textEdit->textAreaSelected->selected->GetEndCharacterIndex();

@@ -45,7 +45,7 @@ public:
 	Long GetMinimumWidth() const;
 	Long GetFontSize() const;
 	Figure* GetEndPointFigure() const;
-	Figure* SetEndPointFigure(Figure *figure) ;
+	Figure* SetEndPointFigure(Figure *figure);
 protected:
 	Long x;
 	Long y;

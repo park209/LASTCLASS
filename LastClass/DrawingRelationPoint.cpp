@@ -36,6 +36,8 @@ void DrawingRelationPoint::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagr
 	currentCPoint.y = currentY;
 
 	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
+	classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+	classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
 
 	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 	CPoint cPoint1;

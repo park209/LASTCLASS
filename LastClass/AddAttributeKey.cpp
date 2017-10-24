@@ -21,6 +21,9 @@ void AddAttributeKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 		Class *object = static_cast<Class*>(classDiagramForm->selection->GetAt(0));
 		if (object->GetAttributePosition() == -1) {
 			classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram, classDiagramForm->zoomRate);
+			classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+			classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
+
 			object->AddAttribute(classDiagramForm->diagram);
 		}
 	}

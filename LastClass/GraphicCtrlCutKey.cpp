@@ -52,8 +52,12 @@ void GraphicCtrlCutKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 	}
 	classDiagramForm->copyBuffer = new Selection(*classDiagramForm->selection);
 
+	classDiagramForm->copyBuffer = classDiagramForm->selection->MakeSelectionBuffer(*classDiagramForm->selection);
+	classDiagramForm->selection->DeleteOutSideRelation(*classDiagramForm->copyBuffer);
+
 	DeleteGraphicKey deleteGraphicKey;
 	deleteGraphicKey.KeyPress(classDiagramForm, cdc);
+
 }
 
 void GraphicCtrlCutKey::KeyPress(TextEdit *textEdit) {
