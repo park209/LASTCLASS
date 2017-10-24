@@ -9,7 +9,7 @@ class ResizeVisitor : public Visitor {
 public:
 	ResizeVisitor(Long previousZoomRate, Long nextZoomRate);
 	~ResizeVisitor();
-	void Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY);
+
 	void Visit(Class *object, CDC* pDC);
 	void Visit(MemoBox* memoBox, CDC* pDC);
 	void Visit(Selection *selection, CDC *pDC);
@@ -43,8 +43,11 @@ public:
 	void Visit(SelfRelation *selfRelation, CDC *pDC);
 	void Visit(Relation *relation, CDC *pDC);
 
+	void Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY);
+
 	void Visit(Class *object, Long distanceX, Long distanceY);
 	void Visit(MemoBox *memoBox, Long distanceX, Long distanceY);
+
 	void Visit(Text* text, CDC* pDC);
 private:
 	Long previousZoomRate;

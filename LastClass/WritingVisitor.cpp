@@ -10,7 +10,7 @@
 #include "Template.h"
 #include "ClassDiagramForm.h"
 #include <afxwin.h>
-#include"SelfRelation.h"
+#include "SelfRelation.h"
 #include "Relation.h"
 
 #include "Dependency.h"

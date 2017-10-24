@@ -672,7 +672,6 @@
     <ClInclude Include="MovingVisitor.h" />
     <ClInclude Include="ResizeVisitor.h" />
     <ClInclude Include="DrawingVisitor.h" />
-    <ClInclude Include="WritingVisitor.h" />
     <ClInclude Include="KnockKnock.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
@@ -1301,7 +1300,6 @@
     <ClCompile Include="MovingVisitor.cpp" />
     <ClCompile Include="ResizeVisitor.cpp" />
     <ClCompile Include="DrawingVisitor.cpp" />
-    <ClCompile Include="WritingVisitor.cpp" />
     <ClCompile Include="KnockKnock.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
