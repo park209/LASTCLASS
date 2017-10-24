@@ -68,6 +68,8 @@ public:
 	void SetGabX(Long gabX) const;
 	void SetGabY(Long gabY) const;
 	void SetCaretWidth(Long caretWidth) const;
+	CString SetFileName(CString fileName) ;
+	CString GetFileName() const;
 private:
 	Long startX;
 	Long startY;
@@ -132,6 +134,9 @@ void inline ClassDiagramForm::SetCaretWidth(Long caretWidth) const {
 	else {
 		CaretWidth = caretWidth;
 	}
+}
+CString inline ClassDiagramForm::GetFileName()const {
+	return this->fileName;
 }
 
 #endif // _CLASSDIAGRAM_H
