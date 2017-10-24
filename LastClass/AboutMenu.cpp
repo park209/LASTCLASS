@@ -6,6 +6,7 @@
 BEGIN_MESSAGE_MAP(AboutMenu, CWnd)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
+	ON_WM_KEYDOWN()
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 AboutMenu::AboutMenu(LastClass *lastClass) {
@@ -48,6 +49,17 @@ void AboutMenu::OnPaint() {
 	}
 	memDC.DeleteDC();
 }
+
+void AboutMenu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
+	if (nChar == VK_ESCAPE) {
+		this->lastClass->EnableWindow(TRUE);
+
+		if (this != 0) {
+			delete this;
+		}
+	}
+}
+
 void AboutMenu::OnClose() {
 	this->lastClass->EnableWindow(TRUE);
 

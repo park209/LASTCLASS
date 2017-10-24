@@ -6,10 +6,11 @@
 BEGIN_MESSAGE_MAP(SupportMenu, CWnd)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
-	ON_WM_CLOSE()
+	ON_WM_KEYDOWN()
 	ON_BN_CLICKED(1, OnpreviousButton)
 	ON_BN_CLICKED(2, OnNextButton)
 	ON_BN_CLICKED(3, OnOkButton)
+	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 SupportMenu::SupportMenu(LastClass *lastClass) {
 	this->lastClass = lastClass;
@@ -77,22 +78,26 @@ void SupportMenu::OnPaint() {
 	pagePage.Format("%d  /  %d", this->page, this->menualCount);
 	dc.TextOut(point.x, rt.bottom - 35, pagePage);
 }
-void SupportMenu::OnClose() {
-	this->lastClass->EnableWindow(TRUE);
 
-	if (this->nextButton != 0) {
-		delete this->nextButton;
-	}
-	if (this->previousButton != 0) {
-		delete this->previousButton;
-	}
-	if (this->okButton != 0) {
-		delete this->okButton;
-	}
-	if (this != 0) {
-		delete this;
+void SupportMenu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
+	if (nChar == VK_ESCAPE) {
+		this->lastClass->EnableWindow(TRUE);
+
+		if (this->nextButton != 0) {
+			delete this->nextButton;
+		}
+		if (this->previousButton != 0) {
+			delete this->previousButton;
+		}
+		if (this->okButton != 0) {
+			delete this->okButton;
+		}
+		if (this != 0) {
+			delete this;
+		}
 	}
 }
+
 void SupportMenu::OnNextButton() {
 	if (this->page < this->menualCount) {
 		this->page += 1;
@@ -110,6 +115,23 @@ void SupportMenu::OnOkButton() {
 	this->lastClass->EnableWindow(TRUE);
 
 	Invalidate(false);
+	if (this->nextButton != 0) {
+		delete this->nextButton;
+	}
+	if (this->previousButton != 0) {
+		delete this->previousButton;
+	}
+	if (this->okButton != 0) {
+		delete this->okButton;
+	}
+	if (this != 0) {
+		delete this;
+	}
+}
+
+void SupportMenu::OnClose() {
+	this->lastClass->EnableWindow(TRUE);
+
 	if (this->nextButton != 0) {
 		delete this->nextButton;
 	}
