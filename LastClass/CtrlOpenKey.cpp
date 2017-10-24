@@ -20,6 +20,7 @@ void CtrlOpenKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 	if (menu != 0) {
 		delete menu;
 	}
+	
 }
 
 void CtrlOpenKey::KeyPress(TextEdit *textEdit) {

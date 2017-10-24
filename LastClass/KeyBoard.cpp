@@ -256,9 +256,7 @@ KeyAction* KeyBoard::KeyDown(ClassDiagramForm *classDiagramForm, UINT nChar, UIN
 		}
 		break;
 	case 0x4F: // O
-		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-		}
-		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+		 if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlOpenKey;
 		}
 		break;

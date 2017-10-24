@@ -381,6 +381,7 @@ void TextEdit::OnLButtonDblClk(UINT nFlags, CPoint point) {
 }
 
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
+
 	this->koreanEnglish = 1;
 	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 	if (keyAction != 0) {

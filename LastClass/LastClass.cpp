@@ -59,7 +59,6 @@ int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->classDiagramForm = new ClassDiagramForm(this);
 	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
 	this->menu = new Menu(this);
-
 	//this->toolBar->MakeToolBar(this->GetSafeHwnd());
 	//this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
 	//this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
