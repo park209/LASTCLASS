@@ -86,7 +86,6 @@
     <ClInclude Include="DrawingVisitor.h" />
     <ClInclude Include="DrawRollNameBoxes.h" />
     <ClInclude Include="EditResizer.h" />
-    <ClInclude Include="EditResizerBlocker.h" />
     <ClInclude Include="EditResizerProcess.h" />
     <ClInclude Include="ExitKeyMenuAction.h" />
     <ClInclude Include="F1HelpKey.h" />
@@ -305,7 +304,6 @@
     <ClCompile Include="DrawingVisitor.cpp" />
     <ClCompile Include="DrawRollNameBoxes.cpp" />
     <ClCompile Include="EditResizer.cpp" />
-    <ClCompile Include="EditResizerBlocker.cpp" />
     <ClCompile Include="EditResizerProcess.cpp" />
     <ClCompile Include="ExitKeyMenuAction.cpp" />
     <ClCompile Include="F1HelpKey.cpp" />
@@ -456,9 +454,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="LastClass.filters" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="bitmap1.bmp" />

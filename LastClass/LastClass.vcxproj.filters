@@ -535,9 +535,6 @@
     <ClInclude Include="GraphicCtrlCutKey.h">
       <Filter>KeyAction\ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="EditResizerBlocker.h">
-      <Filter>TextEdit</Filter>
-    </ClInclude>
     <ClInclude Include="StatusBar.h">
       <Filter>Menu</Filter>
     </ClInclude>
@@ -1263,9 +1260,6 @@
     <ClCompile Include="TextEdit.cpp">
       <Filter>TextEdit</Filter>
     </ClCompile>
-    <ClCompile Include="EditResizerBlocker.cpp">
-      <Filter>TextEdit</Filter>
-    </ClCompile>
     <ClCompile Include="AddAttributeMenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
@@ -1334,6 +1328,47 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="LastClass.filters" />
+    <Image Include="bitmap1.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap10.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap11.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap12.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap13.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap2.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap3.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap4.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap5.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap6.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap7.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap8.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="bitmap9.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="toolbar.bmp">
+      <Filter>Resource</Filter>
+    </Image>
   </ItemGroup>
 </Project>
