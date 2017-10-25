@@ -54,6 +54,7 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		int horzCurPos = classDiagramForm->GetScrollPos(SB_HORZ);
 
 		CPoint point;
+
 		CPoint clientArea;
 		CRect rect;
 		::GetCursorPos(&point); // 바탕화면 커서위치 Get
@@ -62,6 +63,8 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		clientArea.x = rect.left;
 		clientArea.y = rect.top;
 		::ClientToScreen(classDiagramForm->GetSafeHwnd(), &clientArea); // windowrect의 좌표를 화면비율로 변환
+		clientArea.x -= horzCurPos;
+		clientArea.y -= vertCurPos;
 
 		if (point.x < clientArea.x || point.y < clientArea.y) { //메뉴버튼에 있는 붙여넣기 사용시 (10,10)위치로
 			point.x = classDiagramForm->currentX_ - horzCurPos;

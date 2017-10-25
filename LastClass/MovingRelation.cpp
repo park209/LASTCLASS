@@ -70,24 +70,24 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 			relationY = y + height - 1;
 		}
 		else if (figure->GetY() >= currentY) {
-			relationY =figure->GetY()+ 1;
+			relationY = figure->GetY() + 1;
 		}
 
 		CRect rect(x, y, x + width, y + height);
 		Finder finder;
 		startLinePoint.x = relationX;
 		startLinePoint.y = relationY;
-	
+
 		if (relation->GetLength() == 0) {
 			endLinePoint.x = relation->GetX() + relation->GetWidth();
-			endLinePoint.y= relation->GetY() + relation->GetHeight();
+			endLinePoint.y = relation->GetY() + relation->GetHeight();
 		}
 		else {
 			endLinePoint.x = relation->GetAt(0).x;
-			endLinePoint.y= relation->GetAt(0).y;
+			endLinePoint.y = relation->GetAt(0).y;
 		}
 		CPoint cross = finder.GetCrossPoint(startLinePoint, endLinePoint, rect);
-		 relation->Modify(cross.x, cross.y, relation->GetWidth() + relation->GetX() - cross.x, relation->GetHeight() + relation->GetY() - cross.y);
+		relation->Modify(cross.x, cross.y, relation->GetWidth() + relation->GetX() - cross.x, relation->GetHeight() + relation->GetY() - cross.y);
 
 		if (relation->GetLength() == 0) {
 			CPoint startPoint{ relation->GetX(), relation->GetY() };
@@ -126,7 +126,7 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 			//endLine = finder.FindRectangleByPoint(object, relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight());
 			i++;
 		}
-		
+
 		if (endLine == true) {
 			//끝점 변경하는 로직.
 			Long x = figures->GetX();
@@ -162,8 +162,6 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 				startLinePoint.y = relation->GetAt(relation->GetLength() - 1).y;
 			}
 			CPoint cross = finder.GetCrossPoint(startLinePoint, endLinePoint, rect);
-			PreciseMoving temp;
-			temp.ConvertPoint(&cross.x, &cross.y);
 			relation->Modify(relation->GetX(), relation->GetY(), cross.x - relation->GetX(), cross.y - relation->GetY());
 
 			if (relation->GetLength() == 0) {
@@ -191,7 +189,7 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 			}
 		}
 	}
-	this->ChangeState(mouseLButton,SelectionState::Instance());
+	this->ChangeState(mouseLButton, SelectionState::Instance());
 }
 void MovingRelation::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 
@@ -221,17 +219,17 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramFo
 		Long relationX = currentX;
 		Long relationY = currentY;
 
-		if (x + width <=currentX) {
+		if (x + width <= currentX) {
 			relationX = x + width - 1;
 		}
 		else if (x >= currentX) {
-			relationX = x +1;
+			relationX = x + 1;
 		}
 		if (y + height <= currentY) {
 			relationY = y + height - 1;
 		}
 		else if (figure->GetY() >= currentY) {
-			relationY = figure->GetY()+1;
+			relationY = figure->GetY() + 1;
 		}
 		lineStart.x = relationX;
 		lineStart.y = relationY;
@@ -282,7 +280,7 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramFo
 
 			CRect rect(x, y, x + width, y + height);
 			Finder finder;
-			
+
 
 			if (relation->GetLength() > 0) {
 				lineStart.x = relation->GetAt(relation->GetLength() - 1).x;
