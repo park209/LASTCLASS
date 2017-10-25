@@ -58,14 +58,14 @@ TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Figure *figure, Long roll
 	this->fontSet = NULL;
 	this->figure = figure;
 	this->rollNameBoxIndex = rollNameBoxIndex;
-	this->rowHeight = 14 * this->classDiagramForm->zoomRate/ 100*120/72;// 폰트 사이즈
+	this->rowHeight = 14 * this->classDiagramForm->zoomRate / 100;// 폰트 사이즈
 	this->koreanEnglish = 0;
 	this->flagBuffer = 0;
 	this->flagInsert = 0;
 	this->flagSelection = 0;
 	this->currentX = 0;
 	this->copyBuffer = "";
-	this->criteriaWidth = figure->GetWidth() /*+ CaretWidth*/;
+	this->criteriaWidth = figure->GetWidth();
 	this->criteriaHeight = figure->GetHeight();
 	this->criteriaX = figure->GetX();
 	if (dynamic_cast<Template*>(figure)) {
@@ -364,7 +364,7 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 	Finder finder;
 	bool ret = finder.FindRectangleByPoint(rect, point.x, point.y);
 	if (ret == false) {
-		SetCursor(LoadCursor(NULL, IDC_IBEAM));
+		//SetCursor(LoadCursor(NULL, IDC_IBEAM));
 	}
 
 	
@@ -381,7 +381,6 @@ void TextEdit::OnLButtonDblClk(UINT nFlags, CPoint point) {
 }
 
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
-
 	this->koreanEnglish = 1;
 	KeyAction *keyAction = this->keyBoard->KeyDown(this, nChar, nRepCnt, nFlags);
 	if (keyAction != 0) {

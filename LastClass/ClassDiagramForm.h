@@ -61,6 +61,8 @@ public:
 	Long Save();
 	CString fileName;
 public:
+	Long GetStartX() const;
+	Long GetStartY() const;
 	Long GetCurrentX() const;
 	Long GetCurrentY() const;
 public:
@@ -68,6 +70,8 @@ public:
 	void SetGabX(Long gabX) const;
 	void SetGabY(Long gabY) const;
 	void SetCaretWidth(Long caretWidth) const;
+	CString SetFileName(CString fileName) ;
+	CString GetFileName() const;
 private:
 	Long startX;
 	Long startY;
@@ -93,7 +97,12 @@ protected:
 	afx_msg void OnNcMouseMove(UINT nHitTest, CPoint point);
 	DECLARE_MESSAGE_MAP()
 };
-
+Long inline ClassDiagramForm::GetStartX() const {
+	return this->startX;
+}
+Long inline ClassDiagramForm::GetStartY() const {
+	return this->startY;
+}
 Long inline ClassDiagramForm::GetCurrentX() const {
 	return this->currentX;
 }
@@ -132,6 +141,9 @@ void inline ClassDiagramForm::SetCaretWidth(Long caretWidth) const {
 	else {
 		CaretWidth = caretWidth;
 	}
+}
+CString inline ClassDiagramForm::GetFileName()const {
+	return this->fileName;
 }
 
 #endif // _CLASSDIAGRAM_H

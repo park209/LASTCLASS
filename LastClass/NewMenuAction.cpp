@@ -52,9 +52,7 @@ void NewMenuAction::MenuPress(LastClass* lastClass) {
 		}
 	}
 	if (messageBox != IDCANCEL) {
-		lastClass->classDiagramForm->zoomRate = 100;
-
-		if (lastClass->classDiagramForm->diagram != NULL) {
+			if (lastClass->classDiagramForm->diagram != NULL) {
 			delete lastClass->classDiagramForm->diagram;
 		}
 		if (lastClass->classDiagramForm->selection != NULL) {
@@ -69,20 +67,38 @@ void NewMenuAction::MenuPress(LastClass* lastClass) {
 		if (lastClass->classDiagramForm->historyGraphic != NULL) {
 			delete lastClass->classDiagramForm->historyGraphic;
 		}
-		//if (lastClass->classDiagramForm->verticalScrollBar != NULL) {
-			//delete lastClass->classDiagramForm->verticalScrollBar;
-		//}
-		//if (lastClass->classDiagramForm->horizontalScroll != NULL) {
-			//delete lastClass->classDiagramForm->horizontalScroll;
-		//}
 		lastClass->classDiagramForm->diagram = new Diagram();
 		lastClass->classDiagramForm->selection = new Selection;
 		lastClass->classDiagramForm->mouseLButton = new MouseLButton;
 		lastClass->classDiagramForm->historyGraphic = new HistoryGraphic;
-		//lastClass->classDiagramForm->verticalScrollBar = new VerticalScrollBar(lastClass->classDiagramForm);
-		//lastClass->classDiagramForm->horizontalScroll = new HorizontalScrollBar(lastClass->classDiagramForm);
 		lastClass->classDiagramForm->keyBoard = new KeyBoard;
 		lastClass->classDiagramForm->fileName = "";
+
+
+		lastClass->classDiagramForm->zoomRate = 100;
+		lastClass->classDiagramForm->SetMemoGab(20 * lastClass->classDiagramForm->zoomRate / 100);
+		lastClass->classDiagramForm->SetGabX(8 * lastClass->classDiagramForm->zoomRate / 100);
+		lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
+		lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
+		SCROLLINFO vScinfo;
+		SCROLLINFO hScinfo;
+
+		lastClass->classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
+		lastClass->classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
+		CRect rect;
+		lastClass->classDiagramForm->GetClientRect(&rect);
+		vScinfo.nPage = rect.Height();
+		hScinfo.nPage = rect.Width();
+
+		vScinfo.nMax = 2000;
+		hScinfo.nMax = 4000;
+
+
+		vScinfo.nPos = 0;
+		hScinfo.nPos = 0;
+
+		lastClass->classDiagramForm->SetScrollInfo(SB_VERT, &vScinfo);
+		lastClass->classDiagramForm->SetScrollInfo(SB_HORZ, &hScinfo);
 	}
 	lastClass->statusBar->DestroyStatus();
 	lastClass->statusBar->MakeStatusBar(lastClass, lastClass->GetSafeHwnd(), 0, 0, 5);
