@@ -11,6 +11,7 @@
 #include "Class.h"
 #include "MemoBox.h"
 #include "SelectionState.h"
+#include "PreciseMoving.h"
 
 #include "Generalization.h"
 #include "Composition.h"
@@ -348,6 +349,9 @@ void MultipleSelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, ClassD
 
 	Long nextX = currentX - classDiagramForm->widthGab;
 	Long nextY = currentY - classDiagramForm->heightGab;
+
+	PreciseMoving temp;
+	temp.ConvertPoint(&nextX, &nextY);
 
 	Long distanceX = (nextX - selection->GetAt(0)->GetX());
 	Long distanceY = (nextY - selection->GetAt(0)->GetY());

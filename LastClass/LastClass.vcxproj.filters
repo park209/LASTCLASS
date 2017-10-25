@@ -684,6 +684,7 @@
     <ClInclude Include="Visitor.h">
       <Filter>Visitor</Filter>
     </ClInclude>
+    <ClInclude Include="PreciseMoving.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">
@@ -1314,6 +1315,7 @@
     <ClCompile Include="Visitor.cpp">
       <Filter>Visitor</Filter>
     </ClCompile>
+    <ClCompile Include="PreciseMoving.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc">

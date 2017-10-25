@@ -710,9 +710,11 @@ Long ClassDiagramForm::Save() {
 	return this->diagram->GetLength();
 }
 CString ClassDiagramForm::SetFileName(CString fileName) {
-	//this->fileName.Replace(this->fileName,fileName);
+	//this->fileName.Replace(_T(this->fileName), _T(fileName));
+	this->fileName = fileName;
 	return this->fileName;
  }
+
 int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 	CWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
@@ -1229,14 +1231,14 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		this->textEdit = new TextEdit(this, figure);
 
 		if (dynamic_cast<MemoBox*>(figure) || dynamic_cast<ClassName*>(figure)) {
-			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE  , CRect(
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX() + GabX - horzCurPos,
 				figure->GetY() + GabY + MemoGab - vertCurPos,
 				figure->GetX() + figure->GetWidth() - GabX - horzCurPos + CaretWidth,
 				figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
 		}
 		else /*if (!dynamic_cast<SelfRelation*>(figure))*/ {
-			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE , CRect(
+			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX() + GabX - horzCurPos,
 				figure->GetY() + GabY - vertCurPos,
 				figure->GetX() + figure->GetWidth() - GabX - horzCurPos + CaretWidth,

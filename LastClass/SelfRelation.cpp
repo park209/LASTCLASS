@@ -11,7 +11,8 @@ SelfRelation::SelfRelation() :Figure() {
 }
 
 SelfRelation::SelfRelation(Long x, Long y, Long width, Long height) : Figure(x, y, width, height) {
-      LastClass *lastClass = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+	LastClass *lastClass = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+
 	this->leftRightFlag = 0;
 	this->rollNamePoints = new Array<CPoint>(5);
 	this->rollNames = new Array<string>(5);

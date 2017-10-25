@@ -9,6 +9,7 @@
 #include "RollNameBox.h"
 #include "ClassDiagramForm.h"
 #include "HistoryGraphic.h"
+#include "PreciseMoving.h"
 
 DrawingRelationPoint* DrawingRelationPoint::instance = 0;
 
@@ -30,6 +31,8 @@ void DrawingRelationPoint::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagr
 	Finder finder;
 	CPoint startCPoint;
 	CPoint currentCPoint;
+	PreciseMoving temp;
+	temp.ConvertPoint(&currentX, &currentY);
 	startCPoint.x = startX;
 	startCPoint.y = startY;
 	currentCPoint.x = currentX;
@@ -279,6 +282,9 @@ void DrawingRelationPoint::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDia
 		}
 
 	}
+	PreciseMoving temp;
+	temp.ConvertPoint(&currentX, &currentY);
+
 	if (ret == true) {
 		pDC->MoveTo(lineStart.x, lineStart.y);
 		pDC->LineTo(currentX, currentY);
