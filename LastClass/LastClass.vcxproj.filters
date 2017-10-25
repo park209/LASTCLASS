@@ -685,6 +685,8 @@
       <Filter>Visitor</Filter>
     </ClInclude>
     <ClInclude Include="PreciseMoving.h" />
+    <ClInclude Include="ZoomInMenuAction.h" />
+    <ClInclude Include="ZoomOutMenuAction.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">
@@ -1316,6 +1318,8 @@
       <Filter>Visitor</Filter>
     </ClCompile>
     <ClCompile Include="PreciseMoving.cpp" />
+    <ClCompile Include="ZoomInMenuAction.cpp" />
+    <ClCompile Include="ZoomOutMenuAction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc">
@@ -1363,6 +1367,27 @@
       <Filter>Resource</Filter>
     </Image>
     <Image Include="resource\Memoline.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\Paste.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Open.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\Paste.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\zoomin.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\zoomout.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\zoomin.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="resource\zoomout.bmp">
       <Filter>Resource</Filter>
     </Image>
   </ItemGroup>

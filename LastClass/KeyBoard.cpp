@@ -55,7 +55,6 @@
 #include "GraphicDownArrowKey.h"
 #include "GraphicLeftArrowKey.h"
 
-
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
 }

@@ -103,7 +103,6 @@ Figure* Diagram::FindItem(Long x, Long y) {
 	Long endY;
 	Long index = -1;
 	Long j = 0;
-
 	smartPointer->First();
 	while (!smartPointer->IsDone() && index != 0) {
 		endX = smartPointer->Current()->GetX() + smartPointer->Current()->GetWidth();
