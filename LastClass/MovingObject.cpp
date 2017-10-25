@@ -116,7 +116,7 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm
 		bool ret = false;
 
 		CRect cRect1(figures->GetX() + (currentX - classDiagramForm->currentX_2), figures->GetY() + (currentY - classDiagramForm->currentY_2), figures->GetX() + (currentX - classDiagramForm->currentX_2) + figures->GetWidth(), figures->GetY() + (currentY - classDiagramForm->currentY_2) + figures->GetHeight());
-		
+
 		i = 0;
 		while (i < figures->GetLength()) {
 			if (dynamic_cast<Relation*>(figures->GetAt(i))) {
@@ -185,6 +185,11 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm
 		Long distanceY = (nextY - selection->GetAt(0)->GetY());
 
 		selection->Accept(diagram, movingVisitor, distanceX, distanceY);
+
+		if (selection->GetAt(0)->GetX() < 0 || selection->GetAt(0)->GetX() + selection->GetAt(0)->GetWidth() > 4000
+			|| selection->GetAt(0)->GetY() < 0 || selection->GetAt(0)->GetY() + selection->GetAt(0)->GetHeight() > 2000) {
+			selection->Accept(diagram, movingVisitor, -distanceX, -distanceY);
+		}
 	}
 	//this->ChangeState(mouseLButton, SelectionState::Instance());
 }

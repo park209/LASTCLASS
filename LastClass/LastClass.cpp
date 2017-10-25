@@ -71,48 +71,7 @@ void LastClass::OnMyMenu(UINT parm_control_id) {
 		this->classDiagramForm->textEdit->OnClose();
 		this->classDiagramForm->textEdit = NULL;
 	}
-	if (parm_control_id == 104 || parm_control_id == 105) {
-
-		ResizeVisitor visitor(this->classDiagramForm->zoomRate, 100);
-		this->classDiagramForm->zoomRate = 100;
-		this->classDiagramForm->SetMemoGab(20 * this->classDiagramForm->zoomRate / 100);
-		this->classDiagramForm->SetGabX(8 * this->classDiagramForm->zoomRate / 100);
-		this->classDiagramForm->SetGabY(2 * this->classDiagramForm->zoomRate / 100);
-		this->classDiagramForm->SetCaretWidth(2 * this->classDiagramForm->zoomRate / 100);
-		CDC memDC;
-		this->classDiagramForm->diagram->Accept(visitor, &memDC);
-
-		KnockKnock *knocking = new KnockKnock;
-		knocking->Knocking(this->classDiagramForm);
-		if (knocking != NULL) {
-			delete knocking;
-		}
-
-		this->statusBar->DestroyStatus();
-		this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
-
-		SCROLLINFO vScinfo;
-		SCROLLINFO hScinfo;
-
-		this->classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
-		this->classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
-		CRect rect;
-		this->classDiagramForm->GetClientRect(&rect);
-		vScinfo.nPage = rect.Height();
-		hScinfo.nPage = rect.Width();
-
-		vScinfo.nMax = 2000 * this->classDiagramForm->zoomRate / 100;
-		hScinfo.nMax = 4000 * this->classDiagramForm->zoomRate / 100;
-
-		if (vScinfo.nPos > vScinfo.nMax - (int)vScinfo.nPage) {
-			vScinfo.nPos = vScinfo.nMax - (int)vScinfo.nPage;
-		}
-		if (hScinfo.nPos > hScinfo.nMax - (int)hScinfo.nPage) {
-			hScinfo.nPos = hScinfo.nMax - (int)hScinfo.nPage;
-		}
-		this->classDiagramForm->SetScrollInfo(SB_VERT, &vScinfo);
-		this->classDiagramForm->SetScrollInfo(SB_HORZ, &hScinfo);
-	}
+	
 	MenuAction* menuAction = this->menu->MenuSelected(parm_control_id);
 	if (menuAction != 0) {
 		menuAction->MenuPress(this);
@@ -191,13 +150,14 @@ void LastClass::OnMouseMove(UINT nFlags, CPoint point) {
 }
 void LastClass::OnMyToolBar(UINT parm_control_id) {
 
+
 	if (this->classDiagramForm->textEdit != NULL) {
 		this->classDiagramForm->textEdit->OnClose();
 		this->classDiagramForm->textEdit = NULL;
 	}
-
+	Long rate = this->classDiagramForm->zoomRate;
 	if (parm_control_id == 40011 || parm_control_id == 40012) {
-		ResizeVisitor visitor(this->classDiagramForm->zoomRate, 100);
+		/*ResizeVisitor visitor(this->classDiagramForm->zoomRate, 100);
 		this->classDiagramForm->zoomRate = 100;
 		this->classDiagramForm->SetMemoGab(20 * this->classDiagramForm->zoomRate / 100);
 		this->classDiagramForm->SetGabX(8 * this->classDiagramForm->zoomRate / 100);
@@ -210,34 +170,26 @@ void LastClass::OnMyToolBar(UINT parm_control_id) {
 		knocking->Knocking(this->classDiagramForm);
 		if (knocking != NULL) {
 			delete knocking;
-		}
-		this->statusBar->DestroyStatus();
-		this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
-		SCROLLINFO vScinfo;
-		SCROLLINFO hScinfo;
-
-		this->classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
-		this->classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
-		CRect rect;
-		this->classDiagramForm->GetClientRect(&rect);
-
-		vScinfo.nPage = rect.Height();
-		hScinfo.nPage = rect.Width();
-
-		vScinfo.nMax = 2000 * this->classDiagramForm->zoomRate / 100;
-		hScinfo.nMax = 4000 * this->classDiagramForm->zoomRate / 100;
-
-		if (vScinfo.nPos > vScinfo.nMax - (int)vScinfo.nPage) {
-			vScinfo.nPos = vScinfo.nMax - (int)vScinfo.nPage;
-		}
-		if (hScinfo.nPos > hScinfo.nMax - (int)hScinfo.nPage) {
-			hScinfo.nPos = hScinfo.nMax - (int)hScinfo.nPage;
-		}
-		this->classDiagramForm->SetScrollInfo(SB_VERT, &vScinfo);
-		this->classDiagramForm->SetScrollInfo(SB_HORZ, &hScinfo);
+		}*/
 	}
 	CClientDC dc(this);
 	this->toolBar->ButtonSelected(parm_control_id, this, this->classDiagramForm, &dc);
+	if (parm_control_id == 40011 || parm_control_id == 40012) {
+	/*	this->classDiagramForm->zoomRate = rate;
+		ResizeVisitor visitor(100, this->classDiagramForm->zoomRate);
+		this->classDiagramForm->SetMemoGab(20 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetGabX(8 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetGabY(2 * this->classDiagramForm->zoomRate / 100);
+		this->classDiagramForm->SetCaretWidth(2 * this->classDiagramForm->zoomRate / 100);
+		CDC memDC;
+		this->classDiagramForm->diagram->Accept(visitor, &memDC);
+
+		KnockKnock *knocking = new KnockKnock;
+		knocking->Knocking(this->classDiagramForm);
+		if (knocking != NULL) {
+			delete knocking;
+		}*/
+	}
 }
 void LastClass::OnClose() {
 	//6.2. 다이어그램을 지운다.
