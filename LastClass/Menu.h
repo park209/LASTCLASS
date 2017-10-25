@@ -20,6 +20,7 @@ private:
 	CMenu *drawMenu;
 	CMenu *supportMenu;
 	CMenu *relationMenu;
+	CMenu *seeMenu;//
 public:
 	MenuAction *menuAction;
 	LastClass *lastClass;

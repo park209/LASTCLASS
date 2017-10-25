@@ -27,6 +27,10 @@
 #define IDB_SAVE                        127
 #define IDB_UNDO                        128
 #define IDB_PRINTPRE                    130
+#define IDB_PASTE                       131
+#define IDB_ZOOMIN                      132
+#define IDB_BITMAP2                     133
+#define IDB_ZOOMOUT                     133
 #define ID_BUTTON40002                  40002
 #define ID_BUTTON40003                  40003
 #define ID_BUTTON40001                  40004
@@ -62,7 +66,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        131
+#define _APS_NEXT_RESOURCE_VALUE        134
 #define _APS_NEXT_COMMAND_VALUE         40032
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101

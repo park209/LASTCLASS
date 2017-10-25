@@ -85,19 +85,19 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 
 		Figure *figure;
 		MovingVisitor movingVisitor;
-		//classDiagramForm->selection->DeleteAllItems();
+		classDiagramForm->selection->DeleteAllItems();
 		SmartPointer<Figure*>tempBufferSmartPointer(tempBuffer->CreateIterator());
 		for (tempBufferSmartPointer->First(); !tempBufferSmartPointer->IsDone(); tempBufferSmartPointer->Next()) {
 			figure = tempBufferSmartPointer->Current();
 			if (dynamic_cast<Class*>(figure)) { //클래스나 메모면
 				static_cast<Class*>(figure)->Accept(movingVisitor, distanceX, distanceY);
 				classDiagramForm->diagram->Add(figure);
-				//classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(classDiagramForm->diagram->GetLength() - 1));
+				classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(classDiagramForm->diagram->GetLength() - 1));
 			}
 			else if (dynamic_cast<MemoBox*>(figure)) {
 				static_cast<MemoBox*>(figure)->Accept(movingVisitor, distanceX, distanceY);
 				classDiagramForm->diagram->Add(figure);
-				//classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(classDiagramForm->diagram->GetLength() - 1));
+				classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(classDiagramForm->diagram->GetLength() - 1));
 			}
 		}
 

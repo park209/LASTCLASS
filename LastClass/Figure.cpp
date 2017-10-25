@@ -52,7 +52,7 @@ Figure::Figure(Long x, Long y, Long width, Long height, Long minimumWidth, Long 
 	this->width = width;
 	this->height = height;
 	this->content = content;
-	this->minimumWidth = minimumWidth;
+	this->minimumWidth = minimumHeight;
 	this->minimumHeight = minimumHeight;
 	this->fontSize = 25;	
 	this->endPointFigure = 0;
