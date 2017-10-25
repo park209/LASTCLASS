@@ -6,7 +6,7 @@
 #include "Selection.h"
 #include "HistoryGraphic.h"
 #include "KeyBoard.h"
-
+#include "ResizeVisitor.h"
 #include "KnockKnock.h"
 #include "ResizeVisitor.h"
 #include "StatusBar.h"
@@ -94,12 +94,16 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			lastClass->classDiagramForm->fileName = dlgFile.GetPathName();
 			lastClass->classDiagramForm->Load();
 
-			lastClass->classDiagramForm->zoomRate = 100;
+			//lastClass->classDiagramForm->zoomRate = 100;
 			lastClass->classDiagramForm->preZoom = 100;
 			lastClass->classDiagramForm->SetMemoGab(20 * lastClass->classDiagramForm->zoomRate / 100);
 			lastClass->classDiagramForm->SetGabX(8 * lastClass->classDiagramForm->zoomRate / 100);
 			lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
 			lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
+
+			ResizeVisitor visitor(lastClass->classDiagramForm->preZoom, lastClass->classDiagramForm->zoomRate);
+			CDC dc;
+			lastClass->classDiagramForm->diagram->Accept(visitor, &dc);
 
 			KnockKnock *knocking = new KnockKnock;
 			knocking->Knocking(lastClass->classDiagramForm);
@@ -117,12 +121,9 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			vScinfo.nPage = rect.Height();
 			hScinfo.nPage = rect.Width();
 
-			vScinfo.nMax = 2000 ;
-			hScinfo.nMax = 4000;
+			vScinfo.nMax = 2000 * lastClass->classDiagramForm->zoomRate / 100;
+			hScinfo.nMax = 4000 * lastClass->classDiagramForm->zoomRate / 100;
 
-			
-			vScinfo.nPos = 0;
-			hScinfo.nPos = 0;
 			
 			lastClass->classDiagramForm->SetScrollInfo(SB_VERT, &vScinfo);
 			lastClass->classDiagramForm->SetScrollInfo(SB_HORZ, &hScinfo);
