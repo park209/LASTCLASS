@@ -147,6 +147,9 @@ Long ClassDiagramForm::Load() {
 	Array<Long> classIndexArray(1);
 	Array<Long> figureIndexArray(1);
 	Array<Long> endPointIndexArray(1);
+	Long zoomRate;
+	int vertCurPos;
+	int horzCurPos;
 
 	//CFileDialog  dlgFile(true, "txt", "*", NULL, "텍스트 문서(*.txt)");
 	//if (dlgFile.DoModal() == IDOK)
@@ -160,7 +163,12 @@ Long ClassDiagramForm::Load() {
 	// 8 = DirectedAssociation(직접연관),  9 = Aggregation(집합), 10 = Aggregations(집합연관), 11 =  Composition(합성), 12 = Compositions(복합연관), 13 = MemoLine
 	// 14 = ClassName , 15 = Attribute , 16 = Method , 17 = Reception
 
-	if (fTest.is_open()) {  
+	if (fTest.is_open()) { 
+		getline(fTest, temp1);
+		sscanf_s((CString)temp1.c_str(), "%d %d %d", &zoomRate, &vertCurPos, &horzCurPos);
+		this->zoomRate = zoomRate;
+		this->SetScrollPos(SB_VERT, vertCurPos);
+		this->SetScrollPos(SB_HORZ, horzCurPos);
 		getline(fTest, temp1);
 		sscanf_s((CString)temp1.c_str(), "%d %d %d %d %d %d %d %d", &length, &x, &y, &width, &height, &minimumWidth, &minimumHeight, &type);
 		while (!fTest.eof()) {
@@ -322,6 +330,10 @@ Long ClassDiagramForm::Save() {
 		//}
 	fTest.open(this->fileName);
 	if (fTest.is_open()) {
+		Long zoomRate =this->zoomRate;
+		int vertCurPos = GetScrollPos(SB_VERT);
+		int horzCurPos = GetScrollPos(SB_HORZ);
+		fTest << zoomRate << " " << vertCurPos << " " << horzCurPos << endl;
 		while (i < this->diagram->GetLength()) {
 			//종류 구별을 위한 마지막 칸 
 			// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 
