@@ -7,6 +7,7 @@
 #include "RollNameBox.h"
 #include "ClassDiagramForm.h"
 #include "HistoryGraphic.h"
+#include "PreciseMoving.h"
 
 MovingRelation* MovingRelation::instance = 0;
 
@@ -84,6 +85,8 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 			endLinePoint.y= relation->GetAt(0).y;
 		}
 		CPoint cross = finder.GetCrossPoint(startLinePoint, endLinePoint, rect);
+		PreciseMoving temp;
+		temp.ConvertPoint(&cross.x, &cross.y);
 		 relation->Modify(cross.x, cross.y, relation->GetWidth() + relation->GetX() - cross.x, relation->GetHeight() + relation->GetY() - cross.y);
 
 		if (relation->GetLength() == 0) {
@@ -159,6 +162,8 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 				startLinePoint.y = relation->GetAt(relation->GetLength() - 1).y;
 			}
 			CPoint cross = finder.GetCrossPoint(startLinePoint, endLinePoint, rect);
+			PreciseMoving temp;
+			temp.ConvertPoint(&cross.x, &cross.y);
 			relation->Modify(relation->GetX(), relation->GetY(), cross.x - relation->GetX(), cross.y - relation->GetY());
 
 			if (relation->GetLength() == 0) {
@@ -204,9 +209,6 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramFo
 	CPoint lineEnd;
 	Finder finder;
 
-	//CPoint startLine;// (relation->GetX(), relation->GetY());
-	//CPoint endLine;// (relationX, relationY);
-
 	//시작점 찾기
 	CRect object(relation->GetX() - 10, relation->GetY() - 10, relation->GetX() + 10, relation->GetY() + 10);
 	startLine = finder.FindRectangleByPoint(object, startX, startY);
@@ -218,6 +220,7 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramFo
 		Long height = figure->GetHeight();
 		Long relationX = currentX;
 		Long relationY = currentY;
+
 		if (x + width <=currentX) {
 			relationX = x + width - 1;
 		}
@@ -244,6 +247,8 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramFo
 		CRect rect(x, y, x + width, y + height);
 		lineStart = finder.GetCrossPoint(lineStart, lineEnd, rect);
 
+		PreciseMoving temp;
+		temp.ConvertPoint(&lineStart.x, &lineStart.y);
 	}
 	else { // 끝점찾기
 		Long i = 0;
@@ -255,13 +260,13 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramFo
 			i++;
 		}
 		if (endLine == true) {
-		
 			Long x = figures->GetX();
 			Long y = figures->GetY();
 			Long width = figures->GetWidth();
 			Long height = figures->GetHeight();
 			Long relationX = currentX;
 			Long relationY = currentY;
+
 			if (x + width < currentX) {
 				relationX = x + width - 1;
 			}
@@ -293,6 +298,9 @@ void MovingRelation::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramFo
 
 
 			lineEnd = finder.GetCrossPoint(lineStart, lineEnd, rect);
+
+			PreciseMoving temp;
+			temp.ConvertPoint(&lineEnd.x, &lineEnd.y);
 		}
 	}
 	pDC->MoveTo(lineStart.x, lineStart.y);

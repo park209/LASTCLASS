@@ -9,6 +9,7 @@
 #include "ClassDiagramForm.h"
 #include "HistoryGraphic.h"
 #include "RollNameBox.h"
+#include "PreciseMoving.h"
 
 MovingObject* MovingObject::instance = 0;
 
@@ -177,14 +178,8 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm
 		Long nextX = currentX - classDiagramForm->widthGab;
 		Long nextY = currentY - classDiagramForm->heightGab;
 
-		if (GetKeyState(VK_MENU) < 0) {
-			if (nextX % 10 != 0) {
-				nextX -= nextX % 10;
-			}
-			if (nextY % 10 != 0) {
-				nextY -= nextY % 10;
-			}
-		}
+		PreciseMoving temp;
+		temp.ConvertPoint(&nextX, &nextY);
 
 		Long distanceX = (nextX - selection->GetAt(0)->GetX());
 		Long distanceY = (nextY - selection->GetAt(0)->GetY());
