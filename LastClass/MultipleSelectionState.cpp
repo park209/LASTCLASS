@@ -289,41 +289,6 @@ void MultipleSelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagra
 }
 
 void MultipleSelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
-	//if (startX != currentX || startY != currentY) {
-	//	CPen pen;
-	//	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	//	CPen *oldPen = pDC->SelectObject(&pen);
-	//	pDC->SetBkMode(TRANSPARENT);
-
-	//	Long distanceX = currentX - startX;
-	//	Long distanceY = currentY - startY;
-	//	Long i = 0;
-	//	Long j = 0;
-	//	Figure *figure;
-
-	//	while (i < selection->GetLength()) {
-	//		figure = selection->GetAt(i);
-	//		if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
-	//													  // 해당 클래스나 메모 이동
-	//			pDC->Rectangle(figure->GetX() + distanceX, figure->GetY() + distanceY, figure->GetX() + figure->GetWidth() + distanceX,
-	//				figure->GetY() + figure->GetHeight() + distanceY);
-	//			FigureComposite *figureComposite = static_cast<FigureComposite*>(figure); // 형변환
-	//			j = 0;
-	//			while (j < figureComposite->GetLength()) { // 형변환 한게 관리하면 배열 렝스까지
-	//				figure = figureComposite->GetAt(j);
-	//				if (dynamic_cast<Line*>(figure)) {
-	//					pDC->MoveTo(figure->GetX() + distanceX, figure->GetY() + distanceY);
-	//					pDC->LineTo(figure->GetX() + figure->GetWidth() + distanceX,
-	//						figure->GetY() + figure->GetHeight() + distanceY);
-	//				}
-	//				j++;
-	//			}
-	//		}
-	//		i++;
-	//	}
-
-	//	pDC->SelectObject(oldPen);
-	//	pen.DeleteObject();
 	Long length = selection->GetLength();
 	Long i = 0;
 	Long j;
@@ -537,6 +502,17 @@ void MultipleSelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, ClassD
 				k++;
 			}
 
+		}
+		i++;
+	}
+	i = 0;
+	bool ret2 = false;
+	while (ret2 != true && i < selection->GetLength()) {
+		if (selection->GetAt(i)->GetX() < 0 || selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() > 4000
+			|| selection->GetAt(i)->GetY() < 0 || selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() > 2000) {
+			MovingVisitor movingVisitor;
+			selection->Accept(diagram, movingVisitor, -distanceX, -distanceY);
+			ret2 = true;
 		}
 		i++;
 	}
