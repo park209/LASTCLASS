@@ -4,7 +4,6 @@
 #include "resource.h"
 #include "ToolBarProcess.h"
 
-#define IDB_BITMAP25                    129
 ToolBar::ToolBar() {
 	this->hTool1 = 0;
 	this->hTool2 = 0;
@@ -19,9 +18,9 @@ void ToolBar::MakeToolBar(HWND hWndParent) {
 		hWndParent, NULL, GetModuleHandle(NULL), NULL);
 	this->hTool1 = hTool;
 	SendMessage(hTool, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
-	TBBUTTON tbb[22];
+	TBBUTTON tbb[28];
 	//TBADDBITMAP tbab;
-	Long iNew, iopen, iSave, iredo, iundo, idelete_, icut, icopy, ipaste, iprint, iprintpre, ihelp;
+	Long iNew, iopen, iSave, iredo, iundo, idelete_, icut, icopy, ipaste, iprint, iprintpre, ihelp,izoomIn,izoomout;
 	TCHAR newfile[10] = "새파일";
 	TCHAR open[10] = "열기";
 	TCHAR save[10] = "저장하기";
@@ -34,6 +33,8 @@ void ToolBar::MakeToolBar(HWND hWndParent) {
 	TCHAR print[10] = "인쇄하기";
 	TCHAR printpre[10] = "미리보기";
 	TCHAR help[10] = "도움말";
+	TCHAR zoomIn[10] = "확대하기";
+	TCHAR zoomout[10] = "축소하기";
 
 	//tbab.hInst = HINST_COMMCTRL;
 	//tbab.nID = IDB_STD_SMALL_COLOR;
@@ -62,6 +63,10 @@ void ToolBar::MakeToolBar(HWND hWndParent) {
 		(WPARAM)NULL, (LPARAM)printpre);
 	ihelp = SendMessage(hTool, TB_ADDSTRING,
 		(WPARAM)NULL, (LPARAM)help);
+	izoomIn = SendMessage(hTool, TB_ADDSTRING,
+		(WPARAM)NULL, (LPARAM)zoomIn);
+	izoomout = SendMessage(hTool, TB_ADDSTRING,
+		(WPARAM)NULL, (LPARAM)zoomout);
 	SendMessage(hTool, TB_SETBUTTONSIZE, 0, MAKELPARAM(32, 28));
 	SendMessage(hTool, TB_SETBITMAPSIZE, 0, (LPARAM)MAKELPARAM(32, 28));
 	DWORD backgroundColor = GetSysColor(COLOR_BTNFACE);///여기부터
@@ -158,37 +163,70 @@ void ToolBar::MakeToolBar(HWND hWndParent) {
 	tbb[14].iString = icopy;
 	tbb[15].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
 
-	hbm = CreateMappedBitmap(NULL, IDB_PRINT, 0, &colorMap, 1);
+	hbm = CreateMappedBitmap(NULL, IDB_PASTE, 0, &colorMap, 1);//붙여넣기
 	tb.hInst = NULL;
 	tb.nID = (UINT_PTR)hbm;
 	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
 	tbb[16].iBitmap = index;
 	tbb[16].fsState = TBSTATE_ENABLED;
 	tbb[16].fsStyle = TBSTYLE_BUTTON;
-	tbb[16].idCommand = ID_BUTTON40011;
-	tbb[16].iString = iprint;
+	tbb[16].idCommand = ID_BUTTON40010;
+	tbb[16].iString = ipaste;
 	tbb[17].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
 
+	hbm = CreateMappedBitmap(NULL, IDB_PRINT, 0, &colorMap, 1);
+	tb.hInst = NULL;
+	tb.nID = (UINT_PTR)hbm;
+	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
+	tbb[22].iBitmap = index;
+	tbb[22].fsState = TBSTATE_ENABLED;
+	tbb[22].fsStyle = TBSTYLE_BUTTON;
+	tbb[22].idCommand = ID_BUTTON40011;
+	tbb[22].iString = iprint;
+	tbb[23].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
+
 	hbm = CreateMappedBitmap(NULL, IDB_PRINTPRE, 0, &colorMap, 1);
+	tb.hInst = NULL;
+	tb.nID = (UINT_PTR)hbm;
+	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
+	tbb[24].iBitmap = index;
+	tbb[24].fsState = TBSTATE_ENABLED;
+	tbb[24].fsStyle = TBSTYLE_BUTTON;
+	tbb[24].idCommand = ID_BUTTON40012;
+	tbb[24].iString = iprintpre;
+	tbb[25].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
+
+	hbm = CreateMappedBitmap(NULL, IDB_SUPPORT, 0, &colorMap, 1);
+	tb.hInst = NULL;
+	tb.nID = (UINT_PTR)hbm;
+	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
+	tbb[26].iBitmap = index;
+	tbb[26].fsState = TBSTATE_ENABLED;
+	tbb[26].fsStyle = TBSTYLE_BUTTON;
+	tbb[26].idCommand = ID_BUTTON40013;
+	tbb[26].iString = ihelp;
+	tbb[27].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
+
+	hbm = CreateMappedBitmap(NULL, IDB_ZOOMIN, 0, &colorMap, 1);
 	tb.hInst = NULL;
 	tb.nID = (UINT_PTR)hbm;
 	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
 	tbb[18].iBitmap = index;
 	tbb[18].fsState = TBSTATE_ENABLED;
 	tbb[18].fsStyle = TBSTYLE_BUTTON;
-	tbb[18].idCommand = ID_BUTTON40012;
-	tbb[18].iString = iprintpre;
+	tbb[18].idCommand = ID_BUTTON40029;
+	tbb[18].iString = izoomIn;
 	tbb[19].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
 
-	hbm = CreateMappedBitmap(NULL, IDB_SUPPORT, 0, &colorMap, 1);
+	hbm = CreateMappedBitmap(NULL, IDB_ZOOMOUT, 0, &colorMap, 1);
 	tb.hInst = NULL;
 	tb.nID = (UINT_PTR)hbm;
 	index = SendMessage(hTool, TB_ADDBITMAP, 1, (LPARAM)&tb);
 	tbb[20].iBitmap = index;
 	tbb[20].fsState = TBSTATE_ENABLED;
 	tbb[20].fsStyle = TBSTYLE_BUTTON;
-	tbb[20].idCommand = ID_BUTTON40013;
-	tbb[20].iString = ihelp;
+	tbb[20].idCommand = ID_BUTTON40030;
+	tbb[20].iString = izoomout;
 	tbb[21].fsStyle = TBSTYLE_BUTTON | BTNS_SEP;
 
 	SendMessage(hTool, TB_ADDBUTTONS, sizeof(tbb) / sizeof(TBBUTTON), (LPARAM)tbb);
@@ -361,6 +399,10 @@ void ToolBar::ButtonSelected(UINT parm_control_id, LastClass *lastClass, ClassDi
 	case 40027:toolBarProcess.OnCompositionsClicked(lastClass);
 		break;
 	case 40028:toolBarProcess.OnMemoLineClicked(lastClass);
+		break;
+	case 40029:toolBarProcess.OnZoomInClicked(lastClass);
+		break;
+	case 40030:toolBarProcess.OnZoomOutClicked(lastClass);
 		break;
 	default:
 		break;

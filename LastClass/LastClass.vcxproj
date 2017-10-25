@@ -234,6 +234,8 @@
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="WriteKoreanText.h" />
     <ClInclude Include="WriteKoreanTextProcess.h" />
+    <ClInclude Include="ZoomInMenuAction.h" />
+    <ClInclude Include="ZoomOutMenuAction.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AboutMenu.cpp" />
@@ -447,11 +449,16 @@
     <ClCompile Include="Visitor.cpp" />
     <ClCompile Include="WriteKoreanText.cpp" />
     <ClCompile Include="WriteKoreanTextProcess.cpp" />
+    <ClCompile Include="ZoomInMenuAction.cpp" />
+    <ClCompile Include="ZoomOutMenuAction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\..\Desktop\Paste.bmp" />
+    <Image Include="..\..\..\..\..\Desktop\zoomin.bmp" />
+    <Image Include="..\..\..\..\..\Desktop\zoomout.bmp" />
     <Image Include="resource\Aggregation.bmp" />
     <Image Include="resource\Aggregations.bmp" />
     <Image Include="resource\Association.bmp" />
@@ -468,7 +475,9 @@
     <Image Include="resource\Help.bmp" />
     <Image Include="resource\MemoBox.bmp" />
     <Image Include="resource\Memoline.bmp" />
+    <Image Include="resource\Open.bmp" />
     <Image Include="resource\Open_.bmp" />
+    <Image Include="resource\Paste.bmp" />
     <Image Include="resource\Print.bmp" />
     <Image Include="resource\PrintPreview.bmp" />
     <Image Include="resource\Realization.bmp" />
@@ -476,6 +485,8 @@
     <Image Include="resource\Save.bmp" />
     <Image Include="resource\toolbar.bmp" />
     <Image Include="resource\Undo.bmp" />
+    <Image Include="resource\zoomin.bmp" />
+    <Image Include="resource\zoomout.bmp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

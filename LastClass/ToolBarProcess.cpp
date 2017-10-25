@@ -32,6 +32,8 @@
 #include "DeleteGraphicKeyMenuAction.h"
 #include "FilePrintMenuAction.h"
 #include "AboutMenuAction.h"
+#include "ZoomInMenuAction.h"
+#include "ZoomOutMenuAction.h"
 
 ToolBarProcess::ToolBarProcess() {
 }
@@ -138,4 +140,12 @@ void ToolBarProcess::OnCompositionsClicked(LastClass *lastClass) {
 void ToolBarProcess::OnMemoLineClicked(LastClass *lastClass) {
 	MemoLineMenuAction memoLineMenuAction;
 	memoLineMenuAction.MenuPress(lastClass);
+}
+void ToolBarProcess::OnZoomInClicked(LastClass *lastClass) {
+	ZoomInMenuAction zoomInMenuAction;
+	zoomInMenuAction.MenuPress(lastClass);
+}
+void ToolBarProcess::OnZoomOutClicked(LastClass *lastClass) {
+	ZoomOutMenuAction zoomOutMenuAction;
+	zoomOutMenuAction.MenuPress(lastClass);
 }

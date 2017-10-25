@@ -37,6 +37,8 @@ public:
 	void OnCompositionClicked(LastClass *lastClass);
 	void OnCompositionsClicked(LastClass *lastClass);
 	void OnMemoLineClicked(LastClass *lastClass);
+	void OnZoomInClicked(LastClass *lastClass);
+	void OnZoomOutClicked(LastClass *lastClass);
 };
 
 #endif // _ToolBar_H
