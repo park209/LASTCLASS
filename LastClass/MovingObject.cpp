@@ -9,6 +9,7 @@
 #include "ClassDiagramForm.h"
 #include "HistoryGraphic.h"
 #include "RollNameBox.h"
+#include "PreciseMoving.h"
 
 MovingObject* MovingObject::instance = 0;
 
@@ -86,13 +87,6 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 			}
 			i++;
 		}
-		//if (ret == false) {
-			//Long distanceX = currentX - classDiagramForm->currentX_2;
-			//Long distanceY = currentY - classDiagramForm->currentY_2;
-			//Long distanceX = (currentX - (startX - selection->GetAt(0)->GetX())) - selection->GetAt(0)->GetX();
-			//Long distanceY = (currentY - (startY - selection->GetAt(0)->GetY())) - selection->GetAt(0)->GetY();
-			//selection->Accept(diagram, movingVisitor, distanceX, distanceY);
-		//}
 	}
 	this->ChangeState(mouseLButton, SelectionState::Instance());
 }
@@ -122,20 +116,7 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm
 		bool ret = false;
 
 		CRect cRect1(figures->GetX() + (currentX - classDiagramForm->currentX_2), figures->GetY() + (currentY - classDiagramForm->currentY_2), figures->GetX() + (currentX - classDiagramForm->currentX_2) + figures->GetWidth(), figures->GetY() + (currentY - classDiagramForm->currentY_2) + figures->GetHeight());
-		//ret = diagram->CheckOverlapSelection(cRect1, selection);
-
-		//CRect cRect1(figures->GetX() + (currentX - startX), figures->GetY() + (currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
-		//while (i < diagram->GetLength() && ret != true) {
-		//	FigureComposite *figureComposite = static_cast<FigureComposite*>(diagram->GetAt(i));
-		//	CRect cRect2(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
-		//	ret = finder.FindRectangleByArea(cRect2, cRect1);
-		//	if (figures == figureComposite) {
-		//		ret = false;
-		//	}
-		//	i++;
-		//}
-
-		// FigureComposite에 관계선 점 겹치면 점 Remove
+		
 		i = 0;
 		while (i < figures->GetLength()) {
 			if (dynamic_cast<Relation*>(figures->GetAt(i))) {
@@ -197,10 +178,13 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm
 		Long nextX = currentX - classDiagramForm->widthGab;
 		Long nextY = currentY - classDiagramForm->heightGab;
 
+		PreciseMoving temp;
+		temp.ConvertPoint(&nextX, &nextY);
+
 		Long distanceX = (nextX - selection->GetAt(0)->GetX());
 		Long distanceY = (nextY - selection->GetAt(0)->GetY());
-		selection->Accept(diagram, movingVisitor, distanceX, distanceY);
 
+		selection->Accept(diagram, movingVisitor, distanceX, distanceY);
 	}
 	//this->ChangeState(mouseLButton, SelectionState::Instance());
 }

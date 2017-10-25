@@ -176,6 +176,7 @@
     <ClInclude Include="MinusKey.h" />
     <ClInclude Include="OpenMenuAction.h" />
     <ClInclude Include="PlusKey.h" />
+    <ClInclude Include="PreciseMoving.h" />
     <ClInclude Include="PrintPreview.h" />
     <ClInclude Include="PrintPreviewButton.h" />
     <ClInclude Include="PrintPreviewButtonAction.h" />
@@ -390,6 +391,7 @@
     <ClCompile Include="MinusKey.cpp" />
     <ClCompile Include="OpenMenuAction.cpp" />
     <ClCompile Include="PlusKey.cpp" />
+    <ClCompile Include="PreciseMoving.cpp" />
     <ClCompile Include="PrintPreview.cpp" />
     <ClCompile Include="PrintPreviewButton.cpp" />
     <ClCompile Include="PrintPreviewButtonAction.cpp" />

@@ -714,6 +714,7 @@ CString ClassDiagramForm::SetFileName(CString fileName) {
 	this->fileName = fileName;
 	return this->fileName;
  }
+
 int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 	CWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서

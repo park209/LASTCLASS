@@ -8,6 +8,7 @@
 #include "ClassDiagramForm.h"
 #include "HistoryGraphic.h"
 #include "Diagram.h"
+#include "PreciseMoving.h"
 
 DrawingResizing* DrawingResizing::instance = 0;
 
@@ -226,6 +227,9 @@ void DrawingResizing::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramF
 	CRect rect;
 	Finder finder;
 	bool ret = false;
+
+	PreciseMoving temp;
+	temp.ConvertPoint(&currentX, &currentY);
 
 	if (dynamic_cast<Class*>(object) && static_cast<Class*>(object)->GetTempletePosition() != -1) {
 		Class *selectedClass = static_cast<Class*>(object);
