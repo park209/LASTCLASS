@@ -8,6 +8,7 @@
 #include "Finder.h"
 #include "FigureComposite.h"
 #include "KnockKnock.h"
+#include "ResizeVisitor.h"
 #include "Relation.h"
 
 FilePrintMenuAction::FilePrintMenuAction() {
@@ -23,6 +24,20 @@ INT_PTR int_ptr = AfxGetApp()->DoPrintDialog(&printDialog);
 
 
 if (int_ptr == IDOK) {
+	Long zoomRate = lastClass->classDiagramForm->zoomRate;
+	ResizeVisitor visitor1(lastClass->classDiagramForm->zoomRate, 100);
+	lastClass->classDiagramForm->zoomRate = 100;
+	lastClass->classDiagramForm->SetMemoGab(20 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetGabX(8 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
+	CDC memDC;
+	lastClass->classDiagramForm->diagram->Accept(visitor1, &memDC);
+
+	KnockKnock *knocking = new KnockKnock;
+	knocking->Knocking(lastClass->classDiagramForm);
+
+
 	Finder finder;
 	bool ret = false;
 	CRect rect(2000, 0, 4000, 2000);
@@ -152,6 +167,18 @@ if (int_ptr == IDOK) {
 	else dc.AbortDoc();
 
 	dc.Detach();
+	lastClass->classDiagramForm->zoomRate = zoomRate;
+	ResizeVisitor visitor2(100 ,lastClass->classDiagramForm->zoomRate );
+	lastClass->classDiagramForm->SetMemoGab(20 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetGabX(8 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->diagram->Accept(visitor2, &memDC);
+	knocking->Knocking(lastClass->classDiagramForm);
+	if (knocking != NULL) {
+		delete knocking;
+	}
+
 }
 
 }

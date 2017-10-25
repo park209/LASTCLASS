@@ -10,6 +10,7 @@
 #include "PrintPreviewButton.h"
 #include "PrintPreviewButtonAction.h"
 #include "KnockKnock.h"
+#include "ResizeVisitor.h"
 //#include <afxwin.h>
 //#include <afxdlgs.h>
 
@@ -42,7 +43,7 @@ PrintPreview::PrintPreview(LastClass *lastClass) {
 	this->verticalPaperSize = 2000;
 	this->zoomRate = 100;
 	this->totalPage=0;
-	this->currentPage = 1;
+	this->classDaigramFormZoomRate = 100;
 }
 
 int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) { 
@@ -50,7 +51,7 @@ int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 
   
-   lastClass->classDiagramForm->zoomRate = 100;
+
 
 
 
@@ -63,14 +64,29 @@ int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
    this->previousButton->Create("이전 페이지", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(420, 10, 570, 50), this, 2);
    this->printButton = new CButton;
    this->printButton->Create("인쇄하기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(600, 10, 745, 50), this, 3);
-   this->printZoomIn = new CButton;
+   //this->printZoomIn = new CButton;
    //this->printZoomIn->Create("확 대", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 250, 200, 290), this, 4);
-   this->printZoomOut = new CButton;
-  // this->printZoomOut->Create("축 소", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 300, 200, 340), this, 5);
+   //this->printZoomOut = new CButton;
+   //this->printZoomOut->Create("축 소", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 300, 200, 340), this, 5);
 
    //this->SetFocus();
    //this->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER);
 
+   this->classDaigramFormZoomRate = lastClass->classDiagramForm->zoomRate;
+   ResizeVisitor visitor1(lastClass->classDiagramForm->zoomRate, 100);
+   lastClass->classDiagramForm->zoomRate = 100;
+   lastClass->classDiagramForm->SetMemoGab(20 * lastClass->classDiagramForm->zoomRate / 100);
+   lastClass->classDiagramForm->SetGabX(8 * lastClass->classDiagramForm->zoomRate / 100);
+   lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
+   lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
+   CDC memDC;
+   lastClass->classDiagramForm->diagram->Accept(visitor1, &memDC);
+
+   KnockKnock *knocking = new KnockKnock;
+   knocking->Knocking(lastClass->classDiagramForm);
+   if (knocking != NULL) {
+	   delete knocking;
+   }
    //this->SetScrollRange(SB_VERT, 0, 380);
 
    this->lastClass->EnableWindow(false);
@@ -121,10 +137,6 @@ int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
    return 0;
 }
 void PrintPreview::OnPaint() {
-
-
-
-
 	CPaintDC dc(this);
 	CRect rec;
 	this->GetClientRect(&rec);
@@ -405,7 +417,21 @@ BOOL PrintPreview::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 
 void PrintPreview::OnClose() {
 	this->lastClass->EnableWindow(true);
-	
+
+	lastClass->classDiagramForm->zoomRate = this->classDaigramFormZoomRate;
+	ResizeVisitor visitor2(100, lastClass->classDiagramForm->zoomRate);
+	lastClass->classDiagramForm->SetMemoGab(20 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetGabX(8 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
+	CDC memDC;
+	lastClass->classDiagramForm->diagram->Accept(visitor2, &memDC);
+	KnockKnock *knocking = new KnockKnock;
+	knocking->Knocking(lastClass->classDiagramForm);
+	if (knocking != NULL) {
+		delete knocking;
+	}
+
 
 	if (this->nextButton != 0) {
 		delete this->nextButton;
