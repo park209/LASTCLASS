@@ -263,7 +263,7 @@ void PrintPreview::OnPrint(CDC *cdc, CPrintInfo *pInfo, UINT page) {
 	Long horiPage = 0;
 	Long verPage = 0;
 	Long i = 0;
-	while (i < page-1) {
+	while (i <(Long) page-1) {
 		verPage += this->verticalPageSize;
 		if (verPage >= verPaper) {
 			horiPage += this->horizontalPageSize;
