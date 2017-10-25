@@ -591,6 +591,25 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 	while (i < diagram->GetLength() && ret == false) {
 		composite = static_cast<FigureComposite*>(diagram->GetAt(i));
 		if (dynamic_cast<Class*>(composite)) {
+			if (static_cast<Class*>(composite)->GetTempletePosition() == -1) {
+				Class *object = static_cast<Class*>(composite);
+				rect.left = object->GetLeft();
+				rect.top = object->GetTop();
+				rect.right = object->GetRight();
+				rect.bottom = object->GetBottom();
+				ret = finder.FindRectangleByPoint(rect, x, y);
+			}
+			else {
+				Class *object = static_cast<Class*>(composite);
+				Figure *figure = object->GetAt(object->GetTempletePosition());
+				rect.left = composite->GetLeft();
+				rect.top = figure->GetTop();
+				rect.right = figure->GetRight();
+				rect.bottom = composite->GetBottom();
+				ret = finder.FindRectangleByPoint(rect, x, y);
+			}
+
+			/*
 			if (dynamic_cast<Class*>(composite)->GetTempletePosition() != -1) {
 				Template *object = dynamic_cast<Template*>(composite->GetAt(static_cast<Class*>(composite)->GetTempletePosition()));
 				rect.left = composite->GetX() + 4;
@@ -599,8 +618,8 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 				rect.bottom = composite->GetY() + composite->GetHeight() - 4;
 				ret = finder.FindRectangleByPoint(rect, x, y);
 				Template *object2 = dynamic_cast<Template*>(composite->GetAt(static_cast<Class*>(composite)->GetTempletePosition()));
-				//좌상
-				if (ret != true) {
+				
+				if (ret != true) {		//좌상
 					rect.left = composite->GetX() - 3;
 					rect.top = object2->GetY() - 3;
 					rect.right = composite->GetX() + 6;
@@ -658,8 +677,6 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 					ret = finder.FindRectangleByPoint(rect, x, y);
 				}
 			}
-
-
 			else {
 				rect.left = composite->GetX() + 4;
 				rect.top = composite->GetY() + 4;
@@ -786,7 +803,9 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 				rect.bottom = composite->GetY() + composite->GetHeight() + 3;
 				ret = finder.FindRectangleByPoint(rect, x, y);
 			}
+			*/
 		}
+
 		//1여기에 템플릿일때 if() 이거하고/2 템플릿일때 작은 사각형 누르기 하고/3 확대하기 
 
 

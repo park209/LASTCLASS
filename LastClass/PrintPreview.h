@@ -47,6 +47,6 @@ public:
 	Long horizontalPaperSize;
 	Long verticalPaperSize;
 	Long totalPage;
-	Long currentPage;
+	Long classDaigramFormZoomRate;
 };
 #endif // !_PRINTPREVIEW_H
