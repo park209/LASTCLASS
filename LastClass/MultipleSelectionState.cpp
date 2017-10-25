@@ -349,6 +349,15 @@ void MultipleSelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, ClassD
 	Long nextX = currentX - classDiagramForm->widthGab;
 	Long nextY = currentY - classDiagramForm->heightGab;
 
+	if (GetKeyState(VK_MENU) < 0) {
+		if (nextX % 10 != 0) {
+			nextX -= nextX % 10;
+		}
+		if (nextY % 10 != 0) {
+			nextY -= nextY % 10;
+		}
+	}
+
 	Long distanceX = (nextX - selection->GetAt(0)->GetX());
 	Long distanceY = (nextY - selection->GetAt(0)->GetY());
 

@@ -3,24 +3,28 @@
 #include "RollNameBox.h"
 #include "Visitor.h"
 #include "SelfRelation.h"
+#include "LastClass.h"
+#include "ClassDiagramForm.h"
 
 SelfRelation::SelfRelation() :Figure() {
 	this->leftRightFlag = 0;
 }
 
 SelfRelation::SelfRelation(Long x, Long y, Long width, Long height) : Figure(x, y, width, height) {
+	LastClass *lastClass = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+
 	this->leftRightFlag = 0;
 	this->rollNamePoints = new Array<CPoint>(5);
 	this->rollNames = new Array<string>(5);
 
 	CPoint startPoint1And4{ x, y };
-	CPoint endPoint1And4{ x , y - 40 };
+	CPoint endPoint1And4{ x , y - 40 * lastClass->classDiagramForm->zoomRate / 100 };
 
-	CPoint startPoint2{ x, y - 40 };
-	CPoint endPoint2{ x + 80,  y - 40 };
+	CPoint startPoint2{ x, y - 40 * lastClass->classDiagramForm->zoomRate / 100 };
+	CPoint endPoint2{ x + 80 * lastClass->classDiagramForm->zoomRate / 100,  y - 40 * lastClass->classDiagramForm->zoomRate / 100 };
 
-	CPoint startPoint3And5{ x + 80, y + 40 };
-	CPoint endPoint3And5{ x + 30,  y + 40 };
+	CPoint startPoint3And5{ x + 80 * lastClass->classDiagramForm->zoomRate / 100, y + 40 * lastClass->classDiagramForm->zoomRate / 100 };
+	CPoint endPoint3And5{ x + 30 * lastClass->classDiagramForm->zoomRate / 100,  y + 40 * lastClass->classDiagramForm->zoomRate / 100 };
 
 	RollNameBox *rollNameBox = RollNameBox::Instance();
 	this->rollNamePoints->Store(0, rollNameBox->GetSelfRelationFirstRollNamePoint(startPoint1And4, endPoint1And4));

@@ -713,6 +713,7 @@ CString ClassDiagramForm::SetFileName(CString fileName) {
 	this->fileName.Replace(_T(this->fileName), _T(fileName));
 	return this->fileName;
  }
+
 int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
 	CWnd::OnCreate(lpCreateStruct); //코드재사용 오버라이딩 //상속에서
