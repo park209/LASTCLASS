@@ -6,6 +6,7 @@
 BEGIN_MESSAGE_MAP(AboutMenu, CWnd)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
+	ON_WM_KEYDOWN()
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 AboutMenu::AboutMenu(LastClass *lastClass) {
@@ -23,7 +24,7 @@ int AboutMenu::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	int sysX = GetSystemMetrics(SM_CXSCREEN);
 	int sysY = GetSystemMetrics(SM_CYSCREEN);
 
-	this->SetWindowPos(&wndTop, (sysX - 822) / 2, (sysY - 634) / 2, 822, 634, SWP_NOZORDER);
+	this->SetWindowPos(&wndTop, (sysX - 822) / 2, (sysY - 634) / 2, 818, 624, SWP_NOZORDER);
 	return 0;
 }
 void AboutMenu::OnPaint() {
@@ -48,6 +49,17 @@ void AboutMenu::OnPaint() {
 	}
 	memDC.DeleteDC();
 }
+
+void AboutMenu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
+	if (nChar == VK_ESCAPE) {
+		this->lastClass->EnableWindow(TRUE);
+
+		if (this != 0) {
+			delete this;
+		}
+	}
+}
+
 void AboutMenu::OnClose() {
 	this->lastClass->EnableWindow(TRUE);
 
