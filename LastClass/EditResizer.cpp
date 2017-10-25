@@ -72,7 +72,7 @@ void EditResizer::ResizeClass(TextEdit *textEdit, CDC *cdc) {
 		}
 		else {
 			ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
-			Long gabY_ = GabY * 4;
+			Long gabY_ = GabY * 2;
 
 			if (dynamic_cast<Class*>(classDiagramForm->selection->GetAt(0))) {
 				if (textEdit->text->MaxWidth(cdc) + GabX * 2 < 120 * classDiagramForm->zoomRate / 100) {

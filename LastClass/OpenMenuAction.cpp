@@ -86,32 +86,27 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			if (lastClass->classDiagramForm->historyGraphic != NULL) {
 				delete lastClass->classDiagramForm->historyGraphic;
 			}
-			//if (lastClass->classDiagramForm->verticalScrollBar != NULL) {
-				//delete lastClass->classDiagramForm->verticalScrollBar;
-			//}
-			//if (lastClass->classDiagramForm->horizontalScroll != NULL) {
-				//delete lastClass->classDiagramForm->horizontalScroll;
-		//	}
 			lastClass->classDiagramForm->diagram = new Diagram();
 			lastClass->classDiagramForm->selection = new Selection;
 			lastClass->classDiagramForm->mouseLButton = new MouseLButton;
 			lastClass->classDiagramForm->historyGraphic = new HistoryGraphic;
-			//lastClass->classDiagramForm->verticalScrollBar = new VerticalScrollBar(lastClass->classDiagramForm);
-			//lastClass->classDiagramForm->horizontalScroll = new HorizontalScrollBar(lastClass->classDiagramForm);
 			lastClass->classDiagramForm->keyBoard = new KeyBoard;
 			lastClass->classDiagramForm->fileName = dlgFile.GetPathName();
 			lastClass->classDiagramForm->Load();
+
+			lastClass->classDiagramForm->zoomRate = 100;
+			lastClass->classDiagramForm->preZoom = 100;
+			lastClass->classDiagramForm->SetMemoGab(20 * lastClass->classDiagramForm->zoomRate / 100);
+			lastClass->classDiagramForm->SetGabX(8 * lastClass->classDiagramForm->zoomRate / 100);
+			lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
+			lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
 
 			KnockKnock *knocking = new KnockKnock;
 			knocking->Knocking(lastClass->classDiagramForm);
 			if (knocking != NULL) {
 				delete knocking;
 			}
-			lastClass->classDiagramForm->zoomRate = 100;
-			lastClass->classDiagramForm->SetMemoGab(20 * lastClass->classDiagramForm->zoomRate / 100);
-			lastClass->classDiagramForm->SetGabX(8 * lastClass->classDiagramForm->zoomRate / 100);
-			lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
-			lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
+			
 			SCROLLINFO vScinfo;
 			SCROLLINFO hScinfo;
 
