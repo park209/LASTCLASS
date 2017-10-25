@@ -39,6 +39,9 @@
     <Filter Include="Print">
       <UniqueIdentifier>{ab0b2afc-66a8-4c56-bc66-62f3d7c4029e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Visitor">
+      <UniqueIdentifier>{f654ac47-a46d-4cd2-bf59-61db616e3c4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h">
@@ -359,9 +362,6 @@
     <ClInclude Include="Scroll.h">
       <Filter>ScrollBar</Filter>
     </ClInclude>
-    <ClInclude Include="DrawingRelation.h">
-      <Filter>Relationship</Filter>
-    </ClInclude>
     <ClInclude Include="RollNameBox.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
@@ -666,16 +666,24 @@
     <ClInclude Include="MovingSelfRelation.h">
       <Filter>Relationship</Filter>
     </ClInclude>
-    <ClInclude Include="MovingVisitor.h" />
-    <ClInclude Include="ResizeVisitor.h" />
-    <ClInclude Include="DrawingVisitor.h" />
     <ClInclude Include="KnockKnock.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="LastClass.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="Visitor.h" />
+    <ClInclude Include="DrawingVisitor.h">
+      <Filter>Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingVisitor.h">
+      <Filter>Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="ResizeVisitor.h">
+      <Filter>Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor.h">
+      <Filter>Visitor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">
@@ -984,9 +992,6 @@
     <ClCompile Include="MovingLine.cpp">
       <Filter>Diagram</Filter>
     </ClCompile>
-    <ClCompile Include="DrawingRelation.cpp">
-      <Filter>Relationship</Filter>
-    </ClCompile>
     <ClCompile Include="DrawingRelationPoint.cpp">
       <Filter>Relationship</Filter>
     </ClCompile>
@@ -1291,16 +1296,24 @@
     <ClCompile Include="MovingSelfRelation.cpp">
       <Filter>Relationship</Filter>
     </ClCompile>
-    <ClCompile Include="MovingVisitor.cpp" />
-    <ClCompile Include="ResizeVisitor.cpp" />
-    <ClCompile Include="DrawingVisitor.cpp" />
     <ClCompile Include="KnockKnock.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="LastClass.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="Visitor.cpp" />
+    <ClCompile Include="DrawingVisitor.cpp">
+      <Filter>Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingVisitor.cpp">
+      <Filter>Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="ResizeVisitor.cpp">
+      <Filter>Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="Visitor.cpp">
+      <Filter>Visitor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc">
