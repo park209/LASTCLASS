@@ -65,7 +65,7 @@ TextEdit::TextEdit(ClassDiagramForm *classDiagramForm, Figure *figure, Long roll
 	this->flagSelection = 0;
 	this->currentX = 0;
 	this->copyBuffer = "";
-	this->criteriaWidth = figure->GetWidth() + CaretWidth;
+	this->criteriaWidth = figure->GetWidth() /*+ CaretWidth*/;
 	this->criteriaHeight = figure->GetHeight();
 	this->criteriaX = figure->GetX();
 	if (dynamic_cast<Template*>(figure)) {
