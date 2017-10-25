@@ -70,14 +70,15 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		else {
 			::ScreenToClient(classDiagramForm->GetSafeHwnd(), &point); // Æû¿µ¿ªÀÇ ÁÂÇ¥·Î º¯È¯
 		}
-		CRect rt = classDiagramForm->selection->GetSelectionRect(*classDiagramForm->copyBuffer);
+
+		CPoint selectionPoint = classDiagramForm->selection->GetTopLeftPoint(*classDiagramForm->copyBuffer);
 
 		classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram, classDiagramForm->zoomRate);
 
 		Selection *tempBuffer = classDiagramForm->selection->MakeSelectionBuffer(*classDiagramForm->copyBuffer);
 
-		Long distanceX = point.x + horzCurPos - rt.left;
-		Long distanceY = point.y + vertCurPos - rt.top;
+		Long distanceX = point.x + horzCurPos - selectionPoint.x;
+		Long distanceY = point.y + vertCurPos - selectionPoint.y;
 
 		Figure *figure;
 		MovingVisitor movingVisitor;
