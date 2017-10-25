@@ -40,6 +40,8 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 	CPoint endLinePoint;
 	startCPoint.x = startX;
 	startCPoint.y = startY;
+	PreciseMoving temp;
+	temp.ConvertPoint(&currentX, &currentY);
 	currentCPoint.x = currentX;
 	currentCPoint.y = currentY;
 
@@ -85,8 +87,6 @@ void MovingRelation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm
 			endLinePoint.y= relation->GetAt(0).y;
 		}
 		CPoint cross = finder.GetCrossPoint(startLinePoint, endLinePoint, rect);
-		PreciseMoving temp;
-		temp.ConvertPoint(&cross.x, &cross.y);
 		 relation->Modify(cross.x, cross.y, relation->GetWidth() + relation->GetX() - cross.x, relation->GetHeight() + relation->GetY() - cross.y);
 
 		if (relation->GetLength() == 0) {
