@@ -302,13 +302,27 @@ void MultipleSelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, ClassD
 	CPoint cPoint4;
 	CPoint cPoint5;
 
+	bool ret = false;
+	Long startIndex;
+	i = 0;
+	while (ret == false && i < selection->GetLength()) {
+		if ((dynamic_cast<Class*>(selection->GetAt(i)) || dynamic_cast<MemoBox*>(selection->GetAt(i)) &&
+			(startX > selection->GetAt(i)->GetX() || startX < selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth()
+			|| startY > selection->GetAt(i)->GetY() || startY < selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight()))) {
+			startIndex = i;
+			ret = true;
+		}
+		i++;
+	}
+
 	if (classDiagramForm->firstDrag == 0) {
 		classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
 		classDiagramForm->historyGraphic->redoGraphicArray->Clear();
 		classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
 
-		classDiagramForm->widthGab = startX - selection->GetAt(0)->GetX();
-		classDiagramForm->heightGab = startY - selection->GetAt(0)->GetY();
+		//선택된 기호들 중에서 맨 처음 클릭된 기호의 index 넣어주면 됨(아래꺼에도) // 선 아니고 기호면 됨
+		classDiagramForm->widthGab = startX - selection->GetAt(startIndex)->GetX();
+		classDiagramForm->heightGab = startY - selection->GetAt(startIndex)->GetY();
 		classDiagramForm->firstDrag = 1;
 	}
 
@@ -318,10 +332,10 @@ void MultipleSelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, ClassD
 	PreciseMoving temp;
 	temp.ConvertPoint(&nextX, &nextY);
 
-	Long distanceX = (nextX - selection->GetAt(0)->GetX());
-	Long distanceY = (nextY - selection->GetAt(0)->GetY());
+	Long distanceX = (nextX - selection->GetAt(startIndex)->GetX());
+	Long distanceY = (nextY - selection->GetAt(startIndex)->GetY());
 
-	bool ret = false;
+	ret = false;
 	while (i < selection->GetLength() && ret == false) {
 
 		figure = selection->GetAt(i);
