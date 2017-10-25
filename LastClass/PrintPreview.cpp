@@ -467,6 +467,20 @@ void PrintPreview::OnBeginPrinting(CDC *pDc, CPrintInfo *pInfo) {
 
 void PrintPreview::OnEndPrinting(CDC *pDc, CPrintInfo *pInfo) {
 	this->lastClass->EnableWindow(true);
+
+	lastClass->classDiagramForm->zoomRate = this->classDaigramFormZoomRate;
+	ResizeVisitor visitor2(100, lastClass->classDiagramForm->zoomRate);
+	lastClass->classDiagramForm->SetMemoGab(20 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetGabX(8 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
+	CDC memDC;
+	lastClass->classDiagramForm->diagram->Accept(visitor2, &memDC);
+	KnockKnock *knocking = new KnockKnock;
+	knocking->Knocking(lastClass->classDiagramForm);
+	if (knocking != NULL) {
+		delete knocking;
+	}
 	if (this->nextButton != 0) {
 		delete this->nextButton;
 		this->nextButton = NULL;
