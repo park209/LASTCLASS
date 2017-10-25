@@ -349,7 +349,7 @@ void MultipleSelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, ClassD
 		while (i < length && GetKeyState(VK_SHIFT) >= 0 && ret2 == false) { // 선택된 개수만큼 반복
 			figure = selection->GetAt(i);
 
-
+ 
 			if (dynamic_cast<FigureComposite*>(figure) && ret2 == false) { //클래스나 메모면
 				Long startX = figure->GetX();
 				Long startY = figure->GetY();
