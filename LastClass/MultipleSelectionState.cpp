@@ -302,218 +302,233 @@ void MultipleSelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, ClassD
 	CPoint cPoint4;
 	CPoint cPoint5;
 
-	if (classDiagramForm->firstDrag == 0) {
-		classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
-		classDiagramForm->historyGraphic->redoGraphicArray->Clear();
-		classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
-
-		classDiagramForm->widthGab = startX - selection->GetAt(0)->GetX();
-		classDiagramForm->heightGab = startY - selection->GetAt(0)->GetY();
-		classDiagramForm->firstDrag = 1;
-	}
-
-	Long nextX = currentX - classDiagramForm->widthGab;
-	Long nextY = currentY - classDiagramForm->heightGab;
-
-	PreciseMoving temp;
-	temp.ConvertPoint(&nextX, &nextY);
-
-	Long distanceX = (nextX - selection->GetAt(0)->GetX());
-	Long distanceY = (nextY - selection->GetAt(0)->GetY());
-
 	bool ret = false;
-	while (i < selection->GetLength() && ret == false) {
-
-		figure = selection->GetAt(i);
-		if (dynamic_cast<Class*>(figure) || dynamic_cast<MemoBox*>(figure)) {
-			CRect cRect1(figure->GetX() + (currentX - startX), figure->GetY() + (currentY - startY), figure->GetX() + (currentX - startX) + figure->GetWidth(), figure->GetY() + (currentY - startY) + figure->GetHeight());
-			//ret = diagram->CheckOverlapSelection(cRect1, selection);
+	Long startIndex = 0;
+	i = 0;
+	while (ret == false && i < selection->GetLength()) {
+		if ((dynamic_cast<Class*>(selection->GetAt(i)) || dynamic_cast<MemoBox*>(selection->GetAt(i)) &&
+			(startX > selection->GetAt(i)->GetX() || startX < selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth()
+			|| startY > selection->GetAt(i)->GetY() || startY < selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight()))) {
+			startIndex = i;
+			ret = true;
 		}
 		i++;
 	}
-	i = 0;
-	while (i < length && GetKeyState(VK_SHIFT) >= 0 && ret == false) { // 선택된 개수만큼 반복
-		figure = selection->GetAt(i);
+	if (ret == true) {
+		if (classDiagramForm->firstDrag == 0) {
+			classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
+			classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+			classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
 
+			//선택된 기호들 중에서 맨 처음 클릭된 기호의 index 넣어주면 됨(아래꺼에도) // 선 아니고 기호면 됨
+			classDiagramForm->widthGab = startX - selection->GetAt(startIndex)->GetX();
+			classDiagramForm->heightGab = startY - selection->GetAt(startIndex)->GetY();
+			classDiagramForm->firstDrag = 1;
+		}
 
-		if (dynamic_cast<FigureComposite*>(figure) && ret == false) { //클래스나 메모면
-			Long startX = figure->GetX();
-			Long startY = figure->GetY();
-			Long endX = figure->GetX() + figure->GetWidth();
-			Long endY = figure->GetY() + figure->GetHeight();
-			figure->Move(distanceX, distanceY); // 해당 클래스나 메모 이동
-			FigureComposite *figureComposite = static_cast<FigureComposite*>(figure); // 형변환
-			j = 0;
-			while (j < figureComposite->GetLength()) { // 형변환 한게 관리하면 배열 렝스까지
-				figure = figureComposite->GetAt(j);
-				figure->Move(distanceX, distanceY);
-				if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
-					Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
-					//   
-					Long m = 0;
-					while (m < relation->GetLength()) {
-						CPoint point(relation->GetAt(m).x + distanceX, relation->GetAt(m).y + distanceY);
-						relation->Move(m, point);
-						m++;
-					}
-					if (relation->GetLength() == 0) {
-						CPoint startPoint{ relation->GetX(), relation->GetY() };
-						CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
-						cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-						cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
-						cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
-						cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-						cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-						relation->rollNamePoints->Modify(0, cPoint1);
-						relation->rollNamePoints->Modify(1, cPoint2);
-						relation->rollNamePoints->Modify(2, cPoint3);
-						relation->rollNamePoints->Modify(3, cPoint4);
-						relation->rollNamePoints->Modify(4, cPoint5);
-					}
-					else {
-						CPoint startPoint{ relation->GetX(), relation->GetY() };
-						CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
-						cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-						cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-						relation->rollNamePoints->Modify(0, cPoint1);
-						relation->rollNamePoints->Modify(3, cPoint4);
+		Long nextX = currentX - classDiagramForm->widthGab;
+		Long nextY = currentY - classDiagramForm->heightGab;
 
-						CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
-							relation->GetAt(relation->GetLength() - 1).y };
-						CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
-						cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
-						cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
-						relation->rollNamePoints->Modify(2, cPoint3);
-						relation->rollNamePoints->Modify(4, cPoint5);
+		PreciseMoving temp;
+		temp.ConvertPoint(&nextX, &nextY);
 
-						if (relation->GetLength() % 2 == 0) {//짝수
+		Long distanceX = (nextX - selection->GetAt(startIndex)->GetX());
+		Long distanceY = (nextY - selection->GetAt(startIndex)->GetY());
 
-							CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
-								relation->GetAt((relation->GetLength() - 1) / 2).y };
-							CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
-								relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
-							cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
-							relation->rollNamePoints->Modify(1, cPoint2);
+		bool ret2 = false;
+		while (i < selection->GetLength() && ret2 == false) {
 
-						}
-						else {//홀수
-
-							CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
-								relation->GetAt((relation->GetLength() - 1) / 2).y };
-							cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
-							relation->rollNamePoints->Modify(1, cPoint2);
-
-						}
-					}
-				}
-				if (dynamic_cast<SelfRelation*>(figureComposite->GetAt(j))) {
-					SelfRelation *selfRelation = static_cast<SelfRelation*>(figureComposite->GetAt(j));
-					cPoint1 = selfRelation->rollNamePoints->GetAt(0);
-					cPoint1.x += distanceX;
-					cPoint1.y += distanceY;
-					cPoint2 = selfRelation->rollNamePoints->GetAt(1);
-					cPoint2.x += distanceX;
-					cPoint2.y += distanceY;
-					cPoint3 = selfRelation->rollNamePoints->GetAt(2);
-					cPoint3.x += distanceX;
-					cPoint3.y += distanceY;
-					cPoint4 = selfRelation->rollNamePoints->GetAt(3);
-					cPoint4.x += distanceX;
-					cPoint4.y += distanceY;
-					cPoint5 = selfRelation->rollNamePoints->GetAt(4);
-					cPoint5.x += distanceX;
-					cPoint5.y += distanceY;
-					selfRelation->rollNamePoints->Modify(0, cPoint1);
-					selfRelation->rollNamePoints->Modify(1, cPoint2);
-					selfRelation->rollNamePoints->Modify(2, cPoint3);
-					selfRelation->rollNamePoints->Modify(3, cPoint4);
-					selfRelation->rollNamePoints->Modify(4, cPoint5);
-				}
-				j++;
+			figure = selection->GetAt(i);
+			if (dynamic_cast<Class*>(figure) || dynamic_cast<MemoBox*>(figure)) {
+				CRect cRect1(figure->GetX() + (currentX - startX), figure->GetY() + (currentY - startY), figure->GetX() + (currentX - startX) + figure->GetWidth(), figure->GetY() + (currentY - startY) + figure->GetHeight());
+				//ret = diagram->CheckOverlapSelection(cRect1, selection);
 			}
-			k = 0;
-			while (k < diagram->GetLength()) {
-				figureComposite = static_cast<FigureComposite*>(diagram->GetAt(k));
-				l = 0;
-				while (l < figureComposite->GetLength()) {
-					if (dynamic_cast<Relation*>(figureComposite->GetAt(l))) {
-						Relation *relation = static_cast<Relation*>(figureComposite->GetAt(l));
-						Long relationEndX = relation->GetX() + relation->GetWidth();
-						Long relationEndY = relation->GetY() + relation->GetHeight();
-						if (relation->GetEndPointFigure() == selection->GetAt(i)) {
-							relation->EndPointMove(distanceX, distanceY);
-							//
-							if (relation->GetLength() == 0) {
-								CPoint startPoint{ relation->GetX(), relation->GetY() };
-								CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
-								cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-								cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
-								cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
-								cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-								cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
-								relation->rollNamePoints->Modify(0, cPoint1);
+			i++;
+		}
+		i = 0;
+		while (i < length && GetKeyState(VK_SHIFT) >= 0 && ret2 == false) { // 선택된 개수만큼 반복
+			figure = selection->GetAt(i);
+
+ 
+			if (dynamic_cast<FigureComposite*>(figure) && ret2 == false) { //클래스나 메모면
+				Long startX = figure->GetX();
+				Long startY = figure->GetY();
+				Long endX = figure->GetX() + figure->GetWidth();
+				Long endY = figure->GetY() + figure->GetHeight();
+				figure->Move(distanceX, distanceY); // 해당 클래스나 메모 이동
+				FigureComposite *figureComposite = static_cast<FigureComposite*>(figure); // 형변환
+				j = 0;
+				while (j < figureComposite->GetLength()) { // 형변환 한게 관리하면 배열 렝스까지
+					figure = figureComposite->GetAt(j);
+					figure->Move(distanceX, distanceY);
+					if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
+						Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
+						//   
+						Long m = 0;
+						while (m < relation->GetLength()) {
+							CPoint point(relation->GetAt(m).x + distanceX, relation->GetAt(m).y + distanceY);
+							relation->Move(m, point);
+							m++;
+						}
+						if (relation->GetLength() == 0) {
+							CPoint startPoint{ relation->GetX(), relation->GetY() };
+							CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+							cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+							cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+							cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+							cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+							cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+							relation->rollNamePoints->Modify(0, cPoint1);
+							relation->rollNamePoints->Modify(1, cPoint2);
+							relation->rollNamePoints->Modify(2, cPoint3);
+							relation->rollNamePoints->Modify(3, cPoint4);
+							relation->rollNamePoints->Modify(4, cPoint5);
+						}
+						else {
+							CPoint startPoint{ relation->GetX(), relation->GetY() };
+							CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+							cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+							cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+							relation->rollNamePoints->Modify(0, cPoint1);
+							relation->rollNamePoints->Modify(3, cPoint4);
+
+							CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+								relation->GetAt(relation->GetLength() - 1).y };
+							CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+							cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+							cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+							relation->rollNamePoints->Modify(2, cPoint3);
+							relation->rollNamePoints->Modify(4, cPoint5);
+
+							if (relation->GetLength() % 2 == 0) {//짝수
+
+								CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+									relation->GetAt((relation->GetLength() - 1) / 2).y };
+								CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
+									relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
+								cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
 								relation->rollNamePoints->Modify(1, cPoint2);
-								relation->rollNamePoints->Modify(2, cPoint3);
-								relation->rollNamePoints->Modify(3, cPoint4);
-								relation->rollNamePoints->Modify(4, cPoint5);
+
 							}
-							else {
-								CPoint startPoint{ relation->GetX(), relation->GetY() };
-								CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
-								cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
-								cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
-								relation->rollNamePoints->Modify(0, cPoint1);
-								relation->rollNamePoints->Modify(3, cPoint4);
+							else {//홀수
 
-								CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
-									relation->GetAt(relation->GetLength() - 1).y };
-								CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
-								cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
-								cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
-								relation->rollNamePoints->Modify(2, cPoint3);
-								relation->rollNamePoints->Modify(4, cPoint5);
+								CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+									relation->GetAt((relation->GetLength() - 1) / 2).y };
+								cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
+								relation->rollNamePoints->Modify(1, cPoint2);
 
-								if (relation->GetLength() % 2 == 0) {//짝수
-
-									CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
-										relation->GetAt((relation->GetLength() - 1) / 2).y };
-									CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
-										relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
-									cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
-									relation->rollNamePoints->Modify(1, cPoint2);
-
-								}
-								else {//홀수
-
-									CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
-										relation->GetAt((relation->GetLength() - 1) / 2).y };
-									cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
-									relation->rollNamePoints->Modify(1, cPoint2);
-
-								}
 							}
+						}
+					}
+					if (dynamic_cast<SelfRelation*>(figureComposite->GetAt(j))) {
+						SelfRelation *selfRelation = static_cast<SelfRelation*>(figureComposite->GetAt(j));
+						cPoint1 = selfRelation->rollNamePoints->GetAt(0);
+						cPoint1.x += distanceX;
+						cPoint1.y += distanceY;
+						cPoint2 = selfRelation->rollNamePoints->GetAt(1);
+						cPoint2.x += distanceX;
+						cPoint2.y += distanceY;
+						cPoint3 = selfRelation->rollNamePoints->GetAt(2);
+						cPoint3.x += distanceX;
+						cPoint3.y += distanceY;
+						cPoint4 = selfRelation->rollNamePoints->GetAt(3);
+						cPoint4.x += distanceX;
+						cPoint4.y += distanceY;
+						cPoint5 = selfRelation->rollNamePoints->GetAt(4);
+						cPoint5.x += distanceX;
+						cPoint5.y += distanceY;
+						selfRelation->rollNamePoints->Modify(0, cPoint1);
+						selfRelation->rollNamePoints->Modify(1, cPoint2);
+						selfRelation->rollNamePoints->Modify(2, cPoint3);
+						selfRelation->rollNamePoints->Modify(3, cPoint4);
+						selfRelation->rollNamePoints->Modify(4, cPoint5);
+					}
+					j++;
+				}
+				k = 0;
+				while (k < diagram->GetLength()) {
+					figureComposite = static_cast<FigureComposite*>(diagram->GetAt(k));
+					l = 0;
+					while (l < figureComposite->GetLength()) {
+						if (dynamic_cast<Relation*>(figureComposite->GetAt(l))) {
+							Relation *relation = static_cast<Relation*>(figureComposite->GetAt(l));
+							Long relationEndX = relation->GetX() + relation->GetWidth();
+							Long relationEndY = relation->GetY() + relation->GetHeight();
+							if (relation->GetEndPointFigure() == selection->GetAt(i)) {
+								relation->EndPointMove(distanceX, distanceY);
+								//
+								if (relation->GetLength() == 0) {
+									CPoint startPoint{ relation->GetX(), relation->GetY() };
+									CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
+									cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+									cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint, endPoint);
+									cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint, endPoint);
+									cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+									cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint, endPoint);
+									relation->rollNamePoints->Modify(0, cPoint1);
+									relation->rollNamePoints->Modify(1, cPoint2);
+									relation->rollNamePoints->Modify(2, cPoint3);
+									relation->rollNamePoints->Modify(3, cPoint4);
+									relation->rollNamePoints->Modify(4, cPoint5);
+								}
+								else {
+									CPoint startPoint{ relation->GetX(), relation->GetY() };
+									CPoint endPoint{ relation->GetAt(0).x, relation->GetAt(0).y };
+									cPoint1 = rollNameBoxesPoint->GetFirstRollNamePoint(startPoint, endPoint);
+									cPoint4 = rollNameBoxesPoint->GetFourthRollNamePoint(startPoint, endPoint);
+									relation->rollNamePoints->Modify(0, cPoint1);
+									relation->rollNamePoints->Modify(3, cPoint4);
 
+									CPoint startPoint3{ relation->GetAt(relation->GetLength() - 1).x,
+										relation->GetAt(relation->GetLength() - 1).y };
+									CPoint endPoint3{ relation->GetX() + relation->GetWidth() , relation->GetY() + relation->GetHeight() };
+									cPoint3 = rollNameBoxesPoint->GetThirdRollNamePoint(startPoint3, endPoint3);
+									cPoint5 = rollNameBoxesPoint->GetFifthRollNamePoint(startPoint3, endPoint3);
+									relation->rollNamePoints->Modify(2, cPoint3);
+									relation->rollNamePoints->Modify(4, cPoint5);
+
+									if (relation->GetLength() % 2 == 0) {//짝수
+
+										CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+											relation->GetAt((relation->GetLength() - 1) / 2).y };
+										CPoint endPoint2{ relation->GetAt((relation->GetLength() - 1) / 2 + 1).x,
+											relation->GetAt((relation->GetLength() - 1) / 2 + 1).y };
+										cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, endPoint2);
+										relation->rollNamePoints->Modify(1, cPoint2);
+
+									}
+									else {//홀수
+
+										CPoint startPoint2{ relation->GetAt((relation->GetLength() - 1) / 2).x,
+											relation->GetAt((relation->GetLength() - 1) / 2).y };
+										cPoint2 = rollNameBoxesPoint->GetSecondRollNamePoint(startPoint2, startPoint2);
+										relation->rollNamePoints->Modify(1, cPoint2);
+
+									}
+								}
+
+
+							}
 
 						}
-
+						l++;
 					}
-					l++;
+					k++;
 				}
-				k++;
-			}
 
+			}
+			i++;
 		}
-		i++;
-	}
-	i = 0;
-	bool ret2 = false;
-	while (ret2 != true && i < selection->GetLength()) {
-		if (selection->GetAt(i)->GetX() < 0 || selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() > 4000
-			|| selection->GetAt(i)->GetY() < 0 || selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() > 2000) {
-			MovingVisitor movingVisitor;
-			selection->Accept(diagram, movingVisitor, -distanceX, -distanceY);
-			ret2 = true;
+		i = 0;
+		bool ret3 = false;
+		while (ret3 != true && i < selection->GetLength()) {
+			if (selection->GetAt(i)->GetX() < 0 || selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() > 4000
+				|| selection->GetAt(i)->GetY() < 0 || selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() > 2000) {
+				MovingVisitor movingVisitor;
+				selection->Accept(diagram, movingVisitor, -distanceX, -distanceY);
+				ret3 = true;
+			}
+			i++;
 		}
-		i++;
 	}
 }
