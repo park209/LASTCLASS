@@ -722,7 +722,6 @@ Long ClassDiagramForm::Save() {
 	return this->diagram->GetLength();
 }
 CString ClassDiagramForm::SetFileName(CString fileName) {
-	//this->fileName.Replace(_T(this->fileName), _T(fileName));
 	this->fileName = fileName;
 	return this->fileName;
  }
