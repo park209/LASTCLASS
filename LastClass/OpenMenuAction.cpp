@@ -33,13 +33,13 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 				if (int_ptr == IDOK) {
 					ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100);
 					CDC dc;
-					lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
+					//lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
 					
 					lastClass->classDiagramForm->fileName = dlgFile.GetPathName();
 					lastClass->classDiagramForm->Save();
 
 					ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
-					lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
+					//lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 				}
 			}
 			else if (messageBox == IDCANCEL) {
@@ -55,12 +55,12 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			if (messageBox == IDYES) {
 				ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100);
 				CDC dc;
-				lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
+				//lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
 
 				lastClass->classDiagramForm->Save();
 
 				ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
-				lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
+				//lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 			}
 			else if (messageBox == IDCANCEL) {
 				int_ptr = IDCANCEL;
@@ -103,7 +103,7 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 
 			ResizeVisitor visitor(lastClass->classDiagramForm->preZoom, lastClass->classDiagramForm->zoomRate);
 			CDC dc;
-			lastClass->classDiagramForm->diagram->Accept(visitor, &dc);
+			//lastClass->classDiagramForm->diagram->Accept(visitor, &dc);
 
 			KnockKnock *knocking = new KnockKnock;
 			knocking->Knocking(lastClass->classDiagramForm);
