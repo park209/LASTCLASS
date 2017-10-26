@@ -1174,7 +1174,7 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->currentY_2 = point.y + vertCurPos;
 
 	this->mouseLButton->MouseLButtonDown(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-
+	//this->diagram->FindFigureCompositeitem(this->startX, this->startY, this);
 	KillTimer(1);
 	SetCapture();
 	Invalidate(false);
@@ -1237,7 +1237,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->currentX = point.x + horzCurPos;
 	this->currentY = point.y + vertCurPos;
 
-	Figure* figure = this->diagram->FindItem(startX, startY);
+	Figure* figure = this->diagram->FindItem(startX, startY,this);
 	if (figure != NULL && this->selection->GetLength() != 0 && !dynamic_cast<Relation*>(this->selection->GetAt(0)) && !dynamic_cast<SelfRelation*>(figure)) {
 
 		this->textEdit = new TextEdit(this, figure);
