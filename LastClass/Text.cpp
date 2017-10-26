@@ -109,6 +109,10 @@ void Text::SprayString(string str) {
 			i++;
 		}
 		this->Add(row->Clone());
+		if (i+1== str.length()) {//아무것도 안쓴 빈줄이 있을때
+			Row *row = new Row;
+			this->Add(row->Clone());
+		}
 		if (i < Long(str.length())) {
 			i++;
 		}
