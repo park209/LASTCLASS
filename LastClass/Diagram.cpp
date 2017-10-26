@@ -24,12 +24,6 @@ Diagram::~Diagram() {
 }
 
 Diagram::Diagram(const Diagram& source) : FigureComposite(source) {
-	/*this->figures = source.figures;
-	Long i = 0;
-	while (i < this->length) {
-		this->figures.Modify(i, (const_cast<Diagram&>(source)).figures[i]->Clone());
-		i++;
-	}*/
 }
 
 Diagram& Diagram::operator = (const Diagram& source) {
