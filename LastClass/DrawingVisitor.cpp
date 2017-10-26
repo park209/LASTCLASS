@@ -76,11 +76,11 @@ void DrawingVisitor::Visit(MemoBox *memoBox, CDC *pDC) {
 	Long height = memoBox->GetHeight();
 
 	CPoint pts2[5];
-	pts2[0].x = static_cast<LONG>(x + 15); // À­Á¡
+	pts2[0].x = static_cast<LONG>(x + (15 *this->zoomRate / 100)); // À­Á¡
 	pts2[0].y = static_cast<LONG>(y);
 
 	pts2[1].x = static_cast<LONG>(x); //¸¶¿ì½º Ã³À½ Á¡
-	pts2[1].y = static_cast<LONG>(y + 15);
+	pts2[1].y = static_cast<LONG>(y + (15 * this->zoomRate / 100));
 
 	pts2[2].x = static_cast<LONG>(x); // ¾Æ·§Á¡
 	pts2[2].y = static_cast<LONG>(y + height);
@@ -94,10 +94,10 @@ void DrawingVisitor::Visit(MemoBox *memoBox, CDC *pDC) {
 	pDC->Polygon(pts2, 5);
 
 	pDC->MoveTo(pts2[0].x, pts2[0].y);
-	pDC->LineTo(pts2[0].x, pts2[0].y + 15);
+	pDC->LineTo(pts2[0].x, pts2[0].y + (15 * this->zoomRate / 100));
 
 	pDC->MoveTo(pts2[1].x, pts2[1].y);
-	pDC->LineTo(pts2[0].x, pts2[0].y + 15);
+	pDC->LineTo(pts2[0].x, pts2[0].y + (15 * this->zoomRate / 100));
 
 	//writing
 	RECT rt = { memoBox->GetX() + GabX , memoBox->GetY() + MemoGab + GabY, memoBox->GetX() + memoBox->GetWidth() - GabX, memoBox->GetY() + memoBox->GetHeight() - GabY };

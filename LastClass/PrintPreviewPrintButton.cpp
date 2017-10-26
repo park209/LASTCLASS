@@ -27,35 +27,6 @@ void PrintPreviewPrintButton::ButtonPress(PrintPreview *printPreview) {
 
 
 	if (int_ptr == IDOK) {
-		//Finder finder;
-		//bool ret = false;
-		//CRect rect(2000, 0, 4000, 2000);
-		//Long i = 0;
-		//Long j;
-		//Long k;
-		//Long length = printPreview->lastClass->classDiagramForm->diagram->GetLength();
-
-		//while (i < length && ret != true) { // 2페이지에 클래스나 메모박스가 있는지 확인.
-		//	FigureComposite *figureComposite = (FigureComposite*)printPreview->lastClass->classDiagramForm->diagram->GetAt(i);
-		//	CRect comperRect(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
-		//	ret = finder.FindRectangleByArea(comperRect, rect);
-		//	j = 0;
-		//	while (j < figureComposite->GetLength() && ret != true) {
-		//		Figure *figure = figureComposite->GetAt(j);
-		//		ret = finder.FindRectangleByPoint(rect, figure->GetX(), figure->GetY());
-		//		if (dynamic_cast<Relation*>(figure)) {
-		//			Relation *relation = static_cast<Relation*>(figure);
-		//			k = 0;
-		//			while (k < relation->GetLength() && ret != true) {
-		//				CPoint point1 = relation->GetAt(k);
-		//				ret = finder.FindRectangleByPoint(rect, point1.x, point1.y);
-		//				k++;
-		//			}
-		//		}
-		//		j++;
-		//	}
-		//	i++;
-		//}
 		bool ret = false;
 		CRect rect(0, 0, printPreview->horizontalPageSize, printPreview->verticalPageSize);
 		Long l = 0;
@@ -119,12 +90,6 @@ void PrintPreviewPrintButton::ButtonPress(PrintPreview *printPreview) {
 		CPrintInfo Info;
 
 		Info.m_rectDraw.SetRect(0, 0, dc.GetDeviceCaps(HORZRES), dc.GetDeviceCaps(VERTRES));
-		/*if (ret == true) {
-			Info.SetMaxPage(2);
-		}
-		else {
-			Info.SetMaxPage(1);
-		}*/
 		Info.SetMaxPage(printPreview->totalPage);
 		printPreview->OnBeginPrinting(&dc, &Info);
 		i = 1;

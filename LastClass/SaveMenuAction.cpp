@@ -25,25 +25,25 @@ void SaveMenuAction::MenuPress(LastClass* lastClass) {
 			if (dlgFile.DoModal() == IDOK){
 				ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100); // previous / next
 				CDC dc;
-				lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
+				//lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
 
 				lastClass->classDiagramForm->fileName = dlgFile.GetPathName();
 				lastClass->classDiagramForm->Save();
 
 				ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
-				lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
+				//lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 			}
 		}
 	}
 	else {
 		ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100);
 		CDC dc;
-		lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
+		//lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
 
 		lastClass->classDiagramForm->Save();
 
 		ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
-		lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
+		//lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 	}
 
 }
