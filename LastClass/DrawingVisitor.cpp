@@ -2081,29 +2081,68 @@ void DrawingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "±¼¸²Ã¼");
 		CFont*  oldFont;
 		oldFont = cPaintDc->SelectObject(&font);
-		Long i = 0;
-		while (i < 5) {
-			if (i == 0) {
-				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 10 * this->zoomRate / 100 , selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
-					selfRelation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
-				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+		Long i;
+		if (selfRelation->leftRightFlag == 0) {
+			i = 0;
+			while (i < 5) {
+				if (i == 0) {
+					RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 10 * this->zoomRate / 100 , selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+						selfRelation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+					cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS | DT_RIGHT);
+				}
+				else if (i == 1) {
+					RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 30 * this->zoomRate / 100 , selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+						selfRelation->rollNamePoints->GetAt(i).x + 30 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+					cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS | DT_CENTER);
+				}
+				else if (i == 2) {
+					RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+						selfRelation->rollNamePoints->GetAt(i).x + 50 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+					cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+				}
+				else if (i == 3) {
+					RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+						selfRelation->rollNamePoints->GetAt(i).x + 50 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+					cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+				}
+				else if (i == 4) {
+					RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+						selfRelation->rollNamePoints->GetAt(i).x + 10 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+					cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+				}
+				i++;
 			}
-			else if (i == 1) {
-				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 30 * this->zoomRate / 100 , selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
-					selfRelation->rollNamePoints->GetAt(i).x + 30 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
-				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+		}
+		else {
+			i = 0;
+			while (i < 5) {
+				if (i == 0) {
+					RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 10 * this->zoomRate / 100 , selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+						selfRelation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+					cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS | DT_RIGHT);
+				}
+				else if (i == 1) {
+					RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 30 * this->zoomRate / 100 , selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+						selfRelation->rollNamePoints->GetAt(i).x + 30 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+					cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS | DT_CENTER);
+				}
+				else if (i == 2) {
+					RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+						selfRelation->rollNamePoints->GetAt(i).x + 50 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+					cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS | DT_RIGHT);
+				}
+				else if (i == 3) {
+					RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+						selfRelation->rollNamePoints->GetAt(i).x + 50 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+					cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+				}
+				else if (i == 4) {
+					RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+						selfRelation->rollNamePoints->GetAt(i).x + 10 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+					cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS | DT_RIGHT);
+				}
+				i++;
 			}
-			else if (i == 2 || i == 3) {
-				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
-					selfRelation->rollNamePoints->GetAt(i).x + 50 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
-				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
-			}
-			else if (i == 4) {
-				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
-					selfRelation->rollNamePoints->GetAt(i).x + 10 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
-				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
-			}
-			i++;
 		}
 		cPaintDc->SelectObject(oldFont);
 		font.DeleteObject();
@@ -2125,12 +2164,16 @@ void DrawingVisitor::Visit(Relation *relation, CDC *cPaintDc) {
 					relation->rollNamePoints->GetAt(i).x + 40 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
 				cPaintDc->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
 			}
-			else if (i == 3 || i == 4) {
+			else if (i == 3) {
 				RECT rt = { relation->rollNamePoints->GetAt(i).x - 25 * this->zoomRate / 100, relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
 					relation->rollNamePoints->GetAt(i).x + 25 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
 				cPaintDc->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
 			}
-
+			else if (i == 2 || i == 4) {
+				RECT rt = { relation->rollNamePoints->GetAt(i).x - 25 * this->zoomRate / 100, relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					relation->rollNamePoints->GetAt(i).x + 25 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+				cPaintDc->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS | DT_RIGHT);
+			}
 			else {
 				RECT rt = { relation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
 					relation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
