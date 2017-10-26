@@ -90,12 +90,6 @@ Menu::Menu(LastClass* lastClass) {
 	this->seeMenu->AppendMenu(MF_STRING, 122, "확대하기");
 	this->seeMenu->AppendMenu(MF_STRING, 125, "축소하기");
 
-	//this->supportMenu->Detach();
-	//this->drawMenu->Detach();
-	//this->relationMenu->Detach();
-	//this->editMenu->Detach();
-	//this->popupMenu->Detach();
-	//this->mainMenu->Detach();
 }
 
 Menu::Menu(const Menu& source){
