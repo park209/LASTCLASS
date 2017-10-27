@@ -186,10 +186,10 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm
 
 		selection->Accept(diagram, movingVisitor, distanceX, distanceY);
 
-		/*if (selection->GetAt(0)->GetX() < 0 || selection->GetAt(0)->GetX() + selection->GetAt(0)->GetWidth() > 4000 * classDiagramForm->zoomRate / 100
-			|| selection->GetAt(0)->GetY() < 0 || selection->GetAt(0)->GetY() + selection->GetAt(0)->GetHeight() > 2000 * classDiagramForm->zoomRate / 100) {
+		if (selection->GetAt(0)->GetX() < 0// || selection->GetAt(0)->GetX() + selection->GetAt(0)->GetWidth() > 4000 * classDiagramForm->zoomRate / 100
+			|| selection->GetAt(0)->GetY() < 0){// || selection->GetAt(0)->GetY() + selection->GetAt(0)->GetHeight() > 2000 * classDiagramForm->zoomRate / 100) {
 			selection->Accept(diagram, movingVisitor, -distanceX, -distanceY);
-		}*/
+		}
 	}
 	//this->ChangeState(mouseLButton, SelectionState::Instance());
 }

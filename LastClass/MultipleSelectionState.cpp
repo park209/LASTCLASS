@@ -519,16 +519,16 @@ void MultipleSelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, ClassD
 			}
 			i++;
 		}
-		/*i = 0;
+		i = 0;
 		bool ret3 = false;
 		while (ret3 != true && i < selection->GetLength()) {
-			if (selection->GetAt(i)->GetX() < 0 || selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() > 4000 * classDiagramForm->zoomRate / 100
-				|| selection->GetAt(i)->GetY() < 0 || selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() > 2000 * classDiagramForm->zoomRate / 100) {
+			if (selection->GetAt(i)->GetX() < 0// || selection->GetAt(i)->GetX() + selection->GetAt(i)->GetWidth() > 4000 * classDiagramForm->zoomRate / 100
+				|| selection->GetAt(i)->GetY() < 0){// || selection->GetAt(i)->GetY() + selection->GetAt(i)->GetHeight() > 2000 * classDiagramForm->zoomRate / 100) {
 				MovingVisitor movingVisitor;
 				selection->Accept(diagram, movingVisitor, -distanceX, -distanceY);
 				ret3 = true;
 			}
 			i++;
-		}*/
+		}
 	}
 }
