@@ -1104,11 +1104,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 			this->copyBuffer->Accept(resizeVisitor, &memDC);
 		}
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////
-		KnockKnock *knocking = new KnockKnock;
-		knocking->Knocking(this);
-		if (knocking != NULL) {
-			delete knocking;
-		}
+		KnockKnock knocking;
+		knocking.Knocking(this);
 
 		if ((zoomRate_!=60 ||this->zoomRate!=60)&& (zoomRate_ != 130 || this->zoomRate != 130)) {
 			this->lastClass->statusBar->DestroyStatus();

@@ -133,19 +133,7 @@ void TextEdit::OnPaint() {
 			this->textAreaSelected->SelectTextArea(this, &memDC);
 		}
 	}
-	else if (dynamic_cast<Relation*>(this->figure)) {
-		cFont.CreateFont(10 * this->classDiagramForm->zoomRate / 100, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
-		SetFont(&cFont, TRUE);
-		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
-		CFont *m_oldFont = memDC.SelectObject(&cFont);
-
-		this->text->Accept(drawingVisitor, &memDC);// 받았던거 출력
-		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
-			this->textAreaSelected->SelectTextArea(this, &memDC);
-		}
-	}
-	else if (dynamic_cast<SelfRelation*>(this->figure)) {
+	else if (dynamic_cast<Relation*>(this->figure) || dynamic_cast<SelfRelation*>(this->figure)) {
 		cFont.CreateFont(10 * this->classDiagramForm->zoomRate / 100, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		SetFont(&cFont, TRUE);
