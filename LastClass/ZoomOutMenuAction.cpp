@@ -86,11 +86,9 @@ void ZoomOutMenuAction::MenuPress(LastClass *lastClass) {
 		lastClass->classDiagramForm->copyBuffer->Accept(resizeVisitor, &memDC);
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
-	KnockKnock *knocking = new KnockKnock;
-	knocking->Knocking(lastClass->classDiagramForm);
-	if (knocking != NULL) {
-		delete knocking;
-	}
+	KnockKnock knocking;
+	knocking.Knocking(lastClass->classDiagramForm);
+	
 	if ((zoomRate_ != 60 || lastClass->classDiagramForm->zoomRate != 60) && (zoomRate_ != 130 || lastClass->classDiagramForm->zoomRate != 130)) {
 		lastClass->statusBar->DestroyStatus();
 		lastClass->statusBar->MakeStatusBar(lastClass,lastClass->GetSafeHwnd(), 0, 0, 5);

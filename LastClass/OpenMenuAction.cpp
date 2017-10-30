@@ -31,14 +31,14 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 				CFileDialog  dlgFile(false, "txt", "*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT, "텍스트 문서(*.txt)");
 				int_ptr = dlgFile.DoModal();
 				if (int_ptr == IDOK) {
-					ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100);
-					CDC dc;
+					//ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100);
+					//CDC dc;
 					//lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
 					
 					lastClass->classDiagramForm->fileName = dlgFile.GetPathName();
 					lastClass->classDiagramForm->Save();
 
-					ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
+					//ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
 					//lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 				}
 			}
@@ -53,13 +53,13 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			object.Append("에 저장하시겠습니까?");
 			messageBox = lastClass->MessageBox(object, "ClassDiagram", MB_YESNOCANCEL);
 			if (messageBox == IDYES) {
-				ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100);
-				CDC dc;
+				//ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100);
+				//CDC dc;
 				//lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
 
 				lastClass->classDiagramForm->Save();
 
-				ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
+				//ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
 				//lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 			}
 			else if (messageBox == IDCANCEL) {
@@ -101,15 +101,12 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
 			lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
 
-			ResizeVisitor visitor(lastClass->classDiagramForm->preZoom, lastClass->classDiagramForm->zoomRate);
-			CDC dc;
+			//ResizeVisitor visitor(lastClass->classDiagramForm->preZoom, lastClass->classDiagramForm->zoomRate);
+			//CDC dc;
 			//lastClass->classDiagramForm->diagram->Accept(visitor, &dc);
 
-			KnockKnock *knocking = new KnockKnock;
-			knocking->Knocking(lastClass->classDiagramForm);
-			if (knocking != NULL) {
-				delete knocking;
-			}
+			KnockKnock knocking;
+			knocking.Knocking(lastClass->classDiagramForm);
 			
 			SCROLLINFO vScinfo;
 			SCROLLINFO hScinfo;
