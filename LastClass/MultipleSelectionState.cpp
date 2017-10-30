@@ -35,8 +35,6 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 	Long k = 0;
 	Long l = 0;
 	Figure *figure;
-	//Long distanceX = currentX - startX;
-	//Long distanceY = currentY - startY;
 	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 	CPoint cPoint1;
 	CPoint cPoint2;
@@ -51,7 +49,7 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 		figure = selection->GetAt(i);
 		if (dynamic_cast<Class*>(figure) || dynamic_cast<MemoBox*>(figure)) {
 			CRect cRect1(figure->GetX() + (currentX - startX), figure->GetY() + (currentY - startY), figure->GetX() + (currentX - startX) + figure->GetWidth(), figure->GetY() + (currentY - startY) + figure->GetHeight());
-			//ret = diagram->CheckOverlapSelection(cRect1, selection);
+
 		}
 		i++;
 	}
@@ -65,21 +63,13 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 			Long startY = figure->GetY();
 			Long endX = figure->GetX() + figure->GetWidth();
 			Long endY = figure->GetY() + figure->GetHeight();
-			//figure->Move(distanceX, distanceY); // 해당 클래스나 메모 이동
 			FigureComposite *figureComposite = static_cast<FigureComposite*>(figure); // 형변환
 			j = 0;
 			while (j < figureComposite->GetLength()) { // 형변환 한게 관리하면 배열 렝스까지
 				figure = figureComposite->GetAt(j);
-				//figure->Move(distanceX, distanceY);
+				
 				if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
 					Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
-					//   
-					Long m = 0;
-					while (m < relation->GetLength()) {
-						//CPoint point(relation->GetAt(m).x + distanceX, relation->GetAt(m).y + distanceY);
-						//relation->Move(m, point);
-						m++;
-					}
 					if (relation->GetLength() == 0) {
 						CPoint startPoint{ relation->GetX(), relation->GetY() };
 						CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
@@ -130,29 +120,6 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 						}
 					}
 				}
-				/*if (dynamic_cast<SelfRelation*>(figureComposite->GetAt(j))) {
-					SelfRelation *selfRelation = static_cast<SelfRelation*>(figureComposite->GetAt(j));
-					cPoint1 = selfRelation->rollNamePoints->GetAt(0);
-					cPoint1.x += distanceX;
-					cPoint1.y += distanceY;
-					cPoint2 = selfRelation->rollNamePoints->GetAt(1);
-					cPoint2.x += distanceX;
-					cPoint2.y += distanceY;
-					cPoint3 = selfRelation->rollNamePoints->GetAt(2);
-					cPoint3.x += distanceX;
-					cPoint3.y += distanceY;
-					cPoint4 = selfRelation->rollNamePoints->GetAt(3);
-					cPoint4.x += distanceX;
-					cPoint4.y += distanceY;
-					cPoint5 = selfRelation->rollNamePoints->GetAt(4);
-					cPoint5.x += distanceX;
-					cPoint5.y += distanceY;
-					selfRelation->rollNamePoints->Modify(0, cPoint1);
-					selfRelation->rollNamePoints->Modify(1, cPoint2);
-					selfRelation->rollNamePoints->Modify(2, cPoint3);
-					selfRelation->rollNamePoints->Modify(3, cPoint4);
-					selfRelation->rollNamePoints->Modify(4, cPoint5);
-				}*/
 				j++;
 			}
 			k = 0;
@@ -165,8 +132,6 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 						Long relationEndX = relation->GetX() + relation->GetWidth();
 						Long relationEndY = relation->GetY() + relation->GetHeight();
 						if (relation->GetEndPointFigure() == selection->GetAt(i)) {
-							//relation->EndPointMove(distanceX, distanceY);
-							//
 							if (relation->GetLength() == 0) {
 								CPoint startPoint{ relation->GetX(), relation->GetY() };
 								CPoint endPoint{ relation->GetX() + relation->GetWidth(), relation->GetY() + relation->GetHeight() };
@@ -252,7 +217,6 @@ void MultipleSelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagra
 	Long index = -1;
 	Long shiftIndex = -1;
 
-	//while (i < selection->GetLength() && index == -1) { // 지워야할듯?
 	index = selection->SelectByPoint(startX, startY); // 클릭 위치가 어느 선택박스인지(작은조절박스) 있는지 찾는다
 													  //i++;
 													  //}
@@ -341,7 +305,6 @@ void MultipleSelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, ClassD
 			figure = selection->GetAt(i);
 			if (dynamic_cast<Class*>(figure) || dynamic_cast<MemoBox*>(figure)) {
 				CRect cRect1(figure->GetX() + (currentX - startX), figure->GetY() + (currentY - startY), figure->GetX() + (currentX - startX) + figure->GetWidth(), figure->GetY() + (currentY - startY) + figure->GetHeight());
-				//ret = diagram->CheckOverlapSelection(cRect1, selection);
 			}
 			i++;
 		}

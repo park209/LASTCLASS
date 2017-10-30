@@ -208,9 +208,6 @@ Figure* Finder::GetParents(Diagram *diagram, Figure *figure) {
 		j = 0;
 		k = 0;
 		figures = static_cast<FigureComposite*>(diagram->GetAt(i));
-		/*while (j < figures->GetLength() && figure->GetX() != static_cast<Figure*>(figures->GetAt(j))->GetX()||
-			figure->GetY() != static_cast<Figure*>(figures->GetAt(j))->GetY()) {*/
-		//while (j < figures->GetLength() && figure != figures->GetAt(j)) {
 		while (k< figures->GetLength()){
 			if (figure->GetX() != static_cast<Figure*>(figures->GetAt(k))->GetX() ||
 				figure->GetY() != static_cast<Figure*>(figures->GetAt(k))->GetY()) {
@@ -218,7 +215,6 @@ Figure* Finder::GetParents(Diagram *diagram, Figure *figure) {
 			}
 			k++;
 		}
-		//if (j< figures->GetLength()) {
 		if(j< figures->GetLength()){
 			object = static_cast<Figure*>(figures);
 		}

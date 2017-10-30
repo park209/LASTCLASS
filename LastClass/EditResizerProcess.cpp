@@ -29,19 +29,6 @@ EditResizerProcess::EditResizerProcess(const EditResizerProcess& source) {
 EditResizerProcess::~EditResizerProcess() {
 
 }
-//void EditResizerProcess::ResizeEditWidth(TextEdit *textEdit, CDC *cdc) {
-//	RECT rt;
-//	textEdit->GetClientRect(&rt);
-//	textEdit->SetWindowPos(&textEdit->wndTopMost, 0, 0,
-//		textEdit->text->MaxWidth(cdc) + CaretWidth, textEdit->GetRowHeight()*textEdit->text->GetLength(), SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
-//}
-//
-//void EditResizerProcess::ResizeEditHeight(TextEdit *textEdit, CDC *cdc) {
-//	RECT rt;
-//	textEdit->GetClientRect(&rt);
-//	textEdit->SetWindowPos(&textEdit->wndTopMost, 0, 0,
-//		textEdit->text->MaxWidth(cdc) + CaretWidth, textEdit->GetRowHeight()*textEdit->text->GetLength(), SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
-//}
 
 void EditResizerProcess::ResizeEditAll(TextEdit *textEdit, CDC *cdc) {
 	textEdit->SetWindowPos(&textEdit->wndTopMost, 0, 0,
@@ -58,7 +45,7 @@ void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
 		gabY_ += MemoGab;
 	}
 	textEdit->SetWindowPos(&textEdit->wndTopMost,0, 0,
-		textEdit->GetCriteriaWidth() - GabX * 2, textEdit->GetCriteriaHeight() - gabY_, SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
+		textEdit->GetCriteriaWidth() + CaretWidth - GabX * 2, textEdit->GetCriteriaHeight() - gabY_, SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 	if (dynamic_cast<Template*>(textEdit->figure)) {
 		textEdit->SetWindowPos(&textEdit->wndTopMost,
 			textEdit->GetCriteriaX() + GabX - horzCurPos,
@@ -68,21 +55,6 @@ void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
 			SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 	}
 }
-
-/*void EditResizerProcess::ResizeClassWidth(TextEdit *textEdit) {
-	RECT rt;
-	textEdit->GetClientRect(&rt);
-	ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)textEdit->GetParent();
-	FigureComposite *object = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(0));
-	Long distanceX = 0;
-	if (rt.right + GabX * 2  > textEdit->GetCriteriaWidth() + CaretWidth) {
-	    distanceX = object->GetMinimumWidth() - object->GetWidth();
-	}
-	else {
-		distanceX = textEdit->GetCriteriaWidth() - object->GetWidth();
-	}
-	object->ModifyComponetsToRightDirection(classDiagramForm->diagram, distanceX);
-}*/
 
 void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 	RECT rt;
@@ -127,8 +99,6 @@ void EditResizerProcess::ResizeClassHeight(TextEdit *textEdit) {
 			if (dynamic_cast<Relation*>(iterator_->Current())) {
 				Long relationEndX = figure->GetX() + figure->GetWidth();
 				Long relationEndY = figure->GetY() + figure->GetHeight();
-				//if (startX <= relationEndX &&  relationEndX <= endX &&
-				//	startY <= relationEndY &&  relationEndY <= endY) {
 				if(figure->GetEndPointFigure()==static_cast<Figure*>(composite)){
 					quadrant = finder.FindQuadrant(relationEndX, relationEndY,
 						startX, startY, endX, endY);
@@ -279,8 +249,6 @@ void EditResizerProcess::AffectedRelation(TextEdit *textEdit) {
 				Long relationEndX = figure->GetX() + figure->GetWidth();
 				Long relationEndY = figure->GetY() + figure->GetHeight();
 				Long temp=0;
-				//if (startX <= relationEndX &&  relationEndX <= endX &&
-				//	startY <= relationEndY &&  relationEndY <= endY) {
 				if (relation->GetEndPointFigure() == static_cast<Figure*>(object)) {
 					quadrant = finder.FindQuadrant(relationEndX, relationEndY,
 						startX, startY, endX, endY);

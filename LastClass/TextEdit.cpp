@@ -315,12 +315,10 @@ void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 }
 
 void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
-	//bool ret = IsOntheText(this, point);
 	
 
 	
 	if (nFlags == MK_LBUTTON) {
-		//SetCursor(LoadCursor(NULL, IDC_IBEAM));
 		CClientDC dc(this);
 		CFont cFont;
 		if (this->rollNameBoxIndex == -1) {
@@ -346,16 +344,6 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 		cFont.DeleteObject(); // ÆùÆ® ³¡
 		Invalidate(false);
 	}
-
-	Figure *figure = this->GetFigure();
-	CRect rect(figure->GetX(), figure->GetY(), figure->GetX() + figure->GetWidth(), figure->GetY() + figure->GetHeight());
-	Finder finder;
-	bool ret = finder.FindRectangleByPoint(rect, point.x, point.y);
-	if (ret == false) {
-		//SetCursor(LoadCursor(NULL, IDC_IBEAM));
-	}
-
-	
 	this->currentX = point.x;
 }
 

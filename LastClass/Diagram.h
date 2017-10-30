@@ -5,7 +5,9 @@
 
 #include"FigureComposite.h"
 #include"DrawingVisitor.h"
+#include "ClassDiagramForm.h"
 
+class ClassDiagramForm;
 class Diagram : public FigureComposite {
 public:
 	Diagram(Long capacity = 256);
@@ -19,7 +21,8 @@ public:
 	virtual Long Add(Figure *figure);
 	Long AddClass(Long x, Long y, Long width, Long height);
 	Long AddMemoBox(Long x, Long y, Long width, Long height);
-	Figure* FindItem(Long x, Long y);
+	Figure* FindItem(Long x, Long y,ClassDiagramForm* classDiagramForm);
+	void FindFigureCompositeitem(Long x, Long y, ClassDiagramForm* classDiagramForm);
 	virtual Long Remove(Long index);
 	CRect GetCorrectRect(Long startX, Long startY, Long currentX, Long currentY);
 
