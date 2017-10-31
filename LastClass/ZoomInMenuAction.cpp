@@ -21,7 +21,7 @@ void ZoomInMenuAction::MenuPress(LastClass *lastClass) {
 	bool ret = false;
 	Long zoomRate_ = lastClass->classDiagramForm->zoomRate;
 	// nWheelScrollLines 휠 한번에 이동하는 줄 수 (Reg에서 읽어 온다)
-	HKEY hKey = 0;
+	/*HKEY hKey = 0;
 	DWORD dwType = REG_BINARY;
 	DWORD dwSize = 10;
 	BYTE* pByte = new BYTE[dwSize];
@@ -33,7 +33,7 @@ void ZoomInMenuAction::MenuPress(LastClass *lastClass) {
 	RegCloseKey(hKey);
 
 	int nWheelScrollLines = atoi((char*)pByte);
-	delete pByte;
+	delete pByte;*/
 
 	int vertCurPos = lastClass->classDiagramForm->GetScrollPos(SB_VERT);
 	if (lastClass->classDiagramForm->selection->GetLength() > 0) {
@@ -87,11 +87,9 @@ void ZoomInMenuAction::MenuPress(LastClass *lastClass) {
 		lastClass->classDiagramForm->copyBuffer->Accept(resizeVisitor, &memDC);
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
-	KnockKnock *knocking = new KnockKnock;
-	knocking->Knocking(lastClass->classDiagramForm);
-	if (knocking != NULL) {
-		delete knocking;
-	}
+	//KnockKnock knocking;
+	//knocking.Knocking(lastClass->classDiagramForm);
+	
 	if ((zoomRate_ != 60 || lastClass->classDiagramForm->zoomRate != 60) && (zoomRate_ != 130 || lastClass->classDiagramForm->zoomRate != 130)) {
 		lastClass->statusBar->DestroyStatus();
 		lastClass->statusBar->MakeStatusBar(lastClass, lastClass->GetSafeHwnd(), 0, 0, 5);

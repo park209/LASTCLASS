@@ -133,19 +133,7 @@ void TextEdit::OnPaint() {
 			this->textAreaSelected->SelectTextArea(this, &memDC);
 		}
 	}
-	else if (dynamic_cast<Relation*>(this->figure)) {
-		cFont.CreateFont(10 * this->classDiagramForm->zoomRate / 100, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
-		SetFont(&cFont, TRUE);
-		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
-		CFont *m_oldFont = memDC.SelectObject(&cFont);
-
-		this->text->Accept(drawingVisitor, &memDC);// 받았던거 출력
-		if (this->flagSelection == 1) {      // flagSelection이 눌려있으면
-			this->textAreaSelected->SelectTextArea(this, &memDC);
-		}
-	}
-	else if (dynamic_cast<SelfRelation*>(this->figure)) {
+	else if (dynamic_cast<Relation*>(this->figure) || dynamic_cast<SelfRelation*>(this->figure)) {
 		cFont.CreateFont(10 * this->classDiagramForm->zoomRate / 100, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		SetFont(&cFont, TRUE);
@@ -327,12 +315,10 @@ void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 }
 
 void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
-	//bool ret = IsOntheText(this, point);
 	
 
 	
 	if (nFlags == MK_LBUTTON) {
-		//SetCursor(LoadCursor(NULL, IDC_IBEAM));
 		CClientDC dc(this);
 		CFont cFont;
 		if (this->rollNameBoxIndex == -1) {
@@ -358,16 +344,6 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 		cFont.DeleteObject(); // 폰트 끝
 		Invalidate(false);
 	}
-
-	Figure *figure = this->GetFigure();
-	CRect rect(figure->GetX(), figure->GetY(), figure->GetX() + figure->GetWidth(), figure->GetY() + figure->GetHeight());
-	Finder finder;
-	bool ret = finder.FindRectangleByPoint(rect, point.x, point.y);
-	if (ret == false) {
-		//SetCursor(LoadCursor(NULL, IDC_IBEAM));
-	}
-
-	
 	this->currentX = point.x;
 }
 

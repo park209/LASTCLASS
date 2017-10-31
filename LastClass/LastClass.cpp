@@ -23,18 +23,11 @@ using namespace std;
 
 BEGIN_MESSAGE_MAP(LastClass, CFrameWnd)
 	ON_WM_CREATE()
-	ON_WM_KEYDOWN()
 	ON_WM_SETFOCUS()
-	ON_WM_LBUTTONDOWN()
-	ON_WM_LBUTTONDBLCLK()
-	ON_WM_MOUSEMOVE()
-	ON_WM_LBUTTONUP()
-	ON_WM_KILLFOCUS()
 	ON_WM_CLOSE()
 	ON_COMMAND_RANGE(100, 127, OnMyMenu)
 	ON_COMMAND_RANGE(40002, 40031, OnMyToolBar)
 	ON_WM_SIZE()
-	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
 LastClass::LastClass() {
@@ -59,9 +52,6 @@ int LastClass::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->classDiagramForm = new ClassDiagramForm(this);
 	this->classDiagramForm->Create(NULL, "classDiagramForm", WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 100000);
 	this->menu = new Menu(this);
-	//this->toolBar->MakeToolBar(this->GetSafeHwnd());
-	//this->toolBar->MakeAnotherToolBar(this->GetSafeHwnd());
-	//this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
 
 	return 0;
 }
@@ -77,14 +67,6 @@ void LastClass::OnMyMenu(UINT parm_control_id) {
 		menuAction->MenuPress(this);
 	}
 }
-
-void LastClass::OnKillFocus(CWnd *pNewWnd) {
-	//CFrameWnd::OnKillFocus(pNewWnd);
-}
-
-void LastClass::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
-}
-
 void LastClass::OnSetFocus(CWnd* pOldWnd) {
 	CFrameWnd::OnSetFocus(pOldWnd);
 	CWnd::SetFocus();
@@ -92,7 +74,6 @@ void LastClass::OnSetFocus(CWnd* pOldWnd) {
 }
 
 void LastClass::OnSize(UINT nType, int cx, int cy) {
-	//ModifyStyle(0, WS_CLIPCHILDREN);
 	CFrameWnd::OnSize(nType, cx, cy);
 	CRect rect;
 	this->GetClientRect(&rect);
@@ -108,13 +89,10 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 		this->statusBar->DestroyStatus();
 		this->statusBar->MakeStatusBar(this, this->GetSafeHwnd(), NULL, NULL, 5);
 	}
-	//this->toolBar->ChangeAnotherToolBarSize(&rect);
-	//this->statusBar->ChangeStatusBarSize(&rect);
 	rect.top += 55;
 	rect.left += 60;
 	rect.right -= 60;
 	rect.bottom -= 76;
-	//this->classDiagramForm->MoveWindow(rect.left, rect.top, rect.right, rect.bottom, 1);
 	if (this->classDiagramForm != NULL) {
 		this->classDiagramForm->SetWindowPos(this, rect.left, rect.top, rect.right, rect.bottom, SWP_NOMOVE | SWP_NOZORDER);
 		this->RedrawWindow();
@@ -123,73 +101,20 @@ void LastClass::OnSize(UINT nType, int cx, int cy) {
 	CRect rect1;
 	this->GetClientRect(&rect1);
 	rect1.top = rect1.bottom - 20;
-	//rect1.right = rect1.left + 10;
 	this->InvalidateRect(rect1);
 
 	ModifyStyle(WS_CLIPCHILDREN, 0);
 }
 
-BOOL LastClass::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
-	return false;
-}
-
-void LastClass::OnLButtonDown(UINT nFlags, CPoint point) {
-	CFrameWnd::OnLButtonDown(nFlags, point);
-}
-
-void LastClass::OnLButtonDblClk(UINT nFlags, CPoint point) {
-	CFrameWnd::OnLButtonDblClk(nFlags, point);
-}
-
-void LastClass::OnLButtonUp(UINT nFlags, CPoint point) {
-	CFrameWnd::OnLButtonDown(nFlags, point);
-}
-
-void LastClass::OnMouseMove(UINT nFlags, CPoint point) {
-	CFrameWnd::OnMouseMove(nFlags, point);
-}
 void LastClass::OnMyToolBar(UINT parm_control_id) {
-
-
 	if (this->classDiagramForm->textEdit != NULL) {
 		this->classDiagramForm->textEdit->OnClose();
 		this->classDiagramForm->textEdit = NULL;
 	}
 	Long rate = this->classDiagramForm->zoomRate;
-	if (parm_control_id == 40011 || parm_control_id == 40012) {
-		/*ResizeVisitor visitor(this->classDiagramForm->zoomRate, 100);
-		this->classDiagramForm->zoomRate = 100;
-		this->classDiagramForm->SetMemoGab(20 * this->classDiagramForm->zoomRate / 100);
-		this->classDiagramForm->SetGabX(8 * this->classDiagramForm->zoomRate / 100);
-		this->classDiagramForm->SetGabY(2 * this->classDiagramForm->zoomRate / 100);
-		this->classDiagramForm->SetCaretWidth(2 * this->classDiagramForm->zoomRate / 100);
-		CDC memDC;
-		this->classDiagramForm->diagram->Accept(visitor, &memDC);
-
-		KnockKnock *knocking = new KnockKnock;
-		knocking->Knocking(this->classDiagramForm);
-		if (knocking != NULL) {
-			delete knocking;
-		}*/
-	}
 	CClientDC dc(this);
 	this->toolBar->ButtonSelected(parm_control_id, this, this->classDiagramForm, &dc);
-	if (parm_control_id == 40011 || parm_control_id == 40012) {
-	/*	this->classDiagramForm->zoomRate = rate;
-		ResizeVisitor visitor(100, this->classDiagramForm->zoomRate);
-		this->classDiagramForm->SetMemoGab(20 * this->classDiagramForm->zoomRate / 100);
-		this->classDiagramForm->SetGabX(8 * this->classDiagramForm->zoomRate / 100);
-		this->classDiagramForm->SetGabY(2 * this->classDiagramForm->zoomRate / 100);
-		this->classDiagramForm->SetCaretWidth(2 * this->classDiagramForm->zoomRate / 100);
-		CDC memDC;
-		this->classDiagramForm->diagram->Accept(visitor, &memDC);
 
-		KnockKnock *knocking = new KnockKnock;
-		knocking->Knocking(this->classDiagramForm);
-		if (knocking != NULL) {
-			delete knocking;
-		}*/
-	}
 }
 void LastClass::OnClose() {
 	//6.2. 다이어그램을 지운다.
@@ -212,9 +137,6 @@ void LastClass::OnClose() {
 					this->classDiagramForm->fileName = dlgFile.GetPathName();
 					this->classDiagramForm->Save();
 				}
-				//else {
-				//return;  //보류
-				//}
 			}
 		}
 		else {
@@ -233,7 +155,7 @@ void LastClass::OnClose() {
 		}
 	}
 	//6.2. 다이어그램을 지운다.
-	if (messageBox != IDCANCEL && int_ptr == IDOK) {//== IDYES || messageBox == IDNO ) {
+	if (messageBox != IDCANCEL && int_ptr == IDOK) {
 		if (this->classDiagramForm != NULL) {
 			this->classDiagramForm->OnClose();
 			delete this->classDiagramForm;

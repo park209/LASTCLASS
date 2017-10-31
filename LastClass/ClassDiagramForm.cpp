@@ -150,12 +150,6 @@ Long ClassDiagramForm::Load() {
 	Long zoomRate;
 	int vertCurPos;
 	int horzCurPos;
-
-	//CFileDialog  dlgFile(true, "txt", "*", NULL, "텍스트 문서(*.txt)");
-	//if (dlgFile.DoModal() == IDOK)
-	//{
-	//	this->fileName = dlgFile.GetPathName();
-	//}
 	fTest.open(this->fileName);
 	//fTest.open("text.txt");
 	//종류 구별을 위한 마지막 칸 
@@ -322,12 +316,6 @@ Long ClassDiagramForm::Save() {
 	CPoint cPoint;
 	string saveText;
 	ofstream fTest;
-	//CString fileName;
-		//CFileDialog  dlgFile(false,"txt","*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT,"텍스트 문서(*.txt)");
-		//if (dlgFile.DoModal() == IDOK)
-		//{
-			//fileName = dlgFile.GetPathName();
-		//}
 	fTest.open(this->fileName);
 	if (fTest.is_open()) {
 		Long zoomRate =this->zoomRate;
@@ -798,8 +786,6 @@ void ClassDiagramForm::OnPaint() {
 
 	DrawingVisitor drawingVisitor(this->zoomRate);
 	this->diagram->Accept(drawingVisitor, &memDC);
-	//WritingVisitor writingVisitor(this->zoomRate);
-	//this->diagram->Accept(writingVisitor, &memDC);
 	this->selection->Accept(drawingVisitor, &memDC); // selectionFlag 추가 확인
 	if (this->currentX_2 != 0 && this->currentY_2 != 0 && this->currentX != 0 && this->currentY != 0) {
 		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
@@ -1103,12 +1089,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		if (this->copyBuffer != NULL) {
 			this->copyBuffer->Accept(resizeVisitor, &memDC);
 		}
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////
-		KnockKnock *knocking = new KnockKnock;
-		knocking->Knocking(this);
-		if (knocking != NULL) {
-			delete knocking;
-		}
+		KnockKnock knocking;
+		knocking.Knocking(this);
 
 		if ((zoomRate_!=60 ||this->zoomRate!=60)&& (zoomRate_ != 130 || this->zoomRate != 130)) {
 			this->lastClass->statusBar->DestroyStatus();
@@ -1153,7 +1135,6 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	MSG msg;
 	UINT dblclkTime = GetDoubleClickTime();
 	UINT elapseTime = 0;
-	//this->SetFocus();
 	SetTimer(1, 1, NULL);
 	while (elapseTime < dblclkTime) {
 		PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
@@ -1173,7 +1154,7 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->currentY_2 = point.y + vertCurPos;
 
 	this->mouseLButton->MouseLButtonDown(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-
+	//this->diagram->FindFigureCompositeitem(this->startX, this->startY, this);
 	KillTimer(1);
 	SetCapture();
 	Invalidate(false);
@@ -1223,7 +1204,6 @@ void ClassDiagramForm::OnMyMenu(UINT parm_control_id) {
 	else if (this->selection->GetLength() ==1 ) {
 		this->mouseLButton->ChangeSelectionState();
 	}
-	//this->selection->DeleteAllItems();
 }
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
@@ -1236,7 +1216,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->currentX = point.x + horzCurPos;
 	this->currentY = point.y + vertCurPos;
 
-	Figure* figure = this->diagram->FindItem(startX, startY);
+	Figure* figure = this->diagram->FindItem(startX, startY,this);
 	if (figure != NULL && this->selection->GetLength() != 0 && !dynamic_cast<Relation*>(this->selection->GetAt(0)) && !dynamic_cast<SelfRelation*>(figure)) {
 
 		this->textEdit = new TextEdit(this, figure);
@@ -1248,7 +1228,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 				figure->GetX() + figure->GetWidth() - GabX - horzCurPos + CaretWidth,
 				figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
 		}
-		else /*if (!dynamic_cast<SelfRelation*>(figure))*/ {
+		else {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
 				figure->GetX() + GabX - horzCurPos,
 				figure->GetY() + GabY - vertCurPos,
@@ -1376,11 +1356,9 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
+	int vertCurPos = GetScrollPos(SB_VERT);
+	int horzCurPos = GetScrollPos(SB_HORZ);
 	if (nFlags == MK_LBUTTON) {
-
-		int vertCurPos = GetScrollPos(SB_VERT);
-		int horzCurPos = GetScrollPos(SB_HORZ);
-
 		CRect testRect;
 		this->GetClientRect(&testRect);
 
@@ -1422,9 +1400,9 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 		Invalidate(false);
 	}
 	//커서모양
-	/*if (nFlags != MK_LBUTTON && this->selection->GetLength() == 1) {
+	if (nFlags != MK_LBUTTON && this->selection->GetLength() == 1) {
 		Long index;
-		index = this->selection->SelectByPoint(point.x, point.y);
+		index = this->selection->SelectByPoint(point.x + horzCurPos, point.y + vertCurPos);
 		if (index == 12 || index == 4 || index == 9 ) {
 			SetCursor(LoadCursor(NULL, IDC_SIZENS));
 		}
@@ -1437,14 +1415,10 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 		else if (index == 6 || index == 7) {
 			SetCursor(LoadCursor(NULL, IDC_SIZEWE));
 		}
-	}*/
+	}
 }
 
 void ClassDiagramForm::OnClose() {
-
-	
-	//6.1. 저장한다.
-	//this->Save();
 
 	//6.2. 다이어그램을 지운다.
 		if (this->diagram != NULL) {

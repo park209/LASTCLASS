@@ -42,6 +42,9 @@
     <Filter Include="Visitor">
       <UniqueIdentifier>{f654ac47-a46d-4cd2-bf59-61db616e3c4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SequenceDiagram">
+      <UniqueIdentifier>{d7bd25d9-0485-4974-93d6-0250e5b92cf2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h">
