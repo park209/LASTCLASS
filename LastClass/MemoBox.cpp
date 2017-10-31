@@ -16,6 +16,16 @@ MemoBox::MemoBox(Long x, Long y, Long width, Long height) : FigureComposite(10) 
 	this->width = width;
 	this->height = height;
 }
+
+MemoBox::MemoBox(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight) : FigureComposite(10) {
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
+	this->minimumWidth = minimumWidth;
+	this->minimumHeight = minimumHeight;
+}
+
 MemoBox::MemoBox(const MemoBox& source) : FigureComposite(source) {
 	
 	this->x = source.x;
@@ -97,11 +107,18 @@ void MemoBox::Accept (Visitor& visitor, CDC *pDC) {
 	visitor.Visit(this, pDC);
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 	while (!smartPointer->IsDone()) {
+		if (dynamic_cast<Relation*>(smartPointer->Current())) {
+			static_cast<Relation*>(smartPointer->Current())->Accept(visitor, pDC); 
+		}
 		if (dynamic_cast<MemoLine*>(smartPointer->Current())) {
-			dynamic_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, pDC); 
+			static_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
 		smartPointer->Next();
 	}
+}
+
+void MemoBox::Accept(Visitor& visitor, Long distanceX, Long distanceY) {
+	visitor.Visit(this, distanceX, distanceY);
 }
 
 Long MemoBox::Correct(Long index, Figure *figure) {

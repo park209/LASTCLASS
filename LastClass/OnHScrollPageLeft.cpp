@@ -2,6 +2,7 @@
 
 #include "OnHScrollPageLeft.h"
 #include "ClassDiagramForm.h"
+#include "ScrollMovingObject.h"
 
 OnHScrollPageLeft::OnHScrollPageLeft() : ScrollAction() {
 }
@@ -33,4 +34,20 @@ void OnHScrollPageLeft::Scrolling(ClassDiagramForm *classDiagramForm) {
 	}
 
 	classDiagramForm->SetScrollPos(SB_HORZ, curpos);
+	ScrollMovingObject moving;
+	moving.MovingObject(classDiagramForm->diagram, 50);
+
+	bool ret;
+	SCROLLINFO hScinfo;
+	classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
+	ret = moving.FindHorizontal(classDiagramForm->diagram, hScinfo.nPage);
+	if (ret == false) {
+		//SCROLLINFO hScinfo;
+		//classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
+		hScinfo.nMax -= 100;
+		if (hScinfo.nMax < 4000) {
+			hScinfo.nMax = 4000;
+		}
+		classDiagramForm->SetScrollInfo(SB_HORZ, &hScinfo);
+	}
 }

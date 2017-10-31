@@ -1,6 +1,8 @@
 //DrawingVisitor.cpp
+
 #include "ClassDiagramForm.h"
 #include "DrawingVisitor.h"
+#include "Text.h"
 #include "Diagram.h"
 #include "Class.h"
 #include "MemoBox.h"
@@ -29,40 +31,56 @@
 #include "SelfDirectedAssociation.h"
 #include "SelfComposition.h"
 #include "SelfCompositions.h"
+
 #include <iostream>
 #include "Scroll.h"
 #include "DrawRollNameBoxes.h"
+#include "LastClass.h"
 
 using namespace std;
 
-DrawingVisitor::DrawingVisitor() {
+DrawingVisitor::DrawingVisitor(Long zoomRate) {
+	this->zoomRate = zoomRate;
 }
 DrawingVisitor::~DrawingVisitor() {
 }
+void DrawingVisitor::Visit(Text* text, CDC* pDC) {
+	Long fontHeight = pDC->GetTextExtent("아").cy; // rowHeight 구하는방법
+	Long textWidth = text->MaxWidth(pDC);// -50;
+
+	RECT rt = { 0 , 0, textWidth, text->GetLength() * fontHeight };
+	//cPaintDc->DrawTextEx((CString)text->MakeText().c_str(), &rt, DT_CALCRECT, NULL);
+	pDC->DrawText((CString)text->MakeText().c_str(), &rt, DT_EXPANDTABS);
+}
 void DrawingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY) {
 }
+void DrawingVisitor::Visit(Class *object, Long distanceX, Long distanceY) {
+}
 void DrawingVisitor::Visit(Class *object, CDC* pDC) { //template
-	//ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)(CFrameWnd::FindWindow(NULL, "classDiagram"));
-	//Long vPos = classDiagramForm->verticalScrollBar->GetScrollPos();
+													  //ClassDiagramForm *classDiagramForm = (ClassDiagramForm*)(CFrameWnd::FindWindow(NULL, "classDiagram"));
+													  //Long vPos = classDiagramForm->verticalScrollBar->GetScrollPos();
 	Long x = object->GetX();
 	Long y = object->GetY();
 	Long width = object->GetWidth();
 	Long height = object->GetHeight();
-	
+
 	pDC->Rectangle(x, y, x + width, y + height);
 }
+void DrawingVisitor::Visit(MemoBox *memoBox, Long distanceX, Long distanceY) {
+}
 void DrawingVisitor::Visit(MemoBox *memoBox, CDC *pDC) {
+	//drawing
 	Long x = memoBox->GetX();
 	Long y = memoBox->GetY();;
 	Long width = memoBox->GetWidth();
 	Long height = memoBox->GetHeight();
 
 	CPoint pts2[5];
-	pts2[0].x = static_cast<LONG>(x + 15); // 윗점
+	pts2[0].x = static_cast<LONG>(x + (15 *this->zoomRate / 100)); // 윗점
 	pts2[0].y = static_cast<LONG>(y);
 
 	pts2[1].x = static_cast<LONG>(x); //마우스 처음 점
-	pts2[1].y = static_cast<LONG>(y + 15);
+	pts2[1].y = static_cast<LONG>(y + (15 * this->zoomRate / 100));
 
 	pts2[2].x = static_cast<LONG>(x); // 아랫점
 	pts2[2].y = static_cast<LONG>(y + height);
@@ -76,10 +94,14 @@ void DrawingVisitor::Visit(MemoBox *memoBox, CDC *pDC) {
 	pDC->Polygon(pts2, 5);
 
 	pDC->MoveTo(pts2[0].x, pts2[0].y);
-	pDC->LineTo(pts2[0].x, pts2[0].y + 15);
+	pDC->LineTo(pts2[0].x, pts2[0].y + (15 * this->zoomRate / 100));
 
 	pDC->MoveTo(pts2[1].x, pts2[1].y);
-	pDC->LineTo(pts2[0].x, pts2[0].y + 15);
+	pDC->LineTo(pts2[0].x, pts2[0].y + (15 * this->zoomRate / 100));
+
+	//writing
+	RECT rt = { memoBox->GetX() + GabX , memoBox->GetY() + MemoGab + GabY, memoBox->GetX() + memoBox->GetWidth() - GabX, memoBox->GetY() + memoBox->GetHeight() - GabY };
+	pDC->DrawText((CString)memoBox->GetContent().c_str(), &rt, DT_EXPANDTABS);
 }
 void DrawingVisitor::Visit(Selection *selection, CDC *pDC) {
 	Long i = 0;
@@ -283,68 +305,133 @@ void DrawingVisitor::Visit(Selection *selection, CDC *pDC) {
 			CPoint cPoint;
 			Relation* relationLine = static_cast<Relation*>(selection->GetAt(i));
 			if (!dynamic_cast<MemoLine*>(relationLine)) {
-				if (relationLine->GetLength() > 0) { // 꺾인선이 있으면
-					drawRollNameBoxes->DrawFirstRollNameBox(relationLine, pDC);
-					drawRollNameBoxes->DrawSecondRollNameBox(relationLine, pDC);
-					drawRollNameBoxes->DrawThirdRollNameBox(relationLine, pDC);
-					drawRollNameBoxes->DrawFourthRollNameBox(relationLine, pDC);
-					drawRollNameBoxes->DrawFifthRollNameBox(relationLine, pDC);
-				}
-				else { // 꺾인선이 없으면
-					drawRollNameBoxes->DrawBoxesWithoutCurvedLine(relationLine, pDC);
+				if (!dynamic_cast<Generalization*>(selection->GetAt(i)) && !dynamic_cast<Composition*>(selection->GetAt(i)) &&
+					!dynamic_cast<Compositions*>(selection->GetAt(i)) && !dynamic_cast<Dependency*>(selection->GetAt(i)) &&
+					!dynamic_cast<Realization*>(selection->GetAt(i))) {
+					if (relationLine->GetLength() > 0) { // 꺾인선이 있으면
+						drawRollNameBoxes->DrawFirstRollNameBox(relationLine, pDC, this->zoomRate);
+						drawRollNameBoxes->DrawSecondRollNameBox(relationLine, pDC, this->zoomRate);
+						drawRollNameBoxes->DrawThirdRollNameBox(relationLine, pDC, this->zoomRate);
+						drawRollNameBoxes->DrawFourthRollNameBox(relationLine, pDC, this->zoomRate);
+						drawRollNameBoxes->DrawFifthRollNameBox(relationLine, pDC, this->zoomRate);
+					}
+					else { // 꺾인선이 없으면
+						drawRollNameBoxes->DrawBoxesWithoutCurvedLine(relationLine, pDC, this->zoomRate);
+					}
 				}
 			}
 		}
 
 		if (dynamic_cast<SelfRelation*>(selection->GetAt(i))) {
 			SelfRelation *selfRelation = static_cast<SelfRelation*>(selection->GetAt(i));
+			Long k = 0;
+			Long l = 0;
+			Long temp = -1;
+			Class *object;
+			LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+			while (k < test->classDiagramForm->diagram->GetLength() && temp == -1) {
+				if (dynamic_cast<Class*>(test->classDiagramForm->diagram->GetAt(k))) {
+					object = static_cast<Class*>(test->classDiagramForm->diagram->GetAt(k));
+					l = 0;
+					while (l < object->GetLength() && temp == -1) {
+						if (dynamic_cast<SelfRelation*>(object->GetAt(l)) == selfRelation) {
+							temp = k;
+						}
+
+						l++;
+					}
+				}
+				k++;
+			}
 			Long x;
 			Long y;
 			Long x1;
 			Long y1;
+			if (selfRelation->leftRightFlag == 0) {
+				x = selfRelation->GetX() - 5 * this->zoomRate / 100;
+				y = selfRelation->GetY() - 45 * this->zoomRate / 100;
+				x1 = selfRelation->GetX() + 5 * this->zoomRate / 100;
+				y1 = selfRelation->GetY() - 35 * this->zoomRate / 100;
+				pDC->Rectangle(x, y, x1, y1);
 
-			x = selfRelation->GetX() - 5;
-			y = selfRelation->GetY() - 45;
-			x1 = selfRelation->GetX() + 5;
-			y1 = selfRelation->GetY() - 35;
-			pDC->Rectangle(x, y, x1, y1);
+				x = selfRelation->GetX() + 75 * this->zoomRate / 100;
+				y = selfRelation->GetY() - 45 * this->zoomRate / 100;
+				x1 = selfRelation->GetX() + 85 * this->zoomRate / 100;
+				y1 = selfRelation->GetY() - 35 * this->zoomRate / 100;
+				pDC->Rectangle(x, y, x1, y1);
 
-			x = selfRelation->GetX() + 75;
-			y = selfRelation->GetY() - 45;
-			x1 = selfRelation->GetX() + 85;
-			y1 = selfRelation->GetY() - 35;
-			pDC->Rectangle(x, y, x1, y1);
+				x = selfRelation->GetX() + 75 * this->zoomRate / 100;
+				y = selfRelation->GetY() + 35 * this->zoomRate / 100;
+				x1 = selfRelation->GetX() + 85 * this->zoomRate / 100;
+				y1 = selfRelation->GetY() + 45 * this->zoomRate / 100;
+				pDC->Rectangle(x, y, x1, y1);
+			}
+			else {
+				x = selfRelation->GetX() - 5 * this->zoomRate / 100;
+				y = selfRelation->GetY() - 45 * this->zoomRate / 100;
+				x1 = selfRelation->GetX() + 5 * this->zoomRate / 100;
+				y1 = selfRelation->GetY() - 35 * this->zoomRate / 100;
+				pDC->Rectangle(x, y, x1, y1);
 
-			x = selfRelation->GetX() + 75;
-			y = selfRelation->GetY() + 35;
-			x1 = selfRelation->GetX() + 85;
-			y1 = selfRelation->GetY() + 45;
-			pDC->Rectangle(x, y, x1, y1);
+				x = selfRelation->GetX() - 75 * this->zoomRate / 100;
+				y = selfRelation->GetY() - 45 * this->zoomRate / 100;
+				x1 = selfRelation->GetX() - 85 * this->zoomRate / 100;
+				y1 = selfRelation->GetY() - 35 * this->zoomRate / 100;
+				pDC->Rectangle(x, y, x1, y1);
 
+				x = selfRelation->GetX() - 75 * this->zoomRate / 100;
+				y = selfRelation->GetY() + 35 * this->zoomRate / 100;
+				x1 = selfRelation->GetX() - 85 * this->zoomRate / 100;
+				y1 = selfRelation->GetY() + 45 * this->zoomRate / 100;
+				pDC->Rectangle(x, y, x1, y1);
+			}
 			DrawRollNameBoxes *drawRollNameBoxes = DrawRollNameBoxes::Instance();
 			CPoint cPoint;
 			SelfRelation* selfRelationLine = static_cast<SelfRelation*>(selection->GetAt(i));
-			drawRollNameBoxes->DrawSelfRelationRollNameBox(selfRelationLine, pDC);
+			if (!dynamic_cast<SelfGeneralization*>(selection->GetAt(i)) && !dynamic_cast<SelfComposition*>(selection->GetAt(i)) &&
+				!dynamic_cast<SelfCompositions*>(selection->GetAt(i)) && !dynamic_cast<SelfDependency*>(selection->GetAt(i))) {
+
+				drawRollNameBoxes->DrawSelfRelationRollNameBox(selfRelationLine, pDC, this->zoomRate);
+			}
 		}
 		i++;
 	}
 }
 
 void DrawingVisitor::Visit(Template *object, CDC *pDC) {
+	
+	//drawing
 	Long x = object->GetX();
 	Long y = object->GetY();;
 	Long width = object->GetWidth();
 	Long height = object->GetHeight();
 
 	pDC->Rectangle(x, y, x + width, y + height);
+
+	//writing
+	RECT rt = { object->GetX() + GabX , object->GetY() + GabY, object->GetX() + object->GetWidth() - GabX, object->GetY() + object->GetHeight() - GabY };
+	pDC->DrawText((CString)object->GetContent().c_str(), &rt, DT_EXPANDTABS);
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 void DrawingVisitor::Visit(ClassName* className, CDC* pDC) {
+	//writing
+	RECT rt = { className->GetX() + GabX , className->GetY() + MemoGab + GabY, className->GetX() + className->GetWidth() - GabX, className->GetY() + className->GetHeight() - GabY };
+	pDC->DrawText((CString)className->GetContent().c_str(), &rt, DT_CENTER | DT_EXPANDTABS);
 }
 void DrawingVisitor::Visit(Attribute* attribute, CDC* pDC) {
+	//writing
+	RECT rt = { attribute->GetX() + GabX , attribute->GetY() + GabY, attribute->GetX() + attribute->GetWidth() - GabX, attribute->GetY() + attribute->GetHeight() - GabY };
+	pDC->DrawText((CString)attribute->GetContent().c_str(), &rt, DT_EXPANDTABS);
 }
 void DrawingVisitor::Visit(Method* method, CDC* pDC) {
+	//writing
+	RECT rt = { method->GetX() + GabX , method->GetY() + GabY, method->GetX() + method->GetWidth() - GabX, method->GetY() + method->GetHeight() - GabY };
+	pDC->DrawText((CString)method->GetContent().c_str(), &rt, DT_EXPANDTABS);
 }
 void DrawingVisitor::Visit(Reception* reception, CDC* pDC) {
+	//writing
+	RECT rt = { reception->GetX() + GabX , reception->GetY() + GabY, reception->GetX() + reception->GetWidth() - GabX, reception->GetY() + reception->GetHeight() - GabY };
+	pDC->DrawText((CString)reception->GetContent().c_str(), &rt, DT_EXPANDTABS);
 }
 void DrawingVisitor::Visit(Line *line, CDC* pDC) {
 	Long x = line->GetX();
@@ -389,8 +476,7 @@ void DrawingVisitor::Visit(Generalization *generalization, CDC* pDC) {
 	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
 	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-														  // 수직 기울기
-
+			
 	CPoint pts[3];
 
 	pts[0].x = (endX); //마우스 현재위치 점
@@ -403,7 +489,9 @@ void DrawingVisitor::Visit(Generalization *generalization, CDC* pDC) {
 	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
 	pDC->SelectObject(&white);
-	pDC->Polygon(pts, 3);
+	if (pts[2].x != pts[2].y ) {
+		pDC->Polygon(pts, 3);
+	}
 	pDC->SelectObject(oldBrush);
 	myBrush.DeleteObject();
 }
@@ -920,6 +1008,7 @@ void DrawingVisitor::Visit(Compositions *compositions, CDC* pDC) {
 	myBrush.DeleteObject();
 }
 void DrawingVisitor::Visit(MemoLine *memoLine, CDC *pDC) {
+	//drawing
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = pDC->SelectObject(&pen);
@@ -950,441 +1039,1107 @@ void DrawingVisitor::Visit(MemoLine *memoLine, CDC *pDC) {
 	pen.DeleteObject();
 }
 void DrawingVisitor::Visit(SelfGeneralization *selfGeneralization, CDC *pDC) {
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+	Long k = 0;
+	Long l = 0;
+	Long temp = -1;
+	Class *object;
 
-	pDC->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY());
-	pDC->LineTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 40);
+	while (k < test->classDiagramForm->diagram->GetLength() && temp == -1) {
+		if (dynamic_cast<Class*>(test->classDiagramForm->diagram->GetAt(k))) {
+			object = static_cast<Class*>(test->classDiagramForm->diagram->GetAt(k));
+			l = 0;
+			while (l < object->GetLength() && temp == -1) {
+				if (dynamic_cast<SelfRelation*>(object->GetAt(l)) == selfGeneralization) {
+					temp = k;
+				}
 
-	pDC->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 40);
-	pDC->LineTo(selfGeneralization->GetX() + 80, selfGeneralization->GetY() - 40);
+				l++;
+			}
+		}
+		k++;
+	}
+	//if (selfGeneralization->GetX() == test->classDiagramForm->diagram->GetAt(temp)->GetX() + test->classDiagramForm->diagram->GetAt(temp)->GetWidth() - test->classDiagramForm->thirty) {
+	if (selfGeneralization->leftRightFlag == 0) {
+		pDC->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY());
+		pDC->LineTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfGeneralization->GetX() + 80, selfGeneralization->GetY() - 40);
-	pDC->LineTo(selfGeneralization->GetX() + 80, selfGeneralization->GetY() + 40);
+		pDC->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfGeneralization->GetX() + 80 * this->zoomRate / 100, selfGeneralization->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfGeneralization->GetX() + 80, selfGeneralization->GetY() + 40);
-	pDC->LineTo(selfGeneralization->GetX() + 30, selfGeneralization->GetY() + 40);
+		pDC->MoveTo(selfGeneralization->GetX() + 80 * this->zoomRate / 100, selfGeneralization->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfGeneralization->GetX() + 80 * this->zoomRate / 100, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
 
-	CBrush white(RGB(255, 255, 255));
-	CBrush myBrush;
-	myBrush.CreateSolidBrush(RGB(255, 255, 255));
-	CBrush *oldBrush = pDC->SelectObject(&myBrush);
+		pDC->MoveTo(selfGeneralization->GetX() + 80 * this->zoomRate / 100, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
+		pDC->LineTo(selfGeneralization->GetX() + test->classDiagramForm->thirty, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
 
-	Long startX = selfGeneralization->GetX() + 60;
-	Long startY = selfGeneralization->GetY() + 40;
-	Long endX = selfGeneralization->GetX() + 30;
-	Long endY = selfGeneralization->GetY() + 40;
+		CBrush white(RGB(255, 255, 255));
+		CBrush myBrush;
+		myBrush.CreateSolidBrush(RGB(255, 255, 255));
+		CBrush *oldBrush = pDC->SelectObject(&myBrush);
 
-	double degree = atan2(endX - startX, startY - endY); // 기울기
+		Long startX = selfGeneralization->GetX() + 80 * this->zoomRate / 100;
+		Long startY = selfGeneralization->GetY() + 40 * this->zoomRate / 100;
+		Long endX = selfGeneralization->GetX() + test->classDiagramForm->thirty;
+		Long endY = selfGeneralization->GetY() + 40 * this->zoomRate / 100;
 
-	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
-	// 루트안에 = 루트(제곱(
-	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
+		double degree = atan2(endX - startX, startY - endY); // 기울기
 
-														  // 수직 기울기
-	CPoint pts[3];
+		double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+		// 루트안에 = 루트(제곱(
+		double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+		double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-	pts[0].x = (endX); //마우스 현재위치 점
-	pts[0].y = (endY);
+															  // 수직 기울기
+		CPoint pts[3];
 
-	pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
-	pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
+		pts[0].x = (endX); //마우스 현재위치 점
+		pts[0].y = (endY);
 
-	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
-	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+		pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pDC->SelectObject(&white);
-	pDC->Polygon(pts, 3);
-	pDC->SelectObject(oldBrush);
-	myBrush.DeleteObject();
+		pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+		pDC->SelectObject(&white);
+		pDC->Polygon(pts, 3);
+		pDC->SelectObject(oldBrush);
+		myBrush.DeleteObject();
+	}
+	else {
+		pDC->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY());
+		pDC->LineTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfGeneralization->GetX(), selfGeneralization->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfGeneralization->GetX() - 80 * this->zoomRate / 100, selfGeneralization->GetY() - 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfGeneralization->GetX() - 80 * this->zoomRate / 100, selfGeneralization->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfGeneralization->GetX() - 80 * this->zoomRate / 100, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfGeneralization->GetX() - 80 * this->zoomRate / 100, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
+		pDC->LineTo(selfGeneralization->GetX() - test->classDiagramForm->thirty, selfGeneralization->GetY() + 40 * this->zoomRate / 100);
+
+		CBrush white(RGB(255, 255, 255));
+		CBrush myBrush;
+		myBrush.CreateSolidBrush(RGB(255, 255, 255));
+		CBrush *oldBrush = pDC->SelectObject(&myBrush);
+
+		Long startX = selfGeneralization->GetX() - 80 * this->zoomRate / 100;
+		Long startY = selfGeneralization->GetY() + 40 * this->zoomRate / 100;
+		Long endX = selfGeneralization->GetX() - test->classDiagramForm->thirty;
+		Long endY = selfGeneralization->GetY() + 40 * this->zoomRate / 100;
+
+		double degree = atan2(endX - startX, startY - endY); // 기울기
+
+		double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+		// 루트안에 = 루트(제곱(
+		double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+		double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+															  // 수직 기울기
+		CPoint pts[3];
+
+		pts[0].x = (endX); //마우스 현재위치 점
+		pts[0].y = (endY);
+
+		pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
+
+		pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+		pDC->SelectObject(&white);
+		pDC->Polygon(pts, 3);
+		pDC->SelectObject(oldBrush);
+		myBrush.DeleteObject();
+	}
 }
 void DrawingVisitor::Visit(SelfDependency *selfDependency, CDC *pDC) {
-	CPen pen;
-	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
-	CPen *oldPen = pDC->SelectObject(&pen);
-	pDC->SetBkMode(TRANSPARENT);
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+	Long k = 0;
+	Long l = 0;
+	Long temp = -1;
+	Class *object;
 
-	pDC->MoveTo(selfDependency->GetX(), selfDependency->GetY());
-	pDC->LineTo(selfDependency->GetX(), selfDependency->GetY() - 40);
+	while (k < test->classDiagramForm->diagram->GetLength() && temp == -1) {
+		if (dynamic_cast<Class*>(test->classDiagramForm->diagram->GetAt(k))) {
+			object = static_cast<Class*>(test->classDiagramForm->diagram->GetAt(k));
+			l = 0;
+			while (l < object->GetLength() && temp == -1) {
+				if (dynamic_cast<SelfRelation*>(object->GetAt(l)) == selfDependency) {
+					temp = k;
+				}
 
-	pDC->MoveTo(selfDependency->GetX(), selfDependency->GetY() - 40);
-	pDC->LineTo(selfDependency->GetX() + 80, selfDependency->GetY() - 40);
+				l++;
+			}
+		}
+		k++;
+	}
+	if (selfDependency->leftRightFlag == 0) {
+		CPen pen;
+		pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
+		CPen *oldPen = pDC->SelectObject(&pen);
+		pDC->SetBkMode(TRANSPARENT);
 
-	pDC->MoveTo(selfDependency->GetX() + 80, selfDependency->GetY() - 40);
-	pDC->LineTo(selfDependency->GetX() + 80, selfDependency->GetY() + 40);
+		pDC->MoveTo(selfDependency->GetX(), selfDependency->GetY());
+		pDC->LineTo(selfDependency->GetX(), selfDependency->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfDependency->GetX() + 80, selfDependency->GetY() + 40);
-	pDC->LineTo(selfDependency->GetX() + 30, selfDependency->GetY() + 40);
+		pDC->MoveTo(selfDependency->GetX(), selfDependency->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfDependency->GetX() + 80 * this->zoomRate / 100, selfDependency->GetY() - 40 * this->zoomRate / 100);
 
-	Long startX = selfDependency->GetX() + 60;
-	Long startY = selfDependency->GetY() + 40;
-	Long endX = selfDependency->GetX() + 30;
-	Long endY = selfDependency->GetY() + 40;
+		pDC->MoveTo(selfDependency->GetX() + 80 * this->zoomRate / 100, selfDependency->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfDependency->GetX() + 80 * this->zoomRate / 100, selfDependency->GetY() + 40 * this->zoomRate / 100);
 
-	pDC->SelectObject(oldPen);
-	pen.DeleteObject();
+		pDC->MoveTo(selfDependency->GetX() + 80 * this->zoomRate / 100, selfDependency->GetY() + 40 * this->zoomRate / 100);
+		pDC->LineTo(selfDependency->GetX() + 30 * this->zoomRate / 100, selfDependency->GetY() + 40 * this->zoomRate / 100);
 
-	double degree = atan2(endX - startX, startY - endY); // 기울기
+		Long startX = selfDependency->GetX() + 60 * this->zoomRate / 100;
+		Long startY = selfDependency->GetY() + 40 * this->zoomRate / 100;
+		Long endX = selfDependency->GetX() + 30 * this->zoomRate / 100;
+		Long endY = selfDependency->GetY() + 40 * this->zoomRate / 100;
 
-	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
-	// 루트안에 = 루트(제곱(
-	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
+		pDC->SelectObject(oldPen);
+		pen.DeleteObject();
 
-														  // 수직 기울기
-	CPoint pts[3];
+		double degree = atan2(endX - startX, startY - endY); // 기울기
 
-	pts[0].x = endX; //마우스 현재위치 점
-	pts[0].y = endY;
+		double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+		// 루트안에 = 루트(제곱(
+		double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+		double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-	pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
-	pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
+															  // 수직 기울기
+		CPoint pts[3];
 
-	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
-	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+		pts[0].x = endX; //마우스 현재위치 점
+		pts[0].y = endY;
 
-	pDC->MoveTo(pts[0].x, pts[0].y);
-	pDC->LineTo(pts[1].x, pts[1].y);
+		pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pDC->MoveTo(pts[0].x, pts[0].y);
-	pDC->LineTo(pts[2].x, pts[2].y);
+		pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+		pDC->MoveTo(pts[0].x, pts[0].y);
+		pDC->LineTo(pts[1].x, pts[1].y);
+
+		pDC->MoveTo(pts[0].x, pts[0].y);
+		pDC->LineTo(pts[2].x, pts[2].y);
+	}
+	else {
+		CPen pen;
+		pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
+		CPen *oldPen = pDC->SelectObject(&pen);
+		pDC->SetBkMode(TRANSPARENT);
+
+		pDC->MoveTo(selfDependency->GetX(), selfDependency->GetY());
+		pDC->LineTo(selfDependency->GetX(), selfDependency->GetY() - 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfDependency->GetX(), selfDependency->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfDependency->GetX() - 80 * this->zoomRate / 100, selfDependency->GetY() - 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfDependency->GetX() - 80 * this->zoomRate / 100, selfDependency->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfDependency->GetX() - 80 * this->zoomRate / 100, selfDependency->GetY() + 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfDependency->GetX() - 80 * this->zoomRate / 100, selfDependency->GetY() + 40 * this->zoomRate / 100);
+		pDC->LineTo(selfDependency->GetX() - 30 * this->zoomRate / 100, selfDependency->GetY() + 40 * this->zoomRate / 100);
+
+		Long startX = selfDependency->GetX() - 60 * this->zoomRate / 100;
+		Long startY = selfDependency->GetY() + 40 * this->zoomRate / 100;
+		Long endX = selfDependency->GetX() - 30 * this->zoomRate / 100;
+		Long endY = selfDependency->GetY() + 40 * this->zoomRate / 100;
+
+		pDC->SelectObject(oldPen);
+		pen.DeleteObject();
+
+		double degree = atan2(endX - startX, startY - endY); // 기울기
+
+		double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+		// 루트안에 = 루트(제곱(
+		double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+		double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+															  // 수직 기울기
+		CPoint pts[3];
+
+		pts[0].x = endX; //마우스 현재위치 점
+		pts[0].y = endY;
+
+		pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
+
+		pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+		pDC->MoveTo(pts[0].x, pts[0].y);
+		pDC->LineTo(pts[1].x, pts[1].y);
+
+		pDC->MoveTo(pts[0].x, pts[0].y);
+		pDC->LineTo(pts[2].x, pts[2].y);
+	}
 }
 void DrawingVisitor::Visit(SelfAggregation *selfAggregation, CDC *pDC) {
-	CBrush white(RGB(255, 255, 255));
-	CBrush myBrush;
-	myBrush.CreateSolidBrush(RGB(255, 255, 255));
-	CBrush *oldBrush = pDC->SelectObject(&myBrush);
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+	Long k = 0;
+	Long l = 0;
+	Long temp = -1;
+	Class *object;
 
-	pDC->MoveTo(selfAggregation->GetX(), selfAggregation->GetY());
-	pDC->LineTo(selfAggregation->GetX(), selfAggregation->GetY() - 40);
+	while (k < test->classDiagramForm->diagram->GetLength() && temp == -1) {
+		if (dynamic_cast<Class*>(test->classDiagramForm->diagram->GetAt(k))) {
+			object = static_cast<Class*>(test->classDiagramForm->diagram->GetAt(k));
+			l = 0;
+			while (l < object->GetLength() && temp == -1) {
+				if (dynamic_cast<SelfRelation*>(object->GetAt(l)) == selfAggregation) {
+					temp = k;
+				}
 
-	pDC->MoveTo(selfAggregation->GetX(), selfAggregation->GetY() - 40);
-	pDC->LineTo(selfAggregation->GetX() + 80, selfAggregation->GetY() - 40);
+				l++;
+			}
+		}
+		k++;
+	}
+	if (selfAggregation->leftRightFlag == 0) {
+		CBrush white(RGB(255, 255, 255));
+		CBrush myBrush;
+		myBrush.CreateSolidBrush(RGB(255, 255, 255));
+		CBrush *oldBrush = pDC->SelectObject(&myBrush);
 
-	pDC->MoveTo(selfAggregation->GetX() + 80, selfAggregation->GetY() - 40);
-	pDC->LineTo(selfAggregation->GetX() + 80, selfAggregation->GetY() + 40);
+		pDC->MoveTo(selfAggregation->GetX(), selfAggregation->GetY());
+		pDC->LineTo(selfAggregation->GetX(), selfAggregation->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfAggregation->GetX() + 80, selfAggregation->GetY() + 40);
-	pDC->LineTo(selfAggregation->GetX() + 30, selfAggregation->GetY() + 40);
+		pDC->MoveTo(selfAggregation->GetX(), selfAggregation->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAggregation->GetX() + 80 * this->zoomRate / 100, selfAggregation->GetY() - 40 * this->zoomRate / 100);
 
-	Long startX = selfAggregation->GetX();
-	Long startY = selfAggregation->GetY();
-	Long endX = selfAggregation->GetX();
-	Long endY = selfAggregation->GetY() - 30;
+		pDC->MoveTo(selfAggregation->GetX() + 80 * this->zoomRate / 100, selfAggregation->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAggregation->GetX() + 80 * this->zoomRate / 100, selfAggregation->GetY() + 40 * this->zoomRate / 100);
 
-	double degree = atan2(endX - startX, startY - endY); // 기울기
+		pDC->MoveTo(selfAggregation->GetX() + 80 * this->zoomRate / 100, selfAggregation->GetY() + 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAggregation->GetX() + 30 * this->zoomRate / 100, selfAggregation->GetY() + 40 * this->zoomRate / 100);
 
-	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+		Long startX = selfAggregation->GetX();
+		Long startY = selfAggregation->GetY();
+		Long endX = selfAggregation->GetX();
+		Long endY = selfAggregation->GetY() - 30 * this->zoomRate / 100;
 
-	double dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
+		double degree = atan2(endX - startX, startY - endY); // 기울기
 
-	double dX2 = (startX)-((endX - startX) / distance);
-	double dY2 = (startY)+((startY - endY) / distance);
+		double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 
-	CPoint pts2[4];
+		double dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
+		double dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-	pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
-	pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
+		double dX2 = (startX)-((endX - startX) / distance);
+		double dY2 = (startY)+((startY - endY) / distance);
 
-	pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
-	pts2[1].y = static_cast<LONG>(dY2);
+		CPoint pts2[4];
 
-	pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
-	pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+		pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
-	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
+		pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+		pts2[1].y = static_cast<LONG>(dY2);
 
-	pDC->SelectObject(&white);
-	pDC->Polygon(pts2, 4);
-	pDC->SelectObject(oldBrush);
-	myBrush.DeleteObject();
+		pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+		pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
+		pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
+
+		pDC->SelectObject(&white);
+		pDC->Polygon(pts2, 4);
+		pDC->SelectObject(oldBrush);
+		myBrush.DeleteObject();
+	}
+	else {
+		CBrush white(RGB(255, 255, 255));
+		CBrush myBrush;
+		myBrush.CreateSolidBrush(RGB(255, 255, 255));
+		CBrush *oldBrush = pDC->SelectObject(&myBrush);
+
+		pDC->MoveTo(selfAggregation->GetX(), selfAggregation->GetY());
+		pDC->LineTo(selfAggregation->GetX(), selfAggregation->GetY() - 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfAggregation->GetX(), selfAggregation->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAggregation->GetX() - 80 * this->zoomRate / 100, selfAggregation->GetY() - 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfAggregation->GetX() - 80 * this->zoomRate / 100, selfAggregation->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAggregation->GetX() - 80 * this->zoomRate / 100, selfAggregation->GetY() + 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfAggregation->GetX() - 80 * this->zoomRate / 100, selfAggregation->GetY() + 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAggregation->GetX() - 30 * this->zoomRate / 100, selfAggregation->GetY() + 40 * this->zoomRate / 100);
+
+		Long startX = selfAggregation->GetX();
+		Long startY = selfAggregation->GetY();
+		Long endX = selfAggregation->GetX();
+		Long endY = selfAggregation->GetY() - 30 * this->zoomRate / 100;
+
+		double degree = atan2(endX - startX, startY - endY); // 기울기
+
+		double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+
+		double dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
+		double dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+		double dX2 = (startX)-((endX - startX) / distance);
+		double dY2 = (startY)+((startY - endY) / distance);
+
+		CPoint pts2[4];
+
+		pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
+
+		pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+		pts2[1].y = static_cast<LONG>(dY2);
+
+		pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+		pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
+		pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
+
+		pDC->SelectObject(&white);
+		pDC->Polygon(pts2, 4);
+		pDC->SelectObject(oldBrush);
+		myBrush.DeleteObject();
+	}
 }
 
 void DrawingVisitor::Visit(SelfAssociation *selfAssociation, CDC *pDC) {
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+	Long k = 0;
+	Long l = 0;
+	Long temp = -1;
+	Class *object;
 
-	pDC->MoveTo(selfAssociation->GetX(), selfAssociation->GetY());
-	pDC->LineTo(selfAssociation->GetX(), selfAssociation->GetY() - 40);
+	while (k < test->classDiagramForm->diagram->GetLength() && temp == -1) {
+		if (dynamic_cast<Class*>(test->classDiagramForm->diagram->GetAt(k))) {
+			object = static_cast<Class*>(test->classDiagramForm->diagram->GetAt(k));
+			l = 0;
+			while (l < object->GetLength() && temp == -1) {
+				if (dynamic_cast<SelfRelation*>(object->GetAt(l)) == selfAssociation) {
+					temp = k;
+				}
 
-	pDC->MoveTo(selfAssociation->GetX(), selfAssociation->GetY() - 40);
-	pDC->LineTo(selfAssociation->GetX() + 80, selfAssociation->GetY() - 40);
+				l++;
+			}
+		}
+		k++;
+	}
+	if (selfAssociation->leftRightFlag == 0) {
+		pDC->MoveTo(selfAssociation->GetX(), selfAssociation->GetY());
+		pDC->LineTo(selfAssociation->GetX(), selfAssociation->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfAssociation->GetX() + 80, selfAssociation->GetY() - 40);
-	pDC->LineTo(selfAssociation->GetX() + 80, selfAssociation->GetY() + 40);
+		pDC->MoveTo(selfAssociation->GetX(), selfAssociation->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAssociation->GetX() + 80 * this->zoomRate / 100, selfAssociation->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfAssociation->GetX() + 80, selfAssociation->GetY() + 40);
-	pDC->LineTo(selfAssociation->GetX() + 30, selfAssociation->GetY() + 40);
+		pDC->MoveTo(selfAssociation->GetX() + 80 * this->zoomRate / 100, selfAssociation->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAssociation->GetX() + 80 * this->zoomRate / 100, selfAssociation->GetY() + 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfAssociation->GetX() + 80 * this->zoomRate / 100, selfAssociation->GetY() + 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAssociation->GetX() + 30 * this->zoomRate / 100, selfAssociation->GetY() + 40 * this->zoomRate / 100);
+	}
+	else {
+		pDC->MoveTo(selfAssociation->GetX(), selfAssociation->GetY());
+		pDC->LineTo(selfAssociation->GetX(), selfAssociation->GetY() - 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfAssociation->GetX(), selfAssociation->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAssociation->GetX() - 80 * this->zoomRate / 100, selfAssociation->GetY() - 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfAssociation->GetX() - 80 * this->zoomRate / 100, selfAssociation->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAssociation->GetX() - 80 * this->zoomRate / 100, selfAssociation->GetY() + 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfAssociation->GetX() - 80 * this->zoomRate / 100, selfAssociation->GetY() + 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAssociation->GetX() - 30 * this->zoomRate / 100, selfAssociation->GetY() + 40 * this->zoomRate / 100);
+	}
 }
 
 void DrawingVisitor::Visit(SelfAggregations *selfAggregations, CDC *pDC) {
-	CBrush white(RGB(255, 255, 255));
-	CBrush myBrush;
-	myBrush.CreateSolidBrush(RGB(255, 255, 255));
-	CBrush *oldBrush = pDC->SelectObject(&myBrush);
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+	Long k = 0;
+	Long l = 0;
+	Long temp = -1;
+	Class *object;
 
-	pDC->MoveTo(selfAggregations->GetX(), selfAggregations->GetY());
-	pDC->LineTo(selfAggregations->GetX(), selfAggregations->GetY() - 40);
+	while (k < test->classDiagramForm->diagram->GetLength() && temp == -1) {
+		if (dynamic_cast<Class*>(test->classDiagramForm->diagram->GetAt(k))) {
+			object = static_cast<Class*>(test->classDiagramForm->diagram->GetAt(k));
+			l = 0;
+			while (l < object->GetLength() && temp == -1) {
+				if (dynamic_cast<SelfRelation*>(object->GetAt(l)) == selfAggregations) {
+					temp = k;
+				}
 
-	pDC->MoveTo(selfAggregations->GetX(), selfAggregations->GetY() - 40);
-	pDC->LineTo(selfAggregations->GetX() + 80, selfAggregations->GetY() - 40);
+				l++;
+			}
+		}
+		k++;
+	}
+	if (selfAggregations->leftRightFlag == 0) {
+		CBrush white(RGB(255, 255, 255));
+		CBrush myBrush;
+		myBrush.CreateSolidBrush(RGB(255, 255, 255));
+		CBrush *oldBrush = pDC->SelectObject(&myBrush);
 
-	pDC->MoveTo(selfAggregations->GetX() + 80, selfAggregations->GetY() - 40);
-	pDC->LineTo(selfAggregations->GetX() + 80, selfAggregations->GetY() + 40);
+		pDC->MoveTo(selfAggregations->GetX(), selfAggregations->GetY());
+		pDC->LineTo(selfAggregations->GetX(), selfAggregations->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfAggregations->GetX() + 80, selfAggregations->GetY() + 40);
-	pDC->LineTo(selfAggregations->GetX() + 30, selfAggregations->GetY() + 40);
+		pDC->MoveTo(selfAggregations->GetX(), selfAggregations->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAggregations->GetX() + 80 * this->zoomRate / 100, selfAggregations->GetY() - 40 * this->zoomRate / 100);
 
-	Long startX = selfAggregations->GetX() + 60;
-	Long startY = selfAggregations->GetY() + 40;
-	Long endX = selfAggregations->GetX() + 30;
-	Long endY = selfAggregations->GetY() + 40;
+		pDC->MoveTo(selfAggregations->GetX() + 80 * this->zoomRate / 100, selfAggregations->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAggregations->GetX() + 80 * this->zoomRate / 100, selfAggregations->GetY() + 40 * this->zoomRate / 100);
 
-	double degree = atan2(endX - startX, startY - endY); // 기울기
+		pDC->MoveTo(selfAggregations->GetX() + 80 * this->zoomRate / 100, selfAggregations->GetY() + 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAggregations->GetX() + 30 * this->zoomRate / 100, selfAggregations->GetY() + 40 * this->zoomRate / 100);
 
-	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
-	// 루트안에 = 루트(제곱(
-	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
+		Long startX = selfAggregations->GetX() + 60 * this->zoomRate / 100;
+		Long startY = selfAggregations->GetY() + 40 * this->zoomRate / 100;
+		Long endX = selfAggregations->GetX() + 30 * this->zoomRate / 100;
+		Long endY = selfAggregations->GetY() + 40 * this->zoomRate / 100;
 
-														  // 수직 기울기
-	CPoint pts[3];
+		double degree = atan2(endX - startX, startY - endY); // 기울기
 
-	pts[0].x = endX; //마우스 현재위치 점
-	pts[0].y = endY;
+		double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+		// 루트안에 = 루트(제곱(
+		double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+		double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-	pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
-	pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
+															  // 수직 기울기
+		CPoint pts[3];
 
-	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
-	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+		pts[0].x = endX; //마우스 현재위치 점
+		pts[0].y = endY;
 
-	pDC->MoveTo(pts[0].x, pts[0].y);
-	pDC->LineTo(pts[1].x, pts[1].y);
+		pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pDC->MoveTo(pts[0].x, pts[0].y);
-	pDC->LineTo(pts[2].x, pts[2].y);
+		pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
-	//여기까지 화살표 다음부터 마름모
-	//문제
-	startX = selfAggregations->GetX();
-	startY = selfAggregations->GetY();
-	endX = selfAggregations->GetX();
-	endY = selfAggregations->GetY() - 30;
+		pDC->MoveTo(pts[0].x, pts[0].y);
+		pDC->LineTo(pts[1].x, pts[1].y);
 
-	degree = atan2(endX - startX, startY - endY); // 기울기
+		pDC->MoveTo(pts[0].x, pts[0].y);
+		pDC->LineTo(pts[2].x, pts[2].y);
 
-	distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+		//여기까지 화살표 다음부터 마름모
+		//문제
+		startX = selfAggregations->GetX();
+		startY = selfAggregations->GetY();
+		endX = selfAggregations->GetX();
+		endY = selfAggregations->GetY() - 30 * this->zoomRate / 100;
 
-	dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
-	dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
+		degree = atan2(endX - startX, startY - endY); // 기울기
 
-	double dX2 = (startX)-((endX - startX) / distance);
-	double dY2 = (startY)+((startY - endY) / distance);
+		distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 
-	CPoint pts2[4];
+		dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
+		dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-	pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
-	pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
+		double dX2 = (startX)-((endX - startX) / distance);
+		double dY2 = (startY)+((startY - endY) / distance);
 
-	pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
-	pts2[1].y = static_cast<LONG>(dY2);
+		CPoint pts2[4];
 
-	pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
-	pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+		pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
-	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
+		pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+		pts2[1].y = static_cast<LONG>(dY2);
 
-	pDC->SelectObject(&white);
-	pDC->Polygon(pts2, 4);
-	pDC->SelectObject(oldBrush);
-	myBrush.DeleteObject();
+		pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+		pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
+		pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
+
+		pDC->SelectObject(&white);
+		pDC->Polygon(pts2, 4);
+		pDC->SelectObject(oldBrush);
+		myBrush.DeleteObject();
+	}
+	else {
+		CBrush white(RGB(255, 255, 255));
+		CBrush myBrush;
+		myBrush.CreateSolidBrush(RGB(255, 255, 255));
+		CBrush *oldBrush = pDC->SelectObject(&myBrush);
+
+		pDC->MoveTo(selfAggregations->GetX(), selfAggregations->GetY());
+		pDC->LineTo(selfAggregations->GetX(), selfAggregations->GetY() - 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfAggregations->GetX(), selfAggregations->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAggregations->GetX() - 80 * this->zoomRate / 100, selfAggregations->GetY() - 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfAggregations->GetX() - 80 * this->zoomRate / 100, selfAggregations->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAggregations->GetX() - 80 * this->zoomRate / 100, selfAggregations->GetY() + 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfAggregations->GetX() - 80 * this->zoomRate / 100, selfAggregations->GetY() + 40 * this->zoomRate / 100);
+		pDC->LineTo(selfAggregations->GetX() - 30 * this->zoomRate / 100, selfAggregations->GetY() + 40 * this->zoomRate / 100);
+
+		Long startX = selfAggregations->GetX() - 60 * this->zoomRate / 100;
+		Long startY = selfAggregations->GetY() + 40 * this->zoomRate / 100;
+		Long endX = selfAggregations->GetX() - 30 * this->zoomRate / 100;
+		Long endY = selfAggregations->GetY() + 40 * this->zoomRate / 100;
+
+		double degree = atan2(endX - startX, startY - endY); // 기울기
+
+		double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+		// 루트안에 = 루트(제곱(
+		double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+		double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+															  // 수직 기울기
+		CPoint pts[3];
+
+		pts[0].x = endX; //마우스 현재위치 점
+		pts[0].y = endY;
+
+		pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
+
+		pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+		pDC->MoveTo(pts[0].x, pts[0].y);
+		pDC->LineTo(pts[1].x, pts[1].y);
+
+		pDC->MoveTo(pts[0].x, pts[0].y);
+		pDC->LineTo(pts[2].x, pts[2].y);
+
+		//여기까지 화살표 다음부터 마름모
+		//문제
+		startX = selfAggregations->GetX();
+		startY = selfAggregations->GetY();
+		endX = selfAggregations->GetX();
+		endY = selfAggregations->GetY() - 30 * this->zoomRate / 100;
+
+		degree = atan2(endX - startX, startY - endY); // 기울기
+
+		distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+
+		dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
+		dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+		double dX2 = (startX)-((endX - startX) / distance);
+		double dY2 = (startY)+((startY - endY) / distance);
+
+		CPoint pts2[4];
+
+		pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
+
+		pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+		pts2[1].y = static_cast<LONG>(dY2);
+
+		pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+		pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
+		pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
+
+		pDC->SelectObject(&white);
+		pDC->Polygon(pts2, 4);
+		pDC->SelectObject(oldBrush);
+		myBrush.DeleteObject();
+	}
 }
 void DrawingVisitor::Visit(SelfDirectedAssociation *selfDirectedAssociation, CDC *pDC) {
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+	Long k = 0;
+	Long l = 0;
+	Long temp = -1;
+	Class *object;
 
-	pDC->MoveTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY());
-	pDC->LineTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 40);
+	while (k < test->classDiagramForm->diagram->GetLength() && temp == -1) {
+		if (dynamic_cast<Class*>(test->classDiagramForm->diagram->GetAt(k))) {
+			object = static_cast<Class*>(test->classDiagramForm->diagram->GetAt(k));
+			l = 0;
+			while (l < object->GetLength() && temp == -1) {
+				if (dynamic_cast<SelfRelation*>(object->GetAt(l)) == selfDirectedAssociation) {
+					temp = k;
+				}
 
-	pDC->MoveTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 40);
-	pDC->LineTo(selfDirectedAssociation->GetX() + 80, selfDirectedAssociation->GetY() - 40);
+				l++;
+			}
+		}
+		k++;
+	}
+	if (selfDirectedAssociation->leftRightFlag == 0) {
+		pDC->MoveTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY());
+		pDC->LineTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfDirectedAssociation->GetX() + 80, selfDirectedAssociation->GetY() - 40);
-	pDC->LineTo(selfDirectedAssociation->GetX() + 80, selfDirectedAssociation->GetY() + 40);
+		pDC->MoveTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfDirectedAssociation->GetX() + 80 * this->zoomRate / 100, selfDirectedAssociation->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfDirectedAssociation->GetX() + 80, selfDirectedAssociation->GetY() + 40);
-	pDC->LineTo(selfDirectedAssociation->GetX() + 30, selfDirectedAssociation->GetY() + 40);
+		pDC->MoveTo(selfDirectedAssociation->GetX() + 80 * this->zoomRate / 100, selfDirectedAssociation->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfDirectedAssociation->GetX() + 80 * this->zoomRate / 100, selfDirectedAssociation->GetY() + 40 * this->zoomRate / 100);
 
-	Long startX = selfDirectedAssociation->GetX() + 60;
-	Long startY = selfDirectedAssociation->GetY() + 40;
-	Long endX = selfDirectedAssociation->GetX() + 30;
-	Long endY = selfDirectedAssociation->GetY() + 40;
+		pDC->MoveTo(selfDirectedAssociation->GetX() + 80 * this->zoomRate / 100, selfDirectedAssociation->GetY() + 40 * this->zoomRate / 100);
+		pDC->LineTo(selfDirectedAssociation->GetX() + 30 * this->zoomRate / 100, selfDirectedAssociation->GetY() + 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(startX, startY);
-	pDC->LineTo(endX, endY);
+		Long startX = selfDirectedAssociation->GetX() + 60 * this->zoomRate / 100;
+		Long startY = selfDirectedAssociation->GetY() + 40 * this->zoomRate / 100;
+		Long endX = selfDirectedAssociation->GetX() + 30 * this->zoomRate / 100;
+		Long endY = selfDirectedAssociation->GetY() + 40 * this->zoomRate / 100;
 
-	double degree = atan2(endX - startX, startY - endY); // 기울기
+		pDC->MoveTo(startX, startY);
+		pDC->LineTo(endX, endY);
 
-	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
-	// 루트안에 = 루트(제곱(
-	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
+		double degree = atan2(endX - startX, startY - endY); // 기울기
 
-														  // 수직 기울기
-	CPoint pts[3];
+		double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+		// 루트안에 = 루트(제곱(
+		double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+		double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-	pts[0].x = endX; //마우스 현재위치 점
-	pts[0].y = endY;
+															  // 수직 기울기
+		CPoint pts[3];
 
-	pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
-	pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
+		pts[0].x = endX; //마우스 현재위치 점
+		pts[0].y = endY;
 
-	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
-	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+		pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pDC->MoveTo(pts[0].x, pts[0].y);
-	pDC->LineTo(pts[1].x, pts[1].y);
+		pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
-	pDC->MoveTo(pts[0].x, pts[0].y);
-	pDC->LineTo(pts[2].x, pts[2].y);
+		pDC->MoveTo(pts[0].x, pts[0].y);
+		pDC->LineTo(pts[1].x, pts[1].y);
+
+		pDC->MoveTo(pts[0].x, pts[0].y);
+		pDC->LineTo(pts[2].x, pts[2].y);
+	}
+	else {
+		pDC->MoveTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY());
+		pDC->LineTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfDirectedAssociation->GetX(), selfDirectedAssociation->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfDirectedAssociation->GetX() - 80 * this->zoomRate / 100, selfDirectedAssociation->GetY() - 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfDirectedAssociation->GetX() - 80 * this->zoomRate / 100, selfDirectedAssociation->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfDirectedAssociation->GetX() - 80 * this->zoomRate / 100, selfDirectedAssociation->GetY() + 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfDirectedAssociation->GetX() - 80 * this->zoomRate / 100, selfDirectedAssociation->GetY() + 40 * this->zoomRate / 100);
+		pDC->LineTo(selfDirectedAssociation->GetX() - 30 * this->zoomRate / 100, selfDirectedAssociation->GetY() + 40 * this->zoomRate / 100);
+
+		Long startX = selfDirectedAssociation->GetX() - 60 * this->zoomRate / 100;
+		Long startY = selfDirectedAssociation->GetY() + 40 * this->zoomRate / 100;
+		Long endX = selfDirectedAssociation->GetX() - 30 * this->zoomRate / 100;
+		Long endY = selfDirectedAssociation->GetY() + 40 * this->zoomRate / 100;
+
+		pDC->MoveTo(startX, startY);
+		pDC->LineTo(endX, endY);
+
+		double degree = atan2(endX - startX, startY - endY); // 기울기
+
+		double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+		// 루트안에 = 루트(제곱(
+		double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+		double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+															  // 수직 기울기
+		CPoint pts[3];
+
+		pts[0].x = endX; //마우스 현재위치 점
+		pts[0].y = endY;
+
+		pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
+
+		pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+		pDC->MoveTo(pts[0].x, pts[0].y);
+		pDC->LineTo(pts[1].x, pts[1].y);
+
+		pDC->MoveTo(pts[0].x, pts[0].y);
+		pDC->LineTo(pts[2].x, pts[2].y);
+	}
 }
 void DrawingVisitor::Visit(SelfComposition *selfComposition, CDC *pDC) {
-	CBrush black(RGB(000, 000, 000));
-	CBrush myBrush;
-	myBrush.CreateSolidBrush(RGB(255, 255, 255));
-	CBrush *oldBrush = pDC->SelectObject(&myBrush);
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+	Long k = 0;
+	Long l = 0;
+	Long temp = -1;
+	Class *object;
 
-	pDC->MoveTo(selfComposition->GetX(), selfComposition->GetY());
-	pDC->LineTo(selfComposition->GetX(), selfComposition->GetY() - 40);
+	while (k < test->classDiagramForm->diagram->GetLength() && temp == -1) {
+		if (dynamic_cast<Class*>(test->classDiagramForm->diagram->GetAt(k))) {
+			object = static_cast<Class*>(test->classDiagramForm->diagram->GetAt(k));
+			l = 0;
+			while (l < object->GetLength() && temp == -1) {
+				if (dynamic_cast<SelfRelation*>(object->GetAt(l)) == selfComposition) {
+					temp = k;
+				}
 
-	pDC->MoveTo(selfComposition->GetX(), selfComposition->GetY() - 40);
-	pDC->LineTo(selfComposition->GetX() + 80, selfComposition->GetY() - 40);
+				l++;
+			}
+		}
+		k++;
+	}
+	if (selfComposition->leftRightFlag == 0) {
+		CBrush black(RGB(000, 000, 000));
+		CBrush myBrush;
+		myBrush.CreateSolidBrush(RGB(255, 255, 255));
+		CBrush *oldBrush = pDC->SelectObject(&myBrush);
 
-	pDC->MoveTo(selfComposition->GetX() + 80, selfComposition->GetY() - 40);
-	pDC->LineTo(selfComposition->GetX() + 80, selfComposition->GetY() + 40);
+		pDC->MoveTo(selfComposition->GetX(), selfComposition->GetY());
+		pDC->LineTo(selfComposition->GetX(), selfComposition->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfComposition->GetX() + 80, selfComposition->GetY() + 40);
-	pDC->LineTo(selfComposition->GetX() + 30, selfComposition->GetY() + 40);
+		pDC->MoveTo(selfComposition->GetX(), selfComposition->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfComposition->GetX() + 80 * this->zoomRate / 100, selfComposition->GetY() - 40 * this->zoomRate / 100);
 
-	Long startX = selfComposition->GetX();
-	Long startY = selfComposition->GetY();
-	Long endX = selfComposition->GetX();
-	Long endY = selfComposition->GetY() - 30;
-	double degree = atan2(endX - startX, startY - endY); // 기울기
+		pDC->MoveTo(selfComposition->GetX() + 80 * this->zoomRate / 100, selfComposition->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfComposition->GetX() + 80 * this->zoomRate / 100, selfComposition->GetY() + 40 * this->zoomRate / 100);
 
-	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+		pDC->MoveTo(selfComposition->GetX() + 80 * this->zoomRate / 100, selfComposition->GetY() + 40 * this->zoomRate / 100);
+		pDC->LineTo(selfComposition->GetX() + 30 * this->zoomRate / 100, selfComposition->GetY() + 40 * this->zoomRate / 100);
 
-	double dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
+		Long startX = selfComposition->GetX();
+		Long startY = selfComposition->GetY();
+		Long endX = selfComposition->GetX();
+		Long endY = selfComposition->GetY() - 30 * this->zoomRate / 100;
+		double degree = atan2(endX - startX, startY - endY); // 기울기
 
-	double dX2 = (startX)-((endX - startX) / distance);
-	double dY2 = (startY)+((startY - endY) / distance);
+		double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 
-	CPoint pts2[4];
+		double dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
+		double dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-	pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
-	pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
+		double dX2 = (startX)-((endX - startX) / distance);
+		double dY2 = (startY)+((startY - endY) / distance);
 
-	pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
-	pts2[1].y = static_cast<LONG>(dY2);
+		CPoint pts2[4];
 
-	pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
-	pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+		pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
-	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
+		pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+		pts2[1].y = static_cast<LONG>(dY2);
 
-	pDC->SelectObject(&black);
-	pDC->Polygon(pts2, 4);
-	pDC->SelectObject(oldBrush);
-	myBrush.DeleteObject();
+		pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+		pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
+		pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
+
+		pDC->SelectObject(&black);
+		pDC->Polygon(pts2, 4);
+		pDC->SelectObject(oldBrush);
+		myBrush.DeleteObject();
+	}
+	else {
+		CBrush black(RGB(000, 000, 000));
+		CBrush myBrush;
+		myBrush.CreateSolidBrush(RGB(255, 255, 255));
+		CBrush *oldBrush = pDC->SelectObject(&myBrush);
+
+		pDC->MoveTo(selfComposition->GetX(), selfComposition->GetY());
+		pDC->LineTo(selfComposition->GetX(), selfComposition->GetY() - 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfComposition->GetX(), selfComposition->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfComposition->GetX() - 80 * this->zoomRate / 100, selfComposition->GetY() - 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfComposition->GetX() - 80 * this->zoomRate / 100, selfComposition->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfComposition->GetX() - 80 * this->zoomRate / 100, selfComposition->GetY() + 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfComposition->GetX() - 80 * this->zoomRate / 100, selfComposition->GetY() + 40 * this->zoomRate / 100);
+		pDC->LineTo(selfComposition->GetX() - 30 * this->zoomRate / 100, selfComposition->GetY() + 40 * this->zoomRate / 100);
+
+		Long startX = selfComposition->GetX();
+		Long startY = selfComposition->GetY();
+		Long endX = selfComposition->GetX();
+		Long endY = selfComposition->GetY() - 30 * this->zoomRate / 100;
+		double degree = atan2(endX - startX, startY - endY); // 기울기
+
+		double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+
+		double dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
+		double dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+		double dX2 = (startX)-((endX - startX) / distance);
+		double dY2 = (startY)+((startY - endY) / distance);
+
+		CPoint pts2[4];
+
+		pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
+
+		pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+		pts2[1].y = static_cast<LONG>(dY2);
+
+		pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+		pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
+		pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
+
+		pDC->SelectObject(&black);
+		pDC->Polygon(pts2, 4);
+		pDC->SelectObject(oldBrush);
+		myBrush.DeleteObject();
+	}
 }
 void DrawingVisitor::Visit(SelfCompositions *selfCompositions, CDC *pDC) {
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+	Long k = 0;
+	Long l = 0;
+	Long temp = -1;
+	Class *object;
 
-	CBrush black(RGB(000, 000, 000));
-	CBrush myBrush;
-	myBrush.CreateSolidBrush(RGB(255, 255, 255));
-	CBrush *oldBrush = pDC->SelectObject(&myBrush);
+	while (k < test->classDiagramForm->diagram->GetLength() && temp == -1) {
+		if (dynamic_cast<Class*>(test->classDiagramForm->diagram->GetAt(k))) {
+			object = static_cast<Class*>(test->classDiagramForm->diagram->GetAt(k));
+			l = 0;
+			while (l < object->GetLength() && temp == -1) {
+				if (dynamic_cast<SelfRelation*>(object->GetAt(l)) == selfCompositions) {
+					temp = k;
+				}
 
-	pDC->MoveTo(selfCompositions->GetX(), selfCompositions->GetY());
-	pDC->LineTo(selfCompositions->GetX(), selfCompositions->GetY() - 40);
+				l++;
+			}
+		}
+		k++;
+	}
+	if (selfCompositions->leftRightFlag == 0) {
 
-	pDC->MoveTo(selfCompositions->GetX(), selfCompositions->GetY() - 40);
-	pDC->LineTo(selfCompositions->GetX() + 80, selfCompositions->GetY() - 40);
+		CBrush black(RGB(000, 000, 000));
+		CBrush myBrush;
+		myBrush.CreateSolidBrush(RGB(255, 255, 255));
+		CBrush *oldBrush = pDC->SelectObject(&myBrush);
 
-	pDC->MoveTo(selfCompositions->GetX() + 80, selfCompositions->GetY() - 40);
-	pDC->LineTo(selfCompositions->GetX() + 80, selfCompositions->GetY() + 40);
+		pDC->MoveTo(selfCompositions->GetX(), selfCompositions->GetY());
+		pDC->LineTo(selfCompositions->GetX(), selfCompositions->GetY() - 40 * this->zoomRate / 100);
 
-	pDC->MoveTo(selfCompositions->GetX() + 80, selfCompositions->GetY() + 40);
-	pDC->LineTo(selfCompositions->GetX() + 30, selfCompositions->GetY() + 40);
+		pDC->MoveTo(selfCompositions->GetX(), selfCompositions->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfCompositions->GetX() + 80 * this->zoomRate / 100, selfCompositions->GetY() - 40 * this->zoomRate / 100);
 
-	Long startX = selfCompositions->GetX() + 60;
-	Long startY = selfCompositions->GetY() + 40;
-	Long endX = selfCompositions->GetX() + 30;
-	Long endY = selfCompositions->GetY() + 40;
-	double degree = atan2(endX - startX, startY - endY); // 기울기
+		pDC->MoveTo(selfCompositions->GetX() + 80 * this->zoomRate / 100, selfCompositions->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfCompositions->GetX() + 80 * this->zoomRate / 100, selfCompositions->GetY() + 40 * this->zoomRate / 100);
 
-	double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
-	// 루트안에 = 루트(제곱(
-	double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
-	double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
+		pDC->MoveTo(selfCompositions->GetX() + 80 * this->zoomRate / 100, selfCompositions->GetY() + 40 * this->zoomRate / 100);
+		pDC->LineTo(selfCompositions->GetX() + 30 * this->zoomRate / 100, selfCompositions->GetY() + 40 * this->zoomRate / 100);
 
-														  // 수직 기울기
-	CPoint pts[3];
+		Long startX = selfCompositions->GetX() + 60 * this->zoomRate / 100;
+		Long startY = selfCompositions->GetY() + 40 * this->zoomRate / 100;
+		Long endX = selfCompositions->GetX() + 30 * this->zoomRate / 100;
+		Long endY = selfCompositions->GetY() + 40 * this->zoomRate / 100;
+		double degree = atan2(endX - startX, startY - endY); // 기울기
 
-	pts[0].x = endX; //마우스 현재위치 점
-	pts[0].y = endY;
+		double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+		// 루트안에 = 루트(제곱(
+		double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+		double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-	pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
-	pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
+															  // 수직 기울기
+		CPoint pts[3];
 
-	pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
-	pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+		pts[0].x = endX; //마우스 현재위치 점
+		pts[0].y = endY;
 
-	pDC->MoveTo(pts[0].x, pts[0].y);
-	pDC->LineTo(pts[1].x, pts[1].y);
+		pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pDC->MoveTo(pts[0].x, pts[0].y);
-	pDC->LineTo(pts[2].x, pts[2].y);
+		pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
 
-	//여기까지 화살표 다음부터 마름모
-	//문제
-	startX = selfCompositions->GetX();
-	startY = selfCompositions->GetY();
-	endX = selfCompositions->GetX();
-	endY = selfCompositions->GetY() - 30;
+		pDC->MoveTo(pts[0].x, pts[0].y);
+		pDC->LineTo(pts[1].x, pts[1].y);
 
-	degree = atan2(endX - startX, startY - endY); // 기울기
+		pDC->MoveTo(pts[0].x, pts[0].y);
+		pDC->LineTo(pts[2].x, pts[2].y);
 
-	distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+		//여기까지 화살표 다음부터 마름모
+		//문제
+		startX = selfCompositions->GetX();
+		startY = selfCompositions->GetY();
+		endX = selfCompositions->GetX();
+		endY = selfCompositions->GetY() - 30 * this->zoomRate / 100;
 
-	dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
-	dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
+		degree = atan2(endX - startX, startY - endY); // 기울기
 
-	double dX2 = (startX)-((endX - startX) / distance);
-	double dY2 = (startY)+((startY - endY) / distance);
+		distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
 
-	CPoint pts2[4];
+		dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
+		dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
 
-	pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
-	pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
+		double dX2 = (startX)-((endX - startX) / distance);
+		double dY2 = (startY)+((startY - endY) / distance);
 
-	pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
-	pts2[1].y = static_cast<LONG>(dY2);
+		CPoint pts2[4];
 
-	pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
-	pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+		pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
 
-	pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
-	pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
+		pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+		pts2[1].y = static_cast<LONG>(dY2);
 
-	pDC->SelectObject(&black);
-	pDC->Polygon(pts2, 4);
-	pDC->SelectObject(oldBrush);
-	myBrush.DeleteObject();
+		pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+		pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
+		pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
+
+		pDC->SelectObject(&black);
+		pDC->Polygon(pts2, 4);
+		pDC->SelectObject(oldBrush);
+		myBrush.DeleteObject();
+	}
+	else {
+		CBrush black(RGB(000, 000, 000));
+		CBrush myBrush;
+		myBrush.CreateSolidBrush(RGB(255, 255, 255));
+		CBrush *oldBrush = pDC->SelectObject(&myBrush);
+
+		pDC->MoveTo(selfCompositions->GetX(), selfCompositions->GetY());
+		pDC->LineTo(selfCompositions->GetX(), selfCompositions->GetY() - 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfCompositions->GetX(), selfCompositions->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfCompositions->GetX() - 80 * this->zoomRate / 100, selfCompositions->GetY() - 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfCompositions->GetX() - 80 * this->zoomRate / 100, selfCompositions->GetY() - 40 * this->zoomRate / 100);
+		pDC->LineTo(selfCompositions->GetX() - 80 * this->zoomRate / 100, selfCompositions->GetY() + 40 * this->zoomRate / 100);
+
+		pDC->MoveTo(selfCompositions->GetX() - 80 * this->zoomRate / 100, selfCompositions->GetY() + 40 * this->zoomRate / 100);
+		pDC->LineTo(selfCompositions->GetX() - 30 * this->zoomRate / 100, selfCompositions->GetY() + 40 * this->zoomRate / 100);
+
+		Long startX = selfCompositions->GetX() - 60 * this->zoomRate / 100;
+		Long startY = selfCompositions->GetY() + 40 * this->zoomRate / 100;
+		Long endX = selfCompositions->GetX() - 30 * this->zoomRate / 100;
+		Long endY = selfCompositions->GetY() + 40 * this->zoomRate / 100;
+		double degree = atan2(endX - startX, startY - endY); // 기울기
+
+		double distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+		// 루트안에 = 루트(제곱(
+		double dX = (endX)-(10 * (endX - startX) / distance); //뒤로 온 기준점 x
+		double dY = (endY)+(10 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+															  // 수직 기울기
+		CPoint pts[3];
+
+		pts[0].x = endX; //마우스 현재위치 점
+		pts[0].y = endY;
+
+		pts[1].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts[1].y = static_cast<LONG>(dY - 10 * sin(degree));
+
+		pts[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+		pDC->MoveTo(pts[0].x, pts[0].y);
+		pDC->LineTo(pts[1].x, pts[1].y);
+
+		pDC->MoveTo(pts[0].x, pts[0].y);
+		pDC->LineTo(pts[2].x, pts[2].y);
+
+		//여기까지 화살표 다음부터 마름모
+		//문제
+		startX = selfCompositions->GetX();
+		startY = selfCompositions->GetY();
+		endX = selfCompositions->GetX();
+		endY = selfCompositions->GetY() - 30 * this->zoomRate / 100;
+
+		degree = atan2(endX - startX, startY - endY); // 기울기
+
+		distance = sqrt(pow(endX - startX, 2) + pow(startY - endY, 2));
+
+		dX = (startX)+(9 * (endX - startX) / distance); //뒤로 온 기준점 x
+		dY = (startY)-(9 * (startY - endY) / distance); //뒤로 온 기준점 y
+
+		double dX2 = (startX)-((endX - startX) / distance);
+		double dY2 = (startY)+((startY - endY) / distance);
+
+		CPoint pts2[4];
+
+		pts2[0].x = static_cast<LONG>(dX - 10 * cos(degree)); // 윗점
+		pts2[0].y = static_cast<LONG>(dY - 10 * sin(degree));
+
+		pts2[1].x = static_cast<LONG>(dX2); //마우스 처음 점
+		pts2[1].y = static_cast<LONG>(dY2);
+
+		pts2[2].x = static_cast<LONG>(dX + 10 * cos(degree)); // 아랫점
+		pts2[2].y = static_cast<LONG>(dY + 10 * sin(degree));
+
+		pts2[3].x = static_cast<LONG>(dX) + static_cast<LONG>(10 * (endX - startX) / distance); // 윗점
+		pts2[3].y = static_cast<LONG>(dY) - static_cast<LONG>(10 * (startY - endY) / distance);
+
+		pDC->SelectObject(&black);
+		pDC->Polygon(pts2, 4);
+		pDC->SelectObject(oldBrush);
+		myBrush.DeleteObject();
+	}
 }
 void DrawingVisitor::Visit(SelfRelation *selfRelation, CDC *cPaintDc) {
+	if (!dynamic_cast<Generalization*>(selfRelation) && !dynamic_cast<Composition*>(selfRelation) &&
+		!dynamic_cast<Compositions*>(selfRelation) && !dynamic_cast<Dependency*>(selfRelation) &&
+		!dynamic_cast<Realization*>(selfRelation)) {
+		CFont font;
+		font.CreateFont(10 * this->zoomRate / 100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
+		CFont*  oldFont;
+		oldFont = cPaintDc->SelectObject(&font);
+		Long i = 0;
+		while (i < 5) {
+			if (i == 0) {
+				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 10 * this->zoomRate / 100 , selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					selfRelation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			}
+			else if (i == 1) {
+				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 30 * this->zoomRate / 100 , selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					selfRelation->rollNamePoints->GetAt(i).x + 30 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			}
+			else if (i == 2 || i == 3) {
+				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					selfRelation->rollNamePoints->GetAt(i).x + 50 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			}
+			else if (i == 4) {
+				RECT rt = { selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					selfRelation->rollNamePoints->GetAt(i).x + 10 * this->zoomRate / 100,  selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+				cPaintDc->DrawText((CString)selfRelation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			}
+			i++;
+		}
+		cPaintDc->SelectObject(oldFont);
+		font.DeleteObject();
+	}
 }
 void DrawingVisitor::Visit(Relation *relation, CDC *cPaintDc) {
+	if (!dynamic_cast<Generalization*>(relation) && !dynamic_cast<Composition*>(relation) &&
+		!dynamic_cast<Compositions*>(relation) && !dynamic_cast<Dependency*>(relation) &&
+		!dynamic_cast<Realization*>(relation) && !dynamic_cast<MemoLine*>(relation)) {
+		CFont font;
+		font.CreateFont(10 * this->zoomRate / 100, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
+		CFont*  oldFont;
+		oldFont = cPaintDc->SelectObject(&font);
+		Long i = 0;
+		while (i < 5) {
+			if (i == 1) {
+				RECT rt = { relation->rollNamePoints->GetAt(i).x - 40 * this->zoomRate / 100, relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					relation->rollNamePoints->GetAt(i).x + 40 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+				cPaintDc->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			}
+			else if (i == 3 || i == 4) {
+				RECT rt = { relation->rollNamePoints->GetAt(i).x - 25 * this->zoomRate / 100, relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					relation->rollNamePoints->GetAt(i).x + 25 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+				cPaintDc->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			}
+
+			else {
+				RECT rt = { relation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100, relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100,
+					relation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100,  relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100 };
+				cPaintDc->DrawText((CString)relation->rollNames->GetAt(i).c_str(), &rt, DT_NOCLIP | DT_EXPANDTABS);
+			}
+			i++;
+		}
+		cPaintDc->SelectObject(oldFont);
+		font.DeleteObject();
+	}
 }
-void DrawingVisitor::Visit(Text* text, CDC* pDC) {
-}
+

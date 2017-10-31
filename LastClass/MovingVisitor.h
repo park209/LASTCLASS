@@ -44,7 +44,10 @@ public:
 
 	void Visit(SelfRelation *selfRelation, CDC *cPaintDc);
 	void Visit(Relation *relation, CDC *cPaintDc);
-
+	//moving
+	void Visit(Class *object, Long distanceX, Long distanceY);
+	void Visit(MemoBox *memoBox, Long distanceX, Long distanceY);
+	//writing
 	void Visit(Text* text, CDC* pDC);
 };
 

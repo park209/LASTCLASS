@@ -10,6 +10,7 @@
 #include "ClassDiagramForm.h"
 #include "HistoryGraphic.h"
 #include "SelfRelation.h"
+
 DrawingAggregation* DrawingAggregation::instance = 0;
 
 MouseLButtonAction* DrawingAggregation::Instance() {
@@ -26,10 +27,13 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 	Long quadrant;
 	Long quadrant2;
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
+	classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+	classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
+
 	selection->SelectByPointForRelation(diagram, currentX, currentY);
 
-	if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && dynamic_cast<Class*>(selection->GetAt(1)) 
+	if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && dynamic_cast<Class*>(selection->GetAt(1))
 		&& selection->GetAt(0) != selection->GetAt(1)) {
 		Class * classObject = dynamic_cast<Class*>(selection->GetAt(0));
 		Class * classObject2 = dynamic_cast<Class*>(selection->GetAt(1));
@@ -68,8 +72,9 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 		Aggregation object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 		index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
+		figure->SetEndPointFigure(classObject2);
 	}
-	
+
 
 	else if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
@@ -77,17 +82,18 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 		bool ret = false;
 		while (i < object->GetLength()) {
 			if (dynamic_cast<SelfRelation*>(object->GetAt(i))) {
-				ret = true;
+				ret = true; // ¼¿ÇÁ¼± ÀÖ´Ù
 			}
 			i++;
 		}
 		if (ret == false) {
-			SelfAggregation  selfAggregation(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
+			SelfAggregation  selfAggregation(object->GetX() + object->GetWidth() - 30 * classDiagramForm->zoomRate / 100,
+				object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
 			if (object->GetTempletePosition() != -1) {
-				selfAggregation.Move(0, -17);
+				selfAggregation.Move(0, -classDiagramForm->seventeen);
 				Long k = 0;
 				while (k < 5) {
-					CPoint cPoint(selfAggregation.rollNamePoints->GetAt(k).x, selfAggregation.rollNamePoints->GetAt(k).y - 17);
+					CPoint cPoint(selfAggregation.rollNamePoints->GetAt(k).x, selfAggregation.rollNamePoints->GetAt(k).y - classDiagramForm->seventeen);
 					selfAggregation.rollNamePoints->Modify(k, cPoint);
 					k++;
 				}
@@ -105,7 +111,7 @@ void DrawingAggregation::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *d
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingAggregation::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
+void DrawingAggregation::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);

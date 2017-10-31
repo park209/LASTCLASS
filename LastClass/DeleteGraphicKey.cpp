@@ -9,6 +9,8 @@
 #include "Relation.h"
 #include "Diagram.h"
 #include "MouseLButton.h"
+#include "LastClass.h"
+#include "StatusBar.h"
 
 DeleteGraphicKey::DeleteGraphicKey() {
 }
@@ -26,8 +28,6 @@ void DeleteGraphicKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 	FigureComposite *selectedComposite;
 	FigureComposite *composite;
 	Figure *relation;
-	Long relationEndX;
-	Long relationEndY;
 	while (i < classDiagramForm->selection->GetLength()) {
 		if (dynamic_cast<FigureComposite*>(classDiagramForm->selection->GetAt(i))) {
 			selectedComposite = static_cast<FigureComposite*>(classDiagramForm->selection->GetAt(i));
@@ -38,12 +38,7 @@ void DeleteGraphicKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 				while (k < composite->GetLength()) {
 					if (dynamic_cast<Relation*>(composite->GetAt(k))) {
 						relation = composite->GetAt(k);
-						relationEndX = relation->GetX() + relation->GetWidth();
-						relationEndY = relation->GetY() + relation->GetHeight();
-						if (selectedComposite->GetX() <= relationEndX
-							&& relationEndX <= selectedComposite->GetX() + selectedComposite->GetWidth()
-							&& selectedComposite->GetY() <= relationEndY
-							&& relationEndY <= selectedComposite->GetY() + selectedComposite->GetHeight()) {
+						if (relation->GetEndPointFigure() == static_cast<Figure*>(selectedComposite)){
 							classDiagramForm->selection->Add(relation);
 						}
 					}
@@ -56,11 +51,16 @@ void DeleteGraphicKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 	}
 
 	if (classDiagramForm->selection->GetLength() > 0) {
-		classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram);
+		classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram, classDiagramForm->zoomRate);
+		classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+		classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
 		while (classDiagramForm->selection->GetLength() != 0) {
 			classDiagramForm->selection->Remove(classDiagramForm->diagram, classDiagramForm->selection->GetAt(classDiagramForm->selection->GetLength() - 1));
 		}
 	}
+	classDiagramForm->lastClass->statusBar->DestroyStatus();
+	classDiagramForm->lastClass->statusBar->MakeStatusBar(classDiagramForm->lastClass, classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
+
 	classDiagramForm->mouseLButton->ChangeDefault();
 }
 

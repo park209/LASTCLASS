@@ -3,7 +3,10 @@
 #include "GraphicCtrlUndoMenuAction.h"
 #include "LastClass.h"
 #include "ClassDiagramForm.h"
+#include "TextEdit.h"
 #include "GraphicCtrlUndoKey.h"
+#include "CtrlUndoTextKey.h"
+#include "StatusBar.h"
 
 GraphicCtrlUndoMenuAction::GraphicCtrlUndoMenuAction() {
 }
@@ -22,4 +25,14 @@ void GraphicCtrlUndoMenuAction::MenuPress(LastClass *lastClass) {
 			delete ctrlUndo;
 		}
 	}
+	else {
+		CtrlUndoTextKey *ctrlTextUndo = new CtrlUndoTextKey;
+		ctrlTextUndo->KeyPress(lastClass->classDiagramForm->textEdit);
+		lastClass->classDiagramForm->textEdit->Invalidate(false);
+		if (ctrlTextUndo != 0) {
+			delete ctrlTextUndo;
+		}
+	}
+	lastClass->statusBar->DestroyStatus();
+	lastClass->statusBar->MakeStatusBar(lastClass, lastClass->GetSafeHwnd(), 0, 0, 5);
 }

@@ -3,6 +3,7 @@
 #include "Relation.h"
 #include "Finder.h"
 #include "RollNameBox.h"
+#include "DrawingVisitor.h"
 #include "Figure.h"
 
 Relation::Relation(Long capacity) :Figure(), points(capacity) {
@@ -207,3 +208,5 @@ void Relation::MovePaste(Long distanceX, Long distanceY) {
 Long Relation::Correct(Long index, CPoint point) {
 	return this->points.Modify(index, point);
 }
+
+

@@ -32,6 +32,8 @@
 #include "DeleteGraphicKeyMenuAction.h"
 #include "AboutMenuAction.h"
 #include "ExitKeyMenuAction.h"
+#include "ZoomInMenuAction.h"
+#include "ZoomOutMenuAction.h"
 
 Menu::Menu(LastClass* lastClass) {
 	this->lastClass = lastClass;
@@ -41,16 +43,21 @@ Menu::Menu(LastClass* lastClass) {
 	this->supportMenu = new CMenu; // 도움말
 	this->drawMenu = new CMenu; // 그리기 메뉴
 	this->relationMenu = new CMenu; // 관계선 메뉴
+	this->seeMenu = new CMenu;//보기 메뉴
+
 	this->mainMenu->CreateMenu();
+
 	this->popupMenu->CreatePopupMenu();
 	this->editMenu->CreatePopupMenu();
 	this->supportMenu->CreatePopupMenu();
 	this->drawMenu->CreatePopupMenu();
 	this->relationMenu->CreatePopupMenu();
+	this->seeMenu->CreatePopupMenu();
 
 	this->mainMenu->AppendMenu(MF_POPUP, (UINT_PTR)this->popupMenu->m_hMenu, "파일(F)");
 	this->mainMenu->AppendMenu(MF_POPUP, (UINT_PTR)this->editMenu->m_hMenu, "편집(E)");
 	this->mainMenu->AppendMenu(MF_POPUP, (UINT_PTR)this->drawMenu->m_hMenu, "그리기(D)");
+	this->mainMenu->AppendMenu(MF_POPUP, (UINT_PTR)this->seeMenu->m_hMenu, "보기(S)");
 	this->mainMenu->AppendMenu(MF_POPUP, (UINT_PTR)this->supportMenu->m_hMenu, "도움말(H)");
 	lastClass->SetMenu(this->mainMenu);
 	this->popupMenu->AppendMenu(MF_STRING, 100, "새로 만들기(N)");
@@ -78,15 +85,11 @@ Menu::Menu(LastClass* lastClass) {
 	this->relationMenu->AppendMenu(MF_STRING, 119, "합성(8)");
 	this->relationMenu->AppendMenu(MF_STRING, 120, "복합연관(9)");
 	this->relationMenu->AppendMenu(MF_STRING, 121, "메모라인(0)");
-	this->supportMenu->AppendMenu(MF_STRING, 122, "도움말(H)");
-	this->supportMenu->AppendMenu(MF_STRING, 125, "LastClass 정보(A)");
+	this->supportMenu->AppendMenu(MF_STRING, 126, "도움말(H)");
+	this->supportMenu->AppendMenu(MF_STRING, 127, "LastClass 정보(A)");
+	this->seeMenu->AppendMenu(MF_STRING, 122, "확대하기");
+	this->seeMenu->AppendMenu(MF_STRING, 125, "축소하기");
 
-	//this->supportMenu->Detach();
-	//this->drawMenu->Detach();
-	//this->relationMenu->Detach();
-	//this->editMenu->Detach();
-	//this->popupMenu->Detach();
-	//this->mainMenu->Detach();
 }
 
 Menu::Menu(const Menu& source){
@@ -94,6 +97,7 @@ Menu::Menu(const Menu& source){
 	this->popupMenu = source.popupMenu;
 	this->editMenu = source.editMenu;
 	this->supportMenu = source.supportMenu;
+	this->seeMenu = source.seeMenu;//
 }
 
 MenuAction* Menu::MenuSelected( UINT parm_control_id) {
@@ -120,14 +124,17 @@ MenuAction* Menu::MenuSelected( UINT parm_control_id) {
 	case 119: this->menuAction = new CompositionMenuAction; break;
 	case 120: this->menuAction = new CompositionsMenuAction; break;
 	case 121: this->menuAction = new MemoLineMenuAction; break;
-	case 122: this->menuAction = new SupportMenuAction; break;
-	case 106:this->menuAction = new ExitKeyMenuAction; break;
-	case 107:this->menuAction = new GraphicCtrlCopyMenuAction; break;
-	case 108:this->menuAction = new GraphicCtrlPasteMenuAction; break;
+	case 122: this->menuAction = new ZoomInMenuAction; break;
+	case 106:this->menuAction =  new ExitKeyMenuAction; break;
+	case 107:this->menuAction =  new GraphicCtrlCopyMenuAction; break;
+	case 108:this->menuAction =  new GraphicCtrlPasteMenuAction; break;
 	case 109: this->menuAction = new GraphicCtrlCutMenuAction; break;
 	case 123: this->menuAction = new GraphicCtrlUndoMenuAction; break;
 	case 124: this->menuAction = new GraphicCtrlRedoMenuAction; break;
-	case 125: this->menuAction = new AboutMenuAction; break;
+	case 125: this->menuAction = new ZoomOutMenuAction; break;
+	case 126: this->menuAction = new SupportMenuAction; break;
+	case 127: this->menuAction = new AboutMenuAction; break;
+
 	default: break;
 	}
 
@@ -147,11 +154,14 @@ Menu& Menu::operator=(const Menu& source) {
 	if (this->supportMenu != NULL) {
 		delete this->supportMenu;
 	}
-
+	if (this->seeMenu != NULL) {
+		delete this->seeMenu;
+	}
 	this->mainMenu = source.mainMenu;
 	this->popupMenu = source.popupMenu;
 	this->editMenu = source.editMenu;
 	this->supportMenu = source.supportMenu;
+	this->seeMenu = source.seeMenu;
 
 	return *this;
 }
@@ -174,5 +184,8 @@ Menu::~Menu() {
 	}
 	if (this->relationMenu != NULL) {
 		delete this->relationMenu;
+	}
+	if (this->seeMenu != NULL) {
+		delete this->seeMenu;
 	}
 }

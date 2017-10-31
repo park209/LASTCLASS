@@ -25,7 +25,10 @@ void DrawingDependency::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramF
 	Long quadrant;
 	Long quadrant2;
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
+	classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+	classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
+
 	selection->SelectByPointForRelation(diagram, currentX, currentY);
 
 	if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && dynamic_cast<Class*>(selection->GetAt(1))
@@ -67,32 +70,7 @@ void DrawingDependency::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramF
 		Dependency object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 		index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
-	}
-
-	else if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && selection->GetAt(0) == selection->GetAt(1)) {
-		Class *object = static_cast<Class*>(selection->GetAt(0));
-		Long i = 0;
-		bool ret = false;
-		while (i < object->GetLength()) {
-			if (dynamic_cast<SelfRelation*>(object->GetAt(i))) {
-				ret = true;
-			}
-			i++;
-		}
-		if (ret == false) {
-			SelfDependency selfDependency(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
-			if (object->GetTempletePosition() != -1) {
-				selfDependency.Move(0, -17);
-				Long k = 0;
-				while (k < 5) {
-					CPoint cPoint(selfDependency.rollNamePoints->GetAt(k).x, selfDependency.rollNamePoints->GetAt(k).y - 17);
-					selfDependency.rollNamePoints->Modify(k, cPoint);
-					k++;
-				}
-			}
-			index = object->Add(selfDependency.Clone());
-			figure = object->GetAt(index);
-		}
+		figure->SetEndPointFigure(classObject2);
 	}
 	selection->DeleteAllItems();
 	this->ChangeDefault(mouseLButton);
@@ -102,7 +80,7 @@ void DrawingDependency::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *di
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingDependency::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
+void DrawingDependency::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);

@@ -3,7 +3,10 @@
 #include "GraphicCtrlRedoMenuAction.h"
 #include "LastClass.h"
 #include "ClassDiagramForm.h"
+#include "TextEdit.h"
 #include "GraphicCtrlRedoKey.h"
+#include "CtrlRedoTextKey.h"
+#include "StatusBar.h"
 
 GraphicCtrlRedoMenuAction::GraphicCtrlRedoMenuAction() {
 }
@@ -22,4 +25,14 @@ void GraphicCtrlRedoMenuAction::MenuPress(LastClass *lastClass) {
 			delete ctrlRedo;
 		}
 	}
+	else {
+		CtrlRedoTextKey *ctrlTextRedo = new CtrlRedoTextKey;
+		ctrlTextRedo->KeyPress(lastClass->classDiagramForm->textEdit);
+		lastClass->classDiagramForm->textEdit->Invalidate(false);
+		if (ctrlTextRedo != 0) {
+			delete ctrlTextRedo;
+		}
+	}
+	lastClass->statusBar->DestroyStatus();
+	lastClass->statusBar->MakeStatusBar(lastClass, lastClass->GetSafeHwnd(), 0, 0, 5);
 }

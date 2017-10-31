@@ -1,21 +1,19 @@
 
 //Relation.h
+
 #ifndef _RELATION_H
 #define _RELATION_H
 
 
 #include "Figure.h"
-#include "WritingVisitor.h"
 #include "Array.h"
+
 #include <afxwin.h>
+
 typedef signed long int Long;
 
-
-
+class Visitor;
 class Relation : public Figure {
-
-
-
 public:
 	Relation(Long capacity = 1);
 	Relation(const Relation& source);

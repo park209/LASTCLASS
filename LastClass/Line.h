@@ -14,6 +14,7 @@ class Line : public Figure {
 public:
 	Line();
 	Line(Long x, Long y, Long width, Long height);
+	Line(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight,string content);
 	Line(const Line& source);
 	virtual ~Line();
 

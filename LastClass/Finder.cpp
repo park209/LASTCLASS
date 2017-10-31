@@ -177,21 +177,14 @@ CPoint Finder::GetCrossPoint(const CPoint& lineStart, const CPoint& lineEnd, CRe
 void Finder::FindRelationEndPoints(Diagram *diagram, FigureComposite *figureComposite, Figure *(*figures), Long *length) {
 	Long i = 0;
 	Long k = 0;
-	Long startX = figureComposite->GetX();
-	Long startY = figureComposite->GetY();
-	Long endX = figureComposite->GetX() + figureComposite->GetWidth();
-	Long endY = figureComposite->GetY() + figureComposite->GetHeight();
-
+	Figure *endPointFigure = static_cast<Figure*>(figureComposite);
 	while (k < diagram->GetLength()) {
 		figureComposite = static_cast<FigureComposite*>(diagram->GetAt(k));
 		Long l = 0;
 		while (l < figureComposite->GetLength()) {
 			if (dynamic_cast<Relation*>(figureComposite->GetAt(l))) {
 				Figure *figure = figureComposite->GetAt(l);
-				Long relationEndX = figure->GetX() + figure->GetWidth();
-				Long relationEndY = figure->GetY() + figure->GetHeight();
-				if (startX <= relationEndX &&  relationEndX <= endX &&
-					startY <= relationEndY &&  relationEndY <= endY) {
+				if(figure->GetEndPointFigure() == endPointFigure) {
 					figures[i] = figure;
 					(*length)++;
 					i++;
@@ -209,15 +202,20 @@ Figure* Finder::GetParents(Diagram *diagram, Figure *figure) {
 	Long i = 0;
 	Figure *object = 0;
 	Long j;
+	Long k = 0;
 	FigureComposite *figures = 0;
 	while (i < diagram->GetLength() && object == 0) {
 		j = 0;
+		k = 0;
 		figures = static_cast<FigureComposite*>(diagram->GetAt(i));
-		while (j < figures->GetLength() && figure->GetX() != figures->GetAt(j)->GetX()&& figure->GetY() != figures->GetAt(j)->GetY()) {
-		//while (j < figures->GetLength() && figure != figures->GetAt(j)) {
-			j++;
+		while (k< figures->GetLength()){
+			if (figure->GetX() != static_cast<Figure*>(figures->GetAt(k))->GetX() ||
+				figure->GetY() != static_cast<Figure*>(figures->GetAt(k))->GetY()) {
+				j++;
+			}
+			k++;
 		}
-		if (j < figures->GetLength()) {
+		if(j< figures->GetLength()){
 			object = static_cast<Figure*>(figures);
 		}
 		i++;
@@ -225,7 +223,7 @@ Figure* Finder::GetParents(Diagram *diagram, Figure *figure) {
 	return object;
 }
 Long Finder::FindQuadrant(Long x, Long y, Long left, Long top, Long right, Long bottom) {
-	Long Quadrant;
+	Long Quadrant = -1 ;
 	if (x >= left && x <= right && y == top) {
 		Quadrant = 1;
 	}
@@ -239,6 +237,23 @@ Long Finder::FindQuadrant(Long x, Long y, Long left, Long top, Long right, Long 
 		Quadrant = 4;
 	}
 	return Quadrant;
+}
+
+Long Finder::FindQuadrant(Long pointX, Long pointY, Long x, Long y) {
+	Long quadrant;
+	if (pointX >= x && pointY <= y) {
+		quadrant = 1;
+	}
+	if (pointX >= x && pointY >= y) {
+		quadrant = 2;
+	}
+	if (pointX <= x && pointY >= y) {
+		quadrant = 3;
+	}
+	if (pointX <= x && pointY <= y) {
+		quadrant = 4;
+	}
+	return quadrant;
 }
 
 bool IsLineCross(const CPoint& line1Start, const CPoint& line1End, const CPoint& line2Start, const CPoint& line2End) {

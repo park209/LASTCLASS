@@ -7,7 +7,7 @@
 
 class DrawingVisitor :public Visitor {
 public:
-	DrawingVisitor();
+	DrawingVisitor(Long zoomRate);
 	~DrawingVisitor();
 
 	void Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY);
@@ -44,7 +44,11 @@ public:
 	void Visit(SelfRelation *selfRelation, CDC *cPaintDc);
 	void Visit(Relation *relation, CDC *cPaintDc);
 
+	void Visit(Class *object, Long distanceX, Long distanceY);
+	void Visit(MemoBox *memoBox, Long distanceX, Long distanceY);
 	void Visit(Text* text, CDC* pDC);
+private:
+	Long zoomRate;
 };
 
 #endif // _DRAWINGVISITOR_H

@@ -17,15 +17,17 @@ public:
 	HistoryGraphic(const HistoryGraphic& source);
 	~HistoryGraphic();
 
-	void PushUndo(Diagram *diagram);
-	Diagram* PopUndoGraphic();
+	void PushUndo(Diagram *diagram, Long zoomRate);
+	void PopUndoGraphic(Diagram*(*diagram), Long *zoomRate);
 
-	void PushRedo(Diagram *diagram);
-	Diagram* PopRedoGraphic();
+	void PushRedo(Diagram *diagram, Long zoomRate);
+	void PopRedoGraphic(Diagram*(*diagram), Long *zoomRate);
 
 public:
 	Array<Diagram*>*undoGraphicArray;
 	Array<Diagram*>*redoGraphicArray;
+	Array<Long>*undoGraphicZoomRateArray;
+	Array<Long>*redoGraphicZoomRateArray;
 
 	static HistoryGraphic* instance;
 };

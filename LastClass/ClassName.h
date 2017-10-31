@@ -11,6 +11,7 @@ class ClassName : public Figure {
 public:
 	ClassName();
 	ClassName(Long x, Long y, Long width, Long height, string content);
+	ClassName(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight, string content);
 	ClassName(const ClassName& source);
 	virtual ~ClassName();
 

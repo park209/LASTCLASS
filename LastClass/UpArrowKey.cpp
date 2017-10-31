@@ -48,7 +48,7 @@ void UpArrowKey::KeyPress(TextEdit *textEdit) {
 
 	textEdit->caret->MoveToPoint(textEdit, &dc, CPoint(x, rowIndex));
 	if (previousCharacterIndex == textEdit->text->GetAt(previousRowIndex)->GetLength() &&
-		previousRowIndex > 0) {
+		previousRowIndex > 0 && textEdit->text->GetAt(previousRowIndex)->GetLength() != 0) {
 		textEdit->caret->SetCharacterIndex(textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength());
 	}
 	dc.SelectObject(oldFont);

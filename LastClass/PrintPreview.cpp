@@ -3,13 +3,15 @@
 #include "PrintPreview.h"
 #include "LastClass.h"
 #include "ClassDiagramForm.h"
+#include "Relation.h"
 #include "DrawingVisitor.h"
-#include "WritingVisitor.h"
 #include "Diagram.h"
-
+#include "Finder.h"
 #include "PrintPreviewButton.h"
 #include "PrintPreviewButtonAction.h"
-
+#include "KnockKnock.h"
+#include "ResizeVisitor.h"
+#include "ScrollMovingObject.h"
 //#include <afxwin.h>
 //#include <afxdlgs.h>
 
@@ -18,9 +20,9 @@ BEGIN_MESSAGE_MAP(PrintPreview, CWnd)
 	ON_WM_PAINT()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
-	//ON_WM_VSCROLL()
 	ON_WM_MOUSEWHEEL()
 	ON_WM_CLOSE()
+	ON_WM_SIZE()
 	ON_COMMAND_RANGE(1, 5, OnCommandButton)
 END_MESSAGE_MAP()
 
@@ -38,61 +40,130 @@ PrintPreview::PrintPreview(LastClass *lastClass) {
 	this->verticalPage = 0;
 	this->horizontalPageSize = 2000;
 	this->verticalPageSize = 2000;
+	this->horizontalPaperSize = 0;
+	this->verticalPaperSize = 0;
 	this->zoomRate = 100;
+	this->totalPage=0;
+	this->classDaigramFormZoomRate = 100;
 }
 
-int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
+int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) { 
    CFrameWnd::OnCreate(lpCreateStruct);
-   
+
    this->printPreviewButton = new PrintPreviewButton;
 
    this->ModifyStyle(0, WS_OVERLAPPEDWINDOW  );
    this->nextButton = new CButton;
-   this->nextButton->Create("다음 페이지", WS_CHILD|WS_VISIBLE|BS_PUSHBUTTON|BS_CENTER|BS_VCENTER,CRect(50,100,200,140), this, 1);
+   this->nextButton->Create("다음 페이지", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(775, 10, 925, 50), this, 1);
    this->previousButton = new CButton;
-   this->previousButton->Create("이전 페이지", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 150, 200, 190), this, 2);
+   this->previousButton->Create("이전 페이지", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(420, 10, 570, 50), this, 2);
    this->printButton = new CButton;
-   this->printButton->Create("인쇄하기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 200, 200, 240), this, 3);
-   this->printZoomIn = new CButton;
-   //this->printZoomIn->Create("확 대", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 250, 200, 290), this, 4);
-   this->printZoomOut = new CButton;
-  // this->printZoomOut->Create("축 소", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 300, 200, 340), this, 5);
+   this->printButton->Create("인쇄하기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(600, 10, 745, 50), this, 3);
+   
+   ScrollMovingObject scrollMovingObject;
+   Long hPos = this->lastClass->classDiagramForm->GetScrollPos(SB_HORZ);
+   Long vPos = this->lastClass->classDiagramForm->GetScrollPos(SB_VERT);
+   scrollMovingObject.MovingObject(this->lastClass->classDiagramForm->diagram, hPos, vPos);
 
-   this->SetFocus();
-   this->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER);
+   this->classDaigramFormZoomRate = lastClass->classDiagramForm->zoomRate;
+   ResizeVisitor visitor1(lastClass->classDiagramForm->zoomRate, 100);
+   lastClass->classDiagramForm->zoomRate = 100;
+   lastClass->classDiagramForm->SetMemoGab(20 * lastClass->classDiagramForm->zoomRate / 100);
+   lastClass->classDiagramForm->SetGabX(8 * lastClass->classDiagramForm->zoomRate / 100);
+   lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
+   lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
+   CDC memDC;
+   lastClass->classDiagramForm->diagram->Accept(visitor1, &memDC);
 
-   this->SetScrollRange(SB_VERT, 0, 380);
+   KnockKnock *knocking = new KnockKnock;
+   knocking->Knocking(lastClass->classDiagramForm);
+   if (knocking != NULL) {
+	   delete knocking;
+   }
+   //this->SetScrollRange(SB_VERT, 0, 380);
 
    this->lastClass->EnableWindow(false);
-   //this->lastClass->classDiagramForm->EnableWindow(false);
-   
-   Invalidate();
+   this->horizontalPaperSize = scrollMovingObject.GetHorizontalMax(this->lastClass->classDiagramForm->diagram);
+   this->verticalPaperSize = scrollMovingObject.GetVerticalMax(this->lastClass->classDiagramForm->diagram);
+
+   //CRect rect(2000, 0, 4000, 2000);
+   //bool ret = false;
+   //Long l = 0;
+   //Long m;
+   //Long n;
+   //Finder finder;
+   //Long length = lastClass->classDiagramForm->diagram->GetLength();
+   //while (l < length && ret != true) { // 2페이지에 클래스나 메모박스가 있는지 확인.
+	  // FigureComposite *figureComposite = (FigureComposite*)lastClass->classDiagramForm->diagram->GetAt(l);
+	  // CRect comperRect(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
+	  // ret = finder.FindRectangleByArea(comperRect, rect);
+	  // m = 0;
+	  // while (m < figureComposite->GetLength() && ret != true) {
+		 //  Figure *figure = figureComposite->GetAt(m);
+		 //  ret = finder.FindRectangleByPoint(rect, figure->GetX(), figure->GetY());
+		 //  if (dynamic_cast<Relation*>(figure)) {
+			//   Relation *relation = static_cast<Relation*>(figure);
+			//   n = 0;
+			//   while (n < relation->GetLength() && ret != true) {
+			//	   CPoint point1 = relation->GetAt(n);
+			//	   ret = finder.FindRectangleByPoint(rect, point1.x, point1.y);
+			//	   n++;
+			//   }
+		 //  }
+		 //  m++;
+	  // }
+	  // l++;
+   //}
+   //if (ret == true) {
+	  // this->verticalPaperSize = 2000;
+	  //this->horizontalPaperSize = 4000;
+	  // this->totalPage = 2;
+   //}
+   //else {
+	  // this->verticalPaperSize = 2000;
+	  // this->horizontalPaperSize = 2000;
+	  // this->totalPage = 1;
+   //}
+
+   Invalidate(false);
    
    return 0;
 }
 void PrintPreview::OnPaint() {
-	
 	CPaintDC dc(this);
 	CRect rec;
 	this->GetClientRect(&rec);
 	CDC memDC;
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
-	
+	Long verPaper = this->verticalPaperSize;
+	Long horiPaper = this->horizontalPaperSize;
+	if (this->verticalPaperSize-this->verticalPage < this->verticalPageSize) {
+		verPaper = this->verticalPage + this->verticalPageSize;
+	}
+	else if (this->verticalPaperSize  < this->verticalPageSize) {
+		verPaper = this->verticalPageSize;
+	}
+	if (this->horizontalPaperSize-this->horizontalPage < this->horizontalPageSize) {
+		horiPaper = this->horizontalPage + this->horizontalPageSize;
+	}
+	else if (this->horizontalPaperSize< this->horizontalPageSize) {
+		horiPaper = this->horizontalPageSize;
+	}
 	memDC.CreateCompatibleDC(&dc);
-	bitmap.CreateCompatibleBitmap(&dc, 4000, 2000);
+	bitmap.CreateCompatibleBitmap(&dc, horiPaper, verPaper);
 	pOldBitmap = memDC.SelectObject(&bitmap);
-	memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
+	memDC.FillSolidRect(CRect(0, 0, horiPaper, verPaper), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
+	int ih = MulDiv(14 * lastClass->classDiagramForm->zoomRate / 100, GetDeviceCaps(dc, LOGPIXELSY), 72);
+	cFont.CreateFont(ih, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
-	DrawingVisitor drawingVisitor;
+	DrawingVisitor drawingVisitor(100);
 	this->lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &memDC);
-	WritingVisitor writingVisitor;
-	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
-
+	//WritingVisitor writingVisitor(100);
+	//this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
 	// 흰종이 사이즈
 	Long a = (rec.CenterPoint().x)* 5 / 8;
 	Long b = (rec.CenterPoint().y)* 1 / 6;
@@ -111,27 +182,27 @@ void PrintPreview::OnPaint() {
 	dc.BitBlt(0, 0, rec.Width(), rec.Height(), &memDCOne, 0, 0, SRCCOPY);
 	////////////////////////////////////////////////////////////
 	//회색바탕 고정하고, 확대한 흰종이에서 이동 가능하게
-	dc.SetMapMode(MM_ISOTROPIC);
-	dc.SetWindowExt(100, 100);
-	dc.SetViewportExt(this->zoomRate, this->zoomRate);
+//	dc.SetMapMode(MM_ISOTROPIC);
+	//dc.SetWindowExt(100, 100);
+	//dc.SetViewportExt(this->zoomRate, this->zoomRate);
 	//dc.SetViewportOrg(220, 20);
 
 	Long vertPos = this->GetScrollPos(SB_VERT);
 	//Long horzPos = this->GetScrollPos(SB_HORZ);
 
 	//흰종이 출력
-	memDCOne.StretchBlt(a,b - vertPos,c,d - vertPos,&memDC, this->horizontalPage, this->verticalPage, this->horizontalPageSize, this->verticalPageSize, SRCCOPY);
+	memDCOne.StretchBlt(a,b ,c,d ,&memDC, this->horizontalPage, this->verticalPage, this->horizontalPageSize, this->verticalPageSize, SRCCOPY);
 
 	//회색바탕에 흰종이 같이 출력
 	dc.BitBlt(0, 0, rec.Width(), rec.Height(), &memDCOne, 0, 0, SRCCOPY);
 
-	CString tempString = _T("");
-	tempString.Format(_T("해상도 (가로:%d 세로:%d), 모니터길이 (가로:%d 세로:%d)"),
-		dc.GetDeviceCaps(HORZRES),
-		dc.GetDeviceCaps(VERTRES),
-		dc.GetDeviceCaps(HORZSIZE),
-		dc.GetDeviceCaps(VERTSIZE));
-	dc.TextOutA(10, 10, tempString);
+	//CString tempString = _T("");
+	//tempString.Format(_T("해상도 (가로:%d 세로:%d), 모니터길이 (가로:%d 세로:%d)"),
+	//	dc.GetDeviceCaps(HORZRES),
+	//	dc.GetDeviceCaps(VERTRES),
+	//	dc.GetDeviceCaps(HORZSIZE),
+	//	dc.GetDeviceCaps(VERTSIZE));
+	//dc.TextOutA(10, 10, tempString);
 
 	memDC.SelectObject(oldFont);
 	cFont.DeleteObject();
@@ -147,8 +218,14 @@ void PrintPreview::OnDraw(CDC *cdc) {
 
 }
 void PrintPreview::OnPrint(CDC *cdc, CPrintInfo *pInfo, UINT page) {
-	Long i[10] = { 0,2000,800,800,1600,1600,2400,2400,3200,3200 };
-	Long j[10] = { 0,0,0,1000,0,1000,0,1000,0,1000 };
+	Long horiPaper = this->horizontalPaperSize;
+	Long verPaper = this->verticalPaperSize;
+	if (this->horizontalPaperSize % this->horizontalPageSize != 0) {
+		horiPaper = (this->horizontalPaperSize / this->horizontalPageSize + 1)*this->horizontalPageSize;
+	}
+	if (this->verticalPaperSize%this->verticalPageSize != 0) {
+		verPaper = (this->verticalPaperSize / this->verticalPageSize + 1)*this->verticalPageSize;
+	}
 	Long k = page - 1;
 
 	Long width = pInfo->m_rectDraw.Width();
@@ -158,48 +235,70 @@ void PrintPreview::OnPrint(CDC *cdc, CPrintInfo *pInfo, UINT page) {
 	this->lastClass->classDiagramForm->GetClientRect(&rect);
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
-	
+
 	CPaintDC dc(this);
 
 	memDC.CreateCompatibleDC(&dc);
-	bitmap.CreateCompatibleBitmap(&dc, 4000, 2000);
+	bitmap.CreateCompatibleBitmap(&dc, horiPaper, verPaper);
 	pOldBitmap = memDC.SelectObject(&bitmap);
-	memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
+	memDC.FillSolidRect(CRect(0, 0, horiPaper, verPaper), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-	cFont.CreateFont(25, 0, 0, 0, FW_BOLD, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "맑은 고딕");
+	int ih = MulDiv(14 * lastClass->classDiagramForm->zoomRate / 100, GetDeviceCaps(dc, LOGPIXELSY), 72);
+	cFont.CreateFont(ih, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
 
-	DrawingVisitor drawingVisitor;
+	DrawingVisitor drawingVisitor(100);
 	this->lastClass->classDiagramForm->diagram->Accept(drawingVisitor, &memDC);
-	WritingVisitor writingVisitor;
-	this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
-
-
+	//WritingVisitor writingVisitor(100);
+	//this->lastClass->classDiagramForm->diagram->Accept(writingVisitor, &memDC);
+	Long horiPage = 0;
+	Long verPage = 0;
+	Long i = 0;
+	while (i <(Long) page-1) {
+		verPage += this->verticalPageSize;
+		if (verPage >= verPaper) {
+			horiPage += this->horizontalPageSize;
+			if (horiPage >= horiPaper) {
+				horiPage -= this->horizontalPageSize;
+				verPage -= this->verticalPageSize;
+			}
+			else {
+				verPage = 0;
+			}
+		}
+		if (i == 1) {
+			Long tth = horiPage;
+			Long dee = verPage;
+		}
+		i++;
+	}
+		
 	CBitmap *pOldBitmapOne;
 	CBitmap bitmapOne;
 	CDC memDCOne;
 	memDCOne.CreateCompatibleDC(&dc);
-	bitmapOne.CreateCompatibleBitmap(&dc, 2000, 2000);
+	bitmapOne.CreateCompatibleBitmap(&dc, this->horizontalPageSize, this->verticalPageSize);
 	pOldBitmapOne = memDCOne.SelectObject(&bitmapOne);
-	memDCOne.FillSolidRect(CRect(0, 0, 2000, 2000), RGB(255, 255, 255));
-	memDCOne.BitBlt(0, 0, 2000, 2000, &memDC, i[k], j[k], SRCCOPY);
+	memDCOne.FillSolidRect(CRect(0, 0, this->horizontalPageSize, this->verticalPageSize), RGB(255, 255, 255));
+	memDCOne.BitBlt(0, 0, this->horizontalPageSize, this->verticalPageSize, &memDC, horiPage,verPage, SRCCOPY);
 
 	int mapMode = cdc->GetMapMode();
 	memDCOne.SetMapMode(mapMode);
 	cdc->SetStretchBltMode(COLORONCOLOR);
 
-	cdc->SetMapMode(MM_ISOTROPIC);
-	cdc->SetWindowExt(100, 100);
-	cdc->SetViewportExt(this->zoomRate, this->zoomRate);
+	//cdc->SetMapMode(MM_ISOTROPIC);
+	//cdc->SetWindowExt(100, 100);
+	//cdc->SetViewportExt(this->zoomRate, this->zoomRate);
 
-	cdc->StretchBlt(100, 100, width - 200, hegiht - 200, &memDCOne, 0, 0, 2000, 2000, SRCCOPY);
+	cdc->StretchBlt(100, 100, width - 200, hegiht - 200, &memDCOne, 0, 0, this->horizontalPageSize, this->verticalPageSize, SRCCOPY);
 
 }
 
 BOOL PrintPreview::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	CFrameWnd::SetFocus();
+
 	SetFocus();
 	bool ret = false;
 
@@ -209,42 +308,101 @@ BOOL PrintPreview::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	DWORD dwSize = 10;
 	BYTE* pByte = new BYTE[dwSize];
 
-	ZeroMemory(pByte, dwSize);
-
-	RegOpenKey(HKEY_CURRENT_USER, "Control Panel\\Desktop", &hKey);
-	RegQueryValueEx(hKey, "WheelScrollLines", NULL, &dwType, pByte, &dwSize);
-	RegCloseKey(hKey);
+	//ZeroMemory(pByte, dwSize);
+	
+	//RegOpenKey(HKEY_CURRENT_USER, "Control Panel\\Desktop", &hKey);
+	//RegQueryValueEx(hKey, "WheelScrollLines", NULL, &dwType, pByte, &dwSize);
+//	RegCloseKey(hKey);
 
 	int nWheelScrollLines = atoi((char*)pByte);
-	delete pByte;
+	//delete pByte;
 
-	int vertCurPos = GetScrollPos(SB_VERT);
+	//int vertCurPos = GetScrollPos(SB_VERT);
 
 	if (GetKeyState(VK_CONTROL) >= 0) {
 		if (zDelta <= 0) { //마우스 휠 다운
-			vertCurPos += nWheelScrollLines * 20;
+	//		vertCurPos += nWheelScrollLines * 20;
 		}
 		else {  //마우스 휠 업
-			vertCurPos -= nWheelScrollLines * 20;
+	//		vertCurPos -= nWheelScrollLines * 20;
 		}
 		ret = true;
 	}
 	else {
 		if (zDelta <= 0) { //마우스 휠 다운
-			this->zoomRate -= 10;
+			this->zoomRate += 10;
+			this->verticalPageSize += 100;
+			if (this->verticalPageSize > 3000) {
+				this->verticalPageSize = 3000;
+			}
+			this->horizontalPageSize += 100;
+			if (this->horizontalPageSize > 3000) {
+				this->horizontalPageSize = 3000;
+			}
 			if (this->zoomRate < 50) {
 				this->zoomRate = 50;
 			}
 		}
 		else {  //마우스 휠 업
-			this->zoomRate += 10;
+			this->zoomRate -= 10;
+			this->verticalPageSize -= 100;
+			if (this->verticalPageSize < 1000) {
+				this->verticalPageSize = 1000;
+			}
+			this->horizontalPageSize -= 100;
+			if (this->horizontalPageSize < 1000) {
+				this->horizontalPageSize = 1000;
+			}
 			if (this->zoomRate > 190) {
 				this->zoomRate = 190;
 			}
 		}
 		ret = true;
 	}
-	SetScrollPos(SB_VERT, vertCurPos);
+	//SetScrollPos(SB_VERT, vertCurPos);
+	CRect rect(0, 0, this->horizontalPageSize, this->verticalPageSize);
+	Long l = 0;
+	Long m;
+	Long n;
+	Long k=1;
+	Finder finder;
+	Long length = lastClass->classDiagramForm->diagram->GetLength();
+	this->totalPage = 0;
+	while (this->horizontalPaperSize > rect.left ){
+		rect.MoveToY(0);
+		while (this->verticalPaperSize > rect.top) {
+			ret = false;
+			l = 0;
+			while (l < length && ret != true) { // 2페이지에 클래스나 메모박스가 있는지 확인.
+				FigureComposite *figureComposite = (FigureComposite*)lastClass->classDiagramForm->diagram->GetAt(l);
+				CRect comperRect(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
+				ret = finder.FindRectangleByArea(comperRect, rect);
+				m = 0;
+				while (m < figureComposite->GetLength() && ret != true) {
+					Figure *figure = figureComposite->GetAt(m);
+					ret = finder.FindRectangleByPoint(rect, figure->GetX(), figure->GetY());
+					if (dynamic_cast<Relation*>(figure)) {
+						Relation *relation = static_cast<Relation*>(figure);
+						n = 0;
+						while (n < relation->GetLength() && ret != true) {
+							CPoint point1 = relation->GetAt(n);
+							ret = finder.FindRectangleByPoint(rect, point1.x, point1.y);
+							n++;
+						}
+					}
+					m++;
+				}
+				l++;
+
+			}
+			if (ret == true) {
+				this->totalPage = k;
+			}
+			k++;
+			rect.MoveToY(rect.top + this->verticalPageSize);
+		}
+		rect.MoveToX(rect.left+this->horizontalPageSize);
+	}
 	Invalidate(false);
 
 	return ret;
@@ -252,6 +410,26 @@ BOOL PrintPreview::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 
 void PrintPreview::OnClose() {
 	this->lastClass->EnableWindow(true);
+
+	lastClass->classDiagramForm->zoomRate = this->classDaigramFormZoomRate;
+	ResizeVisitor visitor2(100, lastClass->classDiagramForm->zoomRate);
+	lastClass->classDiagramForm->SetMemoGab(20 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetGabX(8 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
+	CDC memDC;
+	lastClass->classDiagramForm->diagram->Accept(visitor2, &memDC);
+	KnockKnock *knocking = new KnockKnock;
+	knocking->Knocking(lastClass->classDiagramForm);
+	ScrollMovingObject scrollMovingObject;
+	Long hPos = this->lastClass->classDiagramForm->GetScrollPos(SB_HORZ);
+	Long vPos = this->lastClass->classDiagramForm->GetScrollPos(SB_VERT);
+	scrollMovingObject.MovingObject(this->lastClass->classDiagramForm->diagram, -hPos, -vPos);
+	if (knocking != NULL) {
+		delete knocking;
+	}
+
+
 	if (this->nextButton != 0) {
 		delete this->nextButton;
 		this->nextButton = NULL;
@@ -286,6 +464,24 @@ void PrintPreview::OnBeginPrinting(CDC *pDc, CPrintInfo *pInfo) {
 
 void PrintPreview::OnEndPrinting(CDC *pDc, CPrintInfo *pInfo) {
 	this->lastClass->EnableWindow(true);
+
+	lastClass->classDiagramForm->zoomRate = this->classDaigramFormZoomRate;
+	ResizeVisitor visitor2(100, lastClass->classDiagramForm->zoomRate);
+	lastClass->classDiagramForm->SetMemoGab(20 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetGabX(8 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
+	lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
+	CDC memDC;
+	lastClass->classDiagramForm->diagram->Accept(visitor2, &memDC);
+	KnockKnock *knocking = new KnockKnock;
+	knocking->Knocking(lastClass->classDiagramForm);
+	ScrollMovingObject scrollMovingObject;
+	Long hPos = this->lastClass->classDiagramForm->GetScrollPos(SB_HORZ);
+	Long vPos = this->lastClass->classDiagramForm->GetScrollPos(SB_VERT);
+	scrollMovingObject.MovingObject(this->lastClass->classDiagramForm->diagram, -hPos, -vPos);
+	if (knocking != NULL) {
+		delete knocking;
+	}
 	if (this->nextButton != 0) {
 		delete this->nextButton;
 		this->nextButton = NULL;
@@ -315,6 +511,11 @@ void PrintPreview::OnEndPrinting(CDC *pDc, CPrintInfo *pInfo) {
 }
 
 void PrintPreview::OnSize(UINT nType, int cx, int cy) {
+	CRect rect;
+	this->GetClientRect(&rect);
+	this->printButton->MoveWindow(rect.CenterPoint().x*11/12, 10, rect.CenterPoint().x*2/12, 50);
+	this->nextButton->MoveWindow(rect.CenterPoint().x*11/8- rect.CenterPoint().x * 2 / 12, 10, rect.CenterPoint().x * 2 / 12, 50);
+	this->previousButton->MoveWindow(rect.CenterPoint().x *5/8, 10, rect.CenterPoint().x * 2 / 12, 50);
 	Invalidate(false);
 }
 BOOL PrintPreview::DoModal() {

@@ -1,5 +1,6 @@
 //DefaultState.cpp
 
+#include "ClassDiagramForm.h"
 #include "Diagram.h"
 #include "Class.h"
 #include "DefaultState.h"
@@ -35,10 +36,20 @@ void DefaultState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 	Finder finder;
 	CRect area = diagram->GetCorrectRect(startX, startY, currentX, currentY);
 	selection->DeleteAllItems();
-	selection->SelectByArea(diagram, area);
-
+	if (startX != 0||startY!=0 ) {
+		selection->SelectByArea(diagram, area);
+	}
+	Long i;
 	if (selection->GetLength() == 1) {
 		this->ChangeState(mouseLButton, SelectionState::Instance());
+		i = 0;
+		while (i < classDiagramForm->diagram->GetLength()) {
+			FigureComposite *tempFigureComposite = static_cast<FigureComposite*>(classDiagramForm->diagram->GetAt(i));
+			if (static_cast<FigureComposite*>(selection->GetAt(0)) == tempFigureComposite) {
+				
+			}
+			i++;
+		}
 	}
 	if (selection->GetLength() > 1) {
 		this->ChangeState(mouseLButton, MultipleSelectionState::Instance());
@@ -101,7 +112,7 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	}
 }
 
-void DefaultState::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
+void DefaultState::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection,Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = pDC->SelectObject(&pen);

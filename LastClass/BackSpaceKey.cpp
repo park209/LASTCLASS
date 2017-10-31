@@ -33,11 +33,16 @@ void BackSpaceKey::KeyPress(TextEdit *textEdit) {
 	else {
 		if (textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength() > 0 && textEdit->caret->GetCharacterIndex() > 0) {
 			textEdit->historyText->PushUndo(textEdit->text, textEdit->caret);
+			textEdit->historyText->redoTextArray->Clear();
+			textEdit->historyText->redoCaretArray->Clear();
+
 			textEdit->text->GetAt(textEdit->caret->GetRowIndex())->Remove(textEdit->caret->GetCharacterIndex() - 1);
 			textEdit->caret->MoveBackwardCharacterIndex();
 		}
 		else if (textEdit->caret->GetCharacterIndex() == 0 && textEdit->caret->GetRowIndex() > 0) {
 			textEdit->historyText->PushUndo(textEdit->text, textEdit->caret);
+			textEdit->historyText->redoTextArray->Clear();
+			textEdit->historyText->redoCaretArray->Clear();
 			if (textEdit->text->GetAt(textEdit->caret->GetRowIndex())->GetLength() == 0) {
 				textEdit->text->Remove(textEdit->caret->GetRowIndex());
 				textEdit->caret->MoveBackwardRowIndex();

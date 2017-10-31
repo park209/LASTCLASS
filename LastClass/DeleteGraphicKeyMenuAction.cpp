@@ -4,6 +4,8 @@
 #include "LastClass.h"
 #include "ClassDiagramForm.h"
 #include "DeleteGraphicKey.h"
+#include "StatusBar.h"
+#include "LastClass.h"
 
 DeleteGraphicKeyMenuAction::DeleteGraphicKeyMenuAction() {
 }
@@ -21,5 +23,7 @@ void DeleteGraphicKeyMenuAction::MenuPress(LastClass *lastClass) {
 		if (ctrlUndo != 0) {
 			delete ctrlUndo;
 		}
+		lastClass->statusBar->DestroyStatus();
+		lastClass->statusBar->MakeStatusBar(lastClass, lastClass->GetSafeHwnd(), 0, 0, 5);
 	}
 }

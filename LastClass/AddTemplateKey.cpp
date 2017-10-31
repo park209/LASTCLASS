@@ -11,6 +11,7 @@
 #include"RollNameBox.h"
 #include "Finder.h"
 #include "Diagram.h"
+
 AddTemplateKey::AddTemplateKey() {
 }
 
@@ -27,11 +28,17 @@ void AddTemplateKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 	CPoint cPoint3;
 	CPoint cPoint4;
 	CPoint cPoint5;
-	if (classDiagramForm->selection->GetLength() > 0) {
+	if (classDiagramForm->selection->GetLength() == 1 && dynamic_cast<Class*>(classDiagramForm->selection->GetAt(0))) {
 		Class *object = static_cast<Class*>(classDiagramForm->selection->GetAt(0));
 		if (object->GetTempletePosition() == -1) {
-			classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram);
-			object->AddTemplate(object->GetX() + object->GetWidth() - 30, object->GetY() - 17, 34, 34);
+			classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram, classDiagramForm->zoomRate);
+			classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+			classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
+
+			object->AddTemplate((object->GetX() + object->GetWidth()) - 30 * classDiagramForm->zoomRate / 100,
+				object->GetY() - 17 * classDiagramForm->zoomRate / 100,
+				(17 * classDiagramForm->zoomRate / 100 + 30 * classDiagramForm->zoomRate / 100),
+				34 * classDiagramForm->zoomRate / 100);
 			Long i = 0;
 			Long startX = object->GetX();
 			Long startY = object->GetY();
@@ -43,22 +50,24 @@ void AddTemplateKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 				if (object->GetTempletePosition() != -1) {
 					if (dynamic_cast<SelfRelation*>(object->GetAt(i))) {
 						SelfRelation* selfRelation = static_cast<SelfRelation*>(object->GetAt(i));
-						selfRelation->Move(0, -17);
-						Long k = 0;
-						while (k < 5) {
-							CPoint cPoint(selfRelation->rollNamePoints->GetAt(k).x, selfRelation->rollNamePoints->GetAt(k).y - 17);
-							selfRelation->rollNamePoints->Modify(k, cPoint);
-							k++;
+						if (selfRelation->GetX() == object->GetX() + object->GetWidth() - classDiagramForm->thirty) {
+							selfRelation->Move(0, -(classDiagramForm->seventeen));
+							Long k = 0;
+							while (k < 5) {
+								CPoint cPoint(selfRelation->rollNamePoints->GetAt(k).x, selfRelation->rollNamePoints->GetAt(k).y - classDiagramForm->seventeen);
+								selfRelation->rollNamePoints->Modify(k, cPoint);
+								k++;
+							}
 						}
 					}
 				}
 
 				if (dynamic_cast<Relation*>(object->GetAt(i))) {
-				
+
 					Relation * relation = static_cast<Relation*>(object->GetAt(i));
 					quadrant = finder.FindQuadrant(relation->GetX(), relation->GetY(), startX, startY, endX, endY);
 					if (relation->GetX() >= object->GetAt(object->GetTempletePosition())->GetX() - 10 && quadrant == 1) {
-						relation->Modify(object->GetAt(object->GetTempletePosition())->GetX() - 10, relation->GetY(), 
+						relation->Modify(object->GetAt(object->GetTempletePosition())->GetX() - 10, relation->GetY(),
 							relation->GetWidth() + relation->GetX() - object->GetAt(object->GetTempletePosition())->GetX() + 10, relation->GetHeight());
 						if (relation->GetLength() == 0) {
 							CPoint startPoint{ relation->GetX(), relation->GetY() };
@@ -125,13 +134,14 @@ void AddTemplateKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) {
 						Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
 						Long relationEndX = figure->GetX() + figure->GetWidth();
 						Long relationEndY = figure->GetY() + figure->GetHeight();
-						if (startX <= relationEndX &&  relationEndX <= endX &&
-							startY <= relationEndY &&  relationEndY <= endY) {
+						//if (startX <= relationEndX &&  relationEndX <= endX &&
+						//	startY <= relationEndY &&  relationEndY <= endY) {
+						if (relation->GetEndPointFigure() == static_cast<Figure*>(object)) {
 							quadrant = finder.FindQuadrant(relationEndX, relationEndY,
-								startX, startY, endX, endY );
-							
+								startX, startY, endX, endY);
+
 							if (relation->GetX() + relation->GetWidth() >= object->GetAt(object->GetTempletePosition())->GetX() - 10 && quadrant == 1) {
-							
+
 								relation->Modify(relation->GetX(), relation->GetY(), object->GetAt(object->GetTempletePosition())->GetX() - 10 - relation->GetX(),
 									relation->GetHeight());
 

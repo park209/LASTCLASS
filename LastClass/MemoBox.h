@@ -11,6 +11,7 @@ class MemoBox : public FigureComposite {
 public:
 	MemoBox(Long capacity = 10);
 	MemoBox(Long x, Long y, Long width, Long height);
+	MemoBox(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight);
 	MemoBox(const MemoBox& source);
 	virtual ~MemoBox();	// 
 
@@ -26,6 +27,7 @@ public:
 
 
 	void Accept(Visitor& visitor, CDC *pDC);
+	void Accept(Visitor& visitor, Long distanceX, Long distanceY);
 };
 
 #endif // !_MEMOBOX_H

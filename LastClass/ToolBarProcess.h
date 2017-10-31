@@ -25,6 +25,20 @@ public:
 	void OnPrintPreFileClicked(LastClass *lastClass);
 	void OnSupportFileClicked(LastClass *lastClass);
 	void OnAboutFileClicked(LastClass *lastClass);
+	void OnClassClicked(LastClass *lastClass);
+	void OnMemoBoxClicked(LastClass *lastClass);
+	void OnGeneralizationClicked(LastClass *lastClass);
+	void OnRelizationClicked(LastClass *lastClass);
+	void OnDependencyClicked(LastClass *lastClass);
+	void OnAssociationClicked(LastClass *lastClass);
+	void OnDirectedAssociationClicked(LastClass *lastClass);
+	void OnAggregationClicked(LastClass *lastClass);
+	void OnAggregationsClicked(LastClass *lastClass);
+	void OnCompositionClicked(LastClass *lastClass);
+	void OnCompositionsClicked(LastClass *lastClass);
+	void OnMemoLineClicked(LastClass *lastClass);
+	void OnZoomInClicked(LastClass *lastClass);
+	void OnZoomOutClicked(LastClass *lastClass);
 };
 
 #endif // _ToolBar_H

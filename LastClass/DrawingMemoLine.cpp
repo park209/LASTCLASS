@@ -23,7 +23,9 @@ void DrawingMemoLine::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 	Long index;
 	Figure *figure = 0;
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
+	classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+	classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
 
 	if (selection->GetLength() == 1 && dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
 
@@ -49,6 +51,7 @@ void DrawingMemoLine::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 			MemoLine object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 			index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 			figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
+			figure->SetEndPointFigure(selection->GetAt(1));
 		}
 	}
 
@@ -61,7 +64,7 @@ void DrawingMemoLine::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diag
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingMemoLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
+void DrawingMemoLine::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);

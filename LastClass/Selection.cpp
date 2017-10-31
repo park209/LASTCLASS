@@ -1,4 +1,6 @@
-#include  "Selection.h"
+#include "Selection.h"
+#include "LastClass.h"
+#include "ClassDiagramForm.h"
 #include "Diagram.h"
 #include "Relation.h"
 #include "Finder.h"
@@ -6,6 +8,15 @@
 #include "Class.h"
 #include "Template.h"
 #include "HistoryGraphic.h"
+#include "Association.h"
+#include  "Aggregation.h"
+#include "Aggregations.h"
+#include "DirectedAssociation.h"
+#include "SelfAggregation.h"
+#include "SelfAggregations.h"
+#include "SelfAssociation.h"
+#include "SelfDirectedAssociation.h"
+
 Selection::Selection(Long capacity) :FigureComposite(capacity) {
 	this->x = 0;
 	this->y = 0;
@@ -242,13 +253,18 @@ Long Selection::SelectByPoint(Long x, Long y) {
 					rect.right = composite->GetX() + 6;
 					rect.bottom = object2->GetY() + 6;
 					ret = finder.FindRectangleByPoint(rect, x, y);
+					if (ret == true) {
+						index = 3;
+					}
 					if (ret != true) {//중 상단
 						rect.left = composite->GetX() + (object2->GetX() + object2->GetWidth() - composite->GetX()) / 2 - 4;
 						rect.top = object2->GetY() - 3;
 						rect.right = composite->GetX() + (object2->GetX() + object2->GetWidth() - composite->GetX()) / 2 + 5;
 						rect.bottom = object2->GetY() + 6;
-
 						ret = finder.FindRectangleByPoint(rect, x, y);
+						if (ret == true) {
+							index = 4;
+						}
 					}
 					if (ret != true) {//우상
 						rect.left = object2->GetX() + object2->GetWidth() - 6;
@@ -256,6 +272,9 @@ Long Selection::SelectByPoint(Long x, Long y) {
 						rect.right = object2->GetX() + object2->GetWidth() + 3;
 						rect.bottom = object2->GetY() + 6;
 						ret = finder.FindRectangleByPoint(rect, x, y);
+						if (ret == true) {
+							index = 5;
+						}
 					}
 					if (ret != true) {//좌중
 						rect.left = composite->GetX() - 3;
@@ -263,6 +282,9 @@ Long Selection::SelectByPoint(Long x, Long y) {
 						rect.right = composite->GetX() + 6;
 						rect.bottom = object2->GetY() + (composite->GetY() + composite->GetHeight() - object2->GetY()) / 2 + 5;
 						ret = finder.FindRectangleByPoint(rect, x, y);
+						if (ret == true) {
+							index = 6;
+						}
 					}
 					if (ret != true) {//우중
 						rect.left = object2->GetX() + object2->GetWidth() - 6;
@@ -270,6 +292,9 @@ Long Selection::SelectByPoint(Long x, Long y) {
 						rect.right = object2->GetX() + object2->GetWidth() + 3;
 						rect.bottom = object2->GetY() + (composite->GetY() + composite->GetHeight() - object2->GetY()) / 2 + 5;
 						ret = finder.FindRectangleByPoint(rect, x, y);
+						if (ret == true) {
+							index = 7;
+						}
 					}
 					if (ret != true) {//좌하
 						rect.left = composite->GetX() - 3;
@@ -277,6 +302,9 @@ Long Selection::SelectByPoint(Long x, Long y) {
 						rect.right = composite->GetX() + 6;
 						rect.bottom = composite->GetY() + composite->GetHeight() + 3;
 						ret = finder.FindRectangleByPoint(rect, x, y);
+						if (ret == true) {
+							index = 8;
+						}
 					}
 					if (ret != true) {//중하
 						rect.left = composite->GetX() + (object2->GetX() + object2->GetWidth() - composite->GetX()) / 2 - 4;
@@ -284,13 +312,19 @@ Long Selection::SelectByPoint(Long x, Long y) {
 						rect.right = composite->GetX() + (object2->GetX() + object2->GetWidth() - composite->GetX()) / 2 + 5;
 						rect.bottom = composite->GetY() + composite->GetHeight() + 3;
 						ret = finder.FindRectangleByPoint(rect, x, y);
+						if (ret == true) {
+							index = 9;
+						}
 					}
-					if (ret != true) {
+					if (ret != true) {	//우하
 						rect.left = object2->GetX() + object2->GetWidth() - 6;
 						rect.top = composite->GetY() + composite->GetHeight() - 6;
 						rect.right = object2->GetX() + object2->GetWidth() + 3;
 						rect.bottom = composite->GetY() + composite->GetHeight() + 3;
 						ret = finder.FindRectangleByPoint(rect, x, y);
+						if (ret == true) {
+							index = 10;
+						}
 					}
 				}
 				else {
@@ -299,12 +333,18 @@ Long Selection::SelectByPoint(Long x, Long y) {
 					rect.right = composite->GetX() + 6;
 					rect.bottom = composite->GetY() + 6;
 					ret = finder.FindRectangleByPoint(rect, x, y);
+					if (ret == true) {
+						index = 3;
+					}
 					if (ret != true) {//중상
 						rect.left = composite->GetX() + composite->GetWidth() / 2 - 4;
 						rect.top = composite->GetY() - 3;
 						rect.right = composite->GetX() + composite->GetWidth() / 2 + 5;
 						rect.bottom = composite->GetY() + 6;
 						ret = finder.FindRectangleByPoint(rect, x, y);
+						if (ret == true) {
+							index = 4;
+						}
 					}
 					if (ret != true) {//
 						rect.left = composite->GetX() + composite->GetWidth() - 6;
@@ -312,6 +352,9 @@ Long Selection::SelectByPoint(Long x, Long y) {
 						rect.right = composite->GetX() + composite->GetWidth() + 3;
 						rect.bottom = composite->GetY() + 6;
 						ret = finder.FindRectangleByPoint(rect, x, y);
+						if (ret == true) {
+							index = 5;
+						}
 					}
 					if (ret != true) {
 						rect.left = composite->GetX() - 3;
@@ -319,6 +362,9 @@ Long Selection::SelectByPoint(Long x, Long y) {
 						rect.right = composite->GetX() + 6;
 						rect.bottom = composite->GetY() + composite->GetHeight() / 2 + 5;
 						ret = finder.FindRectangleByPoint(rect, x, y);
+						if (ret == true) {
+							index = 6;
+						}
 					}
 					if (ret != true) {
 						rect.left = composite->GetX() + composite->GetWidth() - 6;
@@ -326,6 +372,9 @@ Long Selection::SelectByPoint(Long x, Long y) {
 						rect.right = composite->GetX() + composite->GetWidth() + 3;
 						rect.bottom = composite->GetY() + composite->GetHeight() / 2 + 5;
 						ret = finder.FindRectangleByPoint(rect, x, y);
+						if (ret == true) {
+							index = 7;
+						}
 					}
 					if (ret != true) {
 						rect.left = composite->GetX() - 3;
@@ -333,6 +382,9 @@ Long Selection::SelectByPoint(Long x, Long y) {
 						rect.right = composite->GetX() + 6;
 						rect.bottom = composite->GetY() + composite->GetHeight() + 3;
 						ret = finder.FindRectangleByPoint(rect, x, y);
+						if (ret == true) {
+							index = 8;
+						}
 					}
 					if (ret != true) {
 						rect.left = composite->GetX() + composite->GetWidth() / 2 - 4;
@@ -340,6 +392,9 @@ Long Selection::SelectByPoint(Long x, Long y) {
 						rect.right = composite->GetX() + composite->GetWidth() / 2 + 5;
 						rect.bottom = composite->GetY() + composite->GetHeight() + 3;
 						ret = finder.FindRectangleByPoint(rect, x, y);
+						if (ret == true) {
+							index = 9;
+						}
 					}
 					if (ret != true) {
 						rect.left = composite->GetX() + composite->GetWidth() - 6;
@@ -347,6 +402,9 @@ Long Selection::SelectByPoint(Long x, Long y) {
 						rect.right = composite->GetX() + composite->GetWidth() + 3;
 						rect.bottom = composite->GetY() + composite->GetHeight() + 3;
 						ret = finder.FindRectangleByPoint(rect, x, y);
+						if (ret == true) {
+							index = 10;
+						}
 					}
 				}
 			}
@@ -356,12 +414,18 @@ Long Selection::SelectByPoint(Long x, Long y) {
 				rect.right = composite->GetX() + 6;
 				rect.bottom = composite->GetY() + 6;
 				ret = finder.FindRectangleByPoint(rect, x, y);
+				if (ret == true) {
+					index = 3;
+				}
 				if (ret != true) {
 					rect.left = composite->GetX() + composite->GetWidth() / 2 - 4;
 					rect.top = composite->GetY() - 3;
 					rect.right = composite->GetX() + composite->GetWidth() / 2 + 5;
 					rect.bottom = composite->GetY() + 6;
 					ret = finder.FindRectangleByPoint(rect, x, y);
+					if (ret == true) {
+						index = 4;
+					}
 				}
 				if (ret != true) {
 					rect.left = composite->GetX() + composite->GetWidth() - 6;
@@ -369,6 +433,9 @@ Long Selection::SelectByPoint(Long x, Long y) {
 					rect.right = composite->GetX() + composite->GetWidth() + 3;
 					rect.bottom = composite->GetY() + 6;
 					ret = finder.FindRectangleByPoint(rect, x, y);
+					if (ret == true) {
+						index = 5;
+					}
 				}
 				if (ret != true) {
 					rect.left = composite->GetX() - 3;
@@ -376,6 +443,9 @@ Long Selection::SelectByPoint(Long x, Long y) {
 					rect.right = composite->GetX() + 6;
 					rect.bottom = composite->GetY() + composite->GetHeight() / 2 + 5;
 					ret = finder.FindRectangleByPoint(rect, x, y);
+					if (ret == true) {
+						index = 6;
+					}
 				}
 				if (ret != true) {
 					rect.left = composite->GetX() + composite->GetWidth() - 6;
@@ -383,6 +453,9 @@ Long Selection::SelectByPoint(Long x, Long y) {
 					rect.right = composite->GetX() + composite->GetWidth() + 3;
 					rect.bottom = composite->GetY() + composite->GetHeight() / 2 + 5;
 					ret = finder.FindRectangleByPoint(rect, x, y);
+					if (ret == true) {
+						index = 7;
+					}
 				}
 				if (ret != true) {
 					rect.left = composite->GetX() - 3;
@@ -390,6 +463,9 @@ Long Selection::SelectByPoint(Long x, Long y) {
 					rect.right = composite->GetX() + 6;
 					rect.bottom = composite->GetY() + composite->GetHeight() + 5;
 					ret = finder.FindRectangleByPoint(rect, x, y);
+					if (ret == true) {
+						index = 8;
+					}
 				}
 				if (ret != true) {
 					rect.left = composite->GetX() + composite->GetWidth() / 2 - 4;
@@ -397,6 +473,9 @@ Long Selection::SelectByPoint(Long x, Long y) {
 					rect.right = composite->GetX() + composite->GetWidth() / 2 + 5;
 					rect.bottom = composite->GetY() + composite->GetHeight() + 3;
 					ret = finder.FindRectangleByPoint(rect, x, y);
+					if (ret == true) {
+						index = 9;
+					}
 				}
 				if (ret != true) {
 					rect.left = composite->GetX() + composite->GetWidth() - 6;
@@ -404,6 +483,9 @@ Long Selection::SelectByPoint(Long x, Long y) {
 					rect.right = composite->GetX() + composite->GetWidth() + 3;
 					rect.bottom = composite->GetY() + composite->GetHeight() + 3;
 					ret = finder.FindRectangleByPoint(rect, x, y);
+					if (ret == true) {
+						index = 10;
+					}
 				}
 			}//1여기에 템플릿일때 if() 이거하고/2 템플릿일때 작은 사각형 누르기 하고/3 확대하기 
 			CPoint attributeStartPoint(0, 0);
@@ -434,7 +516,7 @@ Long Selection::SelectByPoint(Long x, Long y) {
 				}
 			}
 			if (ret == true) {
-				index = 3;
+				//index = 3;
 			}
 			else {
 				rect.left = x - 8;
@@ -451,7 +533,7 @@ Long Selection::SelectByPoint(Long x, Long y) {
 					ret = finder.FindLineByArea(receptionStartPoint, receptionEndPoint, rect);
 				}
 				if (ret == true) {
-					index = 5;
+					index = 12;
 				}
 				else {
 					if (dynamic_cast<Class*>(composite)) {
@@ -478,7 +560,7 @@ Long Selection::SelectByPoint(Long x, Long y) {
 
 					ret = finder.FindRectangleByPoint(rect, x, y);
 					if (ret == true) {
-						index = 4;
+						index = 11;
 					}
 				}
 			}
@@ -491,6 +573,8 @@ Long Selection::SelectByPoint(Long x, Long y) {
 
 
 Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
+	LastClass *lastClass = (LastClass*)CFrameWnd::FindWindow(NULL, "LastClass");
+	Long zoomRate = lastClass->classDiagramForm->zoomRate;
 	Finder finder;
 	CRect rect;
 	FigureComposite *composite;
@@ -507,201 +591,31 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 	while (i < diagram->GetLength() && ret == false) {
 		composite = static_cast<FigureComposite*>(diagram->GetAt(i));
 		if (dynamic_cast<Class*>(composite)) {
-			if (dynamic_cast<Class*>(composite)->GetTempletePosition() != -1) {
-				Template *object = dynamic_cast<Template*>(composite->GetAt(static_cast<Class*>(composite)->GetTempletePosition()));
-				rect.left = composite->GetX() + 4;
-				rect.top = object->GetY() + 4;
-				rect.right = object->GetX() + object->GetWidth() - 4;
-				rect.bottom = composite->GetY() + composite->GetHeight() - 4;
+			if (static_cast<Class*>(composite)->GetTempletePosition() == -1) {
+				Class *object = static_cast<Class*>(composite);
+				rect.left = object->GetLeft();
+				rect.top = object->GetTop();
+				rect.right = object->GetRight();
+				rect.bottom = object->GetBottom();
 				ret = finder.FindRectangleByPoint(rect, x, y);
-				Template *object2 = dynamic_cast<Template*>(composite->GetAt(static_cast<Class*>(composite)->GetTempletePosition()));
-				//좌상
-				if (ret != true) {
-					rect.left = composite->GetX() - 3;
-					rect.top = object2->GetY() - 3;
-					rect.right = composite->GetX() + 6;
-					rect.bottom = object2->GetY() + 6;
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				if (ret != true) {//중 상단
-					rect.left = composite->GetX() + (object2->GetX() + object2->GetWidth() - composite->GetX()) / 2 - 4;
-					rect.top = object2->GetY() - 3;
-					rect.right = composite->GetX() + (object2->GetX() + object2->GetWidth() - composite->GetX()) / 2 + 5;
-					rect.bottom = object2->GetY() + 6;
-
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				if (ret != true) {//우상
-					rect.left = object2->GetX() + object2->GetWidth() - 6;
-					rect.top = object2->GetY() - 3;
-					rect.right = object2->GetX() + object2->GetWidth() + 3;
-					rect.bottom = object2->GetY() + 6;
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				if (ret != true) {//좌중
-					rect.left = composite->GetX() - 3;
-					rect.top = object2->GetY() + (composite->GetY() + composite->GetHeight() - object2->GetY()) / 2 - 4;;
-					rect.right = composite->GetX() + 6;
-					rect.bottom = object2->GetY() + (composite->GetY() + composite->GetHeight() - object2->GetY()) / 2 + 5;
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				if (ret != true) {//우중
-					rect.left = object2->GetX() + object2->GetWidth() - 6;
-					rect.top = object2->GetY() + (composite->GetY() + composite->GetHeight() - object2->GetY()) / 2 - 4;
-					rect.right = object2->GetX() + object2->GetWidth() + 3;
-					rect.bottom = object2->GetY() + (composite->GetY() + composite->GetHeight() - object2->GetY()) / 2 + 5;
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				if (ret != true) {//좌하
-					rect.left = composite->GetX() - 3;
-					rect.top = composite->GetY() + composite->GetHeight() - 6;
-					rect.right = composite->GetX() + 6;
-					rect.bottom = composite->GetY() + composite->GetHeight() + 3;
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				if (ret != true) {//중하
-					rect.left = composite->GetX() + (object2->GetX() + object2->GetWidth() - composite->GetX()) / 2 - 4;
-					rect.top = composite->GetY() + composite->GetHeight() - 6;
-					rect.right = composite->GetX() + (object2->GetX() + object2->GetWidth() - composite->GetX()) / 2 + 5;
-					rect.bottom = composite->GetY() + composite->GetHeight() + 3;
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				if (ret != true) {
-					rect.left = object2->GetX() + object2->GetWidth() - 6;
-					rect.top = composite->GetY() + composite->GetHeight() - 6;
-					rect.right = object2->GetX() + object2->GetWidth() + 3;
-					rect.bottom = composite->GetY() + composite->GetHeight() + 3;
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
 			}
-
-
 			else {
-				rect.left = composite->GetX() + 4;
-				rect.top = composite->GetY() + 4;
-				rect.right = composite->GetX() + composite->GetWidth() - 4;
-				rect.bottom = composite->GetY() + composite->GetHeight() - 4;
+				Class *object = static_cast<Class*>(composite);
+				Figure *figure = object->GetAt(object->GetTempletePosition());
+				rect.left = composite->GetLeft();
+				rect.top = figure->GetTop();
+				rect.right = figure->GetRight();
+				rect.bottom = composite->GetBottom();
 				ret = finder.FindRectangleByPoint(rect, x, y);
-				if (ret != true) {
-					rect.left = composite->GetX() - 3;
-					rect.top = composite->GetY() - 3;
-					rect.right = composite->GetX() + 6;
-					rect.bottom = composite->GetY() + 6;
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				if (ret != true) {//중상
-					rect.left = composite->GetX() + composite->GetWidth() / 2 - 4;
-					rect.top = composite->GetY() - 3;
-					rect.right = composite->GetX() + composite->GetWidth() / 2 + 5;
-					rect.bottom = composite->GetY() + 6;
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				if (ret != true) {//
-					rect.left = composite->GetX() + composite->GetWidth() - 6;
-					rect.top = composite->GetY() - 3;
-					rect.right = composite->GetX() + composite->GetWidth() + 3;
-					rect.bottom = composite->GetY() + 6;
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				if (ret != true) {
-					rect.left = composite->GetX() - 3;
-					rect.top = composite->GetY() + composite->GetHeight() / 2 - 4;
-					rect.right = composite->GetX() + 6;
-					rect.bottom = composite->GetY() + composite->GetHeight() / 2 + 5;
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				if (ret != true) {
-					rect.left = composite->GetX() + composite->GetWidth() - 6;
-					rect.top = composite->GetY() + composite->GetHeight() / 2 - 4;
-					rect.right = composite->GetX() + composite->GetWidth() + 3;
-					rect.bottom = composite->GetY() + composite->GetHeight() / 2 + 5;
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				if (ret != true) {
-					rect.left = composite->GetX() - 3;
-					rect.top = composite->GetY() + composite->GetHeight() - 6;
-					rect.right = composite->GetX() + 6;
-					rect.bottom = composite->GetY() + composite->GetHeight() + 3;
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				if (ret != true) {
-					rect.left = composite->GetX() + composite->GetWidth() / 2 - 4;
-					rect.top = composite->GetY() + composite->GetHeight() - 6;
-					rect.right = composite->GetX() + composite->GetWidth() / 2 + 5;
-					rect.bottom = composite->GetY() + composite->GetHeight() + 3;
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				if (ret != true) {
-					rect.left = composite->GetX() + composite->GetWidth() - 6;
-					rect.top = composite->GetY() + composite->GetHeight() - 6;
-					rect.right = composite->GetX() + composite->GetWidth() + 3;
-					rect.bottom = composite->GetY() + composite->GetHeight() + 3;
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
 			}
+
 		}
 		else {
-			rect.left = composite->GetX() + 4;
-			rect.top = composite->GetY() + 4;
-			rect.right = composite->GetX() + composite->GetWidth() - 4;
-			rect.bottom = composite->GetY() + composite->GetHeight() - 4;
+			rect.left = composite->GetLeft();
+			rect.top = composite->GetTop();
+			rect.right = composite->GetRight();
+			rect.bottom = composite->GetBottom();
 			ret = finder.FindRectangleByPoint(rect, x, y);
-			if (ret != true) {
-				rect.left = composite->GetX() - 3;
-				rect.top = composite->GetY() - 3;
-				rect.right = composite->GetX() + 6;
-				rect.bottom = composite->GetY() + 6;
-				ret = finder.FindRectangleByPoint(rect, x, y);
-			}
-			if (ret != true) {//중상
-				rect.left = composite->GetX() + composite->GetWidth() / 2 - 4;
-				rect.top = composite->GetY() - 3;
-				rect.right = composite->GetX() + composite->GetWidth() / 2 + 5;
-				rect.bottom = composite->GetY() + 6;
-				ret = finder.FindRectangleByPoint(rect, x, y);
-			}
-			if (ret != true) {//
-				rect.left = composite->GetX() + composite->GetWidth() - 6;
-				rect.top = composite->GetY() - 3;
-				rect.right = composite->GetX() + composite->GetWidth() + 3;
-				rect.bottom = composite->GetY() + 6;
-				ret = finder.FindRectangleByPoint(rect, x, y);
-			}
-			if (ret != true) {
-				rect.left = composite->GetX() - 3;
-				rect.top = composite->GetY() + composite->GetHeight() / 2 - 4;
-				rect.right = composite->GetX() + 6;
-				rect.bottom = composite->GetY() + composite->GetHeight() / 2 + 5;
-				ret = finder.FindRectangleByPoint(rect, x, y);
-			}
-			if (ret != true) {
-				rect.left = composite->GetX() + composite->GetWidth() - 6;
-				rect.top = composite->GetY() + composite->GetHeight() / 2 - 4;
-				rect.right = composite->GetX() + composite->GetWidth() + 3;
-				rect.bottom = composite->GetY() + composite->GetHeight() / 2 + 5;
-				ret = finder.FindRectangleByPoint(rect, x, y);
-			}
-			if (ret != true) {
-				rect.left = composite->GetX() - 3;
-				rect.top = composite->GetY() + composite->GetHeight() - 6;
-				rect.right = composite->GetX() + 6;
-				rect.bottom = composite->GetY() + composite->GetHeight() + 3;
-				ret = finder.FindRectangleByPoint(rect, x, y);
-			}
-			if (ret != true) {
-				rect.left = composite->GetX() + composite->GetWidth() / 2 - 4;
-				rect.top = composite->GetY() + composite->GetHeight() - 6;
-				rect.right = composite->GetX() + composite->GetWidth() / 2 + 5;
-				rect.bottom = composite->GetY() + composite->GetHeight() + 3;
-				ret = finder.FindRectangleByPoint(rect, x, y);
-			}
-			if (ret != true) {
-				rect.left = composite->GetX() + composite->GetWidth() - 6;
-				rect.top = composite->GetY() + composite->GetHeight() - 6;
-				rect.right = composite->GetX() + composite->GetWidth() + 3;
-				rect.bottom = composite->GetY() + composite->GetHeight() + 3;
-				ret = finder.FindRectangleByPoint(rect, x, y);
-			}
 		}
 		//1여기에 템플릿일때 if() 이거하고/2 템플릿일때 작은 사각형 누르기 하고/3 확대하기 
 
@@ -746,31 +660,34 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
 				}
 				//여기 부터 바깥 사각박스 찾기
-				Long l = 0;
-				while (l < 5 && ret == false) {
-					if (l == 1) {
-						rect.left = relation->rollNamePoints->GetAt(l).x - 40;
-						rect.right = relation->rollNamePoints->GetAt(l).x + 40;
-						rect.top = relation->rollNamePoints->GetAt(l).y - 10;
-						rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
+				if (dynamic_cast<DirectedAssociation*>(relation) || dynamic_cast<Association*>(relation) ||
+					dynamic_cast<Aggregation*>(relation) || dynamic_cast<Aggregations*>(relation)) {
+					Long l = 0;
+					while (l < 5 && ret == false) {
+						if (l == 1) {
+							rect.left = relation->rollNamePoints->GetAt(l).x - 40 * zoomRate / 100;
+							rect.right = relation->rollNamePoints->GetAt(l).x + 40 * zoomRate / 100;
+							rect.top = relation->rollNamePoints->GetAt(l).y - 10 * zoomRate / 100;
+							rect.bottom = relation->rollNamePoints->GetAt(l).y + 10 * zoomRate / 100;
+						}
+						else if (l == 0 || l == 2) {
+							rect.left = relation->rollNamePoints->GetAt(l).x - 20 * zoomRate / 100;
+							rect.right = relation->rollNamePoints->GetAt(l).x + 20 * zoomRate / 100;
+							rect.top = relation->rollNamePoints->GetAt(l).y - 10 * zoomRate / 100;
+							rect.bottom = relation->rollNamePoints->GetAt(l).y + 10 * zoomRate / 100;
+						}
+						else if (l == 3 || l == 4) {
+							rect.left = relation->rollNamePoints->GetAt(l).x - 25 * zoomRate / 100;
+							rect.right = relation->rollNamePoints->GetAt(l).x + 25 * zoomRate / 100;
+							rect.top = relation->rollNamePoints->GetAt(l).y - 10 * zoomRate / 100;
+							rect.bottom = relation->rollNamePoints->GetAt(l).y + 10 * zoomRate / 100;
+						}
+
+						if (ret == false) {
+							ret = finder.FindRectangleByPoint(rect, x, y);
+						}
+						l++;
 					}
-					else if(l == 0|| l == 2){
-						rect.left = relation->rollNamePoints->GetAt(l).x - 20;
-						rect.right = relation->rollNamePoints->GetAt(l).x + 20;
-						rect.top = relation->rollNamePoints->GetAt(l).y - 10;
-						rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
-					}
-					else if (l == 3||l==4) {
-						rect.left = relation->rollNamePoints->GetAt(l).x - 25;
-						rect.right = relation->rollNamePoints->GetAt(l).x + 25;
-						rect.top = relation->rollNamePoints->GetAt(l).y - 10;
-						rect.bottom = relation->rollNamePoints->GetAt(l).y + 10;
-					}
-					
-					if (ret == false) {
-						ret = finder.FindRectangleByPoint(rect, x, y);
-					}
-					l++;
 				}
 				if (ret == true) {
 					if (this->length < this->capacity) {
@@ -790,69 +707,100 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 				lineStart.x = selfRelation->GetX();
 				lineStart.y = selfRelation->GetY();
 				lineEnd.x = selfRelation->GetX();
-				lineEnd.y = selfRelation->GetY() - 40;
+				lineEnd.y = selfRelation->GetY() - 40 * zoomRate / 100;
 				if (ret == false) {
 					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+				}
+				if (selfRelation->leftRightFlag == 0) {
+					lineStart.x = selfRelation->GetX();
+					lineStart.y = selfRelation->GetY() - 40 * zoomRate / 100;
+					lineEnd.x = selfRelation->GetX() + 80 * zoomRate / 100;
+					lineEnd.y = selfRelation->GetY() - 40 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+					}
+
+					lineStart.x = selfRelation->GetX() + 80 * zoomRate / 100;
+					lineStart.y = selfRelation->GetY() - 40 * zoomRate / 100;
+					lineEnd.x = selfRelation->GetX() + 80 * zoomRate / 100;
+					lineEnd.y = selfRelation->GetY() + 40 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+					}
+
+					lineStart.x = selfRelation->GetX() + 80 * zoomRate / 100;
+					lineStart.y = selfRelation->GetY() + 40 * zoomRate / 100;
+					lineEnd.x = selfRelation->GetX() + 30 * zoomRate / 100;
+					lineEnd.y = selfRelation->GetY() + 40 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+					}
+				}
+				else {
+					lineStart.x = selfRelation->GetX();
+					lineStart.y = selfRelation->GetY() - 40 * zoomRate / 100;
+					lineEnd.x = selfRelation->GetX() - 80 * zoomRate / 100;
+					lineEnd.y = selfRelation->GetY() - 40 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+					}
+
+					lineStart.x = selfRelation->GetX() - 80 * zoomRate / 100;
+					lineStart.y = selfRelation->GetY() - 40 * zoomRate / 100;
+					lineEnd.x = selfRelation->GetX() - 80 * zoomRate / 100;
+					lineEnd.y = selfRelation->GetY() + 40 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+					}
+
+					lineStart.x = selfRelation->GetX() - 80 * zoomRate / 100;
+					lineStart.y = selfRelation->GetY() + 40 * zoomRate / 100;
+					lineEnd.x = selfRelation->GetX() - 30 * zoomRate / 100;
+					lineEnd.y = selfRelation->GetY() + 40 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
+					}
 				}
 
-				lineStart.x = selfRelation->GetX();
-				lineStart.y = selfRelation->GetY() - 40;
-				lineEnd.x = selfRelation->GetX() + 80;
-				lineEnd.y = selfRelation->GetY() - 40;
-				if (ret == false) {
-					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
-				}
-
-				lineStart.x = selfRelation->GetX() + 80;
-				lineStart.y = selfRelation->GetY() - 40;
-				lineEnd.x = selfRelation->GetX() + 80;
-				lineEnd.y = selfRelation->GetY() + 40;
-				if (ret == false) {
-					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
-				}
-
-				lineStart.x = selfRelation->GetX() + 80;
-				lineStart.y = selfRelation->GetY() + 40;
-				lineEnd.x = selfRelation->GetX() + 30;
-				lineEnd.y = selfRelation->GetY() + 40;
-				if (ret == false) {
-					ret = finder.FindLineByPoint(lineStart, lineEnd, x, y);
-				}
 				//여기 부터 바깥 사각박스 찾기
-				rect.left = selfRelation->rollNamePoints->GetAt(0).x - 10;
-				rect.right = selfRelation->rollNamePoints->GetAt(0).x + 20;
-				rect.top = selfRelation->rollNamePoints->GetAt(0).y - 10;
-				rect.bottom = selfRelation->rollNamePoints->GetAt(0).y + 10;
-				if (ret == false) {
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				rect.left = selfRelation->rollNamePoints->GetAt(1).x - 30;
-				rect.right = selfRelation->rollNamePoints->GetAt(1).x + 30;
-				rect.top = selfRelation->rollNamePoints->GetAt(1).y - 10;
-				rect.bottom = selfRelation->rollNamePoints->GetAt(1).y + 10;
-				if (ret == false) {
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				rect.left = selfRelation->rollNamePoints->GetAt(2).x - 20;
-				rect.right = selfRelation->rollNamePoints->GetAt(2).x + 50;
-				rect.top = selfRelation->rollNamePoints->GetAt(2).y - 10;
-				rect.bottom = selfRelation->rollNamePoints->GetAt(2).y + 10;
-				if (ret == false) {
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				rect.left = selfRelation->rollNamePoints->GetAt(3).x - 20;
-				rect.right = selfRelation->rollNamePoints->GetAt(3).x + 50;
-				rect.top = selfRelation->rollNamePoints->GetAt(3).y - 10;
-				rect.bottom = selfRelation->rollNamePoints->GetAt(3).y + 10;
-				if (ret == false) {
-					ret = finder.FindRectangleByPoint(rect, x, y);
-				}
-				rect.left = selfRelation->rollNamePoints->GetAt(4).x - 20;
-				rect.right = selfRelation->rollNamePoints->GetAt(4).x + 10;
-				rect.top = selfRelation->rollNamePoints->GetAt(4).y - 10;
-				rect.bottom = selfRelation->rollNamePoints->GetAt(4).y + 10;
-				if (ret == false) {
-					ret = finder.FindRectangleByPoint(rect, x, y);
+				if (dynamic_cast<SelfDirectedAssociation*>(selfRelation) || dynamic_cast<SelfAssociation*>(selfRelation) ||
+					dynamic_cast<SelfAggregation*>(selfRelation) || dynamic_cast<SelfAggregations*>(selfRelation)) {
+					//여기 부터 바깥 사각박스 찾기
+					rect.left = selfRelation->rollNamePoints->GetAt(0).x - 10 * zoomRate / 100;
+					rect.right = selfRelation->rollNamePoints->GetAt(0).x + 20 * zoomRate / 100;
+					rect.top = selfRelation->rollNamePoints->GetAt(0).y - 10 * zoomRate / 100;
+					rect.bottom = selfRelation->rollNamePoints->GetAt(0).y + 10 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindRectangleByPoint(rect, x, y);
+					}
+					rect.left = selfRelation->rollNamePoints->GetAt(1).x - 30 * zoomRate / 100;
+					rect.right = selfRelation->rollNamePoints->GetAt(1).x + 30 * zoomRate / 100;
+					rect.top = selfRelation->rollNamePoints->GetAt(1).y - 10 * zoomRate / 100;
+					rect.bottom = selfRelation->rollNamePoints->GetAt(1).y + 10 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindRectangleByPoint(rect, x, y);
+					}
+					rect.left = selfRelation->rollNamePoints->GetAt(2).x - 20 * zoomRate / 100;
+					rect.right = selfRelation->rollNamePoints->GetAt(2).x + 50 * zoomRate / 100;
+					rect.top = selfRelation->rollNamePoints->GetAt(2).y - 10 * zoomRate / 100;
+					rect.bottom = selfRelation->rollNamePoints->GetAt(2).y + 10 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindRectangleByPoint(rect, x, y);
+					}
+					rect.left = selfRelation->rollNamePoints->GetAt(3).x - 20 * zoomRate / 100;
+					rect.right = selfRelation->rollNamePoints->GetAt(3).x + 50 * zoomRate / 100;
+					rect.top = selfRelation->rollNamePoints->GetAt(3).y - 10 * zoomRate / 100;
+					rect.bottom = selfRelation->rollNamePoints->GetAt(3).y + 10 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindRectangleByPoint(rect, x, y);
+					}
+					rect.left = selfRelation->rollNamePoints->GetAt(4).x - 20 * zoomRate / 100;
+					rect.right = selfRelation->rollNamePoints->GetAt(4).x + 10 * zoomRate / 100;
+					rect.top = selfRelation->rollNamePoints->GetAt(4).y - 10 * zoomRate / 100;
+					rect.bottom = selfRelation->rollNamePoints->GetAt(4).y + 10 * zoomRate / 100;
+					if (ret == false) {
+						ret = finder.FindRectangleByPoint(rect, x, y);
+					}
 				}
 				if (ret == true) {
 					if (this->length < this->capacity) {
@@ -939,4 +887,117 @@ Long Selection::SelectByPointForRelation(Diagram *diagram, Long x, Long y) {
 		i++;
 	}
 	return index;
+}
+
+#include "SmartPointer.h"
+#include "MemoBox.h"
+#include "MemoLine.h"
+
+Selection* Selection::MakeSelectionBuffer(Selection& selection) {
+	Long i;
+	Long j;
+	Long k;
+	Selection *copyBuffer = new Selection(selection);
+	i = 0;
+	SmartPointer<Figure*>SelectionSmartPointer(selection.CreateIterator());
+	//Selection 배열 반복자
+	for (SelectionSmartPointer->First(); !SelectionSmartPointer->IsDone(); SelectionSmartPointer->Next()) {
+		if (dynamic_cast<FigureComposite*>(SelectionSmartPointer->Current())) {
+			FigureComposite *figureComposite = static_cast<FigureComposite*>(SelectionSmartPointer->Current());
+			j = 0;
+			SmartPointer<Figure*>CompositeSmartPointer(figureComposite->CreateIterator());
+			//FigureCompsotie 배열 반복자
+			for (CompositeSmartPointer->First(); !CompositeSmartPointer->IsDone(); CompositeSmartPointer->Next()) {
+				Figure *figure = CompositeSmartPointer->Current();
+				if (figure->GetEndPointFigure() != 0) {
+					k = 0;
+					//EndPointFigure 위치(index)를 찾는다
+					while (k < selection.GetLength() && figure->GetEndPointFigure() != selection.GetAt(k)) {
+						k++;
+					}
+					if (k < selection.GetLength()) {
+						FigureComposite *bufferComposite = static_cast<FigureComposite*>(copyBuffer->GetAt(i));
+						Figure *bufferRelation = bufferComposite->GetAt(j);
+						if (dynamic_cast<Class*>(bufferComposite)) {
+							bufferRelation->SetEndPointFigure(static_cast<Class*>(copyBuffer->GetAt(k)));
+						}
+						else if (dynamic_cast<MemoBox*>(bufferComposite)) {
+							bufferRelation->SetEndPointFigure(static_cast<MemoBox*>(copyBuffer->GetAt(k)));
+						}
+					}
+				}
+				j++;
+			}
+		}
+		i++;
+	}
+	return copyBuffer;
+}
+
+CPoint Selection::GetTopLeftPoint(Selection& selection) {
+	Long i = 0;
+	CPoint point = { 0, };
+	point.x = selection.GetAt(0)->GetX();
+	point.y = selection.GetAt(0)->GetY();
+
+	SmartPointer<Figure*>CopyBufferSmartPointer(selection.CreateIterator());
+	for (CopyBufferSmartPointer->First(); !CopyBufferSmartPointer->IsDone(); CopyBufferSmartPointer->Next()) {
+		if (dynamic_cast<FigureComposite*>(CopyBufferSmartPointer->Current())) {
+			if (CopyBufferSmartPointer->Current()->GetY() < point.y) {   //minimumY
+				point.y = CopyBufferSmartPointer->Current()->GetY();
+				point.x = CopyBufferSmartPointer->Current()->GetX();
+			}
+			else if (CopyBufferSmartPointer->Current()->GetY() == point.y && CopyBufferSmartPointer->Current()->GetX() < point.x) {
+				point.x = CopyBufferSmartPointer->Current()->GetX();
+			}
+			i++;
+		}
+	}
+
+	return point;
+}
+
+void Selection::DeleteOutSideRelation(Selection& selection) {
+	Long i;
+	Long j;
+
+
+	bool connect;
+	//연결되지 않은 선 제거
+	SmartPointer<Figure*>SelectionSmartPointer(selection.CreateIterator());
+	for (SelectionSmartPointer->First(); !SelectionSmartPointer->IsDone(); SelectionSmartPointer->Next()) {
+		if (dynamic_cast<FigureComposite*>(SelectionSmartPointer->Current())) {
+			i = 0;
+			SmartPointer<Figure*>compositeIterator(static_cast<FigureComposite*>(SelectionSmartPointer->Current())->CreateIterator());
+			while (!compositeIterator->IsDone()) {
+				if (dynamic_cast<Relation*>(compositeIterator->Current()) || dynamic_cast<MemoLine*>(compositeIterator->Current())) {
+					connect = false;
+					SmartPointer<Figure*>bufferIterator(selection.CreateIterator());
+					while (!bufferIterator->IsDone()) {
+						if (dynamic_cast<FigureComposite*>(bufferIterator->Current())) {
+							j = 0;
+							while (j < selection.GetLength() && compositeIterator->Current()->GetEndPointFigure() != selection.GetAt(j)) {
+								j++;
+							}
+							if (j < selection.GetLength()) {
+								connect = true;
+							}
+						}
+						bufferIterator->Next();
+					}
+					if (connect == true) {
+						i++;
+						compositeIterator->Next();
+					}
+					else {
+						static_cast<FigureComposite*>(SelectionSmartPointer->Current())->Remove(i);
+					}
+				}
+				else {
+					i++;
+					compositeIterator->Next();
+				}
+			}
+		}
+	}
 }

@@ -11,7 +11,9 @@ Line::~Line(){
 
 Line::Line(Long x, Long y, Long width, Long height) :Figure(x,y,width,height){
 }
-
+Line::Line(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight, string content)	
+	: Figure(x, y, width, height, minimumWidth, minimumHeight,content) {
+}
 Line::Line(const Line& source):Figure(source) {
 }
 

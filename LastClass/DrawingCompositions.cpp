@@ -25,10 +25,13 @@ void DrawingCompositions::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagra
 	Long quadrant;
 	Long quadrant2;
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
+	classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+	classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
+
 	selection->SelectByPointForRelation(diagram, currentX, currentY);
 
-	if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && dynamic_cast<Class*>(selection->GetAt(1)) 
+	if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && dynamic_cast<Class*>(selection->GetAt(1))
 		&& selection->GetAt(0) != selection->GetAt(1)) {
 		Class * classObject = dynamic_cast<Class*>(selection->GetAt(0));
 		Class * classObject2 = dynamic_cast<Class*>(selection->GetAt(1));
@@ -67,6 +70,7 @@ void DrawingCompositions::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagra
 		Compositions object(cross1.x, cross1.y, cross2.x - cross1.x, cross2.y - cross1.y);
 		index = static_cast<FigureComposite*>(selection->GetAt(0))->Add(object.Clone());
 		figure = static_cast<FigureComposite*>(selection->GetAt(0))->GetAt(index);
+		figure->SetEndPointFigure(classObject2);
 	}
 
 	else if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && selection->GetAt(0) == selection->GetAt(1)) {
@@ -80,12 +84,13 @@ void DrawingCompositions::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagra
 			i++;
 		}
 		if (ret == false) {
-			SelfCompositions selfCompositions(object->GetX() + object->GetWidth() - 30, object->GetY(), 30, 30);
+			SelfCompositions selfCompositions(object->GetX() + object->GetWidth() - 30 * classDiagramForm->zoomRate / 100,
+				object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
 			if (object->GetTempletePosition() != -1) {
-				selfCompositions.Move(0, -17);
+				selfCompositions.Move(0, -classDiagramForm->seventeen);
 				Long k = 0;
 				while (k < 5) {
-					CPoint cPoint(selfCompositions.rollNamePoints->GetAt(k).x, selfCompositions.rollNamePoints->GetAt(k).y - 17);
+					CPoint cPoint(selfCompositions.rollNamePoints->GetAt(k).x, selfCompositions.rollNamePoints->GetAt(k).y - classDiagramForm->seventeen);
 					selfCompositions.rollNamePoints->Modify(k, cPoint);
 					k++;
 				}
@@ -102,7 +107,7 @@ void DrawingCompositions::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *
 	selection->SelectByPoint(diagram, currentX, currentY);
 }
 
-void DrawingCompositions::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
+void DrawingCompositions::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	if (startX == currentX&&startY == currentY) {
 		selection->DeleteAllItems();
 		selection->SelectByPoint(diagram, currentX, currentY);

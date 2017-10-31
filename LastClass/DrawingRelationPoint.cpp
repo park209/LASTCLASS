@@ -9,6 +9,7 @@
 #include "RollNameBox.h"
 #include "ClassDiagramForm.h"
 #include "HistoryGraphic.h"
+#include "PreciseMoving.h"
 
 DrawingRelationPoint* DrawingRelationPoint::instance = 0;
 
@@ -30,12 +31,16 @@ void DrawingRelationPoint::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagr
 	Finder finder;
 	CPoint startCPoint;
 	CPoint currentCPoint;
+	PreciseMoving temp;
+	temp.ConvertPoint(&currentX, &currentY);
 	startCPoint.x = startX;
 	startCPoint.y = startY;
 	currentCPoint.x = currentX;
 	currentCPoint.y = currentY;
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
+	classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+	classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
 
 	RollNameBox *rollNameBoxesPoint = RollNameBox::Instance();
 	CPoint cPoint1;
@@ -186,7 +191,7 @@ void DrawingRelationPoint::MouseLButtonDown(MouseLButton *mouseLButton, Diagram 
 		this->ChangeDefault(mouseLButton);
 	}
 }
-void DrawingRelationPoint::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
+void DrawingRelationPoint::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = pDC->SelectObject(&pen);
@@ -277,6 +282,9 @@ void DrawingRelationPoint::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram 
 		}
 
 	}
+	PreciseMoving temp;
+	temp.ConvertPoint(&currentX, &currentY);
+
 	if (ret == true) {
 		pDC->MoveTo(lineStart.x, lineStart.y);
 		pDC->LineTo(currentX, currentY);

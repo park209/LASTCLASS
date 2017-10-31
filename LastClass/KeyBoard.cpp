@@ -50,6 +50,10 @@
 #include "CtrlPreviewKey.h"
 #include "CtrlPrintKey.h"
 #include "GraphicCtrlDeleteKey.h"
+#include "GraphicRightArrowKey.h"
+#include "GraphicUpArrowKey.h"
+#include "GraphicDownArrowKey.h"
+#include "GraphicLeftArrowKey.h"
 
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
@@ -126,7 +130,7 @@ KeyAction* KeyBoard::KeyDown(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT 
 		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
 		}
 		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
-			//this->keyAction = new CtrlSaveKey;
+			this->keyAction = new CtrlSaveKey;
 		}
 		break;
 		//////////////////////////////////////////////////////////////////////////////
@@ -251,9 +255,7 @@ KeyAction* KeyBoard::KeyDown(ClassDiagramForm *classDiagramForm, UINT nChar, UIN
 		}
 		break;
 	case 0x4F: // O
-		if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-		}
-		else if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+		 if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new CtrlOpenKey;
 		}
 		break;
@@ -289,20 +291,20 @@ KeyAction* KeyBoard::KeyDown(ClassDiagramForm *classDiagramForm, UINT nChar, UIN
 			this->keyAction = new GraphicCtrlUndoKey;
 		}
 		break;
-	case 0x58: // x  202   +	case 0x56: // x  
+	case 0x58: // x  
 		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			this->keyAction = new GraphicCtrlCutKey;
 		}
 		else if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-			this->keyAction = new RemoveReceptionKey;
+			this->keyAction = new RemoveAttributeKey;
 		}
 	    break;  
-	 case 0x43: // c  205   +	case 0x58: // c  
+	 case 0x43:  // c  
 		 if (nFlags && GetKeyState(VK_CONTROL) < 0) {
 			 this->keyAction = new GraphicCtrlCopyKey;
 		 }
 		 else if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-			 this->keyAction = new RemoveAttributeKey;
+			 this->keyAction = new RemoveMethodKey;
 		 }
 		break; 
 	case 0x56: // v  208   +	case 0x43: // v  
@@ -310,8 +312,20 @@ KeyAction* KeyBoard::KeyDown(ClassDiagramForm *classDiagramForm, UINT nChar, UIN
 			this->keyAction = new GraphicCtrlPasteKey;
 		}
 		else if (nFlags && GetKeyState(VK_CONTROL) >= 0) {
-				this->keyAction = new RemoveMethodKey;
+			this->keyAction = new RemoveReceptionKey;
 			}
+		break;
+	case VK_LEFT:
+		this->keyAction = new GraphicLeftArrowKey;
+		break;
+	case VK_RIGHT:
+		this->keyAction = new GraphicRightArrowKey;
+		break;
+	case VK_UP:
+		this->keyAction = new GraphicUpArrowKey;
+		break;
+	case VK_DOWN:
+		this->keyAction = new GraphicDownArrowKey;
 		break;
 	default:
 		break;

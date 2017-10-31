@@ -20,33 +20,22 @@ MouseLButtonAction* DrawingClass::Instance() {
 }
 void DrawingClass::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
+	classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+	classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
 
 	CRect rect = diagram->GetCorrectRect(startX, startY, currentX, currentY);
 
-	if (rect.Width() < 120) {
-		rect.right = rect.left + 120;
+	if (rect.Width() < 120 * classDiagramForm->zoomRate / 100) {
+		rect.right = rect.left + 120 * classDiagramForm->zoomRate / 100;
 	}
-	if (rect.Height() < 150) {
-		rect.bottom = rect.top + 150;
+	if (rect.Height() < 150 * classDiagramForm->zoomRate / 100) {
+		rect.bottom = rect.top + 150 * classDiagramForm->zoomRate / 100;
 	}
-
-	//클래스를 안겹치게 할려면 여기에 정의
-	Long i = 0;
-	Finder finder;
-	bool ret = false;
-	while (i < diagram->GetLength() && ret == false) {
-		FigureComposite *figures = static_cast<FigureComposite*>(diagram->GetAt(i));
-		CRect cRect1(figures->GetX(), figures->GetY(), figures->GetWidth() + figures->GetX(), figures->GetY() + figures->GetHeight());
-		ret = finder.FindRectangleByArea(rect, cRect1);
-		i++;
-	}
-
-	if (ret == false) {
 		Long index = diagram->AddClass(rect.left, rect.top, rect.Width(), rect.Height());
 		Class *object = static_cast<Class*>(diagram->GetAt(index));
 		object->Initialize();
-	}
+	
 
 	classDiagramForm->lastClass->statusBar->DestroyStatus();
 	classDiagramForm->lastClass->statusBar->MakeStatusBar(classDiagramForm->lastClass, classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
@@ -59,7 +48,7 @@ void DrawingClass::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	
 }
 
-void DrawingClass::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
+void DrawingClass::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	CPen pen;
 	pen.CreatePen(PS_DOT, 1, RGB(0, 0, 0));
 	CPen *oldPen = pDC->SelectObject(&pen);

@@ -29,7 +29,7 @@ HWND StatusBar::MakeStatusBar(LastClass *lastClass, HWND hwndParent, int idStatu
 	Long tempZoomRate1 = lastClass->classDiagramForm->zoomRate;
 	CString mainString;
 	if (tempZoomRate1 == 100) {
-		mainString = " Draw ClassDiagram!!!  Version 2.27     Learn more about Software in ParkCom 02)587-9424               Ready";
+		mainString = " Draw ClassDiagram!!!  Version 2.27     Learn more about Software in ParkCom 02)587-9424";
 	}
 	else {
 		mainString = " Draw ClassDiagram!!!  Version 2.27     Learn more about Software in ParkCom 02)587-9424";
@@ -72,11 +72,11 @@ HWND StatusBar::MakeStatusBar(LastClass *lastClass, HWND hwndParent, int idStatu
 	else {
 		SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)1, (LPARAM)" CapsLock On ");
 	}
-	if (lastClass->classDiagramForm->textEdit != 0 && lastClass->classDiagramForm->textEdit->numLockFlag == 1) {
-		SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)2, (LPARAM)" NumLook On ");
+	if (lastClass->classDiagramForm->numLockFlag == 0) {
+		SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)2, (LPARAM)" NumLock On ");
 	}
 	else {
-		SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)2, (LPARAM)" NumLook Off ");
+		SendMessage(hwndStatus, SB_SETTEXT, (WPARAM)2, (LPARAM)" NumLock Off ");
 	}
 	int a;
 	//확대 축소 기능 form 에 넣을거면 주석 풀면됨

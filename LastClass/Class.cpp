@@ -32,8 +32,10 @@
 #include "Reception.h"
 #include "Diagram.h"
 #include "Finder.h"
-
 #include "RollNameBox.h"
+
+#include "LastClass.h"
+#include "ClassDiagramForm.h"
 
 Class::Class(Long capacity) :FigureComposite(capacity) {
 	this->x = 0;
@@ -55,12 +57,26 @@ Class::Class(Long x, Long y, Long width, Long height) : FigureComposite(64) {
 	this->receptionPosition = -1;
 	this->templetePosition = -1;
 }
+Class::Class(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight) : FigureComposite(64) {
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
+	this->minimumWidth = minimumWidth;
+	this->minimumHeight = minimumHeight;
+	this->attributePosition = -1;
+	this->methodPosition = -1;
+	this->receptionPosition = -1;
+	this->templetePosition = -1;
+}
 
-Class::Class(const Class& source) : FigureComposite(source) {
+Class::Class(const Class& source) :FigureComposite(source) {
 	this->x = source.x;
 	this->y = source.y;
 	this->width = source.width;
 	this->height = source.height;
+	this->minimumWidth = source.minimumWidth;
+	this->minimumHeight = source.minimumHeight;
 	this->attributePosition = source.attributePosition;
 	this->methodPosition = source.methodPosition;
 	this->receptionPosition = source.receptionPosition;
@@ -74,27 +90,71 @@ Class::~Class() {
 		i++;
 	}
 }
+//void Class::Initialize() {
+//	ClassName className(this->x, this->y, this->width, 50, "");
+//	this->figures.Store(this->length, className.Clone());
+//	this->length++;
+//
+//	Line line1(this->x, this->y + 50, width, 0);
+//	this->figures.Store(this->length, line1.Clone());
+//	this->length++;
+//
+//	Attribute attribute(this->x, this->y + 50, this->width, ((this->y + 50 + this->y + this->height) / 2) - (this->y + 50), "");
+//	this->attributePosition = this->figures.Store(this->length, attribute.Clone());
+//	this->length++;
+//
+//	Line line2(this->x, (this->y + 50 + this->y + this->height) / 2, this->width, 0);
+//	this->figures.Store(this->length, line2.Clone());
+//	this->length++;
+//
+//	Method method(this->x, (this->y + 50 + this->y + this->height) / 2, this->width, ((this->y + 50 + this->y + this->height) / 2) - (this->y + 50), "");
+//	this->methodPosition = this->figures.Store(this->length, method.Clone());
+//	this->length++;
+//}
 void Class::Initialize() {
-	ClassName className(this->x, this->y, this->width, 50, "");
+	LastClass *test = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+	Long firstlineHeight = 50 * test->classDiagramForm->zoomRate / 100;
+	if (this->height == 90 * test->classDiagramForm->zoomRate / 100) {
+		 firstlineHeight = 30 * test->classDiagramForm->zoomRate / 100; //40
+	}
+	if (this->height == 120 * test->classDiagramForm->zoomRate / 100) {
+		firstlineHeight = 40 * test->classDiagramForm->zoomRate / 100;
+	}
+	if (this->height == 180 * test->classDiagramForm->zoomRate / 100) {
+		firstlineHeight = 60 * test->classDiagramForm->zoomRate / 100;
+	}
+	if (this->height == 210 * test->classDiagramForm->zoomRate / 100) {
+		firstlineHeight = 70 * test->classDiagramForm->zoomRate / 100;
+	}
+	if (this->height == 240 * test->classDiagramForm->zoomRate / 100) {
+		firstlineHeight = 80 * test->classDiagramForm->zoomRate / 100;
+	}
+	if (this->height == 270 * test->classDiagramForm->zoomRate / 100) {
+		firstlineHeight = 90 * test->classDiagramForm->zoomRate / 100;
+	}
+	if (this->height == 300 * test->classDiagramForm->zoomRate / 100) {
+		firstlineHeight = 100 * test->classDiagramForm->zoomRate / 100;
+	}
+	Long lineHeight = (this->height - firstlineHeight) / 2;
+	ClassName className(this->x, this->y, this->width, firstlineHeight, "");
 	this->figures.Store(this->length, className.Clone());
 	this->length++;
 
-	Line line1(this->x, this->y + 50, width, 0);
+	Line line1(this->x, this->y + firstlineHeight, this->width, 0);
 	this->figures.Store(this->length, line1.Clone());
 	this->length++;
 
-	Attribute attribute(this->x, this->y + 50, this->width, ((this->y + 50 + this->y + this->height) / 2) - (this->y + 50), "");
+	Attribute attribute(this->x, this->y + firstlineHeight, this->width, lineHeight, "");
 	this->attributePosition = this->figures.Store(this->length, attribute.Clone());
 	this->length++;
 
-	Line line2(this->x, (this->y + 50 + this->y + this->height) / 2, this->width, 0);
+	Line line2(this->x, this->y + firstlineHeight + lineHeight, this->width, 0);
 	this->figures.Store(this->length, line2.Clone());
 	this->length++;
 
-	Method method(this->x, (this->y + 50 + this->y + this->height) / 2, this->width, ((this->y + 50 + this->y + this->height) / 2) - (this->y + 50), "");
+	Method method(this->x, this->y + firstlineHeight + lineHeight, this->width, lineHeight, "");
 	this->methodPosition = this->figures.Store(this->length, method.Clone());
 	this->length++;
-
 }
 Figure* Class::Move(Long distanceX, Long distanceY) {
 	Figure::Move(distanceX, distanceY);
@@ -315,8 +375,9 @@ Long Class::AddAttribute(Diagram *diagram) {
 				Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
 				Long relationEndX = figure->GetX() + figure->GetWidth();
 				Long relationEndY = figure->GetY() + figure->GetHeight();
-				if (startX <= relationEndX &&  relationEndX <= endX &&
-					startY <= relationEndY &&  relationEndY <= endY) {
+				//if (startX <= relationEndX &&  relationEndX <= endX &&
+				//	startY <= relationEndY &&  relationEndY <= endY) {
+				if(relation->GetEndPointFigure()==static_cast<Figure*>(this)){
 					Quadrant = finder.FindQuadrant(relationEndX, relationEndY,
 						startX, startY, endX, endY - 50);
 					if (Quadrant == 3) {
@@ -500,8 +561,9 @@ Long Class::AddMethod(Diagram *diagram) {
 				Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
 				Long relationEndX = figure->GetX() + figure->GetWidth();
 				Long relationEndY = figure->GetY() + figure->GetHeight();
-				if (startX <= relationEndX &&  relationEndX <= endX &&
-					startY <= relationEndY &&  relationEndY <= endY) {
+				//if (startX <= relationEndX &&  relationEndX <= endX &&
+				//	startY <= relationEndY &&  relationEndY <= endY) {
+					if (relation->GetEndPointFigure() == static_cast<Figure*>(this)) {
 					Quadrant = finder.FindQuadrant(relationEndX, relationEndY,
 						startX, startY, endX, endY - 100);
 					if (Quadrant == 3) {
@@ -670,10 +732,12 @@ Long Class::AddReception(Diagram *diagram) {
 		while (j < figureComposite->GetLength()) {
 			Figure *figure = figureComposite->GetAt(j);
 			if (dynamic_cast<Relation*>(figureComposite->GetAt(j))) {
+				Relation *relation = static_cast<Relation*>(figureComposite->GetAt(j));
 				Long relationEndX = figure->GetX() + figure->GetWidth();
 				Long relationEndY = figure->GetY() + figure->GetHeight();
-				if (startX <= relationEndX &&  relationEndX <= endX &&
-					startY <= relationEndY &&  relationEndY <= endY) {
+				//if (startX <= relationEndX &&  relationEndX <= endX &&
+				//	startY <= relationEndY &&  relationEndY <= endY) {
+				if (relation->GetEndPointFigure() == static_cast<Figure*>(this)) {
 					Quadrant = finder.FindQuadrant(relationEndX, relationEndY,
 						startX, startY, endX, endY - 50);
 					if (Quadrant == 3) {
@@ -757,13 +821,27 @@ Long Class::AddTemplate(Long x, Long y, Long width, Long height) {
 }
 
 Long Class::Remove(Long index) {
+	Long ret = 0;
 
 	if (this->figures[index] != 0) {
+		if (this->attributePosition > index) {
+			this->attributePosition--;
+		}
+		if (this->methodPosition > index) {
+			this->methodPosition--;
+		}
+		if (this->receptionPosition > index) {
+			this->receptionPosition--;
+		}
+		if (this->templetePosition > index) {
+			this->templetePosition--;
+		}
 		delete this->figures[index];
+		this->length--;
+		this->capacity--;
+		ret = this->figures.Delete(index);
 	}
-	this->length--;
-	this->capacity--;
-	return this->figures.Delete(index);
+	return ret;
 }
 Long Class::RemoveAttribute() {
 
@@ -824,12 +902,15 @@ Long Class::RemoveMethod() {
 Long Class::RemoveReception() {
 	if (this->receptionPosition != -1) {
 		if (this->methodPosition != -1) {
+			
 		this->figures.GetAt(this->methodPosition)->Modify(this->x, this->figures.GetAt(this->methodPosition)->GetY(), this->width, this->figures.GetAt(this->methodPosition)->GetHeight() + this->figures.GetAt(this->receptionPosition)->GetHeight());
 		}
 		else if (this->attributePosition != -1) {
+		
 			this->figures.GetAt(this->attributePosition)->Modify(this->x, this->figures.GetAt(this->attributePosition)->GetY(), this->width, this->figures.GetAt(attributePosition)->GetHeight() + this->figures.GetAt(this->receptionPosition)->GetHeight());
 		}
 		else {
+			
 			this->figures.GetAt(0)->Modify(this->x, this->y, this->width, this->figures.GetAt(0)->GetHeight() + this->figures.GetAt(this->receptionPosition)->GetHeight());
 		}
 		if (this->receptionPosition < this->attributePosition) {
@@ -887,73 +968,58 @@ void Class::Accept(Visitor& visitor, CDC *pDC) {
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 
 	while (!smartPointer->IsDone()) {
+		
+		if (dynamic_cast<Relation*>(smartPointer->Current())) {
+			static_cast<Relation*>(smartPointer->Current())->Accept(visitor, pDC);
+		}
+		if (dynamic_cast<SelfRelation*>(smartPointer->Current())) {
+			static_cast<SelfRelation*>(smartPointer->Current())->Accept(visitor, pDC);
+		}
 		if (dynamic_cast<Line*>(smartPointer->Current())) {
 			static_cast<Line*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Template*>(smartPointer->Current())) {
 			static_cast<Template*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<ClassName*>(smartPointer->Current())) {
 			static_cast<ClassName*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Attribute*>(smartPointer->Current())) {
 			static_cast<Attribute*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Method*>(smartPointer->Current())) {
 			static_cast<Method*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Reception*>(smartPointer->Current())) {
 			static_cast<Reception*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Generalization*>(smartPointer->Current())) {
 			static_cast<Generalization*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<Realization*>(smartPointer->Current())) {
 			static_cast<Realization*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Dependency*>(smartPointer->Current())) {
 			static_cast<Dependency*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Association*>(smartPointer->Current())) {
 			static_cast<Association*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<DirectedAssociation*>(smartPointer->Current())) {
 			static_cast<DirectedAssociation*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Aggregation*>(smartPointer->Current())) {
 			static_cast<Aggregation*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Aggregations*>(smartPointer->Current())) {
 			static_cast<Aggregations*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
-
 		else if (dynamic_cast<Composition*>(smartPointer->Current())) {
 			static_cast<Composition*>(smartPointer->Current())->Accept(visitor, pDC);
-
 		}
-
 		else if (dynamic_cast<Compositions*>(smartPointer->Current())) {
 			static_cast<Compositions*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
 		else if (dynamic_cast<MemoLine*>(smartPointer->Current())) {
 			static_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
@@ -981,22 +1047,27 @@ void Class::Accept(Visitor& visitor, CDC *pDC) {
 		else if (dynamic_cast<SelfCompositions*>(smartPointer->Current())) {
 			static_cast<SelfCompositions*>(smartPointer->Current())->Accept(visitor, pDC);
 		}
-
+		
 		smartPointer->Next();
 	}
 }
 
-Long Class::SetMinimumWidth() {
-	this->minimumWidth = 120;
+void Class::Accept(Visitor& visitor, Long distanceX, Long distanceY) {
+	visitor.Visit(this, distanceX, distanceY);
+}
 
+Long Class::SetMinimumWidthR(Long zoomRate) {
+	this->minimumWidth = 120 * zoomRate / 100;
 	SmartPointer<Figure*> iterator(this->CreateIterator());
 	for (iterator->First();!iterator->IsDone();iterator->Next()) {
-		if (iterator->Current()->GetMinimumWidth() > this->minimumWidth) {
+		if (!dynamic_cast<Line*>(iterator->Current()) && !dynamic_cast<Relation*>(iterator->Current()) && !dynamic_cast<SelfRelation*>(iterator->Current()) && iterator->Current()->GetMinimumWidth() > this->minimumWidth) {
 			this->minimumWidth = iterator->Current()->GetMinimumWidth();
 		}
 	}
 	return this->minimumWidth;
 }
+
+
 
 Long Class::Correct(Figure *figure, Long index) {
 	return index = this->figures.Modify(index, figure);

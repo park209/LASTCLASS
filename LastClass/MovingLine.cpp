@@ -32,7 +32,9 @@ void MovingLine::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *cl
 	Class *selectedClass = static_cast<Class*>(selection->GetAt(0));
 	Finder finder;
 
-	classDiagramForm->historyGraphic->PushUndo(diagram);
+	classDiagramForm->historyGraphic->PushUndo(diagram, classDiagramForm->zoomRate);
+	classDiagramForm->historyGraphic->redoGraphicArray->Clear();
+	classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
 
 	MovingLineProcess *moveLine = MovingLineProcess::Instance();
 
@@ -69,7 +71,7 @@ void MovingLine::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, 
 
 }
 
-void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
+void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
 	bool ret = false;
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;

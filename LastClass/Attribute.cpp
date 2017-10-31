@@ -8,6 +8,9 @@ Attribute::~Attribute() {
 }
 Attribute::Attribute(Long x, Long y, Long width, Long height, string content) : Figure(x, y, width, height, content) {
 }
+Attribute::Attribute(Long x, Long y, Long width, Long height, Long minimumWidth, Long minimumHeight, string content)
+	: Figure(x, y, width, height, minimumWidth, minimumHeight, content) {
+}
 Attribute::Attribute(const Attribute& source) : Figure(source) {
 }
 Attribute& Attribute::operator = (const Attribute& source) {
