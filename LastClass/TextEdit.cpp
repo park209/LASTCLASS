@@ -162,14 +162,14 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (this->koreanEnglish == 0 && nChar != VK_BACK && nChar != VK_ESCAPE && nChar != VK_RETURN &&
 		nChar != VK_SPACE && nChar != VK_TAB && nChar != 10 && GetKeyState(VK_CONTROL) >= 0) {
 
+		this->historyText->PushUndo(this->text, this->caret);
+		this->historyText->redoTextArray->Clear();
+		this->historyText->redoCaretArray->Clear();
+
 		if (flagSelection == 1) {
 			DeleteTextArea *deleteArea = DeleteTextArea::Instance();
 			deleteArea->DeleteArea(this);
 		}
-
-		this->historyText->PushUndo(this->text, this->caret);
-		this->historyText->redoTextArray->Clear();
-		this->historyText->redoCaretArray->Clear();
 
 		char nCharacter = nChar;
 		SingleByteCharacter singleByteCharacter(nCharacter);

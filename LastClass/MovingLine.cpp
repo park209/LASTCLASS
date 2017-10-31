@@ -76,10 +76,6 @@ void MovingLine::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;
 	Class *selectedClass = static_cast<Class*>(selection->GetAt(0));
-	Long x = selectedClass->GetX();
-	Long y = selectedClass->GetY();
-	Long width = selectedClass->GetWidth();
-	Long height = selectedClass->GetHeight();
 	CRect rect;
 	Finder finder;
 
