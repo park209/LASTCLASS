@@ -8,6 +8,7 @@
 #include "KnockKnock.h"
 #include "ResizeVisitor.h"
 #include "Diagram.h"
+#include "ScrollMovingObject.h"
 
 ZoomInMenuAction::ZoomInMenuAction() {
 }
@@ -59,16 +60,18 @@ void ZoomInMenuAction::MenuPress(LastClass *lastClass) {
 
 	SCROLLINFO vScinfo;
 	SCROLLINFO hScinfo;
-
+	ScrollMovingObject moving;
 	lastClass->classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
 	lastClass->classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
 	CRect rect;
 	lastClass->classDiagramForm->GetClientRect(&rect);
+
+	moving.MovingObject(lastClass->classDiagramForm->diagram, hScinfo.nPos, vScinfo.nPos);
 	vScinfo.nPage = rect.Height();
 	hScinfo.nPage = rect.Width();
 
-	vScinfo.nMax = 2000 * lastClass->classDiagramForm->zoomRate / 100;
-	hScinfo.nMax = 4000 * lastClass->classDiagramForm->zoomRate / 100;
+	vScinfo.nMax = vScinfo.nMax * lastClass->classDiagramForm->zoomRate / lastClass->classDiagramForm->preZoom;
+	hScinfo.nMax = hScinfo.nMax * lastClass->classDiagramForm->zoomRate / lastClass->classDiagramForm->preZoom;
 
 	if (vScinfo.nPos > vScinfo.nMax - vScinfo.nPage) {
 		vScinfo.nPos = vScinfo.nMax - vScinfo.nPage;
@@ -92,6 +95,7 @@ void ZoomInMenuAction::MenuPress(LastClass *lastClass) {
 	if (knocking != NULL) {
 		delete knocking;
 	}
+	moving.MovingObject(lastClass->classDiagramForm->diagram, -hScinfo.nPos, -vScinfo.nPos);
 	if ((zoomRate_ != 60 || lastClass->classDiagramForm->zoomRate != 60) && (zoomRate_ != 130 || lastClass->classDiagramForm->zoomRate != 130)) {
 		lastClass->statusBar->DestroyStatus();
 		lastClass->statusBar->MakeStatusBar(lastClass, lastClass->GetSafeHwnd(), 0, 0, 5);

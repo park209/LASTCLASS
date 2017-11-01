@@ -32,17 +32,19 @@ void OnHScrollLineLeft::Scrolling(ClassDiagramForm *classDiagramForm) {
 	moving.MovingObject(classDiagramForm->diagram,curpos - newpos);
 
 
-	SCROLLINFO vScinfo;
-	classDiagramForm->GetScrollInfo(SB_HORZ, &vScinfo);
-	ret = moving.FindHorizontal(classDiagramForm->diagram, vScinfo.nPage);
-	if (ret == false) {
-		SCROLLINFO vScinfo;
-		classDiagramForm->GetScrollInfo(SB_HORZ, &vScinfo);
-		vScinfo.nMax -= 100;
-		if (vScinfo.nMax < 4000) {
-			vScinfo.nMax = 4000;
+	SCROLLINFO hScinfo;
+	classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
+	ret = moving.FindHorizontal(classDiagramForm->diagram, hScinfo.nPage);
+	//int hMax = hScinfo.nMax;
+	int hMax = 4000 * classDiagramForm->zoomRate / 100;
+	if (ret == false) {;
+		hScinfo.nMax -= 100;
+		if (hScinfo.nMax < hMax) {
+			hScinfo.nMax = hMax;
 		}
-		classDiagramForm->SetScrollInfo(SB_HORZ, &vScinfo);
+		classDiagramForm->SetScrollInfo(SB_HORZ, &hScinfo);
+		//classDiagramForm->SetScrollPos(SB_HORZ, curpos);
+		//moving.MovingObject(classDiagramForm->diagram, newpos - curpos);
 	}
 
 }

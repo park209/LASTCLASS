@@ -318,7 +318,7 @@ Long ClassDiagramForm::Load() {
 			i++;
 		}
 	ScrollMovingObject moving;
-	moving.MovingObject(this->diagram, -hScinfo.nPos, -vScinfo.nPos);
+	//moving.MovingObject(this->diagram, -hScinfo.nPos, -vScinfo.nPos);
 	}
 	
 	fTest.close();
@@ -348,7 +348,7 @@ Long ClassDiagramForm::Save() {
 		Long zoomRate =this->zoomRate;
 		this->GetScrollInfo(SB_HORZ, &hScinfo);
 		this->GetScrollInfo(SB_VERT, &vScinfo);
-		moving.MovingObject(this->diagram, hScinfo.nPos, vScinfo.nPos);
+		//moving.MovingObject(this->diagram, hScinfo.nPos, vScinfo.nPos);
 		fTest << zoomRate << " " << hScinfo.nPos << " " << hScinfo.nMax << " " << vScinfo.nPos << " " << vScinfo.nMax << endl;
 		while (i < this->diagram->GetLength()) {
 			//종류 구별을 위한 마지막 칸 
@@ -728,7 +728,7 @@ Long ClassDiagramForm::Save() {
 			}
 			i++;
 		}
-		moving.MovingObject(this->diagram, -hScinfo.nPos, -vScinfo.nPos);
+		//moving.MovingObject(this->diagram, -hScinfo.nPos, -vScinfo.nPos);
 		fTest.close();
 	}
 	if (this->historyGraphic->undoGraphicArray->GetLength() != 0) {
@@ -803,9 +803,9 @@ void ClassDiagramForm::OnPaint() {
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
 	memDC.CreateCompatibleDC(&dc);
-	bitmap.CreateCompatibleBitmap(&dc, 4000 * this->zoomRate / 100, 2000 * this->zoomRate / 100);
+	bitmap.CreateCompatibleBitmap(&dc, rect.Width(), rect.Height());
 	pOldBitmap = memDC.SelectObject(&bitmap);
-	memDC.FillSolidRect(CRect(0, 0, 4000 * this->zoomRate / 100, 2000 * this->zoomRate / 100), RGB(255, 255, 255));
+	memDC.FillSolidRect(CRect(0, 0, rect.Width(), rect.Height()), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	int ih = MulDiv(14 * this->zoomRate / 100, GetDeviceCaps(dc, LOGPIXELSY), 72);
 	cFont.CreateFont(ih, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
@@ -819,7 +819,7 @@ void ClassDiagramForm::OnPaint() {
 		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
 	}
 
-	/*ScrollMovingObject movingObject;
+	ScrollMovingObject movingObject;
 	Long xlimit = 0;
 	xlimit = movingObject.GetHorizontalMax(this->diagram);
 	SCROLLINFO hScinfo;
@@ -828,6 +828,14 @@ void ClassDiagramForm::OnPaint() {
 		hScinfo.nMax = hScinfo.nPos + xlimit + 20;
 		this->SetScrollInfo(SB_HORZ, &hScinfo);
 	}
+	if (hScinfo.nPage > xlimit) {
+		hScinfo.nMax = hScinfo.nPos + hScinfo.nPage;
+		if (hScinfo.nMax < 4000 * this->zoomRate / 100) {
+			hScinfo.nMax = 4000 * this->zoomRate / 100;
+		}
+		this->SetScrollInfo(SB_HORZ, &hScinfo);
+	}
+
 	Long ylimit = 0;
 	ylimit = movingObject.GetVerticalMax(this->diagram);
 	SCROLLINFO vScinfo;
@@ -835,10 +843,28 @@ void ClassDiagramForm::OnPaint() {
 	if (vScinfo.nMax - vScinfo.nPos <= ylimit) {
 		vScinfo.nMax = vScinfo.nPos + ylimit + 20;
 		this->SetScrollInfo(SB_VERT, &vScinfo);
-	}*/
+	}
+	if (vScinfo.nPage > ylimit) {
+		vScinfo.nMax = vScinfo.nPos + vScinfo.nPage;
+		if (vScinfo.nMax < 2000 * this->zoomRate / 100) {
+			vScinfo.nMax = 2000 * this->zoomRate / 100;
+		}
+		this->SetScrollInfo(SB_VERT, &vScinfo);
+	}
+
 
 	//dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, horzCurPos, vertCurPos, SRCCOPY);
 	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, 0, 0, SRCCOPY);
+	if (this->diagram->GetLength() > 0) {
+		CString a;
+		int b;
+		int c;
+		int d;
+		this->GetScrollRange(SB_HORZ,&b,&c);
+		this->GetScrollRange(SB_VERT,&b,&d);
+		a.Format("%d %d %d %d %d %d", this->diagram->GetAt(0)->GetX(), this->diagram->GetAt(0)->GetY(),this->GetScrollPos(SB_HORZ),this->GetScrollPos(SB_VERT), c,d);
+		dc.TextOut(100, 100, a);
+	}
 	
 }
 
@@ -924,11 +950,12 @@ void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 		if (pos - cPos>0) {
 			SCROLLINFO vScinfo;
 			this->GetScrollInfo(SB_VERT, &vScinfo);
+			int vMax = vScinfo.nMax;
 			bool ret = movingObject.FindHorizontal(this->diagram, vScinfo.nPage);
 			if (ret == false)
 				vScinfo.nMax = vScinfo.nMax - (pos - cPos);
-			if (vScinfo.nMax < 2000) {
-				vScinfo.nMax = 2000;
+			if (vScinfo.nMax < vMax) {
+				vScinfo.nMax = vMax;
 			}
 			this->SetScrollInfo(SB_VERT, &vScinfo);
 		}
@@ -951,11 +978,12 @@ void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 		if (pos - cPos>0) {
 			SCROLLINFO vScinfo;
 			this->GetScrollInfo(SB_HORZ, &vScinfo);
+			int hMax = vScinfo.nMax;
 			bool ret = movingObject.FindHorizontal(this->diagram, vScinfo.nPage);
 			if (ret == false)
 				vScinfo.nMax = vScinfo.nMax - (pos - cPos);
-			if (vScinfo.nMax < 4000) {
-				vScinfo.nMax = 4000;
+			if (vScinfo.nMax < hMax) {
+				vScinfo.nMax = hMax;
 			}
 			this->SetScrollInfo(SB_HORZ, &vScinfo);
 		}
@@ -1120,7 +1148,6 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		if (this->selection->GetLength() > 0) {
 			this->selection->DeleteAllItems();
 		}
-		Long nextZoomRate;
 		this->preZoom = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
 			this->zoomRate -= 10;
@@ -1134,8 +1161,6 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 				this->zoomRate = 130;
 			}
 		}
-		nextZoomRate = this->zoomRate;
-
 		this->SetMemoGab(20 * this->zoomRate / 100);
 		this->SetGabX(8 * this->zoomRate / 100);
 		this->SetGabY(2 * this->zoomRate / 100);
@@ -1147,34 +1172,27 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		SCROLLINFO vScinfo;
 		SCROLLINFO hScinfo;
 
+		ScrollMovingObject moving;
 		this->GetScrollInfo(SB_VERT, &vScinfo);
 		this->GetScrollInfo(SB_HORZ, &hScinfo);
 		CRect rect;
 		this->GetClientRect(&rect);
-		//vScinfo.nPage = rect.Height();
-		//hScinfo.nPage = rect.Width();
 
-		Long vnMax = vScinfo.nMax * this->zoomRate / this->preZoom;
-		Long hnMax = hScinfo.nMax * this->zoomRate / this->preZoom;
-		Long vpos = vScinfo.nPos;
-		Long hpos = hScinfo.nPos;
-		if (vpos > vnMax - vScinfo.nPage) {
+		moving.MovingObject(this->diagram, hScinfo.nPos, vScinfo.nPos);
+		vScinfo.nMax = vScinfo.nMax * this->zoomRate / this->preZoom;
+		hScinfo.nMax = hScinfo.nMax * this->zoomRate / this->preZoom;
+		if (vScinfo.nPos > vScinfo.nMax - vScinfo.nPage) {
 			vScinfo.nPos = vScinfo.nMax - vScinfo.nPage;
 		}
-		if (hpos > hnMax - hScinfo.nPage) {
+		if (hScinfo.nPos > hScinfo.nMax - hScinfo.nPage) {
 			hScinfo.nPos = hScinfo.nMax - hScinfo.nPage;
 		}
-		Long vcPos = vScinfo.nPos;
-		Long hcpos = hScinfo.nPos;
 		this->SetScrollInfo(SB_VERT, &vScinfo);
 		this->SetScrollInfo(SB_HORZ, &hScinfo);	
-		//ScrollMovingObject moving;
-		//moving.MovingObject(this->diagram, hpos - hcpos, vpos - vcPos);
 
 		CDC memDC;
-		ResizeVisitor resizeVisitor(this->preZoom, nextZoomRate);
+		ResizeVisitor resizeVisitor(this->preZoom, this->zoomRate);
 		this->diagram->Accept(resizeVisitor, &memDC);
-
 		if (this->copyBuffer != NULL) {
 			this->copyBuffer->Accept(resizeVisitor, &memDC);
 		}
@@ -1183,15 +1201,13 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		if (knocking != NULL) {
 			delete knocking;
 		}
-
+		moving.MovingObject(this->diagram, -hScinfo.nPos, -vScinfo.nPos);
 		if ((zoomRate_!=60 ||this->zoomRate!=60)&& (zoomRate_ != 130 || this->zoomRate != 130)) {
 			this->lastClass->statusBar->DestroyStatus();
 			this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		}
 	}
 	ret = true;
-
-//	SetScrollPos(SB_VERT, vertCurPos);
 	Invalidate(false);
 	return ret;
 }
@@ -1451,6 +1467,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	int vertCurPos = GetScrollPos(SB_VERT);
 	int horzCurPos = GetScrollPos(SB_HORZ);
+
 	if (nFlags == MK_LBUTTON) {
 		CRect testRect;
 		this->GetClientRect(&testRect);
@@ -1482,14 +1499,14 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 				vertCurPos = maxpos;
 			}
 		}
-		this->currentX_2 = this->currentX;
-		this->currentY_2 = this->currentY;
-		this->currentX = point.x;
-		this->currentY = point.y;
+
 
 		//SetScrollPos(SB_HORZ, horzCurPos);
 		//SetScrollPos(SB_VERT, vertCurPos);
-
+	this->currentX_2 = this->currentX;
+	this->currentY_2 = this->currentY;
+	this->currentX = point.x;
+	this->currentY = point.y;
 		Invalidate(false);
 	}
 	//커서모양

@@ -31,13 +31,15 @@ void OnVScrollPageUp::Scrolling(ClassDiagramForm *classDiagramForm) {
 	bool ret;
 	SCROLLINFO vScinfo;
 	classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
+	//int vMax = vScinfo.nMax;
+	int vMax = 2000 * classDiagramForm->zoomRate / 100;
 	ret = moving.FindVertical(classDiagramForm->diagram, vScinfo.nPage);
 	if (ret == false) {
 		SCROLLINFO vScinfo;
 		classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
-		vScinfo.nMax -= 100;
-		if (vScinfo.nMax < 2000) {
-			vScinfo.nMax = 2000;
+		vScinfo.nMax -= 50;
+		if (vScinfo.nMax < vMax) {
+			vScinfo.nMax = vMax;
 		}
 		classDiagramForm->SetScrollInfo(SB_VERT, &vScinfo);
 	}

@@ -40,13 +40,15 @@ void OnHScrollPageLeft::Scrolling(ClassDiagramForm *classDiagramForm) {
 	bool ret;
 	SCROLLINFO hScinfo;
 	classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
+	//int hMax = hScinfo.nMax;
+	int hMax = 4000 * classDiagramForm->zoomRate / 100;
 	ret = moving.FindHorizontal(classDiagramForm->diagram, hScinfo.nPage);
 	if (ret == false) {
 		//SCROLLINFO hScinfo;
 		//classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
-		hScinfo.nMax -= 100;
-		if (hScinfo.nMax < 4000) {
-			hScinfo.nMax = 4000;
+		hScinfo.nMax -= 50;
+		if (hScinfo.nMax < hMax) {
+			hScinfo.nMax = hMax;
 		}
 		classDiagramForm->SetScrollInfo(SB_HORZ, &hScinfo);
 	}
