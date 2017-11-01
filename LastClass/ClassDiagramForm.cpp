@@ -818,7 +818,6 @@ void ClassDiagramForm::OnPaint() {
 	if (this->currentX_2 != 0 && this->currentY_2 != 0 && this->currentX != 0 && this->currentY != 0) {
 		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
 	}
-
 	ScrollMovingObject movingObject;
 	Long xlimit = 0;
 	xlimit = movingObject.GetHorizontalMax(this->diagram);
@@ -851,21 +850,8 @@ void ClassDiagramForm::OnPaint() {
 		}
 		this->SetScrollInfo(SB_VERT, &vScinfo);
 	}
-
-
 	//dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, horzCurPos, vertCurPos, SRCCOPY);
 	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, 0, 0, SRCCOPY);
-	if (this->diagram->GetLength() > 0) {
-		CString a;
-		int b;
-		int c;
-		int d;
-		this->GetScrollRange(SB_HORZ,&b,&c);
-		this->GetScrollRange(SB_VERT,&b,&d);
-		a.Format("%d %d %d %d %d %d", this->diagram->GetAt(0)->GetX(), this->diagram->GetAt(0)->GetY(),this->GetScrollPos(SB_HORZ),this->GetScrollPos(SB_VERT), c,d);
-		dc.TextOut(100, 100, a);
-	}
-	
 }
 
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -1211,10 +1197,6 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	Invalidate(false);
 	return ret;
 }
-	
-
-	
-
 void ClassDiagramForm::OnNcMouseMove(UINT nHitTest, CPoint point) {
 
 	CRect rect;
@@ -1332,7 +1314,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 		if (dynamic_cast<MemoBox*>(figure) || dynamic_cast<ClassName*>(figure)) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				figure->GetX() + GabX ,
+				figure->GetX() + GabX,
 				figure->GetY() + GabY + MemoGab,
 				figure->GetX() + figure->GetWidth() - GabX + CaretWidth,
 				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
@@ -1347,8 +1329,9 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	}
 
 	//선택된 relationLine 이 있으면
+	Figure* rr = this->selection->GetAt(0);
 	if (this->selection->GetLength() == 1 && dynamic_cast<Relation*>(this->selection->GetAt(0))) {//&& !dynamic_cast<MemoLine*>(this->selection->GetAt(0))) {
-		// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
+																								  // relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
 		Long i = 0;
 		Long index = 0;
 		Relation *relation = static_cast<Relation*>(this->selection->GetAt(0));
@@ -1449,7 +1432,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		if (index > 0) {
 			this->textEdit = new TextEdit(this, selfRelation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				left + 1,
+				left + 1 ,
 				top + 1,
 				right - 1,
 				bottom - 1), this, 10000, NULL);
@@ -1462,12 +1445,12 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 	Invalidate(false);
 	this->isDown = 0;
+
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	int vertCurPos = GetScrollPos(SB_VERT);
 	int horzCurPos = GetScrollPos(SB_HORZ);
-
 	if (nFlags == MK_LBUTTON) {
 		CRect testRect;
 		this->GetClientRect(&testRect);
@@ -1501,22 +1484,26 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 		}
 
 
-		//SetScrollPos(SB_HORZ, horzCurPos);
-		//SetScrollPos(SB_VERT, vertCurPos);
-	this->currentX_2 = this->currentX;
-	this->currentY_2 = this->currentY;
-	this->currentX = point.x;
-	this->currentY = point.y;
+		SetScrollPos(SB_HORZ, horzCurPos);
+		SetScrollPos(SB_VERT, vertCurPos);
+		int vertNCurPos = GetScrollPos(SB_VERT);
+		int horzNCurPos = GetScrollPos(SB_HORZ);
+		ScrollMovingObject moving;
+		moving.MovingObject(this->diagram, horzCurPos - horzNCurPos, vertCurPos - vertNCurPos);
+		this->currentX_2 = this->currentX;
+		this->currentY_2 = this->currentY;
+		this->currentX = point.x;
+		this->currentY = point.y;
 		Invalidate(false);
 	}
 	//커서모양
 	if (nFlags != MK_LBUTTON && this->selection->GetLength() == 1) {
 		Long index;
-		index = this->selection->SelectByPoint(point.x , point.y);
-		if (index == 12 || index == 4 || index == 9 ) {
+		index = this->selection->SelectByPoint(point.x, point.y);
+		if (index == 12 || index == 4 || index == 9) {
 			SetCursor(LoadCursor(NULL, IDC_SIZENS));
 		}
-		else if (index == 3  || index == 10) {
+		else if (index == 3 || index == 10) {
 			SetCursor(LoadCursor(NULL, IDC_SIZENWSE));
 		}
 		else if (index == 5 || index == 8) {

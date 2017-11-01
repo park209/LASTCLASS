@@ -116,7 +116,9 @@ Figure* Diagram::FindItem(Long x, Long y,ClassDiagramForm *classDiagramForm) {
 		}
 		smartPointer->Next();
 	}
-	classDiagramForm->selection->Correct(figure, 0);
+	if (dynamic_cast<FigureComposite*>(figure)) {
+		classDiagramForm->selection->Correct(figure, 0);
+	}
 	if (index == 0) {
 		SmartPointer<Figure*> smartPointer_(static_cast<FigureComposite*>(figure)->CreateIterator()); //클래스 배열 반복자
 		for (smartPointer_->First(); !smartPointer_->IsDone(); smartPointer_->Next()) {
