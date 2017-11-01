@@ -203,6 +203,7 @@
     <ClInclude Include="SaveMenuAction.h" />
     <ClInclude Include="Scroll.h" />
     <ClInclude Include="ScrollAction.h" />
+    <ClInclude Include="ScrollMovingObject.h" />
     <ClInclude Include="Selection.h" />
     <ClInclude Include="SelectionState.h" />
     <ClInclude Include="SelfAggregation.h" />
@@ -419,6 +420,7 @@
     <ClCompile Include="SaveMenuAction.cpp" />
     <ClCompile Include="Scroll.cpp" />
     <ClCompile Include="ScrollAction.cpp" />
+    <ClCompile Include="ScrollMovingObject.cpp" />
     <ClCompile Include="Selection.cpp" />
     <ClCompile Include="SelectionState.cpp" />
     <ClCompile Include="SelfAggregation.cpp" />

@@ -50,6 +50,9 @@
 #include "GraphicCtrlCopyKey.h"
 #include "ResizeVisitor.h"
 #include "KnockKnock.h"
+#include "ScrollMovingObject.h"
+#include "OnVScrollPageDown.h"
+#include "OnVScrollPageUp.h"
 
 #include "SelectionState.h"
 #include <math.h>
@@ -148,8 +151,12 @@ Long ClassDiagramForm::Load() {
 	Array<Long> figureIndexArray(1);
 	Array<Long> endPointIndexArray(1);
 	Long zoomRate;
+	SCROLLINFO vScinfo = { 0, };
+	SCROLLINFO hScinfo = { 0, };
 	int vertCurPos;
 	int horzCurPos;
+	int maxVScroll;
+	int maxHScroll;
 	fTest.open(this->fileName);
 	//fTest.open("text.txt");
 	//종류 구별을 위한 마지막 칸 
@@ -157,12 +164,26 @@ Long ClassDiagramForm::Load() {
 	// 8 = DirectedAssociation(직접연관),  9 = Aggregation(집합), 10 = Aggregations(집합연관), 11 =  Composition(합성), 12 = Compositions(복합연관), 13 = MemoLine
 	// 14 = ClassName , 15 = Attribute , 16 = Method , 17 = Reception
 
-	if (fTest.is_open()) { 
+	if (fTest.is_open()) {
 		getline(fTest, temp1);
-		sscanf_s((CString)temp1.c_str(), "%d %d %d", &zoomRate, &vertCurPos, &horzCurPos);
+		sscanf_s((CString)temp1.c_str(), "%d %d %d %d %d", &zoomRate, &horzCurPos, &maxHScroll, &vertCurPos, &maxVScroll);
 		this->zoomRate = zoomRate;
-		this->SetScrollPos(SB_VERT, vertCurPos);
-		this->SetScrollPos(SB_HORZ, horzCurPos);
+		vScinfo.cbSize = sizeof(SCROLLINFO);
+		vScinfo.fMask = SIF_ALL;
+		vScinfo.nMin = 0;
+		vScinfo.nMax = maxVScroll;
+		vScinfo.nPos = vertCurPos;
+		hScinfo.cbSize = sizeof(SCROLLINFO);
+		hScinfo.fMask = SIF_ALL;
+		hScinfo.nMin = 0;
+		hScinfo.nMax = maxHScroll;
+		hScinfo.nPos = horzCurPos;
+		//this->SetScrollRange(SB_VERT, 0, maxVScroll);
+		//this->SetScrollPos(SB_VERT, vertCurPos);
+		//this->SetScrollRange(SB_HORZ, 0, maxHScroll);
+		//this->SetScrollPos(SB_HORZ, horzCurPos);
+		this->SetScrollInfo(SB_VERT, &vScinfo);
+		this->SetScrollInfo(SB_HORZ, &hScinfo);
 		getline(fTest, temp1);
 		sscanf_s((CString)temp1.c_str(), "%d %d %d %d %d %d %d %d", &length, &x, &y, &width, &height, &minimumWidth, &minimumHeight, &type);
 		while (!fTest.eof()) {
@@ -171,7 +192,7 @@ Long ClassDiagramForm::Load() {
 			FigureComposite *figureComposite = static_cast<FigureComposite*>(this->diagram->GetAt(position));
 			if (type == 7) {   //메모박스이면
 				getline(fTest, temp1);
-				sscanf_s((CString)temp1.c_str(), "%d %d",&fontSize, &rowLength);
+				sscanf_s((CString)temp1.c_str(), "%d %d", &fontSize, &rowLength);
 				j = 0;
 				temp2.clear();
 				while (j < rowLength) {
@@ -180,17 +201,17 @@ Long ClassDiagramForm::Load() {
 					temp2.append("\n");
 					j++;
 				}
-					Long k = temp2.find_last_of('\n');
-					temp2.replace(k, 1, "\0");
-					figureComposite->ReplaceString(temp2, fontSize);
-			
+				Long k = temp2.find_last_of('\n');
+				temp2.replace(k, 1, "\0");
+				figureComposite->ReplaceString(temp2, fontSize);
+
 			}
 			i = 0;
 			while (position != -1 && i < length) {
 				getline(fTest, temp1);
 				sscanf_s((CString)temp1.c_str(), "%d %d %d %d %d %d %d", &x, &y, &width, &height, &minimumWidth, &minimumHeight, &type); //말단객체
 				figure = factory.Create(x, y, width, height, minimumWidth, minimumHeight, type);
-			
+
 				if (type < 7 && type != 2) {
 					getline(fTest, temp1);
 					sscanf_s((CString)temp1.c_str(), "%d %d", &fontSize, &rowLength);
@@ -202,28 +223,28 @@ Long ClassDiagramForm::Load() {
 						temp2.append("\n");
 						j++;
 					}
-						Long k = temp2.find_last_of('\n');
-						temp2.replace(k, 1, "\0");
-						figure->ReplaceString(temp2, fontSize);
-						if (type == 3) {
-							static_cast<Class*>(figureComposite)->Add(static_cast<Attribute*>(figure));
-						}
-						else if (type == 4) {
-							static_cast<Class*>(figureComposite)->Add(static_cast<Method*>(figure));
-						}
-						else if (type == 5) {
-							static_cast<Class*>(figureComposite)->Add(static_cast<Reception*>(figure));
-						}
-						else if (type == 6) {
-							static_cast<Class*>(figureComposite)->Add(static_cast<Template*>(figure));
-						}
-						else {
-							figureComposite->Add(figure); 
-						}
+					Long k = temp2.find_last_of('\n');
+					temp2.replace(k, 1, "\0");
+					figure->ReplaceString(temp2, fontSize);
+					if (type == 3) {
+						static_cast<Class*>(figureComposite)->Add(static_cast<Attribute*>(figure));
+					}
+					else if (type == 4) {
+						static_cast<Class*>(figureComposite)->Add(static_cast<Method*>(figure));
+					}
+					else if (type == 5) {
+						static_cast<Class*>(figureComposite)->Add(static_cast<Reception*>(figure));
+					}
+					else if (type == 6) {
+						static_cast<Class*>(figureComposite)->Add(static_cast<Template*>(figure));
+					}
+					else {
+						figureComposite->Add(figure);
+					}
 				}
 				if (type >= 8 && type <= 17) {
 					getline(fTest, temp1);
-					sscanf_s((CString)temp1.c_str(), "%d %d %d %d", &relationLength,&classIndex,&figureIndex,&endPointIndex);
+					sscanf_s((CString)temp1.c_str(), "%d %d %d %d", &relationLength, &classIndex, &figureIndex, &endPointIndex);
 					classIndexArray.AppendFromFront(classIndex);
 					figureIndexArray.AppendFromFront(figureIndex);
 					endPointIndexArray.AppendFromFront(endPointIndex);
@@ -264,7 +285,7 @@ Long ClassDiagramForm::Load() {
 					index = figureComposite->Add(figure);
 					SelfRelation *selfRelation = static_cast<SelfRelation*>(figureComposite->GetAt(index));
 					l = 0;
-					if (selfRelation->GetX() < figureComposite->GetX() + (figureComposite->GetWidth()/2)) {
+					if (selfRelation->GetX() < figureComposite->GetX() + (figureComposite->GetWidth() / 2)) {
 						selfRelation->leftRightFlag = 1;
 					}
 					while (l < 5) {
@@ -296,8 +317,10 @@ Long ClassDiagramForm::Load() {
 			relation->SetEndPointFigure(diagram->GetAt(endPointIndexArray.GetAt(i)));
 			i++;
 		}
+		ScrollMovingObject moving;
+		//moving.MovingObject(this->diagram, -hScinfo.nPos, -vScinfo.nPos);
 	}
-	
+
 	fTest.close();
 
 	return this->diagram->GetLength();
@@ -316,12 +339,17 @@ Long ClassDiagramForm::Save() {
 	CPoint cPoint;
 	string saveText;
 	ofstream fTest;
+	ScrollMovingObject moving;
+	SCROLLINFO hScinfo;
+	SCROLLINFO vScinfo;
+
 	fTest.open(this->fileName);
 	if (fTest.is_open()) {
-		Long zoomRate =this->zoomRate;
-		int vertCurPos = GetScrollPos(SB_VERT);
-		int horzCurPos = GetScrollPos(SB_HORZ);
-		fTest << zoomRate << " " << vertCurPos << " " << horzCurPos << endl;
+		Long zoomRate = this->zoomRate;
+		this->GetScrollInfo(SB_HORZ, &hScinfo);
+		this->GetScrollInfo(SB_VERT, &vScinfo);
+		//moving.MovingObject(this->diagram, hScinfo.nPos, vScinfo.nPos);
+		fTest << zoomRate << " " << hScinfo.nPos << " " << hScinfo.nMax << " " << vScinfo.nPos << " " << vScinfo.nMax << endl;
 		while (i < this->diagram->GetLength()) {
 			//종류 구별을 위한 마지막 칸 
 			// 0 = Class, 1 = MemoBox, 2 = Line, 3 = Template, 4 = Generalization(일반화), 5 = Realization(실체화), 
@@ -335,7 +363,7 @@ Long ClassDiagramForm::Save() {
 			if (dynamic_cast<Class*>(this->diagram->GetAt(i))) {
 				object = static_cast<FigureComposite*>(this->diagram->GetAt(i));
 				fTest << object->GetLength() << " " << object->GetX() << " " << object->GetY()
-					<< " " << object->GetWidth() << " " << object->GetHeight() << " " << object->GetMinimumWidth() << " " <<object->GetMinimumHeight() << " " << 0 << endl;
+					<< " " << object->GetWidth() << " " << object->GetHeight() << " " << object->GetMinimumWidth() << " " << object->GetMinimumHeight() << " " << 0 << endl;
 				while (j < object->GetLength())
 				{
 					k = 0;
@@ -507,7 +535,7 @@ Long ClassDiagramForm::Save() {
 					}
 					else if (dynamic_cast<Aggregation*>(object->GetAt(j))) {
 						Relation *relation = static_cast<Relation*>(object->GetAt(j));
-						Long index =0;
+						Long index = 0;
 						while (relation->GetEndPointFigure() != diagram->GetAt(index)) {
 							index++;
 						}
@@ -589,7 +617,7 @@ Long ClassDiagramForm::Save() {
 
 					else if (dynamic_cast<SelfGeneralization*>(object->GetAt(j))) {
 						selfRelation = static_cast<SelfRelation*>(object->GetAt(j));
-						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " 
+						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " "
 							<< selfRelation->GetMinimumWidth() << " " << selfRelation->GetMinimumHeight() << " " << 18 << endl;
 						while (l < 5) {
 							fTest << selfRelation->rollNames->GetAt(l) << endl;;
@@ -599,7 +627,7 @@ Long ClassDiagramForm::Save() {
 					}
 					else if (dynamic_cast<SelfDependency*>(object->GetAt(j))) {
 						selfRelation = static_cast<SelfRelation*>(object->GetAt(j));
-						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " 
+						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " "
 							<< selfRelation->GetMinimumWidth() << " " << selfRelation->GetMinimumHeight() << " " << 19 << endl;
 						while (l < 5) {
 							fTest << selfRelation->rollNames->GetAt(l) << endl;;
@@ -610,7 +638,7 @@ Long ClassDiagramForm::Save() {
 					}
 					else if (dynamic_cast<SelfAssociation*>(object->GetAt(j))) {
 						selfRelation = static_cast<SelfRelation*>(object->GetAt(j));
-						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " 
+						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " "
 							<< selfRelation->GetMinimumWidth() << " " << selfRelation->GetMinimumHeight() << " " << 20 << endl;
 						while (l < 5) {
 							fTest << selfRelation->rollNames->GetAt(l) << endl;;
@@ -620,7 +648,7 @@ Long ClassDiagramForm::Save() {
 					}
 					else if (dynamic_cast<SelfDirectedAssociation*>(object->GetAt(j))) {
 						selfRelation = static_cast<SelfRelation*>(object->GetAt(j));
-						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " 
+						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " "
 							<< selfRelation->GetMinimumWidth() << " " << selfRelation->GetMinimumHeight() << " " << 21 << endl;
 						while (l < 5) {
 							fTest << selfRelation->rollNames->GetAt(l) << endl;;
@@ -630,7 +658,7 @@ Long ClassDiagramForm::Save() {
 					}
 					else if (dynamic_cast<SelfAggregation*>(object->GetAt(j))) {
 						selfRelation = static_cast<SelfRelation*>(object->GetAt(j));
-						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " 
+						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " "
 							<< selfRelation->GetMinimumWidth() << " " << selfRelation->GetMinimumHeight() << " " << 22 << endl;
 						while (l < 5) {
 							fTest << selfRelation->rollNames->GetAt(l) << endl;;
@@ -640,7 +668,7 @@ Long ClassDiagramForm::Save() {
 					}
 					else if (dynamic_cast<SelfAggregations*>(object->GetAt(j))) {
 						selfRelation = static_cast<SelfRelation*>(object->GetAt(j));
-						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " 
+						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " "
 							<< selfRelation->GetMinimumWidth() << " " << selfRelation->GetMinimumHeight() << " " << 23 << endl;
 						while (l < 5) {
 							fTest << selfRelation->rollNames->GetAt(l) << endl;;
@@ -651,7 +679,7 @@ Long ClassDiagramForm::Save() {
 					}
 					else if (dynamic_cast<SelfComposition*>(object->GetAt(j))) {
 						selfRelation = static_cast<SelfRelation*>(object->GetAt(j));
-						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " 
+						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " "
 							<< selfRelation->GetMinimumWidth() << " " << selfRelation->GetMinimumHeight() << " " << 24 << endl;
 						while (l < 5) {
 							fTest << selfRelation->rollNames->GetAt(l) << endl;;
@@ -662,7 +690,7 @@ Long ClassDiagramForm::Save() {
 					}
 					else if (dynamic_cast<SelfCompositions*>(object->GetAt(j))) {
 						selfRelation = static_cast<SelfRelation*>(object->GetAt(j));
-						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " " 
+						fTest << selfRelation->GetX() << " " << selfRelation->GetY() << " " << selfRelation->GetWidth() << " " << selfRelation->GetHeight() << " "
 							<< selfRelation->GetMinimumWidth() << " " << selfRelation->GetMinimumHeight() << " " << 25 << endl;
 						while (l < 5) {
 							fTest << selfRelation->rollNames->GetAt(l) << endl;;
@@ -700,6 +728,7 @@ Long ClassDiagramForm::Save() {
 			}
 			i++;
 		}
+		//moving.MovingObject(this->diagram, -hScinfo.nPos, -vScinfo.nPos);
 		fTest.close();
 	}
 	if (this->historyGraphic->undoGraphicArray->GetLength() != 0) {
@@ -712,7 +741,7 @@ Long ClassDiagramForm::Save() {
 CString ClassDiagramForm::SetFileName(CString fileName) {
 	this->fileName = fileName;
 	return this->fileName;
- }
+}
 
 int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
@@ -774,26 +803,55 @@ void ClassDiagramForm::OnPaint() {
 	CBitmap *pOldBitmap;
 	CBitmap bitmap;
 	memDC.CreateCompatibleDC(&dc);
-	bitmap.CreateCompatibleBitmap(&dc, 4000 * this->zoomRate/100 , 2000 * this->zoomRate / 100);
+	bitmap.CreateCompatibleBitmap(&dc, rect.Width(), rect.Height());
 	pOldBitmap = memDC.SelectObject(&bitmap);
-	memDC.FillSolidRect(CRect(0, 0, 4000 * this->zoomRate / 100, 2000 * this->zoomRate / 100), RGB(255, 255, 255));
+	memDC.FillSolidRect(CRect(0, 0, rect.Width(), rect.Height()), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 	int ih = MulDiv(14 * this->zoomRate / 100, GetDeviceCaps(dc, LOGPIXELSY), 72);
 	cFont.CreateFont(ih, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
-
 	DrawingVisitor drawingVisitor(this->zoomRate);
 	this->diagram->Accept(drawingVisitor, &memDC);
 	this->selection->Accept(drawingVisitor, &memDC); // selectionFlag 추가 확인
 	if (this->currentX_2 != 0 && this->currentY_2 != 0 && this->currentX != 0 && this->currentY != 0) {
 		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
 	}
+	ScrollMovingObject movingObject;
+	Long xlimit = 0;
+	xlimit = movingObject.GetHorizontalMax(this->diagram);
+	SCROLLINFO hScinfo;
+	this->GetScrollInfo(SB_HORZ, &hScinfo);
+	if (hScinfo.nMax - hScinfo.nPos <= xlimit) {
+		hScinfo.nMax = hScinfo.nPos + xlimit + 20;
+		this->SetScrollInfo(SB_HORZ, &hScinfo);
+	}
+	if (hScinfo.nPage > xlimit) {
+		hScinfo.nMax = hScinfo.nPos + hScinfo.nPage;
+		if (hScinfo.nMax < 4000 * this->zoomRate / 100) {
+			hScinfo.nMax = 4000 * this->zoomRate / 100;
+		}
+		this->SetScrollInfo(SB_HORZ, &hScinfo);
+	}
 
-	int vertCurPos = GetScrollPos(SB_VERT);
-	int horzCurPos = GetScrollPos(SB_HORZ);
-	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, horzCurPos, vertCurPos, SRCCOPY);
+	Long ylimit = 0;
+	ylimit = movingObject.GetVerticalMax(this->diagram);
+	SCROLLINFO vScinfo;
+	this->GetScrollInfo(SB_VERT, &vScinfo);
+	if (vScinfo.nMax - vScinfo.nPos <= ylimit) {
+		vScinfo.nMax = vScinfo.nPos + ylimit + 20;
+		this->SetScrollInfo(SB_VERT, &vScinfo);
+	}
+	if (vScinfo.nPage > ylimit) {
+		vScinfo.nMax = vScinfo.nPos + vScinfo.nPage;
+		if (vScinfo.nMax < 2000 * this->zoomRate / 100) {
+			vScinfo.nMax = 2000 * this->zoomRate / 100;
+		}
+		this->SetScrollInfo(SB_VERT, &vScinfo);
+	}
+	//dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, horzCurPos, vertCurPos, SRCCOPY);
+	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, 0, 0, SRCCOPY);
 }
 
 void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
@@ -824,7 +882,7 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	CClientDC dc(this);
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
-	cFont.CreateFont(14 * this->zoomRate / 100*120/72, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET,// 글꼴 설정
+	cFont.CreateFont(14 * this->zoomRate / 100 * 120 / 72, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = dc.SelectObject(&cFont);
@@ -853,8 +911,8 @@ void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
 	this->GetScrollInfo(SB_VERT, &vScinfo);
 	this->GetScrollInfo(SB_HORZ, &hScinfo);
 
-	vScinfo.nPage = rect.bottom;
-	hScinfo.nPage = rect.right;
+	vScinfo.nPage = rect.Height();
+	hScinfo.nPage = rect.Width();
 
 
 	this->SetScrollInfo(SB_VERT, &vScinfo);
@@ -866,9 +924,27 @@ void ClassDiagramForm::OnSize(UINT nType, int cx, int cy) {
 void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
 	SetFocus();
 	CWnd::OnVScroll(nSBCode, nPos, pScrollBar);
+	Long pos = this->GetScrollPos(SB_VERT);
 	ScrollAction *scrollAction = this->scroll->MoveVScroll(this, nSBCode, nPos, pScrollBar);
 	if (scrollAction != 0) {
 		scrollAction->Scrolling(this);
+	}
+	Long cPos = this->GetScrollPos(SB_VERT);
+	if (nSBCode == SB_THUMBPOSITION || nSBCode == SB_THUMBTRACK) {
+		ScrollMovingObject movingObject;
+		movingObject.MovingObject(this->diagram, 0, pos - cPos);
+		if (pos - cPos>0) {
+			SCROLLINFO vScinfo;
+			this->GetScrollInfo(SB_VERT, &vScinfo);
+			int vMax = vScinfo.nMax;
+			bool ret = movingObject.FindHorizontal(this->diagram, vScinfo.nPage);
+			if (ret == false)
+				vScinfo.nMax = vScinfo.nMax - (pos - cPos);
+			if (vScinfo.nMax < vMax) {
+				vScinfo.nMax = vMax;
+			}
+			this->SetScrollInfo(SB_VERT, &vScinfo);
+		}
 	}
 	Invalidate(false);
 }
@@ -876,9 +952,27 @@ void ClassDiagramForm::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
 	SetFocus();
 	CWnd::OnHScroll(nSBCode, nPos, pScrollBar);
+	Long pos = this->GetScrollPos(SB_HORZ);
 	ScrollAction *scrollAction = this->scroll->MoveHScroll(this, nSBCode, nPos, pScrollBar);
 	if (scrollAction != 0) {
 		scrollAction->Scrolling(this);
+	}
+	Long cPos = this->GetScrollPos(SB_HORZ);
+	if (nSBCode == SB_THUMBPOSITION || nSBCode == SB_THUMBTRACK) {
+		ScrollMovingObject movingObject;
+		movingObject.MovingObject(this->diagram, pos - cPos);
+		if (pos - cPos>0) {
+			SCROLLINFO vScinfo;
+			this->GetScrollInfo(SB_HORZ, &vScinfo);
+			int hMax = vScinfo.nMax;
+			bool ret = movingObject.FindHorizontal(this->diagram, vScinfo.nPage);
+			if (ret == false)
+				vScinfo.nMax = vScinfo.nMax - (pos - cPos);
+			if (vScinfo.nMax < hMax) {
+				vScinfo.nMax = hMax;
+			}
+			this->SetScrollInfo(SB_HORZ, &vScinfo);
+		}
 	}
 	Invalidate(false);
 }
@@ -888,15 +982,15 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 	int vertCurPos = GetScrollPos(SB_VERT);
 	int horzCurPos = GetScrollPos(SB_HORZ);
 
-	this->startX = point.x + horzCurPos;
-	this->startY = point.y + vertCurPos;
-	this->currentX = point.x + horzCurPos;
-	this->currentY = point.y + vertCurPos;
+	this->startX = point.x;
+	this->startY = point.y;
+	this->currentX = point.x;
+	this->currentY = point.y;
 
 
-	
+
 	CMenu *menu = 0;
-	if (this->selection->GetLength() ==1) {
+	if (this->selection->GetLength() == 1) {
 		menu = this->classDiagramFormMenu->menu2;
 		Figure *figure = this->selection->GetAt(0);
 		if ((dynamic_cast<Class*>(figure))) {
@@ -935,7 +1029,7 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 				menu->EnableMenuItem(128, MF_DISABLED);
 				menu->EnableMenuItem(127, MF_ENABLED);
 			}
-		
+
 		}
 		else {
 			menu->EnableMenuItem(127, MF_DISABLED);
@@ -948,7 +1042,7 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 			menu->EnableMenuItem(134, MF_DISABLED);
 		}
 	}
-	else  if(this->selection->GetLength() == 0){
+	else  if (this->selection->GetLength() == 0) {
 		menu = this->classDiagramFormMenu->menu1;
 	}
 	else if (this->selection->GetLength() > 1) {
@@ -978,16 +1072,16 @@ void ClassDiagramForm::OnRButtonDown(UINT nFlags, CPoint point) {
 	int vertCurPos = GetScrollPos(SB_VERT);
 	int horzCurPos = GetScrollPos(SB_HORZ);
 
-	this->startX = point.x + horzCurPos;
-	this->startY = point.y + vertCurPos;
-	this->currentX = point.x + horzCurPos;
-	this->currentY = point.y + vertCurPos;
+	this->startX = point.x;
+	this->startY = point.y;
+	this->currentX = point.x;
+	this->currentY = point.y;
 
-	Long index= this->selection->SelectByPoint(startX, startY);
+	Long index = this->selection->SelectByPoint(startX, startY);
 	if (index == -1) {
 		this->selection->DeleteAllItems();
 		this->selection->SelectByPoint(this->diagram, this->currentX, this->currentY);
-	 }
+	}
 	if (this->selection->GetLength() == 0) {
 		this->mouseLButton->ChangeDefault();
 	}
@@ -997,7 +1091,7 @@ void ClassDiagramForm::OnRButtonDown(UINT nFlags, CPoint point) {
 	else if (this->selection->GetLength() >= 2) {
 		this->mouseLButton->ChangeMultipleState();
 	}
-	
+
 	Invalidate(false);
 }
 
@@ -1021,14 +1115,18 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	int nWheelScrollLines = atoi((char*)pByte);
 	delete pByte;
 
-	int vertCurPos = GetScrollPos(SB_VERT);
-
+	int vertPos = GetScrollPos(SB_VERT);
+	int vertCurPos;
 	if (GetKeyState(VK_CONTROL) >= 0) {
 		if (zDelta <= 0) { //마우스 휠 다운
-			vertCurPos += nWheelScrollLines * 30;
+			vertCurPos = vertPos + nWheelScrollLines * 30;
+			OnVScrollPageDown onVScrollPageDown;
+			onVScrollPageDown.Scrolling(this);
 		}
 		else {  //마우스 휠 업
-			vertCurPos -= nWheelScrollLines * 30;
+			vertCurPos = vertPos - nWheelScrollLines * 30;
+			OnVScrollPageUp onVScrollPageUp;
+			onVScrollPageUp.Scrolling(this);
 		}
 		ret = true;
 	}
@@ -1036,7 +1134,6 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		if (this->selection->GetLength() > 0) {
 			this->selection->DeleteAllItems();
 		}
-		Long nextZoomRate;
 		this->preZoom = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
 			this->zoomRate -= 10;
@@ -1050,8 +1147,6 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 				this->zoomRate = 130;
 			}
 		}
-		nextZoomRate = this->zoomRate;
-
 		this->SetMemoGab(20 * this->zoomRate / 100);
 		this->SetGabX(8 * this->zoomRate / 100);
 		this->SetGabY(2 * this->zoomRate / 100);
@@ -1063,16 +1158,15 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		SCROLLINFO vScinfo;
 		SCROLLINFO hScinfo;
 
+		ScrollMovingObject moving;
 		this->GetScrollInfo(SB_VERT, &vScinfo);
 		this->GetScrollInfo(SB_HORZ, &hScinfo);
 		CRect rect;
 		this->GetClientRect(&rect);
-		vScinfo.nPage = rect.Height();
-		hScinfo.nPage = rect.Width();
 
-		vScinfo.nMax = 2000 * this->zoomRate / 100;
-		hScinfo.nMax = 4000 * this->zoomRate / 100;
-
+		moving.MovingObject(this->diagram, hScinfo.nPos, vScinfo.nPos);
+		vScinfo.nMax = vScinfo.nMax * this->zoomRate / this->preZoom;
+		hScinfo.nMax = hScinfo.nMax * this->zoomRate / this->preZoom;
 		if (vScinfo.nPos > vScinfo.nMax - vScinfo.nPage) {
 			vScinfo.nPos = vScinfo.nMax - vScinfo.nPage;
 		}
@@ -1080,39 +1174,35 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 			hScinfo.nPos = hScinfo.nMax - hScinfo.nPage;
 		}
 		this->SetScrollInfo(SB_VERT, &vScinfo);
-		this->SetScrollInfo(SB_HORZ, &hScinfo);	
+		this->SetScrollInfo(SB_HORZ, &hScinfo);
 
 		CDC memDC;
-		ResizeVisitor resizeVisitor(this->preZoom, nextZoomRate);
+		ResizeVisitor resizeVisitor(this->preZoom, this->zoomRate);
 		this->diagram->Accept(resizeVisitor, &memDC);
-
 		if (this->copyBuffer != NULL) {
 			this->copyBuffer->Accept(resizeVisitor, &memDC);
 		}
-		KnockKnock knocking;
-		knocking.Knocking(this);
-
-		if ((zoomRate_!=60 ||this->zoomRate!=60)&& (zoomRate_ != 130 || this->zoomRate != 130)) {
+		KnockKnock *knocking = new KnockKnock;
+		knocking->Knocking(this);
+		if (knocking != NULL) {
+			delete knocking;
+		}
+		moving.MovingObject(this->diagram, -hScinfo.nPos, -vScinfo.nPos);
+		if ((zoomRate_ != 60 || this->zoomRate != 60) && (zoomRate_ != 130 || this->zoomRate != 130)) {
 			this->lastClass->statusBar->DestroyStatus();
 			this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		}
 	}
 	ret = true;
-
-	SetScrollPos(SB_VERT, vertCurPos);
 	Invalidate(false);
 	return ret;
 }
-	
-
-	
-
 void ClassDiagramForm::OnNcMouseMove(UINT nHitTest, CPoint point) {
 
 	CRect rect;
 	this->GetWindowRect(&rect);
 	bool ret = rect.PtInRect(CPoint(this->startX, this->startY));
-	if (this->startX!=0&& this->startY!=0) {
+	if (this->startX != 0 && this->startY != 0) {
 		switch (nHitTest) {
 		case HTTOP: this->zoomRate++; break;
 		case HTTOPLEFT:; break;
@@ -1146,12 +1236,12 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	int vertCurPos = GetScrollPos(SB_VERT);
 	int horzCurPos = GetScrollPos(SB_HORZ);
 
-	this->startX = point.x + horzCurPos;
-	this->startY = point.y + vertCurPos;
-	this->currentX = point.x + horzCurPos;
-	this->currentY = point.y + vertCurPos;
-	this->currentX_2 = point.x + horzCurPos;
-	this->currentY_2 = point.y + vertCurPos;
+	this->startX = point.x;
+	this->startY = point.y;
+	this->currentX = point.x;
+	this->currentY = point.y;
+	this->currentX_2 = point.x;
+	this->currentY_2 = point.y;
 
 	this->mouseLButton->MouseLButtonDown(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
 	//this->diagram->FindFigureCompositeitem(this->startX, this->startY, this);
@@ -1171,10 +1261,11 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	int vertCurPos = GetScrollPos(SB_VERT);
 	int horzCurPos = GetScrollPos(SB_HORZ);
 
-	this->currentX = point.x + horzCurPos;
-	this->currentY = point.y + vertCurPos;
+	this->currentX = point.x;
+	this->currentY = point.y;
 
 	this->mouseLButton->MouseLButtonUp(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
+
 	this->startX_ = this->startX;
 	this->startY_ = this->startY;
 	this->currentX_ = this->currentX;
@@ -1201,7 +1292,7 @@ void ClassDiagramForm::OnMyMenu(UINT parm_control_id) {
 	if (this->selection->GetLength() > 1) {
 		this->mouseLButton->ChangeMultipleState();
 	}
-	else if (this->selection->GetLength() ==1 ) {
+	else if (this->selection->GetLength() == 1) {
 		this->mouseLButton->ChangeSelectionState();
 	}
 }
@@ -1211,35 +1302,36 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	int vertCurPos = GetScrollPos(SB_VERT);
 	int horzCurPos = GetScrollPos(SB_HORZ);
 
-	this->startX = point.x + horzCurPos;
-	this->startY = point.y + vertCurPos;
-	this->currentX = point.x + horzCurPos;
-	this->currentY = point.y + vertCurPos;
+	this->startX = point.x;
+	this->startY = point.y;
+	this->currentX = point.x;
+	this->currentY = point.y;
 
-	Figure* figure = this->diagram->FindItem(startX, startY,this);
+	Figure* figure = this->diagram->FindItem(startX, startY, this);
 	if (figure != NULL && this->selection->GetLength() != 0 && !dynamic_cast<Relation*>(this->selection->GetAt(0)) && !dynamic_cast<SelfRelation*>(figure)) {
 
 		this->textEdit = new TextEdit(this, figure);
 
 		if (dynamic_cast<MemoBox*>(figure) || dynamic_cast<ClassName*>(figure)) {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				figure->GetX() + GabX - horzCurPos,
-				figure->GetY() + GabY + MemoGab - vertCurPos,
-				figure->GetX() + figure->GetWidth() - GabX - horzCurPos + CaretWidth,
-				figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
+				figure->GetX() + GabX,
+				figure->GetY() + GabY + MemoGab,
+				figure->GetX() + figure->GetWidth() - GabX + CaretWidth,
+				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
 		}
 		else {
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				figure->GetX() + GabX - horzCurPos,
-				figure->GetY() + GabY - vertCurPos,
-				figure->GetX() + figure->GetWidth() - GabX - horzCurPos + CaretWidth,
-				figure->GetY() + figure->GetHeight() - GabY - vertCurPos), this, 10000, NULL);
+				figure->GetX() + GabX,
+				figure->GetY() + GabY,
+				figure->GetX() + figure->GetWidth() - GabX + CaretWidth,
+				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
 		}
 	}
 
 	//선택된 relationLine 이 있으면
+	Figure* rr = this->selection->GetAt(0);
 	if (this->selection->GetLength() == 1 && dynamic_cast<Relation*>(this->selection->GetAt(0))) {//&& !dynamic_cast<MemoLine*>(this->selection->GetAt(0))) {
-		// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
+																								  // relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
 		Long i = 0;
 		Long index = 0;
 		Relation *relation = static_cast<Relation*>(this->selection->GetAt(0));
@@ -1279,10 +1371,10 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		if (index > 0) {
 			this->textEdit = new TextEdit(this, relation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				left + 1 - horzCurPos,
-				top + 1 - vertCurPos,
-				right - 1 - horzCurPos,
-				bottom - 1 - vertCurPos), this, 10000, NULL);
+				left + 1,
+				top + 1,
+				right - 1,
+				bottom - 1), this, 10000, NULL);
 		}
 	}
 	if (this->selection->GetLength() == 1 && dynamic_cast<SelfRelation*>(this->selection->GetAt(0))) {
@@ -1340,10 +1432,10 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 		if (index > 0) {
 			this->textEdit = new TextEdit(this, selfRelation, i - 1);
 			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				left + 1 - horzCurPos,
-				top + 1 - vertCurPos,
-				right - 1 - horzCurPos,
-				bottom - 1 - vertCurPos), this, 10000, NULL);
+				left + 1,
+				top + 1,
+				right - 1,
+				bottom - 1), this, 10000, NULL);
 			OnKillFocus(NULL);
 		}
 	}
@@ -1353,6 +1445,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 
 	Invalidate(false);
 	this->isDown = 0;
+
 }
 
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
@@ -1389,24 +1482,28 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 				vertCurPos = maxpos;
 			}
 		}
-		this->currentX_2 = this->currentX;
-		this->currentY_2 = this->currentY;
-		this->currentX = point.x + horzCurPos;
-		this->currentY = point.y + vertCurPos;
+
 
 		SetScrollPos(SB_HORZ, horzCurPos);
 		SetScrollPos(SB_VERT, vertCurPos);
-
+		int vertNCurPos = GetScrollPos(SB_VERT);
+		int horzNCurPos = GetScrollPos(SB_HORZ);
+		ScrollMovingObject moving;
+		moving.MovingObject(this->diagram, horzCurPos - horzNCurPos, vertCurPos - vertNCurPos);
+		this->currentX_2 = this->currentX;
+		this->currentY_2 = this->currentY;
+		this->currentX = point.x;
+		this->currentY = point.y;
 		Invalidate(false);
 	}
 	//커서모양
 	if (nFlags != MK_LBUTTON && this->selection->GetLength() == 1) {
 		Long index;
-		index = this->selection->SelectByPoint(point.x + horzCurPos, point.y + vertCurPos);
-		if (index == 12 || index == 4 || index == 9 ) {
+		index = this->selection->SelectByPoint(point.x, point.y);
+		if (index == 12 || index == 4 || index == 9) {
 			SetCursor(LoadCursor(NULL, IDC_SIZENS));
 		}
-		else if (index == 3  || index == 10) {
+		else if (index == 3 || index == 10) {
 			SetCursor(LoadCursor(NULL, IDC_SIZENWSE));
 		}
 		else if (index == 5 || index == 8) {
@@ -1421,37 +1518,37 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 void ClassDiagramForm::OnClose() {
 
 	//6.2. 다이어그램을 지운다.
-		if (this->diagram != NULL) {
-			delete this->diagram;
-			this->diagram = NULL;
-		}
-		if (this->selection != NULL) {
-			delete this->selection;
-			this-> selection = NULL;
-		}
-		if (this->mouseLButton != NULL) {
-			delete this->mouseLButton;
-			this->mouseLButton = NULL;
-		}
-		if (this->keyBoard != NULL) {
-			delete this->keyBoard;
-			this->keyBoard = NULL;
-		}
-		if (this->historyGraphic != NULL) {
-			delete this->historyGraphic;
-			this->historyGraphic = NULL;
-		}
-		if (this->scroll != NULL) {
-			delete this->scroll;
-			this->scroll = NULL;
-		}
-		if (this->copyBuffer != NULL) {
-			delete this->copyBuffer;
-			this->copyBuffer = NULL;
-		}
-		if (this->classDiagramFormMenu != NULL) {
-			delete this->classDiagramFormMenu;
-			this->classDiagramFormMenu = NULL;
-		}
-		CWnd::OnClose();
+	if (this->diagram != NULL) {
+		delete this->diagram;
+		this->diagram = NULL;
+	}
+	if (this->selection != NULL) {
+		delete this->selection;
+		this->selection = NULL;
+	}
+	if (this->mouseLButton != NULL) {
+		delete this->mouseLButton;
+		this->mouseLButton = NULL;
+	}
+	if (this->keyBoard != NULL) {
+		delete this->keyBoard;
+		this->keyBoard = NULL;
+	}
+	if (this->historyGraphic != NULL) {
+		delete this->historyGraphic;
+		this->historyGraphic = NULL;
+	}
+	if (this->scroll != NULL) {
+		delete this->scroll;
+		this->scroll = NULL;
+	}
+	if (this->copyBuffer != NULL) {
+		delete this->copyBuffer;
+		this->copyBuffer = NULL;
+	}
+	if (this->classDiagramFormMenu != NULL) {
+		delete this->classDiagramFormMenu;
+		this->classDiagramFormMenu = NULL;
+	}
+	CWnd::OnClose();
 }

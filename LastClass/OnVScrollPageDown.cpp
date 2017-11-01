@@ -2,6 +2,7 @@
 
 #include "OnVScrollPageDown.h"
 #include "ClassDiagramForm.h"
+#include "ScrollMovingObject.h"
 
 OnVScrollPageDown::OnVScrollPageDown() {
 }
@@ -19,10 +20,18 @@ void OnVScrollPageDown::Scrolling(ClassDiagramForm *classDiagramForm) {
 	// Get the current position of scroll box.
 	int curpos = classDiagramForm->GetScrollPos(SB_VERT);
 
-	curpos += 50;
-	if (curpos > maxpos) {
-		curpos = maxpos;
+	int newpos = curpos + 50;
+	if (newpos > maxpos) {
+		SCROLLINFO vScinfo;
+		classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
+		vScinfo.nMax = newpos + vScinfo.nPage;
+		classDiagramForm->SetScrollInfo(SB_VERT, &vScinfo);
 	}
+	//if (newpos > maxpos) {
+	//	newpos = maxpos;
+	//}
 
-	classDiagramForm->SetScrollPos(SB_VERT, curpos);
+	ScrollMovingObject moving;
+	moving.MovingObject(classDiagramForm->diagram, 0, curpos-newpos);
+	classDiagramForm->SetScrollPos(SB_VERT, newpos);
 }

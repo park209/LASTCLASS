@@ -23,26 +23,26 @@ void SaveMenuAction::MenuPress(LastClass* lastClass) {
 		if (messageBox == IDYES) {
 			CFileDialog  dlgFile(false, "txt", "*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT, "텍스트 문서(*.txt)");
 			if (dlgFile.DoModal() == IDOK){
-				//ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100); // previous / next
-				//CDC dc;
+				ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100); // previous / next
+				CDC dc;
 				//lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
 
 				lastClass->classDiagramForm->fileName = dlgFile.GetPathName();
 				lastClass->classDiagramForm->Save();
 
-				//ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
+				ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
 				//lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 			}
 		}
 	}
 	else {
-		//ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100);
-		//CDC dc;
+		ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100);
+		CDC dc;
 		//lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
 
 		lastClass->classDiagramForm->Save();
 
-		//ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
+		ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
 		//lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 	}
 

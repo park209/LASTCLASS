@@ -10,6 +10,7 @@
 #include "KnockKnock.h"
 #include "ResizeVisitor.h"
 #include "Relation.h"
+#include "ScrollMovingObject.h"
 
 FilePrintMenuAction::FilePrintMenuAction() {
 }
@@ -24,6 +25,15 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 
 
 	if (int_ptr == IDOK) {
+		ScrollMovingObject scrollMovingObject;
+		SCROLLINFO vScinfo;
+		SCROLLINFO hScinfo;
+
+		ScrollMovingObject moving;
+		lastClass->classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
+		lastClass->classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
+
+		
 		Long zoomRate = lastClass->classDiagramForm->zoomRate;
 		ResizeVisitor visitor1(lastClass->classDiagramForm->zoomRate, 100);
 		lastClass->classDiagramForm->zoomRate = 100;
@@ -34,43 +44,28 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 		CDC memDC;
 		lastClass->classDiagramForm->diagram->Accept(visitor1, &memDC);
 
-		//KnockKnock knocking;
-		//knocking.Knocking(lastClass->classDiagramForm);
+		KnockKnock *knocking = new KnockKnock;
+		knocking->Knocking(lastClass->classDiagramForm);
 
-
+		scrollMovingObject.MovingObject(lastClass->classDiagramForm->diagram, hScinfo.nPos, vScinfo.nPos);
 		Finder finder;
 		bool ret = false;
-		CRect rect(2000, 0, 4000, 2000);
-		Long i = 0;
-		Long j;
-		Long k;
-		Long length = lastClass->classDiagramForm->diagram->GetLength();
-
-		while (i < length && ret != true) { // 2페이지에 클래스나 메모박스가 있는지 확인.
-			FigureComposite *figureComposite = (FigureComposite*)lastClass->classDiagramForm->diagram->GetAt(i);
-			CRect comperRect(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
-			ret = finder.FindRectangleByArea(comperRect, rect);
-			j = 0;
-			while (j < figureComposite->GetLength() && ret != true) {
-				Figure *figure = figureComposite->GetAt(j);
-				ret = finder.FindRectangleByPoint(rect, figure->GetX(), figure->GetY());
-				if (dynamic_cast<Relation*>(figure)) {
-					Relation *relation = static_cast<Relation*>(figure);
-					k = 0;
-					while (k < relation->GetLength() && ret != true) {
-						CPoint point1 = relation->GetAt(k);
-						ret = finder.FindRectangleByPoint(rect, point1.x, point1.y);
-						k++;
-					}
-				}
-				j++;
-			}
-			i++;
+		Long xLimit = scrollMovingObject.GetHorizontalMax(lastClass->classDiagramForm->diagram);
+		Long yLimit = scrollMovingObject.GetVerticalMax(lastClass->classDiagramForm->diagram);
+		Long xPage = xLimit / 2000;
+		Long yPage = yLimit / 2000;
+		if (xLimit % 2000 != 0) {
+			xPage++;
 		}
+		if (yLimit % 2000 != 0) {
+			yPage++;
+		}
+		Long xPaper = xPage * 2000;
+		Long yPaper = yPage * 2000;
+		Long totalPage = xPage*yPage;
 
 		CDC dc;
 		int count = printDialog.GetCopies();
-		i = 1;
 		dc.Attach(printDialog.GetPrinterDC());
 
 		dc.m_bPrinting = TRUE;
@@ -81,28 +76,27 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 		ZeroMemory(&di, sizeof(DOCINFO));
 		di.cbSize = sizeof(DOCINFO);
 		di.lpszDocName = strTitle;
-
+		Long currentX = 0;
+		Long currentY = 0;
+		Long i = 1;
 		BOOL bPrintingOK = dc.StartDoc(&di);
 
 		CPrintInfo Info;
 
 		Info.m_rectDraw.SetRect(0, 0, dc.GetDeviceCaps(HORZRES), dc.GetDeviceCaps(VERTRES));
-		if (ret == true) {
-			Info.SetMaxPage(2);
-		}
-		else {
-			Info.SetMaxPage(1);
-		}
+		Info.SetMaxPage(totalPage);
+
 		//printPreview.OnBeginPrinting(&dc, &Info);
-		i = 1;
+
 		while (i <= count) {
+
 			for (UINT page = Info.GetMinPage(); page <= Info.GetMaxPage() && bPrintingOK; page++) {
+				
+				scrollMovingObject.MovingObject(lastClass->classDiagramForm->diagram,-currentX, -currentY);
 				dc.StartPage();
 				Info.m_nCurPage = page;
 				//printPreview.OnPrint(&dc, &Info, page);
 
-				Long p[10] = { 0,2000,800,800,1600,1600,2400,2400,3200,3200 };
-				Long q[10] = { 0,0,0,1000,0,1000,0,1000,0,1000 };
 				//Long k = page - 1;
 
 				Long width = Info.m_rectDraw.Width();
@@ -116,9 +110,9 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 				CPaintDC pdc(lastClass);
 
 				memDC.CreateCompatibleDC(&pdc);
-				bitmap.CreateCompatibleBitmap(&pdc, 4000, 2000);
+				bitmap.CreateCompatibleBitmap(&pdc, 2000, 2000);
 				pOldBitmap = memDC.SelectObject(&bitmap);
-				memDC.FillSolidRect(CRect(0, 0, 4000, 2000), RGB(255, 255, 255));
+				memDC.FillSolidRect(CRect(0, 0, 2000, 2000), RGB(255, 255, 255));
 				CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
 				Long ih = MulDiv(14 * lastClass->classDiagramForm->zoomRate / 100, GetDeviceCaps(pdc, LOGPIXELSY), 72);
 				cFont.CreateFont(ih, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
@@ -136,10 +130,10 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 				CBitmap bitmapOne;
 				CDC memDCOne;
 				memDCOne.CreateCompatibleDC(&pdc);
-				bitmapOne.CreateCompatibleBitmap(&pdc, 2000, 2000);
+				bitmapOne.CreateCompatibleBitmap(&pdc, 2000,2000);
 				pOldBitmapOne = memDCOne.SelectObject(&bitmapOne);
 				memDCOne.FillSolidRect(CRect(0, 0, 2000, 2000), RGB(255, 255, 255));
-				memDCOne.BitBlt(0, 0, 2000, 2000, &memDC, p[page - 1], q[page - 1], SRCCOPY);
+				memDCOne.BitBlt(0, 0, 2000, 2000, &memDC, 0, 0, SRCCOPY);
 
 				int mapMode = dc.GetMapMode();
 				memDCOne.SetMapMode(mapMode);
@@ -154,6 +148,12 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 
 				bPrintingOK = (dc.EndPage() > 0);
 
+				scrollMovingObject.MovingObject(lastClass->classDiagramForm->diagram, currentX, currentY);
+				currentY += 2000;
+				if (currentY >= yPage * 2000) {
+					currentX += 2000;
+					currentY = 0;
+				}
 			}
 			i++;
 
@@ -170,6 +170,12 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 		lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
 		lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
 		lastClass->classDiagramForm->diagram->Accept(visitor2, &memDC);
-		//knocking.Knocking(lastClass->classDiagramForm);
+		knocking->Knocking(lastClass->classDiagramForm);
+		if (knocking != NULL) {
+			delete knocking;
+		}
+		scrollMovingObject.MovingObject(lastClass->classDiagramForm->diagram, -hScinfo.nPos, -vScinfo.nPos);
+
 	}
+
 }

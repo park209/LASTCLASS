@@ -63,12 +63,10 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 		clientArea.x = rect.left;
 		clientArea.y = rect.top;
 		::ClientToScreen(classDiagramForm->GetSafeHwnd(), &clientArea); // windowrect의 좌표를 화면비율로 변환
-		clientArea.x -= horzCurPos;
-		clientArea.y -= vertCurPos;
 
 		if (point.x < clientArea.x || point.y < clientArea.y) { //메뉴버튼에 있는 붙여넣기 사용시 (10,10)위치로
-			point.x = classDiagramForm->currentX_ - horzCurPos;
-			point.y = classDiagramForm->currentY_ - vertCurPos;
+			point.x = classDiagramForm->currentX_ ;
+			point.y = classDiagramForm->currentY_ ;
 		}
 		else {
 			::ScreenToClient(classDiagramForm->GetSafeHwnd(), &point); // 폼영역의 좌표로 변환
@@ -80,8 +78,8 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 
 		Selection *tempBuffer = classDiagramForm->selection->MakeSelectionBuffer(*classDiagramForm->copyBuffer);
 
-		Long distanceX = point.x + horzCurPos - selectionPoint.x;
-		Long distanceY = point.y + vertCurPos - selectionPoint.y;
+		Long distanceX = point.x  - selectionPoint.x;
+		Long distanceY = point.y  - selectionPoint.y;
 
 		Figure *figure;
 		MovingVisitor movingVisitor;
