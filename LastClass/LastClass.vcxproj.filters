@@ -651,9 +651,6 @@
     <ClInclude Include="PrintPreview.h">
       <Filter>Print</Filter>
     </ClInclude>
-    <ClInclude Include="TextEdit.h">
-      <Filter>TextEdit</Filter>
-    </ClInclude>
     <ClInclude Include="ClassDiagramFormMenu.h">
       <Filter>Menu</Filter>
     </ClInclude>
@@ -675,26 +672,27 @@
     <ClInclude Include="LastClass.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="DrawingVisitor.h">
-      <Filter>Visitor</Filter>
-    </ClInclude>
     <ClInclude Include="MovingVisitor.h">
-      <Filter>Visitor</Filter>
-    </ClInclude>
-    <ClInclude Include="ResizeVisitor.h">
       <Filter>Visitor</Filter>
     </ClInclude>
     <ClInclude Include="Visitor.h">
       <Filter>Visitor</Filter>
     </ClInclude>
-    <ClInclude Include="ZoomInMenuAction.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="ZoomOutMenuAction.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
     <ClInclude Include="PreciseMoving.h">
       <Filter>ClassDiagram</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawingVisitor.h">
+      <Filter>z줌인아웃 수정</Filter>
+    </ClInclude>
+    <ClInclude Include="ResizeVisitor.h">
+      <Filter>z줌인아웃 수정</Filter>
+    </ClInclude>
+    <ClInclude Include="TextEdit.h" />
+    <ClInclude Include="ZoomInMenuAction.h">
+      <Filter>z줌인아웃 수정</Filter>
+    </ClInclude>
+    <ClInclude Include="ZoomOutMenuAction.h">
+      <Filter>z줌인아웃 수정</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1248,9 +1246,6 @@
     <ClCompile Include="PrintPreview.cpp">
       <Filter>Print</Filter>
     </ClCompile>
-    <ClCompile Include="TextEdit.cpp">
-      <Filter>TextEdit</Filter>
-    </ClCompile>
     <ClCompile Include="AddAttributeMenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
@@ -1314,26 +1309,27 @@
     <ClCompile Include="LastClass.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
-    <ClCompile Include="DrawingVisitor.cpp">
-      <Filter>Visitor</Filter>
-    </ClCompile>
     <ClCompile Include="MovingVisitor.cpp">
-      <Filter>Visitor</Filter>
-    </ClCompile>
-    <ClCompile Include="ResizeVisitor.cpp">
       <Filter>Visitor</Filter>
     </ClCompile>
     <ClCompile Include="Visitor.cpp">
       <Filter>Visitor</Filter>
     </ClCompile>
-    <ClCompile Include="ZoomInMenuAction.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="ZoomOutMenuAction.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
     <ClCompile Include="PreciseMoving.cpp">
       <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingVisitor.cpp">
+      <Filter>z줌인아웃 수정</Filter>
+    </ClCompile>
+    <ClCompile Include="ResizeVisitor.cpp">
+      <Filter>z줌인아웃 수정</Filter>
+    </ClCompile>
+    <ClCompile Include="TextEdit.cpp" />
+    <ClCompile Include="ZoomInMenuAction.cpp">
+      <Filter>z줌인아웃 수정</Filter>
+    </ClCompile>
+    <ClCompile Include="ZoomOutMenuAction.cpp">
+      <Filter>z줌인아웃 수정</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
