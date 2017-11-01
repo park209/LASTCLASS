@@ -82,11 +82,9 @@ int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
    CDC memDC;
    lastClass->classDiagramForm->diagram->Accept(visitor1, &memDC);
 
-   KnockKnock *knocking = new KnockKnock;
-   knocking->Knocking(lastClass->classDiagramForm);
-   if (knocking != NULL) {
-	   delete knocking;
-   }
+   //KnockKnock knocking;
+   //knocking.Knocking(lastClass->classDiagramForm);
+   
    //this->SetScrollRange(SB_VERT, 0, 380);
 
    this->lastClass->EnableWindow(false);

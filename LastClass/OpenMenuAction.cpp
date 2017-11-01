@@ -105,8 +105,8 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			//CDC dc;
 			//lastClass->classDiagramForm->diagram->Accept(visitor, &dc);
 
-			KnockKnock knocking;
-			knocking.Knocking(lastClass->classDiagramForm);
+			//KnockKnock knocking;
+			//knocking.Knocking(lastClass->classDiagramForm);
 			
 			SCROLLINFO vScinfo;
 			SCROLLINFO hScinfo;

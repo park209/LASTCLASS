@@ -34,8 +34,8 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 		CDC memDC;
 		lastClass->classDiagramForm->diagram->Accept(visitor1, &memDC);
 
-		KnockKnock knocking;
-		knocking.Knocking(lastClass->classDiagramForm);
+		//KnockKnock knocking;
+		//knocking.Knocking(lastClass->classDiagramForm);
 
 
 		Finder finder;
@@ -170,6 +170,6 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 		lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
 		lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
 		lastClass->classDiagramForm->diagram->Accept(visitor2, &memDC);
-		knocking.Knocking(lastClass->classDiagramForm);
+		//knocking.Knocking(lastClass->classDiagramForm);
 	}
 }
