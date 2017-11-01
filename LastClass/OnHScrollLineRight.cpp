@@ -2,6 +2,7 @@
 
 #include "OnHScrollLineRight.h"
 #include "ClassDiagramForm.h"
+#include "ScrollMovingObject.h"
 
 OnHScrollLineRight::OnHScrollLineRight() : ScrollAction() {
 }
@@ -25,8 +26,13 @@ void OnHScrollLineRight::Scrolling(ClassDiagramForm *classDiagramForm) {
 
 	curpos += 100;
 	if (curpos > maxpos) {
-		curpos = maxpos;
+		SCROLLINFO vScinfo;
+		classDiagramForm->GetScrollInfo(SB_HORZ, &vScinfo);
+		vScinfo.nMax = curpos + vScinfo.nPage;
+		classDiagramForm->SetScrollInfo(SB_HORZ, &vScinfo);
 	}
+		ScrollMovingObject moving;
+		moving.MovingObject(classDiagramForm->diagram,-100);
 
 	classDiagramForm->SetScrollPos(SB_HORZ, curpos);
 }

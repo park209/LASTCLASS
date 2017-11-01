@@ -18,6 +18,7 @@
 #include "OnVScrollPageDown.h"
 
 #include "ClassDiagramForm.h"
+#include "ScrollMovingObject.h"
 
 Scroll::Scroll() {
 	this->scrollAction = 0;
@@ -99,7 +100,7 @@ ScrollAction* Scroll::MoveHScroll(ClassDiagramForm *classDiagramForm, UINT nSBCo
 	case SB_THUMBPOSITION: // Scroll to absolute position. nPos is the position
 		classDiagramForm->SetScrollPos(SB_HORZ, nPos);
 		break;
-	case SB_THUMBTRACK:   // Drag scroll box to specified position. nPos is the
+	case SB_THUMBTRACK:  // Drag scroll box to specified position. nPos is the
 		classDiagramForm->SetScrollPos(SB_HORZ, nPos);
 		break;
 	default:

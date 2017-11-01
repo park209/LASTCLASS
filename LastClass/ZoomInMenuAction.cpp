@@ -8,6 +8,7 @@
 #include "KnockKnock.h"
 #include "ResizeVisitor.h"
 #include "Diagram.h"
+#include "ScrollMovingObject.h"
 
 ZoomInMenuAction::ZoomInMenuAction() {
 }
@@ -21,7 +22,7 @@ void ZoomInMenuAction::MenuPress(LastClass *lastClass) {
 	bool ret = false;
 	Long zoomRate_ = lastClass->classDiagramForm->zoomRate;
 	// nWheelScrollLines 휠 한번에 이동하는 줄 수 (Reg에서 읽어 온다)
-	/*HKEY hKey = 0;
+	HKEY hKey = 0;
 	DWORD dwType = REG_BINARY;
 	DWORD dwSize = 10;
 	BYTE* pByte = new BYTE[dwSize];
@@ -33,7 +34,7 @@ void ZoomInMenuAction::MenuPress(LastClass *lastClass) {
 	RegCloseKey(hKey);
 
 	int nWheelScrollLines = atoi((char*)pByte);
-	delete pByte;*/
+	delete pByte;
 
 	int vertCurPos = lastClass->classDiagramForm->GetScrollPos(SB_VERT);
 	if (lastClass->classDiagramForm->selection->GetLength() > 0) {
@@ -59,16 +60,18 @@ void ZoomInMenuAction::MenuPress(LastClass *lastClass) {
 
 	SCROLLINFO vScinfo;
 	SCROLLINFO hScinfo;
-
+	ScrollMovingObject moving;
 	lastClass->classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
 	lastClass->classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
 	CRect rect;
 	lastClass->classDiagramForm->GetClientRect(&rect);
+
+	moving.MovingObject(lastClass->classDiagramForm->diagram, hScinfo.nPos, vScinfo.nPos);
 	vScinfo.nPage = rect.Height();
 	hScinfo.nPage = rect.Width();
 
-	vScinfo.nMax = 2000 * lastClass->classDiagramForm->zoomRate / 100;
-	hScinfo.nMax = 4000 * lastClass->classDiagramForm->zoomRate / 100;
+	vScinfo.nMax = vScinfo.nMax * lastClass->classDiagramForm->zoomRate / lastClass->classDiagramForm->preZoom;
+	hScinfo.nMax = hScinfo.nMax * lastClass->classDiagramForm->zoomRate / lastClass->classDiagramForm->preZoom;
 
 	if (vScinfo.nPos > vScinfo.nMax - vScinfo.nPage) {
 		vScinfo.nPos = vScinfo.nMax - vScinfo.nPage;
@@ -87,9 +90,12 @@ void ZoomInMenuAction::MenuPress(LastClass *lastClass) {
 		lastClass->classDiagramForm->copyBuffer->Accept(resizeVisitor, &memDC);
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//KnockKnock knocking;
-	//knocking.Knocking(lastClass->classDiagramForm);
-	
+	KnockKnock *knocking = new KnockKnock;
+	knocking->Knocking(lastClass->classDiagramForm);
+	if (knocking != NULL) {
+		delete knocking;
+	}
+	moving.MovingObject(lastClass->classDiagramForm->diagram, -hScinfo.nPos, -vScinfo.nPos);
 	if ((zoomRate_ != 60 || lastClass->classDiagramForm->zoomRate != 60) && (zoomRate_ != 130 || lastClass->classDiagramForm->zoomRate != 130)) {
 		lastClass->statusBar->DestroyStatus();
 		lastClass->statusBar->MakeStatusBar(lastClass, lastClass->GetSafeHwnd(), 0, 0, 5);

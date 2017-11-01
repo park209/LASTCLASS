@@ -32,6 +32,7 @@ public:
 	void DeleteOutSideRelation(Selection& selection);
 
 	virtual Long Correct(Figure *figure, Long index);
+	CRect GetSelectionRect(Selection& selection);
 
 };
 

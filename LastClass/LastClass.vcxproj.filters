@@ -42,9 +42,6 @@
     <Filter Include="Visitor">
       <UniqueIdentifier>{f654ac47-a46d-4cd2-bf59-61db616e3c4e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="z줌인아웃 수정">
-      <UniqueIdentifier>{d7bd25d9-0485-4974-93d6-0250e5b92cf2}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h">
@@ -694,6 +691,7 @@
     <ClInclude Include="ZoomOutMenuAction.h">
       <Filter>z줌인아웃 수정</Filter>
     </ClInclude>
+    <ClInclude Include="ScrollMovingObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">
@@ -1330,6 +1328,9 @@
     </ClCompile>
     <ClCompile Include="ZoomOutMenuAction.cpp">
       <Filter>z줌인아웃 수정</Filter>
+    </ClCompile>
+    <ClCompile Include="ScrollMovingObject.cpp">
+      <Filter>ClassDiagram</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
