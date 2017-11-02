@@ -26,7 +26,6 @@ MouseLButtonAction* MovingLine::Instance() {
 	return instance;
 }
 void MovingLine::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
-	bool ret = false;
 	Long distanceX = currentX - startX;
 	Long distanceY = currentY - startY;
 	Class *selectedClass = static_cast<Class*>(selection->GetAt(0));
@@ -46,7 +45,7 @@ void MovingLine::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *cl
 			moveLine->MoveDownAttributeLine(selectedClass, startX, startY, currentX, currentY);
 		}
 	}
-	if (selectedClass->GetMethodPosition() != -1 && ret != true) {
+	if (selectedClass->GetMethodPosition() != -1 ) {
 		if (distanceY < 0) { // up
 			moveLine->MoveUpMethodLine(selectedClass, startX, startY, currentX, currentY);
 		}
@@ -55,7 +54,7 @@ void MovingLine::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *cl
 		}
 	}
 
-	if (selectedClass->GetReceptionPosition() != -1 && ret != true) {
+	if (selectedClass->GetReceptionPosition() != -1) {
 		if (distanceY < 0) {
 			//¿Ã¸±‹š
 			moveLine->MoveUpReception(selectedClass, startX, startY, currentX, currentY);

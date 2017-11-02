@@ -79,14 +79,9 @@ void DrawingAggregation::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagram
 	else if (selection->GetLength() == 2 && dynamic_cast<Class*>(selection->GetAt(0)) && selection->GetAt(0) == selection->GetAt(1)) {
 		Class *object = static_cast<Class*>(selection->GetAt(0));
 		Long i = 0;
-		bool ret = false;
-		while (i < object->GetLength()) {
-			if (dynamic_cast<SelfRelation*>(object->GetAt(i))) {
-				ret = true; // ¼¿ÇÁ¼± ÀÖ´Ù
-			}
-			i++;
-		}
-		if (ret == false) {
+		Long templatePosition = object->GetTempletePosition();
+	
+		if (templatePosition == -1) {
 			SelfAggregation  selfAggregation(object->GetX() + object->GetWidth() - 30 * classDiagramForm->zoomRate / 100,
 				object->GetY(), 30 * classDiagramForm->zoomRate / 100, 30 * classDiagramForm->zoomRate / 100);
 			if (object->GetTempletePosition() != -1) {

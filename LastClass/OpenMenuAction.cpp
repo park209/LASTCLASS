@@ -94,7 +94,6 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			lastClass->classDiagramForm->fileName = dlgFile.GetPathName();
 			lastClass->classDiagramForm->Load();
 
-			//lastClass->classDiagramForm->zoomRate = 100;
 			lastClass->classDiagramForm->preZoom = 100;
 			lastClass->classDiagramForm->SetMemoGab(20 * lastClass->classDiagramForm->zoomRate / 100);
 			lastClass->classDiagramForm->SetGabX(8 * lastClass->classDiagramForm->zoomRate / 100);
@@ -103,7 +102,7 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 
 			ResizeVisitor visitor(lastClass->classDiagramForm->preZoom, lastClass->classDiagramForm->zoomRate);
 			CDC dc;
-			//lastClass->classDiagramForm->diagram->Accept(visitor, &dc);
+		//	lastClass->classDiagramForm->diagram->Accept(visitor, &dc);
 
 			KnockKnock *knocking = new KnockKnock;
 			knocking->Knocking(lastClass->classDiagramForm);

@@ -37,8 +37,8 @@ void DrawingClass::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 		object->Initialize();
 	
 
-	classDiagramForm->lastClass->statusBar->DestroyStatus();
-	classDiagramForm->lastClass->statusBar->MakeStatusBar(classDiagramForm->lastClass, classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
+	//classDiagramForm->lastClass->statusBar->DestroyStatus();
+	//classDiagramForm->lastClass->statusBar->MakeStatusBar(classDiagramForm->lastClass, classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
 
 	this->ChangeDefault(mouseLButton);
 }

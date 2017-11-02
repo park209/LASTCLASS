@@ -44,16 +44,6 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 
 
 	bool ret = false;
-	while (i < selection->GetLength() && ret == false) {
-
-		figure = selection->GetAt(i);
-		if (dynamic_cast<Class*>(figure) || dynamic_cast<MemoBox*>(figure)) {
-			CRect cRect1(figure->GetX() + (currentX - startX), figure->GetY() + (currentY - startY), figure->GetX() + (currentX - startX) + figure->GetWidth(), figure->GetY() + (currentY - startY) + figure->GetHeight());
-
-		}
-		i++;
-	}
-	i = 0;
 	while (i < length && GetKeyState(VK_SHIFT) >= 0 && ret==false) { // 선택된 개수만큼 반복
 		figure = selection->GetAt(i);
 
@@ -129,8 +119,6 @@ void MultipleSelectionState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDia
 				while (l < figureComposite->GetLength()) {
 					if (dynamic_cast<Relation*>(figureComposite->GetAt(l))) {
 						Relation *relation = static_cast<Relation*>(figureComposite->GetAt(l));
-						Long relationEndX = relation->GetX() + relation->GetWidth();
-						Long relationEndY = relation->GetY() + relation->GetHeight();
 						if (relation->GetEndPointFigure() == selection->GetAt(i)) {
 							if (relation->GetLength() == 0) {
 								CPoint startPoint{ relation->GetX(), relation->GetY() };
@@ -231,7 +219,6 @@ void MultipleSelectionState::MouseLButtonDown(MouseLButton *mouseLButton, Diagra
 		}
 	}
 	else if (index != -1 && GetKeyState(VK_SHIFT) < 0) {
-		Long previousLength = selection->GetLength();
 		Finder finder;
 		bool ret = false;
 		i = 0;
@@ -299,21 +286,12 @@ void MultipleSelectionState::MouseLButtonDrag(MouseLButton *mouseLButton, ClassD
 		Long distanceX = (nextX - selection->GetAt(startIndex)->GetX());
 		Long distanceY = (nextY - selection->GetAt(startIndex)->GetY());
 
-		bool ret2 = false;
-		while (i < selection->GetLength() && ret2 == false) {
-
-			figure = selection->GetAt(i);
-			if (dynamic_cast<Class*>(figure) || dynamic_cast<MemoBox*>(figure)) {
-				CRect cRect1(figure->GetX() + (currentX - startX), figure->GetY() + (currentY - startY), figure->GetX() + (currentX - startX) + figure->GetWidth(), figure->GetY() + (currentY - startY) + figure->GetHeight());
-			}
-			i++;
-		}
 		i = 0;
-		while (i < length && GetKeyState(VK_SHIFT) >= 0 && ret2 == false) { // 선택된 개수만큼 반복
+		while (i < length && GetKeyState(VK_SHIFT) >= 0) { // 선택된 개수만큼 반복
 			figure = selection->GetAt(i);
 
  
-			if (dynamic_cast<FigureComposite*>(figure) && ret2 == false) { //클래스나 메모면
+			if (dynamic_cast<FigureComposite*>(figure)) { //클래스나 메모면
 				Long startX = figure->GetX();
 				Long startY = figure->GetY();
 				Long endX = figure->GetX() + figure->GetWidth();

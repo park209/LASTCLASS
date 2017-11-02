@@ -3,7 +3,6 @@
 #include "MouseLButtonAction.h"
 
 void MouseLButtonAction::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
-
 }
 
 void MouseLButtonAction::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){

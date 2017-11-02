@@ -29,7 +29,6 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 	CPoint cPoint5;
 
 	if (dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
-		MovingVisitor movingVisitor;
 		FigureComposite *figures = static_cast<FigureComposite*>(selection->GetAt(0));
 		Finder finder;
 		Long i = 0;
@@ -37,8 +36,6 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 		bool ret = false;
 
 		CRect cRect1(figures->GetX() + (currentX - startX), figures->GetY() + (currentY - startY), figures->GetX() + (currentX - startX) + figures->GetWidth(), figures->GetY() + (currentY - startY) + figures->GetHeight());
-		//ret = diagram->CheckOverlapSelection(cRect1, selection);
-
 		// FigureComposite에 관계선 점 겹치면 점 Remove
 		i = 0;
 		while (i < figures->GetLength()) {

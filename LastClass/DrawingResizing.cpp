@@ -39,11 +39,10 @@ void DrawingResizing::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramFor
 	classDiagramForm->historyGraphic->redoGraphicArray->Clear();
 	classDiagramForm->historyGraphic->redoGraphicZoomRateArray->Clear();
 
-	CRect rect = diagram->GetCorrectRect(startX, startY, currentX, currentY);
 
 	if (dynamic_cast<Class*>(object) && static_cast<Class*>(object)->GetTempletePosition() != -1) {
 		Class *selectedClass = static_cast<Class*>(object);
-			Template *templete = static_cast<Template*>(selectedClass->GetAt(selectedClass->GetTempletePosition()));
+		Template *templete = static_cast<Template*>(selectedClass->GetAt(selectedClass->GetTempletePosition()));
 	 // ÁÂ»ó´Ü
 			CRect rect(selectedClass->GetX() - 3, templete->GetY() - 3, selectedClass->GetX() + 6, templete->GetY() + 6);
 			ret = finder.FindRectangleByPoint(rect, startX, startY);

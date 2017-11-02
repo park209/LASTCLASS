@@ -33,23 +33,13 @@ MouseLButtonAction* DefaultState::Instance() {
 }
 void DefaultState::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
 
-	Finder finder;
 	CRect area = diagram->GetCorrectRect(startX, startY, currentX, currentY);
 	selection->DeleteAllItems();
 	if (startX != 0||startY!=0 ) {
 		selection->SelectByArea(diagram, area);
 	}
-	Long i;
 	if (selection->GetLength() == 1) {
 		this->ChangeState(mouseLButton, SelectionState::Instance());
-		i = 0;
-		while (i < classDiagramForm->diagram->GetLength()) {
-			FigureComposite *tempFigureComposite = static_cast<FigureComposite*>(classDiagramForm->diagram->GetAt(i));
-			if (static_cast<FigureComposite*>(selection->GetAt(0)) == tempFigureComposite) {
-				
-			}
-			i++;
-		}
 	}
 	if (selection->GetLength() > 1) {
 		this->ChangeState(mouseLButton, MultipleSelectionState::Instance());
@@ -97,13 +87,9 @@ void DefaultState::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram
 	if (object == 0) {
 
 		Long index = selection->SelectByPoint(startX, startY);
-		//if (index != -1 && selection->GetLength() > 1) { // 기호가 여러개 선택되어있을때, 어느 선택박스가 잡히면 // 지워야할듯
-		//	this->ChangeState(mouseLButton, MultipleSelectionState::Instance());
-		//}
-
-		//else { // 선택박스가 안잡혔거나 // 아니면 기호 한개나, 한개도 선택이 안되어있을 때 // 위에 지우고 아래만 남김
+	    // 선택박스가 안잡혔거나 // 아니면 기호 한개나, 한개도 선택이 안되어있을 때 // 위에 지우고 아래만 남김
 		if (index == -1 && selection->GetLength() == 0) {
-			selection->DeleteAllItems();
+			selection->DeleteAllItems(); 
 			selection->SelectByPoint(diagram, startX, startY);
 			if (selection->GetLength() == 1) {
 				this->ChangeState(mouseLButton, SelectionState::Instance());

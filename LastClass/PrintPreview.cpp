@@ -49,12 +49,6 @@ PrintPreview::PrintPreview(LastClass *lastClass) {
 int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) { 
    CFrameWnd::OnCreate(lpCreateStruct);
 
-
-  
-
-
-
-
    this->printPreviewButton = new PrintPreviewButton;
 
    this->ModifyStyle(0, WS_OVERLAPPEDWINDOW  );
@@ -64,14 +58,6 @@ int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
    this->previousButton->Create("이전 페이지", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(420, 10, 570, 50), this, 2);
    this->printButton = new CButton;
    this->printButton->Create("인쇄하기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(600, 10, 745, 50), this, 3);
-   //this->printZoomIn = new CButton;
-   //this->printZoomIn->Create("확 대", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 250, 200, 290), this, 4);
-   //this->printZoomOut = new CButton;
-   //this->printZoomOut->Create("축 소", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(50, 300, 200, 340), this, 5);
-
-   //this->SetFocus();
-   //this->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER);
-
    this->classDaigramFormZoomRate = lastClass->classDiagramForm->zoomRate;
    ResizeVisitor visitor1(lastClass->classDiagramForm->zoomRate, 100);
    lastClass->classDiagramForm->zoomRate = 100;
@@ -87,10 +73,8 @@ int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
    if (knocking != NULL) {
 	   delete knocking;
    }
-   //this->SetScrollRange(SB_VERT, 0, 380);
 
    this->lastClass->EnableWindow(false);
-   //this->lastClass->classDiagramForm->EnableWindow(false);
 
 
    CRect rect(2000, 0, 4000, 2000);
