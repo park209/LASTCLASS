@@ -138,8 +138,8 @@ void GraphicCtrlCopyKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) 
 		if (dynamic_cast<Class*>(smartPointer->Current())) {
 			static_cast<Class*>(smartPointer->Current())->Accept(drawingVisitor, &memDC);
 		}
-		if (dynamic_cast<MemoBox*>(smartPointer->Current())) {
-			static_cast<Class*>(smartPointer->Current())->Accept(drawingVisitor, &memDC);
+		if (dynamic_cast<MemoBox*>(smartPointer->Current())) { // if문 안에 Class로 되어있어서 바꿈 // 맞는지?
+			static_cast<MemoBox*>(smartPointer->Current())->Accept(drawingVisitor, &memDC);
 		}
 	}
 	OpenClipboard(NULL);
