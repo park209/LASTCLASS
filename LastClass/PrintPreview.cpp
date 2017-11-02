@@ -11,6 +11,7 @@
 #include "PrintPreviewButtonAction.h"
 #include "KnockKnock.h"
 #include "ResizeVisitor.h"
+#include "ScrollMovingObject.h"
 //#include <afxwin.h>
 //#include <afxdlgs.h>
 
@@ -39,8 +40,8 @@ PrintPreview::PrintPreview(LastClass *lastClass) {
 	this->verticalPage = 0;
 	this->horizontalPageSize = 2000;
 	this->verticalPageSize = 2000;
-	this->horizontalPaperSize = 4000;
-	this->verticalPaperSize = 2000;
+	this->horizontalPaperSize = 0;
+	this->verticalPaperSize = 0;
 	this->zoomRate = 100;
 	this->totalPage=0;
 	this->classDaigramFormZoomRate = 100;
@@ -58,6 +59,12 @@ int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
    this->previousButton->Create("이전 페이지", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(420, 10, 570, 50), this, 2);
    this->printButton = new CButton;
    this->printButton->Create("인쇄하기", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_CENTER | BS_VCENTER, CRect(600, 10, 745, 50), this, 3);
+   
+   ScrollMovingObject scrollMovingObject;
+   Long hPos = this->lastClass->classDiagramForm->GetScrollPos(SB_HORZ);
+   Long vPos = this->lastClass->classDiagramForm->GetScrollPos(SB_VERT);
+   scrollMovingObject.MovingObject(this->lastClass->classDiagramForm->diagram, hPos, vPos);
+
    this->classDaigramFormZoomRate = lastClass->classDiagramForm->zoomRate;
    ResizeVisitor visitor1(lastClass->classDiagramForm->zoomRate, 100);
    lastClass->classDiagramForm->zoomRate = 100;
@@ -73,48 +80,50 @@ int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
    if (knocking != NULL) {
 	   delete knocking;
    }
+   //this->SetScrollRange(SB_VERT, 0, 380);
 
    this->lastClass->EnableWindow(false);
+   this->horizontalPaperSize = scrollMovingObject.GetHorizontalMax(this->lastClass->classDiagramForm->diagram);
+   this->verticalPaperSize = scrollMovingObject.GetVerticalMax(this->lastClass->classDiagramForm->diagram);
 
-
-   CRect rect(2000, 0, 4000, 2000);
-   bool ret = false;
-   Long l = 0;
-   Long m;
-   Long n;
-   Finder finder;
-   Long length = lastClass->classDiagramForm->diagram->GetLength();
-   while (l < length && ret != true) { // 2페이지에 클래스나 메모박스가 있는지 확인.
-	   FigureComposite *figureComposite = (FigureComposite*)lastClass->classDiagramForm->diagram->GetAt(l);
-	   CRect comperRect(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
-	   ret = finder.FindRectangleByArea(comperRect, rect);
-	   m = 0;
-	   while (m < figureComposite->GetLength() && ret != true) {
-		   Figure *figure = figureComposite->GetAt(m);
-		   ret = finder.FindRectangleByPoint(rect, figure->GetX(), figure->GetY());
-		   if (dynamic_cast<Relation*>(figure)) {
-			   Relation *relation = static_cast<Relation*>(figure);
-			   n = 0;
-			   while (n < relation->GetLength() && ret != true) {
-				   CPoint point1 = relation->GetAt(n);
-				   ret = finder.FindRectangleByPoint(rect, point1.x, point1.y);
-				   n++;
-			   }
-		   }
-		   m++;
-	   }
-	   l++;
-   }
-   if (ret == true) {
-	   this->verticalPaperSize = 2000;
-	  this->horizontalPaperSize = 4000;
-	   this->totalPage = 2;
-   }
-   else {
-	   this->verticalPaperSize = 2000;
-	   this->horizontalPaperSize = 2000;
-	   this->totalPage = 1;
-   }
+   //CRect rect(2000, 0, 4000, 2000);
+   //bool ret = false;
+   //Long l = 0;
+   //Long m;
+   //Long n;
+   //Finder finder;
+   //Long length = lastClass->classDiagramForm->diagram->GetLength();
+   //while (l < length && ret != true) { // 2페이지에 클래스나 메모박스가 있는지 확인.
+	  // FigureComposite *figureComposite = (FigureComposite*)lastClass->classDiagramForm->diagram->GetAt(l);
+	  // CRect comperRect(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
+	  // ret = finder.FindRectangleByArea(comperRect, rect);
+	  // m = 0;
+	  // while (m < figureComposite->GetLength() && ret != true) {
+		 //  Figure *figure = figureComposite->GetAt(m);
+		 //  ret = finder.FindRectangleByPoint(rect, figure->GetX(), figure->GetY());
+		 //  if (dynamic_cast<Relation*>(figure)) {
+			//   Relation *relation = static_cast<Relation*>(figure);
+			//   n = 0;
+			//   while (n < relation->GetLength() && ret != true) {
+			//	   CPoint point1 = relation->GetAt(n);
+			//	   ret = finder.FindRectangleByPoint(rect, point1.x, point1.y);
+			//	   n++;
+			//   }
+		 //  }
+		 //  m++;
+	  // }
+	  // l++;
+   //}
+   //if (ret == true) {
+	  // this->verticalPaperSize = 2000;
+	  //this->horizontalPaperSize = 4000;
+	  // this->totalPage = 2;
+   //}
+   //else {
+	  // this->verticalPaperSize = 2000;
+	  // this->horizontalPaperSize = 2000;
+	  // this->totalPage = 1;
+   //}
 
    Invalidate(false);
    
@@ -412,6 +421,10 @@ void PrintPreview::OnClose() {
 	lastClass->classDiagramForm->diagram->Accept(visitor2, &memDC);
 	KnockKnock *knocking = new KnockKnock;
 	knocking->Knocking(lastClass->classDiagramForm);
+	ScrollMovingObject scrollMovingObject;
+	Long hPos = this->lastClass->classDiagramForm->GetScrollPos(SB_HORZ);
+	Long vPos = this->lastClass->classDiagramForm->GetScrollPos(SB_VERT);
+	scrollMovingObject.MovingObject(this->lastClass->classDiagramForm->diagram, -hPos, -vPos);
 	if (knocking != NULL) {
 		delete knocking;
 	}
@@ -462,6 +475,10 @@ void PrintPreview::OnEndPrinting(CDC *pDc, CPrintInfo *pInfo) {
 	lastClass->classDiagramForm->diagram->Accept(visitor2, &memDC);
 	KnockKnock *knocking = new KnockKnock;
 	knocking->Knocking(lastClass->classDiagramForm);
+	ScrollMovingObject scrollMovingObject;
+	Long hPos = this->lastClass->classDiagramForm->GetScrollPos(SB_HORZ);
+	Long vPos = this->lastClass->classDiagramForm->GetScrollPos(SB_VERT);
+	scrollMovingObject.MovingObject(this->lastClass->classDiagramForm->diagram, -hPos, -vPos);
 	if (knocking != NULL) {
 		delete knocking;
 	}

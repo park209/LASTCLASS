@@ -2,6 +2,7 @@
 
 #include "OnVScrollLineDown.h"
 #include "ClassDiagramForm.h"
+#include "ScrollMovingObject.h"
 
 OnVScrollLineDown::OnVScrollLineDown() {
 }
@@ -21,8 +22,14 @@ void OnVScrollLineDown::Scrolling(ClassDiagramForm *classDiagramForm) {
 
 	curpos += 100;
 	if (curpos > maxpos) {
-		curpos = maxpos;
+		SCROLLINFO vScinfo;
+		classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
+		vScinfo.nMax = curpos + vScinfo.nPage;
+		classDiagramForm->SetScrollInfo(SB_VERT, &vScinfo);
 	}
-
+	//if (curpos != maxpos) {
+		ScrollMovingObject moving;
+		moving.MovingObject(classDiagramForm->diagram, 0, -100);
+	//}
 	classDiagramForm->SetScrollPos(SB_VERT, curpos);
 }

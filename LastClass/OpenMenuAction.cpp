@@ -120,8 +120,8 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			vScinfo.nPage = rect.Height();
 			hScinfo.nPage = rect.Width();
 
-			vScinfo.nMax = 2000 * lastClass->classDiagramForm->zoomRate / 100;
-			hScinfo.nMax = 4000 * lastClass->classDiagramForm->zoomRate / 100;
+			//vScinfo.nMax = 2000 * lastClass->classDiagramForm->zoomRate / 100;
+			//hScinfo.nMax = 4000 * lastClass->classDiagramForm->zoomRate / 100;
 
 			
 			lastClass->classDiagramForm->SetScrollInfo(SB_VERT, &vScinfo);

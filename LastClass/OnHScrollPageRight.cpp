@@ -2,6 +2,7 @@
 
 #include "OnHScrollPageRight.h"
 #include "ClassDiagramForm.h"
+#include "ScrollMovingObject.h"
 
 OnHScrollPageRight::OnHScrollPageRight() : ScrollAction() {
 }
@@ -33,4 +34,6 @@ void OnHScrollPageRight::Scrolling(ClassDiagramForm *classDiagramForm) {
 	}
 
 	classDiagramForm->SetScrollPos(SB_HORZ, curpos);
+	ScrollMovingObject moving;
+	moving.MovingObject(classDiagramForm->diagram, -50);
 }

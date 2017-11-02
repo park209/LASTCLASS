@@ -36,10 +36,10 @@ void KnockKnock::Knocking(ClassDiagramForm *classDiagramForm) {
 				classDiagramForm->textEdit = new TextEdit(classDiagramForm, figure);
 
 				classDiagramForm->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-					figure->GetX() + GabX - horzCurPos,
-					figure->GetY() + GabY  - vertCurPos + MemoGab,
-					figure->GetX() + figure->GetWidth() +CaretWidth - GabX - horzCurPos,
-					figure->GetY() + figure->GetHeight() - GabY - vertCurPos), classDiagramForm, 10000, NULL);
+					figure->GetX() + GabX,
+					figure->GetY() + GabY+ MemoGab,
+					figure->GetX() + figure->GetWidth() +CaretWidth,
+					figure->GetY() + figure->GetHeight() - GabY), classDiagramForm, 10000, NULL);
 				classDiagramForm->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
 				classDiagramForm->textEdit->OnClose();
 			}
@@ -48,10 +48,10 @@ void KnockKnock::Knocking(ClassDiagramForm *classDiagramForm) {
 
 				classDiagramForm->textEdit = new TextEdit(classDiagramForm, figure);
 				classDiagramForm->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-					figure->GetX() + GabX - horzCurPos,
-					figure->GetY() + GabY - vertCurPos,
-					figure->GetX() + figure->GetWidth() + CaretWidth - GabX - horzCurPos,
-					figure->GetY() + figure->GetHeight() - GabY - vertCurPos), classDiagramForm, 10000, NULL);
+					figure->GetX() + GabX,
+					figure->GetY() + GabY,
+					figure->GetX() + figure->GetWidth() + CaretWidth - GabX,
+					figure->GetY() + figure->GetHeight() - GabY), classDiagramForm, 10000, NULL);
 				classDiagramForm->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
 				classDiagramForm->textEdit->OnClose();
 			}
@@ -59,10 +59,10 @@ void KnockKnock::Knocking(ClassDiagramForm *classDiagramForm) {
 				figure = testClass->GetAt(testClass->GetMethodPosition());
 				classDiagramForm->textEdit = new TextEdit(classDiagramForm, figure);
 				classDiagramForm->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-					figure->GetX() + GabX - horzCurPos,
-					figure->GetY() + GabY - vertCurPos,
-					figure->GetX() + figure->GetWidth() + CaretWidth - GabX - horzCurPos,
-					figure->GetY() + figure->GetHeight() - GabY - vertCurPos), classDiagramForm, 10000, NULL);
+					figure->GetX() + GabX,
+					figure->GetY() + GabY,
+					figure->GetX() + figure->GetWidth() + CaretWidth - GabX,
+					figure->GetY() + figure->GetHeight() - GabY), classDiagramForm, 10000, NULL);
 				classDiagramForm->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
 				classDiagramForm->textEdit->OnClose();
 			}
@@ -70,10 +70,10 @@ void KnockKnock::Knocking(ClassDiagramForm *classDiagramForm) {
 				figure = testClass->GetAt(testClass->GetReceptionPosition());
 				classDiagramForm->textEdit = new TextEdit(classDiagramForm, figure);
 				classDiagramForm->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-					figure->GetX() + GabX - horzCurPos,
-					figure->GetY() + GabY + MemoGab - vertCurPos,
-					figure->GetX() + figure->GetWidth() + CaretWidth - GabX - horzCurPos,
-					figure->GetY() + figure->GetHeight() - GabY - vertCurPos), classDiagramForm, 10000, NULL);
+					figure->GetX() + GabX,
+					figure->GetY() + GabY + MemoGab,
+					figure->GetX() + figure->GetWidth() + CaretWidth - GabX,
+					figure->GetY() + figure->GetHeight() - GabY), classDiagramForm, 10000, NULL);
 				classDiagramForm->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
 				classDiagramForm->textEdit->OnClose();
 			}
@@ -82,10 +82,10 @@ void KnockKnock::Knocking(ClassDiagramForm *classDiagramForm) {
 			classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(i));
 			classDiagramForm->textEdit = new TextEdit(classDiagramForm, classDiagramForm->diagram->GetAt(i));
 			classDiagramForm->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				classDiagramForm->diagram->GetAt(i)->GetX() + GabX - horzCurPos,
-				classDiagramForm->diagram->GetAt(i)->GetY() + GabY + MemoGab - vertCurPos,
-				classDiagramForm->diagram->GetAt(i)->GetX() + classDiagramForm->diagram->GetAt(i)->GetWidth() + CaretWidth - GabX - horzCurPos,
-				classDiagramForm->diagram->GetAt(i)->GetY() + classDiagramForm->diagram->GetAt(i)->GetHeight() - GabY - vertCurPos), classDiagramForm, 10000, NULL);
+				classDiagramForm->diagram->GetAt(i)->GetX() + GabX,
+				classDiagramForm->diagram->GetAt(i)->GetY() + GabY + MemoGab,
+				classDiagramForm->diagram->GetAt(i)->GetX() + classDiagramForm->diagram->GetAt(i)->GetWidth() + CaretWidth - GabX,
+				classDiagramForm->diagram->GetAt(i)->GetY() + classDiagramForm->diagram->GetAt(i)->GetHeight() - GabY), classDiagramForm, 10000, NULL);
 			classDiagramForm->textEdit->OnKeyDown(VK_CONTROL, 0, 0);
 			classDiagramForm->textEdit->OnClose();
 		}

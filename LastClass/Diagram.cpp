@@ -10,6 +10,7 @@
 #include "Finder.h"
 #include "MemoLine.h"
 #include "Template.h"
+#include "Selection.h"
 
 Diagram::Diagram(Long capacity) {
 	this->capacity = capacity;
@@ -90,7 +91,7 @@ Long Diagram::AddMemoBox(Long x, Long y, Long width, Long height) {
 	return index;
 }
 
-Figure* Diagram::FindItem(Long x, Long y) {
+Figure* Diagram::FindItem(Long x, Long y,ClassDiagramForm *classDiagramForm) {
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());//다이어그램 배열 반복자
 	Figure *figure = 0;
 	Long endX;
@@ -98,13 +99,13 @@ Figure* Diagram::FindItem(Long x, Long y) {
 	Long index = -1;
 	Long j = 0;
 	smartPointer->First();
-	while (!smartPointer->IsDone() && index != 0) {
+	while (!smartPointer->IsDone()) {
 		endX = smartPointer->Current()->GetX() + smartPointer->Current()->GetWidth();
 		endY = smartPointer->Current()->GetY() + smartPointer->Current()->GetHeight();
 		if (smartPointer->Current()->GetX() <= x && endX >= x && smartPointer->Current()->GetY() <= y && endY >= y) {
-			figure = smartPointer->Current();
-			index = 0;
-		}
+					figure = smartPointer->Current();
+					index = 0;
+			}
 		else if (dynamic_cast<Class*>(smartPointer->Current()) && static_cast<Class*>(smartPointer->Current())->GetTempletePosition() != -1) {
 			Template* objcet = static_cast<Template*>(static_cast<Class*>(smartPointer->Current())->GetAt(static_cast<Class*>(smartPointer->Current())->GetTempletePosition()));
 			if (objcet->GetX() <= x && objcet->GetX() + objcet->GetWidth() >= x &&
@@ -114,6 +115,9 @@ Figure* Diagram::FindItem(Long x, Long y) {
 			}
 		}
 		smartPointer->Next();
+	}
+	if (dynamic_cast<FigureComposite*>(figure)) {
+		classDiagramForm->selection->Correct(figure, 0);
 	}
 	if (index == 0) {
 		SmartPointer<Figure*> smartPointer_(static_cast<FigureComposite*>(figure)->CreateIterator()); //클래스 배열 반복자
@@ -129,7 +133,33 @@ Figure* Diagram::FindItem(Long x, Long y) {
 	}
 	return figure;
 }
-
+void Diagram::FindFigureCompositeitem(Long x, Long y, ClassDiagramForm* classDiagramForm) {
+	SmartPointer<Figure*> smartPointer(this->CreateIterator());//다이어그램 배열 반복자
+	Figure *figure = 0;
+	Long endX;
+	Long endY;
+	Long index = -1;
+	Long j = 0;
+	smartPointer->First();
+	while (!smartPointer->IsDone()) {
+		endX = smartPointer->Current()->GetX() + smartPointer->Current()->GetWidth();
+		endY = smartPointer->Current()->GetY() + smartPointer->Current()->GetHeight();
+		if (smartPointer->Current()->GetX() <= x && endX >= x && smartPointer->Current()->GetY() <= y && endY >= y) {
+				figure = smartPointer->Current();
+				index = 0;
+		}
+		else if (dynamic_cast<Class*>(smartPointer->Current()) && static_cast<Class*>(smartPointer->Current())->GetTempletePosition() != -1) {
+			Template* objcet = static_cast<Template*>(static_cast<Class*>(smartPointer->Current())->GetAt(static_cast<Class*>(smartPointer->Current())->GetTempletePosition()));
+			if (objcet->GetX() <= x && objcet->GetX() + objcet->GetWidth() >= x &&
+				objcet->GetY() <= y && objcet->GetY() + objcet->GetHeight() >= y) {
+				figure = smartPointer->Current();
+				index = 0;
+			}
+		}
+		smartPointer->Next();
+	}
+	classDiagramForm->selection->Correct(figure, 0);
+}
 Long Diagram::Remove(Long index) {
 
 	this->length--;

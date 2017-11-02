@@ -2,6 +2,7 @@
 
 #include "OnHScrollLineLeft.h"
 #include "ClassDiagramForm.h"
+#include "ScrollMovingObject.h"
 
 OnHScrollLineLeft::OnHScrollLineLeft() : ScrollAction() {
 }
@@ -17,16 +18,33 @@ void OnHScrollLineLeft::Scrolling(ClassDiagramForm *classDiagramForm) {
 	// Get the minimum and maximum scroll-bar positions.
 	int minpos;
 	int maxpos;
+	bool ret;
+	ScrollMovingObject moving;
 	classDiagramForm->GetScrollRange(SB_HORZ, &minpos, &maxpos);
-	maxpos = classDiagramForm->GetScrollLimit(SB_HORZ);
 
 	// Get the current position of scroll box.
 	int curpos = classDiagramForm->GetScrollPos(SB_HORZ);
+	int newpos = curpos - 100;
+	if (newpos < minpos) {
+		newpos = minpos;
+	}
+	classDiagramForm->SetScrollPos(SB_HORZ, newpos);
+	moving.MovingObject(classDiagramForm->diagram,curpos - newpos);
 
-	curpos -= 100;
-	if (curpos < minpos) {
-		curpos = minpos;
+
+	SCROLLINFO hScinfo;
+	classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
+	ret = moving.FindHorizontal(classDiagramForm->diagram, hScinfo.nPage);
+	//int hMax = hScinfo.nMax;
+	int hMax = 4000 * classDiagramForm->zoomRate / 100;
+	if (ret == false) {;
+		hScinfo.nMax -= 100;
+		if (hScinfo.nMax < hMax) {
+			hScinfo.nMax = hMax;
+		}
+		classDiagramForm->SetScrollInfo(SB_HORZ, &hScinfo);
+		//classDiagramForm->SetScrollPos(SB_HORZ, curpos);
+		//moving.MovingObject(classDiagramForm->diagram, newpos - curpos);
 	}
 
-	classDiagramForm->SetScrollPos(SB_HORZ, curpos);
 }

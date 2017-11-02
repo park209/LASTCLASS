@@ -1001,3 +1001,32 @@ void Selection::DeleteOutSideRelation(Selection& selection) {
 		}
 	}
 }
+
+CRect Selection::GetSelectionRect(Selection& selection) {
+	Long i = 0;
+	CRect rt = { 0, };
+
+	//Selection배열에서 연결되지 않은 선들 제거하기 위해 선택범위 찾기
+	SmartPointer<Figure*>CopyBufferSmartPointer(selection.CreateIterator());
+	for (CopyBufferSmartPointer->First(); !CopyBufferSmartPointer->IsDone(); CopyBufferSmartPointer->Next()) {
+		if (dynamic_cast<FigureComposite*>(CopyBufferSmartPointer->Current())) {
+			if (i == 0 || CopyBufferSmartPointer->Current()->GetX() < rt.left) {//minimumX
+				rt.left = CopyBufferSmartPointer->Current()->GetX();
+			}
+			if (i == 0 || CopyBufferSmartPointer->Current()->GetX()            //maximumX
+				+ CopyBufferSmartPointer->Current()->GetWidth() > rt.right) {
+				rt.right = CopyBufferSmartPointer->Current()->GetX() + CopyBufferSmartPointer->Current()->GetWidth();
+			}
+			if (i == 0 || CopyBufferSmartPointer->Current()->GetY() < rt.top) {   //minimumY
+				rt.top = CopyBufferSmartPointer->Current()->GetY();
+			}
+			if (i == 0 || CopyBufferSmartPointer->Current()->GetY()            //maximumY
+				+ CopyBufferSmartPointer->Current()->GetHeight() > rt.bottom) {
+				rt.bottom = CopyBufferSmartPointer->Current()->GetY() + CopyBufferSmartPointer->Current()->GetHeight();
+			}
+			i++;
+		}
+	}
+
+	return rt;
+}

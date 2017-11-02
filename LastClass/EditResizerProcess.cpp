@@ -45,11 +45,11 @@ void EditResizerProcess::RewindEdit(TextEdit *textEdit, CDC *cdc) {
 		gabY_ += MemoGab;
 	}
 	textEdit->SetWindowPos(&textEdit->wndTopMost,0, 0,
-		textEdit->GetCriteriaWidth() - GabX * 2, textEdit->GetCriteriaHeight() - gabY_, SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
+		textEdit->GetCriteriaWidth() + CaretWidth - GabX * 2, textEdit->GetCriteriaHeight() - gabY_, SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 	if (dynamic_cast<Template*>(textEdit->figure)) {
 		textEdit->SetWindowPos(&textEdit->wndTopMost,
-			textEdit->GetCriteriaX() + GabX - horzCurPos,
-			textEdit->figure->GetY() + GabY - vertCurPos,
+			textEdit->GetCriteriaX() + GabX ,
+			textEdit->figure->GetY() + GabY ,
 			textEdit->GetCriteriaWidth() - GabX * 2,
 			textEdit->GetCriteriaHeight() - gabY_,
 			SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
@@ -134,8 +134,8 @@ void EditResizerProcess::ResizeEditWidthToLeft(TextEdit *textEdit, CDC *cdc) {
 	int horzCurPos = textEdit->GetParent()->GetScrollPos(SB_HORZ);
 
 	textEdit->SetWindowPos(&textEdit->wndTopMost,
-		textEdit->figure->GetX() + GabX - (textEdit->text->MaxWidth(cdc) - rt.right) - CaretWidth - horzCurPos,
-		textEdit->figure->GetY() + GabY - vertCurPos,
+		textEdit->figure->GetX() + GabX - (textEdit->text->MaxWidth(cdc) - rt.right) - CaretWidth ,
+		textEdit->figure->GetY() + GabY ,
 		rt.right + (textEdit->text->MaxWidth(cdc) - rt.right) + CaretWidth,
 		rt.bottom, SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 }
