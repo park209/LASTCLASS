@@ -22,7 +22,6 @@ public:
 	Long AddClass(Long x, Long y, Long width, Long height);
 	Long AddMemoBox(Long x, Long y, Long width, Long height);
 	Figure* FindItem(Long x, Long y,ClassDiagramForm* classDiagramForm);
-	void FindFigureCompositeitem(Long x, Long y, ClassDiagramForm* classDiagramForm);
 	virtual Long Remove(Long index);
 	CRect GetCorrectRect(Long startX, Long startY, Long currentX, Long currentY);
 

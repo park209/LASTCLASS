@@ -1244,7 +1244,6 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->currentY_2 = point.y;
 
 	this->mouseLButton->MouseLButtonDown(this->mouseLButton, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
-	//this->diagram->FindFigureCompositeitem(this->startX, this->startY, this);
 	KillTimer(1);
 	SetCapture();
 	Invalidate(false);

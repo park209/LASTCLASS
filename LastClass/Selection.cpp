@@ -587,8 +587,8 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 	Long index = -1;
 	CPoint lineStart;
 	CPoint lineEnd;
-
-	while (i < diagram->GetLength() && ret == false) {
+	Long isOne = 0;
+	while (i < diagram->GetLength()/*&& ret == false*/) {//
 		composite = static_cast<FigureComposite*>(diagram->GetAt(i));
 		if (dynamic_cast<Class*>(composite)) {
 			if (static_cast<Class*>(composite)->GetTempletePosition() == -1) {
@@ -619,17 +619,16 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 		}
 		//1여기에 템플릿일때 if() 이거하고/2 템플릿일때 작은 사각형 누르기 하고/3 확대하기 
 
-
-		if (ret == true) {
+		if (ret == true&& isOne==0) {
 			if (this->length < this->capacity) {
 				this->figures.Store(this->length, composite);
 			}
-			else {
-				this->figures.AppendFromRear(composite);
-				this->capacity++;
-			}
+			isOne =1;
 			this->length++;
-
+			index = this->length;
+		}
+		else if (ret == true && isOne == 1) {
+			this->figures.Modify(0, composite);
 			index = this->length;
 		}
 
