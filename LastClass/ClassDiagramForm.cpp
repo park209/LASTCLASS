@@ -1447,6 +1447,8 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	int horzCurPos = GetScrollPos(SB_HORZ);
 	int vertNCurPos = GetScrollPos(SB_VERT);
 	int horzNCurPos = GetScrollPos(SB_HORZ);
+	int scrollMin;
+	int scrollMax;
 	if (nFlags == MK_LBUTTON) {
 		CRect testRect;
 		this->GetClientRect(&testRect);
@@ -1460,10 +1462,11 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 		}
 		if (point.x > testRect.right - 20) {
 			horzNCurPos = horzCurPos + 20;
-			//Long maxpos = this->GetScrollLimit(SB_HORZ);
-			//if (horzCurPos > maxpos) {
-			//   horzCurPos = maxpos;
-			//}
+			Long maxpos = this->GetScrollLimit(SB_HORZ);
+			if (horzNCurPos > maxpos) {
+				this->GetScrollRange(SB_HORZ, &scrollMin, &scrollMax);
+				this->SetScrollRange(SB_HORZ, scrollMin, scrollMax + 20);
+			}
 		}
 		if (point.y < testRect.top + 20) {
 			vertNCurPos = vertCurPos - 20;
@@ -1473,10 +1476,11 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 		}
 		if (point.y > testRect.bottom - 20) {
 			vertNCurPos = vertCurPos + 20;
-			//Long maxpos = this->GetScrollLimit(SB_VERT);
-			//if (vertCurPos > maxpos) {
-			//   vertCurPos = maxpos;
-			//}
+			Long maxpos = this->GetScrollLimit(SB_VERT);
+			if (vertNCurPos > maxpos) {
+				this->GetScrollRange(SB_VERT, &scrollMin, &scrollMax);
+				this->SetScrollRange(SB_VERT, scrollMin, scrollMax + 20);
+			}
 		}
 
 
