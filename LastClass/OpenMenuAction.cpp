@@ -110,8 +110,4 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			lastClass->statusBar->MakeStatusBar(lastClass, lastClass->GetSafeHwnd(), 0, 0, 5);
 		}
 	}
-	lastClass->classDiagramForm->ReSetStartX();
-	lastClass->classDiagramForm->ReSetStartY();
-	lastClass->classDiagramForm->ReSetCurrentX();
-	lastClass->classDiagramForm->ReSetCurrentY();
 }

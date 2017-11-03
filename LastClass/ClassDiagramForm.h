@@ -61,10 +61,6 @@ public:
 	Long Save();
 	CString fileName;
 public:
-	void ReSetStartX();
-	void ReSetStartY() ;
-	void ReSetCurrentX();
-	void ReSetCurrentY();
 
 	Long GetStartX() const;
 	Long GetStartY() const;
@@ -150,17 +146,5 @@ void inline ClassDiagramForm::SetCaretWidth(Long caretWidth) const {
 }
 CString inline ClassDiagramForm::GetFileName()const {
 	return this->fileName;
-}
-void inline ClassDiagramForm::ReSetStartX() {
-	this->startX = 0;
-}
-void inline ClassDiagramForm::ReSetStartY() {
-	this->startY = 0;
-}
-void inline ClassDiagramForm::ReSetCurrentX() {
-	this->currentX = 0;
-}
-void inline ClassDiagramForm::ReSetCurrentY() {
-	this->currentY = 0;
 }
 #endif // _CLASSDIAGRAM_H
