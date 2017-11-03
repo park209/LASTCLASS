@@ -53,7 +53,8 @@
 #include "ScrollMovingObject.h"
 #include "OnVScrollPageDown.h"
 #include "OnVScrollPageUp.h"
-
+#include "OnHScrollPageRight.h"
+#include "OnHScrollPageLeft.h"
 #include "SelectionState.h"
 #include <math.h>
 #include <iostream>
@@ -975,14 +976,12 @@ void ClassDiagramForm::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 	SetFocus();
 
-	int vertCurPos = GetScrollPos(SB_VERT);
-	int horzCurPos = GetScrollPos(SB_HORZ);
-
-	this->startX = point.x;
-	this->startY = point.y;
+	int hPos = this->GetScrollPos(SB_HORZ);
+	int vPos = this->GetScrollPos(SB_VERT);
+	this->startX = point.x + hPos;
+	this->startY = point.y + vPos;
 	this->currentX = point.x;
 	this->currentY = point.y;
-
 
 
 	CMenu *menu = 0;
@@ -1065,11 +1064,10 @@ void ClassDiagramForm::OnRButtonUp(UINT nFlags, CPoint point) {
 void ClassDiagramForm::OnRButtonDown(UINT nFlags, CPoint point) {
 	SetFocus();
 
-	int vertCurPos = GetScrollPos(SB_VERT);
-	int horzCurPos = GetScrollPos(SB_HORZ);
-
-	this->startX = point.x;
-	this->startY = point.y;
+	int hPos = this->GetScrollPos(SB_HORZ);
+	int vPos = this->GetScrollPos(SB_VERT);
+	this->startX = point.x + hPos;
+	this->startY = point.y + vPos;
 	this->currentX = point.x;
 	this->currentY = point.y;
 
@@ -1112,8 +1110,23 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	delete pByte;
 
 	int vertPos = GetScrollPos(SB_VERT);
+	int horzPos = GetScrollPos(SB_HORZ);
 	int vertCurPos;
-	if (GetKeyState(VK_CONTROL) >= 0) {
+	int horzCurPos;
+	if (GetKeyState(VK_SHIFT) < 0) {
+		if (zDelta <= 0) { //마우스 휠 다운
+			horzCurPos = horzPos + nWheelScrollLines * 30;
+			OnHScrollPageRight onHScrollPageRight;
+			onHScrollPageRight.Scrolling(this);
+		}
+		else {  //마우스 휠 업
+			horzCurPos = horzPos - nWheelScrollLines * 30;
+			OnHScrollPageLeft onHScrollPageLeft;
+			onHScrollPageLeft.Scrolling(this);
+		}
+		ret = true;
+	}
+	else if (GetKeyState(VK_CONTROL) >= 0 && GetKeyState(VK_MENU) >= 0) {
 		if (zDelta <= 0) { //마우스 휠 다운
 			vertCurPos = vertPos + nWheelScrollLines * 30;
 			OnVScrollPageDown onVScrollPageDown;
@@ -1126,7 +1139,7 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		}
 		ret = true;
 	}
-	else {
+	else if (GetKeyState(VK_CONTROL) < 0) {
 		if (this->selection->GetLength() > 0) {
 			this->selection->DeleteAllItems();
 		}
@@ -1139,8 +1152,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		}
 		else {  //마우스 휠 업
 			this->zoomRate += 10;
-			if (this->zoomRate > 130) {
-				this->zoomRate = 130;
+			if (this->zoomRate > 150) {
+				this->zoomRate = 150;
 			}
 		}
 		this->SetMemoGab(20 * this->zoomRate / 100);
@@ -1176,21 +1189,21 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		ResizeVisitor resizeVisitor(this->preZoom, this->zoomRate);
 		this->diagram->Accept(resizeVisitor, &memDC);
 		if (this->copyBuffer != NULL) {
-			this->copyBuffer->Accept(resizeVisitor, &memDC);
+		   this->copyBuffer->Accept(resizeVisitor, &memDC);
 		}
-		KnockKnock *knocking = new KnockKnock;
-		knocking->Knocking(this);
-		if (knocking != NULL) {
-			delete knocking;
-		}
+
+		KnockKnock knocking;
+		knocking.Knocking(this);
+
 		moving.MovingObject(this->diagram, -hScinfo.nPos, -vScinfo.nPos);
-		if ((zoomRate_ != 60 || this->zoomRate != 60) && (zoomRate_ != 130 || this->zoomRate != 130)) {
+		if ((zoomRate_ != 10 || this->zoomRate != 10) && (zoomRate_ != 200 || this->zoomRate != 200)) {
 			this->lastClass->statusBar->DestroyStatus();
 			this->lastClass->statusBar->MakeStatusBar(this->lastClass, this->lastClass->GetSafeHwnd(), 0, 0, 5);
 		}
 	}
 	ret = true;
 	Invalidate(false);
+
 	return ret;
 }
 void ClassDiagramForm::OnNcMouseMove(UINT nHitTest, CPoint point) {
@@ -1229,13 +1242,14 @@ void ClassDiagramForm::OnLButtonDown(UINT nFlags, CPoint point) {
 		}
 		elapseTime++;
 	}
-	int vertCurPos = GetScrollPos(SB_VERT);
-	int horzCurPos = GetScrollPos(SB_HORZ);
-
-	this->startX = point.x;
-	this->startY = point.y;
+	int hPos = this->GetScrollPos(SB_HORZ);
+	int vPos = this->GetScrollPos(SB_VERT);
+	this->startX = point.x + hPos;
+	this->startY = point.y + vPos;
 	this->currentX = point.x;
 	this->currentY = point.y;
+
+
 	this->currentX_2 = point.x;
 	this->currentY_2 = point.y;
 
@@ -1294,11 +1308,10 @@ void ClassDiagramForm::OnMyMenu(UINT parm_control_id) {
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
 
-	int vertCurPos = GetScrollPos(SB_VERT);
-	int horzCurPos = GetScrollPos(SB_HORZ);
-
-	this->startX = point.x;
-	this->startY = point.y;
+	int hPos = this->GetScrollPos(SB_HORZ);
+	int vPos = this->GetScrollPos(SB_VERT);
+	this->startX = point.x + hPos;
+	this->startY = point.y + vPos;
 	this->currentX = point.x;
 	this->currentY = point.y;
 
@@ -1357,7 +1370,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 					bottom = relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 
-				if (startX < right && startX > left && startY > top && startY < bottom) {
+				if (startX - hPos< right && startX - hPos> left && startY- vPos > top && startY - vPos< bottom) {
 					index++;
 				}
 				i++;
@@ -1416,7 +1429,7 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
 				}
 
-				if (startX < right && startX > left && startY > top && startY < bottom) {
+				if (startX - hPos< right && startX - hPos> left && startY - vPos > top && startY - vPos< bottom) {
 					index++;
 				}
 				i++;
@@ -1446,43 +1459,45 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 	int vertCurPos = GetScrollPos(SB_VERT);
 	int horzCurPos = GetScrollPos(SB_HORZ);
+	int vertNCurPos = GetScrollPos(SB_VERT);
+	int horzNCurPos = GetScrollPos(SB_HORZ);
 	if (nFlags == MK_LBUTTON) {
 		CRect testRect;
 		this->GetClientRect(&testRect);
 
 		//좌측
 		if (point.x < testRect.left + 20) {
-			horzCurPos -= 20;
-			if (horzCurPos < 0) {
-				horzCurPos = 0;
+			horzNCurPos = horzCurPos - 20;
+			if (horzNCurPos < 0) {
+				horzNCurPos = 0;
 			}
 		}
 		if (point.x > testRect.right - 20) {
-			horzCurPos += 20;
-			Long maxpos = this->GetScrollLimit(SB_HORZ);
-			if (horzCurPos > maxpos) {
-				horzCurPos = maxpos;
-			}
+			horzNCurPos = horzCurPos + 20;
+			//Long maxpos = this->GetScrollLimit(SB_HORZ);
+			//if (horzCurPos > maxpos) {
+			//   horzCurPos = maxpos;
+			//}
 		}
 		if (point.y < testRect.top + 20) {
-			vertCurPos -= 20;
-			if (vertCurPos < 0) {
-				vertCurPos = 0;
+			vertNCurPos = vertCurPos - 20;
+			if (vertNCurPos < 0) {
+				vertNCurPos = 0;
 			}
 		}
 		if (point.y > testRect.bottom - 20) {
-			vertCurPos += 20;
-			Long maxpos = this->GetScrollLimit(SB_VERT);
-			if (vertCurPos > maxpos) {
-				vertCurPos = maxpos;
-			}
+			vertNCurPos = vertCurPos + 20;
+			//Long maxpos = this->GetScrollLimit(SB_VERT);
+			//if (vertCurPos > maxpos) {
+			//   vertCurPos = maxpos;
+			//}
 		}
 
 
-		SetScrollPos(SB_HORZ, horzCurPos);
-		SetScrollPos(SB_VERT, vertCurPos);
-		int vertNCurPos = GetScrollPos(SB_VERT);
-		int horzNCurPos = GetScrollPos(SB_HORZ);
+		SetScrollPos(SB_HORZ, horzNCurPos);
+		SetScrollPos(SB_VERT, vertNCurPos);
+		//int vertNCurPos = GetScrollPos(SB_VERT);
+		//int horzNCurPos = GetScrollPos(SB_HORZ);
 		ScrollMovingObject moving;
 		moving.MovingObject(this->diagram, horzCurPos - horzNCurPos, vertCurPos - vertNCurPos);
 		this->currentX_2 = this->currentX;
@@ -1509,7 +1524,6 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 		}
 	}
 }
-
 void ClassDiagramForm::OnClose() {
 
 	//6.2. 다이어그램을 지운다.

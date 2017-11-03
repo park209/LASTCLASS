@@ -10,6 +10,7 @@
 #include "DrawingGeneralization.h" 
 #include "DrawingAggregation.h"
 #include "DrawingAggregations.h"
+#include "LastClass.h"
 #include "DrawingAssociation.h"
 #include "DrawingComposition.h"
 #include "DrawingCompositions.h"
@@ -23,14 +24,27 @@ MouseLButton::MouseLButton() {
 	this->state = DefaultState::Instance();
 	this->buttonState = 0;
 }
-void MouseLButton::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
-	this->state->MouseLButtonUp(this, classDiagramForm, diagram, selection, startX, startY, currentX, currentY);
+void MouseLButton::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+	int hPos = classDiagramForm->GetScrollPos(SB_HORZ);
+	int vPos = classDiagramForm->GetScrollPos(SB_VERT);
+	Long transFormStartX = startX - hPos;
+	Long transFormStartY = startY - vPos;
+	this->state->MouseLButtonUp(this, classDiagramForm, diagram, selection, transFormStartX, transFormStartY, currentX, currentY);
 }
-void MouseLButton::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY){
-	this->state->MouseLButtonDown(this, diagram, selection, startX, startY, currentX, currentY);
+void MouseLButton::MouseLButtonDown(MouseLButton *mouseLButton, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY) {
+	LastClass* lastclass = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+	int hPos = lastclass->classDiagramForm->GetScrollPos(SB_HORZ);
+	int vPos = lastclass->classDiagramForm->GetScrollPos(SB_VERT);
+	Long transFormStartX = startX - hPos;
+	Long transFormStartY = startY - vPos;
+	this->state->MouseLButtonDown(this, diagram, selection, transFormStartX, transFormStartY, currentX, currentY);
 }
-void MouseLButton::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC){
-	this->state->MouseLButtonDrag(this, classDiagramForm, diagram, selection, startX, startY, currentX, currentY, pDC);
+void MouseLButton::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm *classDiagramForm, Diagram *diagram, Selection *selection, Long  startX, Long startY, Long currentX, Long currentY, CDC *pDC) {
+	int hPos = classDiagramForm->GetScrollPos(SB_HORZ);
+	int vPos = classDiagramForm->GetScrollPos(SB_VERT);
+	Long transFormStartX = startX - hPos;
+	Long transFormStartY = startY - vPos;
+	this->state->MouseLButtonDrag(this, classDiagramForm, diagram, selection, transFormStartX, transFormStartY, currentX, currentY, pDC);
 }
 void MouseLButton::ChangeState(UINT nChar) {
 	this->buttonState = nChar;

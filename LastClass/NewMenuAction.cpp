@@ -85,6 +85,7 @@ void NewMenuAction::MenuPress(LastClass* lastClass) {
 		lastClass->classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
 		CRect rect;
 		lastClass->classDiagramForm->GetClientRect(&rect);
+
 		vScinfo.nPage = rect.Height();
 		hScinfo.nPage = rect.Width();
 

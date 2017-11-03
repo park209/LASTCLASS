@@ -619,11 +619,15 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 		}
 		//1여기에 템플릿일때 if() 이거하고/2 템플릿일때 작은 사각형 누르기 하고/3 확대하기 
 
-		if (ret == true&& isOne==0) {
+		if (ret == true && isOne == 0) {
 			if (this->length < this->capacity) {
 				this->figures.Store(this->length, composite);
 			}
-			isOne =1;
+			else {
+				this->figures.AppendFromRear(composite);
+				this->capacity++;
+			}
+			isOne = 1;
 			this->length++;
 			index = this->length;
 		}
@@ -632,7 +636,6 @@ Long Selection::SelectByPoint(Diagram *diagram, Long x, Long y) {
 			index = this->length;
 		}
 
-		composite = static_cast<FigureComposite*>(diagram->GetAt(i));
 		j = 0;
 		while (j < composite->GetLength() && ret == false) {
 			if (dynamic_cast<Relation*>(composite->GetAt(j))) {
