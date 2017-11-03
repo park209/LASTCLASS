@@ -20,6 +20,7 @@ NewMenuAction::~NewMenuAction() {
 }
 void NewMenuAction::MenuPress(LastClass* lastClass) {
 	int messageBox = IDNO;
+	INT_PTR int_ptr = IDOK;
 	if (lastClass->classDiagramForm->textEdit != NULL) {
 		lastClass->classDiagramForm->textEdit->OnClose();
 		lastClass->classDiagramForm->textEdit = NULL;
@@ -37,17 +38,18 @@ void NewMenuAction::MenuPress(LastClass* lastClass) {
 			messageBox = lastClass->classDiagramForm->MessageBox(_T("변경 내용을 제목 없음에 저장하시겠습니까?"), "ClassDiagram", MB_YESNOCANCEL);
 			if (messageBox == IDYES) {
 				CFileDialog  dlgFile(false, "txt", "*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT, "텍스트 문서(*.txt)");
-				if (dlgFile.DoModal() == IDOK)
+				int_ptr = dlgFile.DoModal();
+				if (int_ptr == IDOK)
 				{
 					lastClass->classDiagramForm->fileName = dlgFile.GetPathName();
 				}
 			}
 		}
-		if (messageBox == IDYES) {
+		if (messageBox == IDYES && int_ptr == IDOK) {
 			lastClass->classDiagramForm->Save();
 		}
 	}
-	if (messageBox != IDCANCEL) {
+	if (messageBox != IDCANCEL && int_ptr == IDOK ) {
 			if (lastClass->classDiagramForm->diagram != NULL) {
 			delete lastClass->classDiagramForm->diagram;
 		}
