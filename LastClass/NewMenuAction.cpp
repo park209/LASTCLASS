@@ -44,10 +44,6 @@ void NewMenuAction::MenuPress(LastClass* lastClass) {
 			}
 		}
 		if (messageBox == IDYES) {
-			ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100);
-			CDC dc;
-			lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
-
 			lastClass->classDiagramForm->Save();
 		}
 	}

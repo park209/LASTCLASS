@@ -94,7 +94,7 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 			}
 			else if (dynamic_cast<MemoBox*>(figure)) {
 				static_cast<MemoBox*>(figure)->Accept(movingVisitor, distanceX, distanceY);
-				classDiagramForm->diagram->Add(figure);
+				classDiagramForm->diagram->Add(figure);	
 				classDiagramForm->selection->Add(classDiagramForm->diagram->GetAt(classDiagramForm->diagram->GetLength() - 1));
 			}
 		}

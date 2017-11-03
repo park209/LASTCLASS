@@ -31,15 +31,8 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 				CFileDialog  dlgFile(false, "txt", "*", OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT, "텍스트 문서(*.txt)");
 				int_ptr = dlgFile.DoModal();
 				if (int_ptr == IDOK) {
-					ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100);
-					CDC dc;
-					//lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
-					
 					lastClass->classDiagramForm->fileName = dlgFile.GetPathName();
 					lastClass->classDiagramForm->Save();
-
-					ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
-					//lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 				}
 			}
 			else if (messageBox == IDCANCEL) {
@@ -53,14 +46,7 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			object.Append("에 저장하시겠습니까?");
 			messageBox = lastClass->MessageBox(object, "ClassDiagram", MB_YESNOCANCEL);
 			if (messageBox == IDYES) {
-				ResizeVisitor resizeVisitor1(lastClass->classDiagramForm->zoomRate, 100);
-				CDC dc;
-				//lastClass->classDiagramForm->diagram->Accept(resizeVisitor1, &dc);
-
 				lastClass->classDiagramForm->Save();
-
-				ResizeVisitor resizeVisitor2(100, lastClass->classDiagramForm->zoomRate);
-				//lastClass->classDiagramForm->diagram->Accept(resizeVisitor2, &dc);
 			}
 			else if (messageBox == IDCANCEL) {
 				int_ptr = IDCANCEL;
@@ -93,17 +79,11 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			lastClass->classDiagramForm->keyBoard = new KeyBoard;
 			lastClass->classDiagramForm->fileName = dlgFile.GetPathName();
 			lastClass->classDiagramForm->Load();
-
-			//lastClass->classDiagramForm->zoomRate = 100;
 			lastClass->classDiagramForm->preZoom = 100;
 			lastClass->classDiagramForm->SetMemoGab(20 * lastClass->classDiagramForm->zoomRate / 100);
 			lastClass->classDiagramForm->SetGabX(8 * lastClass->classDiagramForm->zoomRate / 100);
 			lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
 			lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
-
-			ResizeVisitor visitor(lastClass->classDiagramForm->preZoom, lastClass->classDiagramForm->zoomRate);
-			CDC dc;
-			//lastClass->classDiagramForm->diagram->Accept(visitor, &dc);
 
 			KnockKnock *knocking = new KnockKnock;
 			knocking->Knocking(lastClass->classDiagramForm);
@@ -121,8 +101,6 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			vScinfo.nPage = rect.Height();
 			hScinfo.nPage = rect.Width();
 
-			//vScinfo.nMax = 2000 * lastClass->classDiagramForm->zoomRate / 100;
-			//hScinfo.nMax = 4000 * lastClass->classDiagramForm->zoomRate / 100;
 
 			
 			lastClass->classDiagramForm->SetScrollInfo(SB_VERT, &vScinfo);

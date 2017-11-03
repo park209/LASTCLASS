@@ -392,8 +392,10 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		else if (this->classDiagramForm->capsLockFlag == 1) {
 			this->classDiagramForm->capsLockFlag = 0;
 		}
-		this->classDiagramForm->lastClass->statusBar->DestroyStatus();
-		this->classDiagramForm->lastClass->statusBar->MakeStatusBar(this->classDiagramForm->lastClass, this->classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
+		if (nChar == VK_NUMLOCK || nChar == VK_CAPITAL) {
+			this->classDiagramForm->lastClass->statusBar->DestroyStatus();
+			this->classDiagramForm->lastClass->statusBar->MakeStatusBar(this->classDiagramForm->lastClass, this->classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
+		}
 	}
 
 	if (nChar != VK_ESCAPE && nChar != VK_F1 && nChar != 0x46 && nChar != 0x50 && nChar != 0x4F && nChar != 0x4E && nChar != 0x53) {

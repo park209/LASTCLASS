@@ -178,10 +178,6 @@ Long ClassDiagramForm::Load() {
 		hScinfo.nMin = 0;
 		hScinfo.nMax = maxHScroll;
 		hScinfo.nPos = horzCurPos;
-		//this->SetScrollRange(SB_VERT, 0, maxVScroll);
-		//this->SetScrollPos(SB_VERT, vertCurPos);
-		//this->SetScrollRange(SB_HORZ, 0, maxHScroll);
-		//this->SetScrollPos(SB_HORZ, horzCurPos);
 		this->SetScrollInfo(SB_VERT, &vScinfo);
 		this->SetScrollInfo(SB_HORZ, &hScinfo);
 		getline(fTest, temp1);
