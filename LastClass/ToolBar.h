@@ -19,9 +19,9 @@ public:
 	void ChangeToolBarSize(RECT *rect);
 	void ChangeAnotherToolBarSize(RECT *rect);
 	void DestroyToolBar();
-private:
 	HWND hTool1;
 	HWND hTool2;
+private:
 };
 
 #endif // _ToolBar_H

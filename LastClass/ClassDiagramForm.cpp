@@ -80,6 +80,7 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CWnd)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 	ON_WM_CLOSE()
+	ON_WM_GETMINMAXINFO()
 	ON_COMMAND_RANGE(100, 140, OnMyMenu)
 	ON_WM_SIZE()
 	ON_WM_RBUTTONDOWN()
@@ -1259,7 +1260,9 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 
-	this->mouseLButton->MouseLButtonUp(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
+	if (startX != 0 && startY != 0 && currentX != 0 && currentY != 0) {
+		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
+	}
 
 	this->startX_ = this->startX;
 	this->startY_ = this->startY;
@@ -1290,6 +1293,11 @@ void ClassDiagramForm::OnMyMenu(UINT parm_control_id) {
 	else if (this->selection->GetLength() == 1) {
 		this->mouseLButton->ChangeSelectionState();
 	}
+}
+void ClassDiagramForm::OnGetMinMaxInfo(MINMAXINFO FAR *lpMMI) {
+	lpMMI->ptMinTrackSize.x = 300;
+	lpMMI->ptMinTrackSize.y = 300;
+	CWnd::OnGetMinMaxInfo(lpMMI);
 }
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);

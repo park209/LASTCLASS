@@ -61,6 +61,7 @@ public:
 	Long Save();
 	CString fileName;
 public:
+
 	Long GetStartX() const;
 	Long GetStartY() const;
 	Long GetCurrentX() const;
@@ -95,6 +96,7 @@ protected:
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar); 
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 	afx_msg void OnNcMouseMove(UINT nHitTest, CPoint point);
+	afx_msg void OnGetMinMaxInfo(MINMAXINFO FAR *lpMMI);
 	DECLARE_MESSAGE_MAP()
 };
 Long inline ClassDiagramForm::GetStartX() const {
@@ -145,5 +147,4 @@ void inline ClassDiagramForm::SetCaretWidth(Long caretWidth) const {
 CString inline ClassDiagramForm::GetFileName()const {
 	return this->fileName;
 }
-
 #endif // _CLASSDIAGRAM_H

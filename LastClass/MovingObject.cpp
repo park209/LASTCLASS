@@ -188,8 +188,9 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm
 
 		selection->Accept(diagram, movingVisitor, distanceX, distanceY);
 
-		if (selection->GetAt(0)->GetX() < 0 || selection->GetAt(0)->GetX() + selection->GetAt(0)->GetWidth() > 4000
-			|| selection->GetAt(0)->GetY() < 0 || selection->GetAt(0)->GetY() + selection->GetAt(0)->GetHeight() > 2000) {
+		int vertCurPos = classDiagramForm->GetScrollPos(SB_VERT);
+		int horzCurPos = classDiagramForm->GetScrollPos(SB_HORZ);
+		if (selection->GetAt(0)->GetX() < -horzCurPos || selection->GetAt(0)->GetY() < -vertCurPos) {
 			selection->Accept(diagram, movingVisitor, -distanceX, -distanceY);
 		}
 	}

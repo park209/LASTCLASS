@@ -33,6 +33,7 @@ protected:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnMyMenu(UINT parm_control_id);
 	afx_msg void OnMyToolBar(UINT parm_control_id);
+	afx_msg void OnGetMinMaxInfo(MINMAXINFO FAR *lpMMI);
 	DECLARE_MESSAGE_MAP()
 };
 
