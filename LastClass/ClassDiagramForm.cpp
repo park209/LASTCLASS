@@ -1298,10 +1298,10 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	int vPos = this->GetScrollPos(SB_VERT);
 	this->startX = point.x + hPos;
 	this->startY = point.y + vPos;
-	this->currentX = point.x + hPos;
-	this->currentY = point.y + vPos;
+	this->currentX = point.x ;
+	this->currentY = point.y;
 
-	Figure* figure = this->diagram->FindItem(startX, startY, this);
+	Figure* figure = this->diagram->FindItem(startX - hPos, startY- vPos, this);
 	if (figure != NULL && this->selection->GetLength() != 0 && !dynamic_cast<Relation*>(this->selection->GetAt(0)) && !dynamic_cast<SelfRelation*>(figure)) {
 
 		this->textEdit = new TextEdit(this, figure);
