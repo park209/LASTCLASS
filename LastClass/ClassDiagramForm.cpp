@@ -1113,20 +1113,20 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	int horzPos = GetScrollPos(SB_HORZ);
 	int vertCurPos;
 	int horzCurPos;
-	if (GetKeyState(VK_SHIFT) < 0) {
-		if (zDelta <= 0) { //마우스 휠 다운
-			horzCurPos = horzPos + nWheelScrollLines * 30;
-			OnHScrollPageRight onHScrollPageRight;
-			onHScrollPageRight.Scrolling(this);
-		}
-		else {  //마우스 휠 업
-			horzCurPos = horzPos - nWheelScrollLines * 30;
-			OnHScrollPageLeft onHScrollPageLeft;
-			onHScrollPageLeft.Scrolling(this);
-		}
-		ret = true;
-	}
-	else if (GetKeyState(VK_CONTROL) >= 0 && GetKeyState(VK_MENU) >= 0) {
+	//if (GetKeyState(VK_SHIFT) < 0) {
+	//   if (zDelta <= 0) { //마우스 휠 다운
+	//      horzCurPos = horzPos + nWheelScrollLines * 30;
+	//      OnHScrollPageRight onHScrollPageRight;
+	//      onHScrollPageRight.Scrolling(this);
+	//   }
+	//   else {  //마우스 휠 업
+	//      horzCurPos = horzPos - nWheelScrollLines * 30;
+	//      OnHScrollPageLeft onHScrollPageLeft;
+	//      onHScrollPageLeft.Scrolling(this);
+	//   }
+	//   ret = true;
+	//}
+	if (GetKeyState(VK_CONTROL) >= 0 && GetKeyState(VK_MENU) >= 0) {
 		if (zDelta <= 0) { //마우스 휠 다운
 			vertCurPos = vertPos + nWheelScrollLines * 30;
 			OnVScrollPageDown onVScrollPageDown;
