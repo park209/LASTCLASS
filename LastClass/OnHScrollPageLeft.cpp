@@ -23,19 +23,14 @@ void OnHScrollPageLeft::Scrolling(ClassDiagramForm *classDiagramForm) {
 
 	// Get the current position of scroll box.
 	int curpos = classDiagramForm->GetScrollPos(SB_HORZ);
-
-	// Get the page size. 
-	SCROLLINFO   info;
-	classDiagramForm->GetScrollInfo(SB_HORZ, &info, SIF_ALL);
-	info.nPage = 50;
-
-	if (curpos > minpos) {
-		curpos = max(minpos, curpos - (int)info.nPage);
+	int newpos = curpos - 50;
+	if (newpos < minpos) {
+		newpos = minpos;
 	}
 
-	classDiagramForm->SetScrollPos(SB_HORZ, curpos);
+	classDiagramForm->SetScrollPos(SB_HORZ, newpos);
 	ScrollMovingObject moving;
-	moving.MovingObject(classDiagramForm->diagram, 50);
+	moving.MovingObject(classDiagramForm->diagram, curpos - newpos, 0);
 
 	bool ret;
 	SCROLLINFO hScinfo;
@@ -44,8 +39,8 @@ void OnHScrollPageLeft::Scrolling(ClassDiagramForm *classDiagramForm) {
 	int hMax = 4000 * classDiagramForm->zoomRate / 100;
 	ret = moving.FindHorizontal(classDiagramForm->diagram, hScinfo.nPage);
 	if (ret == false) {
-		//SCROLLINFO hScinfo;
-		//classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
+		SCROLLINFO hScinfo;
+		classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
 		hScinfo.nMax -= 50;
 		if (hScinfo.nMax < hMax) {
 			hScinfo.nMax = hMax;
