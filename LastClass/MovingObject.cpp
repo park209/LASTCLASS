@@ -28,7 +28,8 @@ void MovingObject::MouseLButtonUp(MouseLButton *mouseLButton, ClassDiagramForm *
 	CPoint cPoint4;
 	CPoint cPoint5;
 
-	if (dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
+	//if (dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
+	if(selection->GetLength() > 0){
 		MovingVisitor movingVisitor;
 		FigureComposite *figures = static_cast<FigureComposite*>(selection->GetAt(0));
 		Finder finder;
@@ -107,7 +108,8 @@ void MovingObject::MouseLButtonDrag(MouseLButton *mouseLButton, ClassDiagramForm
 	CPoint cPoint4;
 	CPoint cPoint5;
 
-	if (dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
+	//if (dynamic_cast<FigureComposite*>(selection->GetAt(0))) {
+	if (selection->GetLength() > 0) {
 		MovingVisitor movingVisitor;
 		FigureComposite *figures = static_cast<FigureComposite*>(selection->GetAt(0));
 		Finder finder;

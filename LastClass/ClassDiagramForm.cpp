@@ -1112,20 +1112,6 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 	int vertPos = GetScrollPos(SB_VERT);
 	int horzPos = GetScrollPos(SB_HORZ);
 	int vertCurPos;
-	int horzCurPos;
-	//if (GetKeyState(VK_SHIFT) < 0) {
-	//   if (zDelta <= 0) { //마우스 휠 다운
-	//      horzCurPos = horzPos + nWheelScrollLines * 30;
-	//      OnHScrollPageRight onHScrollPageRight;
-	//      onHScrollPageRight.Scrolling(this);
-	//   }
-	//   else {  //마우스 휠 업
-	//      horzCurPos = horzPos - nWheelScrollLines * 30;
-	//      OnHScrollPageLeft onHScrollPageLeft;
-	//      onHScrollPageLeft.Scrolling(this);
-	//   }
-	//   ret = true;
-	//}
 	if (GetKeyState(VK_CONTROL) >= 0 && GetKeyState(VK_MENU) >= 0) {
 		if (zDelta <= 0) { //마우스 휠 다운
 			vertCurPos = vertPos + nWheelScrollLines * 30;
@@ -1312,8 +1298,8 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	int vPos = this->GetScrollPos(SB_VERT);
 	this->startX = point.x + hPos;
 	this->startY = point.y + vPos;
-	this->currentX = point.x;
-	this->currentY = point.y;
+	this->currentX = point.x + hPos;
+	this->currentY = point.y + vPos;
 
 	Figure* figure = this->diagram->FindItem(startX, startY, this);
 	if (figure != NULL && this->selection->GetLength() != 0 && !dynamic_cast<Relation*>(this->selection->GetAt(0)) && !dynamic_cast<SelfRelation*>(figure)) {
