@@ -411,11 +411,15 @@ void ToolBar::ButtonSelected(UINT parm_control_id, LastClass *lastClass, ClassDi
 
 void ToolBar::ChangeToolBarSize(RECT *rect) {
 	CWnd *cwnd = CWnd::FromHandle(this->hTool1);
-	cwnd->SetWindowPos(cwnd, 0, 0, rect->right - 1, 55, SWP_NOMOVE | SWP_NOZORDER);
+	if (cwnd != NULL) {
+		cwnd->SetWindowPos(cwnd, 0, 0, rect->right - 1, 55, SWP_NOMOVE | SWP_NOZORDER);
+	}
 }
 void ToolBar::ChangeAnotherToolBarSize(RECT *rect) {
 	CWnd *cwnd = CWnd::FromHandle(this->hTool2);
-	cwnd->SetWindowPos(cwnd, 0, 56, 60, rect->bottom - 78, SWP_NOMOVE | SWP_NOZORDER);
+	if (cwnd != NULL) {
+		cwnd->SetWindowPos(cwnd, 0, 56, 60, rect->bottom - 85, SWP_NOMOVE | SWP_NOZORDER);
+	}
 }
 
 void ToolBar::DestroyToolBar() {

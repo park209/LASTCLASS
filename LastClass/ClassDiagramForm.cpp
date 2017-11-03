@@ -80,6 +80,7 @@ BEGIN_MESSAGE_MAP(ClassDiagramForm, CWnd)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 	ON_WM_CLOSE()
+	ON_WM_GETMINMAXINFO()
 	ON_COMMAND_RANGE(100, 140, OnMyMenu)
 	ON_WM_SIZE()
 	ON_WM_RBUTTONDOWN()
@@ -1290,6 +1291,11 @@ void ClassDiagramForm::OnMyMenu(UINT parm_control_id) {
 	else if (this->selection->GetLength() == 1) {
 		this->mouseLButton->ChangeSelectionState();
 	}
+}
+void ClassDiagramForm::OnGetMinMaxInfo(MINMAXINFO FAR *lpMMI) {
+	lpMMI->ptMinTrackSize.x = 300;
+	lpMMI->ptMinTrackSize.y = 300;
+	CWnd::OnGetMinMaxInfo(lpMMI);
 }
 void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	CPaintDC dc(this);
