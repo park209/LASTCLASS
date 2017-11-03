@@ -19,7 +19,6 @@ OpenMenuAction::OpenMenuAction() {
 OpenMenuAction::~OpenMenuAction() {
 }
 void OpenMenuAction::MenuPress(LastClass* lastClass) {
-
 	int messageBox = IDNO;
 	INT_PTR int_ptr = IDOK;
 	if (lastClass->classDiagramForm->historyGraphic->undoGraphicArray->GetLength() != 0
@@ -90,7 +89,7 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			if (knocking != NULL) {
 				delete knocking;
 			}
-			
+
 			SCROLLINFO vScinfo;
 			SCROLLINFO hScinfo;
 
@@ -102,7 +101,7 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			hScinfo.nPage = rect.Width();
 
 
-			
+
 			lastClass->classDiagramForm->SetScrollInfo(SB_VERT, &vScinfo);
 			lastClass->classDiagramForm->SetScrollInfo(SB_HORZ, &hScinfo);
 
@@ -111,4 +110,8 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			lastClass->statusBar->MakeStatusBar(lastClass, lastClass->GetSafeHwnd(), 0, 0, 5);
 		}
 	}
+	lastClass->classDiagramForm->ReSetStartX();
+	lastClass->classDiagramForm->ReSetStartY();
+	lastClass->classDiagramForm->ReSetCurrentX();
+	lastClass->classDiagramForm->ReSetCurrentY();
 }

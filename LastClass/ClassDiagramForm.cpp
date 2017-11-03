@@ -1260,7 +1260,9 @@ void ClassDiagramForm::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->currentX = point.x;
 	this->currentY = point.y;
 
-	this->mouseLButton->MouseLButtonUp(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
+	if (startX != 0 && startY != 0 && currentX != 0 && currentY != 0) {
+		this->mouseLButton->MouseLButtonUp(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY);
+	}
 
 	this->startX_ = this->startX;
 	this->startY_ = this->startY;
