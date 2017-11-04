@@ -22,7 +22,7 @@ void GraphicCtrlUndoKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) 
 		classDiagramForm->historyGraphic->PopUndoGraphic(&diagram_, &zoomRate_);
 
 
-		Diagram *tempDiagram = new Diagram(*(classDiagramForm->diagram));
+		/*Diagram *tempDiagram = new Diagram(*(classDiagramForm->diagram));
 
 		Long i = 0;
 		while (i < classDiagramForm->diagram->GetLength()) {
@@ -45,8 +45,9 @@ void GraphicCtrlUndoKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) 
 			}
 			i++;
 		}
+		classDiagramForm->historyGraphic->PushRedo(tempDiagram, zoomRate_);*/
 
-		classDiagramForm->historyGraphic->PushRedo(tempDiagram, zoomRate_);
+		classDiagramForm->historyGraphic->PushRedo(classDiagramForm->diagram, zoomRate_);
 
 
 		delete classDiagramForm->diagram;
