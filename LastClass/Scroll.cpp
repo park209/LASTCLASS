@@ -40,6 +40,7 @@ Scroll& Scroll::operator=(const Scroll& source) {
 }
 
 ScrollAction* Scroll::MoveVScroll(ClassDiagramForm *classDiagramForm, UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+	SCROLLINFO vScinfo;
 	switch (nSBCode) {
 	case SB_TOP:
 		this->scrollAction = new OnVScrollTop;
@@ -50,7 +51,7 @@ ScrollAction* Scroll::MoveVScroll(ClassDiagramForm *classDiagramForm, UINT nSBCo
 	case SB_ENDSCROLL:
 		this->scrollAction = new OnVScrollEnd;
 		break;
-	case SB_LINEUP: 
+	case SB_LINEUP:
 		this->scrollAction = new OnVScrollLineUp;
 		break;
 	case SB_LINEDOWN:
@@ -59,14 +60,16 @@ ScrollAction* Scroll::MoveVScroll(ClassDiagramForm *classDiagramForm, UINT nSBCo
 	case SB_PAGEUP:
 		this->scrollAction = new OnVScrollPageUp;
 		break;
-	case SB_PAGEDOWN: 
+	case SB_PAGEDOWN:
 		this->scrollAction = new OnVScrollPageDown;
 		break;
 	case SB_THUMBPOSITION:
-		classDiagramForm->SetScrollPos(SB_VERT, nPos);
+		classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
+		classDiagramForm->SetScrollPos(SB_VERT, vScinfo.nTrackPos);
 		break;
 	case SB_THUMBTRACK:
-		classDiagramForm->SetScrollPos(SB_VERT, nPos);
+		classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
+		classDiagramForm->SetScrollPos(SB_VERT, vScinfo.nTrackPos);
 		break;
 	default:
 		break;
@@ -75,6 +78,7 @@ ScrollAction* Scroll::MoveVScroll(ClassDiagramForm *classDiagramForm, UINT nSBCo
 }
 
 ScrollAction* Scroll::MoveHScroll(ClassDiagramForm *classDiagramForm, UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+	SCROLLINFO vScinfo;
 	switch (nSBCode) {
 	case SB_LEFT:      // Scroll to far left.
 		this->scrollAction = new OnHScrollLeft;
@@ -98,10 +102,12 @@ ScrollAction* Scroll::MoveHScroll(ClassDiagramForm *classDiagramForm, UINT nSBCo
 		this->scrollAction = new OnHScrollPageRight;
 		break;
 	case SB_THUMBPOSITION: // Scroll to absolute position. nPos is the position
-		classDiagramForm->SetScrollPos(SB_HORZ, nPos);
+		classDiagramForm->GetScrollInfo(SB_HORZ, &vScinfo);
+		classDiagramForm->SetScrollPos(SB_HORZ, vScinfo.nTrackPos);
 		break;
 	case SB_THUMBTRACK:  // Drag scroll box to specified position. nPos is the
-		classDiagramForm->SetScrollPos(SB_HORZ, nPos);
+		classDiagramForm->GetScrollInfo(SB_HORZ, &vScinfo);
+		classDiagramForm->SetScrollPos(SB_HORZ, vScinfo.nTrackPos);
 		break;
 	default:
 		break;

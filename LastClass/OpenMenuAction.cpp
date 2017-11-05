@@ -72,7 +72,7 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 				delete lastClass->classDiagramForm->historyGraphic;
 			}
 			lastClass->classDiagramForm->diagram = new Diagram();
-			lastClass->classDiagramForm->selection = new Selection;
+			lastClass->classDiagramForm->selection = new Selection();
 			lastClass->classDiagramForm->mouseLButton = new MouseLButton;
 			lastClass->classDiagramForm->historyGraphic = new HistoryGraphic;
 			lastClass->classDiagramForm->keyBoard = new KeyBoard;

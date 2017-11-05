@@ -33,7 +33,7 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 		lastClass->classDiagramForm->GetScrollInfo(SB_VERT, &vScinfo);
 		lastClass->classDiagramForm->GetScrollInfo(SB_HORZ, &hScinfo);
 
-		
+
 		Long zoomRate = lastClass->classDiagramForm->zoomRate;
 		ResizeVisitor visitor1(lastClass->classDiagramForm->zoomRate, 100);
 		lastClass->classDiagramForm->zoomRate = 100;
@@ -48,7 +48,6 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 		knocking->Knocking(lastClass->classDiagramForm);
 
 		scrollMovingObject.MovingObject(lastClass->classDiagramForm->diagram, hScinfo.nPos, vScinfo.nPos);
-		Finder finder;
 		bool ret = false;
 		Long xLimit = scrollMovingObject.GetHorizontalMax(lastClass->classDiagramForm->diagram);
 		Long yLimit = scrollMovingObject.GetVerticalMax(lastClass->classDiagramForm->diagram);
@@ -91,8 +90,8 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 		while (i <= count) {
 
 			for (UINT page = Info.GetMinPage(); page <= Info.GetMaxPage() && bPrintingOK; page++) {
-				
-				scrollMovingObject.MovingObject(lastClass->classDiagramForm->diagram,-currentX, -currentY);
+
+				scrollMovingObject.MovingObject(lastClass->classDiagramForm->diagram, -currentX, -currentY);
 				dc.StartPage();
 				Info.m_nCurPage = page;
 				//printPreview.OnPrint(&dc, &Info, page);
@@ -130,7 +129,7 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 				CBitmap bitmapOne;
 				CDC memDCOne;
 				memDCOne.CreateCompatibleDC(&pdc);
-				bitmapOne.CreateCompatibleBitmap(&pdc, 2000,2000);
+				bitmapOne.CreateCompatibleBitmap(&pdc, 2000, 2000);
 				pOldBitmapOne = memDCOne.SelectObject(&bitmapOne);
 				memDCOne.FillSolidRect(CRect(0, 0, 2000, 2000), RGB(255, 255, 255));
 				memDCOne.BitBlt(0, 0, 2000, 2000, &memDC, 0, 0, SRCCOPY);
@@ -148,6 +147,14 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 
 				bPrintingOK = (dc.EndPage() > 0);
 
+				memDC.SelectObject(oldFont);
+				cFont.DeleteObject();
+				memDC.SelectObject(pOldBitmap);
+				bitmap.DeleteObject();
+				memDC.DeleteDC();
+				memDCOne.SelectObject(pOldBitmap);
+				bitmapOne.DeleteObject();
+				memDCOne.DeleteDC();
 				scrollMovingObject.MovingObject(lastClass->classDiagramForm->diagram, currentX, currentY);
 				currentY += 2000;
 				if (currentY >= yPage * 2000) {
@@ -174,6 +181,7 @@ void FilePrintMenuAction::MenuPress(LastClass* lastClass) {
 		if (knocking != NULL) {
 			delete knocking;
 		}
+
 		scrollMovingObject.MovingObject(lastClass->classDiagramForm->diagram, -hScinfo.nPos, -vScinfo.nPos);
 
 	}
