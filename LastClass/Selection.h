@@ -9,7 +9,7 @@ typedef signed long  int Long;
 class Diagram;
 class Selection : public  FigureComposite{
 public: 
-	Selection(Long capacity = 1026);
+	Selection(Long capacity = 50000);
 	Selection(const Selection& source);
 	virtual ~Selection();
 	Selection& operator = (const Selection& source);

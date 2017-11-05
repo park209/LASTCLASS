@@ -10,7 +10,7 @@
 class ClassDiagramForm;
 class Diagram : public FigureComposite {
 public:
-	Diagram(Long capacity = 256);
+	Diagram(Long capacity = 50000);
 	Diagram(const Diagram& source);
 	virtual ~Diagram();
 

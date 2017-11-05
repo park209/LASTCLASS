@@ -12,7 +12,7 @@
 #include "Template.h"
 #include "Selection.h"
 
-Diagram::Diagram(Long capacity) {
+Diagram::Diagram(Long capacity):FigureComposite(capacity) {
 	this->capacity = capacity;
 	this->length = 0;
 	this->x = 0;

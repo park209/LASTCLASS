@@ -7,6 +7,7 @@
 #include "Diagram.h"
 #include "Finder.h"
 #include "FigureComposite.h"
+#include "ScrollMovingObject.h"
 #include "Relation.h"
 
 PrintPreviewPrintButton::PrintPreviewPrintButton() {
@@ -28,49 +29,19 @@ void PrintPreviewPrintButton::ButtonPress(PrintPreview *printPreview) {
 
 	if (int_ptr == IDOK) {
 		bool ret = false;
-		CRect rect(0, 0, printPreview->horizontalPageSize, printPreview->verticalPageSize);
-		Long l = 0;
-		Long m;
-		Long n;
-		Long k = 1;
-		Finder finder;
-		Long length = printPreview->lastClass->classDiagramForm->diagram->GetLength();
-		printPreview->totalPage = 0;
-		while (printPreview->horizontalPaperSize > rect.left) {
-			rect.MoveToY(0);
-			while (printPreview->verticalPaperSize > rect.top) {
-				ret = false;
-				l = 0;
-				while (l < length && ret != true) { // 2페이지에 클래스나 메모박스가 있는지 확인.
-					FigureComposite *figureComposite = (FigureComposite*)printPreview->lastClass->classDiagramForm->diagram->GetAt(l);
-					CRect comperRect(figureComposite->GetX(), figureComposite->GetY(), figureComposite->GetX() + figureComposite->GetWidth(), figureComposite->GetY() + figureComposite->GetHeight());
-					ret = finder.FindRectangleByArea(comperRect, rect);
-					m = 0;
-					while (m < figureComposite->GetLength() && ret != true) {
-						Figure *figure = figureComposite->GetAt(m);
-						ret = finder.FindRectangleByPoint(rect, figure->GetX(), figure->GetY());
-						if (dynamic_cast<Relation*>(figure)) {
-							Relation *relation = static_cast<Relation*>(figure);
-							n = 0;
-							while (n < relation->GetLength() && ret != true) {
-								CPoint point1 = relation->GetAt(n);
-								ret = finder.FindRectangleByPoint(rect, point1.x, point1.y);
-								n++;
-							}
-						}
-						m++;
-					}
-					l++;
-
-				}
-				if (ret == true) {
-					printPreview->totalPage = k;
-				}
-				k++;
-				rect.MoveToY(rect.top + printPreview->verticalPageSize);
-			}
-			rect.MoveToX(rect.left + printPreview->horizontalPageSize);
+		ScrollMovingObject scrollMovingObject;
+		Long horizontalLimit = scrollMovingObject.GetHorizontalMax(printPreview->lastClass->classDiagramForm->diagram);
+		Long horizontalPage = horizontalLimit / (printPreview->horizontalPageSize);
+		if (horizontalLimit % (printPreview->horizontalPageSize) != 0) {
+			horizontalPage++;
 		}
+		Long verticalLimit = scrollMovingObject.GetVerticalMax(printPreview->lastClass->classDiagramForm->diagram);
+		Long verticalPage = verticalLimit / (printPreview->verticalPageSize);
+		if (verticalLimit % (printPreview->verticalPageSize) != 0) {
+			verticalPage++;
+		}
+		Long totalPage = horizontalPage*verticalPage;
+
 		CDC dc;
 		int count = printDialog.GetCopies();
 		Long i = 1;
@@ -90,7 +61,7 @@ void PrintPreviewPrintButton::ButtonPress(PrintPreview *printPreview) {
 		CPrintInfo Info;
 
 		Info.m_rectDraw.SetRect(0, 0, dc.GetDeviceCaps(HORZRES), dc.GetDeviceCaps(VERTRES));
-		Info.SetMaxPage(printPreview->totalPage);
+		Info.SetMaxPage(totalPage);
 		printPreview->OnBeginPrinting(&dc, &Info);
 		i = 1;
 		while (i <= count) {

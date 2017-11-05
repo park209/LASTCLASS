@@ -747,7 +747,7 @@ int ClassDiagramForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	CWnd::SetFocus();                        //1.1. 다이어그램을 준비한다
 
 	this->diagram = new Diagram();
-	this->selection = new Selection;
+	this->selection = new Selection();
 	this->mouseLButton = new MouseLButton;
 	this->historyGraphic = new HistoryGraphic;
 	this->keyBoard = new KeyBoard;

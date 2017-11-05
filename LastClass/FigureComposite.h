@@ -14,7 +14,7 @@ class Diagram;
 class FigureComposite : public Figure {
 public:
 
-	FigureComposite(Long capcity = 256);
+	FigureComposite(Long capcity = 50000);
 	FigureComposite(const FigureComposite& source);
 	ArrayIterator<Figure*>* CreateIterator() const;
 	FigureComposite& operator = (const FigureComposite& source);
