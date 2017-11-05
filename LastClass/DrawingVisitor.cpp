@@ -49,7 +49,6 @@ void DrawingVisitor::Visit(Text* text, CDC* pDC) {
 	Long textWidth = text->MaxWidth(pDC);// -50;
 
 	RECT rt = { 0 , 0, textWidth, text->GetLength() * fontHeight };
-	//cPaintDc->DrawTextEx((CString)text->MakeText().c_str(), &rt, DT_CALCRECT, NULL);
 	pDC->DrawText((CString)text->MakeText().c_str(), &rt, DT_EXPANDTABS);
 }
 void DrawingVisitor::Visit(Diagram *diagram, Selection *selection, Long distanceX, Long distanceY) {
