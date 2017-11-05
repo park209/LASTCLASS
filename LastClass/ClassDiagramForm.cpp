@@ -821,7 +821,7 @@ void ClassDiagramForm::OnPaint() {
 		CFont *oldFont = memDC.SelectObject(&cFont);
 	}
 	else {
-		cFont.CreateFont(ih, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+		cFont.CreateFont(ih - 1, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		SetFont(&cFont, TRUE);
 		CFont *oldFont = memDC.SelectObject(&cFont);

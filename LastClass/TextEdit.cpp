@@ -134,9 +134,9 @@ void TextEdit::OnPaint() {
 			this->rowHeight = ih - 1;
 		}
 		else {
-			cFont.CreateFont(ih, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+			cFont.CreateFont(ih - 1, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
 				OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
-			this->rowHeight = ih;
+			this->rowHeight = ih - 1;
 		}
 
 		SetFont(&cFont, TRUE);
@@ -293,7 +293,7 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 				OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 		}
 		else {
-			cFont.CreateFont(ih, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+			cFont.CreateFont(ih - 1, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 				OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 		}
 		SetFont(&cFont, TRUE);
@@ -369,7 +369,7 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 					OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 			}
 			else {
-				cFont.CreateFont(ih, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+				cFont.CreateFont(ih - 1, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
 					OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 			}
 			SetFont(&cFont, TRUE);
