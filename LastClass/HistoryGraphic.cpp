@@ -106,10 +106,10 @@ void HistoryGraphic::PushRedo(Diagram *diagram, Long zoomRate){
 					k++;
 				}
 				if (k < diagram->GetLength()) {
-					Diagram *diarams = this->redoGraphicArray->GetAt(0);
-					FigureComposite *tempFigureComposite = static_cast<FigureComposite*>(diarams->GetAt(i));//->GetAt(j);
+					Diagram *diagrams = this->redoGraphicArray->GetAt(0);
+					FigureComposite *tempFigureComposite = static_cast<FigureComposite*>(diagrams->GetAt(i));
 					Figure *temp = tempFigureComposite->GetAt(j);
-					temp->SetEndPointFigure(this->redoGraphicArray->GetAt(0)->GetAt(k));
+					temp->SetEndPointFigure(diagrams->GetAt(k));
 				}
 			}
 			j++;

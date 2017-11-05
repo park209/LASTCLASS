@@ -22,12 +22,13 @@ void GraphicCtrlRedoKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) 
 		Long zoomRate_;
 		classDiagramForm->historyGraphic->PopRedoGraphic(&diagram_, &zoomRate_);
 
-		Diagram *tempDiagram = new Diagram(*(classDiagramForm->diagram));
-		classDiagramForm->historyGraphic->PushUndo(tempDiagram, zoomRate_);
+		//Diagram *tempDiagram = new Diagram(*(classDiagramForm->diagram));
+		//classDiagramForm->historyGraphic->PushUndo(tempDiagram, zoomRate_);//이부분이 문제 새로 할당해서 관계선이 끊어진상태인데 넘겨줌
+		classDiagramForm->historyGraphic->PushUndo(classDiagramForm->diagram, zoomRate_);
 
 		delete classDiagramForm->diagram;
 		classDiagramForm->diagram = diagram_;
-		Long i = 0;
+		/*Long i = 0;
 		while (i < diagram_->GetLength()) {
 			FigureComposite *figureComposite = static_cast<FigureComposite*>(diagram_->GetAt(i));
 			Long j = 0;
@@ -47,7 +48,7 @@ void GraphicCtrlRedoKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) 
 				j++;
 			}
 			i++;
-		}
+		}*/
 		classDiagramForm->zoomRate = zoomRate_;
 		classDiagramForm->lastClass->statusBar->DestroyStatus();
 		classDiagramForm->lastClass->statusBar->MakeStatusBar(classDiagramForm->lastClass, classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
