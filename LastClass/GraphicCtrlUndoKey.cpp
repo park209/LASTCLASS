@@ -21,9 +21,9 @@ void GraphicCtrlUndoKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) 
 		Long zoomRate_;
 		classDiagramForm->historyGraphic->PopUndoGraphic(&diagram_, &zoomRate_);
 
-
 		Diagram *tempDiagram = new Diagram(*(classDiagramForm->diagram));
 
+		classDiagramForm->historyGraphic->PushUndo(tempDiagram,zoomRate_);
 		Long i = 0;
 		while (i < classDiagramForm->diagram->GetLength()) {
 			FigureComposite *figureComposite = static_cast<FigureComposite*>(classDiagramForm->diagram->GetAt(i));
@@ -36,9 +36,9 @@ void GraphicCtrlUndoKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) 
 						k++;
 					}
 					if (k < classDiagramForm->diagram->GetLength()) {
-						FigureComposite *tempFigureComposite = static_cast<FigureComposite* >(tempDiagram->GetAt(i));
+						FigureComposite *tempFigureComposite = static_cast<FigureComposite* >(classDiagramForm->diagram->GetAt(i));
 						Figure *temp = tempFigureComposite->GetAt(j);
-						temp->SetEndPointFigure(tempDiagram->GetAt(k));
+						temp->SetEndPointFigure(classDiagramForm->diagram->GetAt(k));
 					}
 				}
 				j++;
