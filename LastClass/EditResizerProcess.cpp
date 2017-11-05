@@ -33,7 +33,7 @@ EditResizerProcess::~EditResizerProcess() {
 void EditResizerProcess::ResizeEditAll(TextEdit *textEdit, CDC *cdc) {
 	textEdit->SetWindowPos(&textEdit->wndTopMost, 0, 0,
 		textEdit->text->MaxWidth(cdc) + CaretWidth,
-		textEdit->GetRowHeight()*textEdit->text->GetLength() + GabY * 4,
+		(textEdit->GetRowHeight() + 2) * textEdit->text->GetLength(),
 		SWP_NOMOVE | SWP_NOZORDER | SWP_NOREDRAW | SWP_NOCOPYBITS);
 }
 
