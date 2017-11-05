@@ -66,7 +66,7 @@
 using namespace std;
 
 Long MemoGab = 20;
-Long GabX = 8;
+Long GabX = 10;
 Long GabY = 2;
 Long CaretWidth = 2;
 
@@ -805,11 +805,22 @@ void ClassDiagramForm::OnPaint() {
 	pOldBitmap = memDC.SelectObject(&bitmap);
 	memDC.FillSolidRect(CRect(0, 0, rect.Width(), rect.Height()), RGB(255, 255, 255));
 	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
+
 	int ih = MulDiv(14 * this->zoomRate / 100, GetDeviceCaps(dc, LOGPIXELSY), 72);
-	cFont.CreateFont(ih, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
-	SetFont(&cFont, TRUE);
-	CFont *oldFont = memDC.SelectObject(&cFont);
+
+	if (this->zoomRate == 50) {
+		cFont.CreateFont(ih - 2, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
+		SetFont(&cFont, TRUE);
+		CFont *oldFont = memDC.SelectObject(&cFont);
+	}
+	else {
+		cFont.CreateFont(ih - 1, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
+		SetFont(&cFont, TRUE);
+		CFont *oldFont = memDC.SelectObject(&cFont);
+	}
+
 	DrawingVisitor drawingVisitor(this->zoomRate);
 	this->diagram->Accept(drawingVisitor, &memDC);
 	this->selection->Accept(drawingVisitor, &memDC); // selectionFlag 추가 확인
@@ -879,7 +890,7 @@ void ClassDiagramForm::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	}
 
 	CClientDC dc(this);
-	CFont cFont;//CreateFont에 값18을 textEdit의 rowHight로 바꿔야함
+	CFont cFont;//CreateFont에 값18을 textEdit의 rowHeight로 바꿔야함
 	cFont.CreateFont(14 * this->zoomRate / 100 * 120 / 72, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, ANSI_CHARSET,// 글꼴 설정
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 	SetFont(&cFont, TRUE);
@@ -1133,8 +1144,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		this->preZoom = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
 			this->zoomRate -= 10;
-			if (this->zoomRate < 60) {
-				this->zoomRate = 60;
+			if (this->zoomRate < 50) {
+				this->zoomRate = 50;
 			}
 		}
 		else {  //마우스 휠 업
@@ -1144,9 +1155,9 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 			}
 		}
 		this->SetMemoGab(20 * this->zoomRate / 100);
-		this->SetGabX(8 * this->zoomRate / 100);
-		this->SetGabY(2 * this->zoomRate / 100);
-		this->SetCaretWidth(2 * this->zoomRate / 100);
+		this->SetGabX(10 * this->zoomRate / 100);
+		this->SetGabY(2);
+		this->SetCaretWidth(2);
 
 		this->thirty = this->thirty*this->zoomRate / this->preZoom;
 		this->seventeen = this->seventeen*this->zoomRate / this->preZoom;
@@ -1179,8 +1190,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		   this->copyBuffer->Accept(resizeVisitor, &memDC);
 		}
 
-		KnockKnock knocking;
-		knocking.Knocking(this);
+		//KnockKnock knocking;
+		//knocking.Knocking(this);
 
 		moving.MovingObject(this->diagram, -hScinfo.nPos, -vScinfo.nPos);
 		if ((zoomRate_ != 10 || this->zoomRate != 10) && (zoomRate_ != 200 || this->zoomRate != 200)) {
