@@ -99,31 +99,32 @@ void GraphicCtrlCopyKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) 
 		bitmap.CreateCompatibleBitmap(&memDC, rect.Width() + ((objectTemplate->GetX() + objectTemplate->GetWidth())
 			- (objectClass->GetX() + objectClass->GetWidth())), rect.Height() + (objectClass->GetY() - objectTemplate->GetY()));
 		OldBitmap = (CBitmap*)memDC.SelectObject(&bitmap);
-		memDC.FillSolidRect(CRect(0, 0, rect.right, rect.bottom), RGB(255, 255, 255));
+		memDC.FillSolidRect(CRect(0, 0, rect.Width() + ((objectTemplate->GetX() + objectTemplate->GetWidth())
+			- (objectClass->GetX() + objectClass->GetWidth())), rect.Height() + (objectClass->GetY() - objectTemplate->GetY())), RGB(255, 255, 255));
 	}
 	else if (isLeft == 1 && isRight == 1) {//선택된게 여러개고 왼오다 템플릿이 있을때 //비트맵의 너비 길이 다 늘려줌
 		bitmap.CreateCompatibleBitmap(&memDC, rect.Width() + ((objectTemplate2->GetX() + objectTemplate2->GetWidth())
 			- (objectClass2->GetX() + objectClass2->GetWidth())), rect.Height() + (objectClass->GetY() - objectTemplate->GetY()));
 		OldBitmap = (CBitmap*)memDC.SelectObject(&bitmap);
-		memDC.FillSolidRect(CRect(0, 0, rect.right + ((objectTemplate2->GetX() + objectTemplate2->GetWidth())
-			- (objectClass2->GetX() + objectClass2->GetWidth())), rect.bottom + (objectClass->GetY() - objectTemplate->GetY())), RGB(255, 255, 255));
+		memDC.FillSolidRect(CRect(0, 0, rect.Width() + ((objectTemplate2->GetX() + objectTemplate2->GetWidth())
+			- (objectClass2->GetX() + objectClass2->GetWidth())), rect.Height() + (objectClass->GetY() - objectTemplate->GetY())), RGB(255, 255, 255));
 	}
 	else if (isLeft == 1) {//왼쪽 선택된것에 템플릿이 있을 때 //비트맵의 길이만 늘려줌//objectClass
 		bitmap.CreateCompatibleBitmap(&memDC, rect.Width(), rect.Height() + (objectClass->GetY() - objectTemplate->GetY()));
 		OldBitmap = (CBitmap*)memDC.SelectObject(&bitmap);
-		memDC.FillSolidRect(CRect(0, 0, rect.right, rect.bottom + (objectClass->GetY() - objectTemplate->GetY())), RGB(255, 255, 255));
+		memDC.FillSolidRect(CRect(0, 0, rect.Width(), rect.Height() + (objectClass->GetY() - objectTemplate->GetY())), RGB(255, 255, 255));
 	}
 	else if (isRight == 1) {//오른쪽 선택된 것에 템플릿이 있을 때 //비트맵의 너비만 늘려줌//objectClass2
 		bitmap.CreateCompatibleBitmap(&memDC, rect.Width() + ((objectTemplate2->GetX() + objectTemplate2->GetWidth())
 			- (objectClass2->GetX() + objectClass2->GetWidth())), rect.Height());
 		OldBitmap = (CBitmap*)memDC.SelectObject(&bitmap);
-		memDC.FillSolidRect(CRect(0, 0, rect.right + ((objectTemplate2->GetX() + objectTemplate2->GetWidth())
-			- (objectClass2->GetX() + objectClass2->GetWidth())), rect.bottom), RGB(255, 255, 255));
+		memDC.FillSolidRect(CRect(0, 0, rect.Width() + ((objectTemplate2->GetX() + objectTemplate2->GetWidth())
+			- (objectClass2->GetX() + objectClass2->GetWidth())), rect.Height()), RGB(255, 255, 255));
 	}
-	else {//선택된 게 하나이고 펨플릿이 없거나 선택된 게 여러개가 맨왼뽁이나 오른쪽에 템플릿 없을때 //비트맵 늘려주지X//objectClassX
+	else {//선택된 게 하나이고 템플릿이 없거나 선택된 게 여러개가 맨왼쪽이나 오른쪽에 템플릿 없을때 //비트맵 늘려주지X//objectClassX
 		bitmap.CreateCompatibleBitmap(&memDC, rect.Width(), rect.Height());
 		OldBitmap = (CBitmap*)memDC.SelectObject(&bitmap);
-		memDC.FillSolidRect(CRect(0, 0, rect.right, rect.bottom), RGB(255, 255, 255));
+		memDC.FillSolidRect(CRect(0, 0, rect.Width(), rect.Height()), RGB(255, 255, 255));
 	}
 	MovingVisitor movingVisitor;
 
@@ -158,7 +159,6 @@ void GraphicCtrlCopyKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc) 
 		classDiagramForm->selection->Accept(classDiagramForm->diagram, movingVisitor, rect.left, rect.top);
 	}
 }
-
 
 
 void GraphicCtrlCopyKey::KeyPress(TextEdit *textEdit) {
