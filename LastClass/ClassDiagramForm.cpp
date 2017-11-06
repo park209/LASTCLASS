@@ -830,6 +830,9 @@ void ClassDiagramForm::OnPaint() {
 		if (hScinfo.nMax < 4000 * this->zoomRate / 100) {
 			hScinfo.nMax = 4000 * this->zoomRate / 100;
 		}
+		if (hScinfo.nMax < hScinfo.nPage) {
+			hScinfo.nMax = hScinfo.nPage;
+		}
 		this->SetScrollInfo(SB_HORZ, &hScinfo);
 	}
 
@@ -845,6 +848,9 @@ void ClassDiagramForm::OnPaint() {
 		vScinfo.nMax = vScinfo.nPos + vScinfo.nPage;
 		if (vScinfo.nMax < 2000 * this->zoomRate / 100) {
 			vScinfo.nMax = 2000 * this->zoomRate / 100;
+		}
+		if (vScinfo.nMax < vScinfo.nPage) {
+			vScinfo.nMax = vScinfo.nPage;
 		}
 		this->SetScrollInfo(SB_VERT, &vScinfo);
 	}
@@ -1133,8 +1139,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		this->preZoom = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
 			this->zoomRate -= 10;
-			if (this->zoomRate < 60) {
-				this->zoomRate = 60;
+			if (this->zoomRate < 10) {
+				this->zoomRate = 10;
 			}
 		}
 		else {  //마우스 휠 업
@@ -1144,9 +1150,9 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 			}
 		}
 		this->SetMemoGab(20 * this->zoomRate / 100);
-		this->SetGabX(8 * this->zoomRate / 100);
-		this->SetGabY(2 * this->zoomRate / 100);
-		this->SetCaretWidth(2 * this->zoomRate / 100);
+		this->SetGabX(10 * this->zoomRate / 100);
+		this->SetGabY(2);
+		this->SetCaretWidth(2);
 
 		this->thirty = this->thirty*this->zoomRate / this->preZoom;
 		this->seventeen = this->seventeen*this->zoomRate / this->preZoom;
@@ -1163,6 +1169,12 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		moving.MovingObject(this->diagram, hScinfo.nPos, vScinfo.nPos);
 		vScinfo.nMax = vScinfo.nMax * this->zoomRate / this->preZoom;
 		hScinfo.nMax = hScinfo.nMax * this->zoomRate / this->preZoom;
+		if (vScinfo.nMax < vScinfo.nPage) {
+			vScinfo.nMax = vScinfo.nPage;
+		}
+		if (hScinfo.nMax < hScinfo.nPage) {
+			hScinfo.nMax = hScinfo.nPage;
+		}
 		if (vScinfo.nPos > vScinfo.nMax - vScinfo.nPage) {
 			vScinfo.nPos = vScinfo.nMax - vScinfo.nPage;
 		}
@@ -1309,136 +1321,138 @@ void ClassDiagramForm::OnLButtonDblClk(UINT nFlags, CPoint point) {
 	this->currentX = point.x ;
 	this->currentY = point.y;
 
-	Figure* figure = this->diagram->FindItem(startX - hPos, startY- vPos, this);
-	if (figure != NULL && this->selection->GetLength() != 0 && !dynamic_cast<Relation*>(this->selection->GetAt(0)) && !dynamic_cast<SelfRelation*>(figure)) {
+	if (this->zoomRate >= 50) {
+		Figure* figure = this->diagram->FindItem(startX - hPos, startY - vPos, this);
+		if (figure != NULL && this->selection->GetLength() != 0 && !dynamic_cast<Relation*>(this->selection->GetAt(0)) && !dynamic_cast<SelfRelation*>(figure)) {
 
-		this->textEdit = new TextEdit(this, figure);
+			this->textEdit = new TextEdit(this, figure);
 
-		if (dynamic_cast<MemoBox*>(figure) || dynamic_cast<ClassName*>(figure)) {
-			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				figure->GetX() + GabX,
-				figure->GetY() + GabY + MemoGab,
-				figure->GetX() + figure->GetWidth() - GabX + CaretWidth,
-				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
-		}
-		else {
-			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				figure->GetX() + GabX,
-				figure->GetY() + GabY,
-				figure->GetX() + figure->GetWidth() - GabX + CaretWidth,
-				figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
-		}
-	}
-
-	//선택된 relationLine 이 있으면
-	Figure* rr = this->selection->GetAt(0);
-	if (this->selection->GetLength() == 1 && dynamic_cast<Relation*>(this->selection->GetAt(0))) {//&& !dynamic_cast<MemoLine*>(this->selection->GetAt(0))) {
-																								  // relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
-		Long i = 0;
-		Long index = 0;
-		Relation *relation = static_cast<Relation*>(this->selection->GetAt(0));
-		Long right;
-		Long left;
-		Long top;
-		Long bottom;
-		if (!dynamic_cast<Generalization*>(this->selection->GetAt(0)) && !dynamic_cast<Composition*>(this->selection->GetAt(0)) &&
-			!dynamic_cast<Compositions*>(this->selection->GetAt(0)) && !dynamic_cast<Dependency*>(this->selection->GetAt(0)) &&
-			!dynamic_cast<Realization*>(this->selection->GetAt(0))) {
-			while (i < 5 && index == 0) {
-				if (i == 0 || i == 2) {
-					right = relation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100;
-					left = relation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100;
-					top = relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
-					bottom = relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
-				}
-				else if (i == 1) {
-					right = relation->rollNamePoints->GetAt(i).x + 40 * this->zoomRate / 100;
-					left = relation->rollNamePoints->GetAt(i).x - 40 * this->zoomRate / 100;
-					top = relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
-					bottom = relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
-				}
-				else if (i == 3 || i == 4) {
-					right = relation->rollNamePoints->GetAt(i).x + 25 * this->zoomRate / 100;
-					left = relation->rollNamePoints->GetAt(i).x - 25 * this->zoomRate / 100;
-					top = relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
-					bottom = relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
-				}
-
-				if (startX - hPos< right && startX - hPos> left && startY- vPos > top && startY - vPos< bottom) {
-					index++;
-				}
-				i++;
+			if (dynamic_cast<MemoBox*>(figure) || dynamic_cast<ClassName*>(figure)) {
+				this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+					figure->GetX() + GabX,
+					figure->GetY() + GabY + MemoGab,
+					figure->GetX() + figure->GetWidth() - GabX + CaretWidth,
+					figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
+			}
+			else {
+				this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+					figure->GetX() + GabX,
+					figure->GetY() + GabY,
+					figure->GetX() + figure->GetWidth() - GabX + CaretWidth,
+					figure->GetY() + figure->GetHeight() - GabY), this, 10000, NULL);
 			}
 		}
-		if (index > 0) {
-			this->textEdit = new TextEdit(this, relation, i - 1);
-			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				left + 1,
-				top + 1,
-				right - 1,
-				bottom - 1), this, 10000, NULL);
-		}
-	}
-	if (this->selection->GetLength() == 1 && dynamic_cast<SelfRelation*>(this->selection->GetAt(0))) {
-		// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
-		Long i = 0;
-		Long index = 0;
-		SelfRelation *selfRelation = static_cast<SelfRelation*>(this->selection->GetAt(0));
-		Long right;
-		Long left;
-		Long top;
-		Long bottom;
-		if (!dynamic_cast<Generalization*>(this->selection->GetAt(0)) && !dynamic_cast<Composition*>(this->selection->GetAt(0)) &&
-			!dynamic_cast<Compositions*>(this->selection->GetAt(0)) && !dynamic_cast<Dependency*>(this->selection->GetAt(0)) &&
-			!dynamic_cast<Realization*>(this->selection->GetAt(0))) {
-			while (i < 5 && index == 0) {
-				if (i == 0) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 10 * this->zoomRate / 100;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
-				}
-				else if (i == 1) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 30 * this->zoomRate / 100;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 30 * this->zoomRate / 100;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
-				}
-				else if (i == 2) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 50 * this->zoomRate / 100;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
-				}
-				else if (i == 3) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 50 * this->zoomRate / 100;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
-				}
-				else if (i == 4) {
-					right = selfRelation->rollNamePoints->GetAt(i).x + 10 * this->zoomRate / 100;
-					left = selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100;
-					top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
-					bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
-				}
 
-				if (startX - hPos< right && startX - hPos> left && startY - vPos > top && startY - vPos< bottom) {
-					index++;
+		//선택된 relationLine 이 있으면
+		Figure* rr = this->selection->GetAt(0);
+		if (this->selection->GetLength() == 1 && dynamic_cast<Relation*>(this->selection->GetAt(0))) {//&& !dynamic_cast<MemoLine*>(this->selection->GetAt(0))) {
+																									  // relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
+			Long i = 0;
+			Long index = 0;
+			Relation *relation = static_cast<Relation*>(this->selection->GetAt(0));
+			Long right;
+			Long left;
+			Long top;
+			Long bottom;
+			if (!dynamic_cast<Generalization*>(this->selection->GetAt(0)) && !dynamic_cast<Composition*>(this->selection->GetAt(0)) &&
+				!dynamic_cast<Compositions*>(this->selection->GetAt(0)) && !dynamic_cast<Dependency*>(this->selection->GetAt(0)) &&
+				!dynamic_cast<Realization*>(this->selection->GetAt(0))) {
+				while (i < 5 && index == 0) {
+					if (i == 0 || i == 2) {
+						right = relation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100;
+						left = relation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100;
+						top = relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+						bottom = relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
+					}
+					else if (i == 1) {
+						right = relation->rollNamePoints->GetAt(i).x + 40 * this->zoomRate / 100;
+						left = relation->rollNamePoints->GetAt(i).x - 40 * this->zoomRate / 100;
+						top = relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+						bottom = relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
+					}
+					else if (i == 3 || i == 4) {
+						right = relation->rollNamePoints->GetAt(i).x + 25 * this->zoomRate / 100;
+						left = relation->rollNamePoints->GetAt(i).x - 25 * this->zoomRate / 100;
+						top = relation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+						bottom = relation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
+					}
+
+					if (startX - hPos< right && startX - hPos> left && startY - vPos > top && startY - vPos < bottom) {
+						index++;
+					}
+					i++;
 				}
-				i++;
+			}
+			if (index > 0) {
+				this->textEdit = new TextEdit(this, relation, i - 1);
+				this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+					left + 1,
+					top + 1,
+					right - 1,
+					bottom - 1), this, 10000, NULL);
 			}
 		}
-		// 확인해서 있으면 그 index 기억해두고 그 박스 사이즈로 textEdit 연다 (textEdit 생성자 따로 만들어야할듯)
+		if (this->selection->GetLength() == 1 && dynamic_cast<SelfRelation*>(this->selection->GetAt(0))) {
+			// relationLine 에서 rollNamePoints array 돌면서 points 에서 박스범위가 더블클린인지 확인한다
+			Long i = 0;
+			Long index = 0;
+			SelfRelation *selfRelation = static_cast<SelfRelation*>(this->selection->GetAt(0));
+			Long right;
+			Long left;
+			Long top;
+			Long bottom;
+			if (!dynamic_cast<Generalization*>(this->selection->GetAt(0)) && !dynamic_cast<Composition*>(this->selection->GetAt(0)) &&
+				!dynamic_cast<Compositions*>(this->selection->GetAt(0)) && !dynamic_cast<Dependency*>(this->selection->GetAt(0)) &&
+				!dynamic_cast<Realization*>(this->selection->GetAt(0))) {
+				while (i < 5 && index == 0) {
+					if (i == 0) {
+						right = selfRelation->rollNamePoints->GetAt(i).x + 20 * this->zoomRate / 100;
+						left = selfRelation->rollNamePoints->GetAt(i).x - 10 * this->zoomRate / 100;
+						top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+						bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
+					}
+					else if (i == 1) {
+						right = selfRelation->rollNamePoints->GetAt(i).x + 30 * this->zoomRate / 100;
+						left = selfRelation->rollNamePoints->GetAt(i).x - 30 * this->zoomRate / 100;
+						top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+						bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
+					}
+					else if (i == 2) {
+						right = selfRelation->rollNamePoints->GetAt(i).x + 50 * this->zoomRate / 100;
+						left = selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100;
+						top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+						bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
+					}
+					else if (i == 3) {
+						right = selfRelation->rollNamePoints->GetAt(i).x + 50 * this->zoomRate / 100;
+						left = selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100;
+						top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+						bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
+					}
+					else if (i == 4) {
+						right = selfRelation->rollNamePoints->GetAt(i).x + 10 * this->zoomRate / 100;
+						left = selfRelation->rollNamePoints->GetAt(i).x - 20 * this->zoomRate / 100;
+						top = selfRelation->rollNamePoints->GetAt(i).y - 10 * this->zoomRate / 100;
+						bottom = selfRelation->rollNamePoints->GetAt(i).y + 10 * this->zoomRate / 100;
+					}
 
-		if (index > 0) {
-			this->textEdit = new TextEdit(this, selfRelation, i - 1);
-			this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
-				left + 1,
-				top + 1,
-				right - 1,
-				bottom - 1), this, 10000, NULL);
-			OnKillFocus(NULL);
+					if (startX - hPos< right && startX - hPos> left && startY - vPos > top && startY - vPos < bottom) {
+						index++;
+					}
+					i++;
+				}
+			}
+			// 확인해서 있으면 그 index 기억해두고 그 박스 사이즈로 textEdit 연다 (textEdit 생성자 따로 만들어야할듯)
+
+			if (index > 0) {
+				this->textEdit = new TextEdit(this, selfRelation, i - 1);
+				this->textEdit->Create(NULL, "textEdit", WS_CHILD | WS_VISIBLE, CRect(
+					left + 1,
+					top + 1,
+					right - 1,
+					bottom - 1), this, 10000, NULL);
+				OnKillFocus(NULL);
+			}
 		}
 	}
 	if (this->textEdit != NULL) {
