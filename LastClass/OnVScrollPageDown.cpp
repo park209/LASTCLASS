@@ -27,10 +27,6 @@ void OnVScrollPageDown::Scrolling(ClassDiagramForm *classDiagramForm) {
 		vScinfo.nMax = newpos + vScinfo.nPage;
 		classDiagramForm->SetScrollInfo(SB_VERT, &vScinfo);
 	}
-	//if (newpos > maxpos) {
-	//	newpos = maxpos;
-	//}
-
 	ScrollMovingObject moving;
 	moving.MovingObject(classDiagramForm->diagram, 0, curpos-newpos);
 	classDiagramForm->SetScrollPos(SB_VERT, newpos);
