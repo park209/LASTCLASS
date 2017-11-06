@@ -1139,8 +1139,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		this->preZoom = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
 			this->zoomRate -= 10;
-			if (this->zoomRate < 10) {
-				this->zoomRate = 10;
+			if (this->zoomRate < 50) {
+				this->zoomRate = 50;
 			}
 		}
 		else {  //마우스 휠 업
