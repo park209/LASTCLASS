@@ -45,6 +45,9 @@ void OnHScrollPageLeft::Scrolling(ClassDiagramForm *classDiagramForm) {
 		if (hScinfo.nMax < hMax) {
 			hScinfo.nMax = hMax;
 		}
+		if (hScinfo.nMax < hScinfo.nPage) {
+			hScinfo.nMax = hScinfo.nPage;
+		}
 		classDiagramForm->SetScrollInfo(SB_HORZ, &hScinfo);
 	}
 }

@@ -41,6 +41,9 @@ void OnVScrollPageUp::Scrolling(ClassDiagramForm *classDiagramForm) {
 		if (vScinfo.nMax < vMax) {
 			vScinfo.nMax = vMax;
 		}
+		if (vScinfo.nMax < vScinfo.nPage) {
+			vScinfo.nMax = vScinfo.nPage;
+		}
 		classDiagramForm->SetScrollInfo(SB_VERT, &vScinfo);
 	}
 

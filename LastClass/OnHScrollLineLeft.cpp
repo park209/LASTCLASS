@@ -42,6 +42,9 @@ void OnHScrollLineLeft::Scrolling(ClassDiagramForm *classDiagramForm) {
 		if (hScinfo.nMax < hMax) {
 			hScinfo.nMax = hMax;
 		}
+		if (hScinfo.nMax < hScinfo.nPage) {
+			hScinfo.nMax = hScinfo.nPage;
+		}
 		classDiagramForm->SetScrollInfo(SB_HORZ, &hScinfo);
 		//classDiagramForm->SetScrollPos(SB_HORZ, curpos);
 		//moving.MovingObject(classDiagramForm->diagram, newpos - curpos);
