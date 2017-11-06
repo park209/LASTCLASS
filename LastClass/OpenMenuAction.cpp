@@ -84,6 +84,12 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
 			lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
 
+			KnockKnock *knocking = new KnockKnock;
+		//	knocking->Knocking(lastClass->classDiagramForm);
+			if (knocking != NULL) {
+				delete knocking;
+			}
+
 			SCROLLINFO vScinfo;
 			SCROLLINFO hScinfo;
 
