@@ -85,7 +85,7 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
 
 			KnockKnock *knocking = new KnockKnock;
-			knocking->Knocking(lastClass->classDiagramForm);
+		//	knocking->Knocking(lastClass->classDiagramForm);
 			if (knocking != NULL) {
 				delete knocking;
 			}

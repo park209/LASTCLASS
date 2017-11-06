@@ -149,9 +149,9 @@ Long ClassDiagramForm::Load() {
 	Long fontSize = 0;
 	string temp1;
 	string temp2;
-	Array<Long> classIndexArray(1);
-	Array<Long> figureIndexArray(1);
-	Array<Long> endPointIndexArray(1);
+	Array<Long> classIndexArray(50000);
+	Array<Long> figureIndexArray(50000);
+	Array<Long> endPointIndexArray(50000);
 	Long zoomRate;
 	SCROLLINFO vScinfo = { 0, };
 	SCROLLINFO hScinfo = { 0, };
