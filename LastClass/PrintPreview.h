@@ -30,8 +30,6 @@ private:
 	DECLARE_MESSAGE_MAP()
 
 private:
-
-
 	PrintPreviewButton *printPreviewButton;
 	CButton *nextButton;
 	CButton *previousButton;
@@ -48,5 +46,7 @@ public:
 	Long verticalPaperSize;
 	Long totalPage;
 	Long classDaigramFormZoomRate;
+	int hScrollMax;
+	int vScrollMax;
 };
 #endif // !_PRINTPREVIEW_H

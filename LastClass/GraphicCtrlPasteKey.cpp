@@ -28,6 +28,7 @@
 #include "MemoLine.h"
 #include "Finder.h"
 #include "RollNameBox.h"
+#include "MouseLButton.h"
 #include "SelfRelation.h"
 #include "LastClass.h"
 #include "RollNameBox.h"
@@ -106,6 +107,12 @@ void GraphicCtrlPasteKey::KeyPress(ClassDiagramForm *classDiagramForm, CDC *cdc)
 
 		classDiagramForm->lastClass->statusBar->DestroyStatus();
 		classDiagramForm->lastClass->statusBar->MakeStatusBar(classDiagramForm->lastClass, classDiagramForm->lastClass->GetSafeHwnd(), 0, 0, 5);
+	}
+	if (classDiagramForm->selection->GetLength() == 1) {
+		classDiagramForm->mouseLButton->ChangeSelectionState();
+	}
+	else {
+		classDiagramForm->mouseLButton->ChangeMultipleState();
 	}
 }
 

@@ -63,6 +63,9 @@ int PrintPreview::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	ScrollMovingObject scrollMovingObject;
 	Long hPos = this->lastClass->classDiagramForm->GetScrollPos(SB_HORZ);
 	Long vPos = this->lastClass->classDiagramForm->GetScrollPos(SB_VERT);
+	int min;
+	this->lastClass->classDiagramForm->GetScrollRange(SB_HORZ, &min, &this->hScrollMax);
+	this->lastClass->classDiagramForm->GetScrollRange(SB_VERT, &min, &this->vScrollMax);
 	scrollMovingObject.MovingObject(this->lastClass->classDiagramForm->diagram, hPos, vPos);
 
 	this->classDaigramFormZoomRate = lastClass->classDiagramForm->zoomRate;
@@ -331,11 +334,12 @@ BOOL PrintPreview::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		}
 		rect.MoveToX(rect.left+this->horizontalPageSize);
 	}
-	Invalidate(false);
+	if (GetKeyState(VK_CONTROL) < 0) {
+		Invalidate(false);
+	}
 
 	return ret;
 }
-
 void PrintPreview::OnClose() {
 	this->lastClass->EnableWindow(true);
 
@@ -352,11 +356,15 @@ void PrintPreview::OnClose() {
 	ScrollMovingObject scrollMovingObject;
 	Long hPos = this->lastClass->classDiagramForm->GetScrollPos(SB_HORZ);
 	Long vPos = this->lastClass->classDiagramForm->GetScrollPos(SB_VERT);
+
 	scrollMovingObject.MovingObject(this->lastClass->classDiagramForm->diagram, -hPos, -vPos);
+
+	this->lastClass->classDiagramForm->SetScrollRange(SB_HORZ, 0, this->hScrollMax);
+	this->lastClass->classDiagramForm->SetScrollRange(SB_VERT, 0, this->vScrollMax);
+
 	if (knocking != NULL) {
 		delete knocking;
 	}
-
 
 	if (this->nextButton != 0) {
 		delete this->nextButton;
@@ -407,9 +415,14 @@ void PrintPreview::OnEndPrinting(CDC *pDc, CPrintInfo *pInfo) {
 	Long hPos = this->lastClass->classDiagramForm->GetScrollPos(SB_HORZ);
 	Long vPos = this->lastClass->classDiagramForm->GetScrollPos(SB_VERT);
 	scrollMovingObject.MovingObject(this->lastClass->classDiagramForm->diagram, -hPos, -vPos);
+
+	this->lastClass->classDiagramForm->SetScrollRange(SB_HORZ, 0, this->hScrollMax);
+	this->lastClass->classDiagramForm->SetScrollRange(SB_VERT, 0, this->vScrollMax);
+
 	if (knocking != NULL) {
 		delete knocking;
 	}
+
 	if (this->nextButton != 0) {
 		delete this->nextButton;
 		this->nextButton = NULL;
