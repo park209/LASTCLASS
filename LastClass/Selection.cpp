@@ -523,21 +523,18 @@ Long Selection::SelectByPoint(Long x, Long y) {
 				rect.top = y - 8;
 				rect.right = x + 8;
 				rect.bottom = y + 8;
-				if (attributeStartPoint != attributeEndPoint) {
 					if (ret != true) {
 						ret = finder.FindLineByArea(attributeStartPoint, attributeEndPoint, rect);
 					}
-				}
-				if (methodStartPoint != methodEndPoint) {
+				
 					if (ret != true) {
 						ret = finder.FindLineByArea(methodStartPoint, methodEndPoint, rect);
 					}
-				}
-				if (receptionStartPoint != receptionEndPoint) {
+				
 					if (ret != true) {
 						ret = finder.FindLineByArea(receptionStartPoint, receptionEndPoint, rect);
 					}
-				}
+				
 				if (ret == true) {
 					index = 12;
 				}

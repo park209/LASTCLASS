@@ -122,23 +122,8 @@ void TextEdit::OnPaint() {
 
 	if (this->rollNameBoxIndex == -1) {
 		int ih = MulDiv(14 * this->classDiagramForm->zoomRate / 100, GetDeviceCaps(dc, LOGPIXELSY), 72);
-
-		if (this->classDiagramForm->zoomRate == 50) {
-			cFont.CreateFont(ih - 2, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-				OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
-			this->rowHeight = ih - 2;
-		}
-		else if (this->classDiagramForm->zoomRate == 150) {
-			cFont.CreateFont(ih - 1, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-				OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
-			this->rowHeight = ih - 1;
-		}
-		else {
-			cFont.CreateFont(ih - 1, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-				OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
-			this->rowHeight = ih - 1;
-		}
-
+		cFont.CreateFont(ih, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 		SetFont(&cFont, TRUE);
 		CFont *oldFont = dc.SelectObject(&cFont);   // 폰트 시작
 		CFont *m_oldFont = memDC.SelectObject(&cFont);
@@ -284,18 +269,8 @@ void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	CFont cFont;
 	if (this->rollNameBoxIndex == -1) {
 		int ih = MulDiv(14 * this->classDiagramForm->zoomRate / 100, GetDeviceCaps(dc, LOGPIXELSY), 72);
-		if (this->classDiagramForm->zoomRate == 50) {
-			cFont.CreateFont(ih - 2, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-				OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
-		}
-		else if (this->classDiagramForm->zoomRate == 150) {
-			cFont.CreateFont(ih - 1, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-				OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
-		}
-		else {
-			cFont.CreateFont(ih - 1, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-				OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
-		}
+		cFont.CreateFont(ih, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 		SetFont(&cFont, TRUE);
 	}
 	else {
@@ -360,18 +335,8 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 		CFont cFont;
 		if (this->rollNameBoxIndex == -1) {
 			int ih = MulDiv(14 * this->classDiagramForm->zoomRate / 100, GetDeviceCaps(dc, LOGPIXELSY), 72);
-			if (this->classDiagramForm->zoomRate == 50) {
-				cFont.CreateFont(ih - 2, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-					OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
-			}
-			else if (this->classDiagramForm->zoomRate == 150) {
-				cFont.CreateFont(ih - 1, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,// 글꼴 설정
-					OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
-			}
-			else {
-				cFont.CreateFont(ih - 1, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
-					OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
-			}
+			cFont.CreateFont(ih, 0, 0, 0, this->fontSet->GetFontWeight(), FALSE, FALSE, 0, DEFAULT_CHARSET,
+				OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, this->fontSet->GetFaceName().c_str());
 			SetFont(&cFont, TRUE);
 		}
 		else {
@@ -387,8 +352,7 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 			this->selectedY = this->caret->GetRowIndex();
 		}
 		this->caret->MoveToPoint(this, &dc, point); // 새로운 위치로 캐럿 이동한다
-		SetCapture();
-		dc.SelectObject(oldFont);
+		SetCapture();		dc.SelectObject(oldFont);
 		cFont.DeleteObject(); // 폰트 끝
 		Invalidate(false);
 	}
@@ -469,15 +433,6 @@ LRESULT TextEdit::OnIMENotify(WPARAM wParam, LPARAM lParam) {
 
 void TextEdit::OnKillFocus(CWnd *pNewWnd) {
 	if (this->rollNameBoxIndex == -1) {
-		if (this->classDiagramForm->zoomRate == 50) {
-			this->rowHeight += 2;
-		}
-		else if (this->classDiagramForm->zoomRate == 150) {
-			this->rowHeight++;
-		}
-		else {
-			//this->rowHeight++;
-		}
 		string content(this->text->MakeText());
 		this->figure->ReplaceString(content, this->rowHeight);
 	}
@@ -525,15 +480,6 @@ void TextEdit::OnClose() {
 	::DestroyCaret();
 
 	if (this->rollNameBoxIndex == -1) {
-		if (this->classDiagramForm->zoomRate == 50) {
-			this->rowHeight += 2;
-		}
-		else if (this->classDiagramForm->zoomRate == 150) {
-			this->rowHeight++;
-		}
-		else {
-			//this->rowHeight++;
-		}
 		string content(this->text->MakeText());
 		this->figure->ReplaceString(content, this->rowHeight);
 	}
