@@ -528,12 +528,6 @@
     <ClInclude Include="PrintPreviewNextButton.h">
       <Filter>Print</Filter>
     </ClInclude>
-    <ClInclude Include="PrintPreviewZoomInButton.h">
-      <Filter>Print</Filter>
-    </ClInclude>
-    <ClInclude Include="PrintPreviewZoomOutButton.h">
-      <Filter>Print</Filter>
-    </ClInclude>
     <ClInclude Include="PrintPreviewPreviousButton.h">
       <Filter>Print</Filter>
     </ClInclude>
@@ -651,9 +645,6 @@
     <ClInclude Include="resource.h">
       <Filter>Resource</Filter>
     </ClInclude>
-    <ClInclude Include="PrintPreviewState.h">
-      <Filter>MouseAction</Filter>
-    </ClInclude>
     <ClInclude Include="LastClassApp.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
@@ -676,9 +667,6 @@
       <Filter>ClassDiagram</Filter>
     </ClInclude>
     <ClInclude Include="TextEdit.h" />
-    <ClInclude Include="ZoomInMenuAction.h" />
-    <ClInclude Include="ZoomOutMenuAction.h" />
-    <ClInclude Include="ScrollMovingObject.h" />
     <ClInclude Include="DrawingVisitor.h">
       <Filter>Visitor</Filter>
     </ClInclude>
@@ -687,6 +675,15 @@
     </ClInclude>
     <ClInclude Include="MovingObject.h">
       <Filter>MouseAction</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollMovingObject.h">
+      <Filter>ScrollBar</Filter>
+    </ClInclude>
+    <ClInclude Include="ZoomInMenuAction.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="ZoomOutMenuAction.h">
+      <Filter>Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1171,12 +1168,6 @@
     <ClCompile Include="PrintPreviewPrintButton.cpp">
       <Filter>Print</Filter>
     </ClCompile>
-    <ClCompile Include="PrintPreviewZoomInButton.cpp">
-      <Filter>Print</Filter>
-    </ClCompile>
-    <ClCompile Include="PrintPreviewZoomOutButton.cpp">
-      <Filter>Print</Filter>
-    </ClCompile>
     <ClCompile Include="FilePrintMenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
@@ -1285,9 +1276,6 @@
     <ClCompile Include="CtrlRedoTextKey.cpp">
       <Filter>KeyAction\TextEdit</Filter>
     </ClCompile>
-    <ClCompile Include="PrintPreviewState.cpp">
-      <Filter>MouseAction</Filter>
-    </ClCompile>
     <ClCompile Include="LastClassApp.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
@@ -1310,21 +1298,23 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="TextEdit.cpp" />
-    <ClCompile Include="ScrollMovingObject.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="ResizeVisitor.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="ZoomInMenuAction.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="ZoomOutMenuAction.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawingVisitor.cpp" />
     <ClCompile Include="MovingObject.cpp">
       <Filter>MouseAction</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingVisitor.cpp">
+      <Filter>Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="ScrollMovingObject.cpp">
+      <Filter>ScrollBar</Filter>
+    </ClCompile>
+    <ClCompile Include="ResizeVisitor.cpp">
+      <Filter>Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="ZoomInMenuAction.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="ZoomOutMenuAction.cpp">
+      <Filter>Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

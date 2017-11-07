@@ -80,15 +80,15 @@ void OpenMenuAction::MenuPress(LastClass* lastClass) {
 			lastClass->classDiagramForm->Load();
 			lastClass->classDiagramForm->preZoom = 100;
 			lastClass->classDiagramForm->SetMemoGab(20 * lastClass->classDiagramForm->zoomRate / 100);
-			lastClass->classDiagramForm->SetGabX(8 * lastClass->classDiagramForm->zoomRate / 100);
-			lastClass->classDiagramForm->SetGabY(2 * lastClass->classDiagramForm->zoomRate / 100);
-			lastClass->classDiagramForm->SetCaretWidth(2 * lastClass->classDiagramForm->zoomRate / 100);
+			lastClass->classDiagramForm->SetGabX(10 * lastClass->classDiagramForm->zoomRate / 100);
+			lastClass->classDiagramForm->SetGabY(2);
+			lastClass->classDiagramForm->SetCaretWidth(2);
 
-			KnockKnock *knocking = new KnockKnock;
-		//	knocking->Knocking(lastClass->classDiagramForm);
+			/*KnockKnock *knocking = new KnockKnock;
+			knocking->Knocking(lastClass->classDiagramForm);
 			if (knocking != NULL) {
 				delete knocking;
-			}
+			}*/
 
 			SCROLLINFO vScinfo;
 			SCROLLINFO hScinfo;
