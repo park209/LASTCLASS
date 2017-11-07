@@ -183,9 +183,6 @@
     <ClInclude Include="PrintPreviewNextButton.h" />
     <ClInclude Include="PrintPreviewPreviousButton.h" />
     <ClInclude Include="PrintPreviewPrintButton.h" />
-    <ClInclude Include="PrintPreviewState.h" />
-    <ClInclude Include="PrintPreviewZoomInButton.h" />
-    <ClInclude Include="PrintPreviewZoomOutButton.h" />
     <ClInclude Include="Realization.h" />
     <ClInclude Include="RealizationMenuAction.h" />
     <ClInclude Include="Reception.h" />
@@ -401,9 +398,6 @@
     <ClCompile Include="PrintPreviewNextButton.cpp" />
     <ClCompile Include="PrintPreviewPreviousButton.cpp" />
     <ClCompile Include="PrintPreviewPrintButton.cpp" />
-    <ClCompile Include="PrintPreviewState.cpp" />
-    <ClCompile Include="PrintPreviewZoomInButton.cpp" />
-    <ClCompile Include="PrintPreviewZoomOutButton.cpp" />
     <ClCompile Include="Realization.cpp" />
     <ClCompile Include="RealizationMenuAction.cpp" />
     <ClCompile Include="Reception.cpp" />

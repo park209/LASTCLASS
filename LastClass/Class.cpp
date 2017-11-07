@@ -963,91 +963,376 @@ Figure* Class::Clone() const {
 }
 
 void Class::Accept(Visitor& visitor, CDC *pDC) {
-	visitor.Visit(this, pDC);
+	LastClass *lastClass = (LastClass*)(CFrameWnd::FindWindow(NULL, "lastClass"));
+	CRect rect;
+	lastClass->classDiagramForm->GetClientRect(&rect);
+
+	if ((this->GetX() > rect.left
+		&& this->GetX() < rect.right
+		&& this->GetY() > rect.top
+		&& this->GetY() < rect.bottom)
+		|| (this->GetX() + this->GetWidth() > rect.left
+			&& this->GetX() + this->GetWidth() < rect.right
+			&& this->GetY() + this->GetHeight() > rect.top
+			&& this->GetY() + this->GetHeight() < rect.bottom)
+		|| (this->GetX() > rect.left
+			&& this->GetX() < rect.right
+			&& this->GetY() + this->GetHeight() > rect.top
+			&& this->GetY() + this->GetHeight() < rect.bottom)
+		|| (this->GetX() + this->GetWidth() > rect.left
+			&& this->GetX() + this->GetWidth() < rect.right
+			&& this->GetY() > rect.top
+			&& this->GetY() < rect.bottom)) {
+		visitor.Visit(this, pDC);
+	}
 
 	SmartPointer<Figure*> smartPointer(this->CreateIterator());
 
 	while (!smartPointer->IsDone()) {
-		
 		if (dynamic_cast<Relation*>(smartPointer->Current())) {
-			static_cast<Relation*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<Relation*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<Relation*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<Relation*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<Relation*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<Relation*>(smartPointer->Current())->GetX() + static_cast<Relation*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Relation*>(smartPointer->Current())->GetX() + static_cast<Relation*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Relation*>(smartPointer->Current())->GetY() + static_cast<Relation*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Relation*>(smartPointer->Current())->GetY() + static_cast<Relation*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<Relation*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		if (dynamic_cast<SelfRelation*>(smartPointer->Current())) {
-			static_cast<SelfRelation*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<SelfRelation*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<SelfRelation*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<SelfRelation*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<SelfRelation*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<SelfRelation*>(smartPointer->Current())->GetX() + static_cast<SelfRelation*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<SelfRelation*>(smartPointer->Current())->GetX() + static_cast<SelfRelation*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<SelfRelation*>(smartPointer->Current())->GetY() + static_cast<SelfRelation*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<SelfRelation*>(smartPointer->Current())->GetY() + static_cast<SelfRelation*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<SelfRelation*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		if (dynamic_cast<Line*>(smartPointer->Current())) {
-			static_cast<Line*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<Line*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<Line*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<Line*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<Line*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<Line*>(smartPointer->Current())->GetX() + static_cast<Line*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Line*>(smartPointer->Current())->GetX() + static_cast<Line*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Line*>(smartPointer->Current())->GetY() + static_cast<Line*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Line*>(smartPointer->Current())->GetY() + static_cast<Line*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<Line*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<Template*>(smartPointer->Current())) {
-			static_cast<Template*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<Template*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<Template*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<Template*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<Template*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<Template*>(smartPointer->Current())->GetX() + static_cast<Template*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Template*>(smartPointer->Current())->GetX() + static_cast<Template*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Template*>(smartPointer->Current())->GetY() + static_cast<Template*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Template*>(smartPointer->Current())->GetY() + static_cast<Template*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<Template*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<ClassName*>(smartPointer->Current())) {
-			static_cast<ClassName*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<ClassName*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<ClassName*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<ClassName*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<ClassName*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<ClassName*>(smartPointer->Current())->GetX() + static_cast<ClassName*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<ClassName*>(smartPointer->Current())->GetX() + static_cast<ClassName*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<ClassName*>(smartPointer->Current())->GetY() + static_cast<ClassName*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<ClassName*>(smartPointer->Current())->GetY() + static_cast<ClassName*>(smartPointer->Current())->GetHeight() < rect.bottom)
+				|| (static_cast<ClassName*>(smartPointer->Current())->GetX() > rect.left
+					&& static_cast<ClassName*>(smartPointer->Current())->GetX() < rect.right
+					&& static_cast<ClassName*>(smartPointer->Current())->GetY() + static_cast<ClassName*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<ClassName*>(smartPointer->Current())->GetY() + static_cast<ClassName*>(smartPointer->Current())->GetHeight() < rect.bottom)
+				|| (static_cast<ClassName*>(smartPointer->Current())->GetX() + static_cast<ClassName*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<ClassName*>(smartPointer->Current())->GetX() + static_cast<ClassName*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<ClassName*>(smartPointer->Current())->GetY() > rect.top
+					&& static_cast<ClassName*>(smartPointer->Current())->GetY() < rect.bottom)) {
+				static_cast<ClassName*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<Attribute*>(smartPointer->Current())) {
-			static_cast<Attribute*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<Attribute*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<Attribute*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<Attribute*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<Attribute*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<Attribute*>(smartPointer->Current())->GetX() + static_cast<Attribute*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Attribute*>(smartPointer->Current())->GetX() + static_cast<Attribute*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Attribute*>(smartPointer->Current())->GetY() + static_cast<Attribute*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Attribute*>(smartPointer->Current())->GetY() + static_cast<Attribute*>(smartPointer->Current())->GetHeight() < rect.bottom)
+				|| (static_cast<Attribute*>(smartPointer->Current())->GetX() > rect.left
+					&& static_cast<Attribute*>(smartPointer->Current())->GetX() < rect.right
+					&& static_cast<Attribute*>(smartPointer->Current())->GetY() + static_cast<Attribute*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Attribute*>(smartPointer->Current())->GetY() + static_cast<Attribute*>(smartPointer->Current())->GetHeight() < rect.bottom)
+				|| (static_cast<Attribute*>(smartPointer->Current())->GetX() + static_cast<Attribute*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Attribute*>(smartPointer->Current())->GetX() + static_cast<Attribute*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Attribute*>(smartPointer->Current())->GetY() > rect.top
+					&& static_cast<Attribute*>(smartPointer->Current())->GetY() < rect.bottom)) {
+				static_cast<Attribute*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<Method*>(smartPointer->Current())) {
-			static_cast<Method*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<Method*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<Method*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<Method*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<Method*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<Method*>(smartPointer->Current())->GetX() + static_cast<Method*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Method*>(smartPointer->Current())->GetX() + static_cast<Method*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Method*>(smartPointer->Current())->GetY() + static_cast<Method*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Method*>(smartPointer->Current())->GetY() + static_cast<Method*>(smartPointer->Current())->GetHeight() < rect.bottom)
+				|| (static_cast<Method*>(smartPointer->Current())->GetX() > rect.left
+					&& static_cast<Method*>(smartPointer->Current())->GetX() < rect.right
+					&& static_cast<Method*>(smartPointer->Current())->GetY() + static_cast<Method*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Method*>(smartPointer->Current())->GetY() + static_cast<Method*>(smartPointer->Current())->GetHeight() < rect.bottom)
+				|| (static_cast<Method*>(smartPointer->Current())->GetX() + static_cast<Method*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Method*>(smartPointer->Current())->GetX() + static_cast<Method*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Method*>(smartPointer->Current())->GetY() > rect.top
+					&& static_cast<Method*>(smartPointer->Current())->GetY() < rect.bottom)) {
+				static_cast<Method*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<Reception*>(smartPointer->Current())) {
-			static_cast<Reception*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<Reception*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<Reception*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<Reception*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<Reception*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<Reception*>(smartPointer->Current())->GetX() + static_cast<Reception*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Reception*>(smartPointer->Current())->GetX() + static_cast<Reception*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Reception*>(smartPointer->Current())->GetY() + static_cast<Reception*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Reception*>(smartPointer->Current())->GetY() + static_cast<Reception*>(smartPointer->Current())->GetHeight() < rect.bottom)
+				|| (static_cast<Reception*>(smartPointer->Current())->GetX() > rect.left
+					&& static_cast<Reception*>(smartPointer->Current())->GetX() < rect.right
+					&& static_cast<Reception*>(smartPointer->Current())->GetY() + static_cast<Reception*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Reception*>(smartPointer->Current())->GetY() + static_cast<Reception*>(smartPointer->Current())->GetHeight() < rect.bottom)
+				|| (static_cast<Reception*>(smartPointer->Current())->GetX() + static_cast<Reception*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Reception*>(smartPointer->Current())->GetX() + static_cast<Reception*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Reception*>(smartPointer->Current())->GetY() > rect.top
+					&& static_cast<Reception*>(smartPointer->Current())->GetY() < rect.bottom)) {
+				static_cast<Reception*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<Generalization*>(smartPointer->Current())) {
-			static_cast<Generalization*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<Generalization*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<Generalization*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<Generalization*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<Generalization*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<Generalization*>(smartPointer->Current())->GetX() + static_cast<Generalization*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Generalization*>(smartPointer->Current())->GetX() + static_cast<Generalization*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Generalization*>(smartPointer->Current())->GetY() + static_cast<Generalization*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Generalization*>(smartPointer->Current())->GetY() + static_cast<Generalization*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<Generalization*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<Realization*>(smartPointer->Current())) {
-			static_cast<Realization*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<Realization*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<Realization*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<Realization*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<Realization*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<Realization*>(smartPointer->Current())->GetX() + static_cast<Realization*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Realization*>(smartPointer->Current())->GetX() + static_cast<Realization*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Realization*>(smartPointer->Current())->GetY() + static_cast<Realization*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Realization*>(smartPointer->Current())->GetY() + static_cast<Realization*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<Realization*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<Dependency*>(smartPointer->Current())) {
-			static_cast<Dependency*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<Dependency*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<Dependency*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<Dependency*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<Dependency*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<Dependency*>(smartPointer->Current())->GetX() + static_cast<Dependency*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Dependency*>(smartPointer->Current())->GetX() + static_cast<Dependency*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Dependency*>(smartPointer->Current())->GetY() + static_cast<Dependency*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Dependency*>(smartPointer->Current())->GetY() + static_cast<Dependency*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<Dependency*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<Association*>(smartPointer->Current())) {
-			static_cast<Association*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<Association*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<Association*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<Association*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<Association*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<Association*>(smartPointer->Current())->GetX() + static_cast<Association*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Association*>(smartPointer->Current())->GetX() + static_cast<Association*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Association*>(smartPointer->Current())->GetY() + static_cast<Association*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Association*>(smartPointer->Current())->GetY() + static_cast<Association*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<Association*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<DirectedAssociation*>(smartPointer->Current())) {
-			static_cast<DirectedAssociation*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<DirectedAssociation*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<DirectedAssociation*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<DirectedAssociation*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<DirectedAssociation*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<DirectedAssociation*>(smartPointer->Current())->GetX() + static_cast<DirectedAssociation*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<DirectedAssociation*>(smartPointer->Current())->GetX() + static_cast<DirectedAssociation*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<DirectedAssociation*>(smartPointer->Current())->GetY() + static_cast<DirectedAssociation*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<DirectedAssociation*>(smartPointer->Current())->GetY() + static_cast<DirectedAssociation*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<DirectedAssociation*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<Aggregation*>(smartPointer->Current())) {
-			static_cast<Aggregation*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<Aggregation*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<Aggregation*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<Aggregation*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<Aggregation*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<Aggregation*>(smartPointer->Current())->GetX() + static_cast<Aggregation*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Aggregation*>(smartPointer->Current())->GetX() + static_cast<Aggregation*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Aggregation*>(smartPointer->Current())->GetY() + static_cast<Aggregation*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Aggregation*>(smartPointer->Current())->GetY() + static_cast<Aggregation*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<Aggregation*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<Aggregations*>(smartPointer->Current())) {
-			static_cast<Aggregations*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<Aggregations*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<Aggregations*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<Aggregations*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<Aggregations*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<Aggregations*>(smartPointer->Current())->GetX() + static_cast<Aggregations*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Aggregations*>(smartPointer->Current())->GetX() + static_cast<Aggregations*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Aggregations*>(smartPointer->Current())->GetY() + static_cast<Aggregations*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Aggregations*>(smartPointer->Current())->GetY() + static_cast<Aggregations*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<Aggregations*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<Composition*>(smartPointer->Current())) {
-			static_cast<Composition*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<Composition*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<Composition*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<Composition*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<Composition*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<Composition*>(smartPointer->Current())->GetX() + static_cast<Composition*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Composition*>(smartPointer->Current())->GetX() + static_cast<Composition*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Composition*>(smartPointer->Current())->GetY() + static_cast<Composition*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Composition*>(smartPointer->Current())->GetY() + static_cast<Composition*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<Composition*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<Compositions*>(smartPointer->Current())) {
-			static_cast<Compositions*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<Compositions*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<Compositions*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<Compositions*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<Compositions*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<Compositions*>(smartPointer->Current())->GetX() + static_cast<Compositions*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<Compositions*>(smartPointer->Current())->GetX() + static_cast<Compositions*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<Compositions*>(smartPointer->Current())->GetY() + static_cast<Compositions*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<Compositions*>(smartPointer->Current())->GetY() + static_cast<Compositions*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<Compositions*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<MemoLine*>(smartPointer->Current())) {
-			static_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<MemoLine*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<MemoLine*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<MemoLine*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<MemoLine*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<MemoLine*>(smartPointer->Current())->GetX() + static_cast<MemoLine*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<MemoLine*>(smartPointer->Current())->GetX() + static_cast<MemoLine*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<MemoLine*>(smartPointer->Current())->GetY() + static_cast<MemoLine*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<MemoLine*>(smartPointer->Current())->GetY() + static_cast<MemoLine*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<MemoLine*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<SelfGeneralization*>(smartPointer->Current())) {
-			static_cast<SelfGeneralization*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<SelfGeneralization*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<SelfGeneralization*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<SelfGeneralization*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<SelfGeneralization*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<SelfGeneralization*>(smartPointer->Current())->GetX() + static_cast<SelfGeneralization*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<SelfGeneralization*>(smartPointer->Current())->GetX() + static_cast<SelfGeneralization*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<SelfGeneralization*>(smartPointer->Current())->GetY() + static_cast<SelfGeneralization*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<SelfGeneralization*>(smartPointer->Current())->GetY() + static_cast<SelfGeneralization*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<SelfGeneralization*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<SelfDependency*>(smartPointer->Current())) {
-			static_cast<SelfDependency*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<SelfDependency*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<SelfDependency*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<SelfDependency*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<SelfDependency*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<SelfDependency*>(smartPointer->Current())->GetX() + static_cast<SelfDependency*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<SelfDependency*>(smartPointer->Current())->GetX() + static_cast<SelfDependency*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<SelfDependency*>(smartPointer->Current())->GetY() + static_cast<SelfDependency*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<SelfDependency*>(smartPointer->Current())->GetY() + static_cast<SelfDependency*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<SelfDependency*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<SelfAggregation*>(smartPointer->Current())) {
-			static_cast<SelfAggregation*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<SelfAggregation*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<SelfAggregation*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<SelfAggregation*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<SelfAggregation*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<SelfAggregation*>(smartPointer->Current())->GetX() + static_cast<SelfAggregation*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<SelfAggregation*>(smartPointer->Current())->GetX() + static_cast<SelfAggregation*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<SelfAggregation*>(smartPointer->Current())->GetY() + static_cast<SelfAggregation*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<SelfAggregation*>(smartPointer->Current())->GetY() + static_cast<SelfAggregation*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<SelfAggregation*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<SelfAssociation*>(smartPointer->Current())) {
-			static_cast<SelfAssociation*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<SelfAssociation*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<SelfAssociation*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<SelfAssociation*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<SelfAssociation*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<SelfAssociation*>(smartPointer->Current())->GetX() + static_cast<SelfAssociation*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<SelfAssociation*>(smartPointer->Current())->GetX() + static_cast<SelfAssociation*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<SelfAssociation*>(smartPointer->Current())->GetY() + static_cast<SelfAssociation*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<SelfAssociation*>(smartPointer->Current())->GetY() + static_cast<SelfAssociation*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<SelfAssociation*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<SelfAggregations*>(smartPointer->Current())) {
-			static_cast<SelfAggregations*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<SelfAggregations*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<SelfAggregations*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<SelfAggregations*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<SelfAggregations*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<SelfAggregations*>(smartPointer->Current())->GetX() + static_cast<SelfAggregations*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<SelfAggregations*>(smartPointer->Current())->GetX() + static_cast<SelfAggregations*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<SelfAggregations*>(smartPointer->Current())->GetY() + static_cast<SelfAggregations*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<SelfAggregations*>(smartPointer->Current())->GetY() + static_cast<SelfAggregations*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<SelfAggregations*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<SelfDirectedAssociation*>(smartPointer->Current())) {
-			static_cast<SelfDirectedAssociation*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<SelfDirectedAssociation*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<SelfDirectedAssociation*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<SelfDirectedAssociation*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<SelfDirectedAssociation*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<SelfDirectedAssociation*>(smartPointer->Current())->GetX() + static_cast<SelfDirectedAssociation*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<SelfDirectedAssociation*>(smartPointer->Current())->GetX() + static_cast<SelfDirectedAssociation*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<SelfDirectedAssociation*>(smartPointer->Current())->GetY() + static_cast<SelfDirectedAssociation*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<SelfDirectedAssociation*>(smartPointer->Current())->GetY() + static_cast<SelfDirectedAssociation*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<SelfDirectedAssociation*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<SelfComposition*>(smartPointer->Current())) {
-			static_cast<SelfComposition*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<SelfComposition*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<SelfComposition*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<SelfComposition*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<SelfComposition*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<SelfComposition*>(smartPointer->Current())->GetX() + static_cast<SelfComposition*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<SelfComposition*>(smartPointer->Current())->GetX() + static_cast<SelfComposition*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<SelfComposition*>(smartPointer->Current())->GetY() + static_cast<SelfComposition*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<SelfComposition*>(smartPointer->Current())->GetY() + static_cast<SelfComposition*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<SelfComposition*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
 		else if (dynamic_cast<SelfCompositions*>(smartPointer->Current())) {
-			static_cast<SelfCompositions*>(smartPointer->Current())->Accept(visitor, pDC);
+			if ((static_cast<SelfCompositions*>(smartPointer->Current())->GetX() > rect.left
+				&& static_cast<SelfCompositions*>(smartPointer->Current())->GetX() < rect.right
+				&& static_cast<SelfCompositions*>(smartPointer->Current())->GetY() > rect.top
+				&& static_cast<SelfCompositions*>(smartPointer->Current())->GetY() < rect.bottom)
+				|| (static_cast<SelfCompositions*>(smartPointer->Current())->GetX() + static_cast<SelfCompositions*>(smartPointer->Current())->GetWidth() > rect.left
+					&& static_cast<SelfCompositions*>(smartPointer->Current())->GetX() + static_cast<SelfCompositions*>(smartPointer->Current())->GetWidth() < rect.right
+					&& static_cast<SelfCompositions*>(smartPointer->Current())->GetY() + static_cast<SelfCompositions*>(smartPointer->Current())->GetHeight() > rect.top
+					&& static_cast<SelfCompositions*>(smartPointer->Current())->GetY() + static_cast<SelfCompositions*>(smartPointer->Current())->GetHeight() < rect.bottom)) {
+				static_cast<SelfCompositions*>(smartPointer->Current())->Accept(visitor, pDC);
+			}
 		}
-		
 		smartPointer->Next();
 	}
 }
