@@ -62,9 +62,6 @@
     <ClInclude Include="Selection.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
-    <ClInclude Include="MovingObject.h">
-      <Filter>ClassDiagram</Filter>
-    </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>TextEdit</Filter>
     </ClInclude>
@@ -688,6 +685,9 @@
     <ClInclude Include="ResizeVisitor.h">
       <Filter>Visitor</Filter>
     </ClInclude>
+    <ClInclude Include="MovingObject.h">
+      <Filter>MouseAction</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">
@@ -703,9 +703,6 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="Selection.cpp">
-      <Filter>ClassDiagram</Filter>
-    </ClCompile>
-    <ClCompile Include="MovingObject.cpp">
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
@@ -1326,6 +1323,9 @@
       <Filter>ClassDiagram</Filter>
     </ClCompile>
     <ClCompile Include="DrawingVisitor.cpp" />
+    <ClCompile Include="MovingObject.cpp">
+      <Filter>MouseAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc">
