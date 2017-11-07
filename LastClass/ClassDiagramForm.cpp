@@ -149,9 +149,9 @@ Long ClassDiagramForm::Load() {
 	Long fontSize = 0;
 	string temp1;
 	string temp2;
-	Array<Long> classIndexArray(1);
-	Array<Long> figureIndexArray(1);
-	Array<Long> endPointIndexArray(1);
+	Array<Long> classIndexArray(50000);
+	Array<Long> figureIndexArray(50000);
+	Array<Long> endPointIndexArray(50000);
 	Long zoomRate;
 	SCROLLINFO vScinfo = { 0, };
 	SCROLLINFO hScinfo = { 0, };
@@ -1139,8 +1139,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		this->preZoom = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
 			this->zoomRate -= 10;
-			if (this->zoomRate < 10) {
-				this->zoomRate = 10;
+			if (this->zoomRate < 50) {
+				this->zoomRate = 50;
 			}
 		}
 		else {  //마우스 휠 업
