@@ -1139,8 +1139,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		this->preZoom = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
 			this->zoomRate -= 10;
-			if (this->zoomRate < 50) {
-				this->zoomRate = 50;
+			if (this->zoomRate < 10) {
+				this->zoomRate = 10;
 			}
 		}
 		else {  //마우스 휠 업
@@ -1191,8 +1191,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		   this->copyBuffer->Accept(resizeVisitor, &memDC);
 		}
 
-		KnockKnock knocking;
-		knocking.Knocking(this);
+		//KnockKnock knocking;
+		//knocking.Knocking(this);
 
 		moving.MovingObject(this->diagram, -hScinfo.nPos, -vScinfo.nPos);
 		if ((zoomRate_ != 10 || this->zoomRate != 10) && (zoomRate_ != 200 || this->zoomRate != 200)) {
