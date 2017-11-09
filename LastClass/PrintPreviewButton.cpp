@@ -4,8 +4,6 @@
 #include "PrintPreviewNextButton.h"
 #include "PrintPreviewPreviousButton.h"
 #include "PrintPreviewPrintButton.h"
-#include "PrintPreviewZoomInButton.h"
-#include "PrintPreviewZoomOutButton.h"
 
 PrintPreviewButton::PrintPreviewButton() {
 }
@@ -33,12 +31,12 @@ PrintPreviewButtonAction* PrintPreviewButton::ButtonPressed(UINT idNumber) {
 	case 3:
 		this->printPreviewButtonAction = new PrintPreviewPrintButton;
 		break;
-	case 4:
+	/*case 4:
 		this->printPreviewButtonAction = new PrintPreviewZoomInButton;
 		break;
 	case 5:
 		this->printPreviewButtonAction = new PrintPreviewZoomOutButton;
-		break;
+		break;*/
 	default: break;
 	}
 	return this->printPreviewButtonAction;
