@@ -1192,8 +1192,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		   this->copyBuffer->Accept(resizeVisitor, &memDC);
 		}
 
-		//KnockKnock knocking;
-		//knocking.Knocking(this);
+		KnockKnock knocking;
+		knocking.Knocking(this);
 
 		moving.MovingObject(this->diagram, -hScinfo.nPos, -vScinfo.nPos);
 		if ((zoomRate_ != 10 || this->zoomRate != 10) && (zoomRate_ != 200 || this->zoomRate != 200)) {
