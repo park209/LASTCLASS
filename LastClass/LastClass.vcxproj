@@ -164,6 +164,7 @@
     <ClInclude Include="OnVScrollLineUp.h" />
     <ClInclude Include="OnVScrollPageDown.h" />
     <ClInclude Include="OnVScrollPageUp.h" />
+    <ClInclude Include="OnVScrollThumbPosition.h" />
     <ClInclude Include="OnVScrollTop.h" />
     <ClInclude Include="FontSet.h" />
     <ClInclude Include="HistoryText.h" />
@@ -183,6 +184,9 @@
     <ClInclude Include="PrintPreviewNextButton.h" />
     <ClInclude Include="PrintPreviewPreviousButton.h" />
     <ClInclude Include="PrintPreviewPrintButton.h" />
+    <ClInclude Include="PrintPreviewState.h" />
+    <ClInclude Include="PrintPreviewZoomInButton.h" />
+    <ClInclude Include="PrintPreviewZoomOutButton.h" />
     <ClInclude Include="Realization.h" />
     <ClInclude Include="RealizationMenuAction.h" />
     <ClInclude Include="Reception.h" />
@@ -232,6 +236,7 @@
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="WriteKoreanText.h" />
     <ClInclude Include="WriteKoreanTextProcess.h" />
+    <ClInclude Include="WritingVisitor.h" />
     <ClInclude Include="ZoomInMenuAction.h" />
     <ClInclude Include="ZoomOutMenuAction.h" />
   </ItemGroup>
@@ -398,6 +403,9 @@
     <ClCompile Include="PrintPreviewNextButton.cpp" />
     <ClCompile Include="PrintPreviewPreviousButton.cpp" />
     <ClCompile Include="PrintPreviewPrintButton.cpp" />
+    <ClCompile Include="PrintPreviewState.cpp" />
+    <ClCompile Include="PrintPreviewZoomInButton.cpp" />
+    <ClCompile Include="PrintPreviewZoomOutButton.cpp" />
     <ClCompile Include="Realization.cpp" />
     <ClCompile Include="RealizationMenuAction.cpp" />
     <ClCompile Include="Reception.cpp" />
@@ -445,51 +453,19 @@
     <ClCompile Include="Visitor.cpp" />
     <ClCompile Include="WriteKoreanText.cpp" />
     <ClCompile Include="WriteKoreanTextProcess.cpp" />
+    <ClCompile Include="WritingVisitor.cpp" />
     <ClCompile Include="ZoomInMenuAction.cpp" />
     <ClCompile Include="ZoomOutMenuAction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\..\..\..\Desktop\Paste.bmp" />
-    <Image Include="..\..\..\..\..\Desktop\zoomin.bmp" />
-    <Image Include="..\..\..\..\..\Desktop\zoomout.bmp" />
-    <Image Include="resource\Aggregation.bmp" />
-    <Image Include="resource\Aggregations.bmp" />
-    <Image Include="resource\Association.bmp" />
-    <Image Include="resource\class.bmp" />
-    <Image Include="resource\Composition.bmp" />
-    <Image Include="resource\Compositions.bmp" />
-    <Image Include="resource\Copy.bmp" />
-    <Image Include="resource\Cut.bmp" />
-    <Image Include="resource\Delete.bmp" />
-    <Image Include="resource\Dependency.bmp" />
-    <Image Include="resource\DirectedAssociation.bmp" />
-    <Image Include="resource\File.bmp" />
-    <Image Include="resource\Generalization.bmp" />
-    <Image Include="resource\Help.bmp" />
-    <Image Include="resource\MemoBox.bmp" />
-    <Image Include="resource\Memoline.bmp" />
-    <Image Include="resource\Open.bmp" />
-    <Image Include="resource\Open_.bmp" />
-    <Image Include="resource\Paste.bmp" />
-    <Image Include="resource\Print.bmp" />
-    <Image Include="resource\PrintPreview.bmp" />
-    <Image Include="resource\Realization.bmp" />
-    <Image Include="resource\Redo.bmp" />
-    <Image Include="resource\Save.bmp" />
-    <Image Include="resource\toolbar.bmp" />
-    <Image Include="resource\Undo.bmp" />
-    <Image Include="resource\zoomin.bmp" />
-    <Image Include="resource\zoomout.bmp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{EE54C3EA-961D-4217-8B0F-44C954776CB5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>LastClass</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

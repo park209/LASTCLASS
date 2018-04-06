@@ -275,7 +275,7 @@ void MovingVisitor::Visit(MemoBox *memoBox, Long distanceX, Long distanceY) {
 		memoBoxIterator->Current()->EndPointMove(distanceX, distanceY);
 		relation = static_cast<Relation*>(memoBoxIterator->Current());
 		Long i = 0;
-		while (i < memoBox->GetLength()) {
+		while (i < relation->GetLength()) {
 			CPoint point(relation->GetAt(i).x + distanceX, relation->GetAt(i).y + distanceY);
 			relation->Move(i, point);
 			i++;

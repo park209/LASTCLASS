@@ -810,13 +810,11 @@ void ClassDiagramForm::OnPaint() {
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "굴림체");
 	SetFont(&cFont, TRUE);
 	CFont *oldFont = memDC.SelectObject(&cFont);
-	if (this->currentX_2 != 0 && this->currentY_2 != 0 && this->currentX != 0 && this->currentY != 0) {
-		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
-	}
 	DrawingVisitor drawingVisitor(this->zoomRate);
 	this->diagram->Accept(drawingVisitor, &memDC);
-	if (this->selection->GetLength() > 0) {
-		this->selection->Accept(drawingVisitor, &memDC);
+	this->selection->Accept(drawingVisitor, &memDC); // selectionFlag 추가 확인
+	if (this->currentX_2 != 0 && this->currentY_2 != 0 && this->currentX != 0 && this->currentY != 0) {
+		this->mouseLButton->MouseLButtonDrag(this->mouseLButton, this, this->diagram, this->selection, this->startX, this->startY, this->currentX, this->currentY, &memDC);
 	}
 	ScrollMovingObject movingObject;
 	Long xlimit = 0;
@@ -856,6 +854,7 @@ void ClassDiagramForm::OnPaint() {
 		}
 		this->SetScrollInfo(SB_VERT, &vScinfo);
 	}
+	//dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, horzCurPos, vertCurPos, SRCCOPY);
 	dc.BitBlt(0, 0, rect.right, rect.bottom, &memDC, 0, 0, SRCCOPY);
 }
 
@@ -1140,8 +1139,8 @@ BOOL ClassDiagramForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) {
 		this->preZoom = this->zoomRate;
 		if (zDelta <= 0) { //마우스 휠 다운
 			this->zoomRate -= 10;
-			if (this->zoomRate < 10) {
-				this->zoomRate = 10;
+			if (this->zoomRate < 50) {
+				this->zoomRate = 50;
 			}
 		}
 		else {  //마우스 휠 업
@@ -1518,7 +1517,6 @@ void ClassDiagramForm::OnMouseMove(UINT nFlags, CPoint point) {
 		this->currentX = point.x;
 		this->currentY = point.y;
 		Invalidate(false);
-		
 	}
 	//커서모양
 	if (nFlags != MK_LBUTTON && this->selection->GetLength() == 1) {

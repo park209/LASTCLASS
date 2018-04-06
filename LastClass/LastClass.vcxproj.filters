@@ -20,10 +20,6 @@
     <Filter Include="Diagram">
       <UniqueIdentifier>{42c39bb8-a484-4b69-acfb-db4a11a7d226}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="KeyAction\ClassDiagram">
       <UniqueIdentifier>{cacda3ed-fc94-4b44-886b-6f547b468a0c}</UniqueIdentifier>
     </Filter>
@@ -41,6 +37,9 @@
     </Filter>
     <Filter Include="Visitor">
       <UniqueIdentifier>{f654ac47-a46d-4cd2-bf59-61db616e3c4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{aab8b8c6-44fd-4d5b-bc59-a429db02dca6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -642,9 +641,6 @@
     <ClInclude Include="ClassDiagramFormMenu.h">
       <Filter>Menu</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
     <ClInclude Include="LastClassApp.h">
       <Filter>ClassDiagram</Filter>
     </ClInclude>
@@ -685,6 +681,14 @@
     <ClInclude Include="ZoomOutMenuAction.h">
       <Filter>Menu</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="OnVScrollThumbPosition.h" />
+    <ClInclude Include="PrintPreviewState.h" />
+    <ClInclude Include="PrintPreviewZoomInButton.h" />
+    <ClInclude Include="PrintPreviewZoomOutButton.h" />
+    <ClInclude Include="WritingVisitor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Figure.cpp">
@@ -1316,107 +1320,22 @@
     <ClCompile Include="ZoomOutMenuAction.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
+    <ClCompile Include="PrintPreviewState.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreviewZoomInButton.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintPreviewZoomOutButton.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
+    <ClCompile Include="WritingVisitor.cpp">
+      <Filter>ClassDiagram</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastClass.rc">
       <Filter>Resource</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="resource\PrintPreview.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\toolbar.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\class.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\MemoBox.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Generalization.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Realization.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\DirectedAssociation.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Association.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Dependency.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Aggregation.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Aggregations.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Composition.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Compositions.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Memoline.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Desktop\Paste.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Open.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Paste.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Desktop\zoomin.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\Desktop\zoomout.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\zoomin.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\zoomout.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="resource\Cut.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Open_.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Copy.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Delete.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\File.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Help.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Print.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Redo.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Save.bmp">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="resource\Undo.bmp">
-      <Filter>Resource</Filter>
-    </Image>
   </ItemGroup>
 </Project>
